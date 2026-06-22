@@ -1201,7 +1201,7 @@ h1,h2,h3{
       </div>
 
       <div class="form-card" data-reveal>
-        <form id="contactForm">
+        <form id="contactForm" novalidate>
           <div class="form-row">
             <div class="field">
               <label for="name">Your Name</label>
@@ -1277,13 +1277,35 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersecti
   revealEls.forEach(el=>io.observe(el));
 }
 
-// Contact form
+// Contact form — submits to Formspree, shows custom success card
+const FORMSPREE_ID = 'YOUR_FORMSPREE_ID'; // ← replace with your ID from formspree.io
 const form = document.getElementById('contactForm');
 const success = document.getElementById('formSuccess');
-form.addEventListener('submit', function(e){
+const submitBtn = form.querySelector('button[type=submit]');
+
+form.addEventListener('submit', async function(e){
   e.preventDefault();
-  form.style.display = 'none';
-  success.style.display = 'block';
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+  try {
+    const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if(res.ok){
+      form.style.display = 'none';
+      success.style.display = 'block';
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Enquiry';
+      alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
+    }
+  } catch(err){
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send Enquiry';
+    alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
+  }
 });
 
 // ============================================================
