@@ -277,9 +277,11 @@ h1,h2,h3{
 .hero-figure{
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
   height: 100%;
+  padding-top: 160px; /* space for the big card above */
 }
 
 /* Wrapper that holds both characters */
@@ -355,58 +357,66 @@ h1,h2,h3{
 /* Stagger the two chars so they don't move in perfect sync */
 .duo-stage .char-wrap:nth-child(2){ animation-delay: 0.3s; }
 
-/* Diagnostic card (tilted clipboard) */
+/* Diagnostic card (tilted clipboard) — large, prominent */
 .hero-symptom-card{
   position: absolute;
-  top: 6%;
-  left: -6px;
+  top: -10px;
+  left: -20px;
+  right: -20px;
   background: var(--paper);
-  border: 2.5px solid var(--ink);
-  border-radius: 16px;
-  padding: 12px 16px;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  padding: 20px 24px 18px;
   font-family: var(--mono);
-  font-size: 13px;
   font-weight: 700;
-  box-shadow: 5px 5px 0 var(--ink);
-  transform: rotate(-6deg);
+  box-shadow: 7px 7px 0 var(--ink);
+  transform: rotate(-4deg);
   z-index: 2;
   line-height: 1.5;
 }
 .hero-symptom-card .card-status{
-  font-size: 11px;
-  opacity: 0.65;
+  font-size: 12px;
+  opacity: 0.6;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   font-family: var(--mono);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 .hero-symptom-card .card-diag{
   display: block;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 700;
+  margin-bottom: 14px;
 }
 
-/* Severity bar */
+/* Severity bar — now lives inside the card */
 .severity-bar{
-  position: absolute;
-  top: -2px;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: rgba(22,21,39,0.1);
+  height: 10px;
+  background: rgba(22,21,39,0.12);
   border-radius: 100px;
   overflow: hidden;
-  display: none;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
-.severity-bar.visible{ display: block; }
+.severity-bar.visible{ opacity: 1; }
+.severity-bar-label{
+  font-size: 10px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+  display: block;
+  margin-bottom: 5px;
+}
 .severity-fill{
   height: 100%;
   border-radius: 100px;
   width: 0%;
-  transition: width 0.4s ease;
+  transition: width 0.5s ease;
   background: var(--ink);
-  opacity: 0.35;
+  opacity: 0.5;
 }
 
 /* ============ SYMPTOMS / PROBLEM ============ */
@@ -925,11 +935,10 @@ h1,h2,h3{
         <div class="hero-symptom-card" id="heroCard">
           <span class="card-status" id="heroCardStatus">📋 Patient: Your School</span>
           <span class="card-diag" id="heroCardDiag">Status: Healthy ✓</span>
-        </div>
-
-        <!-- Severity bar -->
-        <div class="severity-bar" id="severityBar">
-          <div class="severity-fill" id="severityFill"></div>
+          <span class="severity-bar-label">AV Stress Level</span>
+          <div class="severity-bar" id="severityBar">
+            <div class="severity-fill" id="severityFill"></div>
+          </div>
         </div>
 
         <!-- Two characters side by side, both escalating stress -->
