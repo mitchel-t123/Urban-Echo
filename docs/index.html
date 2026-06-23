@@ -273,30 +273,22 @@ h1,h2,h3{
 .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; padding-bottom: 64px; }
 
 /* ---- HERO FIGURE: TWO CHARACTERS SIDE BY SIDE ---- */
-/* Hero figure: anchored to right edge of hero, vertically centred */
+/* Hero figure: absolute on the right of the hero, feet at the bottom */
 .hero-figure{
   position: absolute;
-  /* shift right so ~280px of bodies show; feet are off-screen */
-  right: -200px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
   pointer-events: none;
   z-index: 1;
 }
 
-/* Characters on their side — rotate CCW around their own centre.
-   duo-stage is 320px wide × 480px tall before rotation.
-   After -90deg the visual is 480px wide × 320px tall.
-   Centre stays at same point → left edge at (160-240)=-80 relative to figure,
-   right edge at (160+240)=400. hero-figure right=-200 so right edge is
-   200px past viewport edge = feet off-screen. Left edge is 480px into page. */
 .duo-stage{
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   gap: 0;
-  transform: rotate(-90deg);
-  /* default transform-origin: 50% 50% — predictable, no tricks */
 }
 
 /* Each character column */
@@ -305,7 +297,7 @@ h1,h2,h3{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 160px;
+  width: 180px;
   height: 480px;
   flex-shrink: 0;
 }
@@ -313,7 +305,7 @@ h1,h2,h3{
 /* Individual mascot images */
 .char-img{
   width: 100%;
-  max-width: 180px;
+  max-width: 200px;
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -327,7 +319,6 @@ h1,h2,h3{
   transform: translateX(-50%) scale(1);
 }
 
-/* Spacer is no longer needed for layout but kept for any JS that relies on it */
 .char-spacer{ display: none; }
 
 
