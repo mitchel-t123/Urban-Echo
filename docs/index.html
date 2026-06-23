@@ -273,25 +273,30 @@ h1,h2,h3{
 .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; padding-bottom: 64px; }
 
 /* ---- HERO FIGURE: TWO CHARACTERS SIDE BY SIDE ---- */
-/* Hero figure: sits at the right edge of the hero, centred vertically */
+/* Hero figure: anchored to right edge of hero, vertically centred */
 .hero-figure{
   position: absolute;
-  right: 0;
+  /* shift right so ~280px of bodies show; feet are off-screen */
+  right: -200px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   z-index: 1;
-  /* height is defined by the rotated duo-stage below */
 }
 
-/* Two characters rotated 90° CCW: feet point RIGHT (off-screen), heads LEFT (into page) */
+/* Characters on their side — rotate CCW around their own centre.
+   duo-stage is 320px wide × 480px tall before rotation.
+   After -90deg the visual is 480px wide × 320px tall.
+   Centre stays at same point → left edge at (160-240)=-80 relative to figure,
+   right edge at (160+240)=400. hero-figure right=-200 so right edge is
+   200px past viewport edge = feet off-screen. Left edge is 480px into page. */
 .duo-stage{
   display: flex;
   flex-direction: row;
-  align-items: flex-end; /* feet at bottom before rotation */
+  align-items: flex-end;
   gap: 0;
   transform: rotate(-90deg);
-  transform-origin: right center; /* pivot on the right edge so feet stay at right */
+  /* default transform-origin: 50% 50% — predictable, no tricks */
 }
 
 /* Each character column */
