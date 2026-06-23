@@ -69,6 +69,7 @@ h1,h2,h3{
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 .btn{
@@ -275,12 +276,56 @@ h1,h2,h3{
   align-items: end;
 }
 
-/* Right-side: just the diagnostic card */
+/* Right-side: stacked cards */
 .hero-figure{
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 60px;
+  flex-direction: column;
+  gap: 20px;
+  align-self: start;
+  padding-top: 16px;
+}
+
+/* Treatment recommendation card */
+.hero-treatment-card{
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  padding: 20px 24px 18px;
+  font-family: var(--mono);
+  font-weight: 700;
+  box-shadow: 7px 7px 0 var(--ink);
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+.hero-treatment-card.visible{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.hero-treatment-card .treat-label{
+  font-size: 11px;
+  opacity: 0.55;
+  display: block;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.hero-treatment-card .treat-plan{
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.hero-treatment-card .treat-desc{
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.78;
+  display: block;
+  line-height: 1.5;
 }
 
 .char-spacer{ display: none; }
@@ -895,6 +940,11 @@ h1,h2,h3{
             <div class="severity-fill" id="severityFill"></div>
           </div>
         </div>
+        <div class="hero-treatment-card" id="treatCard">
+          <span class="treat-label">💊 Recommended Treatment</span>
+          <span class="treat-plan" id="treatPlan">—</span>
+          <span class="treat-desc" id="treatDesc">—</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1255,6 +1305,9 @@ form.addEventListener('submit', async function(e){
   const severityBar   = document.getElementById('severityBar');
   const severityFill  = document.getElementById('severityFill');
   const duoStage      = document.getElementById('duoStage');
+  const treatCard     = document.getElementById('treatCard');
+  const treatPlan     = document.getElementById('treatPlan');
+  const treatDesc     = document.getElementById('treatDesc');
 
   // Character image refs
   const char1Calm     = document.getElementById('char1Calm');
@@ -1278,6 +1331,7 @@ form.addEventListener('submit', async function(e){
       stress:     0,
       char1:      'calm',
       char2:      'calm',
+      treat:      null,
     },
     {
       cardStatus: '📋 Patient: Your School',
@@ -1289,6 +1343,7 @@ form.addEventListener('submit', async function(e){
       stress:     1,
       char1:      'calm',
       char2:      'calm',
+      treat:      null,
     },
     {
       cardStatus: '⚠️ Patient: Your School',
@@ -1300,6 +1355,7 @@ form.addEventListener('submit', async function(e){
       stress:     1,
       char1:      'shocked',
       char2:      'calm',
+      treat:      null,
     },
     {
       cardStatus: '🚨 DIAGNOSIS',
@@ -1311,6 +1367,7 @@ form.addEventListener('submit', async function(e){
       stress:     2,
       char1:      'shocked',
       char2:      'worried',
+      treat:      { plan: 'Per-Event Package', desc: 'Book us for individual events — no commitment, just great sound every time.' },
     },
     {
       cardStatus: '🚨 DIAGNOSIS: CRITICAL',
@@ -1322,6 +1379,7 @@ form.addEventListener('submit', async function(e){
       stress:     2,
       char1:      'shocked',
       char2:      'worried',
+      treat:      { plan: 'Term Plan', desc: 'A term-by-term arrangement — consistent support without long-term lock-in.' },
     },
     {
       cardStatus: '🆘 EMERGENCY',
@@ -1333,6 +1391,7 @@ form.addEventListener('submit', async function(e){
       stress:     3,
       char1:      'critical',
       char2:      'worried',
+      treat:      { plan: 'Yearly Plan', desc: 'Full-year coverage — every event, every term, sorted. Our most popular option for busy schools.' },
     },
     {
       cardStatus: '🆘 CODE RED',
@@ -1344,6 +1403,7 @@ form.addEventListener('submit', async function(e){
       stress:     3,
       char1:      'critical',
       char2:      'worried',
+      treat:      { plan: 'Yearly Plan — Priority Support', desc: 'Maximum coverage, priority scheduling, and a dedicated Urban Echo contact for your school.' },
     },
   ];
 
@@ -1386,6 +1446,15 @@ form.addEventListener('submit', async function(e){
     // Swap character images
     setChar1(L.char1);
     setChar2(L.char2);
+
+    // Treatment recommendation card
+    if(L.treat){
+      treatPlan.textContent = L.treat.plan;
+      treatDesc.textContent = L.treat.desc;
+      treatCard.classList.add('visible');
+    } else {
+      treatCard.classList.remove('visible');
+    }
   }
 
   checks.forEach(function(row){
