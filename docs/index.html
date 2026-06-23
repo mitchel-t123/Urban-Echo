@@ -235,15 +235,13 @@ h1,h2,h3{
   color: var(--paper);
 }
 
-/* Answer card — sits in right column */
+/* Answer card — nested inside the symptom card */
 .hero-answer-card{
-  padding: 16px 20px;
-  background: var(--paper);
-  border-radius: 18px;
-  border: 3px solid var(--ink);
-  font-size: 15px;
-  font-weight: 700;
-  box-shadow: 7px 7px 0 var(--ink);
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 2px solid rgba(22,21,39,0.15);
+  font-size: 14px;
+  font-weight: 600;
   transition: opacity 0.35s ease;
   opacity: 0.42;
 }
@@ -269,17 +267,30 @@ h1,h2,h3{
 .hero-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: start;
+  grid-template-rows: auto 1fr;
+  column-gap: 40px;
+  row-gap: 0;
 }
 
-/* Right-side: stacked cards — top aligned with first checklist item */
+.hero-head{
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.hero-body{
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* Right-side cards — placed in row 2 so top aligns with checklist */
 .hero-figure{
+  grid-column: 2;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding-top: 193px; /* matches tag + h1 height above the checklist */
   padding-bottom: 60px;
+  align-self: start;
 }
 
 /* Treatment recommendation card */
@@ -881,12 +892,14 @@ h1,h2,h3{
 <header class="hero">
   <div class="wrap">
     <div class="hero-grid">
-      <div class="hero-copy">
+      <div class="hero-head">
         <div class="hero-tag"><span class="dot"></span> Now Treating Perth Schools</div>
         <h1>
           <span class="small">In the case of a</span>
           <span class="big">Sound<br>Emergency</span>
         </h1>
+      </div>
+      <div class="hero-body">
         <div class="hero-checklist" id="heroChecklist">
           <div class="hero-check" data-symptom="0">
             <span class="check-icon"></span>
@@ -920,7 +933,7 @@ h1,h2,h3{
       </div>
 
       <div class="hero-figure">
-        <!-- Card 1: Diagnosis -->
+        <!-- Card 1: Diagnosis + detail merged -->
         <div class="hero-symptom-card" id="heroCard">
           <span class="card-status" id="heroCardStatus">📋 Patient: Your School</span>
           <span class="card-diag" id="heroCardDiag">Status: Healthy</span>
@@ -928,11 +941,10 @@ h1,h2,h3{
           <div class="severity-bar" id="severityBar">
             <div class="severity-fill" id="severityFill"></div>
           </div>
-        </div>
-        <!-- Card 2: Diagnosis detail -->
-        <div class="hero-answer-card" id="heroAnswer">
-          <span class="hero-answer-label" id="heroAnswerLabel">Awaiting diagnosis...</span>
-          <span class="hero-answer-text" id="heroAnswerText">Tick the boxes to get your diagnosis.</span>
+          <div class="hero-answer-card" id="heroAnswer">
+            <span class="hero-answer-label" id="heroAnswerLabel">Awaiting diagnosis...</span>
+            <span class="hero-answer-text" id="heroAnswerText">Tick the boxes that apply to your school.</span>
+          </div>
         </div>
         <!-- Card 3: Treatment plan -->
         <div class="hero-treatment-card" id="treatCard">
@@ -1312,7 +1324,7 @@ form.addEventListener('submit', async function(e){
       cardStatus: '📋 Patient: Your School',
       cardDiag:   'Status: Healthy',
       ansLabel:   'Awaiting diagnosis...',
-      ansText:    'Tick the boxes above that apply to your school.',
+      ansText:    'Tick the boxes that apply to your school.',
       active:     false,
       severity:   0,
       stress:     0,
