@@ -235,23 +235,20 @@ h1,h2,h3{
   color: var(--paper);
 }
 
-/* Answer card — fixed style, no colour escalation */
+/* Answer card — sits in right column */
 .hero-answer-card{
-  margin-top: 6px;
-  padding: 14px 18px;
+  padding: 16px 20px;
   background: var(--paper);
-  border-radius: 14px;
-  border: 2.5px solid var(--ink);
+  border-radius: 18px;
+  border: 3px solid var(--ink);
   font-size: 15px;
   font-weight: 700;
-  transition: opacity 0.35s ease, transform 0.35s ease;
-  box-shadow: 4px 4px 0 rgba(22,21,39,0.15);
-  opacity: 0.45;
-  transform: translateY(4px);
+  box-shadow: 7px 7px 0 var(--ink);
+  transition: opacity 0.35s ease;
+  opacity: 0.42;
 }
 .hero-answer-card.active{
   opacity: 1;
-  transform: translateY(0);
 }
 
 .hero-answer-label{
@@ -287,37 +284,40 @@ h1,h2,h3{
 
 /* Treatment recommendation card */
 .hero-treatment-card{
-  background: var(--paper);
+  background: var(--ink);
+  color: var(--paper);
   border: 3px solid var(--ink);
   border-radius: 22px;
-  padding: 20px 24px 18px;
+  padding: 22px 26px 20px;
   font-family: var(--mono);
   font-weight: 700;
-  box-shadow: 7px 7px 0 var(--ink);
+  box-shadow: 7px 7px 0 var(--orange);
   line-height: 1.5;
   transition: opacity 0.3s ease;
 }
 .hero-treatment-card .treat-label{
   font-size: 11px;
-  opacity: 0.55;
+  opacity: 0.6;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
 }
 .hero-treatment-card .treat-plan{
   display: block;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 10px;
+  color: var(--orange);
+  letter-spacing: -0.01em;
 }
 .hero-treatment-card .treat-desc{
   font-family: var(--body);
   font-size: 14px;
   font-weight: 500;
-  opacity: 0.78;
+  opacity: 0.82;
   display: block;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .char-spacer{ display: none; }
@@ -912,10 +912,6 @@ h1,h2,h3{
             <span class="check-icon"></span>
             Always Multi-tasking?
           </div>
-          <div class="hero-answer-card" id="heroAnswer">
-            <span class="hero-answer-label" id="heroAnswerLabel">Awaiting diagnosis...</span>
-            <span class="hero-answer-text" id="heroAnswerText">Tick the boxes above that apply to your school.</span>
-          </div>
         </div>
         <div class="hero-ctas">
           <a href="#contact" class="btn btn-orange">Book Your Free Trial Event</a>
@@ -924,6 +920,7 @@ h1,h2,h3{
       </div>
 
       <div class="hero-figure">
+        <!-- Card 1: Diagnosis -->
         <div class="hero-symptom-card" id="heroCard">
           <span class="card-status" id="heroCardStatus">📋 Patient: Your School</span>
           <span class="card-diag" id="heroCardDiag">Status: Healthy</span>
@@ -932,10 +929,16 @@ h1,h2,h3{
             <div class="severity-fill" id="severityFill"></div>
           </div>
         </div>
+        <!-- Card 2: Diagnosis detail -->
+        <div class="hero-answer-card" id="heroAnswer">
+          <span class="hero-answer-label" id="heroAnswerLabel">Awaiting diagnosis...</span>
+          <span class="hero-answer-text" id="heroAnswerText">Tick the boxes to get your diagnosis.</span>
+        </div>
+        <!-- Card 3: Treatment plan -->
         <div class="hero-treatment-card" id="treatCard">
           <span class="treat-label">💊 Recommended Treatment</span>
-          <span class="treat-plan" id="treatPlan">—</span>
-          <span class="treat-desc" id="treatDesc">—</span>
+          <span class="treat-plan" id="treatPlan">Select your symptoms</span>
+          <span class="treat-desc" id="treatDesc">Tick the boxes to get your recommended response plan.</span>
         </div>
       </div>
     </div>
