@@ -295,15 +295,7 @@ h1,h2,h3{
   font-weight: 700;
   box-shadow: 7px 7px 0 var(--ink);
   line-height: 1.5;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  pointer-events: none;
-}
-.hero-treatment-card.visible{
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+  transition: opacity 0.3s ease;
 }
 .hero-treatment-card .treat-label{
   font-size: 11px;
@@ -1304,17 +1296,9 @@ form.addEventListener('submit', async function(e){
   const heroCardStatus= document.getElementById('heroCardStatus');
   const severityBar   = document.getElementById('severityBar');
   const severityFill  = document.getElementById('severityFill');
-  const duoStage      = document.getElementById('duoStage');
   const treatCard     = document.getElementById('treatCard');
   const treatPlan     = document.getElementById('treatPlan');
   const treatDesc     = document.getElementById('treatDesc');
-
-  // Character image refs
-  const char1Calm     = document.getElementById('char1Calm');
-  const char1Shocked  = document.getElementById('char1Shocked');
-  const char1Critical = document.getElementById('char1Critical');
-  const char2Calm     = document.getElementById('char2Calm');
-  const char2Worried  = document.getElementById('char2Worried');
 
   const ticked = new Set();
 
@@ -1331,7 +1315,7 @@ form.addEventListener('submit', async function(e){
       stress:     0,
       char1:      'calm',
       char2:      'calm',
-      treat:      null,
+      treat:      { plan: 'Select your symptoms', desc: 'Tick the boxes to get your recommended response plan.' },
     },
     {
       cardStatus: '📋 Patient: Your School',
@@ -1343,7 +1327,7 @@ form.addEventListener('submit', async function(e){
       stress:     1,
       char1:      'calm',
       char2:      'calm',
-      treat:      null,
+      treat:      { plan: 'Select your symptoms', desc: 'Tick the boxes to get your recommended response plan.' },
     },
     {
       cardStatus: '⚠️ Patient: Your School',
@@ -1355,7 +1339,7 @@ form.addEventListener('submit', async function(e){
       stress:     1,
       char1:      'shocked',
       char2:      'calm',
-      treat:      null,
+      treat:      { plan: 'Select your symptoms', desc: 'Tick the boxes to get your recommended response plan.' },
     },
     {
       cardStatus: '🚨 DIAGNOSIS',
@@ -1407,17 +1391,6 @@ form.addEventListener('submit', async function(e){
     },
   ];
 
-  function setChar1(state){
-    char1Calm.classList.toggle('visible',     state === 'calm');
-    char1Shocked.classList.toggle('visible',  state === 'shocked');
-    char1Critical.classList.toggle('visible', state === 'critical');
-  }
-
-  function setChar2(state){
-    char2Calm.classList.toggle('visible',    state === 'calm');
-    char2Worried.classList.toggle('visible', state === 'worried');
-  }
-
   function updateUI(){
     const score = ticked.size;
     const L = LEVELS[score];
@@ -1439,22 +1412,10 @@ form.addEventListener('submit', async function(e){
     answerText.textContent  = L.ansText;
     answerCard.classList.toggle('active', L.active);
 
-    // Stress animation on duo stage
-    duoStage.classList.remove('stress-1','stress-2','stress-3');
-    if(L.stress > 0) duoStage.classList.add('stress-' + L.stress);
-
-    // Swap character images
-    setChar1(L.char1);
-    setChar2(L.char2);
-
-    // Treatment recommendation card
-    if(L.treat){
-      treatPlan.textContent = L.treat.plan;
-      treatDesc.textContent = L.treat.desc;
-      treatCard.classList.add('visible');
-    } else {
-      treatCard.classList.remove('visible');
-    }
+    // Treatment recommendation card — always visible
+    treatPlan.textContent = L.treat.plan;
+    treatDesc.textContent = L.treat.desc;
+    treatCard.classList.add('visible');
   }
 
   checks.forEach(function(row){
