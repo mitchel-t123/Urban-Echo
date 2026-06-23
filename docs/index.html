@@ -101,8 +101,10 @@ h1,h2,h3{
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #ffffff;
-  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(22,21,39,0.12);
 }
 .nav-inner{
   display:flex;
@@ -157,25 +159,25 @@ h1,h2,h3{
 @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
 
 .hero-h1-box{
-  background: var(--ink);
-  color: var(--paper);
+  background: #ffffff;
+  color: var(--ink);
   border-radius: 20px;
   padding: 28px 32px 24px;
   display: inline-block;
   margin-bottom: 28px;
-  box-shadow: 6px 6px 0 rgba(22,21,39,0.25);
+  box-shadow: 6px 6px 0 rgba(22,21,39,0.18);
 }
 .hero h1{
   font-size: clamp(36px, 5.4vw, 68px);
   margin-bottom: 0;
-  color: var(--paper);
+  color: var(--ink);
 }
 .hero h1 .small{
   display:block;
   font-size: 0.38em;
   letter-spacing: 0.02em;
   margin-bottom: 6px;
-  opacity: 0.7;
+  opacity: 0.55;
 }
 .hero h1 .big{
   display:block;
@@ -292,14 +294,15 @@ h1,h2,h3{
   grid-row: 2;
 }
 
-/* Right-side cards — placed in row 2 so top aligns with checklist */
+/* Right-side cards — span both rows so they sit at the very top */
 .hero-figure{
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1 / 3;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding-bottom: 60px;
+  padding-top: 8px;
   align-self: start;
 }
 
@@ -449,7 +452,13 @@ h1,h2,h3{
   padding: 6px 8px;
   gap: 4px;
   position: relative;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
+.stress-track:active{ cursor: grabbing; }
+.stress-track:focus{ outline: 2px solid var(--ink); outline-offset: 3px; }
 .stress-face{
   width: 44px;
   height: 44px;
@@ -1018,10 +1027,10 @@ h1,h2,h3{
       </div>
 
       <div class="hero-figure">
-        <!-- Stress face meter -->
+        <!-- Stress face meter (interactive) -->
         <div class="stress-meter">
-          <span class="stress-meter-label">AV Stress Level</span>
-          <div class="stress-track" id="stressMeter">
+          <span class="stress-meter-label">AV Stress Level — drag to explore</span>
+          <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" tabindex="0">
             <div class="stress-face active" data-lvl="0">😌</div>
             <div class="stress-face" data-lvl="1">🙁</div>
             <div class="stress-face" data-lvl="2">😬</div>
@@ -1549,6 +1558,68 @@ form.addEventListener('submit', async function(e){
   });
 
   updateUI();
+
+  /* ── Stress meter: click or drag to change level ── */
+  (function(){
+    const track = document.getElementById('stressMeter');
+    if(!track) return;
+
+    function lvlFromX(clientX){
+      const r = track.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
+      return Math.round(pct * 6);
+    }
+
+    function setMeterLevel(lvl){
+      lvl = Math.max(0, Math.min(6, lvl));
+      // Uncheck or check boxes to match the level
+      const boxes = document.querySelectorAll('.hero-check');
+      boxes.forEach(function(box, i){
+        const alreadyChecked = box.classList.contains('checked');
+        const shouldCheck = i < lvl;
+        if(shouldCheck !== alreadyChecked){
+          if(shouldCheck){
+            ticked.add(i);
+            box.classList.add('checked');
+            box.querySelector('.check-icon').textContent = '✓';
+          } else {
+            ticked.delete(i);
+            box.classList.remove('checked');
+            box.querySelector('.check-icon').textContent = '';
+          }
+        }
+      });
+      updateUI();
+      track.setAttribute('aria-valuenow', lvl);
+    }
+
+    let dragging = false;
+    track.addEventListener('mousedown', function(e){
+      dragging = true;
+      setMeterLevel(lvlFromX(e.clientX));
+    });
+    document.addEventListener('mousemove', function(e){
+      if(!dragging) return;
+      setMeterLevel(lvlFromX(e.clientX));
+    });
+    document.addEventListener('mouseup', function(){ dragging = false; });
+
+    track.addEventListener('touchstart', function(e){
+      dragging = true;
+      setMeterLevel(lvlFromX(e.touches[0].clientX));
+    }, {passive:true});
+    document.addEventListener('touchmove', function(e){
+      if(!dragging) return;
+      setMeterLevel(lvlFromX(e.touches[0].clientX));
+    }, {passive:true});
+    document.addEventListener('touchend', function(){ dragging = false; });
+
+    track.addEventListener('keydown', function(e){
+      const cur = parseInt(track.getAttribute('aria-valuenow')) || 0;
+      if(e.key === 'ArrowRight') setMeterLevel(cur + 1);
+      if(e.key === 'ArrowLeft')  setMeterLevel(cur - 1);
+    });
+  })();
 
 })();
 
