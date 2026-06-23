@@ -133,12 +133,6 @@ h1,h2,h3{
   padding: 76px 0 0;
   border-bottom: 6px solid var(--ink);
 }
-.hero-grid{
-  position: relative;
-  display: block;
-  min-height: 520px;
-  padding-bottom: 60px;
-}
 .hero-tag{
   display:inline-flex;
   align-items:center;
@@ -274,24 +268,31 @@ h1,h2,h3{
 
 /* ---- HERO FIGURE: TWO CHARACTERS SIDE BY SIDE ---- */
 /* Hero figure: absolute on the right of the hero, feet at the bottom */
+.hero-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: end;
+}
+
+/* Right-side box containing the card + characters */
 .hero-figure{
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  top: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-end;
-  pointer-events: none;
-  z-index: 1;
+  background: rgba(22,21,39,0.06);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 60px; /* aligns box bottom with checklist bottom (matches .hero-ctas padding-bottom) */
 }
 
 .hero-symptom-card{
-  pointer-events: auto;
-  align-self: center;
-  margin-bottom: 20px;
-  margin-right: 20px;
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin: 20px 20px 0 0;
 }
 
 .duo-stage{
@@ -299,23 +300,23 @@ h1,h2,h3{
   flex-direction: row;
   align-items: flex-end;
   gap: 0;
+  width: 100%;
 }
 
-/* Each character column — 3× bigger */
 .char-wrap{
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 500px;
-  height: 1400px;
+  width: 50%;
+  height: 360px;
   flex-shrink: 0;
 }
 
 /* Individual mascot images */
 .char-img{
   width: 100%;
-  max-width: 600px;
+  max-width: 280px;
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -847,21 +848,11 @@ h1,h2,h3{
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 920px){
-  .hero-grid{ min-height: auto; padding-bottom: 32px; }
-  .hero-figure{
-    position: static;
-    display: flex;
-    justify-content: center;
-    margin-top: 32px;
-    transform: none;
-  }
-  .duo-stage{
-    transform: none;
-    justify-content: center;
-  }
-  .hero-symptom-card{ transform: rotate(-2deg); }
-  .char-wrap{ height: 240px; width: 140px; }
-  .char-img{ max-width: 150px; }
+  .hero-grid{ grid-template-columns: 1fr; }
+  .hero-figure{ margin-bottom: 0; margin-top: 24px; }
+  .hero-symptom-card{ margin: 16px 16px 0 0; }
+  .char-wrap{ height: 220px; }
+  .char-img{ max-width: 160px; }
   .symptom-grid{ grid-template-columns:1fr 1fr; }
   .diagnosis-grid{ grid-template-columns:1fr; }
   .diagnosis-figure{ order:-1; }
