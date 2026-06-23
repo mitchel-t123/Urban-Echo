@@ -270,28 +270,28 @@ h1,h2,h3{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  align-items: end;
+  align-items: start;
 }
 
-/* Right-side: stacked cards */
+/* Right-side: stacked cards — top aligned with first checklist item */
 .hero-figure{
   display: flex;
   flex-direction: column;
   gap: 20px;
-  align-self: start;
-  padding-top: 16px;
+  padding-top: 193px; /* matches tag + h1 height above the checklist */
+  padding-bottom: 60px;
 }
 
 /* Treatment recommendation card */
 .hero-treatment-card{
-  background: var(--ink);
-  color: var(--paper);
+  background: #1e7e4a;
+  color: #fff;
   border: 3px solid var(--ink);
   border-radius: 22px;
   padding: 22px 26px 20px;
   font-family: var(--mono);
   font-weight: 700;
-  box-shadow: 7px 7px 0 var(--orange);
+  box-shadow: 7px 7px 0 var(--ink);
   line-height: 1.5;
   transition: opacity 0.3s ease;
 }
@@ -308,7 +308,7 @@ h1,h2,h3{
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 10px;
-  color: var(--orange);
+  color: #fff;
   letter-spacing: -0.01em;
 }
 .hero-treatment-card .treat-desc{
