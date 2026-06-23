@@ -423,6 +423,63 @@ h1,h2,h3{
   transform: translateX(3px);
 }
 
+/* ── Stress face meter ── */
+.stress-meter{
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  padding: 18px 20px 16px;
+  box-shadow: 7px 7px 0 var(--ink);
+}
+.stress-meter-label{
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.45;
+  margin-bottom: 12px;
+}
+.stress-track{
+  display: flex;
+  align-items: center;
+  background: rgba(22,21,39,0.07);
+  border-radius: 100px;
+  padding: 6px 8px;
+  gap: 4px;
+  position: relative;
+}
+.stress-face{
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), background 0.35s ease, box-shadow 0.35s ease, opacity 0.35s ease;
+  opacity: 0.28;
+  background: transparent;
+  cursor: default;
+  position: relative;
+  z-index: 1;
+}
+.stress-face.active{
+  opacity: 1;
+  transform: scale(1.35) translateY(-4px);
+  box-shadow: 0 6px 18px rgba(22,21,39,0.22), 0 2px 6px rgba(22,21,39,0.14);
+}
+/* ── level colours ── */
+.stress-face[data-lvl="0"].active{ background:#22c55e; }
+.stress-face[data-lvl="1"].active{ background:#86efac; }
+.stress-face[data-lvl="2"].active{ background:#facc15; }
+.stress-face[data-lvl="3"].active{ background:#fb923c; }
+.stress-face[data-lvl="4"].active{ background:#f97316; }
+.stress-face[data-lvl="5"].active{ background:#ef4444; }
+.stress-face[data-lvl="6"].active{ background:#b91c1c; }
+
 /* Severity bar — now lives inside the card */
 .severity-bar{
   height: 10px;
@@ -961,6 +1018,19 @@ h1,h2,h3{
       </div>
 
       <div class="hero-figure">
+        <!-- Stress face meter -->
+        <div class="stress-meter">
+          <span class="stress-meter-label">AV Stress Level</span>
+          <div class="stress-track" id="stressMeter">
+            <div class="stress-face active" data-lvl="0">😌</div>
+            <div class="stress-face" data-lvl="1">🙁</div>
+            <div class="stress-face" data-lvl="2">😬</div>
+            <div class="stress-face" data-lvl="3">😰</div>
+            <div class="stress-face" data-lvl="4">😱</div>
+            <div class="stress-face" data-lvl="5">🤯</div>
+            <div class="stress-face" data-lvl="6">💀</div>
+          </div>
+        </div>
         <!-- Card 1: Diagnosis + detail merged -->
         <div class="hero-symptom-card" id="heroCard">
           <span class="card-status" id="heroCardStatus">📋 Patient: Your School</span>
@@ -1441,6 +1511,11 @@ form.addEventListener('submit', async function(e){
     answerLabel.textContent = L.ansLabel;
     answerText.textContent  = L.ansText;
     answerCard.classList.toggle('active', L.active);
+
+    // Stress face meter
+    document.querySelectorAll('.stress-face').forEach(function(el){
+      el.classList.toggle('active', parseInt(el.dataset.lvl) === score);
+    });
 
     // Treatment recommendation card — always visible
     treatPlan.textContent = L.treat.plan;
