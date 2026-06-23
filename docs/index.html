@@ -69,7 +69,6 @@ h1,h2,h3{
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -0.01em;
-  text-transform: uppercase;
 }
 
 .btn{
@@ -276,18 +275,58 @@ h1,h2,h3{
   align-items: end;
 }
 
-/* Right-side stress graphic */
+/* Right-side box: card + characters */
 .hero-figure{
+  position: relative;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  background: rgba(22,21,39,0.06);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  overflow: hidden;
   margin-bottom: 60px;
 }
 
-.stress-img{
+.hero-symptom-card{
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin: 20px 20px 0 0;
+}
+
+.duo-stage{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0;
   width: 100%;
-  height: auto;
-  display: block;
-  transition: opacity 0.35s ease;
+}
+
+.char-wrap{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 360px;
+  flex-shrink: 0;
+}
+
+.char-img{
+  width: 100%;
+  max-width: 280px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  opacity: 0;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
+}
+.char-img.visible{
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }
 
 .char-spacer{ display: none; }
@@ -895,7 +934,31 @@ h1,h2,h3{
       </div>
 
       <div class="hero-figure">
-        <img id="stressImg" src="stress-5.png" alt="AV stress level" class="stress-img">
+        <!-- Diagnostic clipboard card -->
+        <div class="hero-symptom-card" id="heroCard">
+          <span class="card-status" id="heroCardStatus">📋 Patient: Your School</span>
+          <span class="card-diag" id="heroCardDiag">Status: Healthy</span>
+          <span class="severity-bar-label">AV Stress Level</span>
+          <div class="severity-bar" id="severityBar">
+            <div class="severity-fill" id="severityFill"></div>
+          </div>
+        </div>
+
+        <div class="duo-stage" id="duoStage">
+          <!-- Character 1: the asterisk — 3 stress states -->
+          <div class="char-wrap">
+            <div class="char-spacer"></div>
+            <img id="char1Calm"     class="char-img visible" src="asterisk tea happy.png"   alt="Calm asterisk character with tea">
+            <img id="char1Shocked"  class="char-img"         src="asterisk shocked.png"     alt="Shocked asterisk character">
+            <img id="char1Critical" class="char-img"         src="asterisk help flag.png"   alt="Asterisk waving Help flag">
+          </div>
+          <!-- Character 2: the blue blob mascot -->
+          <div class="char-wrap">
+            <div class="char-spacer"></div>
+            <img id="char2Calm"     class="char-img visible" src="mascot neutral smile.png"   alt="Happy Urban Echo mascot">
+            <img id="char2Worried"  class="char-img"         src="mascot shocked bandaid.png" alt="Worried Urban Echo mascot">
+          </div>
+        </div>
       </div>
     </div>
   </div>
