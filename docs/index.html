@@ -116,12 +116,36 @@ h1,h2,h3{
 .nav-links{
   display:flex;
   align-items:center;
-  gap: 36px;
+  gap: 4px;
   font-weight: 600;
   font-size: 15px;
+  position: relative;
 }
-.nav-links a{ text-decoration:none; color: var(--ink); opacity:0.75; transition:opacity 0.15s; }
-.nav-links a:hover{ opacity:1; }
+.nav-links a{
+  text-decoration:none;
+  color: var(--ink);
+  padding: 7px 14px;
+  border-radius: 8px;
+  transition: color 0.15s;
+  position: relative;
+  z-index: 1;
+}
+.nav-links a:hover{ color: var(--ink); }
+/* Sliding pill indicator */
+.nav-pill{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--orange);
+  border: 2px solid var(--ink);
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+}
+.nav-pill.visible{ opacity: 1; }
 .nav .btn{ padding: 11px 22px; font-size: 14px; }
 .nav-call{ font-family: var(--mono); font-weight:700; }
 
@@ -971,15 +995,15 @@ h1,h2,h3{
 <nav class="nav">
   <div class="nav-inner">
     <a href="#"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
-    <div class="nav-links">
-      <a href="#symptoms">Symptoms</a>
-      <a href="#diagnosis">Diagnosis</a>
-      <a href="#plan">How It Works</a>
-      <a href="#packages">Packages</a>
-      <a href="#recovery">Recovery</a>
-      <a href="#contact">Contact</a>
+    <div class="nav-links" id="navLinks">
+      <div class="nav-pill" id="navPill"></div>
+      <a href="#symptoms" data-nav>Symptoms</a>
+      <a href="#diagnosis" data-nav>Diagnosis</a>
+      <a href="#plan" data-nav>How It Works</a>
+      <a href="#packages" data-nav>Packages</a>
+      <a href="#recovery" data-nav>Recovery</a>
     </div>
-    <a href="#contact" class="btn btn-orange">Get In Touch</a>
+    <a href="#contact" class="btn btn-orange">Contact Us</a>
   </div>
 </nav>
 
@@ -1024,8 +1048,8 @@ h1,h2,h3{
           </div>
         </div>
         <div class="hero-ctas">
-          <a href="#contact" class="btn btn-orange">Book Your Free Trial Event</a>
-          <a href="#contact" class="btn btn-outline" style="border-color:var(--ink);">Contact Us</a>
+          <a href="#contact" class="btn btn-cream">Book Your Free Trial Event</a>
+          <a href="#contact" class="btn btn-orange">Contact Us</a>
         </div>
       </div>
 
@@ -1635,6 +1659,46 @@ form.addEventListener('submit', async function(e){
       requestAnimationFrame(step);
     });
   });
+
+  /* ── Nav sliding pill ── */
+  (function(){
+    const pill    = document.getElementById('navPill');
+    const links   = document.querySelectorAll('[data-nav]');
+    const navEl   = document.querySelector('.nav');
+    if(!pill || !links.length) return;
+
+    function movePillTo(link){
+      const navRect  = document.getElementById('navLinks').getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+      pill.style.width     = linkRect.width + 'px';
+      pill.style.transform = 'translateX(' + (linkRect.left - navRect.left) + 'px)';
+      pill.classList.add('visible');
+    }
+
+    // Click: move pill immediately
+    links.forEach(function(a){
+      a.addEventListener('click', function(){ movePillTo(this); });
+    });
+
+    // Scroll: find which section is active
+    const sections = Array.from(links).map(function(a){
+      return document.querySelector(a.getAttribute('href'));
+    });
+
+    function onScroll(){
+      const navH   = navEl.offsetHeight;
+      const mid    = window.scrollY + navH + window.innerHeight * 0.25;
+      let active   = -1;
+      sections.forEach(function(sec, i){
+        if(sec && sec.offsetTop <= mid) active = i;
+      });
+      if(active >= 0) movePillTo(links[active]);
+      else pill.classList.remove('visible');
+    }
+
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  })();
 </script>
 
 </body>
