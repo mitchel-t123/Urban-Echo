@@ -447,10 +447,11 @@ h1,h2,h3{
 .stress-track{
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: rgba(22,21,39,0.07);
   border-radius: 100px;
   padding: 6px 8px;
-  gap: 4px;
+  gap: 0;
   position: relative;
   cursor: grab;
   user-select: none;
@@ -1029,7 +1030,7 @@ h1,h2,h3{
       <div class="hero-figure">
         <!-- Stress face meter (interactive) -->
         <div class="stress-meter">
-          <span class="stress-meter-label">AV Stress Level — drag to explore</span>
+          <span class="stress-meter-label">Rate your sound &amp; AV stress to get a diagnosis</span>
           <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" tabindex="0">
             <div class="stress-face active" data-lvl="0">😌</div>
             <div class="stress-face" data-lvl="1">🙁</div>
@@ -1499,8 +1500,10 @@ form.addEventListener('submit', async function(e){
     },
   ];
 
+  var meterOverride = null; // set by stress meter drag; null = use checkbox count
+
   function updateUI(){
-    const score = ticked.size;
+    const score = meterOverride !== null ? meterOverride : ticked.size;
     const L = LEVELS[score];
 
     // Diagnostic card text
@@ -1521,10 +1524,11 @@ form.addEventListener('submit', async function(e){
     answerText.textContent  = L.ansText;
     answerCard.classList.toggle('active', L.active);
 
-    // Stress face meter
+    // Stress face meter — highlight the face matching current score
     document.querySelectorAll('.stress-face').forEach(function(el){
       el.classList.toggle('active', parseInt(el.dataset.lvl) === score);
     });
+    stressMeter.setAttribute('aria-valuenow', score);
 
     // Treatment recommendation card — always visible
     treatPlan.textContent = L.treat.plan;
@@ -1572,23 +1576,7 @@ form.addEventListener('submit', async function(e){
 
     function setMeterLevel(lvl){
       lvl = Math.max(0, Math.min(6, lvl));
-      // Uncheck or check boxes to match the level
-      const boxes = document.querySelectorAll('.hero-check');
-      boxes.forEach(function(box, i){
-        const alreadyChecked = box.classList.contains('checked');
-        const shouldCheck = i < lvl;
-        if(shouldCheck !== alreadyChecked){
-          if(shouldCheck){
-            ticked.add(i);
-            box.classList.add('checked');
-            box.querySelector('.check-icon').textContent = '✓';
-          } else {
-            ticked.delete(i);
-            box.classList.remove('checked');
-            box.querySelector('.check-icon').textContent = '';
-          }
-        }
-      });
+      meterOverride = lvl;
       updateUI();
       track.setAttribute('aria-valuenow', lvl);
     }
