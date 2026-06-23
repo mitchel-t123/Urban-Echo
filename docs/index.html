@@ -35,7 +35,7 @@
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 
-html{ scroll-behavior:smooth; }
+html{ scroll-behavior:auto; } /* JS handles smooth scroll with custom duration */
 
 body{
   font-family: var(--body);
@@ -156,19 +156,29 @@ h1,h2,h3{
 }
 @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
 
+.hero-h1-box{
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 20px;
+  padding: 28px 32px 24px;
+  display: inline-block;
+  margin-bottom: 28px;
+  box-shadow: 6px 6px 0 rgba(22,21,39,0.25);
+}
 .hero h1{
-  font-size: clamp(40px, 6.2vw, 78px);
-  margin-bottom: 22px;
+  font-size: clamp(36px, 5.4vw, 68px);
+  margin-bottom: 0;
+  color: var(--paper);
 }
 .hero h1 .small{
   display:block;
-  font-size: 0.4em;
+  font-size: 0.38em;
   letter-spacing: 0.02em;
   margin-bottom: 6px;
+  opacity: 0.7;
 }
 .hero h1 .big{
   display:block;
-  -webkit-text-stroke: 0px;
 }
 .hero p.lede{
   font-size: 19px;
@@ -307,12 +317,12 @@ h1,h2,h3{
   transition: opacity 0.3s ease;
 }
 .hero-treatment-card .treat-label{
-  font-size: 11px;
-  opacity: 0.6;
+  font-size: 13px;
+  opacity: 0.7;
   display: block;
   margin-bottom: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
 }
 .hero-treatment-card .treat-plan{
   display: block;
@@ -380,7 +390,7 @@ h1,h2,h3{
   width: 100%;
 }
 .hero-symptom-card .card-status{
-  font-size: 12px;
+  font-size: 14px;
   opacity: 0.6;
   display: block;
   margin-bottom: 4px;
@@ -395,10 +405,22 @@ h1,h2,h3{
   margin-bottom: 14px;
 }
 .treat-link{
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: rgba(255,255,255,0.5);
+  display: inline-block;
+  margin-top: 14px;
+  background: #fff;
+  color: #1e7e4a;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 100px;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.treat-link:hover{
+  background: #e6f4ec;
+  transform: translateX(3px);
 }
 
 /* Severity bar — now lives inside the card */
@@ -413,7 +435,7 @@ h1,h2,h3{
 }
 .severity-bar.visible{ opacity: 1; }
 .severity-bar-label{
-  font-size: 10px;
+  font-size: 13px;
   font-family: var(--mono);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -898,10 +920,12 @@ h1,h2,h3{
     <div class="hero-grid">
       <div class="hero-head">
         <div class="hero-tag"><span class="dot"></span> Now Treating Perth Schools</div>
-        <h1>
-          <span class="small">In the case of a</span>
-          <span class="big">Sound<br>Emergency</span>
-        </h1>
+        <div class="hero-h1-box">
+          <h1>
+            <span class="small">In the case of a</span>
+            <span class="big">Sound<br>Emergency</span>
+          </h1>
+        </div>
       </div>
       <div class="hero-body">
         <div class="hero-checklist" id="heroChecklist">
@@ -1419,10 +1443,15 @@ form.addEventListener('submit', async function(e){
     answerCard.classList.toggle('active', L.active);
 
     // Treatment recommendation card — always visible
+    treatPlan.textContent = L.treat.plan;
+    const existing = treatCard.querySelector('.treat-link');
+    if(existing) existing.remove();
     if(L.treat.link){
-      treatPlan.innerHTML = '<a href="' + L.treat.link + '" class="treat-link">' + L.treat.plan + ' →</a>';
-    } else {
-      treatPlan.textContent = L.treat.plan;
+      const btn = document.createElement('a');
+      btn.href = L.treat.link;
+      btn.className = 'treat-link';
+      btn.textContent = 'View ' + L.treat.plan + ' →';
+      treatDesc.after(btn);
     }
     treatDesc.textContent = L.treat.desc;
     treatCard.classList.add('visible');
@@ -1447,6 +1476,28 @@ form.addEventListener('submit', async function(e){
   updateUI();
 
 })();
+
+  /* Slow smooth scroll for all anchor links */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      const target = document.querySelector(this.getAttribute('href'));
+      if(!target) return;
+      e.preventDefault();
+      const start = window.scrollY;
+      const end   = target.getBoundingClientRect().top + window.scrollY - 72;
+      const dist  = end - start;
+      const dur   = 900; // ms — adjust for speed
+      let t0 = null;
+      function step(t){
+        if(!t0) t0 = t;
+        const p = Math.min((t - t0) / dur, 1);
+        const ease = p < 0.5 ? 2*p*p : -1+(4-2*p)*p; // ease-in-out quad
+        window.scrollTo(0, start + dist * ease);
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  });
 </script>
 
 </body>
