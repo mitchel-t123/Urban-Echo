@@ -307,15 +307,15 @@ h1,h2,h3{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 240px;
-  height: 700px;
+  width: 500px;
+  height: 1400px;
   flex-shrink: 0;
 }
 
 /* Individual mascot images */
 .char-img{
   width: 100%;
-  max-width: 300px;
+  max-width: 600px;
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -947,7 +947,7 @@ h1,h2,h3{
         <!-- Diagnostic clipboard card -->
         <div class="hero-symptom-card" id="heroCard">
           <span class="card-status" id="heroCardStatus">📋 Patient: Your School</span>
-          <span class="card-diag" id="heroCardDiag">Status: Healthy ✓</span>
+          <span class="card-diag" id="heroCardDiag">Status: Healthy</span>
           <span class="severity-bar-label">AV Stress Level</span>
           <div class="severity-bar" id="severityBar">
             <div class="severity-fill" id="severityFill"></div>
@@ -1347,7 +1347,7 @@ form.addEventListener('submit', async function(e){
   const LEVELS = [
     {
       cardStatus: '📋 Patient: Your School',
-      cardDiag:   'Status: Healthy ✓',
+      cardDiag:   'Status: Healthy',
       ansLabel:   'Awaiting diagnosis...',
       ansText:    'Tick the boxes above that apply to your school.',
       active:     false,
