@@ -176,7 +176,7 @@ h1,h2,h3{
 }
 .hero-tag .dot{
   width:8px; height:8px; border-radius:50%;
-  background: var(--coral);
+  background: #22c55e;
   animation: pulse 1.6s infinite;
 }
 @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
@@ -1688,12 +1688,11 @@ form.addEventListener('submit', async function(e){
     function onScroll(){
       const navH   = navEl.offsetHeight;
       const mid    = window.scrollY + navH + window.innerHeight * 0.25;
-      let active   = -1;
+      let active   = 0; // default to first link (Symptoms) so pill always shows
       sections.forEach(function(sec, i){
         if(sec && sec.offsetTop <= mid) active = i;
       });
-      if(active >= 0) movePillTo(links[active]);
-      else pill.classList.remove('visible');
+      movePillTo(links[active]);
     }
 
     window.addEventListener('scroll', onScroll, {passive:true});
