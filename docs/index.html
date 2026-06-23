@@ -324,6 +324,22 @@ h1,h2,h3{
 /* Spacer so the absolute images have height to sit in */
 .char-spacer{ width: 100%; max-width: 180px; height: 260px; }
 
+/* "Hole in the page" rim each character pokes out of */
+.char-wrap::after{
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 28px;
+  background: var(--orange);
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  box-shadow: 0 4px 0 var(--ink), inset 0 -6px 10px rgba(22,21,39,0.18);
+  z-index: 4;
+}
+
 /* ---- STRESS ANIMATIONS ---- */
 /* Applied to .char-wrap via .duo-stage data-stress class */
 
@@ -866,6 +882,7 @@ h1,h2,h3{
   .hero-symptom-card .card-diag{ font-size: 14px; }
   .char-spacer{ height: 180px; }
   .char-img{ max-width: 130px; }
+  .char-wrap::after{ width: 90px; height: 22px; }
   .symptom-grid{ grid-template-columns:1fr 1fr; }
   .diagnosis-grid{ grid-template-columns:1fr; }
   .diagnosis-figure{ order:-1; }
