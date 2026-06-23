@@ -100,8 +100,7 @@ h1,h2,h3{
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(251,245,231,0.92);
-  backdrop-filter: blur(8px);
+  background: #ffffff;
   border-bottom: 1px solid var(--line);
 }
 .nav-inner{
@@ -137,8 +136,8 @@ h1,h2,h3{
 .hero-grid{
   position: relative;
   display: block;
-  padding-right: 340px; /* reserve space so text doesn't run under characters */
   min-height: 520px;
+  padding-bottom: 60px;
 }
 .hero-tag{
   display:inline-flex;
@@ -274,37 +273,25 @@ h1,h2,h3{
 .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; padding-bottom: 64px; }
 
 /* ---- HERO FIGURE: TWO CHARACTERS SIDE BY SIDE ---- */
-/* Hero figure: absolutely glued to the right edge of the hero */
+/* Hero figure: sits at the right edge of the hero, centred vertically */
 .hero-figure{
   position: absolute;
-  right: -60px; /* bleed slightly off-screen right */
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
-  width: 420px;
+  z-index: 1;
+  /* height is defined by the rotated duo-stage below */
 }
 
-/* Diagnostic card sits above the characters, aligned right */
-.hero-symptom-card{
-  position: static !important;
-  transform: rotate(-3deg) !important;
-  margin-right: 80px;
-  margin-bottom: 16px;
-  align-self: flex-end;
-  pointer-events: auto;
-}
-
-/* Wrapper that holds both characters side by side from the right edge */
+/* Two characters rotated 90° CCW: feet point RIGHT (off-screen), heads LEFT (into page) */
 .duo-stage{
-  position: relative;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  flex-direction: row;
+  align-items: flex-end; /* feet at bottom before rotation */
   gap: 0;
-  width: 100%;
+  transform: rotate(-90deg);
+  transform-origin: right center; /* pivot on the right edge so feet stay at right */
 }
 
 /* Each character column */
@@ -313,15 +300,15 @@ h1,h2,h3{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 180px;
-  height: 460px;
+  width: 160px;
+  height: 480px;
   flex-shrink: 0;
 }
 
 /* Individual mascot images */
 .char-img{
   width: 100%;
-  max-width: 200px;
+  max-width: 180px;
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -372,8 +359,9 @@ h1,h2,h3{
 /* Stagger the two chars so they don't move in perfect sync */
 .duo-stage .char-wrap:nth-child(2){ animation-delay: 0.3s; }
 
-/* Diagnostic card (tilted clipboard) */
+/* Diagnostic card (tilted clipboard) — sits in the copy column */
 .hero-symptom-card{
+  display: inline-block;
   background: var(--paper);
   border: 3px solid var(--ink);
   border-radius: 22px;
@@ -384,7 +372,8 @@ h1,h2,h3{
   transform: rotate(-3deg);
   z-index: 2;
   line-height: 1.5;
-  width: 220px;
+  margin-top: 24px;
+  max-width: 340px;
 }
 .hero-symptom-card .card-status{
   font-size: 12px;
@@ -854,33 +843,19 @@ h1,h2,h3{
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 920px){
-  .hero-grid{
-    display: block;
-    padding-right: 0;
-    min-height: auto;
-  }
+  .hero-grid{ min-height: auto; padding-bottom: 32px; }
   .hero-figure{
     position: static;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    right: auto;
-    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+    transform: none;
   }
   .duo-stage{
+    transform: none;
     justify-content: center;
-    width: 100%;
   }
-  .hero-symptom-card{
-    margin-right: 0 !important;
-    margin-bottom: 12px !important;
-    width: auto !important;
-    align-self: center !important;
-    font-size: 11px;
-    padding: 12px 14px 10px;
-    box-shadow: 4px 4px 0 var(--ink);
-  }
-  .hero-symptom-card .card-diag{ font-size: 14px; }
+  .hero-symptom-card{ transform: rotate(-2deg); }
   .char-wrap{ height: 240px; width: 140px; }
   .char-img{ max-width: 150px; }
   .symptom-grid{ grid-template-columns:1fr 1fr; }
@@ -958,13 +933,6 @@ h1,h2,h3{
             <span class="hero-answer-text" id="heroAnswerText">Tick the boxes above that apply to your school.</span>
           </div>
         </div>
-        <div class="hero-ctas">
-          <a href="#contact" class="btn btn-orange">Book Your Free Trial Event</a>
-          <a href="#contact" class="btn btn-outline" style="border-color:var(--ink);">Contact Us</a>
-        </div>
-      </div>
-
-      <div class="hero-figure">
         <!-- Diagnostic clipboard card -->
         <div class="hero-symptom-card" id="heroCard">
           <span class="card-status" id="heroCardStatus">📋 Patient: Your School</span>
@@ -975,7 +943,14 @@ h1,h2,h3{
           </div>
         </div>
 
-        <!-- Two characters side by side, both escalating stress -->
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-orange">Book Your Free Trial Event</a>
+          <a href="#contact" class="btn btn-outline" style="border-color:var(--ink);">Contact Us</a>
+        </div>
+      </div>
+
+      <div class="hero-figure">
+        <!-- Two characters rotated on their side, peeking in from the right -->
         <div class="duo-stage" id="duoStage">
 
           <!-- Character 1: the asterisk — 3 stress states -->
