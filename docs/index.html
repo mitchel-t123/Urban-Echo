@@ -944,18 +944,19 @@ h1,h2,h3{
         <!-- Two characters side by side, both escalating stress -->
         <div class="duo-stage" id="duoStage">
 
-          <!-- Character 1: the asterisk/star character -->
+          <!-- Character 1: the asterisk — 3 stress states -->
           <div class="char-wrap">
             <div class="char-spacer"></div>
-            <img id="char1Calm"     class="char-img visible" src="images/asterisk_tea_happy.png"      alt="Calm asterisk character with tea">
-            <img id="char1Worried"  class="char-img"         src="images/asterisk_help_flag.png"      alt="Distressed asterisk character waving help flag">
+            <img id="char1Calm"     class="char-img visible" src="images/asterisk_tea_happy.png"   alt="Calm asterisk character with tea">
+            <img id="char1Shocked"  class="char-img"         src="images/asterisk_shocked.png"     alt="Shocked asterisk character">
+            <img id="char1Critical" class="char-img"         src="images/asterisk_help_flag.png"   alt="Asterisk waving Help flag">
           </div>
 
-          <!-- Character 2: the main mascot -->
+          <!-- Character 2: the blue blob mascot -->
           <div class="char-wrap">
             <div class="char-spacer"></div>
-            <img id="char2Calm"     class="char-img visible" src="images/mascot_neutral_smile.png"    alt="Happy Urban Echo mascot">
-            <img id="char2Worried"  class="char-img"         src="images/mascot_shocked_bandaid.png"  alt="Worried Urban Echo mascot">
+            <img id="char2Calm"     class="char-img visible" src="images/mascot_neutral_smile.png"   alt="Happy Urban Echo mascot">
+            <img id="char2Worried"  class="char-img"         src="images/mascot_shocked_bandaid.png" alt="Worried Urban Echo mascot">
           </div>
 
         </div>
@@ -1014,7 +1015,7 @@ h1,h2,h3{
   <div class="wrap">
     <div class="diagnosis-grid">
       <div class="diagnosis-figure" data-reveal>
-        <img src="images/asterisk_tea_happy.png" alt="Relieved character with a reassuring cup of tea">
+        <img src="images/mascot_briefcase_proud.png" alt="Urban Echo mascot looking proud with briefcase">
       </div>
       <div class="diagnosis-copy" data-reveal>
         <span class="eyebrow">The Diagnosis</span>
@@ -1327,15 +1328,16 @@ form.addEventListener('submit', async function(e){
   const duoStage      = document.getElementById('duoStage');
 
   // Character image refs
-  const char1Calm    = document.getElementById('char1Calm');
-  const char1Worried = document.getElementById('char1Worried');
-  const char2Calm    = document.getElementById('char2Calm');
-  const char2Worried = document.getElementById('char2Worried');
+  const char1Calm     = document.getElementById('char1Calm');
+  const char1Shocked  = document.getElementById('char1Shocked');
+  const char1Critical = document.getElementById('char1Critical');
+  const char2Calm     = document.getElementById('char2Calm');
+  const char2Worried  = document.getElementById('char2Worried');
 
   const ticked = new Set();
 
-  // stress: 0=calm, 1=sway, 2=wobble, 3=shake
-  // char1State / char2State: 'calm' or 'worried'
+  // char1: 'calm' | 'shocked' | 'critical'
+  // char2: 'calm' | 'worried'
   const LEVELS = [
     {
       cardStatus: '📋 Patient: Your School',
@@ -1367,8 +1369,8 @@ form.addEventListener('submit', async function(e){
       active:     true,
       severity:   33,
       stress:     1,
-      char1:      'calm',
-      char2:      'worried',
+      char1:      'shocked',
+      char2:      'calm',
     },
     {
       cardStatus: '🚨 DIAGNOSIS',
@@ -1378,7 +1380,7 @@ form.addEventListener('submit', async function(e){
       active:     true,
       severity:   50,
       stress:     2,
-      char1:      'worried',
+      char1:      'shocked',
       char2:      'worried',
     },
     {
@@ -1389,7 +1391,7 @@ form.addEventListener('submit', async function(e){
       active:     true,
       severity:   67,
       stress:     2,
-      char1:      'worried',
+      char1:      'shocked',
       char2:      'worried',
     },
     {
@@ -1400,7 +1402,7 @@ form.addEventListener('submit', async function(e){
       active:     true,
       severity:   83,
       stress:     3,
-      char1:      'worried',
+      char1:      'critical',
       char2:      'worried',
     },
     {
@@ -1411,26 +1413,27 @@ form.addEventListener('submit', async function(e){
       active:     true,
       severity:   100,
       stress:     3,
-      char1:      'worried',
+      char1:      'critical',
       char2:      'worried',
     },
   ];
 
-  function setChar(calmEl, worriedEl, state){
-    if(state === 'calm'){
-      calmEl.classList.add('visible');
-      worriedEl.classList.remove('visible');
-    } else {
-      calmEl.classList.remove('visible');
-      worriedEl.classList.add('visible');
-    }
+  function setChar1(state){
+    char1Calm.classList.toggle('visible',     state === 'calm');
+    char1Shocked.classList.toggle('visible',  state === 'shocked');
+    char1Critical.classList.toggle('visible', state === 'critical');
+  }
+
+  function setChar2(state){
+    char2Calm.classList.toggle('visible',    state === 'calm');
+    char2Worried.classList.toggle('visible', state === 'worried');
   }
 
   function updateUI(){
     const score = ticked.size;
     const L = LEVELS[score];
 
-    // Diagnostic card text (no colour change)
+    // Diagnostic card text
     heroCardStatus.textContent = L.cardStatus;
     heroCardDiag.textContent   = L.cardDiag;
 
@@ -1452,8 +1455,8 @@ form.addEventListener('submit', async function(e){
     if(L.stress > 0) duoStage.classList.add('stress-' + L.stress);
 
     // Swap character images
-    setChar(char1Calm, char1Worried, L.char1);
-    setChar(char2Calm, char2Worried, L.char2);
+    setChar1(L.char1);
+    setChar2(L.char2);
   }
 
   checks.forEach(function(row){
