@@ -845,7 +845,25 @@ h1,h2,h3{
 /* ============ RESPONSIVE ============ */
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns:1fr; }
-  .hero-figure{ order:-1; padding-top:20px; }
+  .hero-figure{
+    order: -1;
+    padding-top: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  /* Characters on top, card below */
+  .duo-stage{ order: 1; }
+  .hero-symptom-card{
+    order: 2;
+    position: static;
+    transform: rotate(-2deg);
+    font-size: 11px;
+    padding: 12px 14px 10px;
+    box-shadow: 4px 4px 0 var(--ink);
+    margin: 8px 4px 0;
+  }
+  .hero-symptom-card .card-diag{ font-size: 14px; }
   .char-spacer{ height: 180px; }
   .char-img{ max-width: 130px; }
   .symptom-grid{ grid-template-columns:1fr 1fr; }
@@ -873,7 +891,7 @@ h1,h2,h3{
 <!-- ============ NAV ============ -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="#"><img src="images/logo.png" alt="Urban Echo" class="nav-logo"></a>
+    <a href="#"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div class="nav-links">
       <a href="#symptoms">The Problem</a>
       <a href="#plan">How It Works</a>
@@ -946,16 +964,16 @@ h1,h2,h3{
           <!-- Character 1: the asterisk — 3 stress states -->
           <div class="char-wrap">
             <div class="char-spacer"></div>
-            <img id="char1Calm"     class="char-img visible" src="images/asterisk_tea_happy.png"   alt="Calm asterisk character with tea">
-            <img id="char1Shocked"  class="char-img"         src="images/asterisk_shocked.png"     alt="Shocked asterisk character">
-            <img id="char1Critical" class="char-img"         src="images/asterisk_help_flag.png"   alt="Asterisk waving Help flag">
+            <img id="char1Calm"     class="char-img visible" src="asterisk tea happy.png"   alt="Calm asterisk character with tea">
+            <img id="char1Shocked"  class="char-img"         src="asterisk shocked.png"     alt="Shocked asterisk character">
+            <img id="char1Critical" class="char-img"         src="asterisk help flag.png"   alt="Asterisk waving Help flag">
           </div>
 
           <!-- Character 2: the blue blob mascot -->
           <div class="char-wrap">
             <div class="char-spacer"></div>
-            <img id="char2Calm"     class="char-img visible" src="images/mascot_neutral_smile.png"   alt="Happy Urban Echo mascot">
-            <img id="char2Worried"  class="char-img"         src="images/mascot_shocked_bandaid.png" alt="Worried Urban Echo mascot">
+            <img id="char2Calm"     class="char-img visible" src="mascot neutral smile.png"   alt="Happy Urban Echo mascot">
+            <img id="char2Worried"  class="char-img"         src="mascot shocked bandaid.png" alt="Worried Urban Echo mascot">
           </div>
 
         </div>
@@ -1014,7 +1032,7 @@ h1,h2,h3{
   <div class="wrap">
     <div class="diagnosis-grid">
       <div class="diagnosis-figure" data-reveal>
-        <img src="images/mascot_briefcase_proud.png" alt="Urban Echo mascot looking proud with briefcase">
+        <img src="mascot briefcase proud.png" alt="Urban Echo mascot looking proud with briefcase">
       </div>
       <div class="diagnosis-copy" data-reveal>
         <span class="eyebrow">The Diagnosis</span>
@@ -1040,13 +1058,12 @@ h1,h2,h3{
         <div class="school-strip">
           <span class="label">Trusted by schools across Perth</span>
           <div class="school-logos">
-            <div class="school-logo"><img src="images/school1.jpeg" alt="The King's College 40 Year Anniversary"></div>
-            <div class="school-logo" style="background:#13335E;"><img src="images/school2.jpeg" alt="Fremantle Christian College"></div>
-            <div class="school-logo"><img src="images/school3.jpeg" alt="Lyn Beazley Academy"></div>
-            <div class="school-logo"><img src="images/school4.jpeg" alt="John Forrest Secondary College"></div>
-            <div class="school-logo"><img src="images/school5.jpeg" alt="Quinns Baptist College"></div>
-            <div class="school-logo"><img src="images/school6.png" alt="Fremantle Christian College"></div>
-            <div class="school-logo"><img src="images/school7.jpeg" alt="Wesley College"></div>
+            <div class="school-logo"><img src="IMG_5570.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5571.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5572.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5573.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5578.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5574.png" alt="School logo"></div>
           </div>
         </div>
       </div>
@@ -1078,28 +1095,6 @@ h1,h2,h3{
         <span class="step-num">03</span>
         <h3>You run the event, not the cables</h3>
         <p>We setup the sound and AV, we operate, problem-solve and pack down. You focus on the program — and the speakers behave themselves.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ RECOVERY / FREE TRIAL ============ -->
-<section class="recovery">
-  <div class="wrap">
-    <div class="recovery-grid">
-      <div class="recovery-copy" data-reveal>
-        <span class="eyebrow">The Recovery Plan</span>
-        <h2>Who doesn't love a free trial?</h2>
-        <p>We're confident enough in our work that we'll service one of your events <strong>completely free</strong> — no lock-in contract, no commitment needed. Even if you don't book us again, it's a great idea to have a local Sound team in your back pocket.</p>
-        <div class="recovery-badges">
-          <span class="recovery-badge">No contract</span>
-          <span class="recovery-badge">No commitment</span>
-          <span class="recovery-badge">Just good sound</span>
-        </div>
-        <a href="#contact" class="btn btn-orange">Claim Your Free Trial Event</a>
-      </div>
-      <div class="recovery-figure" data-reveal>
-        <img src="images/mascot_goldenticket.png" alt="Excited character holding a golden ticket, representing the free trial offer">
       </div>
     </div>
   </div>
@@ -1165,10 +1160,32 @@ h1,h2,h3{
   </div>
 </section>
 
+<!-- ============ RECOVERY / FREE TRIAL ============ -->
+<section class="recovery">
+  <div class="wrap">
+    <div class="recovery-grid">
+      <div class="recovery-copy" data-reveal>
+        <span class="eyebrow">The Recovery Plan</span>
+        <h2>Who doesn't love a free trial?</h2>
+        <p>We're confident enough in our work that we'll service one of your events <strong>completely free</strong> — no lock-in contract, no commitment needed. Even if you don't book us again, it's a great idea to have a local Sound team in your back pocket.</p>
+        <div class="recovery-badges">
+          <span class="recovery-badge">No contract</span>
+          <span class="recovery-badge">No commitment</span>
+          <span class="recovery-badge">Just good sound</span>
+        </div>
+        <a href="#contact" class="btn btn-orange">Claim Your Free Trial Event</a>
+      </div>
+      <div class="recovery-figure" data-reveal>
+        <img src="mascot goldenticket.png" alt="Excited character holding a golden ticket, representing the free trial offer">
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ OUTCOME ============ -->
 <section class="outcome">
   <div class="wrap">
-    <img src="images/mascot_neutral_smile.png" alt="Happy Urban Echo mascot" data-reveal>
+    <img src="mascot neutral smile.png" alt="Happy Urban Echo mascot" data-reveal>
     <h2 data-reveal>Calm school events. Confident speakers. No more sound emergencies.</h2>
     <p data-reveal>That's the whole job. Let's get your school's events sounding the way they're supposed to.</p>
     <a href="#contact" class="btn btn-cream" data-reveal style="background:var(--paper);">Book Your Free Trial Event</a>
@@ -1197,9 +1214,7 @@ h1,h2,h3{
           <a href="https://urbanecho.com.au">urbanecho.com.au</a>
         </div>
 
-        <div class="recovery-badges" style="margin-top:30px;">
-          <span class="recovery-badge" style="background:var(--indigo); color:var(--paper); border-color:var(--paper);">Discount Code: SCHOOLS26</span>
-        </div>
+
       </div>
 
       <div class="form-card" data-reveal>
@@ -1245,7 +1260,7 @@ h1,h2,h3{
         </form>
 
         <div class="form-success" id="formSuccess">
-          <img src="images/mascot_tea_happy.png" alt="">
+          <img src="mascot tea happy.png" alt="">
           <h3>Got it — thanks!</h3>
           <p>We'll be in touch within one business day. Kettle's on.</p>
         </div>
@@ -1257,7 +1272,7 @@ h1,h2,h3{
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div class="wrap footer-inner">
-    <a href="#"><img src="images/logo-light.png" alt="Urban Echo" class="footer-logo"></a>
+    <a href="#"><img src="logo-light.png" alt="Urban Echo" class="footer-logo"></a>
     <span>© 2026 Urban Echo. Sound &amp; AV for Perth schools.</span>
     <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
   </div>
