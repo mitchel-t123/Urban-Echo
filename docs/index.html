@@ -290,17 +290,20 @@ h1,h2,h3{
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 12px;
+  gap: 0;
   width: 100%;
+  overflow: hidden; /* clip any bleed below baseline */
 }
 
-/* Each character column */
+/* Each character column — fixed height so both sit on the same baseline */
 .char-wrap{
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
+  width: 50%;
+  height: 300px; /* explicit height = baseline anchor */
+  flex-shrink: 0;
 }
 
 /* Individual mascot images within each character slot */
@@ -313,7 +316,6 @@ h1,h2,h3{
   transform: translateX(-50%) scale(0.95);
   opacity: 0;
   transition: opacity 0.45s ease, transform 0.45s ease;
-  filter: drop-shadow(0 12px 0 rgba(22,21,39,0.10));
   pointer-events: none;
 }
 .char-img.visible{
@@ -321,24 +323,9 @@ h1,h2,h3{
   transform: translateX(-50%) scale(1);
 }
 
-/* Spacer so the absolute images have height to sit in */
-.char-spacer{ width: 100%; max-width: 180px; height: 260px; }
+/* Spacer is no longer needed for layout but kept for any JS that relies on it */
+.char-spacer{ display: none; }
 
-/* "Hole in the page" rim each character pokes out of */
-.char-wrap::after{
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 28px;
-  background: var(--orange);
-  border-radius: 50%;
-  border: 3px solid var(--ink);
-  box-shadow: 0 4px 0 var(--ink), inset 0 -6px 10px rgba(22,21,39,0.18);
-  z-index: 4;
-}
 
 /* ---- STRESS ANIMATIONS ---- */
 /* Applied to .char-wrap via .duo-stage data-stress class */
@@ -880,9 +867,8 @@ h1,h2,h3{
     margin: 8px 4px 0;
   }
   .hero-symptom-card .card-diag{ font-size: 14px; }
-  .char-spacer{ height: 180px; }
+  .char-wrap{ height: 210px; }
   .char-img{ max-width: 130px; }
-  .char-wrap::after{ width: 90px; height: 22px; }
   .symptom-grid{ grid-template-columns:1fr 1fr; }
   .diagnosis-grid{ grid-template-columns:1fr; }
   .diagnosis-figure{ order:-1; }
