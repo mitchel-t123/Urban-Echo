@@ -1559,6 +1559,7 @@ form.addEventListener('submit', async function(e){
         this.classList.add('checked');
         this.querySelector('.check-icon').textContent = '✓';
       }
+      meterOverride = null; // checkbox click takes priority over meter
       updateUI();
     });
   });
