@@ -316,19 +316,18 @@ h1,h2,h3{
 }
 .hero-treatment-card .treat-plan{
   display: block;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   margin-bottom: 10px;
   color: #fff;
-  letter-spacing: -0.01em;
 }
 .hero-treatment-card .treat-desc{
   font-family: var(--body);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
-  opacity: 0.82;
+  opacity: 0.88;
   display: block;
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
 .char-spacer{ display: none; }
@@ -391,9 +390,15 @@ h1,h2,h3{
 }
 .hero-symptom-card .card-diag{
   display: block;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   margin-bottom: 14px;
+}
+.treat-link{
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(255,255,255,0.5);
 }
 
 /* Severity bar — now lives inside the card */
@@ -420,9 +425,8 @@ h1,h2,h3{
   height: 100%;
   border-radius: 100px;
   width: 0%;
-  transition: width 0.5s ease;
-  background: var(--ink);
-  opacity: 0.5;
+  transition: width 0.5s ease, background-color 0.5s ease;
+  background: #22c55e; /* starts green, JS updates to yellow/red as score rises */
 }
 
 /* ============ SYMPTOMS / PROBLEM ============ */
@@ -948,7 +952,7 @@ h1,h2,h3{
         </div>
         <!-- Card 3: Treatment plan -->
         <div class="hero-treatment-card" id="treatCard">
-          <span class="treat-label">💊 Recommended Treatment</span>
+          <span class="treat-label">Recommended Treatment</span>
           <span class="treat-plan" id="treatPlan">Select your symptoms</span>
           <span class="treat-desc" id="treatDesc">Tick the boxes to get your recommended response plan.</span>
         </div>
@@ -1326,11 +1330,9 @@ form.addEventListener('submit', async function(e){
       ansLabel:   'Awaiting diagnosis...',
       ansText:    'Tick the boxes that apply to your school.',
       active:     false,
-      severity:   0,
-      stress:     0,
-      char1:      'calm',
-      char2:      'calm',
-      treat:      { plan: 'Select your symptoms', desc: 'Tick the boxes to get your recommended response plan.' },
+      severity:   0,   barColor: '#22c55e',
+      stress:     0,   char1: 'calm',    char2: 'calm',
+      treat:      { plan: 'Select your symptoms', link: null, desc: 'Tick the boxes to get your recommended response plan.' },
     },
     {
       cardStatus: '📋 Patient: Your School',
@@ -1338,11 +1340,9 @@ form.addEventListener('submit', async function(e){
       ansLabel:   'Early diagnosis',
       ansText:    'One symptom identified. Schools often miss the early signs — keep ticking.',
       active:     true,
-      severity:   17,
-      stress:     1,
-      char1:      'calm',
-      char2:      'calm',
-      treat:      { plan: 'Select your symptoms', desc: 'Tick the boxes to get your recommended response plan.' },
+      severity:   17,  barColor: '#86efac',
+      stress:     1,   char1: 'calm',    char2: 'calm',
+      treat:      { plan: 'Select your symptoms', link: null, desc: 'Tick the boxes to get your recommended response plan.' },
     },
     {
       cardStatus: '⚠️ Patient: Your School',
@@ -1350,11 +1350,9 @@ form.addEventListener('submit', async function(e){
       ansLabel:   'Warning: Pattern emerging',
       ansText:    'Two symptoms confirmed. This is more common than you\'d think — and completely fixable.',
       active:     true,
-      severity:   33,
-      stress:     1,
-      char1:      'shocked',
-      char2:      'calm',
-      treat:      { plan: 'Select your symptoms', desc: 'Tick the boxes to get your recommended response plan.' },
+      severity:   33,  barColor: '#facc15',
+      stress:     1,   char1: 'shocked', char2: 'calm',
+      treat:      { plan: 'Select your symptoms', link: null, desc: 'Tick the boxes to get your recommended response plan.' },
     },
     {
       cardStatus: '🚨 DIAGNOSIS',
@@ -1362,11 +1360,9 @@ form.addEventListener('submit', async function(e){
       ansLabel:   'Sound Emergency detected',
       ansText:    'Three symptoms confirmed. You\'ve got a Sound Emergency — Urban Echo is the treatment.',
       active:     true,
-      severity:   50,
-      stress:     2,
-      char1:      'shocked',
-      char2:      'worried',
-      treat:      { plan: 'Per-Event Package', desc: 'Book us for individual events — no commitment, just great sound every time.' },
+      severity:   50,  barColor: '#fb923c',
+      stress:     2,   char1: 'shocked', char2: 'worried',
+      treat:      { plan: 'Per-Event Package', link: '#packages', desc: 'Book us for individual events — no commitment, just great sound every time.' },
     },
     {
       cardStatus: '🚨 DIAGNOSIS: CRITICAL',
@@ -1374,11 +1370,9 @@ form.addEventListener('submit', async function(e){
       ansLabel:   'Critical level reached',
       ansText:    'Four symptoms. Your school deserves a proper Sound team, not another scramble.',
       active:     true,
-      severity:   67,
-      stress:     2,
-      char1:      'shocked',
-      char2:      'worried',
-      treat:      { plan: 'Term Plan', desc: 'A term-by-term arrangement — consistent support without long-term lock-in.' },
+      severity:   67,  barColor: '#f97316',
+      stress:     2,   char1: 'shocked', char2: 'worried',
+      treat:      { plan: 'Term Plan', link: '#packages', desc: 'A term-by-term arrangement — consistent support without long-term lock-in.' },
     },
     {
       cardStatus: '🆘 EMERGENCY',
@@ -1386,11 +1380,9 @@ form.addEventListener('submit', async function(e){
       ansLabel:   '⚠️ Immediate treatment required',
       ansText:    'Five symptoms! This is a full Sound Emergency. Call Mitchel now: 0429 660 186.',
       active:     true,
-      severity:   83,
-      stress:     3,
-      char1:      'critical',
-      char2:      'worried',
-      treat:      { plan: 'Yearly Plan', desc: 'Full-year coverage — every event, every term, sorted. Our most popular option for busy schools.' },
+      severity:   83,  barColor: '#ef4444',
+      stress:     3,   char1: 'critical', char2: 'worried',
+      treat:      { plan: 'Yearly Plan', link: '#packages', desc: 'Full-year coverage — every event, every term, sorted. Our most popular option for busy schools.' },
     },
     {
       cardStatus: '🆘 CODE RED',
@@ -1398,11 +1390,9 @@ form.addEventListener('submit', async function(e){
       ansLabel:   '🚨 CRITICAL — Urban Echo to the rescue',
       ansText:    'All six! You are living the Sound Emergency. We were literally made for this. Let\'s fix it.',
       active:     true,
-      severity:   100,
-      stress:     3,
-      char1:      'critical',
-      char2:      'worried',
-      treat:      { plan: 'Yearly Plan — Priority Support', desc: 'Maximum coverage, priority scheduling, and a dedicated Urban Echo contact for your school.' },
+      severity:   100, barColor: '#b91c1c',
+      stress:     3,   char1: 'critical', char2: 'worried',
+      treat:      { plan: 'Yearly Plan — Priority Support', link: '#packages', desc: 'Maximum coverage, priority scheduling, and a dedicated Urban Echo contact for your school.' },
     },
   ];
 
@@ -1414,10 +1404,11 @@ form.addEventListener('submit', async function(e){
     heroCardStatus.textContent = L.cardStatus;
     heroCardDiag.textContent   = L.cardDiag;
 
-    // Severity bar
+    // Severity bar — colour shifts green → yellow → red
     if(score > 0){
       severityBar.classList.add('visible');
       severityFill.style.width = L.severity + '%';
+      severityFill.style.backgroundColor = L.barColor;
     } else {
       severityBar.classList.remove('visible');
     }
@@ -1428,7 +1419,11 @@ form.addEventListener('submit', async function(e){
     answerCard.classList.toggle('active', L.active);
 
     // Treatment recommendation card — always visible
-    treatPlan.textContent = L.treat.plan;
+    if(L.treat.link){
+      treatPlan.innerHTML = '<a href="' + L.treat.link + '" class="treat-link">' + L.treat.plan + ' →</a>';
+    } else {
+      treatPlan.textContent = L.treat.plan;
+    }
     treatDesc.textContent = L.treat.desc;
     treatCard.classList.add('visible');
   }
