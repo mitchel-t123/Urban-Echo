@@ -135,10 +135,10 @@ h1,h2,h3{
   border-bottom: 6px solid var(--ink);
 }
 .hero-grid{
-  display:grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 40px;
-  align-items: end;
+  position: relative;
+  display: block;
+  padding-right: 340px; /* reserve space so text doesn't run under characters */
+  min-height: 520px;
 }
 .hero-tag{
   display:inline-flex;
@@ -274,42 +274,54 @@ h1,h2,h3{
 .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; padding-bottom: 64px; }
 
 /* ---- HERO FIGURE: TWO CHARACTERS SIDE BY SIDE ---- */
+/* Hero figure: absolutely glued to the right edge of the hero */
 .hero-figure{
-  position: relative;
+  position: absolute;
+  right: -60px; /* bleed slightly off-screen right */
+  bottom: 0;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   justify-content: flex-end;
-  align-items: stretch;
-  height: 100%;
-  padding-top: 160px; /* space for the big card above */
+  pointer-events: none;
+  width: 420px;
 }
 
-/* Wrapper that holds both characters */
+/* Diagnostic card sits above the characters, aligned right */
+.hero-symptom-card{
+  position: static !important;
+  transform: rotate(-3deg) !important;
+  margin-right: 80px;
+  margin-bottom: 16px;
+  align-self: flex-end;
+  pointer-events: auto;
+}
+
+/* Wrapper that holds both characters side by side from the right edge */
 .duo-stage{
   position: relative;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 0;
   width: 100%;
-  overflow: hidden; /* clip any bleed below baseline */
 }
 
-/* Each character column — fixed height so both sit on the same baseline */
+/* Each character column */
 .char-wrap{
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
-  height: 420px;
+  width: 180px;
+  height: 460px;
   flex-shrink: 0;
 }
 
-/* Individual mascot images within each character slot */
+/* Individual mascot images */
 .char-img{
   width: 100%;
-  max-width: 240px;
+  max-width: 200px;
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -360,12 +372,8 @@ h1,h2,h3{
 /* Stagger the two chars so they don't move in perfect sync */
 .duo-stage .char-wrap:nth-child(2){ animation-delay: 0.3s; }
 
-/* Diagnostic card (tilted clipboard) — large, prominent */
+/* Diagnostic card (tilted clipboard) */
 .hero-symptom-card{
-  position: absolute;
-  top: -10px;
-  left: -20px;
-  right: -20px;
   background: var(--paper);
   border: 3px solid var(--ink);
   border-radius: 22px;
@@ -373,9 +381,10 @@ h1,h2,h3{
   font-family: var(--mono);
   font-weight: 700;
   box-shadow: 7px 7px 0 var(--ink);
-  transform: rotate(-4deg);
+  transform: rotate(-3deg);
   z-index: 2;
   line-height: 1.5;
+  width: 220px;
 }
 .hero-symptom-card .card-status{
   font-size: 12px;
@@ -845,28 +854,35 @@ h1,h2,h3{
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 920px){
-  .hero-grid{ grid-template-columns:1fr; }
-  .hero-figure{
-    order: 2; /* characters BELOW checklist on mobile */
-    padding-top: 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
+  .hero-grid{
+    display: block;
+    padding-right: 0;
+    min-height: auto;
   }
-  /* Characters first within figure, card below */
-  .duo-stage{ order: 1; }
-  .hero-symptom-card{
-    order: 2;
+  .hero-figure{
     position: static;
-    transform: rotate(-2deg);
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    right: auto;
+    margin-top: 24px;
+  }
+  .duo-stage{
+    justify-content: center;
+    width: 100%;
+  }
+  .hero-symptom-card{
+    margin-right: 0 !important;
+    margin-bottom: 12px !important;
+    width: auto !important;
+    align-self: center !important;
     font-size: 11px;
     padding: 12px 14px 10px;
     box-shadow: 4px 4px 0 var(--ink);
-    margin: 8px 4px 0;
   }
   .hero-symptom-card .card-diag{ font-size: 14px; }
-  .char-wrap{ height: 210px; }
-  .char-img{ max-width: 130px; }
+  .char-wrap{ height: 240px; width: 140px; }
+  .char-img{ max-width: 150px; }
   .symptom-grid{ grid-template-columns:1fr 1fr; }
   .diagnosis-grid{ grid-template-columns:1fr; }
   .diagnosis-figure{ order:-1; }
