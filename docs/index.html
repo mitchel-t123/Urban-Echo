@@ -615,7 +615,7 @@ h1,h2,h3{
 }
 .diagnosis-grid{
   display:block;
-  max-width: 760px;
+  max-width: 860px;
 }
 .diagnosis .eyebrow{ color: var(--sunshine); margin-bottom:16px; display:block; }
 .diagnosis h2{
@@ -680,12 +680,59 @@ h1,h2,h3{
   background: var(--paper);
   border-radius: 14px;
   padding: 16px 24px;
-  height: 110px;
+  height: 165px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
-.school-logo img{ max-height: 70px; max-width: 180px; object-fit:contain; }
+.school-logo img{ max-height: 105px; max-width: 270px; object-fit:contain; }
+
+.school-strip-inner{
+  display:flex;
+  gap:28px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.school-strip-logos{ flex:1; min-width:220px; }
+.review-ticker{
+  flex:0 0 240px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 18px;
+  padding: 20px 20px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  transition: opacity 0.5s ease;
+}
+.review-ticker-stars{ color: var(--sunshine); font-size:14px; letter-spacing:2px; }
+.review-ticker-quote{
+  font-family: var(--body);
+  font-size:13px;
+  line-height:1.55;
+  font-style:italic;
+  color: rgba(255,252,245,0.85);
+  margin:0;
+}
+.review-ticker-author{
+  font-family: var(--mono);
+  font-size:11px;
+  color: var(--orange);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+.review-ticker-more{
+  display:inline-block;
+  margin-top:4px;
+  font-family:var(--body);
+  font-size:12px;
+  font-weight:700;
+  color:var(--paper);
+  text-decoration:none;
+  opacity:0.65;
+  transition:opacity 0.15s;
+}
+.review-ticker-more:hover{ opacity:1; }
 
 /* ============ PLAN ============ */
 .plan{
@@ -710,8 +757,8 @@ h1,h2,h3{
 .plan-step .step-num{
   font-family: var(--display);
   font-size: 56px;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--ink);
+  color: var(--ink);
+  -webkit-text-stroke: 0;
   margin-bottom: 14px;
   display:block;
 }
@@ -726,19 +773,19 @@ h1,h2,h3{
 .plan-step p{ font-size: 14.5px; color: rgba(22,21,39,0.68); }
 /* Step 1 — orange */
 .plan-step:nth-child(1){ background: var(--orange); }
-.plan-step:nth-child(1) .step-num{ -webkit-text-stroke: 2px var(--ink); }
+.plan-step:nth-child(1) .step-num{ color: var(--ink); -webkit-text-stroke: 0; }
 .plan-step:nth-child(1) p{ color: rgba(22,21,39,0.75); }
 /* Step 2 — sunshine yellow */
 .plan-step:nth-child(2){ background: var(--sunshine); }
-.plan-step:nth-child(2) .step-num{ -webkit-text-stroke: 2px var(--ink); }
+.plan-step:nth-child(2) .step-num{ color: var(--ink); -webkit-text-stroke: 0; }
 .plan-step:nth-child(2) p{ color: rgba(22,21,39,0.75); }
 /* Step 3 — forest green */
 .plan-step:nth-child(3){ background: var(--forest); color: var(--paper); }
-.plan-step:nth-child(3) .step-num{ -webkit-text-stroke: 2px var(--paper); }
+.plan-step:nth-child(3) .step-num{ color: var(--paper); -webkit-text-stroke: 0; }
 .plan-step:nth-child(3) p{ color: rgba(255,252,245,0.88); }
 .plan-step:nth-child(3) h3{ color: var(--paper); }
 .plan-step.resolved{ background: var(--forest); border-color: var(--ink); color: var(--paper); }
-.plan-step.resolved .step-num{ -webkit-text-stroke: 2px var(--paper); color: transparent; }
+.plan-step.resolved .step-num{ color: var(--paper); -webkit-text-stroke: 0; }
 .plan-step.resolved p{ color: rgba(255,252,245,0.88); }
 
 /* ============ PACKAGES ============ */
@@ -833,58 +880,43 @@ h1,h2,h3{
 /* Emergency card */
 .emergency-note{
   margin-top: 28px;
-  padding: 28px 28px 24px;
-  background: #c0152a;
+  padding: 32px 32px 28px;
+  background: #8B1A28;
   color: var(--paper);
   border-radius: 18px;
   border: 3px solid var(--ink);
   box-shadow: 6px 6px 0 var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
 }
-.emergency-note-body{ flex: 1; min-width: 260px; }
-.emergency-eyebrow{
-  display: block;
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 12px;
-  opacity: 0.9;
-}
-.emergency-note p{
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(255,252,245,0.88);
-  margin-bottom: 8px;
-}
-.emergency-cta-text{ font-weight: 700; color: var(--paper) !important; opacity: 1 !important; }
-.emergency-save-btn{ background: var(--paper); color: #c0152a; border-color: var(--paper); margin-top: 8px; }
-.emergency-save-btn:hover{ background: #fde8eb; }
-.emergency-note-number{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  text-align: right;
-}
-.emergency-num{
+.emergency-heading{
   font-family: var(--display);
-  font-size: 28px;
+  font-size: clamp(22px, 2.8vw, 32px);
   color: var(--paper);
-  letter-spacing: 0.02em;
-}
-.emergency-name{
-  font-family: var(--mono);
-  font-size: 12px;
-  opacity: 0.7;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
 }
+.emergency-body{
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,252,245,0.88);
+  margin-bottom: 10px;
+  max-width: 620px;
+}
+.emergency-save-btn{
+  display: inline-flex;
+  margin-top: 10px;
+  background: var(--paper);
+  color: #8B1A28;
+  border: 2px solid var(--paper);
+  border-radius: 100px;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 24px;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+.emergency-save-btn:hover{ background: #fde8eb; transform: translateY(-2px); }
 
 .bulk-note{
   margin-top: 20px;
@@ -928,7 +960,9 @@ h1,h2,h3{
 .recovery h2{ font-size: clamp(28px,4vw,44px); margin-bottom:18px; }
 .recovery p{ font-size:17px; color: rgba(22,21,39,0.78); max-width:480px; margin-bottom: 28px; }
 .recovery-figure{ display:flex; justify-content:center; }
-.recovery-figure img{ width:75%; max-width:320px; }
+.recovery-figure-inner{ display:flex; flex-direction:column; align-items:center; }
+.recovery-figure img{ width:100%; max-width:448px; }
+.recovery-baseline{ width:70%; height:12px; background:var(--ink); border-radius:100px; margin-top:4px; }
 .recovery-badges{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom: 30px; }
 .recovery-badge{
   background: var(--paper);
@@ -1039,13 +1073,13 @@ h1,h2,h3{
 
 /* ============ REVIEWS ============ */
 .reviews{
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--cream-deep);
+  color: var(--ink);
   padding: 96px 0;
 }
 .reviews .section-head{ margin-bottom: 52px; }
-.reviews .eyebrow{ color: var(--orange); border-color: rgba(255,252,245,0.2); }
-.reviews h2{ color: var(--paper); }
+.reviews .eyebrow{ color: var(--orange); border-color: rgba(22,21,39,0.2); }
+.reviews h2{ color: var(--ink); }
 .reviews-grid{
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -1059,8 +1093,8 @@ h1,h2,h3{
 .reviews-grid .review-card:nth-child(4){ grid-column: 1 / span 3; }
 .reviews-grid .review-card:nth-child(5){ grid-column: 4 / span 3; }
 .review-card{
-  background: rgba(255,252,245,0.06);
-  border: 1.5px solid rgba(255,252,245,0.12);
+  background: var(--paper);
+  border: 2px solid var(--ink);
   border-radius: 20px;
   padding: 28px 26px 24px;
   display: flex;
@@ -1069,7 +1103,7 @@ h1,h2,h3{
   transition: background 0.2s ease, transform 0.2s ease;
 }
 .review-card:hover{
-  background: rgba(255,252,245,0.1);
+  background: var(--paper);
   transform: translateY(-3px);
 }
 .review-stars{
@@ -1081,7 +1115,7 @@ h1,h2,h3{
   font-family: var(--body);
   font-size: 15px;
   line-height: 1.65;
-  color: rgba(255,252,245,0.85);
+  color: rgba(22,21,39,0.75);
   font-style: italic;
   flex: 1;
   margin: 0;
@@ -1091,13 +1125,13 @@ h1,h2,h3{
   flex-direction: column;
   gap: 2px;
   padding-top: 12px;
-  border-top: 1px solid rgba(255,252,245,0.1);
+  border-top: 1px solid rgba(22,21,39,0.1);
 }
 .review-name{
   font-family: var(--body);
   font-weight: 700;
   font-size: 14px;
-  color: var(--paper);
+  color: var(--ink);
 }
 .review-school{
   font-family: var(--mono);
@@ -1321,14 +1355,24 @@ h1,h2,h3{
         </div>
 
         <div class="school-strip">
-          <span class="label">Trusted by schools across Perth</span>
-          <div class="school-logos">
-            <div class="school-logo"><img src="IMG_5570.jpeg" alt="School logo"></div>
-            <div class="school-logo"><img src="IMG_5571.jpeg" alt="School logo"></div>
-            <div class="school-logo"><img src="IMG_5572.jpeg" alt="School logo"></div>
-            <div class="school-logo"><img src="IMG_5573.jpeg" alt="School logo"></div>
-            <div class="school-logo"><img src="IMG_5578.jpeg" alt="School logo"></div>
-            <div class="school-logo"><img src="IMG_5574.png" alt="School logo"></div>
+          <div class="school-strip-inner">
+            <div class="school-strip-logos">
+              <span class="label">Trusted by schools across Perth</span>
+              <div class="school-logos">
+                <div class="school-logo"><img src="IMG_5570.jpeg" alt="School logo"></div>
+                <div class="school-logo"><img src="IMG_5571.jpeg" alt="School logo"></div>
+                <div class="school-logo"><img src="IMG_5572.jpeg" alt="School logo"></div>
+                <div class="school-logo"><img src="IMG_5573.jpeg" alt="School logo"></div>
+                <div class="school-logo"><img src="IMG_5578.jpeg" alt="School logo"></div>
+                <div class="school-logo"><img src="IMG_5574.png" alt="School logo"></div>
+              </div>
+            </div>
+            <div class="review-ticker" id="reviewTicker">
+              <div class="review-ticker-stars">★★★★★</div>
+              <blockquote class="review-ticker-quote" id="reviewTickerQuote">"Thank you for providing an excellent sound job, once again. Mitch is professional, courteous and completely on the ball."</blockquote>
+              <div class="review-ticker-author" id="reviewTickerAuthor">Katherine — Riva Primary School</div>
+              <a href="#reviews" class="review-ticker-more">Read more reviews ↓</a>
+            </div>
           </div>
         </div>
       </div>
@@ -1394,8 +1438,8 @@ h1,h2,h3{
         <span class="package-tag">Most Popular</span>
         <h3>Events Package</h3>
         <div class="desc">Our technician arrives 30 minutes early, runs the event, then packs down. Priced per 3hr block.</div>
-        <div class="price-label">5 events</div>
-        <div class="price">From $1,800</div>
+        <div class="price-label">Starting from — 5 events</div>
+        <div class="price">$1,800</div>
         <ul class="package-list">
           <li>5 events — save 10%</li>
           <li>10 events — save 15%</li>
@@ -1421,16 +1465,10 @@ h1,h2,h3{
 
     <!-- Emergency card -->
     <div class="emergency-note" data-reveal>
-      <div class="emergency-note-body">
-        <span class="emergency-eyebrow">🚨 Last Minute Emergency Sound</span>
-        <p>Have your sound person call in sick last minute? An event <em>'that teacher'</em> forgot to tell you about? Double booked yourself? We offer emergency last-minute sound bookings that have saved schools around Perth.</p>
-        <p class="emergency-cta-text">Make sure to add this number to your phone — we pick up.</p>
-        <a href="urban-echo-emergency.vcf" class="btn btn-cream emergency-save-btn" download>📱 Save Our Number</a>
-      </div>
-      <div class="emergency-note-number">
-        <span class="emergency-num">0429 660 186</span>
-        <span class="emergency-name">Mitchel — Urban Echo</span>
-      </div>
+      <h3 class="emergency-heading">Last Minute Emergency Sound</h3>
+      <p class="emergency-body">Have your sound person call in sick last minute? An event <em>'that teacher'</em> forgot to tell you about? Double booked yourself? We offer emergency last-minute sound bookings that have saved schools around Perth.</p>
+      <p class="emergency-body">Make sure to add this number to your phone — we pick up.</p>
+      <a href="urban-echo-emergency.vcf" class="btn emergency-save-btn" download>📱 Save Our Number</a>
     </div>
 
     <!-- Bulk / auditorium note -->
@@ -1458,7 +1496,10 @@ h1,h2,h3{
         <a href="#contact" class="btn btn-orange">Claim Your Free Trial Event</a>
       </div>
       <div class="recovery-figure" data-reveal>
-        <img src="mascot goldenticket.png" alt="Excited character holding a golden ticket, representing the free trial offer">
+        <div class="recovery-figure-inner">
+          <img src="mascot goldenticket.png" alt="Excited character holding a golden ticket, representing the free trial offer">
+          <div class="recovery-baseline"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1553,7 +1594,7 @@ h1,h2,h3{
           <span class="ic">🌐</span>
           <a href="https://urbanecho.com.au">urbanecho.com.au</a>
         </div>
-
+        <a href="urban-echo-emergency.vcf" class="btn btn-blue" style="margin-top:18px;" download>📱 Save Our Number</a>
 
       </div>
 
@@ -1613,8 +1654,8 @@ h1,h2,h3{
 <footer class="footer">
   <div class="wrap footer-inner">
     <a href="#"><img src="logo-light.png" alt="Urban Echo" class="footer-logo"></a>
-    <span>© 2026 Urban Echo. Sound &amp; AV for Perth schools.</span>
-    <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
+    <span>© 2026 Urban Echo. All rights reserved.</span>
+    <span>Sound &amp; AV for Perth Schools.</span>
   </div>
 </footer>
 
@@ -1932,6 +1973,31 @@ form.addEventListener('submit', async function(e){
     window.addEventListener('scroll', onScroll, {passive:true});
     onScroll();
   })();
+
+/* ── Review ticker ── */
+(function(){
+  var reviews = [
+    { q: '"Thank you for providing an excellent sound job, once again. Mitch is professional, courteous and completely on the ball."', a: 'Katherine — Riva Primary School' },
+    { q: '"The show sounded amazing and we didn\'t have any mic issues which is my pet hate in musicals."', a: 'Corinna — The Kings College' },
+    { q: '"Thank you for your creativity and expertise in leading all the tech requirements for the assemblies."', a: 'Sharlene — Carey Baptist College' },
+    { q: '"Mitch has an exceptional ear, and equally as important, excellent communication and diplomatic skills."', a: 'Doug — Methodist Ladies College' },
+    { q: '"Fantastic service from Urban Echo! Friendly, punctual, and made the whole process super smooth."', a: 'Nicholas — Lyn Beazley Academy' },
+  ];
+  var quoteEl  = document.getElementById('reviewTickerQuote');
+  var authorEl = document.getElementById('reviewTickerAuthor');
+  var ticker   = document.getElementById('reviewTicker');
+  if(!quoteEl || !authorEl) return;
+  var i = 0;
+  setInterval(function(){
+    i = (i + 1) % reviews.length;
+    ticker.style.opacity = '0';
+    setTimeout(function(){
+      quoteEl.textContent  = reviews[i].q;
+      authorEl.textContent = reviews[i].a;
+      ticker.style.opacity = '1';
+    }, 500);
+  }, 5000);
+})();
 </script>
 
 </body>
