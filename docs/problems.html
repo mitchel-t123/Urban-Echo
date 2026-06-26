@@ -119,8 +119,8 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .problem-btn.active{ background:var(--ink); color:var(--paper); transform:translateY(-3px); }
 .problem-btn.active .problem-icon{ filter:grayscale(1) brightness(10); }
 .problem-icon{ font-size:32px; line-height:1; }
-.problem-label{ font-weight:800; font-size:16px; }
-.problem-hint{ font-size:13px; opacity:0.6; }
+.problem-label{ font-weight:800; font-size:16px; color:var(--ink); }
+.problem-hint{ font-size:13px; color:rgba(22,21,39,0.55); }
 
 /* ── DIAGNOSIS PANEL ── */
 .diagnosis-panel{
@@ -213,15 +213,15 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 
 /* Still broken card */
 .broken-card{
-  background:var(--coral); color:var(--paper);
+  background:#e8e8e8; color:var(--ink);
   border:2.5px solid var(--ink);
   border-radius:20px;
   padding:28px 26px;
   box-shadow:5px 5px 0 var(--ink);
   margin-bottom:20px;
 }
-.broken-card h3{ font-family:var(--body); font-weight:800; font-size:18px; text-transform:none; letter-spacing:0; margin-bottom:8px; }
-.broken-card p{ font-size:14.5px; color:rgba(255,252,245,0.88); line-height:1.6; }
+.broken-card h3{ font-family:var(--body); font-weight:800; font-size:18px; text-transform:none; letter-spacing:0; margin-bottom:8px; color:var(--ink); }
+.broken-card p{ font-size:14.5px; color:rgba(22,21,39,0.75); line-height:1.6; }
 
 /* Progress breadcrumb */
 .diag-breadcrumb{
@@ -335,6 +335,42 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
         <span class="problem-icon">⚡</span>
         <span class="problem-label">Crackling / Distortion</span>
         <span class="problem-hint">Scratchy, breaking-up, or distorted sound</span>
+      </button>
+
+      <button class="problem-btn" data-problem="mic-dropout">
+        <span class="problem-icon">📡</span>
+        <span class="problem-label">Mic Cutting In &amp; Out</span>
+        <span class="problem-hint">Wireless mic keeps dropping signal mid-sentence</span>
+      </button>
+
+      <button class="problem-btn" data-problem="projector-no-audio">
+        <span class="problem-icon">📽️</span>
+        <span class="problem-label">Projector / Laptop No Audio</span>
+        <span class="problem-hint">Video is playing but no sound through the PA</span>
+      </button>
+
+      <button class="problem-btn" data-problem="hum-buzz">
+        <span class="problem-icon">〰️</span>
+        <span class="problem-label">Constant Hum or Buzz</span>
+        <span class="problem-hint">A 50Hz or 60Hz electrical hum even when mics are off</span>
+      </button>
+
+      <button class="problem-btn" data-problem="presenter-too-loud">
+        <span class="problem-icon">📢</span>
+        <span class="problem-label">Presenter Way Too Loud</span>
+        <span class="problem-hint">One person is blowing the speakers while others are fine</span>
+      </button>
+
+      <button class="problem-btn" data-problem="monitor-feedback">
+        <span class="problem-icon">🎚️</span>
+        <span class="problem-label">Stage Monitor Feedback</span>
+        <span class="problem-hint">Feedback coming from the monitor wedge on stage</span>
+      </button>
+
+      <button class="problem-btn" data-problem="battery-dying">
+        <span class="problem-icon">🔋</span>
+        <span class="problem-label">Wireless Mic Battery Warning</span>
+        <span class="problem-hint">Low battery light mid-event — what do I do?</span>
       </button>
 
     </div>
@@ -725,6 +761,207 @@ var PROBLEMS = {
     ]
   },
 
+  'mic-dropout': {
+    label: 'Mic Cutting In & Out',
+    intro: 'Wireless mic dropouts are almost always caused by one of three things: dying battery, distance/obstruction, or RF interference. Let\'s find yours.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Check the battery level immediately',
+        body: 'Look at the battery indicator on the receiver unit. If it\'s flashing or showing 1 bar, the battery is the cause. Replace it now — don\'t wait for it to die completely.',
+        tip: 'Tip: Replace batteries before every important event, regardless of what the indicator shows. Rechargeable batteries can show full but fail under load.'
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Check distance and line of sight',
+        body: 'Wireless receivers have a limited range, typically 30–50m. Is the presenter far from the receiver? Is there a wall, curtain, or large object between them? Move the receiver or antenna closer to the action.',
+      },
+      {
+        type: 'branch',
+        question: 'Is the dropout constant or occasional?',
+        options: [
+          { label: 'Constant — always dropping', next: 'dropout-constant' },
+          { label: 'Occasional — random cuts', next: 'dropout-random' },
+        ]
+      }
+    ]
+  },
+
+  'dropout-constant': {
+    steps: [
+      { type: 'step', num: 'Step 3a', title: 'Re-sync the mic to the receiver', body: 'Power off both the transmitter and receiver. Turn the receiver on first, then the transmitter. On most systems, hold the SYNC button on the receiver while pointing the transmitter at it to re-pair them.' },
+      { type: 'resolved', title: 'Fixed!', body: 'Re-syncing resolves most constant dropout issues. If it persists, try a different frequency channel on both units.' }
+    ]
+  },
+
+  'dropout-random': {
+    steps: [
+      { type: 'step', num: 'Step 3b', title: 'Check for RF interference', body: 'Other wireless systems (mics, in-ear monitors, wifi routers) on nearby frequencies cause random dropouts. Check your receiver\'s frequency display and change to a channel far from any other wireless equipment in the room.' },
+      { type: 'resolved', title: 'Fixed!', body: 'Frequency conflicts cause most random dropout. Spacing frequencies at least 1MHz apart and turning off unused wireless systems solves the majority of cases.' }
+    ]
+  },
+
+  'projector-no-audio': {
+    label: 'Projector / Laptop No Audio',
+    intro: 'Video playing but no sound from the PA system is almost always a routing or cable issue, not a hardware failure.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Check the laptop audio output',
+        body: 'Is the laptop not muted? Is its volume turned up? Check both the system volume and the volume within the video player. A laptop on mute sends no signal regardless of what\'s connected.',
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Check the cable from laptop to mixer',
+        body: 'Is there a 3.5mm (headphone) cable from the laptop to the mixer\'s line input? Is it plugged into the headphone OUT on the laptop — not the microphone IN? Swap the cable if unsure.',
+      },
+      {
+        type: 'step',
+        num: 'Step 3',
+        title: 'Check the mixer channel for that input',
+        body: 'Is the channel the laptop is connected to turned up? Is it assigned to the main outputs? Try plugging into a different channel and bring up the fader.',
+        tip: 'Tip: Set the laptop output to 70–80% volume, then control the overall level from the mixer channel fader. This gives you a clean, consistent signal.'
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Laptop audio through a PA is simple once the gain chain is correct: laptop volume at 70–80% → line input channel on mixer → fader up → main output up.' }
+    ]
+  },
+
+  'hum-buzz': {
+    label: 'Constant Hum or Buzz',
+    intro: 'A persistent low hum is almost always an electrical ground loop — caused by two pieces of equipment being plugged into different power circuits.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Identify which channel is humming',
+        body: 'Pull down channel faders one at a time. When the hum disappears, the last channel you pulled down is the source. Now you know which piece of equipment is causing the problem.',
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Try a DI box',
+        body: 'A Direct Injection (DI) box with a ground lift switch is the fastest fix for hum. Plug the offending device into the DI box, then from the DI into the mixer. Engage the GROUND LIFT switch. The hum should disappear.',
+        tip: 'Tip: A passive DI box costs under $50 and solves 90% of ground loop hum problems. Every school should have one.'
+      },
+      {
+        type: 'step',
+        num: 'Step 3',
+        title: 'Plug everything into the same power board',
+        body: 'If you don\'t have a DI box, try plugging all your audio equipment (mixer, laptop, speakers) into the same power board and the same wall outlet. Ground loops only happen between different circuits.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Ground loop hum is solved with a DI box ground lift or by sharing a single power circuit. Never unplug the ground pin from a cable — this is a safety hazard.' }
+    ]
+  },
+
+  'presenter-too-loud': {
+    label: 'Presenter Way Too Loud',
+    intro: 'One presenter is significantly louder than everyone else — usually a gain, mic technique, or mic type mismatch.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Pull down the channel gain',
+        body: 'Reduce the gain (input sensitivity) knob on their specific channel. Don\'t touch the fader yet. Reduce by 3dB at a time until their level on the meter matches the other presenters.',
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Check mic technique',
+        body: 'Are they holding the mic closer to their mouth than others? Are they speaking directly into a cardioid mic (which has proximity effect up close)? Ask them to hold it slightly further away or to the side.',
+      },
+      {
+        type: 'branch',
+        question: 'Is this presenter on a different mic type?',
+        options: [
+          { label: 'Yes — they\'re on a different mic', next: 'loud-mictype' },
+          { label: 'No — same mic as others', next: 'loud-samemic' },
+        ]
+      }
+    ]
+  },
+
+  'loud-mictype': {
+    steps: [
+      { type: 'step', num: 'Step 3a', title: 'Different mics need different gain settings', body: 'A condenser mic (common in headsets) is much more sensitive than a dynamic mic (common handhelds). If you set the gain for a dynamic then hand them a condenser, it will be far louder. Reduce the gain significantly — often 10–15dB more than a dynamic.' },
+      { type: 'resolved', title: 'Fixed!', body: 'Always set gain per-mic, per-person. Never assume the same setting works for different mic types.' }
+    ]
+  },
+
+  'loud-samemic': {
+    steps: [
+      { type: 'step', num: 'Step 3b', title: 'This presenter simply has more vocal projection', body: 'Some people naturally project much more than others. Reduce their channel fader slightly and use the gain to make the starting level consistent. Consider using compression on their channel if your mixer supports it.' },
+      { type: 'resolved', title: 'Fixed!', body: 'Gain staging per-presenter is standard practice at any professional event. A quick soundcheck before the event catches this every time.' }
+    ]
+  },
+
+  'monitor-feedback': {
+    label: 'Stage Monitor Feedback',
+    intro: 'Monitor wedges on stage feed sound back to performers or presenters — but if turned up too high, they cause feedback before the main PA does.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Reduce the monitor send level',
+        body: 'Find the AUX or MON send on the channel that\'s feeding the monitor. Pull it down by half. If the feedback stops, the monitor was too loud. Find the highest level that doesn\'t cause feedback.',
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Point the monitor away from the mic',
+        body: 'A monitor pointing directly at a mic will always cause feedback. The monitor should be angled so it fires toward the presenter\'s ears, not back toward the mic capsule. Move the wedge or change its angle.',
+        tip: 'Tip: The classic monitor position is on the floor in front of the presenter, angled up at 45° toward their face. Never point a monitor at a mic stand.'
+      },
+      {
+        type: 'step',
+        num: 'Step 3',
+        title: 'Ring out the monitor separately',
+        body: 'With only the monitor send active (main PA off), slowly bring up the monitor level until you hear the first hint of feedback. Pull back 3dB. That\'s your safe ceiling for this monitor in this position.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Monitor feedback is controlled by angle, distance, and careful level-setting. When in doubt, less monitor is always better than feedback.' }
+    ]
+  },
+
+  'battery-dying': {
+    label: 'Wireless Mic Battery Warning',
+    intro: 'A low battery warning mid-event is stressful — here\'s exactly what to do, step by step, without disrupting the event.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'How much time is left?',
+        body: 'Most receivers show remaining battery life. 2 bars typically means 30–60 minutes. 1 bar means 5–15 minutes. 0 bars or flashing means change NOW.',
+        tip: 'Tip: Wireless batteries often die suddenly rather than gradually. Don\'t trust the "30 min remaining" estimate — act immediately.'
+      },
+      {
+        type: 'branch',
+        question: 'Is there a break in the event coming up?',
+        options: [
+          { label: 'Yes — break in the next 5 minutes', next: 'battery-break' },
+          { label: 'No — mid-event, no break', next: 'battery-now' },
+        ]
+      }
+    ]
+  },
+
+  'battery-break': {
+    steps: [
+      { type: 'step', num: 'Step 2a', title: 'Change the battery at the break', body: 'Pull down the channel fader before touching the mic. Change the battery quickly — AA batteries take under 10 seconds. Power the mic back on, confirm the receiver shows full battery, and bring the fader back up.' },
+      { type: 'resolved', title: 'Done!', body: 'Always have fresh batteries at the side of stage. Rechargeable cells on a charger and a set of spares is the professional standard.' }
+    ]
+  },
+
+  'battery-now': {
+    steps: [
+      { type: 'step', num: 'Step 2b', title: 'Discreetly signal the presenter', body: 'Don\'t announce the problem. Catch the presenter\'s eye, show them the "swap mic" signal (tapping your ear), and either bring a spare mic to them or have them briefly exit stage during a video or group activity.' },
+      { type: 'step', num: 'Step 3', title: 'Keep a handheld backup ready', body: 'Always have a spare handheld mic ready on a stand or table beside the stage. If the battery dies mid-sentence, the presenter can grab the backup immediately with no dead air.' },
+      { type: 'resolved', title: 'Managed!', body: 'Mid-event battery swaps are manageable with preparation. At every event: fresh batteries, spares on hand, backup mic on stage.' }
+    ]
+  },
+
 };
 
 /* ── State ── */
@@ -830,7 +1067,9 @@ function renderStep(step, isCurrent){
         next.addEventListener('click', function(){
           currentIndex++;
           renderSteps();
-          el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+          var panel = document.getElementById('diagnosisPanel');
+          var top = panel.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: top, behavior: 'smooth' });
         });
         diagSteps.appendChild(next);
       }

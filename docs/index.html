@@ -692,12 +692,18 @@ h1,h2,h3{
 /* ── Mini review carousel ── */
 .mini-reviews{
   margin-bottom: 36px;
+  position: relative;
+}
+.mini-reviews-with-arrows{
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .mini-reviews-track{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-bottom: 16px;
+  flex: 1;
 }
 .mini-review-card{
   background: var(--paper);
@@ -711,7 +717,7 @@ h1,h2,h3{
 }
 .mini-review-card:hover{ border-color: var(--ink); transform: translateY(-2px); }
 .mini-review-card.hidden{ display: none; }
-.mini-review-stars{ color: var(--sunshine); font-size: 13px; letter-spacing: 2px; }
+.mini-review-stars{ color: var(--sunshine); font-size: 26px; letter-spacing: 2px; }
 .mini-review-card p{
   font-family: var(--body);
   font-size: 13.5px;
@@ -724,39 +730,26 @@ h1,h2,h3{
 .mini-review-card span{
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--orange-deep);
+  color: var(--ink);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-}
-.mini-reviews-nav{
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-weight: 700;
 }
 .mini-nav-btn{
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 2px solid var(--ink);
   background: var(--paper);
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   transition: background 0.15s, transform 0.15s;
 }
 .mini-nav-btn:hover{ background: var(--ink); color: var(--paper); transform: scale(1.1); }
-.mini-nav-more{
-  font-family: var(--body);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink);
-  text-decoration: none;
-  opacity: 0.6;
-  transition: opacity 0.15s;
-}
-.mini-nav-more:hover{ opacity: 1; }
 
 /* ============ PLAN ============ */
 .plan{
@@ -888,9 +881,17 @@ h1,h2,h3{
 }
 .package-card .btn{ width:100%; justify-content:center; padding: 13px; font-size:14px; }
 
+/* Side-by-side extra cards row */
+.extra-cards-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 28px;
+}
+
 /* Emergency card — matches package-card style */
 .emergency-note{
-  margin-top: 28px;
+  margin-top: 0;
   padding: 30px 26px;
   background: var(--cream);
   color: var(--ink);
@@ -935,7 +936,7 @@ h1,h2,h3{
 .emergency-save-btn:hover{ background: var(--forest-deep); box-shadow: 4px 4px 0 var(--ink); }
 
 .bulk-note{
-  margin-top: 20px;
+  margin-top: 0;
   padding: 30px 26px;
   background: var(--forest);
   color: var(--paper);
@@ -966,8 +967,8 @@ h1,h2,h3{
   margin-bottom: 2px;
   display: block;
 }
-.bulk-note span{ color: rgba(255,252,245,0.82); }
-.bulk-note strong{ color: var(--sunshine); }
+.bulk-note span{ color: rgba(255,252,245,0.95); }
+.bulk-note strong{ color: var(--paper); }
 .bulk-note .btn{ align-self: flex-start; margin-top: 6px; }
 
 /* ============ RECOVERY ============ */
@@ -990,7 +991,7 @@ h1,h2,h3{
 .recovery-figure{ display:flex; justify-content:center; }
 .recovery-figure-inner{ display:flex; flex-direction:column; align-items:center; }
 .recovery-figure img{ width:100%; max-width:448px; display:block; }
-.recovery-baseline{ width:88%; height:12px; background:var(--ink); border-radius:100px; margin-top:-6px; }
+.recovery-baseline{ width:100%; height:12px; background:var(--ink); border-radius:100px; margin-top:-6px; }
 .recovery-badges{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom: 30px; }
 .recovery-badge{
   background: var(--paper);
@@ -1387,36 +1388,35 @@ h1,h2,h3{
         <div class="school-strip">
           <!-- Mini review carousel -->
           <div class="mini-reviews">
-            <div class="mini-reviews-track" id="miniReviewsTrack">
-              <div class="mini-review-card">
-                <div class="mini-review-stars">★★★★★</div>
-                <p>"Mitch is professional, courteous and completely on the ball."</p>
-                <span>Katherine — Riva Primary School</span>
-              </div>
-              <div class="mini-review-card">
-                <div class="mini-review-stars">★★★★★</div>
-                <p>"The show sounded amazing and we didn't have any mic issues."</p>
-                <span>Corinna — The Kings College</span>
-              </div>
-              <div class="mini-review-card">
-                <div class="mini-review-stars">★★★★★</div>
-                <p>"Creativity and expertise in leading all the tech requirements."</p>
-                <span>Sharlene — Carey Baptist College</span>
-              </div>
-              <div class="mini-review-card">
-                <div class="mini-review-stars">★★★★★</div>
-                <p>"Mitch has an exceptional ear and excellent communication skills."</p>
-                <span>Doug — Methodist Ladies College</span>
-              </div>
-              <div class="mini-review-card">
-                <div class="mini-review-stars">★★★★★</div>
-                <p>"Friendly, punctual, and made the whole process super smooth."</p>
-                <span>Nicholas — Lyn Beazley Academy</span>
-              </div>
-            </div>
-            <div class="mini-reviews-nav">
+            <div class="mini-reviews-with-arrows">
               <button class="mini-nav-btn" id="miniPrev" aria-label="Previous">←</button>
-              <a href="#reviews" class="mini-nav-more">Read all reviews ↓</a>
+              <div class="mini-reviews-track" id="miniReviewsTrack">
+                <div class="mini-review-card">
+                  <div class="mini-review-stars">★★★★★</div>
+                  <p>"Mitch is professional, courteous and completely on the ball."</p>
+                  <span>Katherine — Riva Primary School</span>
+                </div>
+                <div class="mini-review-card">
+                  <div class="mini-review-stars">★★★★★</div>
+                  <p>"The show sounded amazing and we didn't have any mic issues."</p>
+                  <span>Corinna — The Kings College</span>
+                </div>
+                <div class="mini-review-card">
+                  <div class="mini-review-stars">★★★★★</div>
+                  <p>"Creativity and expertise in leading all the tech requirements."</p>
+                  <span>Sharlene — Carey Baptist College</span>
+                </div>
+                <div class="mini-review-card">
+                  <div class="mini-review-stars">★★★★★</div>
+                  <p>"Mitch has an exceptional ear and excellent communication skills."</p>
+                  <span>Doug — Methodist Ladies College</span>
+                </div>
+                <div class="mini-review-card">
+                  <div class="mini-review-stars">★★★★★</div>
+                  <p>"Friendly, punctual, and made the whole process super smooth."</p>
+                  <span>Nicholas — Lyn Beazley Academy</span>
+                </div>
+              </div>
               <button class="mini-nav-btn" id="miniNext" aria-label="Next">→</button>
             </div>
           </div>
@@ -1519,21 +1519,21 @@ h1,h2,h3{
       </div>
     </div>
 
-    <!-- Emergency card -->
-    <div class="emergency-note" data-reveal>
-      <span class="emergency-tag">🚨 Emergency</span>
-      <h3 class="emergency-heading">Last Minute Emergency Sound</h3>
-      <p class="emergency-body">Have your sound person call in sick last minute? An event <em>'that teacher'</em> forgot to tell you about? Double booked yourself? We offer emergency last-minute sound bookings that have saved schools around Perth.</p>
-      <p class="emergency-body">Make sure to add this number to your phone — we pick up.</p>
-      <a href="urban-echo-emergency.vcf" class="btn btn-green emergency-save-btn" download>📱 Save Our Number</a>
-    </div>
-
-    <!-- Bulk / auditorium note -->
-    <div class="bulk-note" data-reveal>
-      <span class="bulk-note-tag">💰 Bonus Revenue</span>
-      <div class="bulk-note-title">We can help your school make money — and it costs you nothing</div>
-      <span>Got an auditorium sitting empty on weekends? <strong>We can help you turn it into a revenue stream</strong> — we manage external hire bookings and sound, you keep the income.</span>
-      <a href="#contact" class="btn btn-cream">Ask About This</a>
+    <!-- Emergency + Bonus side by side -->
+    <div class="extra-cards-row" data-reveal>
+      <div class="emergency-note">
+        <span class="emergency-tag">🚨 Emergency</span>
+        <h3 class="emergency-heading">Last Minute Emergency Sound</h3>
+        <p class="emergency-body">Have your sound person call in sick last minute? An event <em>'that teacher'</em> forgot to tell you about? Double booked yourself? We offer emergency last-minute sound bookings that have saved schools around Perth.</p>
+        <p class="emergency-body">Make sure to add this number to your phone — we pick up.</p>
+        <a href="urban-echo-emergency.vcf" class="btn btn-green emergency-save-btn" download>📱 Save Our Number</a>
+      </div>
+      <div class="bulk-note">
+        <span class="bulk-note-tag">💰 Bonus Revenue</span>
+        <div class="bulk-note-title">We can help your school make money — and it costs you nothing</div>
+        <span>Got an auditorium sitting empty on weekends? We can help you turn it into a revenue stream — we manage external hire bookings and sound, you keep the income.</span>
+        <a href="#contact" class="btn btn-cream">Ask About This</a>
+      </div>
     </div>
   </div>
 </section>
