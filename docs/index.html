@@ -579,11 +579,10 @@ h1,h2,h3{
 /* ── level colours ── */
 .stress-face[data-lvl="0"].active{ background:#22c55e; }
 .stress-face[data-lvl="1"].active{ background:#86efac; }
-.stress-face[data-lvl="2"].active{ background:#facc15; }
-.stress-face[data-lvl="3"].active{ background:#fb923c; }
-.stress-face[data-lvl="4"].active{ background:#f97316; }
-.stress-face[data-lvl="5"].active{ background:#ef4444; }
-.stress-face[data-lvl="6"].active{ background:#b91c1c; }
+.stress-face[data-lvl="2"].active{ background:#fb923c; }
+.stress-face[data-lvl="3"].active{ background:#f97316; }
+.stress-face[data-lvl="4"].active{ background:#ef4444; }
+.stress-face[data-lvl="5"].active{ background:#b91c1c; }
 
 /* Severity bar — always visible, grey until interacted with */
 .severity-bar{
@@ -1489,14 +1488,13 @@ body{ overflow-x: hidden; }
         <!-- Stress face meter (interactive) -->
         <div class="stress-meter">
           <span class="stress-meter-label">Rate your sound &amp; AV stress to get a diagnosis</span>
-          <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" tabindex="0">
+          <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" tabindex="0">
             <div class="stress-face active" data-lvl="0">😌</div>
             <div class="stress-face" data-lvl="1">🙁</div>
-            <div class="stress-face" data-lvl="2">😬</div>
-            <div class="stress-face" data-lvl="3">😰</div>
-            <div class="stress-face" data-lvl="4">😱</div>
-            <div class="stress-face" data-lvl="5">🤯</div>
-            <div class="stress-face" data-lvl="6">💀</div>
+            <div class="stress-face" data-lvl="2">😰</div>
+            <div class="stress-face" data-lvl="3">😱</div>
+            <div class="stress-face" data-lvl="4">🤯</div>
+            <div class="stress-face" data-lvl="5">💀</div>
           </div>
         </div>
         <!-- Card 1: Diagnosis + detail merged -->
@@ -2208,11 +2206,11 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     function lvlFromX(clientX){
       const r = track.getBoundingClientRect();
       const pct = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
-      return Math.round(pct * 6);
+      return Math.round(pct * 5);
     }
 
     function setMeterLevel(lvl){
-      lvl = Math.max(0, Math.min(6, lvl));
+      lvl = Math.max(0, Math.min(5, lvl));
       meterOverride = lvl;
       updateUI();
       track.setAttribute('aria-valuenow', lvl);
