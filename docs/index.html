@@ -136,29 +136,29 @@ h1,h2,h3{
   z-index: 1;
 }
 .nav-links a:hover{ color: var(--ink); }
-/* Troubleshooting Tool link — orange box, black outline on click */
+/* Troubleshooting Tool link — green box, black outline on click */
 .nav-troubleshoot{
   color: var(--paper) !important;
-  background: var(--orange);
+  background: var(--forest);
   border: 2px solid transparent;
   border-radius: 8px;
   font-weight: 800;
   transition: border-color 0.15s, background 0.15s;
 }
-.nav-troubleshoot:hover{ background: var(--orange-deep); }
+.nav-troubleshoot:hover{ background: var(--forest-deep); }
 .nav-troubleshoot:focus, .nav-troubleshoot.clicked{ border-color: var(--ink) !important; outline: none; }
 /* Responsive nav hiding */
 @media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
 @media(max-width:860px){ .nav-hide-sm{ display:none !important; } }
 @media(max-width:680px){ .nav-hide-xs{ display:none !important; } }
-/* Sliding pill indicator */
+/* Sliding pill indicator — off-white with ink border */
 .nav-pill{
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   border-radius: 8px;
-  background: var(--orange);
+  background: var(--cream);
   border: 2px solid var(--ink);
   transition: transform 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1);
   pointer-events: none;
@@ -533,14 +533,14 @@ h1,h2,h3{
 .stress-face[data-lvl="5"].active{ background:#ef4444; }
 .stress-face[data-lvl="6"].active{ background:#b91c1c; }
 
-/* Severity bar — now lives inside the card */
+/* Severity bar — always visible, grey until interacted with */
 .severity-bar{
   height: 10px;
   background: rgba(22,21,39,0.12);
   border-radius: 100px;
   overflow: hidden;
   margin-top: 4px;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.4s ease;
 }
 .severity-bar.visible{ opacity: 1; }
@@ -1959,13 +1959,13 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     heroCardStatus.textContent = L.cardStatus;
     heroCardDiag.textContent   = L.cardDiag;
 
-    // Severity bar — colour shifts green → yellow → red
+    // Severity bar — always visible; grey at 0, coloured once interacted
     if(score > 0){
-      severityBar.classList.add('visible');
       severityFill.style.width = L.severity + '%';
       severityFill.style.backgroundColor = L.barColor;
     } else {
-      severityBar.classList.remove('visible');
+      severityFill.style.width = '0%';
+      severityFill.style.backgroundColor = 'rgba(22,21,39,0.18)';
     }
 
     // Answer card

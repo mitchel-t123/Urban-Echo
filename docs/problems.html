@@ -39,9 +39,13 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1180px; margin:0 auto; }
 .nav-logo{ height:30px; }
 .nav-links{ display:flex; align-items:center; gap:4px; font-weight:600; font-size:15px; position:relative; }
-.nav-links a{ text-decoration:none; color:var(--ink); padding:7px 14px; border-radius:8px; transition:background 0.15s; }
+.nav-links a{ text-decoration:none; color:var(--ink); padding:7px 14px; border-radius:8px; transition:background 0.15s; position:relative; z-index:1; }
 .nav-links a:hover{ background:var(--cream); }
-.nav-links a.active{ background:var(--orange); color:#fff; }
+.nav-troubleshoot{ color:var(--paper) !important; background:var(--forest); border:2px solid transparent; border-radius:8px; font-weight:800; transition:border-color 0.15s, background 0.15s; }
+.nav-troubleshoot:hover{ background:var(--forest-deep) !important; }
+@media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
+@media(max-width:860px){ .nav-hide-sm{ display:none !important; } }
+@media(max-width:680px){ .nav-hide-xs{ display:none !important; } }
 .btn{
   display:inline-flex; align-items:center; gap:10px;
   font-family:var(--body); font-weight:700; font-size:16px;
@@ -348,10 +352,10 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
   <div class="nav-inner">
     <a href="index.html"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div class="nav-links">
-      <a href="index.html#symptoms">School Sound Diagnosis</a>
-      <a href="index.html#packages">Our Packages</a>
-      <a href="index.html#reviews">Reviews</a>
-      <a href="problems.html" class="active">Troubleshooting Tool</a>
+      <a href="index.html#symptoms" class="nav-hide-md">School Sound Diagnosis</a>
+      <a href="index.html#packages" class="nav-hide-sm">Our Packages</a>
+      <a href="index.html#reviews" class="nav-hide-xs">Reviews</a>
+      <a href="problems.html" class="nav-troubleshoot">Troubleshooting Tool</a>
     </div>
     <a href="index.html#contact" class="btn btn-blue btn-sm">Contact Us</a>
   </div>
@@ -1077,7 +1081,8 @@ var PROBLEMS = {
 function filterStepsForLevel(steps){
   return steps.filter(function(s){
     if(s.beginnerOnly && skillLevel !== 'beginner') return false;
-    if(s.type === 'still-broken') return false; // always appended at end by renderSteps
+    if(s.type === 'still-broken') return false; // appended at end by renderSteps
+    if(s.type === 'resolved') return false;     // removed — end with still-not-fixed CTA
     return true;
   });
 }
@@ -1200,12 +1205,17 @@ function renderSteps(){
 
     diagSteps.appendChild(nav);
 
-    // If this is the last step, append the still-not-fixed card
+    // If this is the last step, append still-not-fixed card + CTA
     if(idx + 1 >= total){
       var brokenEl = document.createElement('div');
       brokenEl.className = 'broken-card';
-      brokenEl.innerHTML = '<h3>❌ Still not fixed?</h3><p>If none of these steps resolved the issue, there may be a hardware fault or a more complex system problem. Contact us and we\'ll get it sorted — usually within minutes.</p>';
+      brokenEl.innerHTML = '<h3>❌ Still not fixed?</h3><p>If none of these steps resolved the issue, there may be a hardware fault or a more complex system problem. Our team can diagnose and fix it on-site — usually within minutes.</p>';
       diagSteps.appendChild(brokenEl);
+
+      var ctaEl = document.createElement('div');
+      ctaEl.className = 'diag-cta';
+      ctaEl.innerHTML = '<p>Our team can diagnose and resolve any sound issue on-site, usually within minutes.</p><a href="index.html#contact" class="btn btn-orange">Book a Tech</a>';
+      diagSteps.appendChild(ctaEl);
     }
 
   } else if(step.type === 'branch'){
@@ -1230,21 +1240,6 @@ function renderSteps(){
     var backBtn = document.createElement('button');
     backBtn.className = 'btn btn-cream btn-sm';
     backBtn.textContent = idx > 0 ? '← Back' : '← Problems';
-    backBtn.addEventListener('click', goBack);
-    nav.appendChild(backBtn);
-    diagSteps.appendChild(nav);
-
-  } else if(step.type === 'resolved'){
-    var el = document.createElement('div');
-    el.className = 'resolved-card';
-    el.innerHTML = '<h3>✅ ' + step.title + '</h3><p>' + step.body + '</p>';
-    diagSteps.appendChild(el);
-
-    var nav = document.createElement('div');
-    nav.className = 'step-nav';
-    var backBtn = document.createElement('button');
-    backBtn.className = 'btn btn-cream btn-sm';
-    backBtn.textContent = '← Back';
     backBtn.addEventListener('click', goBack);
     nav.appendChild(backBtn);
     diagSteps.appendChild(nav);
