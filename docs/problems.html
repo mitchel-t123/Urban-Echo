@@ -1176,6 +1176,56 @@ var PROBLEMS = {
 
 };
 
+/* ── Technical glossary for beginner expansions ── */
+var GLOSSARY = {
+  'RF':        'RF (Radio Frequency — the wireless signal)',
+  'XLR':       'XLR (the 3-pin audio cable)',
+  'HPF':       'HPF (High-Pass Filter — cuts low rumble)',
+  'EQ':        'EQ (Equaliser — tone shaping)',
+  'dB':        'dB (decibels — unit of volume)',
+  'DI':        'DI (Direct Injection box — used to remove hum)',
+  'AUX':       'AUX (Auxiliary send — a secondary output)',
+  'FX':        'FX (Effects — like reverb or echo)',
+  'L/R':       'L/R (Left/Right main outputs)',
+  'PA':        'PA (Public Address — the speaker system)',
+  'preamp':    'preamp (pre-amplifier — the gain stage before the fader)',
+  'bus':       'bus (routing path inside the mixer)',
+  'fader':     'fader (the sliding volume control)',
+  'gain':      'gain (the input sensitivity knob — controls how loud the signal enters)',
+  'unity':     'unity (the 0 dB mark — the neutral starting position)',
+  'cardioid':  'cardioid (directional mic pattern — picks up sound in front)',
+  'condenser': 'condenser (sensitive mic type, often used in headsets)',
+  'dynamic':   'dynamic (robust mic type, common handhelds)',
+  'transmitter':'transmitter (the body-pack or handheld that sends the wireless signal)',
+  'receiver':  'receiver (the unit plugged into the mixer that picks up the wireless signal)',
+  'channel strip':'channel strip (one vertical section of the mixer for a single input)',
+  'ground loop':'ground loop (electrical interference caused by two devices on different power circuits)',
+  'ground lift':'ground lift (a switch that breaks the electrical loop causing hum)',
+  'monitor wedge':'monitor wedge (the floor speaker facing the performer on stage)',
+  'in-ear monitors':'in-ear monitors (IEM — earpiece speakers worn by performers)',
+  'comb-filter':'comb-filter (phase cancellation effect when two systems play slightly out of time)',
+};
+
+/* Apply glossary expansions for beginner level */
+function annotateForBeginner(text){
+  if(skillLevel !== 'beginner') return text;
+  Object.keys(GLOSSARY).forEach(function(term){
+    var expanded = GLOSSARY[term];
+    // Only replace the first occurrence of the bare term (not if already expanded)
+    var re = new RegExp('\\b' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b(?!\\s*\\()', 'i');
+    text = text.replace(re, expanded);
+  });
+  return text;
+}
+
+/* Pick the right body text for the current skill level */
+function adaptBodyForLevel(step){
+  var body = step.body;
+  if(skillLevel === 'beginner' && step.beginnerBody) body = step.beginnerBody;
+  if(skillLevel === 'expert'   && step.expertBody)   body = step.expertBody;
+  return annotateForBeginner(body);
+}
+
 /* ── Step filtering based on skill level ── */
 function filterStepsForLevel(steps){
   return steps.filter(function(s){
@@ -1272,7 +1322,7 @@ function renderSteps(){
     el.innerHTML =
       '<span class="step-card-num">Step ' + (idx + 1) + ' of ' + total + '</span>' +
       '<h3>' + step.title + '</h3>' +
-      '<p>' + step.body + '</p>' +
+      '<p>' + adaptBodyForLevel(step) + '</p>' +
       (step.tip ? '<div class="step-tip">' + step.tip + '</div>' : '');
     diagSteps.appendChild(el);
 
