@@ -541,11 +541,6 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       <div class="diag-breadcrumb" id="diagBreadcrumb"></div>
       <div id="diagSteps"></div>
       <button class="diag-restart" id="diagRestart">↩ Start over</button>
-
-      <div class="diag-cta">
-        <p>Still not fixed? Our team can diagnose and resolve any sound issue on-site, usually within minutes.</p>
-        <a href="index.html#contact" class="btn btn-orange">Book a Tech</a>
-      </div>
     </div>
   </div>
 </section>
@@ -1232,13 +1227,8 @@ function renderSteps(){
   } else if(step.type === 'resolved' || step.type === 'still-broken'){
     var brokenEl = document.createElement('div');
     brokenEl.className = 'broken-card';
-    brokenEl.innerHTML = '<h3>❌ Still not fixed?</h3><p>If none of these steps resolved the issue, there may be a hardware fault or a more complex system problem. Our team can diagnose and fix it on-site — usually within minutes.</p>';
+    brokenEl.innerHTML = '<h3>❌ Still not fixed?</h3><p>If none of these steps resolved the issue, there may be a hardware fault or a more complex system problem. Our team can diagnose and fix it on-site — usually within minutes.</p><a href="index.html#contact" class="btn btn-orange" style="margin-top:16px;display:inline-flex;">Book a Tech</a>';
     diagSteps.appendChild(brokenEl);
-
-    var ctaEl = document.createElement('div');
-    ctaEl.className = 'diag-cta';
-    ctaEl.innerHTML = '<p>Our team can diagnose and resolve any sound issue on-site, usually within minutes.</p><a href="index.html#contact" class="btn btn-orange">Book a Tech</a>';
-    diagSteps.appendChild(ctaEl);
 
     var nav = document.createElement('div');
     nav.className = 'step-nav';
