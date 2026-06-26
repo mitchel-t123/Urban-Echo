@@ -608,7 +608,7 @@ h1,h2,h3{
 
 /* ============ DIAGNOSIS / GUIDE ============ */
 .diagnosis{
-  background: var(--indigo);
+  background: var(--forest);
   color: var(--paper);
   padding: 96px 0;
   border-bottom: 6px solid var(--ink);
@@ -617,9 +617,9 @@ h1,h2,h3{
 }
 .diagnosis-grid{
   display:block;
-  max-width: 860px;
 }
 .diagnosis .eyebrow{ color: var(--sunshine); margin-bottom:16px; display:block; }
+.diagnosis .school-strip{ border-top-color: rgba(255,252,245,0.2); }
 .diagnosis h2{
   font-size: clamp(28px, 4vw, 42px);
   margin-bottom: 22px;
@@ -739,17 +739,20 @@ h1,h2,h3{
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid var(--ink);
-  background: var(--paper);
-  font-size: 18px;
+  border: none;
+  background: transparent;
+  color: var(--paper);
+  font-size: 22px;
+  font-weight: 900;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.15s, transform 0.15s;
+  transition: opacity 0.15s, transform 0.15s;
+  opacity: 0.7;
 }
-.mini-nav-btn:hover{ background: var(--ink); color: var(--paper); transform: scale(1.1); }
+.mini-nav-btn:hover{ opacity: 1; transform: scale(1.15); }
 
 /* ============ PLAN ============ */
 .plan{
@@ -1222,12 +1225,14 @@ h1,h2,h3{
     <div class="nav-links" id="navLinks">
       <div class="nav-pill" id="navPill"></div>
       <a href="#symptoms" data-nav>School Sound Diagnosis</a>
-      <a href="#plan" data-nav>How It Works</a>
       <a href="#packages" data-nav>Our Packages</a>
       <a href="#reviews" data-nav>Reviews</a>
       <a href="problems.html" style="color:var(--orange);font-weight:800;">Problems &amp; Solutions</a>
     </div>
-    <a href="#contact" class="btn btn-blue">Contact Us</a>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <a href="urban-echo-emergency.vcf" class="btn btn-green" download>📱 Save Our Number</a>
+      <a href="#contact" class="btn btn-blue">Contact Us</a>
+    </div>
   </div>
 </nav>
 

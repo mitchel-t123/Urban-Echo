@@ -70,33 +70,129 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 
 .wrap{ max-width:1180px; margin:0 auto; padding:0 60px; }
 
-/* ── HERO ── */
+/* ── HERO (1/3 height) ── */
 .hero{
   background: var(--orange); color: var(--ink);
-  padding: 64px 0 56px;
+  padding: 22px 0 18px;
   border-bottom: 6px solid var(--ink);
 }
 .hero-tag{
   display:inline-flex; align-items:center; gap:10px;
   background:var(--ink); color:var(--paper);
-  padding:8px 18px; border-radius:100px;
-  font-family:var(--mono); font-size:13px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.08em; margin-bottom:22px;
+  padding:6px 14px; border-radius:100px;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;
 }
 .dot{ width:8px; height:8px; border-radius:50%; background:#22c55e; animation:pulse 1.6s infinite; }
 @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
-.hero h1{ font-size:clamp(36px,5vw,64px); max-width:720px; margin-bottom:16px; }
-.hero p{ font-size:18px; max-width:560px; opacity:0.8; }
+.hero h1{ font-size:clamp(26px,3.5vw,42px); max-width:720px; margin-bottom:6px; }
+.hero p{ font-size:15px; max-width:560px; opacity:0.75; }
 
-/* ── PROBLEM PICKER ── */
+/* ── PROBLEM PICKER SECTION ── */
 .problem-section{
-  padding: 80px 0;
+  padding: 60px 0 80px;
   background: var(--cream);
   border-bottom: 6px solid var(--ink);
 }
-.problem-section h2{ font-size:clamp(26px,3.5vw,40px); margin-bottom:10px; }
-.problem-section .sub{ font-size:16px; color:rgba(22,21,39,0.65); margin-bottom:40px; max-width:540px; }
 
+/* Search bar */
+.problem-search-wrap{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 16px;
+  padding: 14px 20px;
+  box-shadow: 4px 4px 0 var(--ink);
+  margin-bottom: 44px;
+}
+.search-icon-wrap{ font-size: 18px; flex-shrink: 0; opacity: 0.6; }
+.problem-search{
+  border: none;
+  background: transparent;
+  font-family: var(--body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  flex: 1;
+  outline: none;
+  min-width: 0;
+}
+.problem-search::placeholder{ color: rgba(22,21,39,0.35); }
+.search-clear{
+  background: none; border: none; cursor: pointer;
+  font-size: 16px; color: rgba(22,21,39,0.4); padding: 2px 6px; border-radius:4px;
+}
+.search-clear:hover{ color: var(--ink); }
+
+/* Category grid */
+#categoryPicker h2{ font-size:clamp(24px,3vw,36px); margin-bottom:10px; }
+#categoryPicker .sub{ font-size:16px; color:rgba(22,21,39,0.65); margin-bottom:32px; max-width:500px; }
+
+.category-grid{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 18px;
+}
+.category-btn{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 22px;
+  padding: 30px 26px;
+  box-shadow: 4px 4px 0 var(--ink);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--body);
+  transition: transform 0.15s, background 0.15s, color 0.15s;
+}
+.category-btn:hover{ background: var(--ink); color: var(--paper); transform: translateY(-3px); }
+.category-btn:hover .cat-hint{ color: rgba(255,252,245,0.65); }
+.cat-icon{ font-size: 34px; line-height: 1; }
+.cat-label{ font-weight: 800; font-size: 17px; }
+.cat-hint{ font-size: 13px; color: rgba(22,21,39,0.5); }
+
+/* Picker header */
+.picker-header{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.back-btn{
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.back-btn:hover{ background: var(--cream-deep); }
+.picker-label{
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+.no-results{
+  text-align: center;
+  padding: 48px 20px;
+  font-size: 15px;
+  color: rgba(22,21,39,0.55);
+}
+.no-results a{ color: var(--orange); text-decoration: underline; }
+
+/* Problem grid & buttons */
 .problem-grid{
   display:grid;
   grid-template-columns: repeat(3,1fr);
@@ -115,11 +211,13 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
   transition:transform 0.15s, background 0.15s;
 }
 .problem-btn:hover{ background:var(--ink); color:var(--paper); transform:translateY(-3px); }
-.problem-btn:hover .problem-icon{ filter:grayscale(1) brightness(10); }
-.problem-btn.active{ background:var(--ink); color:var(--paper); transform:translateY(-3px); }
-.problem-btn.active .problem-icon{ filter:grayscale(1) brightness(10); }
+.problem-btn:hover .problem-hint{ color:rgba(255,252,245,0.65); }
+.problem-btn.active{ background:var(--ink); color:var(--paper); }
+.problem-btn.active .problem-hint{ color:rgba(255,252,245,0.65); }
 .problem-icon{ font-size:32px; line-height:1; }
 .problem-label{ font-weight:800; font-size:16px; color:var(--ink); }
+.problem-btn:hover .problem-label,
+.problem-btn.active .problem-label{ color:var(--paper); }
 .problem-hint{ font-size:13px; color:rgba(22,21,39,0.55); }
 
 /* ── DIAGNOSIS PANEL ── */
@@ -259,10 +357,12 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 
 @media(max-width:900px){
   .problem-grid{ grid-template-columns:1fr 1fr; }
+  .category-grid{ grid-template-columns:1fr 1fr; }
   .wrap{ padding:0 24px; }
 }
 @media(max-width:600px){
   .problem-grid{ grid-template-columns:1fr; }
+  .category-grid{ grid-template-columns:1fr; }
   .nav-links{ display:none; }
 }
 </style>
@@ -275,105 +375,159 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
     <a href="index.html"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div class="nav-links">
       <a href="index.html#symptoms">School Sound Diagnosis</a>
-      <a href="index.html#plan">How It Works</a>
       <a href="index.html#packages">Our Packages</a>
       <a href="index.html#reviews">Reviews</a>
       <a href="problems.html" class="active">Problems &amp; Solutions</a>
     </div>
-    <a href="index.html#contact" class="btn btn-blue">Contact Us</a>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <a href="urban-echo-emergency.vcf" class="btn btn-green" download style="padding:11px 18px;font-size:14px;">📱 Save Our Number</a>
+      <a href="index.html#contact" class="btn btn-blue" style="padding:11px 18px;font-size:14px;">Contact Us</a>
+    </div>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO (1/3 height) -->
 <header class="hero">
   <div class="wrap">
     <div class="hero-tag"><span class="dot"></span> Sound Troubleshooting Tool</div>
     <h1>Problems &amp; Solutions</h1>
-    <p>Select your problem below and we'll walk you through fixing it step by step — the same way our techs do it on-site.</p>
+    <p>Select your problem below and we'll walk you through fixing it — the same way our techs do it on-site.</p>
   </div>
 </header>
 
 <!-- PROBLEM PICKER -->
 <section class="problem-section">
   <div class="wrap">
-    <h2>What's going wrong?</h2>
-    <p class="sub">Pick the problem closest to what you're hearing or seeing.</p>
 
-    <div class="problem-grid" id="problemGrid">
-
-      <button class="problem-btn" data-problem="speaker-feedback">
-        <span class="problem-icon">🔊</span>
-        <span class="problem-label">Loud Feedback / Squealing</span>
-        <span class="problem-hint">That awful high-pitched screech from the speakers</span>
-      </button>
-
-      <button class="problem-btn" data-problem="headset-feedback">
-        <span class="problem-icon">🎤</span>
-        <span class="problem-label">Headset Mic Feedback</span>
-        <span class="problem-hint">Feedback only when someone puts on a headset mic</span>
-      </button>
-
-      <button class="problem-btn" data-problem="no-sound">
-        <span class="problem-icon">🔇</span>
-        <span class="problem-label">No Sound / Mic Not Working</span>
-        <span class="problem-hint">Mic is on but nothing comes through the speakers</span>
-      </button>
-
-      <button class="problem-btn" data-problem="low-volume">
-        <span class="problem-icon">📉</span>
-        <span class="problem-label">Sound Too Quiet</span>
-        <span class="problem-hint">People at the back can't hear, volume seems maxed</span>
-      </button>
-
-      <button class="problem-btn" data-problem="echo">
-        <span class="problem-icon">🔁</span>
-        <span class="problem-label">Echo / Reverb</span>
-        <span class="problem-hint">Voice sounds like it's in a cave or repeating</span>
-      </button>
-
-      <button class="problem-btn" data-problem="crackling">
-        <span class="problem-icon">⚡</span>
-        <span class="problem-label">Crackling / Distortion</span>
-        <span class="problem-hint">Scratchy, breaking-up, or distorted sound</span>
-      </button>
-
-      <button class="problem-btn" data-problem="mic-dropout">
-        <span class="problem-icon">📡</span>
-        <span class="problem-label">Mic Cutting In &amp; Out</span>
-        <span class="problem-hint">Wireless mic keeps dropping signal mid-sentence</span>
-      </button>
-
-      <button class="problem-btn" data-problem="projector-no-audio">
-        <span class="problem-icon">📽️</span>
-        <span class="problem-label">Projector / Laptop No Audio</span>
-        <span class="problem-hint">Video is playing but no sound through the PA</span>
-      </button>
-
-      <button class="problem-btn" data-problem="hum-buzz">
-        <span class="problem-icon">〰️</span>
-        <span class="problem-label">Constant Hum or Buzz</span>
-        <span class="problem-hint">A 50Hz or 60Hz electrical hum even when mics are off</span>
-      </button>
-
-      <button class="problem-btn" data-problem="presenter-too-loud">
-        <span class="problem-icon">📢</span>
-        <span class="problem-label">Presenter Way Too Loud</span>
-        <span class="problem-hint">One person is blowing the speakers while others are fine</span>
-      </button>
-
-      <button class="problem-btn" data-problem="monitor-feedback">
-        <span class="problem-icon">🎚️</span>
-        <span class="problem-label">Stage Monitor Feedback</span>
-        <span class="problem-hint">Feedback coming from the monitor wedge on stage</span>
-      </button>
-
-      <button class="problem-btn" data-problem="battery-dying">
-        <span class="problem-icon">🔋</span>
-        <span class="problem-label">Wireless Mic Battery Warning</span>
-        <span class="problem-hint">Low battery light mid-event — what do I do?</span>
-      </button>
-
+    <!-- Search bar — always visible -->
+    <div class="problem-search-wrap">
+      <span class="search-icon-wrap">🔍</span>
+      <input type="search" id="problemSearch" class="problem-search"
+             placeholder="Search: 'feedback', 'no sound', 'crackling', 'dropout'...">
+      <button class="search-clear" id="searchClear" style="display:none;">✕</button>
     </div>
+
+    <!-- Category picker (default view) -->
+    <div id="categoryPicker">
+      <h2>What's the source of the problem?</h2>
+      <p class="sub">Choose a category to narrow it down, or search above.</p>
+      <div class="category-grid">
+
+        <button class="category-btn" data-cat="sound">
+          <span class="cat-icon">🔊</span>
+          <span class="cat-label">Sound &amp; Speakers</span>
+          <span class="cat-hint">Feedback, volume, echo, distortion, hum</span>
+        </button>
+
+        <button class="category-btn" data-cat="mic">
+          <span class="cat-icon">🎤</span>
+          <span class="cat-label">Microphone Issues</span>
+          <span class="cat-hint">No sound, headset feedback, presenter too loud</span>
+        </button>
+
+        <button class="category-btn" data-cat="wireless">
+          <span class="cat-icon">📡</span>
+          <span class="cat-label">Wireless &amp; Signal</span>
+          <span class="cat-hint">Dropout, battery warning, RF interference</span>
+        </button>
+
+        <button class="category-btn" data-cat="projector">
+          <span class="cat-icon">📽️</span>
+          <span class="cat-label">Projector &amp; AV</span>
+          <span class="cat-hint">No audio from laptop, video, or HDMI</span>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Problem picker (shown after category click or search) -->
+    <div id="problemPicker" style="display:none;">
+      <div class="picker-header">
+        <button class="back-btn" id="backToCategories">← Back to categories</button>
+        <span class="picker-label" id="pickerLabel">All Problems</span>
+      </div>
+
+      <div class="problem-grid" id="problemGrid">
+
+        <button class="problem-btn" data-problem="speaker-feedback" data-cat="sound">
+          <span class="problem-icon">🔊</span>
+          <span class="problem-label">Loud Feedback / Squealing</span>
+          <span class="problem-hint">That awful high-pitched screech from the speakers</span>
+        </button>
+
+        <button class="problem-btn" data-problem="headset-feedback" data-cat="mic">
+          <span class="problem-icon">🎤</span>
+          <span class="problem-label">Headset Mic Feedback</span>
+          <span class="problem-hint">Feedback only when someone puts on a headset mic</span>
+        </button>
+
+        <button class="problem-btn" data-problem="no-sound" data-cat="mic">
+          <span class="problem-icon">🔇</span>
+          <span class="problem-label">No Sound / Mic Not Working</span>
+          <span class="problem-hint">Mic is on but nothing comes through the speakers</span>
+        </button>
+
+        <button class="problem-btn" data-problem="low-volume" data-cat="sound">
+          <span class="problem-icon">📉</span>
+          <span class="problem-label">Sound Too Quiet</span>
+          <span class="problem-hint">People at the back can't hear, volume seems maxed</span>
+        </button>
+
+        <button class="problem-btn" data-problem="echo" data-cat="sound">
+          <span class="problem-icon">🔁</span>
+          <span class="problem-label">Echo / Reverb</span>
+          <span class="problem-hint">Voice sounds like it's in a cave or repeating</span>
+        </button>
+
+        <button class="problem-btn" data-problem="crackling" data-cat="sound">
+          <span class="problem-icon">⚡</span>
+          <span class="problem-label">Crackling / Distortion</span>
+          <span class="problem-hint">Scratchy, breaking-up, or distorted sound</span>
+        </button>
+
+        <button class="problem-btn" data-problem="mic-dropout" data-cat="wireless">
+          <span class="problem-icon">📡</span>
+          <span class="problem-label">Mic Cutting In &amp; Out</span>
+          <span class="problem-hint">Wireless mic keeps dropping signal mid-sentence</span>
+        </button>
+
+        <button class="problem-btn" data-problem="projector-no-audio" data-cat="projector">
+          <span class="problem-icon">📽️</span>
+          <span class="problem-label">Projector / Laptop No Audio</span>
+          <span class="problem-hint">Video is playing but no sound through the PA</span>
+        </button>
+
+        <button class="problem-btn" data-problem="hum-buzz" data-cat="sound">
+          <span class="problem-icon">〰️</span>
+          <span class="problem-label">Constant Hum or Buzz</span>
+          <span class="problem-hint">A 50Hz or 60Hz electrical hum even when mics are off</span>
+        </button>
+
+        <button class="problem-btn" data-problem="presenter-too-loud" data-cat="mic">
+          <span class="problem-icon">📢</span>
+          <span class="problem-label">Presenter Way Too Loud</span>
+          <span class="problem-hint">One person is blowing the speakers while others are fine</span>
+        </button>
+
+        <button class="problem-btn" data-problem="monitor-feedback" data-cat="sound">
+          <span class="problem-icon">🎚️</span>
+          <span class="problem-label">Stage Monitor Feedback</span>
+          <span class="problem-hint">Feedback coming from the monitor wedge on stage</span>
+        </button>
+
+        <button class="problem-btn" data-problem="battery-dying" data-cat="wireless">
+          <span class="problem-icon">🔋</span>
+          <span class="problem-label">Wireless Mic Battery Warning</span>
+          <span class="problem-hint">Low battery light mid-event — what do I do?</span>
+        </button>
+
+      </div>
+
+      <p class="no-results" id="noResults" style="display:none;">
+        No matching problems found. <a href="index.html#contact">Contact us directly</a> — we'll help you diagnose it.
+      </p>
+    </div>
+
   </div>
 </section>
 
@@ -381,7 +535,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 <section class="diagnosis-panel" id="diagnosisPanel">
   <div class="wrap">
     <div class="diag-empty" id="diagEmpty">
-      ↑ Select a problem above to begin your diagnosis
+      ↑ Select a category above to begin your diagnosis
     </div>
     <div class="diag-flow" id="diagFlow" style="display:none;">
       <span class="diag-eyebrow" id="diagEyebrow">Diagnosing...</span>
@@ -408,6 +562,89 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 </footer>
 
 <script>
+/* ── Category → problem key mapping ── */
+var CAT_KEYS = {
+  'sound':    ['speaker-feedback','low-volume','echo','crackling','hum-buzz','monitor-feedback'],
+  'mic':      ['headset-feedback','no-sound','presenter-too-loud'],
+  'wireless': ['mic-dropout','battery-dying'],
+  'projector':['projector-no-audio'],
+};
+
+var categoryPicker = document.getElementById('categoryPicker');
+var problemPicker  = document.getElementById('problemPicker');
+var pickerLabel    = document.getElementById('pickerLabel');
+var noResults      = document.getElementById('noResults');
+var problemSearch  = document.getElementById('problemSearch');
+var searchClear    = document.getElementById('searchClear');
+var backBtn        = document.getElementById('backToCategories');
+var allProblemBtns = document.querySelectorAll('.problem-btn');
+
+function showProblemPicker(keys, label){
+  categoryPicker.style.display = 'none';
+  problemPicker.style.display  = '';
+  pickerLabel.textContent = label || 'All Problems';
+  filterByKeys(keys);
+}
+
+function filterByKeys(keys){
+  var count = 0;
+  allProblemBtns.forEach(function(btn){
+    var show = !keys || keys.indexOf(btn.dataset.problem) !== -1;
+    btn.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+  noResults.style.display = count === 0 ? '' : 'none';
+}
+
+function filterBySearch(q){
+  q = q.toLowerCase().trim();
+  if(!q){ return; }
+  var count = 0;
+  allProblemBtns.forEach(function(btn){
+    var text = btn.textContent.toLowerCase() + ' ' + btn.dataset.problem;
+    var show = text.indexOf(q) !== -1;
+    btn.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+  noResults.style.display = count === 0 ? '' : 'none';
+}
+
+function resetToCategories(){
+  problemSearch.value = '';
+  searchClear.style.display = 'none';
+  categoryPicker.style.display = '';
+  problemPicker.style.display  = 'none';
+  allProblemBtns.forEach(function(b){ b.classList.remove('active'); b.style.display = ''; });
+  diagEmpty.style.display = '';
+  diagFlow.style.display  = 'none';
+  currentKey = null; currentIndex = 0; stepHistory = []; currentProblem = null;
+}
+
+document.querySelectorAll('.category-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var cat   = this.dataset.cat;
+    var label = this.querySelector('.cat-label').textContent;
+    showProblemPicker(CAT_KEYS[cat], label);
+  });
+});
+
+backBtn.addEventListener('click', resetToCategories);
+
+searchClear.addEventListener('click', resetToCategories);
+
+problemSearch.addEventListener('input', function(){
+  var q = this.value.trim();
+  searchClear.style.display = q ? '' : 'none';
+  if(!q){
+    resetToCategories();
+    return;
+  }
+  categoryPicker.style.display = 'none';
+  problemPicker.style.display  = '';
+  pickerLabel.textContent = 'Search results';
+  filterBySearch(q);
+});
+
 /* ── Problem tree data ── */
 var PROBLEMS = {
 
@@ -966,33 +1203,35 @@ var PROBLEMS = {
 
 /* ── State ── */
 var currentProblem = null;
-var stepHistory    = [];   // array of { key, stepIndex } for breadcrumb
+var stepHistory    = [];
 var currentKey     = null;
 var currentIndex   = 0;
 
 /* ── DOM refs ── */
-var diagEmpty    = document.getElementById('diagEmpty');
-var diagFlow     = document.getElementById('diagFlow');
-var diagEyebrow  = document.getElementById('diagEyebrow');
-var diagTitle    = document.getElementById('diagTitle');
-var diagIntro    = document.getElementById('diagIntro');
+var diagEmpty      = document.getElementById('diagEmpty');
+var diagFlow       = document.getElementById('diagFlow');
+var diagEyebrow    = document.getElementById('diagEyebrow');
+var diagTitle      = document.getElementById('diagTitle');
+var diagIntro      = document.getElementById('diagIntro');
 var diagBreadcrumb = document.getElementById('diagBreadcrumb');
-var diagSteps    = document.getElementById('diagSteps');
-var diagRestart  = document.getElementById('diagRestart');
+var diagSteps      = document.getElementById('diagSteps');
+var diagRestart    = document.getElementById('diagRestart');
 
 /* ── Problem button click ── */
-document.querySelectorAll('.problem-btn').forEach(function(btn){
+allProblemBtns.forEach(function(btn){
   btn.addEventListener('click', function(){
     var key = this.dataset.problem;
-    document.querySelectorAll('.problem-btn').forEach(function(b){ b.classList.remove('active'); });
+    allProblemBtns.forEach(function(b){ b.classList.remove('active'); });
     this.classList.add('active');
     startDiagnosis(key);
-    document.getElementById('diagnosisPanel').scrollIntoView({ behavior:'smooth', block:'start' });
+    var panel = document.getElementById('diagnosisPanel');
+    var top = panel.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: top, behavior: 'smooth' });
   });
 });
 
 diagRestart.addEventListener('click', function(){
-  document.querySelectorAll('.problem-btn').forEach(function(b){ b.classList.remove('active'); });
+  allProblemBtns.forEach(function(b){ b.classList.remove('active'); });
   diagEmpty.style.display = '';
   diagFlow.style.display  = 'none';
   currentKey    = null;
@@ -1034,12 +1273,10 @@ function renderSteps(){
   var prob = PROBLEMS[currentKey];
   if(!prob) return;
 
-  // Breadcrumb
   diagBreadcrumb.innerHTML = stepHistory.map(function(s, i){
     return '<span>' + (s.label || s.key) + '</span>' + (i < stepHistory.length - 1 ? '<span class="sep">›</span>' : '');
   }).join('');
 
-  // Render all steps up to current index
   diagSteps.innerHTML = '';
   for(var i = 0; i <= currentIndex && i < prob.steps.length; i++){
     renderStep(prob.steps[i], i === currentIndex);
@@ -1056,7 +1293,6 @@ function renderStep(step, isCurrent){
       + '<p>' + step.body + '</p>'
       + (step.tip ? '<div class="step-tip">' + step.tip + '</div>' : '');
     diagSteps.appendChild(el);
-    // If this is current and there's a next step, show Next button
     if(isCurrent){
       var prob = PROBLEMS[currentKey];
       if(currentIndex + 1 < prob.steps.length){
@@ -1086,7 +1322,9 @@ function renderStep(step, isCurrent){
       el.querySelectorAll('.branch-opt').forEach(function(b){
         b.addEventListener('click', function(){
           branchTo(this.dataset.next);
-          document.getElementById('diagnosisPanel').scrollIntoView({ behavior:'smooth', block:'start' });
+          var panel = document.getElementById('diagnosisPanel');
+          var top = panel.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: top, behavior: 'smooth' });
         });
       });
     }
