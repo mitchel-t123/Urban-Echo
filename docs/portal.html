@@ -262,12 +262,13 @@ body.auth-pending{ visibility: hidden; }
 /* ── HANDBOOK LAYOUT ── */
 .handbook-layout{
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 24px;
+  grid-template-columns: 2fr 1fr;
+  gap: 28px;
   align-items: start;
+  margin-bottom: 56px;
 }
 @media(max-width:780px){
-  .handbook-layout{ grid-template-columns: 1fr; }
+  .handbook-layout{ grid-template-columns: 1fr; margin-bottom: 40px; }
 }
 
 /* PDF viewer column */
@@ -307,8 +308,12 @@ body.auth-pending{ visibility: hidden; }
   font-family: var(--mono); font-size: 11px; font-weight: 700;
   flex: 1; text-align: center; white-space: nowrap;
 }
+.handbook-embed-wrap{
+  aspect-ratio: 210 / 297; /* A4 — always shows exactly one full page */
+  width: 100%;
+}
 .handbook-embed-wrap iframe{
-  width: 100%; height: 440px;
+  width: 100%; height: 100%;
   border: none; display: block;
 }
 
@@ -694,7 +699,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
             <a href="employee-handbook-2026.pdf" download class="hb-btn hb-download">⬇</a>
           </div>
           <div class="handbook-embed-wrap">
-            <iframe id="handbookFrame" src="employee-handbook-2026.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH" title="Employee Handbook 2026"></iframe>
+            <iframe id="handbookFrame" title="Employee Handbook 2026"></iframe>
           </div>
         </div>
 
@@ -1195,19 +1200,28 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
   var currentPage = 1;
   var frame = document.getElementById('handbookFrame');
   var numEl = document.getElementById('hbPageNum');
-  var totalEl = document.getElementById('hbPageTotal');
   var prevBtn = document.getElementById('hbPrev');
   var nextBtn = document.getElementById('hbNext');
 
-  totalEl.textContent = totalPages;
+  function pdfUrl(page){
+    return 'employee-handbook-2026.pdf?p=' + page + '#page=' + page;
+  }
 
   function goTo(page){
     currentPage = Math.max(1, Math.min(totalPages, page));
-    frame.src = 'employee-handbook-2026.pdf#page=' + currentPage + '&toolbar=0&navpanes=0&scrollbar=0&view=FitH';
+    // Reset to blank first so the browser treats the next src as a fresh navigation,
+    // ensuring the #page fragment is honoured even on the same base file.
+    frame.src = 'about:blank';
+    setTimeout(function(){
+      frame.src = pdfUrl(currentPage);
+    }, 30);
     numEl.textContent = currentPage;
     prevBtn.disabled = currentPage <= 1;
     nextBtn.disabled = currentPage >= totalPages;
   }
+
+  // Set initial src via goTo so button states are correct
+  frame.src = pdfUrl(1);
 
   prevBtn.addEventListener('click', function(){ goTo(currentPage - 1); });
   nextBtn.addEventListener('click', function(){ goTo(currentPage + 1); });
