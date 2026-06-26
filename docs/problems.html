@@ -1081,8 +1081,6 @@ var PROBLEMS = {
 function filterStepsForLevel(steps){
   return steps.filter(function(s){
     if(s.beginnerOnly && skillLevel !== 'beginner') return false;
-    if(s.type === 'still-broken') return false; // appended at end by renderSteps
-    if(s.type === 'resolved') return false;     // removed — end with still-not-fixed CTA
     return true;
   });
 }
@@ -1205,19 +1203,6 @@ function renderSteps(){
 
     diagSteps.appendChild(nav);
 
-    // If this is the last step, append still-not-fixed card + CTA
-    if(idx + 1 >= total){
-      var brokenEl = document.createElement('div');
-      brokenEl.className = 'broken-card';
-      brokenEl.innerHTML = '<h3>❌ Still not fixed?</h3><p>If none of these steps resolved the issue, there may be a hardware fault or a more complex system problem. Our team can diagnose and fix it on-site — usually within minutes.</p>';
-      diagSteps.appendChild(brokenEl);
-
-      var ctaEl = document.createElement('div');
-      ctaEl.className = 'diag-cta';
-      ctaEl.innerHTML = '<p>Our team can diagnose and resolve any sound issue on-site, usually within minutes.</p><a href="index.html#contact" class="btn btn-orange">Book a Tech</a>';
-      diagSteps.appendChild(ctaEl);
-    }
-
   } else if(step.type === 'branch'){
     var el = document.createElement('div');
     el.className = 'branch-card';
@@ -1244,6 +1229,25 @@ function renderSteps(){
     nav.appendChild(backBtn);
     diagSteps.appendChild(nav);
 
+  } else if(step.type === 'resolved' || step.type === 'still-broken'){
+    var brokenEl = document.createElement('div');
+    brokenEl.className = 'broken-card';
+    brokenEl.innerHTML = '<h3>❌ Still not fixed?</h3><p>If none of these steps resolved the issue, there may be a hardware fault or a more complex system problem. Our team can diagnose and fix it on-site — usually within minutes.</p>';
+    diagSteps.appendChild(brokenEl);
+
+    var ctaEl = document.createElement('div');
+    ctaEl.className = 'diag-cta';
+    ctaEl.innerHTML = '<p>Our team can diagnose and resolve any sound issue on-site, usually within minutes.</p><a href="index.html#contact" class="btn btn-orange">Book a Tech</a>';
+    diagSteps.appendChild(ctaEl);
+
+    var nav = document.createElement('div');
+    nav.className = 'step-nav';
+    var backBtn = document.createElement('button');
+    backBtn.className = 'btn btn-cream btn-sm';
+    backBtn.textContent = '← Back';
+    backBtn.addEventListener('click', goBack);
+    nav.appendChild(backBtn);
+    diagSteps.appendChild(nav);
   }
 }
 </script>
