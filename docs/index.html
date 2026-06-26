@@ -154,11 +154,12 @@ h1,h2,h3{
 .nav-login-btn{
   display:flex; align-items:center; justify-content:center;
   width:36px; height:36px; border-radius:50%;
-  border:2px solid var(--ink); text-decoration:none;
-  font-size:15px; line-height:1;
-  transition: background 0.15s;
+  background: var(--ink); border:2px solid var(--ink); text-decoration:none;
+  font-size:15px; line-height:1; color: var(--paper);
+  transition: opacity 0.15s;
 }
-.nav-login-btn:hover{ background: var(--cream-deep); }
+.nav-login-btn:hover{ opacity: 0.75; }
+@media(max-width:920px){ .nav-login-btn{ display:none; } }
 /* Hamburger */
 .nav-hamburger{
   display:none; background:none; border:2px solid var(--ink);
@@ -170,9 +171,9 @@ h1,h2,h3{
   background:var(--ink); border-radius:2px;
   transition:transform 0.2s, opacity 0.2s;
 }
-.nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); border-radius:0; }
 .nav-hamburger.open span:nth-child(2){ opacity:0; }
-.nav-hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+.nav-hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); border-radius:0; }
 @media(max-width:920px){ .nav-hamburger{ display:flex; } }
 /* Mobile menu */
 .mobile-menu{
@@ -864,7 +865,7 @@ h1,h2,h3{
   font-weight: 800;
   text-transform:none;
   letter-spacing:0;
-  font-size: 19px;
+  font-size: 18px;
   margin-bottom: 10px;
 }
 .plan-step p{ font-size: 14.5px; color: rgba(22,21,39,0.68); }
@@ -1313,12 +1314,11 @@ body{ overflow-x: hidden; }
   .nav-inner{ padding:12px 20px; }
   .nav .btn{ padding:9px 16px; font-size:13px; }
   .wrap{ padding:0 24px; }
-  /* Mini-reviews: hide arrows, full-width single card */
+  /* Mini-reviews: full-width single card, show arrows */
   .mini-reviews-track{ grid-template-columns: 1fr; }
   .mini-reviews-with-arrows{ align-items: stretch; }
-  .mini-nav-btn{ display: none; }
-  /* Symptom check: ensure items don't overflow */
-  .hero-checklist{ max-width:100%; }
+  /* Symptom check: ensure items don't overflow, reduce gap to emoticon bar */
+  .hero-checklist{ max-width:100%; margin-bottom:9px; }
   .hero-check{ font-size:15px; }
   /* Mobile: hide non-essential symptom items */
   .hero-check-desktop{ display: none; }
@@ -1335,10 +1335,10 @@ body{ overflow-x: hidden; }
   /* Plan steps: number left, header right, same size */
   .plan-step{ display:grid; grid-template-columns:auto 1fr; column-gap:16px; align-items:start; }
   .plan-step .step-num{ font-size:32px; margin-bottom:0; line-height:1.1; }
-  .plan-step h3{ font-size:32px; font-family:var(--display); letter-spacing:-0.01em; text-transform:uppercase; align-self:center; }
+  .plan-step h3{ font-size:18px; font-family:var(--body); font-weight:800; letter-spacing:0; text-transform:none; align-self:center; }
   .plan-step p{ grid-column:2; }
-  /* Contact form: reduce bottom padding on mobile */
-  .contact{ padding-bottom: 6px; }
+  /* Contact form: reduce space above submit button on mobile */
+  .form-card .btn{ margin-top: 0; }
 }
 @media (max-width: 600px){
   .symptom-grid{ grid-template-columns:1fr; }
@@ -1355,11 +1355,12 @@ body{ overflow-x: hidden; }
 @media (min-width: 921px){
   .hero-ctas-mobile{ display: none; }
 }
-/* ── Floating Action Button (mobile scroll nav) ── */
+/* ── Floating back-to-top button (mobile) ── */
 .fab-menu{
   display:none;
   position:fixed; bottom:24px; right:20px; z-index:200;
   width:52px; height:52px; border-radius:50%;
+  font-family: var(--mono); font-size:20px; font-weight:700;
   background:var(--ink); color:var(--paper);
   border:none; cursor:pointer;
   font-size:22px; line-height:1;
@@ -1396,8 +1397,8 @@ body{ overflow-x: hidden; }
   </div>
 </nav>
 
-<!-- Floating menu button (mobile scroll) -->
-<button class="fab-menu" id="fabMenu" aria-label="Open menu">☰</button>
+<!-- Floating back-to-top button (mobile) -->
+<button class="fab-menu" id="fabMenu" aria-label="Back to top">^</button>
 
 <!-- Mobile menu overlay -->
 <div class="mobile-menu" id="mobileMenu">
@@ -1408,6 +1409,7 @@ body{ overflow-x: hidden; }
     <a href="problems.html" class="nav-troubleshoot mobile-menu-link">Troubleshooting Tool</a>
     <a href="#contact" class="mobile-menu-link" style="margin-top:8px;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;">Contact Us</a>
     <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);">📱 Save Our Number</a>
+    <a href="login.html" class="mobile-menu-link" style="margin-top:8px;background:var(--ink);color:var(--paper) !important;font-weight:700;border-radius:10px;display:flex;align-items:center;gap:10px;">👤 Staff Login</a>
   </div>
 </div>
 
@@ -2292,7 +2294,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     autoTimer = setInterval(function(){
       var next = (offset + 1) % cards.length;
       fadeAndShow(next);
-    }, 8000);
+    }, 7000);
   }
   function resetAuto(){ clearInterval(autoTimer); startAuto(); }
   prev.addEventListener('click', function(){
@@ -2316,11 +2318,11 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   function openMenu(){ if(btn) btn.classList.add('open'); menu.classList.add('open'); document.body.style.overflow='hidden'; }
   function closeMenu(){ if(btn) btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }
   if(btn) btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
-  if(fab) fab.addEventListener('click', function(e){ e.stopPropagation(); openMenu(); });
   menu.addEventListener('click', function(e){ if(e.target === menu) closeMenu(); });
   menu.querySelectorAll('.mobile-menu-link').forEach(function(a){ a.addEventListener('click', closeMenu); });
-  // Show FAB when nav is scrolled off screen
+  // FAB = scroll to top; show when nav scrolls off screen
   if(fab){
+    fab.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
     var nav = document.querySelector('.nav');
     window.addEventListener('scroll', function(){
       var navBottom = nav ? nav.getBoundingClientRect().bottom : 0;
