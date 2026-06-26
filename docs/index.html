@@ -136,29 +136,29 @@ h1,h2,h3{
   z-index: 1;
 }
 .nav-links a:hover{ color: var(--ink); }
-/* Troubleshooting Tool link — green box, black outline on click */
+/* Troubleshooting Tool link — green box */
 .nav-troubleshoot{
   color: var(--paper) !important;
   background: var(--forest);
-  border: 2px solid transparent;
+  border: 2px solid var(--ink);
   border-radius: 8px;
   font-weight: 800;
-  transition: border-color 0.15s, background 0.15s;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: background 0.15s, box-shadow 0.15s;
 }
-.nav-troubleshoot:hover{ background: var(--forest-deep); }
-.nav-troubleshoot:focus, .nav-troubleshoot.clicked{ border-color: var(--ink) !important; outline: none; }
+.nav-troubleshoot:hover{ background: var(--forest-deep); box-shadow: 4px 4px 0 var(--ink); }
+.nav-troubleshoot:focus, .nav-troubleshoot.clicked{ outline: none; }
 /* Responsive nav hiding */
 @media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
 @media(max-width:860px){ .nav-hide-sm{ display:none !important; } }
 @media(max-width:680px){ .nav-hide-xs{ display:none !important; } }
 .nav-login-btn{
   display:flex; align-items:center; justify-content:center;
-  width:36px; height:36px; border-radius:50%;
-  background: var(--ink); border:2px solid var(--ink); text-decoration:none;
-  font-size:15px; line-height:1; color: #fff;
+  height:38px; width:38px; border-radius:50%;
+  background: transparent; border:none; text-decoration:none;
   transition: opacity 0.15s;
 }
-.nav-login-btn:hover{ opacity: 0.75; }
+.nav-login-btn:hover{ opacity: 0.65; }
 @media(max-width:920px){ .nav-login-btn{ display:none; } }
 /* Hamburger */
 .nav-hamburger{
@@ -213,6 +213,7 @@ h1,h2,h3{
 }
 .nav-pill.visible{ opacity: 1; }
 .nav .btn{ padding: 11px 22px; font-size: 14px; }
+.nav .btn-blue{ border-color: var(--indigo); }
 .nav-call{ font-family: var(--mono); font-weight:700; }
 
 /* ============ HERO ============ */
@@ -991,6 +992,8 @@ header.hero, section.recovery, section.outcome{ display:none !important; }
   font-size: 22px;
   font-weight: 800;
   color: var(--ink);
+  -webkit-text-stroke: 0;
+  -webkit-text-fill-color: var(--ink);
   text-transform: none;
   letter-spacing: 0;
   margin-bottom: 8px;
@@ -1195,10 +1198,10 @@ header.hero, section.recovery, section.outcome{ display:none !important; }
   position: relative;
   z-index: 1;
 }
-html{ overflow-y: scroll; }
+html{ overflow-y: auto; }
 body::after{ content: none; }
-.footer{ margin-bottom: 0; }
-html, body{ max-height: none; }
+.footer{ margin-bottom: 0; padding-bottom: 0; }
+body{ padding-bottom: 0; }
 .footer-inner{
   display:flex;
   justify-content:space-between;
@@ -1407,7 +1410,7 @@ body{ overflow-x: hidden; }
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <a href="#contact" class="btn btn-blue">Contact Us</a>
-      <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><img src="avatar.png" alt="Team login" style="width:18px;height:18px;filter:invert(1);display:block;"></a>
+      <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><img src="avatar.png" alt="Team login" style="width:38px;height:38px;display:block;"></a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>

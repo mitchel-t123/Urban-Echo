@@ -157,6 +157,16 @@ body.auth-pending{ visibility: hidden; }
   .roster-date span{ font-size:16px; }
 }
 
+/* ── COMPLIANCE GRID ── */
+.compliance-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+@media(max-width:680px){
+  .compliance-grid{ grid-template-columns:1fr; }
+}
+
 /* ── WWC CARD ── */
 .wwc-card{
   background: var(--paper);
@@ -164,10 +174,8 @@ body.auth-pending{ visibility: hidden; }
   border-radius:20px;
   padding:28px;
   box-shadow:5px 5px 0 var(--ink);
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:20px;
-  align-items:start;
+  display:flex;
+  flex-direction:column;
 }
 .wwc-card.urgent{ border-color:var(--red); box-shadow:5px 5px 0 var(--red); }
 .wwc-card.urgent .wwc-label{ color:var(--red); }
@@ -207,10 +215,6 @@ body.auth-pending{ visibility: hidden; }
 .wwc-shield{
   font-size:52px; line-height:1;
   flex-shrink:0;
-}
-@media(max-width:580px){
-  .wwc-card{ grid-template-columns:1fr; }
-  .wwc-shield{ display:none; }
 }
 
 /* ── PORTAL CARDS ── */
@@ -322,13 +326,14 @@ body.auth-pending{ visibility: hidden; }
   display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;
 }
 .risk-chip{
-  padding:8px 16px; border:2px solid var(--line);
-  border-radius:100px; font-size:13px; font-weight:700;
-  cursor:pointer; transition:all 0.15s; background:var(--cream);
+  padding:8px 16px; border:2px solid var(--ink);
+  border-radius:100px; font-size:13px; font-weight:700; color:#000;
+  cursor:pointer; transition:all 0.15s; opacity:0.45;
 }
-.risk-chip.low.sel{ background:#d4f4e2; border-color:var(--forest); color:var(--forest-deep); }
-.risk-chip.med.sel{ background:#fef9e0; border-color:#c9a200; color:#7a5f00; }
-.risk-chip.high.sel{ background:#fde8e8; border-color:var(--red); color:var(--red); }
+.risk-chip.low{ background:var(--forest); }
+.risk-chip.med{ background:var(--sunshine); }
+.risk-chip.high{ background:var(--red); color:#fff; }
+.risk-chip.sel{ opacity:1; outline:3px solid var(--ink); outline-offset:2px; }
 
 /* ── NOTICE ── */
 .portal-notice{
@@ -451,8 +456,9 @@ html, body{ overflow-x:hidden; }
   <section class="portal-section">
     <div class="wrap">
       <h2>Compliance</h2>
-      <div class="wwc-card" id="wwcCard">
-        <div>
+      <div class="compliance-grid">
+
+        <div class="wwc-card" id="wwcCard">
           <span class="wwc-label" id="wwcLabel">✔ Working With Children Check</span>
           <div class="wwc-name">Mitchel Tinsley</div>
           <div class="wwc-meta">Card No. WWC0123456E &nbsp;·&nbsp; Issued: 07 Jul 2021 &nbsp;·&nbsp; Expires: 07 Jul 2026</div>
@@ -462,6 +468,18 @@ html, body{ overflow-x:hidden; }
             🔄 Renew Now
           </a>
         </div>
+
+        <div class="wwc-card" id="policeCard">
+          <span class="wwc-label" id="policeLabel">✔ National Police Clearance</span>
+          <div class="wwc-name">Mitchel Tinsley</div>
+          <div class="wwc-meta">Ref No. NPC20240001 &nbsp;·&nbsp; Issued: 03 Apr 2026 &nbsp;·&nbsp; Expires: 03 Apr 2029</div>
+          <div class="wwc-countdown" id="policeCountdown">Calculating…</div>
+          <a href="https://www.wa.gov.au/service/justice/police-services/national-police-certificate"
+             target="_blank" rel="noopener" class="wwc-renew-btn">
+            🔄 Renew Now
+          </a>
+        </div>
+
       </div>
     </div>
   </section>
@@ -616,9 +634,9 @@ html, body{ overflow-x:hidden; }
       <div class="mfield">
         <label>Risk Level</label>
         <div class="risk-row" id="riskLevel">
-          <button type="button" class="risk-chip low" data-val="Low">🟢 Low</button>
-          <button type="button" class="risk-chip med" data-val="Medium">🟡 Medium</button>
-          <button type="button" class="risk-chip high" data-val="High">🔴 High</button>
+          <button type="button" class="risk-chip low" data-val="Low">Low</button>
+          <button type="button" class="risk-chip med" data-val="Medium">Medium</button>
+          <button type="button" class="risk-chip high" data-val="High">High</button>
         </div>
         <input type="hidden" name="risk_level" id="riskLevelVal">
       </div>
@@ -801,6 +819,35 @@ var sessionInterval = setInterval(function(){
     el.classList.add('urgent');
     card.classList.add('urgent');
     label.textContent = '⚠️ Working With Children Check — EXPIRED';
+  }
+})();
+
+// ── Police clearance countdown ───────────────────────────────
+(function(){
+  var expiry = new Date('2029-04-03T00:00:00');
+  var today  = new Date(); today.setHours(0,0,0,0);
+  var days   = Math.round((expiry - today) / 86400000);
+  var el     = document.getElementById('policeCountdown');
+  var card   = document.getElementById('policeCard');
+  var label  = document.getElementById('policeLabel');
+
+  if(days > 30){
+    el.textContent = days + ' days until renewal required';
+  } else if(days > 0){
+    el.textContent = days + ' day' + (days !== 1 ? 's' : '') + ' until expiry — renew soon';
+    el.classList.add('urgent');
+    card.classList.add('urgent');
+    label.textContent = '⚠️ National Police Clearance — Expiring Soon';
+  } else if(days === 0){
+    el.textContent = 'Expires today — renew immediately';
+    el.classList.add('urgent');
+    card.classList.add('urgent');
+    label.textContent = '⚠️ National Police Clearance — Expires Today';
+  } else {
+    el.textContent = 'Expired ' + Math.abs(days) + ' day' + (Math.abs(days) !== 1 ? 's' : '') + ' ago';
+    el.classList.add('urgent');
+    card.classList.add('urgent');
+    label.textContent = '⚠️ National Police Clearance — EXPIRED';
   }
 })();
 

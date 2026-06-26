@@ -36,16 +36,16 @@ a{ color: inherit; }
 h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter-spacing:-0.01em; text-transform:uppercase; }
 
 /* ── NAV ── */
-.nav-login-btn{ display:flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; border:2px solid var(--ink); text-decoration:none; font-size:15px; line-height:1; transition:background 0.15s; }
-.nav-login-btn:hover{ background:var(--cream-deep); }
+.nav-login-btn{ display:flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%; border:none; background:transparent; text-decoration:none; transition:opacity 0.15s; }
+.nav-login-btn:hover{ opacity:0.65; }
 .nav{ position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--line); }
 .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1180px; margin:0 auto; }
 .nav-logo{ height:30px; }
 .nav-links{ display:flex; align-items:center; gap:4px; font-weight:600; font-size:15px; position:relative; }
 .nav-links a{ text-decoration:none; color:var(--ink); padding:7px 14px; border-radius:8px; transition:background 0.15s; position:relative; z-index:1; }
 .nav-links a:hover{ background:var(--cream); }
-.nav-troubleshoot{ color:var(--paper) !important; background:var(--forest); border:2px solid transparent; border-radius:8px; font-weight:800; transition:border-color 0.15s, background 0.15s; }
-.nav-troubleshoot:hover{ background:var(--forest-deep) !important; }
+.nav-troubleshoot{ color:var(--paper) !important; background:var(--forest); border:2px solid var(--ink); border-radius:8px; font-weight:800; box-shadow:3px 3px 0 var(--ink); transition:border-color 0.15s, background 0.15s, box-shadow 0.15s; }
+.nav-troubleshoot:hover{ background:var(--forest-deep) !important; box-shadow:4px 4px 0 var(--ink); }
 @media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
 @media(max-width:860px){ .nav-hide-sm{ display:none !important; } }
 @media(max-width:680px){ .nav-hide-xs{ display:none !important; } }
@@ -58,7 +58,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 }
 .btn:hover{ transform:translateY(-2px); box-shadow:5px 5px 0 var(--ink); }
 .btn-orange{ background:var(--orange); color:var(--ink); }
-.btn-blue{ background:var(--indigo); color:#fff; }
+.btn-blue{ background:var(--indigo); color:#fff; border-color:var(--indigo); }
 .btn-green{ background:var(--forest); color:#fff; }
 .btn-cream{ background:var(--cream); color:var(--ink); }
 .btn-sm{ padding:10px 20px; font-size:14px; border-radius:100px; }
@@ -426,7 +426,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <a href="index.html#contact" class="btn btn-blue btn-sm">Contact Us</a>
-      <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><img src="avatar.png" alt="Team login" style="width:18px;height:18px;filter:invert(1);display:block;"></a>
+      <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><img src="avatar.png" alt="Team login" style="width:38px;height:38px;display:block;"></a>
     </div>
   </div>
 </nav>
