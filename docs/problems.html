@@ -322,7 +322,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .diag-flag-hint{
   font-family:var(--mono); font-size:11px; font-weight:400;
   color:var(--ink); opacity:0.35; letter-spacing:0.04em;
-  text-align:right; line-height:1.4; max-width:180px;
+  white-space:nowrap;
 }
 .diag-flag-btn{
   background:none; border:none; cursor:pointer; padding:4px;
@@ -619,7 +619,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       <div class="diag-footer-row">
         <button class="diag-restart" id="diagRestart">↩ Start over</button>
         <div class="diag-flag-wrap">
-          <span class="diag-flag-hint">Notice an issue?<br>Click to flag it</span>
+          <span class="diag-flag-hint">Notice an issue? Click to flag it</span>
           <button class="diag-flag-btn" id="diagFlagBtn" title="Flag an issue with this step" aria-label="Flag an issue">🚩</button>
         </div>
       </div>
@@ -825,7 +825,26 @@ allProblemBtns.forEach(function(btn){
 /* ── Restart ── */
 var diagFlagBtn = document.getElementById('diagFlagBtn');
 diagFlagBtn.addEventListener('click', function(){
+  var alreadyFlagged = this.classList.contains('flagged');
   this.classList.toggle('flagged');
+  if(!alreadyFlagged){
+    var prob = currentKey ? PROBLEMS[currentKey] : null;
+    var filtered = prob ? filterStepsForLevel(prob.steps) : [];
+    var step = filtered[currentIndex];
+    fetch('https://formspree.io/f/mlgyjyej', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: '🚩 Step flagged: ' + (prob ? (prob.label || currentKey) : 'Unknown'),
+        type: 'Step Flag Report',
+        problem: prob ? (prob.label || currentKey) : 'Unknown',
+        step_number: 'Step ' + (currentIndex + 1) + ' of ' + filtered.length,
+        step_title: step ? step.title : 'Unknown',
+        skill_level: skillLevel,
+        url: window.location.href
+      })
+    });
+  }
 });
 
 diagRestart.addEventListener('click', function(){
@@ -1376,6 +1395,7 @@ function renderSteps(){
       nextBtn.textContent = 'Next Step →';
       nextBtn.addEventListener('click', function(){
         currentIndex++;
+        diagFlagBtn.classList.remove('flagged');
         renderSteps();
         scrollToPanel();
       });
