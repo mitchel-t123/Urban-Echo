@@ -291,7 +291,7 @@ body.auth-pending{ visibility: hidden; }
 /* ── HANDBOOK LAYOUT ── */
 .handbook-layout{
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 3fr 1fr;
   gap: 28px;
   align-items: start;
   margin-bottom: 56px;
@@ -338,12 +338,14 @@ body.auth-pending{ visibility: hidden; }
   flex: 1; text-align: center; white-space: nowrap;
 }
 .handbook-embed-wrap{
-  aspect-ratio: 210 / 297; /* A4 — always shows exactly one full page */
   width: 100%;
+  aspect-ratio: 210 / 297;
+  overflow: hidden;
 }
 .handbook-embed-wrap iframe{
   width: 100%; height: 100%;
   border: none; display: block;
+  background: #525659;
 }
 
 /* Policy links column */
@@ -1243,24 +1245,20 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
   var nextBtn = document.getElementById('hbNext');
 
   function pdfUrl(page){
-    return 'employee-handbook-2026.pdf?p=' + page + '#page=' + page;
+    // Timestamp cache-bust forces a genuine fresh load on every navigation
+    // so the browser applies the #page fragment correctly each time.
+    return 'employee-handbook-2026.pdf?t=' + Date.now() + '#page=' + page + '&toolbar=0&navpanes=0&scrollbar=0&view=Fit';
   }
 
   function goTo(page){
     currentPage = Math.max(1, Math.min(totalPages, page));
-    // Reset to blank first so the browser treats the next src as a fresh navigation,
-    // ensuring the #page fragment is honoured even on the same base file.
-    frame.src = 'about:blank';
-    setTimeout(function(){
-      frame.src = pdfUrl(currentPage);
-    }, 30);
+    frame.src = pdfUrl(currentPage);
     numEl.textContent = currentPage;
     prevBtn.disabled = currentPage <= 1;
     nextBtn.disabled = currentPage >= totalPages;
   }
 
-  // Set initial src via goTo so button states are correct
-  frame.src = pdfUrl(1);
+  goTo(1);
 
   prevBtn.addEventListener('click', function(){ goTo(currentPage - 1); });
   nextBtn.addEventListener('click', function(){ goTo(currentPage + 1); });
