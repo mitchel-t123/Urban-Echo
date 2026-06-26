@@ -377,15 +377,34 @@ body.auth-pending{ visibility: hidden; }
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: 2px;
+  position: relative;
 }
 .handbook-embed-wrap img{
   height: 100%;
-  width: auto;
-  flex: 1;
-  object-fit: contain;
+  width: 50%;
+  object-fit: cover;
   object-position: top;
   display: block;
+  flex-shrink: 0;
+}
+/* Left page: shadow falls toward spine */
+.handbook-embed-wrap img:first-child{
+  box-shadow: inset -8px 0 18px rgba(0,0,0,0.35);
+}
+/* Right page: shadow falls toward spine */
+.handbook-embed-wrap img:last-child{
+  box-shadow: inset 8px 0 18px rgba(0,0,0,0.35);
+}
+/* Spine line */
+.handbook-embed-wrap::after{
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, rgba(0,0,0,0.45), rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.45));
+  pointer-events: none;
 }
 
 /* Policy links column */
