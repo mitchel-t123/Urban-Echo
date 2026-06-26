@@ -599,6 +599,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   align-items:center; flex-wrap:wrap; gap:12px;
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body class="auth-pending">
 
@@ -905,7 +906,8 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <div id="contractSuccess" style="display:none;padding:40px;text-align:center;">
       <div style="font-size:48px;margin-bottom:16px;">✅</div>
       <div style="font-family:var(--display);font-size:22px;font-weight:700;margin-bottom:8px;">Contract Signed</div>
-      <div style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);">Your signature has been submitted to Mitchel.</div>
+      <div style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:20px;">Your signature has been submitted to Mitchel.</div>
+      <button id="downloadSignedPdf" class="action-card-btn" style="display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 24px;">⬇ Download Signed Copy</button>
     </div>
     <div style="padding:16px 18px;border-top:2px solid rgba(22,21,39,0.1);background:var(--cream);flex-shrink:0;" id="contractSubmitRow">
       <button id="contractSubmit" class="action-card-btn" style="width:100%;text-align:center;border-radius:10px;">Submit Signed Contract →</button>
@@ -1483,10 +1485,85 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
     signatureData = null;
   });
 
+  var lastSignedName = '';
+  var lastSignedAt   = '';
+  var lastSignedData = null;
+
+  function generateSignedPDF(name, sigDataUrl, signedAt) {
+    var jsPDF = window.jspdf ? window.jspdf.jsPDF : null;
+    if(!jsPDF){ alert('PDF library not loaded. Please refresh and try again.'); return; }
+    var doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+    var pageW = doc.internal.pageSize.getWidth();
+    var pageH = doc.internal.pageSize.getHeight();
+
+    var contractImg = new Image();
+    contractImg.crossOrigin = 'anonymous';
+    contractImg.onload = function(){
+      // Contract last page — top 62% of the page
+      var margin = 10;
+      var contractAreaH = pageH * 0.62;
+      doc.addImage(contractImg, 'JPEG', margin, margin, pageW - margin * 2, contractAreaH);
+
+      // Divider
+      var y = contractAreaH + margin + 6;
+      doc.setDrawColor(200, 200, 200);
+      doc.line(margin, y, pageW - margin, y);
+      y += 7;
+
+      // "Digitally signed by" label
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.setTextColor(150, 150, 150);
+      doc.text('DIGITALLY SIGNED BY', margin, y);
+      y += 5;
+
+      // Name
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.setTextColor(22, 21, 39);
+      doc.text(name, margin, y);
+      y += 3;
+
+      // Signature image
+      var sigImg = new Image();
+      sigImg.onload = function(){
+        var sigW = 90, sigH = 22;
+        doc.addImage(sigImg, 'PNG', margin, y, sigW, sigH);
+        y += sigH + 4;
+
+        // Signature line
+        doc.setDrawColor(22, 21, 39);
+        doc.line(margin, y, margin + sigW, y);
+        y += 4;
+
+        // Date
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(100, 100, 100);
+        doc.text('Date signed: ' + signedAt, margin, y);
+
+        // Footer
+        doc.setFontSize(7);
+        doc.setTextColor(160, 160, 160);
+        doc.text('Contractor Agreement (Sole Trader) — Urban Echo June 2026', margin, pageH - 6);
+
+        var safeName = name.replace(/[^a-zA-Z0-9]/g, '-');
+        doc.save('Urban-Echo-Signed-Contract-' + safeName + '.pdf');
+      };
+      sigImg.src = sigDataUrl;
+    };
+    contractImg.src = 'contract-pages/page-06.jpg';
+  }
+
   submitBtn.addEventListener('click', function(){
     if(!signatureData){ alert('Please sign before submitting.'); return; }
     var name = document.getElementById('sigName').value.trim();
     if(!name){ alert('Please enter your full name.'); return; }
+    var signedAt = new Date().toLocaleString('en-AU', { dateStyle:'long', timeStyle:'short' });
+    lastSignedName = name;
+    lastSignedAt   = signedAt;
+    lastSignedData = signatureData;
+
     fetch('https://formspree.io/f/mlgyjyej', {
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
@@ -1494,7 +1571,7 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
         _subject: '✍️ Contract Signed — Urban Echo',
         name: name,
         document: 'Contractor Agreement (Sole Trader) June 2026',
-        signed_at: new Date().toLocaleString('en-AU'),
+        signed_at: signedAt,
         signature: signatureData
       })
     }).then(function(r){
@@ -1502,6 +1579,7 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
         pages.style.display = 'none';
         submitBtn.style.display = 'none';
         successEl.style.display = 'block';
+        generateSignedPDF(lastSignedName, lastSignedData, lastSignedAt);
         // Update action card to show signed
         var card = document.querySelector('.action-card');
         if(card){
@@ -1513,6 +1591,10 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
         }
       }
     }).catch(function(){});
+  });
+
+  document.getElementById('downloadSignedPdf').addEventListener('click', function(){
+    if(lastSignedData) generateSignedPDF(lastSignedName, lastSignedData, lastSignedAt);
   });
 
   function openModal(){
