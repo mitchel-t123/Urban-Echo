@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Login — Urban Echo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: #FBF5E7;
+  --cream-deep: #F4ECD8;
+  --indigo: #3F3FF0;
+  --forest: #4AAE74;
+  --ink: #161527;
+  --paper: #FFFCF5;
+  --orange: #F4612E;
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'Space Mono', monospace;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+  font-family: var(--body);
+  background: var(--ink);
+  color: var(--paper);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  -webkit-font-smoothing: antialiased;
+}
+.login-box{
+  width: 100%;
+  max-width: 420px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 24px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 8px 8px 0 rgba(255,252,245,0.15);
+  padding: 40px 36px 36px;
+}
+.login-logo{
+  display: block;
+  height: 28px;
+  margin-bottom: 28px;
+}
+.login-eyebrow{
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--orange);
+  display: block;
+  margin-bottom: 8px;
+}
+.login-box h1{
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 28px;
+}
+/* Netlify Identity widget styles override */
+#netlify-identity-widget{
+  font-family: var(--body) !important;
+}
+.login-note{
+  margin-top: 24px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: rgba(22,21,39,0.5);
+  text-align: center;
+  line-height: 1.6;
+}
+.back-link{
+  display: block;
+  margin-top: 28px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: rgba(255,252,245,0.5);
+  text-decoration: none;
+}
+.back-link:hover{ color: var(--paper); }
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <img src="logo.png" alt="Urban Echo" class="login-logo">
+  <span class="login-eyebrow">Employee Access</span>
+  <h1>Staff Portal</h1>
+  <!-- Netlify Identity widget renders the login form here -->
+  <div data-netlify-identity-button></div>
+  <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
+</div>
+
+<a href="index.html" class="back-link">← Back to main site</a>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+netlifyIdentity.on('login', function(user){
+  // After login, redirect to the portal
+  window.location.href = '/portal.html';
+});
+// If already logged in, go straight to portal
+netlifyIdentity.on('init', function(user){
+  if(user) window.location.href = '/portal.html';
+});
+</script>
+</body>
+</html>

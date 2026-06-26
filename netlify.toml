@@ -1,0 +1,9 @@
+[build]
+  publish = "docs"
+
+[[redirects]]
+  from = "/portal/*"
+  to = "/login.html"
+  status = 302
+  conditions = {Role = ["employee"]}
+  force = false

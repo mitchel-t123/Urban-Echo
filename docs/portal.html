@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Portal — Urban Echo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: #FBF5E7;
+  --cream-deep: #F4ECD8;
+  --indigo: #3F3FF0;
+  --forest: #4AAE74;
+  --forest-deep: #379260;
+  --ink: #161527;
+  --paper: #FFFCF5;
+  --orange: #F4612E;
+  --sunshine: #F9C328;
+  --line: rgba(22,21,39,0.12);
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'Space Mono', monospace;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+  font-family: var(--body);
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+/* Auth guard — hide page until identity confirmed */
+body.auth-pending{ visibility: hidden; }
+
+/* ── NAV ── */
+.nav{
+  position: sticky; top:0; z-index:100;
+  background: #fff; border-bottom: 1px solid var(--line);
+}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 14px 32px; max-width:1180px; margin:0 auto;
+}
+.nav-logo{ height:28px; }
+.nav-user{
+  display:flex; align-items:center; gap:14px;
+  font-family: var(--mono); font-size:13px;
+}
+.nav-user-name{ font-weight:700; }
+.btn-logout{
+  background:none; border:2px solid var(--ink); border-radius:100px;
+  padding:7px 16px; font-family:var(--mono); font-size:12px;
+  font-weight:700; cursor:pointer; color:var(--ink);
+  transition: background 0.15s;
+}
+.btn-logout:hover{ background: var(--ink); color: var(--paper); }
+
+/* ── WRAP ── */
+.wrap{ max-width:1180px; margin:0 auto; padding:0 48px; }
+@media(max-width:600px){ .wrap{ padding:0 20px; } }
+
+/* ── HEADER ── */
+.portal-header{
+  background: var(--ink);
+  color: var(--paper);
+  padding: 56px 0 48px;
+  border-bottom: 6px solid var(--ink);
+}
+.portal-eyebrow{
+  font-family: var(--mono);
+  font-size: 11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.14em;
+  color: var(--orange);
+  display:block; margin-bottom:12px;
+}
+.portal-header h1{
+  font-family: var(--display);
+  font-size: clamp(28px,5vw,52px);
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  line-height:1.05;
+}
+.portal-header p{
+  margin-top:14px;
+  font-size:16px;
+  color: rgba(255,252,245,0.65);
+  max-width:480px;
+}
+
+/* ── PORTAL GRID ── */
+.portal-section{ padding:56px 0; }
+.portal-section h2{
+  font-family: var(--display);
+  font-size:22px; text-transform:uppercase;
+  letter-spacing:-0.01em; margin-bottom:24px;
+  padding-bottom:14px; border-bottom:2.5px solid var(--ink);
+}
+.portal-cards{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:20px;
+}
+@media(max-width:900px){ .portal-cards{ grid-template-columns:1fr 1fr; } }
+@media(max-width:560px){ .portal-cards{ grid-template-columns:1fr; } }
+
+.portal-card{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius:20px;
+  padding:26px 24px;
+  box-shadow:5px 5px 0 var(--ink);
+  display:flex; flex-direction:column; gap:10px;
+  text-decoration:none; color:var(--ink);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.portal-card:hover{ transform:translateY(-3px); box-shadow:5px 8px 0 var(--ink); }
+.portal-card-icon{ font-size:28px; line-height:1; }
+.portal-card h3{
+  font-family:var(--body); font-weight:800;
+  font-size:17px; text-transform:none; letter-spacing:0;
+}
+.portal-card p{
+  font-size:14px; color:rgba(22,21,39,0.62); line-height:1.5;
+}
+.portal-card-tag{
+  margin-top:auto; font-family:var(--mono);
+  font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.08em; color:var(--orange);
+}
+
+/* ── NOTICE ── */
+.portal-notice{
+  background:var(--sunshine);
+  border:2.5px solid var(--ink);
+  border-radius:16px;
+  padding:20px 24px;
+  font-size:14.5px; line-height:1.6;
+  display:flex; gap:14px; align-items:flex-start;
+  margin-bottom:32px;
+}
+.portal-notice-icon{ font-size:22px; flex-shrink:0; }
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink); color:rgba(255,252,245,0.5);
+  padding:28px 0; font-size:13px; font-family:var(--mono);
+  border-top:1px solid rgba(255,252,245,0.12);
+}
+.footer-inner{
+  display:flex; justify-content:space-between;
+  align-items:center; flex-wrap:wrap; gap:12px;
+}
+</style>
+</head>
+<body class="auth-pending">
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
+    <div class="nav-user">
+      <span class="nav-user-name" id="portalUserName">Loading…</span>
+      <button class="btn-logout" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HEADER ── -->
+<div class="portal-header">
+  <div class="wrap">
+    <span class="portal-eyebrow">Urban Echo — Staff Only</span>
+    <h1>Employee Portal</h1>
+    <p>Welcome back. Everything you need for upcoming events and admin.</p>
+  </div>
+</div>
+
+<!-- ── CONTENT ── -->
+<main>
+  <section class="portal-section">
+    <div class="wrap">
+
+      <div class="portal-notice">
+        <span class="portal-notice-icon">📌</span>
+        <span>This portal is a work in progress. More sections will be added here — let Mitchel know what you need access to.</span>
+      </div>
+
+      <h2>Quick Access</h2>
+      <div class="portal-cards">
+
+        <a href="problems.html" class="portal-card">
+          <span class="portal-card-icon">🛠️</span>
+          <h3>Troubleshooting Tool</h3>
+          <p>Step-by-step sound diagnostic guide for on-the-day issues.</p>
+          <span class="portal-card-tag">Open tool →</span>
+        </a>
+
+        <div class="portal-card">
+          <span class="portal-card-icon">📅</span>
+          <h3>Upcoming Events</h3>
+          <p>Your scheduled events and bookings. (Coming soon)</p>
+          <span class="portal-card-tag">In progress</span>
+        </div>
+
+        <div class="portal-card">
+          <span class="portal-card-icon">📋</span>
+          <h3>Run Sheets</h3>
+          <p>Event run sheets and technical riders for upcoming jobs. (Coming soon)</p>
+          <span class="portal-card-tag">In progress</span>
+        </div>
+
+        <div class="portal-card">
+          <span class="portal-card-icon">📞</span>
+          <h3>Key Contacts</h3>
+          <p>School contacts, venue details, and emergency numbers. (Coming soon)</p>
+          <span class="portal-card-tag">In progress</span>
+        </div>
+
+        <div class="portal-card">
+          <span class="portal-card-icon">🎚️</span>
+          <h3>Equipment List</h3>
+          <p>Gear inventory and what's assigned to which job. (Coming soon)</p>
+          <span class="portal-card-tag">In progress</span>
+        </div>
+
+        <div class="portal-card">
+          <span class="portal-card-icon">💬</span>
+          <h3>Contact Mitchel</h3>
+          <p>Questions or issues? Reach out directly.</p>
+          <span class="portal-card-tag"><a href="tel:0429660186" style="color:inherit;">0429 660 186</a></span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© 2026 Urban Echo. All rights reserved.</span>
+    <span>Sound &amp; AV for Perth Schools.</span>
+  </div>
+</footer>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+netlifyIdentity.on('init', function(user){
+  if(!user){
+    // Not logged in — redirect to login page
+    window.location.replace('/login.html');
+    return;
+  }
+  // Logged in — show page
+  document.body.classList.remove('auth-pending');
+  var name = (user.user_metadata && user.user_metadata.full_name) || user.email || 'Staff';
+  document.getElementById('portalUserName').textContent = name;
+});
+
+document.getElementById('logoutBtn').addEventListener('click', function(){
+  netlifyIdentity.logout();
+});
+
+netlifyIdentity.on('logout', function(){
+  window.location.href = '/login.html';
+});
+</script>
+</body>
+</html>
