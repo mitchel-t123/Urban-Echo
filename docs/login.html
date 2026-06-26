@@ -67,15 +67,69 @@ body{
   letter-spacing: -0.01em;
   margin-bottom: 28px;
 }
-/* Netlify Identity widget styles override */
-#netlify-identity-widget{
-  font-family: var(--body) !important;
+.login-field{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.login-field label{
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(22,21,39,0.55);
+}
+.login-field input{
+  width: 100%;
+  padding: 13px 16px;
+  border: 2px solid rgba(22,21,39,0.2);
+  border-radius: 10px;
+  font-family: var(--body);
+  font-size: 15px;
+  background: var(--cream);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.login-field input:focus{
+  border-color: var(--indigo);
+}
+.login-btn{
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.login-btn:hover{ opacity: 0.82; }
+.login-error{
+  display: none;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: rgba(244,97,46,0.1);
+  border: 1.5px solid var(--orange);
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: var(--orange);
+  font-weight: 600;
+  text-align: center;
 }
 .login-note{
-  margin-top: 24px;
+  margin-top: 20px;
   font-family: var(--mono);
   font-size: 11.5px;
-  color: rgba(22,21,39,0.5);
+  color: rgba(22,21,39,0.45);
   text-align: center;
   line-height: 1.6;
 }
@@ -97,22 +151,57 @@ body{
   <img src="logo.png" alt="Urban Echo" class="login-logo">
   <span class="login-eyebrow">Employee Access</span>
   <h1>Staff Portal</h1>
-  <!-- Netlify Identity widget renders the login form here -->
-  <div data-netlify-identity-button></div>
+
+  <form id="loginForm" novalidate>
+    <div class="login-field">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" name="email" autocomplete="email" placeholder="you@urbanecho.com.au" required>
+    </div>
+    <div class="login-field">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" name="password" autocomplete="current-password" placeholder="••••••••" required>
+    </div>
+    <button type="submit" class="login-btn">Log in →</button>
+    <div class="login-error" id="loginError">Incorrect email or password.</div>
+  </form>
+
   <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
 </div>
 
 <a href="index.html" class="back-link">← Back to main site</a>
 
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-netlifyIdentity.on('login', function(user){
-  // After login, redirect to the portal
-  window.location.href = '/portal.html';
-});
-// If already logged in, go straight to portal
-netlifyIdentity.on('init', function(user){
-  if(user) window.location.href = '/portal.html';
+// ── Credentials (change before moving to Netlify) ──
+var USERS = [
+  { email: 'mitchel@urbanecho.com.au', password: 'UrbanEcho2026!' }
+];
+
+var form = document.getElementById('loginForm');
+var errorEl = document.getElementById('loginError');
+
+// Already logged in?
+if(sessionStorage.getItem('ue_auth') === '1'){
+  window.location.replace('portal.html');
+}
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  var email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  var password = document.getElementById('loginPassword').value;
+
+  var match = USERS.find(function(u){
+    return u.email.toLowerCase() === email && u.password === password;
+  });
+
+  if(match){
+    sessionStorage.setItem('ue_auth', '1');
+    sessionStorage.setItem('ue_name', match.email.split('@')[0]);
+    window.location.replace('portal.html');
+  } else {
+    errorEl.style.display = 'block';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginPassword').focus();
+  }
 });
 </script>
 </body>
