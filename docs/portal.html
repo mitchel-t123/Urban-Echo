@@ -173,12 +173,41 @@ body.auth-pending{ visibility: hidden; }
 /* ── COMPLIANCE GRID ── */
 .compliance-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:1fr 1fr 1fr;
   gap:24px;
 }
-@media(max-width:680px){
+@media(max-width:860px){
+  .compliance-grid{ grid-template-columns:1fr 1fr; }
+}
+@media(max-width:560px){
   .compliance-grid{ grid-template-columns:1fr; }
 }
+.action-card{
+  background: var(--paper); border: 2.5px solid var(--orange);
+  border-radius:20px; padding:28px; box-shadow:5px 5px 0 var(--orange);
+  display:flex; flex-direction:column;
+}
+.action-card-label{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--orange);
+  margin-bottom:10px; display:flex; align-items:center; gap:6px;
+}
+.action-card-title{
+  font-family:var(--display); font-size:17px; font-weight:700;
+  color:var(--ink); margin-bottom:6px; line-height:1.2;
+}
+.action-card-meta{
+  font-size:13px; color:rgba(22,21,39,0.55); margin-bottom:16px; line-height:1.5;
+}
+.action-card-btn{
+  margin-top:auto; display:inline-block; padding:11px 18px;
+  background:var(--orange); color:#fff; border:2px solid var(--ink);
+  border-radius:100px; font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em; cursor:pointer;
+  text-decoration:none; box-shadow:3px 3px 0 var(--ink); transition:opacity 0.15s;
+  align-self:flex-start;
+}
+.action-card-btn:hover{ opacity:0.82; }
 
 /* ── WWC CARD ── */
 .wwc-card{
@@ -625,6 +654,16 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
              target="_blank" rel="noopener" class="wwc-renew-btn">
             🔄 Renew Now
           </a>
+        </div>
+
+        <!-- ACTION: Policy re-sign -->
+        <div class="action-card">
+          <div class="action-card-label">⚠ Action Required</div>
+          <div class="action-card-title">Child Safety Policy — Signature Needed</div>
+          <div class="action-card-meta">
+            Updated June 2026 &nbsp;·&nbsp; All staff must re-sign the updated Child Safety Policy before their next event.
+          </div>
+          <a href="employee-handbook-2026.pdf#page=3" target="_blank" rel="noopener" class="action-card-btn">Review &amp; Sign →</a>
         </div>
 
       </div>
@@ -1196,7 +1235,7 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
 
 // ── Employee Handbook page navigator ────────────────────────
 (function(){
-  var totalPages = 95;
+  var totalPages = 18;
   var currentPage = 1;
   var frame = document.getElementById('handbookFrame');
   var numEl = document.getElementById('hbPageNum');
