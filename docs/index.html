@@ -1305,27 +1305,38 @@ body{ overflow-x: hidden; }
   .nav-inner{ padding:12px 20px; }
   .nav .btn{ padding:9px 16px; font-size:13px; }
   .wrap{ padding:0 24px; }
-  /* Mini-reviews: show 1 card at a time */
+  /* Mini-reviews: hide arrows, full-width single card */
   .mini-reviews-track{ grid-template-columns: 1fr; }
   .mini-reviews-with-arrows{ align-items: stretch; }
+  .mini-nav-btn{ display: none; }
   /* Symptom check: ensure items don't overflow */
   .hero-checklist{ max-width:100%; }
   .hero-check{ font-size:15px; }
   /* Mobile: hide non-essential symptom items */
   .hero-check-desktop{ display: none; }
+  /* Hero CTAs: hide in checklist column, show below treatment card */
+  .hero-ctas-desktop{ display: none; }
+  .hero-ctas-mobile{ display: flex; flex-direction:column; gap:12px; margin-top:20px; padding-bottom:0; }
+  .hero-ctas-mobile .btn{ width:100%; justify-content:center; }
+  /* Extra cards (Emergency + Bonus Revenue): single column */
+  .extra-cards-row{ grid-template-columns: 1fr; }
+  /* Reduce section header bottom gap by 20% */
+  .section-head{ margin-bottom: 42px; }
 }
 @media (max-width: 600px){
   .symptom-grid{ grid-template-columns:1fr; }
   .reviews-grid{ grid-template-columns:1fr; }
   .reviews-grid .review-card{ grid-column: 1 / -1 !important; }
-  .wrap{ padding: 0 16px; }
+  .wrap{ padding: 0 20px; }
   .hero{ padding-top:36px; }
   .nav-inner{ padding:10px 14px; }
   .nav .btn{ padding:8px 14px; font-size:13px; }
-  .hero-ctas{ flex-direction:column; }
-  .hero-ctas .btn{ width:100%; justify-content:center; }
   .school-logo{ height:auto; padding:12px 16px; }
   .school-logo img{ max-width:140px; max-height:70px; }
+}
+/* Desktop: hide the mobile-only CTA duplicate */
+@media (min-width: 921px){
+  .hero-ctas-mobile{ display: none; }
 }
 </style>
 </head>
@@ -1359,6 +1370,7 @@ body{ overflow-x: hidden; }
     <a href="#reviews" class="mobile-menu-link">Reviews</a>
     <a href="problems.html" class="nav-troubleshoot mobile-menu-link">Troubleshooting Tool</a>
     <a href="#contact" class="mobile-menu-link" style="margin-top:8px;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;">Contact Us</a>
+    <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="background:var(--forest);color:var(--paper) !important;font-weight:800;border-radius:10px;">📱 Save Our Number</a>
   </div>
 </div>
 
@@ -1398,7 +1410,7 @@ body{ overflow-x: hidden; }
             Always Multi-tasking?
           </div>
         </div>
-        <div class="hero-ctas">
+        <div class="hero-ctas hero-ctas-desktop">
           <a href="#contact" class="btn btn-cream">Book Your Free Trial Event</a>
           <a href="#contact" class="btn btn-blue">Contact Us</a>
         </div>
@@ -1436,6 +1448,11 @@ body{ overflow-x: hidden; }
           <span class="treat-label">Recommended Treatment</span>
           <span class="treat-plan" id="treatPlan">Select your symptoms</span>
           <span class="treat-desc" id="treatDesc">Tick the boxes to get your recommended response plan.</span>
+        </div>
+        <!-- CTAs repeated for mobile — shown only on mobile, hidden on desktop -->
+        <div class="hero-ctas hero-ctas-mobile">
+          <a href="#contact" class="btn btn-cream">Book Your Free Trial Event</a>
+          <a href="#contact" class="btn btn-blue">Contact Us</a>
         </div>
       </div>
     </div>
@@ -2213,16 +2230,39 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       c.classList.toggle('hidden', i < offset || i >= offset + pp);
     });
   }
+  function fadeAndShow(newOffset){
+    var visible = cards.filter(function(c){ return !c.classList.contains('hidden'); });
+    visible.forEach(function(c){ c.style.transition='opacity 0.55s ease'; c.style.opacity='0'; });
+    setTimeout(function(){
+      offset = newOffset;
+      show();
+      cards.forEach(function(c){
+        c.style.transition='opacity 0.55s ease';
+        c.style.opacity = c.classList.contains('hidden') ? '' : '1';
+      });
+      setTimeout(function(){ cards.forEach(function(c){ c.style.transition=''; c.style.opacity=''; }); }, 600);
+    }, 320);
+  }
+  var autoTimer = null;
+  function startAuto(){
+    if(window.innerWidth > 920) return;
+    autoTimer = setInterval(function(){
+      var next = (offset + 1) % cards.length;
+      fadeAndShow(next);
+    }, 8000);
+  }
+  function resetAuto(){ clearInterval(autoTimer); startAuto(); }
   prev.addEventListener('click', function(){
-    offset = Math.max(0, offset - perPage());
-    show();
+    fadeAndShow(Math.max(0, offset - perPage()));
+    resetAuto();
   });
   next.addEventListener('click', function(){
-    offset = Math.min(cards.length - perPage(), offset + perPage());
-    show();
+    fadeAndShow(Math.min(cards.length - perPage(), offset + perPage()));
+    resetAuto();
   });
-  window.addEventListener('resize', function(){ offset = 0; show(); });
+  window.addEventListener('resize', function(){ offset = 0; show(); clearInterval(autoTimer); startAuto(); });
   show();
+  startAuto();
 })();
 // Hamburger menu
 (function(){
