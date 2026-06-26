@@ -857,10 +857,10 @@ h1,h2,h3{
 }
 .plan-step .step-num{
   font-family: var(--display);
-  font-size: 56px;
+  font-size: 18px;
   color: var(--orange);
   -webkit-text-stroke: 0;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   display:block;
 }
 .plan-step h3{
@@ -1165,8 +1165,8 @@ h1,h2,h3{
 }
 .field input:focus, .field select:focus, .field textarea:focus{ border-color: var(--indigo); }
 .field textarea{ resize:vertical; min-height:96px; font-family:var(--body); }
-.form-card .btn{ width:100%; justify-content:center; padding:16px; margin-top:6px; }
-.form-note{ font-size:12.5px; color: rgba(22,21,39,0.55); margin-top:12px; text-align:center; }
+.form-card .btn{ width:100%; justify-content:center; padding:16px; margin-top:6px; margin-bottom:0; }
+.form-card{ padding-bottom:36px; }
 .contact-method-row{ display:flex; gap:20px; padding:10px 0; }
 .contact-method-opt{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:15px; cursor:pointer; }
 .form-success{
@@ -1204,6 +1204,12 @@ body::after{ content: none; }
 /* ============ REVIEWS ============ */
 .reviews-carousel .review-card{ display:none; }
 .reviews-carousel .review-card.active{ display:flex; }
+/* Desktop: show all reviews in a grid */
+@media(min-width:921px){
+  .reviews-carousel{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .reviews-carousel .review-card{ display:flex; }
+  .reviews-next-btn{ display:none !important; }
+}
 .reviews{
   background: var(--cream-deep);
   color: var(--ink);
@@ -1339,6 +1345,7 @@ body{ overflow-x: hidden; }
   /* Plan steps: number left, header right, same size */
   .plan-step{ display:grid; grid-template-columns:auto 1fr; column-gap:16px; align-items:start; }
   .plan-step .step-num{ font-size:32px; margin-bottom:0; line-height:1.1; }
+  .plan-step .step-num{ font-size:18px; margin-bottom:0; }
   .plan-step h3{ font-size:18px; font-family:var(--body); font-weight:800; letter-spacing:0; text-transform:none; align-self:center; }
   .plan-step p{ grid-column:2; }
   /* Contact form: reduce space above submit button on mobile */
@@ -1362,13 +1369,14 @@ body{ overflow-x: hidden; }
   display:none;
   position:fixed; bottom:24px; right:20px; z-index:200;
   width:52px; height:52px; border-radius:50%;
-  font-family: var(--mono); font-size:20px; font-weight:700;
+  font-size:24px; line-height:52px;
+  text-align:center; padding:0;
   background:var(--ink); color:var(--paper);
   border:none; cursor:pointer;
-  font-size:22px; line-height:1;
   box-shadow: 0 4px 16px rgba(22,21,39,0.35);
   align-items:center; justify-content:center;
-  transition: transform 0.2s, opacity 0.2s;
+  overflow:visible;
+  transition: opacity 0.2s;
 }
 @media(max-width:920px){
   .fab-menu{ display:flex; opacity:0; pointer-events:none; }
@@ -1391,7 +1399,7 @@ body{ overflow-x: hidden; }
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <a href="#contact" class="btn btn-blue">Contact Us</a>
-      <a href="login.html" class="nav-login-btn" title="Staff login" aria-label="Employee portal login">👤</a>
+      <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login">💼</a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -1400,7 +1408,7 @@ body{ overflow-x: hidden; }
 </nav>
 
 <!-- Floating back-to-top button (mobile) -->
-<button class="fab-menu" id="fabMenu" aria-label="Back to top">^</button>
+<button class="fab-menu" id="fabMenu" aria-label="Back to top">↑</button>
 
 <!-- Mobile menu overlay -->
 <div class="mobile-menu" id="mobileMenu">
@@ -1411,7 +1419,7 @@ body{ overflow-x: hidden; }
     <a href="problems.html" class="nav-troubleshoot mobile-menu-link">Troubleshooting Tool</a>
     <a href="#contact" class="mobile-menu-link" style="margin-top:8px;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;">Contact Us</a>
     <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);">📱 Save Our Number</a>
-    <a href="login.html" class="mobile-menu-link" style="margin-top:8px;background:var(--ink);color:var(--paper) !important;font-weight:700;border-radius:10px;display:flex;align-items:center;gap:10px;">👤 Staff Login</a>
+    <a href="login.html" class="mobile-menu-link" style="margin-top:8px;background:var(--ink);color:var(--paper) !important;font-weight:700;border-radius:10px;display:flex;align-items:center;gap:10px;">💼 Team Login</a>
   </div>
 </div>
 
@@ -1577,18 +1585,10 @@ body{ overflow-x: hidden; }
               <div class="mini-reviews-track" id="miniReviewsTrack">
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
-                  <p>"Mitch is professional, courteous and completely on the ball."</p>
+                  <p>"Every event runs without a hitch — Mitch is an absolute pleasure to work with."</p>
                   <div class="mini-review-author">
-                    <span class="mini-review-name">Katherine</span>
-                    <span class="mini-review-school">Riva Primary School</span>
-                  </div>
-                </div>
-                <div class="mini-review-card">
-                  <div class="mini-review-stars">★★★★★</div>
-                  <p>"The show sounded amazing and we didn't have any mic issues."</p>
-                  <div class="mini-review-author">
-                    <span class="mini-review-name">Corinna</span>
-                    <span class="mini-review-school">The Kings College</span>
+                    <span class="mini-review-name">Amanda</span>
+                    <span class="mini-review-school">Wesley College</span>
                   </div>
                 </div>
                 <div class="mini-review-card">
@@ -1609,6 +1609,22 @@ body{ overflow-x: hidden; }
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
+                  <p>"Mitch is professional, courteous and completely on the ball."</p>
+                  <div class="mini-review-author">
+                    <span class="mini-review-name">Katherine</span>
+                    <span class="mini-review-school">Riva Primary School</span>
+                  </div>
+                </div>
+                <div class="mini-review-card">
+                  <div class="mini-review-stars">★★★★★</div>
+                  <p>"The show sounded amazing and we didn't have any mic issues."</p>
+                  <div class="mini-review-author">
+                    <span class="mini-review-name">Corinna</span>
+                    <span class="mini-review-school">The Kings College</span>
+                  </div>
+                </div>
+                <div class="mini-review-card">
+                  <div class="mini-review-stars">★★★★★</div>
                   <p>"Friendly, punctual, and made the whole process super smooth."</p>
                   <div class="mini-review-author">
                     <span class="mini-review-name">Nicholas</span>
@@ -1618,7 +1634,7 @@ body{ overflow-x: hidden; }
               </div>
             </div>
             <div style="text-align:center; margin-top:12px;">
-              <button class="mini-nav-btn" id="miniNext" aria-label="Next review" style="width:auto;height:auto;border-radius:100px;padding:8px 22px;font-size:12px;font-weight:700;font-family:var(--mono);letter-spacing:0.08em;text-transform:uppercase;border:2px solid rgba(255,252,245,0.5);background:rgba(255,252,245,0.12);color:var(--paper);cursor:pointer;transition:background 0.15s;">Next →</button>
+              <a href="#reviews" id="miniNext" aria-label="See more reviews" style="display:inline-block;border-radius:100px;padding:8px 22px;font-size:12px;font-weight:700;font-family:var(--mono);letter-spacing:0.08em;text-transform:uppercase;border:2px solid rgba(255,252,245,0.5);background:rgba(255,252,245,0.12);color:var(--paper);text-decoration:none;cursor:pointer;transition:background 0.15s;">See More Reviews →</a>
             </div>
           </div>
 
@@ -1784,18 +1800,10 @@ body{ overflow-x: hidden; }
     <div class="reviews-carousel" id="reviewsCarousel">
       <div class="review-card" data-reveal>
         <div class="review-stars">★★★★★</div>
-        <blockquote class="review-quote">"Thank you for providing an excellent sound job, once again. Mitch is professional, courteous and completely on the ball, and I hope to be able to work with him again in future."</blockquote>
+        <blockquote class="review-quote">"Every event runs without a hitch — Mitch is an absolute pleasure to work with. Our students and staff always comment on how seamless the audio is."</blockquote>
         <div class="review-author">
-          <span class="review-name">Katherine</span>
-          <span class="review-school">Riva Primary School</span>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <blockquote class="review-quote">"Thank you again!! The show sounded amazing and we didn't have any mic issues which is my pet hate in musicals."</blockquote>
-        <div class="review-author">
-          <span class="review-name">Corinna</span>
-          <span class="review-school">The Kings College</span>
+          <span class="review-name">Amanda</span>
+          <span class="review-school">Wesley College</span>
         </div>
       </div>
       <div class="review-card">
@@ -1816,6 +1824,22 @@ body{ overflow-x: hidden; }
       </div>
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
+        <blockquote class="review-quote">"Thank you for providing an excellent sound job, once again. Mitch is professional, courteous and completely on the ball, and I hope to be able to work with him again in future."</blockquote>
+        <div class="review-author">
+          <span class="review-name">Katherine</span>
+          <span class="review-school">Riva Primary School</span>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <blockquote class="review-quote">"Thank you again!! The show sounded amazing and we didn't have any mic issues which is my pet hate in musicals."</blockquote>
+        <div class="review-author">
+          <span class="review-name">Corinna</span>
+          <span class="review-school">The Kings College</span>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
         <blockquote class="review-quote">"Fantastic service from Urban Echo! The team was friendly, punctual, and made the whole process super smooth from start to finish. Highly recommend!"</blockquote>
         <div class="review-author">
           <span class="review-name">Nicholas Da Prato</span>
@@ -1823,7 +1847,7 @@ body{ overflow-x: hidden; }
         </div>
       </div>
     </div>
-    <div style="text-align:center; margin-top:24px;">
+    <div class="reviews-next-btn" style="text-align:center; margin-top:24px;">
       <button id="reviewNext" style="padding:12px 32px;border-radius:100px;border:2.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;transition:opacity 0.15s;">Next →</button>
     </div>
   </div>
@@ -1910,7 +1934,6 @@ body{ overflow-x: hidden; }
             </div>
           </div>
           <button type="submit" class="btn btn-orange">Send Enquiry</button>
-          <p class="form-note">We'll never share your details. One sound team, no spam.</p>
         </form>
 
         <div class="form-success" id="formSuccess">
@@ -2261,11 +2284,10 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     onScroll();
   })();
 
-/* ── Mini review carousel ── */
+/* ── Mini review carousel (auto-advance only; Next button links to #reviews) ── */
 (function(){
   var cards = document.querySelectorAll('.mini-review-card');
-  var nextBtn = document.getElementById('miniNext');
-  if(!cards.length || !nextBtn) return;
+  if(!cards.length) return;
   var offset = 0;
   function perPage(){ return window.innerWidth <= 920 ? 1 : 3; }
   function show(){
@@ -2287,20 +2309,9 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       setTimeout(function(){ cards.forEach(function(c){ c.style.transition=''; c.style.opacity=''; }); }, 550);
     }, 280);
   }
-  var autoTimer = null;
-  function startAuto(){
-    autoTimer = setInterval(function(){
-      fadeAndShow((offset + 1) % cards.length);
-    }, 7000);
-  }
-  function resetAuto(){ clearInterval(autoTimer); startAuto(); }
-  nextBtn.addEventListener('click', function(){
-    fadeAndShow((offset + perPage()) % cards.length);
-    resetAuto();
-  });
-  window.addEventListener('resize', function(){ offset = 0; show(); clearInterval(autoTimer); startAuto(); });
+  setInterval(function(){ fadeAndShow((offset + 1) % cards.length); }, 7000);
+  window.addEventListener('resize', function(){ offset = 0; show(); });
   show();
-  startAuto();
 })();
 /* ── Full reviews carousel ── */
 (function(){
