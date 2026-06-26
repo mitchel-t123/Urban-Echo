@@ -35,7 +35,11 @@
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 
-html{ scroll-behavior:auto; } /* JS handles smooth scroll with custom duration */
+html{
+  scroll-behavior:auto; /* JS handles smooth scroll with custom duration */
+  background: var(--ink); /* footer colour shows on overscroll, no blank space */
+  overscroll-behavior-y: none;
+}
 
 body{
   font-family: var(--body);
@@ -45,6 +49,7 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
   overflow-anchor: none;
+  overscroll-behavior-y: none;
 }
 
 img{ max-width:100%; display:block; }
@@ -1202,7 +1207,7 @@ h1,h2,h3{
 html{ overflow-y: auto; }
 body::after{ content: none; }
 .footer{ margin-bottom: 0; padding-bottom: 0; }
-body{ padding-bottom: 0; }
+body{ padding-bottom: 0; margin-bottom: 0; }
 .footer-inner{
   display:flex;
   justify-content:space-between;

@@ -21,6 +21,7 @@
   --mono: 'Space Mono', monospace;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
+html{ background: var(--ink); overscroll-behavior-y: none; }
 body{
   font-family: var(--body);
   background: var(--ink);
@@ -32,6 +33,9 @@ body{
   justify-content: center;
   padding: 24px;
   -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+  margin-bottom: 0;
+  padding-bottom: 24px;
 }
 .login-box{
   width: 100%;

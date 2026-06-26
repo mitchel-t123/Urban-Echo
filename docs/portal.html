@@ -25,12 +25,18 @@
   --mono: 'Space Mono', monospace;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
+html{
+  background: var(--ink);
+  overscroll-behavior-y: none;
+}
 body{
   font-family: var(--body);
   background: var(--cream);
   color: var(--ink);
-  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 body.auth-pending{ visibility: hidden; }
 
@@ -376,7 +382,8 @@ footer{
   border-top:1px solid rgba(255,252,245,0.12);
   margin-bottom:0;
 }
-html, body{ overflow-x:hidden; }
+html, body{ overflow-x:hidden; overflow-y: auto; }
+footer{ margin-bottom:0; padding-bottom:0; }
 .footer-inner{
   display:flex; justify-content:space-between;
   align-items:center; flex-wrap:wrap; gap:12px;
