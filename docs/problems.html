@@ -593,23 +593,26 @@ var allProblemBtns  = document.querySelectorAll('.problem-btn');
 
 var SKILL_LABELS = { beginner: '🟢 Beginner', moderate: '🟡 Moderate', expert: '🔴 Expert' };
 
+function show(el){ el.style.display = 'block'; }
+function hide(el){ el.style.display = 'none'; }
+
 /* ── Skill level picker ── */
 document.querySelectorAll('.skill-btn').forEach(function(btn){
   btn.addEventListener('click', function(){
     skillLevel = this.dataset.level;
     document.querySelectorAll('.skill-btn').forEach(function(b){ b.classList.remove('active'); });
     this.classList.add('active');
-    skillPicker.style.display = 'none';
-    categoryPicker.style.display = '';
+    hide(skillPicker);
+    show(categoryPicker);
     mastheadSub.textContent = 'Choose a category to narrow it down, or search below.';
   });
 });
 
 document.getElementById('backToSkill').addEventListener('click', function(){
-  categoryPicker.style.display = 'none';
-  skillPicker.style.display = '';
+  hide(categoryPicker);
+  show(skillPicker);
   problemSearch.value = '';
-  searchClear.style.display = 'none';
+  hide(searchClear);
   mastheadSub.textContent = 'First — let us know your experience level so we can tailor the steps.';
 });
 
@@ -623,55 +626,54 @@ document.querySelectorAll('.category-btn').forEach(function(btn){
 });
 
 document.getElementById('backToCategories').addEventListener('click', function(){
-  problemPicker.style.display = 'none';
-  categoryPicker.style.display = '';
+  hide(problemPicker);
+  show(categoryPicker);
   problemSearch.value = '';
-  searchClear.style.display = 'none';
-  allProblemBtns.forEach(function(b){ b.classList.remove('active'); b.style.display = ''; });
-  diagEmpty.style.display = '';
-  diagFlow.style.display  = 'none';
+  hide(searchClear);
+  allProblemBtns.forEach(function(b){ b.classList.remove('active'); b.style.display = 'block'; });
+  show(diagEmpty);
+  hide(diagFlow);
   currentKey = null; currentIndex = 0; branchStack = []; stepHistory = [];
 });
 
 /* ── Search ── */
 problemSearch.addEventListener('input', function(){
   var q = this.value.trim();
-  searchClear.style.display = q ? '' : 'none';
+  searchClear.style.display = q ? 'block' : 'none';
   if(!q){ return; }
-  // Make sure problem picker is visible
-  categoryPicker.style.display = 'none';
-  problemPicker.style.display  = '';
+  hide(categoryPicker);
+  show(problemPicker);
   pickerLabel.textContent = 'Search results';
   var count = 0;
   allProblemBtns.forEach(function(btn){
     var text = btn.textContent.toLowerCase() + ' ' + btn.dataset.problem;
-    var show = text.indexOf(q.toLowerCase()) !== -1;
-    btn.style.display = show ? '' : 'none';
-    if(show) count++;
+    var show2 = text.indexOf(q.toLowerCase()) !== -1;
+    btn.style.display = show2 ? 'block' : 'none';
+    if(show2) count++;
   });
-  noResults.style.display = count === 0 ? '' : 'none';
+  noResults.style.display = count === 0 ? 'block' : 'none';
 });
 
 searchClear.addEventListener('click', function(){
   problemSearch.value = '';
-  this.style.display = 'none';
-  allProblemBtns.forEach(function(b){ b.style.display = ''; });
-  noResults.style.display = 'none';
-  categoryPicker.style.display = '';
-  problemPicker.style.display  = 'none';
+  hide(searchClear);
+  allProblemBtns.forEach(function(b){ b.style.display = 'block'; });
+  hide(noResults);
+  show(categoryPicker);
+  hide(problemPicker);
 });
 
 function showProblemPicker(keys, label){
-  categoryPicker.style.display = 'none';
-  problemPicker.style.display  = '';
+  hide(categoryPicker);
+  show(problemPicker);
   pickerLabel.textContent = label || 'All Problems';
   var count = 0;
   allProblemBtns.forEach(function(btn){
-    var show = !keys || keys.indexOf(btn.dataset.problem) !== -1;
-    btn.style.display = show ? '' : 'none';
-    if(show) count++;
+    var show2 = !keys || keys.indexOf(btn.dataset.problem) !== -1;
+    btn.style.display = show2 ? 'block' : 'none';
+    if(show2) count++;
   });
-  noResults.style.display = count === 0 ? '' : 'none';
+  noResults.style.display = count === 0 ? 'block' : 'none';
 }
 
 /* ── Problem button click ── */
@@ -688,13 +690,12 @@ allProblemBtns.forEach(function(btn){
 
 /* ── Restart ── */
 diagRestart.addEventListener('click', function(){
-  allProblemBtns.forEach(function(b){ b.classList.remove('active'); b.style.display = ''; });
-  diagEmpty.style.display = '';
-  diagFlow.style.display  = 'none';
+  allProblemBtns.forEach(function(b){ b.classList.remove('active'); b.style.display = 'block'; });
+  show(diagEmpty);
+  hide(diagFlow);
   currentKey = null; currentIndex = 0; branchStack = []; stepHistory = [];
-  // Go back to category picker
-  problemPicker.style.display  = 'none';
-  categoryPicker.style.display = '';
+  hide(problemPicker);
+  show(categoryPicker);
   window.scrollTo({ top: document.getElementById('problemSection').offsetTop - 80, behavior:'smooth' });
 });
 
@@ -1087,11 +1088,11 @@ function startDiagnosis(key){
   diagTitle.textContent   = prob.label || '';
   var intro = (skillLevel === 'expert' && prob.expertIntro) ? prob.expertIntro : (prob.intro || '');
   diagIntro.textContent   = intro;
-  diagIntro.style.display = intro ? '' : 'none';
+  diagIntro.style.display = intro ? 'block' : 'none';
   skillBadge.textContent  = SKILL_LABELS[skillLevel];
 
-  diagEmpty.style.display = 'none';
-  diagFlow.style.display  = '';
+  hide(diagEmpty);
+  show(diagFlow);
 
   renderSteps();
 }
@@ -1121,10 +1122,10 @@ function goBack(){
   } else {
     // Return to problem picker
     allProblemBtns.forEach(function(b){ b.classList.remove('active'); });
-    diagEmpty.style.display = '';
-    diagFlow.style.display  = 'none';
-    categoryPicker.style.display = 'none';
-    problemPicker.style.display  = '';
+    show(diagEmpty);
+    hide(diagFlow);
+    hide(categoryPicker);
+    show(problemPicker);
     window.scrollTo({ top: document.getElementById('problemSection').offsetTop - 80, behavior:'smooth' });
   }
 }
