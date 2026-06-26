@@ -466,6 +466,17 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       </div>
     </div>
 
+    <!-- Search bar + subtitle (always visible when category/search step is active) -->
+    <div id="searchBarWrap" style="display:none;">
+      <p class="sub" style="margin-bottom:20px;">Choose a category to narrow it down, or search below.</p>
+      <div class="problem-search-wrap">
+        <span class="search-icon-wrap">🔍</span>
+        <input type="search" id="problemSearch" class="problem-search"
+               placeholder="Search: 'feedback', 'no sound', 'crackling', 'dropout'...">
+        <button class="search-clear" id="searchClear" style="display:none;">✕</button>
+      </div>
+    </div>
+
     <!-- Step 2: Category picker -->
     <div id="categoryPicker" style="display:none;">
       <div class="skill-bar" id="catSkillBar">
@@ -476,15 +487,6 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
           <button class="skill-dropdown-opt" data-level="moderate" data-bar="cat">🎚️ Moderate <span class="skill-dropdown-hint">— I know some things</span></button>
           <button class="skill-dropdown-opt" data-level="expert" data-bar="cat">⚡ Expert <span class="skill-dropdown-hint">— Skip the obvious steps</span></button>
         </div>
-      </div>
-
-      <!-- Search bar (below subtitle) -->
-      <p class="sub" style="margin-bottom:20px;">Choose a category to narrow it down, or search below.</p>
-      <div class="problem-search-wrap">
-        <span class="search-icon-wrap">🔍</span>
-        <input type="search" id="problemSearch" class="problem-search"
-               placeholder="Search: 'feedback', 'no sound', 'crackling', 'dropout'...">
-        <button class="search-clear" id="searchClear" style="display:none;">✕</button>
       </div>
 
       <div class="category-grid">
@@ -670,6 +672,7 @@ var stepHistory     = []; // breadcrumb labels
 var skillPicker    = document.getElementById('skillPicker');
 var categoryPicker = document.getElementById('categoryPicker');
 var problemPicker  = document.getElementById('problemPicker');
+var searchBarWrap  = document.getElementById('searchBarWrap');
 var pickerLabel    = document.getElementById('pickerLabel');
 var noResults      = document.getElementById('noResults');
 var problemSearch  = document.getElementById('problemSearch');
@@ -756,6 +759,7 @@ document.querySelectorAll('.skill-btn').forEach(function(btn){
     document.querySelectorAll('.skill-btn').forEach(function(b){ b.classList.remove('active'); });
     this.classList.add('active');
     hide(skillPicker);
+    show(searchBarWrap);
     show(categoryPicker);
     updateSkillBadges();
     mastheadH2.innerHTML = "What's the source<br>of the problem?";
@@ -774,6 +778,7 @@ document.querySelectorAll('.category-btn').forEach(function(btn){
 
 document.getElementById('backToCategories').addEventListener('click', function(){
   hide(problemPicker);
+  show(searchBarWrap);
   show(categoryPicker);
   problemSearch.value = '';
   hide(searchClear);
@@ -806,6 +811,7 @@ searchClear.addEventListener('click', function(){
   hide(searchClear);
   allProblemBtns.forEach(function(b){ b.style.display = 'block'; });
   hide(noResults);
+  show(searchBarWrap);
   show(categoryPicker);
   hide(problemPicker);
 });
@@ -867,6 +873,7 @@ diagRestart.addEventListener('click', function(){
   hide(diagFlow);
   currentKey = null; currentIndex = 0; branchStack = []; stepHistory = [];
   hide(problemPicker);
+  show(searchBarWrap);
   show(categoryPicker);
   window.scrollTo({ top: document.getElementById('problemSection').offsetTop - 80, behavior:'smooth' });
 });
