@@ -182,6 +182,36 @@ body.auth-pending{ visibility: hidden; }
 @media(max-width:560px){
   .compliance-grid{ grid-template-columns:1fr; }
 }
+/* ── HANDBOOK FULLSCREEN MODAL ── */
+.hb-modal{
+  display:none; position:fixed; inset:0; z-index:900;
+  background:rgba(22,21,39,0.92); align-items:center; justify-content:center;
+  padding:20px;
+}
+.hb-modal.open{ display:flex; }
+.hb-modal-inner{
+  position:relative; max-width:820px; width:100%;
+  background:var(--paper); border-radius:20px; border:2.5px solid var(--ink);
+  box-shadow:8px 8px 0 rgba(255,252,245,0.15); overflow:hidden;
+  display:flex; flex-direction:column; max-height:90vh;
+}
+.hb-modal-toolbar{
+  display:flex; align-items:center; gap:10px; padding:14px 18px;
+  border-bottom:2px solid rgba(22,21,39,0.1); flex-shrink:0; background:var(--cream);
+}
+.hb-modal-body{
+  overflow-y:auto; flex:1;
+}
+.hb-modal-body img{ width:100%; height:auto; display:block; }
+.hb-modal-close{
+  margin-left:auto; background:var(--ink); color:var(--paper);
+  border:none; border-radius:8px; padding:8px 16px;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em; cursor:pointer;
+}
+.hb-modal-close:hover{ opacity:0.8; }
+.handbook-embed-wrap img{ cursor:zoom-in; }
+
 .action-card{
   background: var(--paper); border: 2.5px solid var(--red);
   border-radius:20px; padding:28px; box-shadow:5px 5px 0 var(--red);
@@ -640,11 +670,11 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
         <!-- ACTION: Policy re-sign (most urgent — left) -->
         <div class="action-card">
           <div class="action-card-label">⚠ Action Required</div>
-          <div class="action-card-title">Child Safety Policy — Signature Needed</div>
+          <div class="action-card-title">Contractor Policy Needs Signing</div>
           <div class="action-card-meta">
-            Updated June 2026 &nbsp;·&nbsp; All staff must re-sign the updated Child Safety Policy before their next event.
+            Contract Agreement (Sole Trader) — June 2026 &nbsp;·&nbsp; Please review and sign before your next engagement.
           </div>
-          <a href="employee-handbook-2026.pdf#page=3" target="_blank" rel="noopener" class="action-card-btn">Review &amp; Sign →</a>
+          <a href="contractor-agreement-2026.pdf" target="_blank" rel="noopener" class="action-card-btn">Review &amp; Sign →</a>
         </div>
 
         <!-- WWC — expiring soon (middle) -->
@@ -821,6 +851,22 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   </section>
 
 </main>
+
+<!-- ── HANDBOOK FULLSCREEN MODAL ── -->
+<div class="hb-modal" id="hbModal" role="dialog" aria-modal="true" aria-label="Employee Handbook">
+  <div class="hb-modal-inner">
+    <div class="hb-modal-toolbar">
+      <button id="hbMPrev" class="hb-btn" disabled>← Prev</button>
+      <span class="hb-page-label">Page <span id="hbMPageNum">1</span> / 18</span>
+      <button id="hbMNext" class="hb-btn">Next →</button>
+      <a href="employee-handbook-2026.pdf" download class="hb-btn hb-download">⬇</a>
+      <button class="hb-modal-close" id="hbModalClose">✕ Close</button>
+    </div>
+    <div class="hb-modal-body">
+      <img id="hbModalImg" src="handbook-pages/page-01.jpg" alt="Handbook page 1">
+    </div>
+  </div>
+</div>
 
 <!-- ── WHATSAPP CHAT FAB ── -->
 <a href="https://wa.me/61429660186" target="_blank" rel="noopener" class="wa-fab" aria-label="Message Mitchel on WhatsApp">
@@ -1242,23 +1288,57 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
 (function(){
   var totalPages = 18;
   var currentPage = 1;
-  var img    = document.getElementById('handbookImg');
-  var numEl  = document.getElementById('hbPageNum');
+
+  var img     = document.getElementById('handbookImg');
+  var numEl   = document.getElementById('hbPageNum');
   var prevBtn = document.getElementById('hbPrev');
   var nextBtn = document.getElementById('hbNext');
 
+  // Modal elements
+  var modal      = document.getElementById('hbModal');
+  var mImg       = document.getElementById('hbModalImg');
+  var mNumEl     = document.getElementById('hbMPageNum');
+  var mPrevBtn   = document.getElementById('hbMPrev');
+  var mNextBtn   = document.getElementById('hbMNext');
+  var closeBtn   = document.getElementById('hbModalClose');
+
+  function pageUrl(page){
+    var p = page < 10 ? '0' + page : '' + page;
+    return 'handbook-pages/page-' + p + '.jpg';
+  }
+
   function goTo(page){
     currentPage = Math.max(1, Math.min(totalPages, page));
-    var p = currentPage < 10 ? '0' + currentPage : '' + currentPage;
-    img.src = 'handbook-pages/page-' + p + '.jpg';
+    var url = pageUrl(currentPage);
+    img.src = url;
     img.alt = 'Handbook page ' + currentPage;
+    mImg.src = url;
+    mImg.alt = img.alt;
     numEl.textContent = currentPage;
-    prevBtn.disabled = currentPage <= 1;
-    nextBtn.disabled = currentPage >= totalPages;
+    mNumEl.textContent = currentPage;
+    prevBtn.disabled = mPrevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = mNextBtn.disabled = currentPage >= totalPages;
   }
 
   prevBtn.addEventListener('click', function(){ goTo(currentPage - 1); });
   nextBtn.addEventListener('click', function(){ goTo(currentPage + 1); });
+  mPrevBtn.addEventListener('click', function(){ goTo(currentPage - 1); });
+  mNextBtn.addEventListener('click', function(){ goTo(currentPage + 1); });
+
+  // Open modal when thumbnail is clicked
+  img.addEventListener('click', function(){
+    mImg.src = pageUrl(currentPage);
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
 })();
 </script>
 </body>
