@@ -259,6 +259,78 @@ body.auth-pending{ visibility: hidden; }
 .portal-card p{
   font-size:14px; color:rgba(22,21,39,0.62); line-height:1.5;
 }
+/* ── HANDBOOK VIEWER ── */
+.handbook-viewer{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.handbook-toolbar{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 2px solid var(--ink);
+  background: var(--cream);
+  flex-wrap: wrap;
+}
+.hb-btn{
+  font-family: var(--mono);
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  padding: 8px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  background: var(--ink); color: var(--paper);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.hb-btn:hover{ opacity: 0.75; }
+.hb-btn:disabled{ opacity: 0.3; cursor: default; }
+.hb-download{ background: var(--forest); }
+.hb-page-label{
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  flex: 1; text-align: center;
+}
+.handbook-embed-wrap{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+}
+.handbook-embed-wrap iframe{
+  width: 100%; height: 100%;
+  border: none; display: block;
+}
+@media(max-width:600px){
+  .handbook-embed-wrap{ aspect-ratio: 3/4; }
+}
+
+/* ── SCRIPTURE ── */
+.portal-scripture{
+  background: var(--indigo);
+  color: #fff;
+  padding: 48px 0;
+  text-align: center;
+}
+.portal-scripture p{
+  font-size: 17px;
+  line-height: 1.85;
+  max-width: 720px;
+  margin: 0 auto 16px;
+  color: rgba(255,255,255,0.92);
+}
+.portal-scripture span{
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.55);
+}
+
 /* ── WHATSAPP FAB ── */
 .wa-fab{
   position:fixed; bottom:28px; right:24px; z-index:200;
@@ -407,8 +479,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 <!-- ── HEADER ── -->
 <div class="portal-header">
   <div class="wrap">
-    <span class="portal-eyebrow">Urban Echo — Staff Only</span>
-    <h1>Employee Portal</h1>
+    <h1>Team Portal</h1>
     <p>Welcome back. Everything you need for upcoming events and admin.</p>
   </div>
 </div>
@@ -562,6 +633,33 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
         </button>
 
       </div>
+    </div>
+  </section>
+
+  <!-- ── EMPLOYEE HANDBOOK ── -->
+  <section class="portal-section" id="handbookSection">
+    <div class="wrap">
+      <h2>Employee Handbook</h2>
+      <p style="font-size:14px;color:rgba(22,21,39,0.6);margin-bottom:20px;font-family:var(--mono);">2026 Edition — Urban Echo</p>
+      <div class="handbook-viewer">
+        <div class="handbook-toolbar">
+          <button id="hbPrev" class="hb-btn" disabled>← Prev</button>
+          <span class="hb-page-label">Page <span id="hbPageNum">1</span> of <span id="hbPageTotal">—</span></span>
+          <button id="hbNext" class="hb-btn">Next →</button>
+          <a href="employee-handbook-2026.pdf" download class="hb-btn hb-download">⬇ Download</a>
+        </div>
+        <div class="handbook-embed-wrap">
+          <iframe id="handbookFrame" src="employee-handbook-2026.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH" title="Employee Handbook 2026"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCRIPTURE ── -->
+  <section class="portal-scripture">
+    <div class="wrap">
+      <p><em>"<sup>12</sup> Therefore, as God's chosen people, holy and dearly loved, clothe yourselves with compassion, kindness, humility, gentleness and patience. <sup>13</sup> Bear with each other and forgive one another if any of you has a grievance against someone. Forgive as the Lord forgave you. <sup>14</sup> And over all these virtues put on love, which binds them all together in perfect unity."</em></p>
+      <span>~ Colossians 3:12–14 (NIV)</span>
     </div>
   </section>
 
@@ -982,6 +1080,30 @@ function submitForm(formId, successId, subject){
 submitForm('riskForm', 'riskSuccess', '⚠️ Risk Assessment — Urban Echo Portal');
 submitForm('incidentForm', 'incidentSuccess', '🚨 Incident Report — Urban Echo Portal');
 submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo Portal');
+
+// ── Employee Handbook page navigator ────────────────────────
+(function(){
+  var totalPages = 95;
+  var currentPage = 1;
+  var frame = document.getElementById('handbookFrame');
+  var numEl = document.getElementById('hbPageNum');
+  var totalEl = document.getElementById('hbPageTotal');
+  var prevBtn = document.getElementById('hbPrev');
+  var nextBtn = document.getElementById('hbNext');
+
+  totalEl.textContent = totalPages;
+
+  function goTo(page){
+    currentPage = Math.max(1, Math.min(totalPages, page));
+    frame.src = 'employee-handbook-2026.pdf#page=' + currentPage + '&toolbar=0&navpanes=0&scrollbar=0&view=FitH';
+    numEl.textContent = currentPage;
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= totalPages;
+  }
+
+  prevBtn.addEventListener('click', function(){ goTo(currentPage - 1); });
+  nextBtn.addEventListener('click', function(){ goTo(currentPage + 1); });
+})();
 </script>
 </body>
 </html>
