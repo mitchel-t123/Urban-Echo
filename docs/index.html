@@ -1279,8 +1279,10 @@ body{ overflow-x: hidden; }
 
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns: 1fr; }
-  /* figure appears below checklist in natural DOM order — no order:-1 */
-  .hero-figure{ margin-top: 32px; padding-top: 0; padding-bottom: 32px; width: 100%; }
+  /* Reset explicit grid placement so all sections stack in a single column */
+  .hero-head{ grid-column: 1; grid-row: auto; }
+  .hero-body{ grid-column: 1; grid-row: auto; }
+  .hero-figure{ grid-column: 1; grid-row: auto; margin-top: 32px; padding-top: 0; padding-bottom: 32px; width: 100%; box-sizing: border-box; }
   .hero-symptom-card{ margin: 0; width: 100%; box-sizing: border-box; }
   .hero-treatment-card{ width: 100%; box-sizing: border-box; }
   .stress-meter{ width: 100%; box-sizing: border-box; }
