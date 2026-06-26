@@ -304,20 +304,21 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .diag-breadcrumb .sep{ opacity:0.4; }
 
 /* Restart */
-.diag-footer-row{
-  display:flex; align-items:center; justify-content:space-between;
-  margin-top:14px;
-}
 .diag-restart{
-  background:none; border:none; cursor:pointer;
+  margin-top:14px; background:none; border:none; cursor:pointer;
   font-family:var(--mono); font-size:12px; font-weight:700;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink); opacity:0.4; text-decoration:underline; padding:0;
-  transition:opacity 0.15s;
+  transition:opacity 0.15s; display:block;
 }
 .diag-restart:hover{ opacity:1; }
+.step-nav{
+  display:flex; align-items:center;
+  justify-content:space-between; flex-wrap:wrap;
+  gap:12px; margin-bottom:8px;
+}
 .diag-flag-wrap{
-  display:flex; align-items:center; gap:8px;
+  display:flex; align-items:center; gap:8px; margin-left:auto;
 }
 .diag-flag-hint{
   font-family:var(--mono); font-size:11px; font-weight:400;
@@ -391,11 +392,20 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
   .category-grid{ grid-template-columns:1fr 1fr; }
   .skill-grid{ grid-template-columns:1fr; }
   .wrap{ padding:0 24px; }
+  .skill-bar{ flex-wrap:wrap; }
 }
 @media(max-width:600px){
   .problem-grid{ grid-template-columns:1fr; }
   .category-grid{ grid-template-columns:1fr; }
   .nav-links{ display:none; }
+  .nav-inner{ padding:12px 16px; }
+  .btn.btn-blue.btn-sm{ padding:8px 14px; font-size:13px; }
+  .diag-flag-hint{ display:none; }
+  .step-nav{ gap:8px; }
+}
+@media(max-width:400px){
+  .skill-btn{ padding:14px 12px; }
+  .section-masthead h2{ font-size:26px; }
 }
 </style>
 </head>
@@ -616,12 +626,10 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       <p class="diag-intro" id="diagIntro"></p>
       <div class="diag-breadcrumb" id="diagBreadcrumb"></div>
       <div id="diagSteps"></div>
-      <div class="diag-footer-row">
-        <button class="diag-restart" id="diagRestart">↩ Start over</button>
-        <div class="diag-flag-wrap">
-          <span class="diag-flag-hint">Notice an issue? Click to flag it</span>
-          <button class="diag-flag-btn" id="diagFlagBtn" title="Flag an issue with this step" aria-label="Flag an issue">🚩</button>
-        </div>
+      <button class="diag-restart" id="diagRestart">↩ Start over</button>
+      <div class="diag-flag-wrap" id="diagFlagWrap">
+        <span class="diag-flag-hint">Notice an issue? Click to flag it</span>
+        <button class="diag-flag-btn" id="diagFlagBtn" title="Flag an issue with this step" aria-label="Flag an issue">🚩</button>
       </div>
     </div>
   </div>
@@ -1402,6 +1410,7 @@ function renderSteps(){
       nav.appendChild(nextBtn);
     }
 
+    nav.appendChild(document.getElementById('diagFlagWrap'));
     diagSteps.appendChild(nav);
 
   } else if(step.type === 'branch'){
@@ -1428,6 +1437,7 @@ function renderSteps(){
     backBtn.textContent = idx > 0 ? '← Back' : '← Problems';
     backBtn.addEventListener('click', goBack);
     nav.appendChild(backBtn);
+    nav.appendChild(document.getElementById('diagFlagWrap'));
     diagSteps.appendChild(nav);
 
   } else if(step.type === 'resolved' || step.type === 'still-broken'){
@@ -1443,6 +1453,7 @@ function renderSteps(){
     backBtn.textContent = '← Back';
     backBtn.addEventListener('click', goBack);
     nav.appendChild(backBtn);
+    nav.appendChild(document.getElementById('diagFlagWrap'));
     diagSteps.appendChild(nav);
   }
 }

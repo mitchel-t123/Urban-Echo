@@ -1237,6 +1237,8 @@ body::after{ content: none; }
 }
 
 /* ============ RESPONSIVE ============ */
+body{ overflow-x: hidden; }
+
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns: 1fr; }
   .hero-figure{ margin-bottom: 0; margin-top: 24px; }
@@ -1250,17 +1252,28 @@ body::after{ content: none; }
   .plan-steps{ grid-template-columns:1fr; }
   .package-grid{ grid-template-columns:1fr; }
   .package-card.featured{ transform:none; }
-  .reviews-grid{ grid-template-columns:1fr; }
+  .reviews-grid{ grid-template-columns:1fr 1fr; }
+  .reviews-grid .review-card{ grid-column: span 1 !important; }
   .recovery-grid{ grid-template-columns:1fr; }
   .recovery-figure{ order:-1; }
   .contact-grid{ grid-template-columns:1fr; }
   .form-row{ grid-template-columns:1fr; }
   .nav-links{ display:none; }
+  .nav-inner{ padding:12px 20px; }
+  .nav .btn{ padding:9px 16px; font-size:13px; }
+  .wrap{ padding:0 24px; }
 }
 @media (max-width: 600px){
   .symptom-grid{ grid-template-columns:1fr; }
-  .wrap{ padding: 0 24px; }
+  .reviews-grid{ grid-template-columns:1fr; }
+  .reviews-grid .review-card{ grid-column: 1 / -1 !important; }
+  .wrap{ padding: 0 16px; }
   .hero{ padding-top:36px; }
+  .nav-inner{ padding:10px 14px; }
+  .nav .btn{ padding:8px 14px; font-size:13px; }
+  .hero-ctas{ flex-direction:column; }
+  .hero-ctas .btn{ width:100%; justify-content:center; }
+  .mini-reviews-with-arrows{ flex-direction:column; gap:8px; }
 }
 </style>
 </head>
