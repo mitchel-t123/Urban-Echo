@@ -183,13 +183,13 @@ body.auth-pending{ visibility: hidden; }
   .compliance-grid{ grid-template-columns:1fr; }
 }
 .action-card{
-  background: var(--paper); border: 2.5px solid var(--orange);
-  border-radius:20px; padding:28px; box-shadow:5px 5px 0 var(--orange);
+  background: var(--paper); border: 2.5px solid var(--red);
+  border-radius:20px; padding:28px; box-shadow:5px 5px 0 var(--red);
   display:flex; flex-direction:column;
 }
 .action-card-label{
   font-family:var(--mono); font-size:11px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.1em; color:var(--orange);
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--red);
   margin-bottom:10px; display:flex; align-items:center; gap:6px;
 }
 .action-card-title{
@@ -201,7 +201,7 @@ body.auth-pending{ visibility: hidden; }
 }
 .action-card-btn{
   margin-top:auto; display:inline-block; padding:11px 18px;
-  background:var(--orange); color:#fff; border:2px solid var(--ink);
+  background:var(--red); color:#fff; border:2px solid var(--ink);
   border-radius:100px; font-family:var(--mono); font-size:12px; font-weight:700;
   text-transform:uppercase; letter-spacing:0.08em; cursor:pointer;
   text-decoration:none; box-shadow:3px 3px 0 var(--ink); transition:opacity 0.15s;
@@ -637,6 +637,17 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
       <h2>Compliance</h2>
       <div class="compliance-grid">
 
+        <!-- ACTION: Policy re-sign (most urgent — left) -->
+        <div class="action-card">
+          <div class="action-card-label">⚠ Action Required</div>
+          <div class="action-card-title">Child Safety Policy — Signature Needed</div>
+          <div class="action-card-meta">
+            Updated June 2026 &nbsp;·&nbsp; All staff must re-sign the updated Child Safety Policy before their next event.
+          </div>
+          <a href="employee-handbook-2026.pdf#page=3" target="_blank" rel="noopener" class="action-card-btn">Review &amp; Sign →</a>
+        </div>
+
+        <!-- WWC — expiring soon (middle) -->
         <div class="wwc-card" id="wwcCard">
           <span class="wwc-label" id="wwcLabel">✔ Working With Children Check</span>
           <div class="wwc-name">Mitchel Tinsley</div>
@@ -648,6 +659,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           </a>
         </div>
 
+        <!-- Police clearance — all good (right) -->
         <div class="wwc-card" id="policeCard">
           <span class="wwc-label" id="policeLabel">✔ National Police Clearance</span>
           <div class="wwc-name">Mitchel Tinsley</div>
@@ -657,16 +669,6 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
              target="_blank" rel="noopener" class="wwc-renew-btn">
             🔄 Renew Now
           </a>
-        </div>
-
-        <!-- ACTION: Policy re-sign -->
-        <div class="action-card">
-          <div class="action-card-label">⚠ Action Required</div>
-          <div class="action-card-title">Child Safety Policy — Signature Needed</div>
-          <div class="action-card-meta">
-            Updated June 2026 &nbsp;·&nbsp; All staff must re-sign the updated Child Safety Policy before their next event.
-          </div>
-          <a href="employee-handbook-2026.pdf#page=3" target="_blank" rel="noopener" class="action-card-btn">Review &amp; Sign →</a>
         </div>
 
       </div>
