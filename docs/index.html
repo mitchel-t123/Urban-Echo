@@ -216,6 +216,7 @@ h1,h2,h3{
 .nav-call{ font-family: var(--mono); font-weight:700; }
 
 /* ============ HERO ============ */
+header.hero, section.recovery, section.outcome{ display:none !important; }
 .hero{
   background: var(--orange);
   color: var(--ink);
@@ -1000,9 +1001,13 @@ h1,h2,h3{
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
-  color: var(--orange-deep);
-  margin-bottom: 10px;
-  display: block;
+  color: #fff;
+  background: var(--orange);
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 5px 14px;
+  margin-bottom: 12px;
+  display: inline-block;
 }
 .emergency-body{
   font-size: 14.5px;
@@ -1075,7 +1080,7 @@ h1,h2,h3{
 .recovery-figure{ display:flex; justify-content:center; }
 .recovery-figure-inner{ display:flex; flex-direction:column; align-items:center; }
 .recovery-figure img{ width:100%; max-width:448px; display:block; }
-.recovery-baseline{ width:100%; height:12px; background:var(--ink); border-radius:100px; margin-top:-6px; }
+.recovery-baseline{ width:133%; height:12px; background:var(--ink); border-radius:100px; margin-top:-6px; }
 .recovery-badges{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom: 30px; }
 .recovery-badge{
   background: var(--paper);
@@ -1104,6 +1109,7 @@ h1,h2,h3{
   background: var(--indigo);
   color: var(--paper);
   padding: 96px 0;
+  margin-bottom: 0;
 }
 .contact-grid{
   display:grid;
@@ -1191,6 +1197,8 @@ h1,h2,h3{
 }
 html{ overflow-y: scroll; }
 body::after{ content: none; }
+.footer{ margin-bottom: 0; }
+html, body{ max-height: none; }
 .footer-inner{
   display:flex;
   justify-content:space-between;
@@ -1633,7 +1641,7 @@ body{ overflow-x: hidden; }
                 </div>
               </div>
             </div>
-            <div style="text-align:center; margin-top:12px;">
+            <div style="text-align:center; margin-top:28px;">
               <a href="#reviews" id="miniNext" aria-label="See more reviews" style="display:inline-block;border-radius:100px;padding:8px 22px;font-size:12px;font-weight:700;font-family:var(--mono);letter-spacing:0.08em;text-transform:uppercase;border:2px solid rgba(255,252,245,0.5);background:rgba(255,252,245,0.12);color:var(--paper);text-decoration:none;cursor:pointer;transition:background 0.15s;">See More Reviews →</a>
             </div>
           </div>
@@ -1870,6 +1878,7 @@ body{ overflow-x: hidden; }
           <span class="ic">✉️</span>
           <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
         </div>
+        <a href="urban-echo-emergency.vcf" class="btn btn-green" style="margin-bottom:18px;" download>📱 Save Our Number</a>
         <div class="contact-detail contact-social">
           <a href="https://www.facebook.com/urbanecho.perth" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
@@ -1880,7 +1889,6 @@ body{ overflow-x: hidden; }
             Instagram
           </a>
         </div>
-        <a href="urban-echo-emergency.vcf" class="btn btn-green" style="margin-top:18px;" download>📱 Save Our Number</a>
 
       </div>
 

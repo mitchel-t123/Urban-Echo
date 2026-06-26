@@ -347,7 +347,9 @@ footer{
   background:var(--ink); color:rgba(255,252,245,0.5);
   padding:28px 0; font-size:13px; font-family:var(--mono);
   border-top:1px solid rgba(255,252,245,0.12);
+  margin-bottom:0;
 }
+html, body{ overflow-x:hidden; }
 .footer-inner{
   display:flex; justify-content:space-between;
   align-items:center; flex-wrap:wrap; gap:12px;
@@ -460,7 +462,6 @@ footer{
             🔄 Renew Now
           </a>
         </div>
-        <div class="wwc-shield">🛡️</div>
       </div>
     </div>
   </section>
@@ -500,18 +501,18 @@ footer{
         </a>
 
         <div class="portal-card">
-          <span class="portal-card-icon">📅</span>
-          <h3>Upcoming Events</h3>
-          <p>Your scheduled events and bookings. (Coming soon)</p>
-          <span class="portal-card-tag">In progress</span>
-        </div>
-
-        <div class="portal-card">
           <span class="portal-card-icon">📋</span>
           <h3>Run Sheets</h3>
           <p>Event run sheets and technical riders for upcoming jobs. (Coming soon)</p>
           <span class="portal-card-tag">In progress</span>
         </div>
+
+        <button class="portal-card" id="openFeedback" style="background:var(--cream);border:2px solid var(--ink);border-radius:20px;cursor:pointer;text-align:left;padding:24px;display:flex;flex-direction:column;gap:10px;font-family:inherit;">
+          <span class="portal-card-icon">💬</span>
+          <h3>Team Feedback</h3>
+          <p>Share ideas, suggestions, or anything that would make your job easier.</p>
+          <span class="portal-card-tag">Open form →</span>
+        </button>
 
       </div>
     </div>
@@ -690,6 +691,40 @@ footer{
   </div>
 </div>
 
+<!-- ── TEAM FEEDBACK MODAL ── -->
+<div class="modal-overlay" id="feedbackModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeFeedback">✕</button>
+    <span class="modal-eyebrow">Urban Echo</span>
+    <h2>Team Feedback</h2>
+    <form id="feedbackForm">
+      <div class="mfield">
+        <label>Your Name</label>
+        <input type="text" name="submitted_by" placeholder="Your name" required>
+      </div>
+      <div class="mfield">
+        <label>Type of Feedback</label>
+        <select name="feedback_type">
+          <option value="Idea">New idea or suggestion</option>
+          <option value="Process">Process improvement</option>
+          <option value="Equipment">Equipment or gear</option>
+          <option value="General">General feedback</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>Your Feedback</label>
+        <textarea name="feedback" placeholder="Share your thoughts, ideas, or suggestions…" required style="min-height:120px;"></textarea>
+      </div>
+      <button type="submit" class="modal-submit">Submit Feedback</button>
+    </form>
+    <div class="modal-success" id="feedbackSuccess">
+      <span class="tick">✅</span>
+      <p>Thanks for the feedback!<br>Mitchel will review it shortly.</p>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── Auth check ──────────────────────────────────────────────
 function doLogout(){
@@ -750,22 +785,22 @@ var sessionInterval = setInterval(function(){
   var label  = document.getElementById('wwcLabel');
 
   if(days > 30){
-    el.textContent = '⏳ ' + days + ' days until renewal required';
+    el.textContent = days + ' days until renewal required';
   } else if(days > 0){
-    el.textContent = '⚠️ ' + days + ' day' + (days !== 1 ? 's' : '') + ' until expiry — renew soon';
+    el.textContent = days + ' day' + (days !== 1 ? 's' : '') + ' until expiry — renew soon';
     el.classList.add('urgent');
     card.classList.add('urgent');
     label.textContent = '⚠️ Working With Children Check — Expiring Soon';
   } else if(days === 0){
-    el.textContent = '🔴 Expires today — renew immediately';
+    el.textContent = 'Expires today — renew immediately';
     el.classList.add('urgent');
     card.classList.add('urgent');
-    label.textContent = '🔴 Working With Children Check — Expires Today';
+    label.textContent = '⚠️ Working With Children Check — Expires Today';
   } else {
-    el.textContent = '🔴 Expired ' + Math.abs(days) + ' day' + (Math.abs(days) !== 1 ? 's' : '') + ' ago';
+    el.textContent = 'Expired ' + Math.abs(days) + ' day' + (Math.abs(days) !== 1 ? 's' : '') + ' ago';
     el.classList.add('urgent');
     card.classList.add('urgent');
-    label.textContent = '🔴 Working With Children Check — EXPIRED';
+    label.textContent = '⚠️ Working With Children Check — EXPIRED';
   }
 })();
 
@@ -789,6 +824,8 @@ document.getElementById('closeRisk').addEventListener('click', function(){ close
 document.getElementById('closeIncident').addEventListener('click', function(){ closeModal('incidentModal'); });
 document.getElementById('closeContacts').addEventListener('click', function(){ closeModal('contactsModal'); });
 document.getElementById('closeRoster').addEventListener('click', function(){ closeModal('rosterModal'); });
+document.getElementById('openFeedback').addEventListener('click', function(){ openModal('feedbackModal'); });
+document.getElementById('closeFeedback').addEventListener('click', function(){ closeModal('feedbackModal'); });
 
 ['riskModal','incidentModal','contactsModal','rosterModal'].forEach(function(id){
   document.getElementById(id).addEventListener('click', function(e){
@@ -881,6 +918,7 @@ function submitForm(formId, successId, subject){
 
 submitForm('riskForm', 'riskSuccess', '⚠️ Risk Assessment — Urban Echo Portal');
 submitForm('incidentForm', 'incidentSuccess', '🚨 Incident Report — Urban Echo Portal');
+submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo Portal');
 </script>
 </body>
 </html>
