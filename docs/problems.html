@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problems &amp; Solutions — Urban Echo Sound Diagnosis</title>
+<meta name="description" content="Step-by-step sound troubleshooting for Perth schools. Fix feedback, mic issues, and AV problems fast.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream: #FBF5E7;
+  --cream-deep: #F4ECD8;
+  --indigo: #3F3FF0;
+  --indigo-deep: #2C2CC4;
+  --orange: #F4612E;
+  --orange-deep: #D8491B;
+  --coral: #E0413B;
+  --forest: #4AAE74;
+  --forest-deep: #379260;
+  --sunshine: #F9C328;
+  --ink: #161527;
+  --paper: #FFFCF5;
+  --line: rgba(22,21,39,0.12);
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'Space Mono', monospace;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:auto; }
+body{ font-family: var(--body); background: var(--paper); color: var(--ink); line-height: 1.6; }
+a{ color: inherit; }
+h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter-spacing:-0.01em; text-transform:uppercase; }
+
+/* ── NAV ── */
+.nav{
+  position: sticky; top:0; z-index:100;
+  background:#fff; border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 32px; max-width:1180px; margin:0 auto;
+}
+.nav-logo{ height:30px; }
+.nav-links{
+  display:flex; align-items:center; gap:4px;
+  font-weight:600; font-size:15px; position:relative;
+}
+.nav-links a{
+  text-decoration:none; color:var(--ink);
+  padding:7px 14px; border-radius:8px; transition:background 0.15s;
+}
+.nav-links a:hover{ background: var(--cream); }
+.nav-links a.active{ background: var(--orange); color:#fff; }
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--body); font-weight:700; font-size:16px;
+  padding:14px 28px; border-radius:12px; border:2.5px solid var(--ink);
+  text-decoration:none; cursor:pointer;
+  transition:transform 0.18s ease, box-shadow 0.18s ease;
+}
+.btn:hover{ transform:translateY(-2px); box-shadow:5px 5px 0 var(--ink); }
+.btn-orange{ background:var(--orange); color:var(--ink); }
+.btn-blue{ background:var(--indigo); color:#fff; }
+.btn-green{ background:var(--forest); color:#fff; }
+.btn-cream{ background:var(--cream); color:var(--ink); }
+
+.wrap{ max-width:1180px; margin:0 auto; padding:0 60px; }
+
+/* ── HERO ── */
+.hero{
+  background: var(--orange); color: var(--ink);
+  padding: 64px 0 56px;
+  border-bottom: 6px solid var(--ink);
+}
+.hero-tag{
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--ink); color:var(--paper);
+  padding:8px 18px; border-radius:100px;
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em; margin-bottom:22px;
+}
+.dot{ width:8px; height:8px; border-radius:50%; background:#22c55e; animation:pulse 1.6s infinite; }
+@keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+.hero h1{ font-size:clamp(36px,5vw,64px); max-width:720px; margin-bottom:16px; }
+.hero p{ font-size:18px; max-width:560px; opacity:0.8; }
+
+/* ── PROBLEM PICKER ── */
+.problem-section{
+  padding: 80px 0;
+  background: var(--cream);
+  border-bottom: 6px solid var(--ink);
+}
+.problem-section h2{ font-size:clamp(26px,3.5vw,40px); margin-bottom:10px; }
+.problem-section .sub{ font-size:16px; color:rgba(22,21,39,0.65); margin-bottom:40px; max-width:540px; }
+
+.problem-grid{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:18px;
+}
+.problem-btn{
+  display:flex; flex-direction:column; align-items:flex-start; gap:10px;
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  padding:26px 22px;
+  box-shadow:4px 4px 0 var(--ink);
+  cursor:pointer;
+  font-family:var(--body);
+  text-align:left;
+  transition:transform 0.15s, background 0.15s;
+}
+.problem-btn:hover{ background:var(--ink); color:var(--paper); transform:translateY(-3px); }
+.problem-btn:hover .problem-icon{ filter:grayscale(1) brightness(10); }
+.problem-btn.active{ background:var(--ink); color:var(--paper); transform:translateY(-3px); }
+.problem-btn.active .problem-icon{ filter:grayscale(1) brightness(10); }
+.problem-icon{ font-size:32px; line-height:1; }
+.problem-label{ font-weight:800; font-size:16px; }
+.problem-hint{ font-size:13px; opacity:0.6; }
+
+/* ── DIAGNOSIS PANEL ── */
+.diagnosis-panel{
+  padding: 80px 0 100px;
+  background: var(--paper);
+  min-height: 400px;
+}
+.diag-empty{
+  text-align:center; padding:60px 20px;
+  font-family:var(--mono); font-size:15px; opacity:0.4;
+}
+
+.diag-flow{ max-width:760px; }
+.diag-eyebrow{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:var(--orange); margin-bottom:14px; display:block;
+}
+.diag-flow h2{ font-size:clamp(24px,3vw,36px); margin-bottom:8px; }
+.diag-flow .diag-intro{ font-size:16px; color:rgba(22,21,39,0.7); margin-bottom:36px; max-width:560px; }
+
+/* Step card */
+.step-card{
+  background:var(--cream);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  padding:28px 26px;
+  box-shadow:5px 5px 0 var(--ink);
+  margin-bottom:20px;
+}
+.step-card-num{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  opacity:0.45; margin-bottom:8px; display:block;
+}
+.step-card h3{
+  font-family:var(--body); font-weight:800;
+  text-transform:none; letter-spacing:0;
+  font-size:18px; margin-bottom:6px;
+}
+.step-card p{ font-size:14.5px; color:rgba(22,21,39,0.72); line-height:1.6; }
+.step-card .step-tip{
+  margin-top:12px;
+  padding:10px 14px;
+  background:rgba(244,97,46,0.1);
+  border-left:3px solid var(--orange);
+  border-radius:0 8px 8px 0;
+  font-size:13.5px; font-style:italic; color:var(--orange-deep);
+}
+
+/* Branch question */
+.branch-card{
+  background:var(--ink); color:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  padding:28px 26px;
+  box-shadow:5px 5px 0 rgba(22,21,39,0.3);
+  margin-bottom:20px;
+}
+.branch-card h3{
+  font-family:var(--body); font-weight:800;
+  text-transform:none; letter-spacing:0;
+  font-size:18px; margin-bottom:18px; color:var(--paper);
+}
+.branch-options{ display:flex; flex-wrap:wrap; gap:12px; }
+.branch-opt{
+  background:var(--paper); color:var(--ink);
+  border:2px solid var(--paper);
+  border-radius:10px; padding:10px 18px;
+  font-family:var(--body); font-weight:700; font-size:14px;
+  cursor:pointer; transition:background 0.15s, transform 0.15s;
+}
+.branch-opt:hover{ background:var(--orange); border-color:var(--orange); color:#fff; transform:scale(1.04); }
+
+/* Resolved card */
+.resolved-card{
+  background:var(--forest); color:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  padding:28px 26px;
+  box-shadow:5px 5px 0 var(--ink);
+  margin-bottom:20px;
+}
+.resolved-card h3{
+  font-family:var(--body); font-weight:800;
+  font-size:18px; text-transform:none; letter-spacing:0;
+  margin-bottom:8px; color:var(--paper);
+}
+.resolved-card p{ font-size:14.5px; color:rgba(255,252,245,0.85); line-height:1.6; }
+
+/* Still broken card */
+.broken-card{
+  background:var(--coral); color:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  padding:28px 26px;
+  box-shadow:5px 5px 0 var(--ink);
+  margin-bottom:20px;
+}
+.broken-card h3{ font-family:var(--body); font-weight:800; font-size:18px; text-transform:none; letter-spacing:0; margin-bottom:8px; }
+.broken-card p{ font-size:14.5px; color:rgba(255,252,245,0.88); line-height:1.6; }
+
+/* Progress breadcrumb */
+.diag-breadcrumb{
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  opacity:0.45; margin-bottom:28px; flex-wrap:wrap;
+}
+.diag-breadcrumb span{ opacity:1; }
+.diag-breadcrumb .sep{ opacity:0.4; }
+
+/* Restart */
+.diag-restart{
+  margin-top:14px;
+  background:none; border:none; cursor:pointer;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink); opacity:0.45; text-decoration:underline;
+  transition:opacity 0.15s; padding:0;
+}
+.diag-restart:hover{ opacity:1; }
+
+/* CTA at bottom */
+.diag-cta{
+  margin-top:40px;
+  padding:28px 26px;
+  background:var(--cream);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  box-shadow:5px 5px 0 var(--ink);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:20px;
+}
+.diag-cta p{ font-size:15px; font-weight:600; max-width:420px; }
+
+@media(max-width:900px){
+  .problem-grid{ grid-template-columns:1fr 1fr; }
+  .wrap{ padding:0 24px; }
+}
+@media(max-width:600px){
+  .problem-grid{ grid-template-columns:1fr; }
+  .nav-links{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
+    <div class="nav-links">
+      <a href="index.html#symptoms">School Sound Diagnosis</a>
+      <a href="index.html#plan">How It Works</a>
+      <a href="index.html#packages">Our Packages</a>
+      <a href="index.html#reviews">Reviews</a>
+      <a href="problems.html" class="active">Problems &amp; Solutions</a>
+    </div>
+    <a href="index.html#contact" class="btn btn-blue">Contact Us</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-tag"><span class="dot"></span> Sound Troubleshooting Tool</div>
+    <h1>Problems &amp; Solutions</h1>
+    <p>Select your problem below and we'll walk you through fixing it step by step — the same way our techs do it on-site.</p>
+  </div>
+</header>
+
+<!-- PROBLEM PICKER -->
+<section class="problem-section">
+  <div class="wrap">
+    <h2>What's going wrong?</h2>
+    <p class="sub">Pick the problem closest to what you're hearing or seeing.</p>
+
+    <div class="problem-grid" id="problemGrid">
+
+      <button class="problem-btn" data-problem="speaker-feedback">
+        <span class="problem-icon">🔊</span>
+        <span class="problem-label">Loud Feedback / Squealing</span>
+        <span class="problem-hint">That awful high-pitched screech from the speakers</span>
+      </button>
+
+      <button class="problem-btn" data-problem="headset-feedback">
+        <span class="problem-icon">🎤</span>
+        <span class="problem-label">Headset Mic Feedback</span>
+        <span class="problem-hint">Feedback only when someone puts on a headset mic</span>
+      </button>
+
+      <button class="problem-btn" data-problem="no-sound">
+        <span class="problem-icon">🔇</span>
+        <span class="problem-label">No Sound / Mic Not Working</span>
+        <span class="problem-hint">Mic is on but nothing comes through the speakers</span>
+      </button>
+
+      <button class="problem-btn" data-problem="low-volume">
+        <span class="problem-icon">📉</span>
+        <span class="problem-label">Sound Too Quiet</span>
+        <span class="problem-hint">People at the back can't hear, volume seems maxed</span>
+      </button>
+
+      <button class="problem-btn" data-problem="echo">
+        <span class="problem-icon">🔁</span>
+        <span class="problem-label">Echo / Reverb</span>
+        <span class="problem-hint">Voice sounds like it's in a cave or repeating</span>
+      </button>
+
+      <button class="problem-btn" data-problem="crackling">
+        <span class="problem-icon">⚡</span>
+        <span class="problem-label">Crackling / Distortion</span>
+        <span class="problem-hint">Scratchy, breaking-up, or distorted sound</span>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNOSIS PANEL -->
+<section class="diagnosis-panel" id="diagnosisPanel">
+  <div class="wrap">
+    <div class="diag-empty" id="diagEmpty">
+      ↑ Select a problem above to begin your diagnosis
+    </div>
+    <div class="diag-flow" id="diagFlow" style="display:none;">
+      <span class="diag-eyebrow" id="diagEyebrow">Diagnosing...</span>
+      <h2 id="diagTitle"></h2>
+      <p class="diag-intro" id="diagIntro"></p>
+      <div class="diag-breadcrumb" id="diagBreadcrumb"></div>
+      <div id="diagSteps"></div>
+      <button class="diag-restart" id="diagRestart">↩ Start over</button>
+
+      <div class="diag-cta">
+        <p>Still not fixed? Our team can diagnose and resolve any sound issue on-site, usually within minutes.</p>
+        <a href="index.html#contact" class="btn btn-orange">Book a Tech</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--ink);color:var(--paper);padding:28px 0;border-top:6px solid var(--ink);">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:13px;">
+    <a href="index.html"><img src="logo-light.png" alt="Urban Echo" style="height:20px;opacity:0.85;"></a>
+    <span>© 2026 Urban Echo. All rights reserved.</span>
+    <span>Sound &amp; AV for Perth Schools.</span>
+  </div>
+</footer>
+
+<script>
+/* ── Problem tree data ── */
+var PROBLEMS = {
+
+  'speaker-feedback': {
+    label: 'Loud Feedback / Squealing',
+    intro: 'Feedback happens when a mic picks up its own sound from the speakers and loops it. Follow these steps in order — most feedback is fixed within the first two.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Pull down all faders immediately',
+        body: 'Before doing anything else, pull down every channel fader on the mixer. This kills the loop. Don\'t try to diagnose mid-screech — stop it first.',
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Identify which mic is causing it',
+        body: 'Slowly bring up one channel at a time, starting with the lowest gain setting. The channel that immediately causes feedback is your culprit.',
+        tip: 'Tip: If the room is very live (lots of hard surfaces), feedback will happen much faster. Start lower than you think you need to.'
+      },
+      {
+        type: 'branch',
+        question: 'Which best describes when the feedback happens?',
+        options: [
+          { label: 'Happens with any mic I bring up', next: 'feedback-gain' },
+          { label: 'Only one specific mic', next: 'feedback-onemic' },
+          { label: 'Only when someone stands in a certain spot', next: 'feedback-position' },
+        ]
+      }
+    ]
+  },
+
+  'feedback-gain': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 3a',
+        title: 'Your gain structure is too hot',
+        body: 'If every mic causes feedback, the overall system gain is too high for the room. Reduce the master output fader by 3–6dB, then bring channels back up slowly.',
+        tip: 'Tip: A good rule of thumb — you should be able to talk normally into any mic from 30cm away without feedback before the event starts.'
+      },
+      {
+        type: 'step',
+        num: 'Step 4',
+        title: 'Ring out the room',
+        body: 'With a single mic up, slowly raise the volume until you hear the first hint of feedback (a slight ringing). Pull back 3dB. That\'s your safe ceiling for that mic in this room. Repeat for each channel.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'You\'ve now found the safe operating level for your room. Mark the fader position or note the level for next time.' }
+    ]
+  },
+
+  'feedback-onemic': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 3b',
+        title: 'Check the gain on that channel',
+        body: 'Reduce the channel\'s gain knob (usually top-left of each channel strip) by 3dB at a time until the feedback stops. The gain was set too high.',
+      },
+      {
+        type: 'step',
+        num: 'Step 4',
+        title: 'Check mic placement',
+        body: 'Is this mic closer to a speaker than the others? A mic within 2 metres of a monitor or front-fill speaker will feedback much earlier. Move the speaker or the presenter.',
+        tip: 'Tip: The closer the mic is to the speaker, the less gain you can use before feedback. Physical distance is your biggest friend.'
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Reducing gain and moving the mic away from speakers should resolve the issue. If it keeps happening, the EQ on that channel may need high-frequency cuts.' }
+    ]
+  },
+
+  'feedback-position': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 3c',
+        title: 'You have a speaker hot spot',
+        body: 'Some positions in a room sit directly in a speaker\'s throw pattern. The presenter is effectively standing in front of the speaker. Redirect the speaker slightly or ask the presenter to move.',
+      },
+      {
+        type: 'step',
+        num: 'Step 4',
+        title: 'Carve that frequency on the EQ',
+        body: 'If you have a graphic EQ or parametric EQ on that channel, find the ringing frequency (it\'s usually a narrow band between 2kHz–8kHz) and cut it by 3–6dB. Sweep slowly to find it.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Speaker positioning and EQ notching are the two most powerful tools for position-based feedback.' }
+    ]
+  },
+
+  'headset-feedback': {
+    label: 'Headset Mic Feedback',
+    intro: 'Headset mics are more feedback-prone than handhelds because they sit closer to the ear and people often face the speakers. Here\'s how to tame them.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Check headset positioning',
+        body: 'The mic capsule should sit about 2cm from the corner of the mouth, NOT directly in front of it. If it\'s too close to the mouth, you get proximity effect and higher gain — which causes feedback faster.',
+        tip: 'Tip: Most headset feedback is caused by the mic being fitted incorrectly. This is always the first thing to check.'
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Reduce the channel gain, not the fader',
+        body: 'Turn down the gain (input sensitivity) on the mixer channel until feedback stops, then bring the fader up slightly to compensate. Never max gain then pull the fader — that\'s backwards.',
+      },
+      {
+        type: 'branch',
+        question: 'Is the feedback happening only when they face a certain direction?',
+        options: [
+          { label: 'Yes — when facing the speakers', next: 'headset-facing' },
+          { label: 'No — it happens constantly', next: 'headset-always' },
+        ]
+      }
+    ]
+  },
+
+  'headset-facing': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 3a',
+        title: 'The presenter is walking into speaker coverage',
+        body: 'When someone faces toward the main speakers, the mic is essentially pointed at them. Ask them to avoid standing directly in front of the speaker stacks or reduce monitor levels.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'If you have a monitor wedge on stage, turning it down or off while the presenter is on headset will also significantly reduce the risk.' }
+    ]
+  },
+
+  'headset-always': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 3b',
+        title: 'Your system gain is too high for this mic',
+        body: 'Headset mics have very high sensitivity and need less gain than a handheld. Reduce the gain by 6–9dB from wherever it is now. You may need to raise the fader to compensate.',
+      },
+      {
+        type: 'step',
+        num: 'Step 4',
+        title: 'Apply a high-pass filter',
+        body: 'Engage the HPF (High Pass Filter) or "low cut" switch on that channel. Set it to 80Hz or 100Hz. This removes low rumble that can build up energy and push the channel into feedback.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Headset mics need careful gain staging. When in doubt, go lower than you think and bring the fader up — never the other way around.' }
+    ]
+  },
+
+  'no-sound': {
+    label: 'No Sound / Mic Not Working',
+    intro: 'No sound from a mic is almost always one of five things. Work through this list in order — you\'ll find it fast.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Is the mic switched on?',
+        body: 'Check the mic itself — wireless mics have a power button, usually on the body pack or the handheld. Look for a green light. No light = no power. Check batteries.',
+        tip: 'Tip: Rechargeable batteries that show "full" on a charger can still fail under load. If in doubt, replace them.'
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Is the channel fader up?',
+        body: 'Check the mixer. Is the channel fader at unity (0dB mark)? Is the master fader up? Is the channel muted? Press the MUTE button if it\'s lit — it should go off.',
+      },
+      {
+        type: 'step',
+        num: 'Step 3',
+        title: 'Is the receiver synced to the mic?',
+        body: 'Wireless systems have a receiver (plugged into the mixer) and a transmitter (the mic). Check both are on the same frequency channel. Most have a "SYNC" button — press it while pointing the mic at the receiver.',
+      },
+      {
+        type: 'branch',
+        question: 'After checking those three — any signal on the mixer?',
+        options: [
+          { label: 'Yes — I can see signal but no sound', next: 'no-sound-routing' },
+          { label: 'No signal at all', next: 'no-sound-nosignal' },
+        ]
+      }
+    ]
+  },
+
+  'no-sound-routing': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 4a',
+        title: 'Check your output routing',
+        body: 'Signal is getting into the mixer but not out. Check that the channel is assigned to the main L/R outputs (look for a button labelled "L/R", "MAIN", or "MIX"). On digital mixers, check the bus routing.',
+      },
+      {
+        type: 'step',
+        num: 'Step 5',
+        title: 'Check the amplifier / powered speakers',
+        body: 'Are the speakers powered on? Is the volume knob on the back of the powered speaker or amp turned up? Is the cable from the mixer to the speakers plugged in securely?',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Routing issues are one of the most common problems on unfamiliar desks. Once you know the desk, this takes seconds.' }
+    ]
+  },
+
+  'no-sound-nosignal': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 4b',
+        title: 'Check the gain / preamp',
+        body: 'The gain knob needs to be turned up enough for the mic to register. Turn the gain clockwise slowly while speaking into the mic — you should see the channel meter move. If it never moves, the mic or cable is faulty.',
+      },
+      {
+        type: 'step',
+        num: 'Step 5',
+        title: 'Try a different cable or mic',
+        body: 'Swap out the mic or XLR cable with one you know works. If sound appears, the original cable or mic is faulty. Cables fail far more often than mics.',
+        tip: 'Tip: Always have at least one spare XLR cable and a spare mic at any school event. This single habit fixes 80% of on-the-spot emergencies.'
+      },
+      { type: 'still-broken', title: 'Hardware fault — call for help', body: 'If swapping cables and mics didn\'t help, the fault is likely in the mixer channel, the receiver unit, or the wireless system. This needs a qualified tech.' }
+    ]
+  },
+
+  'low-volume': {
+    label: 'Sound Too Quiet',
+    intro: 'If the fader is near maximum but the room still can\'t hear clearly, the problem is almost always in the gain staging — not the speakers.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Check the gain, not the fader',
+        body: 'The fader controls the output but the gain controls the input. If gain is too low, you can max the fader and still be quiet. Turn the gain up until you see the channel meter hitting around -12dB when someone speaks normally.',
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Check mic distance and technique',
+        body: 'Is the presenter holding the mic near their chin? They need it 5–10cm from their mouth. A mic 30cm away produces dramatically less signal than one held correctly.',
+        tip: 'Tip: Brief the presenter before the event — "hold the mic like an ice cream, right up near your mouth." It sounds simple but it\'s the single most effective thing you can do.'
+      },
+      {
+        type: 'step',
+        num: 'Step 3',
+        title: 'Is your master fader at unity?',
+        body: 'The master output fader should be at 0dB (unity) as a starting point. If someone turned it down to "safe" levels and forgot, you\'ve lost headroom. Bring it back to unity and adjust individual channels instead.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Good gain staging means: gain up until channel meter is healthy → fader at unity → master at unity. Work from the input backwards.' }
+    ]
+  },
+
+  'echo': {
+    label: 'Echo / Reverb',
+    intro: 'Echo in a live sound situation usually has one of two causes: the room itself, or an accidental reverb/delay being applied somewhere in the signal chain.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Is there a reverb/effects unit in the signal chain?',
+        body: 'Check your mixer for an effects send (labelled FX, AUX SEND, or EFX). If any of these are turned up and routing to a reverb unit, that\'s your echo. Pull the effects send down to zero.',
+      },
+      {
+        type: 'branch',
+        question: 'After checking effects — is the echo still there?',
+        options: [
+          { label: 'Yes — it\'s still echoing', next: 'echo-room' },
+          { label: 'No — that fixed it!', next: 'echo-fixed' },
+        ]
+      }
+    ]
+  },
+
+  'echo-fixed': {
+    steps: [
+      { type: 'resolved', title: 'Fixed!', body: 'An effects send was accidentally turned up. Keep FX sends at zero for speech and only add reverb intentionally for musical performances.' }
+    ]
+  },
+
+  'echo-room': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Your room has poor acoustics',
+        body: 'Hard surfaces (concrete, glass, tiles) reflect sound and create natural reverb. You can\'t fix the room on the day, but you can minimise the effect. Point speakers more directly at the audience and away from hard back walls.',
+      },
+      {
+        type: 'step',
+        num: 'Step 3',
+        title: 'Check for multiple speaker systems running simultaneously',
+        body: 'If two speaker systems are both on — say, a fixed install and a portable system — they may be slightly out of time, creating a comb-filter echo effect. Turn off one system.',
+      },
+      { type: 'resolved', title: 'Minimised', body: 'Room acoustics can\'t be fully solved without treatment, but speaker placement and reducing reflective surfaces (curtains, people in the room) helps significantly.' }
+    ]
+  },
+
+  'crackling': {
+    label: 'Crackling / Distortion',
+    intro: 'Crackling and distortion usually point to one of three culprits: a loose cable, a clipping signal, or a failing wireless transmitter. Let\'s find it.',
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 1',
+        title: 'Check for clipping on the mixer',
+        body: 'Look at your channel meter — is the red "CLIP" light flashing? If yes, your signal is too hot and the preamp is overloading. Pull the gain down until the clip light no longer flashes.',
+        tip: 'Tip: Clipping is the #1 cause of distortion in live sound. A channel should peak at around -6dB on the meter, not in the red.'
+      },
+      {
+        type: 'step',
+        num: 'Step 2',
+        title: 'Wiggle the cables',
+        body: 'While the sound is running, gently wiggle each XLR cable at both ends. If the crackling changes when you move a cable, that cable has a broken solder joint. Replace it immediately.',
+      },
+      {
+        type: 'branch',
+        question: 'Is this a wireless mic?',
+        options: [
+          { label: 'Yes — it\'s wireless', next: 'crackling-wireless' },
+          { label: 'No — it\'s a wired mic', next: 'crackling-wired' },
+        ]
+      }
+    ]
+  },
+
+  'crackling-wireless': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 3a',
+        title: 'Check the battery level',
+        body: 'Wireless transmitters crackle and dropout when the battery is dying. Check the battery indicator on both the transmitter and receiver. If below 2 bars, replace the battery now — not after the crackling gets worse.',
+      },
+      {
+        type: 'step',
+        num: 'Step 4',
+        title: 'Check for radio frequency interference',
+        body: 'If another wireless system nearby is on the same or adjacent frequency, you\'ll get interference. Check your receiver display for the frequency and ensure other systems are on a different channel.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Wireless crackling is almost always batteries or RF interference. Carry spare batteries as a non-negotiable.' }
+    ]
+  },
+
+  'crackling-wired': {
+    steps: [
+      {
+        type: 'step',
+        num: 'Step 3b',
+        title: 'Swap the cable',
+        body: 'Replace the XLR cable with a known-good spare. If the crackling stops, the original cable had a fault. Label it "FAULTY" immediately so it doesn\'t end up back in rotation.',
+      },
+      {
+        type: 'step',
+        num: 'Step 4',
+        title: 'Check the mic connector',
+        body: 'Unplug and re-plug the cable at the mic end. Sometimes the female XLR connector inside the mic housing works loose. If re-seating it helps, the connector needs to be re-soldered.',
+      },
+      { type: 'resolved', title: 'Fixed!', body: 'Faulty cables cause more live sound problems than faulty equipment. Regular cable testing and clear labelling of suspect cables prevents most on-the-day crises.' }
+    ]
+  },
+
+};
+
+/* ── State ── */
+var currentProblem = null;
+var stepHistory    = [];   // array of { key, stepIndex } for breadcrumb
+var currentKey     = null;
+var currentIndex   = 0;
+
+/* ── DOM refs ── */
+var diagEmpty    = document.getElementById('diagEmpty');
+var diagFlow     = document.getElementById('diagFlow');
+var diagEyebrow  = document.getElementById('diagEyebrow');
+var diagTitle    = document.getElementById('diagTitle');
+var diagIntro    = document.getElementById('diagIntro');
+var diagBreadcrumb = document.getElementById('diagBreadcrumb');
+var diagSteps    = document.getElementById('diagSteps');
+var diagRestart  = document.getElementById('diagRestart');
+
+/* ── Problem button click ── */
+document.querySelectorAll('.problem-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var key = this.dataset.problem;
+    document.querySelectorAll('.problem-btn').forEach(function(b){ b.classList.remove('active'); });
+    this.classList.add('active');
+    startDiagnosis(key);
+    document.getElementById('diagnosisPanel').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+});
+
+diagRestart.addEventListener('click', function(){
+  document.querySelectorAll('.problem-btn').forEach(function(b){ b.classList.remove('active'); });
+  diagEmpty.style.display = '';
+  diagFlow.style.display  = 'none';
+  currentKey    = null;
+  currentIndex  = 0;
+  stepHistory   = [];
+  currentProblem = null;
+  window.scrollTo({ top: document.querySelector('.problem-section').offsetTop - 80, behavior:'smooth' });
+});
+
+function startDiagnosis(key){
+  var prob = PROBLEMS[key];
+  if(!prob) return;
+  currentProblem = key;
+  currentKey     = key;
+  currentIndex   = 0;
+  stepHistory    = [{ key: key, label: prob.label || key }];
+
+  diagEyebrow.textContent = '🔍 Diagnosing';
+  diagTitle.textContent   = prob.label || '';
+  diagIntro.textContent   = prob.intro || '';
+  diagIntro.style.display = prob.intro ? '' : 'none';
+
+  diagEmpty.style.display = 'none';
+  diagFlow.style.display  = '';
+
+  renderSteps();
+}
+
+function branchTo(key){
+  var prob = PROBLEMS[key];
+  if(!prob) return;
+  stepHistory.push({ key: key, label: prob.label || key });
+  currentKey   = key;
+  currentIndex = 0;
+  renderSteps();
+}
+
+function renderSteps(){
+  var prob = PROBLEMS[currentKey];
+  if(!prob) return;
+
+  // Breadcrumb
+  diagBreadcrumb.innerHTML = stepHistory.map(function(s, i){
+    return '<span>' + (s.label || s.key) + '</span>' + (i < stepHistory.length - 1 ? '<span class="sep">›</span>' : '');
+  }).join('');
+
+  // Render all steps up to current index
+  diagSteps.innerHTML = '';
+  for(var i = 0; i <= currentIndex && i < prob.steps.length; i++){
+    renderStep(prob.steps[i], i === currentIndex);
+  }
+}
+
+function renderStep(step, isCurrent){
+  var el;
+  if(step.type === 'step'){
+    el = document.createElement('div');
+    el.className = 'step-card';
+    el.innerHTML = '<span class="step-card-num">' + (step.num || '') + '</span>'
+      + '<h3>' + step.title + '</h3>'
+      + '<p>' + step.body + '</p>'
+      + (step.tip ? '<div class="step-tip">' + step.tip + '</div>' : '');
+    diagSteps.appendChild(el);
+    // If this is current and there's a next step, show Next button
+    if(isCurrent){
+      var prob = PROBLEMS[currentKey];
+      if(currentIndex + 1 < prob.steps.length){
+        var next = document.createElement('button');
+        next.className = 'btn btn-orange';
+        next.style.marginBottom = '24px';
+        next.textContent = 'Next Step →';
+        next.addEventListener('click', function(){
+          currentIndex++;
+          renderSteps();
+          el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+        });
+        diagSteps.appendChild(next);
+      }
+    }
+  } else if(step.type === 'branch'){
+    el = document.createElement('div');
+    el.className = 'branch-card';
+    var opts = step.options.map(function(o){
+      return '<button class="branch-opt" data-next="' + o.next + '">' + o.label + '</button>';
+    }).join('');
+    el.innerHTML = '<h3>' + step.question + '</h3><div class="branch-options">' + opts + '</div>';
+    diagSteps.appendChild(el);
+    if(isCurrent){
+      el.querySelectorAll('.branch-opt').forEach(function(b){
+        b.addEventListener('click', function(){
+          branchTo(this.dataset.next);
+          document.getElementById('diagnosisPanel').scrollIntoView({ behavior:'smooth', block:'start' });
+        });
+      });
+    }
+  } else if(step.type === 'resolved'){
+    el = document.createElement('div');
+    el.className = 'resolved-card';
+    el.innerHTML = '<h3>✅ ' + step.title + '</h3><p>' + step.body + '</p>';
+    diagSteps.appendChild(el);
+  } else if(step.type === 'still-broken'){
+    el = document.createElement('div');
+    el.className = 'broken-card';
+    el.innerHTML = '<h3>❌ ' + step.title + '</h3><p>' + step.body + '</p>';
+    diagSteps.appendChild(el);
+  }
+}
+</script>
+
+</body>
+</html>
