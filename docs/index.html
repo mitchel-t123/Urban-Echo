@@ -44,6 +44,7 @@ body{
   line-height:1.5;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
+  overflow-anchor: none;
 }
 
 img{ max-width:100%; display:block; }
@@ -135,6 +136,21 @@ h1,h2,h3{
   z-index: 1;
 }
 .nav-links a:hover{ color: var(--ink); }
+/* Troubleshooting Tool link — orange box, black outline on click */
+.nav-troubleshoot{
+  color: var(--paper) !important;
+  background: var(--orange);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-weight: 800;
+  transition: border-color 0.15s, background 0.15s;
+}
+.nav-troubleshoot:hover{ background: var(--orange-deep); }
+.nav-troubleshoot:focus, .nav-troubleshoot.clicked{ border-color: var(--ink) !important; outline: none; }
+/* Responsive nav hiding */
+@media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
+@media(max-width:860px){ .nav-hide-sm{ display:none !important; } }
+@media(max-width:680px){ .nav-hide-xs{ display:none !important; } }
 /* Sliding pill indicator */
 .nav-pill{
   position: absolute;
@@ -1047,6 +1063,16 @@ h1,h2,h3{
   font-size: 15px;
 }
 .contact-detail a{ text-decoration:none; }
+.contact-social{ gap:12px; flex-wrap:wrap; }
+.social-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  color:var(--paper); text-decoration:none;
+  background:rgba(255,252,245,0.12); border:1.5px solid rgba(255,252,245,0.2);
+  border-radius:100px; padding:8px 16px;
+  transition:background 0.15s, border-color 0.15s;
+}
+.social-btn:hover{ background:rgba(255,252,245,0.22); border-color:rgba(255,252,245,0.5); }
 .contact-detail .ic{
   width:38px; height:38px;
   border-radius: 50%;
@@ -1081,14 +1107,17 @@ h1,h2,h3{
 .field textarea{ resize:vertical; min-height:96px; font-family:var(--body); }
 .form-card .btn{ width:100%; justify-content:center; padding:16px; margin-top:6px; }
 .form-note{ font-size:12.5px; color: rgba(22,21,39,0.55); margin-top:12px; text-align:center; }
+.contact-method-row{ display:flex; gap:20px; padding:10px 0; }
+.contact-method-opt{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:15px; cursor:pointer; }
 .form-success{
   display:none;
   text-align:center;
   padding: 40px 20px;
 }
-.form-success img{ width:90px; margin:0 auto 16px; }
+.form-success img{ width:220px; margin:0 auto 20px; }
 .form-success h3{ font-family:var(--body); text-transform:none; letter-spacing:0; font-size:20px; margin-bottom:8px; }
-.form-success p{ font-size:14.5px; color: rgba(22,21,39,0.65); }
+.form-success p{ font-size:14.5px; color: rgba(22,21,39,0.65); margin-bottom:20px; }
+.form-success-back{ background:none; border:none; cursor:pointer; font-family:var(--body); font-weight:700; font-size:14px; color:var(--indigo); text-decoration:underline; padding:0; }
 
 /* ============ FOOTER ============ */
 .footer{
@@ -1097,7 +1126,11 @@ h1,h2,h3{
   padding: 30px 0;
   font-size: 13.5px;
   border-top: 1px solid rgba(255,252,245,0.12);
+  position: relative;
+  z-index: 1;
 }
+html{ overflow-y: scroll; }
+body::after{ content: none; }
 .footer-inner{
   display:flex;
   justify-content:space-between;
@@ -1229,15 +1262,12 @@ h1,h2,h3{
     <a href="#"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div class="nav-links" id="navLinks">
       <div class="nav-pill" id="navPill"></div>
-      <a href="#symptoms" data-nav>School Sound Diagnosis</a>
-      <a href="#packages" data-nav>Our Packages</a>
-      <a href="#reviews" data-nav>Reviews</a>
-      <a href="problems.html" style="color:var(--orange);font-weight:800;">Problems &amp; Solutions</a>
+      <a href="#symptoms" data-nav class="nav-hide-md">School Sound Diagnosis</a>
+      <a href="#packages" data-nav class="nav-hide-sm">Our Packages</a>
+      <a href="#reviews" data-nav class="nav-hide-xs">Reviews</a>
+      <a href="problems.html" class="nav-troubleshoot" id="navTroubleshoot">Troubleshooting Tool</a>
     </div>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <a href="urban-echo-emergency.vcf" class="btn btn-green" download>📱 Save Our Number</a>
-      <a href="#contact" class="btn btn-blue">Contact Us</a>
-    </div>
+    <a href="#contact" class="btn btn-blue">Contact Us</a>
   </div>
 </nav>
 
@@ -1658,9 +1688,15 @@ h1,h2,h3{
           <span class="ic">✉️</span>
           <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
         </div>
-        <div class="contact-detail">
-          <span class="ic">🌐</span>
-          <a href="https://urbanecho.com.au">urbanecho.com.au</a>
+        <div class="contact-detail contact-social">
+          <a href="https://www.facebook.com/urbanecho.perth" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.instagram.com/urban.echo" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
         </div>
         <a href="urban-echo-emergency.vcf" class="btn btn-green" style="margin-top:18px;" download>📱 Save Our Number</a>
 
@@ -1704,6 +1740,17 @@ h1,h2,h3{
             <label for="message">Tell us about your event</label>
             <textarea id="message" name="message" placeholder="Event date, type, and anything we should know..."></textarea>
           </div>
+          <div class="field">
+            <label>Preferred contact method</label>
+            <div class="contact-method-row">
+              <label class="contact-method-opt">
+                <input type="radio" name="contact_method" value="Call me"> Call me
+              </label>
+              <label class="contact-method-opt">
+                <input type="radio" name="contact_method" value="Email me" checked> Email me
+              </label>
+            </div>
+          </div>
           <button type="submit" class="btn btn-orange">Send Enquiry</button>
           <p class="form-note">We'll never share your details. One sound team, no spam.</p>
         </form>
@@ -1711,7 +1758,8 @@ h1,h2,h3{
         <div class="form-success" id="formSuccess">
           <img src="mascot tea happy.png" alt="">
           <h3>Got it — thanks!</h3>
-          <p>We'll be in touch within one business day. Kettle's on.</p>
+          <p>We'll be in touch within one business day.</p>
+          <button class="form-success-back" id="formSuccessBack">← Submit another enquiry</button>
         </div>
       </div>
     </div>
@@ -1771,6 +1819,14 @@ form.addEventListener('submit', async function(e){
     submitBtn.textContent = 'Send Enquiry';
     alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
   }
+});
+
+document.getElementById('formSuccessBack').addEventListener('click', function(){
+  form.reset();
+  form.style.display = '';
+  success.style.display = 'none';
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Send Enquiry';
 });
 
 // ============================================================
@@ -2064,6 +2120,12 @@ form.addEventListener('submit', async function(e){
   });
   show();
 })();
+// Troubleshooting Tool nav — show black outline on click
+const navTT = document.getElementById('navTroubleshoot');
+if(navTT){
+  navTT.addEventListener('mousedown', function(){ this.classList.add('clicked'); });
+  navTT.addEventListener('blur', function(){ this.classList.remove('clicked'); });
+}
 </script>
 
 </body>
