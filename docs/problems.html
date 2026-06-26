@@ -1415,7 +1415,6 @@ function renderSteps(){
       nav.appendChild(nextBtn);
     }
 
-    nav.appendChild(document.getElementById('diagFlagWrap'));
     diagSteps.appendChild(nav);
 
   } else if(step.type === 'branch'){
@@ -1442,7 +1441,6 @@ function renderSteps(){
     backBtn.textContent = idx > 0 ? '← Back' : '← Problems';
     backBtn.addEventListener('click', goBack);
     nav.appendChild(backBtn);
-    nav.appendChild(document.getElementById('diagFlagWrap'));
     diagSteps.appendChild(nav);
 
   } else if(step.type === 'resolved' || step.type === 'still-broken'){
@@ -1458,7 +1456,6 @@ function renderSteps(){
     backBtn.textContent = '← Back';
     backBtn.addEventListener('click', goBack);
     nav.appendChild(backBtn);
-    nav.appendChild(document.getElementById('diagFlagWrap'));
     diagSteps.appendChild(nav);
   }
 }
