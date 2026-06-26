@@ -324,7 +324,7 @@ body.auth-pending{ visibility: hidden; }
   display: grid;
   grid-template-columns: 5fr 2fr;
   gap: 28px;
-  align-items: stretch;
+  align-items: start;
   margin-bottom: 56px;
 }
 @media(max-width:780px){
@@ -338,8 +338,6 @@ body.auth-pending{ visibility: hidden; }
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 5px 5px 0 var(--ink);
-  display: flex;
-  flex-direction: column;
 }
 .handbook-toolbar{
   display: flex;
@@ -372,7 +370,7 @@ body.auth-pending{ visibility: hidden; }
 }
 .handbook-embed-wrap{
   width: 100%;
-  flex: 1;
+  height: 480px;
   background: #525659;
   border-radius: 0 0 12px 12px;
   overflow: hidden;
