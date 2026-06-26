@@ -1279,8 +1279,11 @@ body{ overflow-x: hidden; }
 
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns: 1fr; }
-  .hero-figure{ margin-bottom: 0; margin-top: 24px; order: -1; }
-  .hero-symptom-card{ margin: 0; }
+  /* figure appears below checklist in natural DOM order — no order:-1 */
+  .hero-figure{ margin-top: 32px; padding-top: 0; padding-bottom: 32px; width: 100%; }
+  .hero-symptom-card{ margin: 0; width: 100%; box-sizing: border-box; }
+  .hero-treatment-card{ width: 100%; box-sizing: border-box; }
+  .stress-meter{ width: 100%; box-sizing: border-box; }
   .char-wrap{ height: 220px; }
   .char-img{ max-width: 160px; }
   .symptom-grid{ grid-template-columns:1fr 1fr; }
@@ -1306,6 +1309,8 @@ body{ overflow-x: hidden; }
   /* Symptom check: ensure items don't overflow */
   .hero-checklist{ max-width:100%; }
   .hero-check{ font-size:15px; }
+  /* Mobile: hide non-essential symptom items */
+  .hero-check-desktop{ display: none; }
 }
 @media (max-width: 600px){
   .symptom-grid{ grid-template-columns:1fr; }
@@ -1336,10 +1341,10 @@ body{ overflow-x: hidden; }
       <a href="problems.html" class="nav-troubleshoot" id="navTroubleshoot">Troubleshooting Tool</a>
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
+      <a href="#contact" class="btn btn-blue">Contact Us</a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
-      <a href="#contact" class="btn btn-blue">Contact Us</a>
     </div>
   </div>
 </nav>
@@ -1378,19 +1383,15 @@ body{ overflow-x: hidden; }
             <span class="check-icon"></span>
             No in-house Sound Guy?
           </div>
-          <div class="hero-check" data-symptom="2">
-            <span class="check-icon"></span>
-            Too Many School Events?
-          </div>
-          <div class="hero-check" data-symptom="3">
+          <div class="hero-check hero-check-desktop" data-symptom="2">
             <span class="check-icon"></span>
             No Time?
           </div>
-          <div class="hero-check" data-symptom="4">
+          <div class="hero-check hero-check-desktop" data-symptom="3">
             <span class="check-icon"></span>
             Tired of Feedback?
           </div>
-          <div class="hero-check" data-symptom="5">
+          <div class="hero-check" data-symptom="4">
             <span class="check-icon"></span>
             Always Multi-tasking?
           </div>
