@@ -378,12 +378,13 @@ body.auth-pending{ visibility: hidden; }
 /* ── FOOTER ── */
 footer{
   background:var(--ink); color:rgba(255,252,245,0.5);
-  padding:28px 0; font-size:13px; font-family:var(--mono);
+  padding:0; height:72px;
+  display:flex; align-items:center;
+  font-size:13px; font-family:var(--mono);
   border-top:1px solid rgba(255,252,245,0.12);
   margin-bottom:0;
 }
 html, body{ overflow-x:hidden; overflow-y: auto; }
-footer{ margin-bottom:0; padding-bottom:0; }
 .footer-inner{
   display:flex; justify-content:space-between;
   align-items:center; flex-wrap:wrap; gap:12px;
