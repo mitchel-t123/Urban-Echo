@@ -151,6 +151,43 @@ h1,h2,h3{
 @media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
 @media(max-width:860px){ .nav-hide-sm{ display:none !important; } }
 @media(max-width:680px){ .nav-hide-xs{ display:none !important; } }
+/* Hamburger */
+.nav-hamburger{
+  display:none; background:none; border:2px solid var(--ink);
+  border-radius:8px; padding:7px 10px; cursor:pointer;
+  flex-direction:column; gap:5px; align-items:center; justify-content:center;
+}
+.nav-hamburger span{
+  display:block; width:20px; height:2px;
+  background:var(--ink); border-radius:2px;
+  transition:transform 0.2s, opacity 0.2s;
+}
+.nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2){ opacity:0; }
+.nav-hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+@media(max-width:920px){ .nav-hamburger{ display:flex; } }
+/* Mobile menu */
+.mobile-menu{
+  display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(22,21,39,0.55); z-index:99; backdrop-filter:blur(2px);
+}
+.mobile-menu.open{ display:block; }
+.mobile-menu-panel{
+  position:absolute; top:0; left:0; right:0;
+  background:#fff; padding:80px 28px 36px;
+  border-bottom:3px solid var(--ink);
+  display:flex; flex-direction:column; gap:6px;
+}
+.mobile-menu-panel a{
+  display:block; font-weight:700; font-size:18px; text-decoration:none;
+  color:var(--ink); padding:13px 16px; border-radius:10px;
+  transition:background 0.15s;
+}
+.mobile-menu-panel a:hover{ background:var(--cream); }
+.mobile-menu-panel .nav-troubleshoot{
+  background:var(--forest); color:var(--paper) !important;
+  font-weight:800; margin-top:6px;
+}
 /* Sliding pill indicator — off-white with ink border */
 .nav-pill{
   position: absolute;
@@ -722,6 +759,7 @@ h1,h2,h3{
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   flex: 1;
+  min-width: 0;
 }
 .mini-review-card{
   background: var(--paper);
@@ -1241,8 +1279,8 @@ body{ overflow-x: hidden; }
 
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns: 1fr; }
-  .hero-figure{ margin-bottom: 0; margin-top: 24px; }
-  .hero-symptom-card{ margin: 16px 16px 0 0; }
+  .hero-figure{ margin-bottom: 0; margin-top: 24px; order: -1; }
+  .hero-symptom-card{ margin: 0; }
   .char-wrap{ height: 220px; }
   .char-img{ max-width: 160px; }
   .symptom-grid{ grid-template-columns:1fr 1fr; }
@@ -1262,6 +1300,12 @@ body{ overflow-x: hidden; }
   .nav-inner{ padding:12px 20px; }
   .nav .btn{ padding:9px 16px; font-size:13px; }
   .wrap{ padding:0 24px; }
+  /* Mini-reviews: show 1 card at a time */
+  .mini-reviews-track{ grid-template-columns: 1fr; }
+  .mini-reviews-with-arrows{ align-items: stretch; }
+  /* Symptom check: ensure items don't overflow */
+  .hero-checklist{ max-width:100%; }
+  .hero-check{ font-size:15px; }
 }
 @media (max-width: 600px){
   .symptom-grid{ grid-template-columns:1fr; }
@@ -1273,7 +1317,8 @@ body{ overflow-x: hidden; }
   .nav .btn{ padding:8px 14px; font-size:13px; }
   .hero-ctas{ flex-direction:column; }
   .hero-ctas .btn{ width:100%; justify-content:center; }
-  .mini-reviews-with-arrows{ flex-direction:column; gap:8px; }
+  .school-logo{ height:auto; padding:12px 16px; }
+  .school-logo img{ max-width:140px; max-height:70px; }
 }
 </style>
 </head>
@@ -1290,9 +1335,25 @@ body{ overflow-x: hidden; }
       <a href="#reviews" data-nav class="nav-hide-xs">Reviews</a>
       <a href="problems.html" class="nav-troubleshoot" id="navTroubleshoot">Troubleshooting Tool</a>
     </div>
-    <a href="#contact" class="btn btn-blue">Contact Us</a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="#contact" class="btn btn-blue">Contact Us</a>
+    </div>
   </div>
 </nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-panel">
+    <a href="#symptoms" class="mobile-menu-link">School Sound Diagnosis</a>
+    <a href="#packages" class="mobile-menu-link">Our Packages</a>
+    <a href="#reviews" class="mobile-menu-link">Reviews</a>
+    <a href="problems.html" class="nav-troubleshoot mobile-menu-link">Troubleshooting Tool</a>
+    <a href="#contact" class="mobile-menu-link" style="margin-top:8px;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;">Contact Us</a>
+  </div>
+</div>
 
 <!-- ============ HERO ============ -->
 <header class="hero">
@@ -2141,23 +2202,37 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var prev   = document.getElementById('miniPrev');
   var next   = document.getElementById('miniNext');
   if(!cards.length || !prev || !next) return;
-  var PER_PAGE = 3;
-  var offset   = 0;
+  var offset = 0;
+  function perPage(){ return window.innerWidth <= 920 ? 1 : 3; }
   function show(){
+    var pp = perPage();
     cards.forEach(function(c, i){
-      c.classList.toggle('hidden', i < offset || i >= offset + PER_PAGE);
+      c.classList.toggle('hidden', i < offset || i >= offset + pp);
     });
   }
   prev.addEventListener('click', function(){
-    offset = Math.max(0, offset - PER_PAGE);
+    offset = Math.max(0, offset - perPage());
     show();
   });
   next.addEventListener('click', function(){
-    offset = Math.min(cards.length - PER_PAGE, offset + PER_PAGE);
+    offset = Math.min(cards.length - perPage(), offset + perPage());
     show();
   });
+  window.addEventListener('resize', function(){ offset = 0; show(); });
   show();
 })();
+// Hamburger menu
+(function(){
+  var btn   = document.getElementById('navHamburger');
+  var menu  = document.getElementById('mobileMenu');
+  if(!btn || !menu) return;
+  function openMenu(){ btn.classList.add('open'); menu.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMenu(){ btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  menu.addEventListener('click', function(e){ if(e.target === menu) closeMenu(); });
+  menu.querySelectorAll('.mobile-menu-link').forEach(function(a){ a.addEventListener('click', closeMenu); });
+})();
+
 // Troubleshooting Tool nav — show black outline on click
 const navTT = document.getElementById('navTroubleshoot');
 if(navTT){
