@@ -323,14 +323,49 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 }
 .diag-cta p{ font-size:15px; font-weight:600; max-width:420px; }
 
-/* Skill level badge (shown in diag section) */
-.skill-badge{
-  display:inline-flex; align-items:center; gap:8px;
-  font-family:var(--mono); font-size:11px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.1em;
-  background:var(--cream); border:2px solid var(--ink);
-  border-radius:100px; padding:6px 14px; margin-bottom:20px;
+/* ── Skill bar (badge + change button, shown on all pages after skill selected) ── */
+.skill-bar{
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:24px; flex-wrap:wrap; position:relative;
 }
+.skill-bar-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  background:var(--paper); border:2.5px solid var(--ink);
+  border-radius:100px; padding:8px 18px;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.skill-bar-change{
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  background:none; border:2px solid var(--ink);
+  border-radius:100px; padding:7px 16px;
+  cursor:pointer; color:var(--ink);
+  transition:background 0.15s;
+}
+.skill-bar-change:hover{ background:var(--cream-deep); }
+.skill-bar-change.open{ background:var(--ink); color:var(--paper); }
+.skill-dropdown{
+  position:absolute; top:calc(100% + 8px); left:0; z-index:20;
+  background:var(--paper); border:2.5px solid var(--ink);
+  border-radius:16px; box-shadow:5px 5px 0 var(--ink);
+  overflow:hidden; min-width:260px;
+}
+.skill-dropdown-opt{
+  display:flex; align-items:center; gap:10px;
+  width:100%; padding:14px 20px;
+  font-family:var(--body); font-size:14px; font-weight:700;
+  background:none; border:none; cursor:pointer;
+  text-align:left; color:var(--ink);
+  border-bottom:1px solid var(--line);
+  transition:background 0.12s;
+}
+.skill-dropdown-opt:last-child{ border-bottom:none; }
+.skill-dropdown-opt:hover{ background:var(--cream); }
+.skill-dropdown-opt.active{ background:var(--ink); color:var(--paper); }
+.skill-dropdown-hint{ font-size:12px; font-weight:400; opacity:0.6; }
 
 @media(max-width:900px){
   .problem-grid{ grid-template-columns:1fr 1fr; }
@@ -398,9 +433,14 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 
     <!-- Step 2: Category picker -->
     <div id="categoryPicker" style="display:none;">
-      <div class="category-back" style="display:flex;align-items:center;gap:14px;">
-        <button class="back-btn" id="backToSkill">← Change skill level</button>
-        <span id="currentSkillLabel" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;opacity:0.55;"></span>
+      <div class="skill-bar" id="catSkillBar">
+        <span class="skill-bar-badge" id="catSkillBadge"></span>
+        <button class="skill-bar-change" id="catSkillChange">Change level ▾</button>
+        <div class="skill-dropdown" id="catSkillDropdown" style="display:none;">
+          <button class="skill-dropdown-opt" data-level="beginner" data-bar="cat">🙋 Beginner <span class="skill-dropdown-hint">— Walk me through everything</span></button>
+          <button class="skill-dropdown-opt" data-level="moderate" data-bar="cat">🎚️ Moderate <span class="skill-dropdown-hint">— I know some things</span></button>
+          <button class="skill-dropdown-opt" data-level="expert" data-bar="cat">⚡ Expert <span class="skill-dropdown-hint">— Skip the obvious steps</span></button>
+        </div>
       </div>
 
       <!-- Search bar (below subtitle) -->
@@ -438,6 +478,15 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 
     <!-- Step 3: Problem picker -->
     <div id="problemPicker" style="display:none;">
+      <div class="skill-bar" id="probSkillBar">
+        <span class="skill-bar-badge" id="probSkillBadge"></span>
+        <button class="skill-bar-change" id="probSkillChange">Change level ▾</button>
+        <div class="skill-dropdown" id="probSkillDropdown" style="display:none;">
+          <button class="skill-dropdown-opt" data-level="beginner" data-bar="prob">🙋 Beginner <span class="skill-dropdown-hint">— Walk me through everything</span></button>
+          <button class="skill-dropdown-opt" data-level="moderate" data-bar="prob">🎚️ Moderate <span class="skill-dropdown-hint">— I know some things</span></button>
+          <button class="skill-dropdown-opt" data-level="expert" data-bar="prob">⚡ Expert <span class="skill-dropdown-hint">— Skip the obvious steps</span></button>
+        </div>
+      </div>
       <div class="picker-header">
         <button class="back-btn" id="backToCategories">← Back to categories</button>
         <span class="picker-label" id="pickerLabel">All Problems</span>
@@ -534,7 +583,15 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       ↑ Select a problem above to begin your diagnosis
     </div>
     <div class="diag-flow" id="diagFlow" style="display:none;">
-      <div class="skill-badge" id="skillBadge"></div>
+      <div class="skill-bar" id="diagSkillBar">
+        <span class="skill-bar-badge" id="diagSkillBadge"></span>
+        <button class="skill-bar-change" id="diagSkillChange">Change level ▾</button>
+        <div class="skill-dropdown" id="diagSkillDropdown" style="display:none;">
+          <button class="skill-dropdown-opt" data-level="beginner" data-bar="diag">🙋 Beginner <span class="skill-dropdown-hint">— Walk me through everything</span></button>
+          <button class="skill-dropdown-opt" data-level="moderate" data-bar="diag">🎚️ Moderate <span class="skill-dropdown-hint">— I know some things</span></button>
+          <button class="skill-dropdown-opt" data-level="expert" data-bar="diag">⚡ Expert <span class="skill-dropdown-hint">— Skip the obvious steps</span></button>
+        </div>
+      </div>
       <span class="diag-eyebrow" id="diagEyebrow">Diagnosing...</span>
       <h2 id="diagTitle"></h2>
       <p class="diag-intro" id="diagIntro"></p>
@@ -572,33 +629,89 @@ var branchStack     = []; // [{key, filteredIndex}] for back-nav through branche
 var stepHistory     = []; // breadcrumb labels
 
 /* ── DOM refs ── */
-var skillPicker     = document.getElementById('skillPicker');
-var categoryPicker  = document.getElementById('categoryPicker');
-var problemPicker   = document.getElementById('problemPicker');
-var pickerLabel     = document.getElementById('pickerLabel');
-var noResults       = document.getElementById('noResults');
-var problemSearch   = document.getElementById('problemSearch');
-var searchClear     = document.getElementById('searchClear');
-var diagEmpty       = document.getElementById('diagEmpty');
-var diagFlow        = document.getElementById('diagFlow');
-var diagEyebrow     = document.getElementById('diagEyebrow');
-var diagTitle       = document.getElementById('diagTitle');
-var diagIntro       = document.getElementById('diagIntro');
-var diagBreadcrumb  = document.getElementById('diagBreadcrumb');
-var diagSteps       = document.getElementById('diagSteps');
-var diagRestart     = document.getElementById('diagRestart');
-var skillBadge      = document.getElementById('skillBadge');
-var mastheadSub       = document.getElementById('mastheadSub');
-var mastheadH2        = document.getElementById('mastheadH2');
-var currentSkillLabel = document.getElementById('currentSkillLabel');
-var allProblemBtns  = document.querySelectorAll('.problem-btn');
+var skillPicker    = document.getElementById('skillPicker');
+var categoryPicker = document.getElementById('categoryPicker');
+var problemPicker  = document.getElementById('problemPicker');
+var pickerLabel    = document.getElementById('pickerLabel');
+var noResults      = document.getElementById('noResults');
+var problemSearch  = document.getElementById('problemSearch');
+var searchClear    = document.getElementById('searchClear');
+var diagEmpty      = document.getElementById('diagEmpty');
+var diagFlow       = document.getElementById('diagFlow');
+var diagEyebrow    = document.getElementById('diagEyebrow');
+var diagTitle      = document.getElementById('diagTitle');
+var diagIntro      = document.getElementById('diagIntro');
+var diagBreadcrumb = document.getElementById('diagBreadcrumb');
+var diagSteps      = document.getElementById('diagSteps');
+var diagRestart    = document.getElementById('diagRestart');
+var mastheadSub    = document.getElementById('mastheadSub');
+var mastheadH2     = document.getElementById('mastheadH2');
+var allProblemBtns = document.querySelectorAll('.problem-btn');
 
-var SKILL_LABELS = { beginner: '🟢 Beginner', moderate: '🟡 Moderate', expert: '🔴 Expert' };
+var SKILL_EMOJI  = { beginner: '🙋', moderate: '🎚️', expert: '⚡' };
+var SKILL_NAMES  = { beginner: 'Beginner', moderate: 'Moderate', expert: 'Expert' };
+var SKILL_HINTS  = { beginner: 'Walk me through everything', moderate: 'I know some things', expert: 'Skip the obvious steps' };
 
 function show(el){ el.style.display = 'block'; }
 function hide(el){ el.style.display = 'none'; }
 
-/* ── Skill level picker ── */
+/* ── Skill bar helpers ── */
+function updateSkillBadges(){
+  var label = SKILL_EMOJI[skillLevel] + ' ' + SKILL_NAMES[skillLevel];
+  ['cat','prob','diag'].forEach(function(prefix){
+    var badge = document.getElementById(prefix + 'SkillBadge');
+    if(badge) badge.textContent = label;
+    var opts = document.querySelectorAll('[data-bar="' + prefix + '"]');
+    opts.forEach(function(o){ o.classList.toggle('active', o.dataset.level === skillLevel); });
+  });
+}
+
+function closeAllDropdowns(){
+  ['catSkillDropdown','probSkillDropdown','diagSkillDropdown'].forEach(function(id){
+    var d = document.getElementById(id);
+    if(d) hide(d);
+  });
+  ['catSkillChange','probSkillChange','diagSkillChange'].forEach(function(id){
+    var b = document.getElementById(id);
+    if(b) b.classList.remove('open');
+    if(b) b.textContent = 'Change level ▾';
+  });
+}
+
+function wireSkillBar(changeId, dropdownId, isInDiag){
+  var btn = document.getElementById(changeId);
+  var dd  = document.getElementById(dropdownId);
+  if(!btn || !dd) return;
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = dd.style.display !== 'none';
+    closeAllDropdowns();
+    if(!open){
+      show(dd);
+      btn.classList.add('open');
+      btn.textContent = 'Change level ▴';
+    }
+  });
+  dd.querySelectorAll('.skill-dropdown-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      skillLevel = this.dataset.level;
+      document.querySelectorAll('.skill-btn').forEach(function(b){
+        b.classList.toggle('active', b.dataset.level === skillLevel);
+      });
+      updateSkillBadges();
+      closeAllDropdowns();
+      if(isInDiag && currentKey){ renderSteps(); }
+    });
+  });
+}
+
+document.addEventListener('click', function(){ closeAllDropdowns(); });
+
+wireSkillBar('catSkillChange',  'catSkillDropdown',  false);
+wireSkillBar('probSkillChange', 'probSkillDropdown', false);
+wireSkillBar('diagSkillChange', 'diagSkillDropdown', true);
+
+/* ── Skill level picker (initial screen) ── */
 document.querySelectorAll('.skill-btn').forEach(function(btn){
   btn.addEventListener('click', function(){
     skillLevel = this.dataset.level;
@@ -606,19 +719,10 @@ document.querySelectorAll('.skill-btn').forEach(function(btn){
     this.classList.add('active');
     hide(skillPicker);
     show(categoryPicker);
-    currentSkillLabel.textContent = SKILL_LABELS[skillLevel];
+    updateSkillBadges();
     mastheadH2.innerHTML = "What's the source<br>of the problem?";
     mastheadSub.textContent = 'Choose a category to narrow it down, or search below.';
   });
-});
-
-document.getElementById('backToSkill').addEventListener('click', function(){
-  hide(categoryPicker);
-  show(skillPicker);
-  problemSearch.value = '';
-  hide(searchClear);
-  mastheadH2.innerHTML = 'Let us know your<br>experience level';
-  mastheadSub.textContent = 'We\'ll tailor the steps to suit what you know.';
 });
 
 /* ── Category picker ── */
@@ -1094,7 +1198,7 @@ function startDiagnosis(key){
   var intro = (skillLevel === 'expert' && prob.expertIntro) ? prob.expertIntro : (prob.intro || '');
   diagIntro.textContent   = intro;
   diagIntro.style.display = intro ? 'block' : 'none';
-  skillBadge.textContent  = SKILL_LABELS[skillLevel];
+  updateSkillBadges();
 
   hide(diagEmpty);
   show(diagFlow);
