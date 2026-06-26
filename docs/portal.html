@@ -789,9 +789,15 @@ if(sessionStorage.getItem('ue_auth') !== '1'){
 
 document.getElementById('logoutBtn').addEventListener('click', doLogout);
 
-// ── Auto-logout: page hidden (tab switch / navigate away) ───
-document.addEventListener('visibilitychange', function(){
-  if(document.hidden) doLogout();
+// ── Auto-logout: 2-minute idle timer (resets on any interaction) ────
+var IDLE_MS = 2 * 60 * 1000;
+var idleTimer = setTimeout(doLogout, IDLE_MS);
+function resetIdle(){
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(doLogout, IDLE_MS);
+}
+['click','keydown','mousemove','touchstart','scroll'].forEach(function(ev){
+  document.addEventListener(ev, resetIdle, { passive: true });
 });
 
 
