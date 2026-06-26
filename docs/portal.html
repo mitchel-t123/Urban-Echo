@@ -339,18 +339,13 @@ body.auth-pending{ visibility: hidden; }
 }
 .handbook-embed-wrap{
   width: 100%;
-  aspect-ratio: 210 / 297;
-  overflow: hidden;
   background: #525659;
   border-radius: 0 0 12px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
-.handbook-embed-wrap canvas{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain;
+.handbook-embed-wrap img{
+  width: 100%;
+  height: auto;
   display: block;
 }
 
@@ -746,7 +741,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
             <a href="employee-handbook-2026.pdf" download class="hb-btn hb-download">⬇</a>
           </div>
           <div class="handbook-embed-wrap">
-            <canvas id="handbookCanvas"></canvas>
+            <img id="handbookImg" src="handbook-pages/page-01.jpg" alt="Handbook page 1">
           </div>
         </div>
 
@@ -1036,7 +1031,6 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 // ── Auth check ──────────────────────────────────────────────
 function doLogout(){
@@ -1242,48 +1236,27 @@ submitForm('riskForm', 'riskSuccess', '⚠️ Risk Assessment — Urban Echo Por
 submitForm('incidentForm', 'incidentSuccess', '🚨 Incident Report — Urban Echo Portal');
 submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo Portal');
 
-// ── Employee Handbook — PDF.js canvas renderer ───────────────
+// ── Employee Handbook page navigator ────────────────────────
 (function(){
-  var canvas  = document.getElementById('handbookCanvas');
-  var ctx     = canvas.getContext('2d');
-  var numEl   = document.getElementById('hbPageNum');
-  var totEl   = document.getElementById('hbPageTotal');
+  var totalPages = 18;
+  var currentPage = 1;
+  var img    = document.getElementById('handbookImg');
+  var numEl  = document.getElementById('hbPageNum');
   var prevBtn = document.getElementById('hbPrev');
   var nextBtn = document.getElementById('hbNext');
-  var currentPage = 1;
-  var pdfDoc  = null;
-  var rendering = false;
 
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-  pdfjsLib.getDocument('employee-handbook-2026.pdf').promise.then(function(pdf){
-    pdfDoc = pdf;
-    totEl.textContent = pdf.numPages;
-    renderPage(1);
-  });
-
-  function renderPage(pageNum){
-    if(rendering) return;
-    rendering = true;
-    pdfDoc.getPage(pageNum).then(function(page){
-      var wrap = canvas.parentElement;
-      var scale = wrap.clientWidth / page.getViewport({scale:1}).width;
-      var vp = page.getViewport({scale: scale});
-      canvas.width  = vp.width;
-      canvas.height = vp.height;
-      page.render({canvasContext: ctx, viewport: vp}).promise.then(function(){
-        rendering = false;
-        currentPage = pageNum;
-        numEl.textContent = pageNum;
-        prevBtn.disabled = pageNum <= 1;
-        nextBtn.disabled = pageNum >= pdfDoc.numPages;
-      });
-    });
+  function goTo(page){
+    currentPage = Math.max(1, Math.min(totalPages, page));
+    var p = currentPage < 10 ? '0' + currentPage : '' + currentPage;
+    img.src = 'handbook-pages/page-' + p + '.jpg';
+    img.alt = 'Handbook page ' + currentPage;
+    numEl.textContent = currentPage;
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= totalPages;
   }
 
-  prevBtn.addEventListener('click', function(){ if(currentPage > 1) renderPage(currentPage - 1); });
-  nextBtn.addEventListener('click', function(){ if(currentPage < (pdfDoc ? pdfDoc.numPages : 18)) renderPage(currentPage + 1); });
+  prevBtn.addEventListener('click', function(){ goTo(currentPage - 1); });
+  nextBtn.addEventListener('click', function(){ goTo(currentPage + 1); });
 })();
 </script>
 </body>
