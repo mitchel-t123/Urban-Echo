@@ -143,6 +143,7 @@ body.auth-pending{ visibility: hidden; }
 }
 .roster-badge.confirmed{ background:var(--forest); color:#fff; border-color:var(--forest-deep); }
 .roster-badge.pending{ background:var(--sunshine); color:var(--ink); }
+.roster-item:hover{ box-shadow:4px 4px 0 var(--indigo); border-color:var(--indigo); }
 .roster-source{
   margin-top:12px;
   font-family:var(--mono); font-size:11px;
@@ -385,10 +386,8 @@ footer{
       <h2>Upcoming Roster</h2>
       <div class="roster-list">
 
-        <div class="roster-item">
-          <div class="roster-date">
-            <span>28</span>Jun 2026
-          </div>
+        <div class="roster-item" data-event="0" style="cursor:pointer;">
+          <div class="roster-date"><span>28</span>Jun 2026</div>
           <div class="roster-detail">
             <h4>Perth Modern School — Year 12 Valedictory Assembly</h4>
             <p>Winthrop Hall · 09:00–13:00 · PA + Lapel Wireless × 2</p>
@@ -396,10 +395,8 @@ footer{
           <span class="roster-badge confirmed">Confirmed</span>
         </div>
 
-        <div class="roster-item">
-          <div class="roster-date">
-            <span>02</span>Jul 2026
-          </div>
+        <div class="roster-item" data-event="1" style="cursor:pointer;">
+          <div class="roster-date"><span>02</span>Jul 2026</div>
           <div class="roster-detail">
             <h4>Shenton College — Winter Arts Concert</h4>
             <p>School Hall · 17:30–21:30 · Full PA + Stage Lighting</p>
@@ -407,10 +404,8 @@ footer{
           <span class="roster-badge confirmed">Confirmed</span>
         </div>
 
-        <div class="roster-item">
-          <div class="roster-date">
-            <span>08</span>Jul 2026
-          </div>
+        <div class="roster-item" data-event="2" style="cursor:pointer;">
+          <div class="roster-date"><span>08</span>Jul 2026</div>
           <div class="roster-detail">
             <h4>Willetton Senior High School — ATAR Results Ceremony</h4>
             <p>Gymnasium · 10:00–12:30 · PA + Projector + Livestream</p>
@@ -418,10 +413,8 @@ footer{
           <span class="roster-badge confirmed">Confirmed</span>
         </div>
 
-        <div class="roster-item">
-          <div class="roster-date">
-            <span>15</span>Jul 2026
-          </div>
+        <div class="roster-item" data-event="3" style="cursor:pointer;">
+          <div class="roster-date"><span>15</span>Jul 2026</div>
           <div class="roster-detail">
             <h4>Canning Vale College — Sports Presentation Evening</h4>
             <p>Main Hall · 18:00–21:00 · PA + Background Music</p>
@@ -429,10 +422,8 @@ footer{
           <span class="roster-badge pending">Pending</span>
         </div>
 
-        <div class="roster-item">
-          <div class="roster-date">
-            <span>22</span>Jul 2026
-          </div>
+        <div class="roster-item" data-event="4" style="cursor:pointer;">
+          <div class="roster-date"><span>22</span>Jul 2026</div>
           <div class="roster-detail">
             <h4>Applecross Senior High School — Music Night</h4>
             <p>PAC · 19:00–22:00 · Full Band PA + IEM Monitoring</p>
@@ -440,10 +431,8 @@ footer{
           <span class="roster-badge confirmed">Confirmed</span>
         </div>
 
-        <div class="roster-item">
-          <div class="roster-date">
-            <span>05</span>Aug 2026
-          </div>
+        <div class="roster-item" data-event="5" style="cursor:pointer;">
+          <div class="roster-date"><span>05</span>Aug 2026</div>
           <div class="roster-detail">
             <h4>John Curtin College of the Arts — Drama Production (Night 1)</h4>
             <p>Theatre · 19:00–22:30 · FOH + Stage Comms + Recording</p>
@@ -479,14 +468,29 @@ footer{
   <!-- QUICK ACCESS -->
   <section class="portal-section">
     <div class="wrap">
-
-      <div class="portal-notice">
-        <span class="portal-notice-icon">📌</span>
-        <span>This portal is a work in progress. More sections will be added here — let Mitchel know what you need access to.</span>
-      </div>
-
       <h2>Quick Access</h2>
       <div class="portal-cards">
+
+        <div class="portal-card" id="openRiskBtn">
+          <span class="portal-card-icon">⚠️</span>
+          <h3>Risk Assessment Form</h3>
+          <p>Log and assess hazards before or during an event.</p>
+          <span class="portal-card-tag">Fill out →</span>
+        </div>
+
+        <div class="portal-card" id="openIncidentBtn">
+          <span class="portal-card-icon">🚨</span>
+          <h3>Incident Response Form</h3>
+          <p>Report an incident or near-miss that occurred on the job.</p>
+          <span class="portal-card-tag">Fill out →</span>
+        </div>
+
+        <div class="portal-card" id="openContactsBtn">
+          <span class="portal-card-icon">📞</span>
+          <h3>Key Contacts</h3>
+          <p>School contacts, venue details, and emergency numbers.</p>
+          <span class="portal-card-tag">View →</span>
+        </div>
 
         <a href="problems.html" class="portal-card">
           <span class="portal-card-icon">🛠️</span>
@@ -509,41 +513,6 @@ footer{
           <span class="portal-card-tag">In progress</span>
         </div>
 
-        <div class="portal-card">
-          <span class="portal-card-icon">📞</span>
-          <h3>Key Contacts</h3>
-          <p>School contacts, venue details, and emergency numbers. (Coming soon)</p>
-          <span class="portal-card-tag">In progress</span>
-        </div>
-
-        <div class="portal-card">
-          <span class="portal-card-icon">🎚️</span>
-          <h3>Equipment List</h3>
-          <p>Gear inventory and what's assigned to which job. (Coming soon)</p>
-          <span class="portal-card-tag">In progress</span>
-        </div>
-
-        <div class="portal-card">
-          <span class="portal-card-icon">💬</span>
-          <h3>Contact Mitchel</h3>
-          <p>Questions or issues? Reach out directly.</p>
-          <span class="portal-card-tag"><a href="tel:0429660186" style="color:inherit;">0429 660 186</a></span>
-        </div>
-
-        <div class="portal-card" id="openRiskBtn">
-          <span class="portal-card-icon">⚠️</span>
-          <h3>Risk Assessment Form</h3>
-          <p>Log and assess hazards before or during an event.</p>
-          <span class="portal-card-tag">Fill out →</span>
-        </div>
-
-        <div class="portal-card" id="openIncidentBtn">
-          <span class="portal-card-icon">🚨</span>
-          <h3>Incident Response Form</h3>
-          <p>Report an incident or near-miss that occurred on the job.</p>
-          <span class="portal-card-tag">Fill out →</span>
-        </div>
-
       </div>
     </div>
   </section>
@@ -557,6 +526,69 @@ footer{
   </div>
 </footer>
 
+<!-- ── KEY CONTACTS MODAL ── -->
+<div class="modal-overlay" id="contactsModal">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" id="closeContacts">✕</button>
+    <span class="modal-eyebrow">Urban Echo</span>
+    <h2>Key Contacts</h2>
+    <a href="tel:0429660186" style="display:flex;align-items:center;gap:14px;background:var(--ink);color:var(--paper);border-radius:14px;padding:16px 20px;text-decoration:none;font-weight:800;font-size:16px;margin-bottom:28px;">
+      <span style="font-size:28px;">📞</span>
+      <span>Call Mitchel Tinsley<br><span style="font-family:var(--mono);font-size:12px;font-weight:400;opacity:0.7;">0429 660 186 — Owner</span></span>
+    </a>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Penrhos College</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:14px;"><span><strong>Main Contact</strong> — Ross</span><span style="color:rgba(22,21,39,0.5);">Events Coordinator</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;"><span><strong>Grounds</strong> — Rob</span><span style="color:rgba(22,21,39,0.5);">Facilities</span></div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Carey Baptist College</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:14px;"><span><strong>Main Contact</strong> — Tom</span><span style="color:rgba(22,21,39,0.5);">Events Manager</span></div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Methodist Ladies College</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:14px;"><span><strong>Main Contact</strong> — Doug</span><span style="color:rgba(22,21,39,0.5);">Performing Arts</span></div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Shenton College</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:14px;"><span><strong>Main Contact</strong> — Sarah</span><span style="color:rgba(22,21,39,0.5);">Music Department</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;"><span><strong>Caretaker</strong> — Dave</span><span style="color:rgba(22,21,39,0.5);">Access &amp; Facilities</span></div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Willetton Senior High School</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:14px;"><span><strong>Main Contact</strong> — Karen</span><span style="color:rgba(22,21,39,0.5);">Deputy Principal</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── ROSTER EVENT DETAIL MODAL ── -->
+<div class="modal-overlay" id="rosterModal">
+  <div class="modal-box" style="max-width:520px;">
+    <button class="modal-close" id="closeRoster">✕</button>
+    <span class="modal-eyebrow" id="rosterModalDate">Urban Echo</span>
+    <h2 id="rosterModalTitle">Event Details</h2>
+    <div id="rosterModalBody"></div>
+  </div>
+</div>
+
 <!-- ── RISK ASSESSMENT MODAL ── -->
 <div class="modal-overlay" id="riskModal">
   <div class="modal-box">
@@ -564,15 +596,13 @@ footer{
     <span class="modal-eyebrow">Urban Echo</span>
     <h2>Risk Assessment</h2>
     <form id="riskForm">
-      <div class="mrow">
-        <div class="mfield">
-          <label>Date</label>
-          <input type="date" name="date" required>
-        </div>
-        <div class="mfield">
-          <label>Event / Job</label>
-          <input type="text" name="event" placeholder="e.g. Winter Concert" required>
-        </div>
+      <div class="mfield">
+        <label>Date</label>
+        <input type="date" name="date" required>
+      </div>
+      <div class="mfield">
+        <label>Event / Job</label>
+        <input type="text" name="event" placeholder="e.g. Winter Concert" required>
       </div>
       <div class="mfield">
         <label>School / Venue</label>
@@ -615,15 +645,13 @@ footer{
     <span class="modal-eyebrow">Urban Echo</span>
     <h2>Incident Response</h2>
     <form id="incidentForm">
-      <div class="mrow">
-        <div class="mfield">
-          <label>Date &amp; Time</label>
-          <input type="datetime-local" name="datetime" required>
-        </div>
-        <div class="mfield">
-          <label>Event / Job</label>
-          <input type="text" name="event" placeholder="e.g. Sports Night" required>
-        </div>
+      <div class="mfield">
+        <label>Date &amp; Time</label>
+        <input type="datetime-local" name="datetime" required>
+      </div>
+      <div class="mfield">
+        <label>Event / Job</label>
+        <input type="text" name="event" placeholder="e.g. Sports Night" required>
       </div>
       <div class="mfield">
         <label>School / Venue</label>
@@ -756,15 +784,80 @@ function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
 document.getElementById('openRiskBtn').addEventListener('click', function(){ openModal('riskModal'); });
 document.getElementById('openIncidentBtn').addEventListener('click', function(){ openModal('incidentModal'); });
+document.getElementById('openContactsBtn').addEventListener('click', function(){ openModal('contactsModal'); });
 document.getElementById('closeRisk').addEventListener('click', function(){ closeModal('riskModal'); });
 document.getElementById('closeIncident').addEventListener('click', function(){ closeModal('incidentModal'); });
+document.getElementById('closeContacts').addEventListener('click', function(){ closeModal('contactsModal'); });
+document.getElementById('closeRoster').addEventListener('click', function(){ closeModal('rosterModal'); });
 
-// Close modal on backdrop click
-['riskModal','incidentModal'].forEach(function(id){
+['riskModal','incidentModal','contactsModal','rosterModal'].forEach(function(id){
   document.getElementById(id).addEventListener('click', function(e){
     if(e.target === this) closeModal(id);
   });
 });
+
+// ── Roster event detail popup ─────────────────────────────────
+var ROSTER_EVENTS = [
+  {
+    date: '28 Jun 2026', title: 'Perth Modern School — Year 12 Valedictory Assembly',
+    wear: 'All black (smart casual) — collared shirt preferred.',
+    gear: 'Main PA (2× tops + sub), 2× Lapel wireless mics, DI box, Laptop playback, Projector HDMI.',
+    notes: 'Load-in from 07:30. Ceremony starts 09:00 sharp. Coordinate with Ross for parking. Stage left for desk position.'
+  },
+  {
+    date: '02 Jul 2026', title: 'Shenton College — Winter Arts Concert',
+    wear: 'All black (smart casual).',
+    gear: 'Full PA rig, Stage lighting (4-bar LED), 4× handheld wireless, 2× monitor wedges, USB playback.',
+    notes: 'Bump-in from 15:00. Sound check with bands at 16:30. Sarah is your contact for the evening. Stage door code: 4421.'
+  },
+  {
+    date: '08 Jul 2026', title: 'Willetton SHS — ATAR Results Ceremony',
+    wear: 'All black.',
+    gear: 'Main PA, 1× lapel wireless, Projector + screen, MacBook for livestream (check OBS settings beforehand).',
+    notes: 'Arrive 08:30 for setup. Livestream goes to school Facebook page. Karen (Deputy) runs the schedule.'
+  },
+  {
+    date: '15 Jul 2026', title: 'Canning Vale College — Sports Presentation Evening',
+    wear: 'Smart black — this is a formal evening.',
+    gear: 'Main PA, 2× handheld wireless, Background music playlist (request from school), Lectern mic.',
+    notes: 'TBC — pending confirmation. Call main office if no contact by 10 Jul. Parking at rear of main hall.'
+  },
+  {
+    date: '22 Jul 2026', title: 'Applecross SHS — Music Night',
+    wear: 'All black (smart).',
+    gear: 'Full band PA (FOH + monitors), IEM system (2× packs), Stage box + 30m snake, DI × 4, Drum kit mics.',
+    notes: 'Complex show — arrive 14:00 for full band soundcheck at 16:30. IEM mix for band director. Venue contact is the music HOD.'
+  },
+  {
+    date: '05 Aug 2026', title: 'John Curtin College — Drama Production (Night 1)',
+    wear: 'All black (theatre blacks).',
+    gear: 'Theatre PA (flown system already rigged), 6× body-pack wireless, Stage comms (2× belt packs), Zoom H6 for recording.',
+    notes: 'Night 1 of 3. Pre-show brief with director at 17:30. Recording output to USB — label "Night1_JCCA_Aug2026". Check comms batteries before every show.'
+  }
+];
+
+document.querySelectorAll('.roster-item[data-event]').forEach(function(item){
+  item.addEventListener('click', function(){
+    var ev = ROSTER_EVENTS[parseInt(this.dataset.event)];
+    if(!ev) return;
+    document.getElementById('rosterModalDate').textContent = ev.date;
+    document.getElementById('rosterModalTitle').textContent = ev.title;
+    document.getElementById('rosterModalBody').innerHTML =
+      '<div style="display:flex;flex-direction:column;gap:16px;margin-top:4px;">' +
+        detailBlock('👔', 'What to Wear', ev.wear) +
+        detailBlock('🎛️', 'Gear to Pack', ev.gear) +
+        detailBlock('📝', 'Extra Notes', ev.notes) +
+      '</div>';
+    openModal('rosterModal');
+  });
+});
+
+function detailBlock(icon, label, text){
+  return '<div style="background:var(--cream);border-radius:12px;padding:14px 16px;">' +
+    '<div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:6px;">' + icon + ' ' + label + '</div>' +
+    '<div style="font-size:14px;line-height:1.6;color:rgba(22,21,39,0.85);">' + text + '</div>' +
+  '</div>';
+}
 
 // ── Form submissions via Formspree ───────────────────────────
 function submitForm(formId, successId, subject){
