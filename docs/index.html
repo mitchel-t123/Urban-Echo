@@ -274,7 +274,7 @@ h1,h2,h3{
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 28px;
+  margin-bottom: 14px;
   max-width: 500px;
 }
 
@@ -965,7 +965,7 @@ h1,h2,h3{
 .emergency-note{
   margin-top: 0;
   padding: 30px 26px;
-  background: var(--cream);
+  background: var(--orange);
   color: var(--ink);
   border-radius: 22px;
   border: 2.5px solid var(--ink);
@@ -1000,12 +1000,12 @@ h1,h2,h3{
 }
 .emergency-save-btn{
   margin-top: 16px;
-  background: var(--forest);
-  color: var(--paper);
+  background: var(--cream);
+  color: var(--ink);
   border-color: var(--ink);
   align-self: flex-start;
 }
-.emergency-save-btn:hover{ background: var(--forest-deep); box-shadow: 4px 4px 0 var(--ink); }
+.emergency-save-btn:hover{ background: var(--cream-deep); box-shadow: 4px 4px 0 var(--ink); }
 
 .bulk-note{
   margin-top: 0;
@@ -1314,6 +1314,8 @@ body{ overflow-x: hidden; }
   .hero-check{ font-size:15px; }
   /* Mobile: hide non-essential symptom items */
   .hero-check-desktop{ display: none; }
+  /* Mobile: hide last 3 symptom section cards */
+  .symptom-card-desktop{ display: none; }
   /* Hero CTAs: hide in checklist column, show below treatment card */
   .hero-ctas-desktop{ display: none; }
   .hero-ctas-mobile{ display: flex; flex-direction:column; gap:12px; margin-top:20px; padding-bottom:0; }
@@ -1322,6 +1324,13 @@ body{ overflow-x: hidden; }
   .extra-cards-row{ grid-template-columns: 1fr; }
   /* Reduce section header bottom gap by 20% */
   .section-head{ margin-bottom: 42px; }
+  /* Plan steps: number left, header right, same size */
+  .plan-step{ display:grid; grid-template-columns:auto 1fr; column-gap:16px; align-items:start; }
+  .plan-step .step-num{ font-size:32px; margin-bottom:0; line-height:1.1; }
+  .plan-step h3{ font-size:32px; font-family:var(--display); letter-spacing:-0.01em; text-transform:uppercase; align-self:center; }
+  .plan-step p{ grid-column:2; }
+  /* Contact form: reduce bottom padding on mobile */
+  .contact{ padding-bottom: 6px; }
 }
 @media (max-width: 600px){
   .symptom-grid{ grid-template-columns:1fr; }
@@ -1337,6 +1346,22 @@ body{ overflow-x: hidden; }
 /* Desktop: hide the mobile-only CTA duplicate */
 @media (min-width: 921px){
   .hero-ctas-mobile{ display: none; }
+}
+/* ── Floating Action Button (mobile scroll nav) ── */
+.fab-menu{
+  display:none;
+  position:fixed; bottom:24px; right:20px; z-index:200;
+  width:52px; height:52px; border-radius:50%;
+  background:var(--ink); color:var(--paper);
+  border:none; cursor:pointer;
+  font-size:22px; line-height:1;
+  box-shadow: 0 4px 16px rgba(22,21,39,0.35);
+  align-items:center; justify-content:center;
+  transition: transform 0.2s, opacity 0.2s;
+}
+@media(max-width:920px){
+  .fab-menu{ display:flex; opacity:0; pointer-events:none; }
+  .fab-menu.visible{ opacity:1; pointer-events:auto; }
 }
 </style>
 </head>
@@ -1362,6 +1387,9 @@ body{ overflow-x: hidden; }
   </div>
 </nav>
 
+<!-- Floating menu button (mobile scroll) -->
+<button class="fab-menu" id="fabMenu" aria-label="Open menu">☰</button>
+
 <!-- Mobile menu overlay -->
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-panel">
@@ -1370,7 +1398,7 @@ body{ overflow-x: hidden; }
     <a href="#reviews" class="mobile-menu-link">Reviews</a>
     <a href="problems.html" class="nav-troubleshoot mobile-menu-link">Troubleshooting Tool</a>
     <a href="#contact" class="mobile-menu-link" style="margin-top:8px;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;">Contact Us</a>
-    <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="background:var(--forest);color:var(--paper) !important;font-weight:800;border-radius:10px;">📱 Save Our Number</a>
+    <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);">📱 Save Our Number</a>
   </div>
 </div>
 
@@ -1484,17 +1512,17 @@ body{ overflow-x: hidden; }
         <h3>Too many school events</h3>
         <p>Weekly, fortnightly, whole-school, year-group — they add up fast, and each one needs someone behind the desk.</p>
       </div>
-      <div class="symptom-card" data-reveal>
+      <div class="symptom-card symptom-card-desktop" data-reveal>
         <span class="num">04</span>
         <h3>No time</h3>
         <p>You've got a school to run. Cables, mic checks and EQ settings shouldn't be eating into your actual job.</p>
       </div>
-      <div class="symptom-card" data-reveal>
+      <div class="symptom-card symptom-card-desktop" data-reveal>
         <span class="num">05</span>
         <h3>Tired of feedback</h3>
         <p>Literally and figuratively. Feedback belongs in staff meetings — not screeching through the PA mid-speech.</p>
       </div>
-      <div class="symptom-card" data-reveal>
+      <div class="symptom-card symptom-card-desktop" data-reveal>
         <span class="num">06</span>
         <h3>Always multi-tasking</h3>
         <p>Running the projector, the mic, the slides and the program at once isn't sustainable — and it shows.</p>
@@ -2046,7 +2074,13 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var meterOverride = null; // set by stress meter drag; null = use checkbox count
 
   function updateUI(){
-    const score = meterOverride !== null ? meterOverride : ticked.size;
+    var rawScore = meterOverride !== null ? meterOverride : ticked.size;
+    // On mobile (<=920px) with 3 checkboxes: map 1→1, 2→3, 3→6
+    var score = rawScore;
+    if(meterOverride === null && window.innerWidth <= 920){
+      var mobileMap = [0,1,3,6];
+      score = mobileMap[Math.min(rawScore, 3)];
+    }
     const L = LEVELS[score];
 
     // Diagnostic card text
@@ -2264,16 +2298,26 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   show();
   startAuto();
 })();
-// Hamburger menu
+// Hamburger + FAB menu
 (function(){
   var btn   = document.getElementById('navHamburger');
+  var fab   = document.getElementById('fabMenu');
   var menu  = document.getElementById('mobileMenu');
-  if(!btn || !menu) return;
-  function openMenu(){ btn.classList.add('open'); menu.classList.add('open'); document.body.style.overflow='hidden'; }
-  function closeMenu(){ btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }
-  btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  if(!menu) return;
+  function openMenu(){ if(btn) btn.classList.add('open'); menu.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMenu(){ if(btn) btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }
+  if(btn) btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  if(fab) fab.addEventListener('click', function(e){ e.stopPropagation(); openMenu(); });
   menu.addEventListener('click', function(e){ if(e.target === menu) closeMenu(); });
   menu.querySelectorAll('.mobile-menu-link').forEach(function(a){ a.addEventListener('click', closeMenu); });
+  // Show FAB when nav is scrolled off screen
+  if(fab){
+    var nav = document.querySelector('.nav');
+    window.addEventListener('scroll', function(){
+      var navBottom = nav ? nav.getBoundingClientRect().bottom : 0;
+      fab.classList.toggle('visible', navBottom < 0);
+    }, { passive: true });
+  }
 })();
 
 // Troubleshooting Tool nav — show black outline on click
