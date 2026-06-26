@@ -394,8 +394,9 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 
     <!-- Step 2: Category picker -->
     <div id="categoryPicker" style="display:none;">
-      <div class="category-back">
+      <div class="category-back" style="display:flex;align-items:center;gap:14px;">
         <button class="back-btn" id="backToSkill">← Change skill level</button>
+        <span id="currentSkillLabel" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;opacity:0.55;"></span>
       </div>
 
       <!-- Search bar (below subtitle) -->
@@ -588,8 +589,9 @@ var diagBreadcrumb  = document.getElementById('diagBreadcrumb');
 var diagSteps       = document.getElementById('diagSteps');
 var diagRestart     = document.getElementById('diagRestart');
 var skillBadge      = document.getElementById('skillBadge');
-var mastheadSub     = document.getElementById('mastheadSub');
-var mastheadH2      = document.getElementById('mastheadH2');
+var mastheadSub       = document.getElementById('mastheadSub');
+var mastheadH2        = document.getElementById('mastheadH2');
+var currentSkillLabel = document.getElementById('currentSkillLabel');
 var allProblemBtns  = document.querySelectorAll('.problem-btn');
 
 var SKILL_LABELS = { beginner: '🟢 Beginner', moderate: '🟡 Moderate', expert: '🔴 Expert' };
@@ -605,6 +607,7 @@ document.querySelectorAll('.skill-btn').forEach(function(btn){
     this.classList.add('active');
     hide(skillPicker);
     show(categoryPicker);
+    currentSkillLabel.textContent = SKILL_LABELS[skillLevel];
     mastheadH2.innerHTML = "What's the source<br>of the problem?";
     mastheadSub.textContent = 'Choose a category to narrow it down, or search below.';
   });
@@ -1074,6 +1077,7 @@ var PROBLEMS = {
 function filterStepsForLevel(steps){
   return steps.filter(function(s){
     if(s.beginnerOnly && skillLevel !== 'beginner') return false;
+    if(s.type === 'still-broken') return false; // always appended at end by renderSteps
     return true;
   });
 }
@@ -1196,6 +1200,14 @@ function renderSteps(){
 
     diagSteps.appendChild(nav);
 
+    // If this is the last step, append the still-not-fixed card
+    if(idx + 1 >= total){
+      var brokenEl = document.createElement('div');
+      brokenEl.className = 'broken-card';
+      brokenEl.innerHTML = '<h3>❌ Still not fixed?</h3><p>If none of these steps resolved the issue, there may be a hardware fault or a more complex system problem. Contact us and we\'ll get it sorted — usually within minutes.</p>';
+      diagSteps.appendChild(brokenEl);
+    }
+
   } else if(step.type === 'branch'){
     var el = document.createElement('div');
     el.className = 'branch-card';
@@ -1237,20 +1249,6 @@ function renderSteps(){
     nav.appendChild(backBtn);
     diagSteps.appendChild(nav);
 
-  } else if(step.type === 'still-broken'){
-    var el = document.createElement('div');
-    el.className = 'broken-card';
-    el.innerHTML = '<h3>❌ ' + step.title + '</h3><p>' + step.body + '</p>';
-    diagSteps.appendChild(el);
-
-    var nav = document.createElement('div');
-    nav.className = 'step-nav';
-    var backBtn = document.createElement('button');
-    backBtn.className = 'btn btn-cream btn-sm';
-    backBtn.textContent = '← Back';
-    backBtn.addEventListener('click', goBack);
-    nav.appendChild(backBtn);
-    diagSteps.appendChild(nav);
   }
 }
 </script>

@@ -644,6 +644,7 @@ h1,h2,h3{
   font-size: 17px;
   color: rgba(255,252,245,0.86);
   margin-bottom:18px;
+  max-width: 700px;
 }
 .diagnosis-figure{
   display:flex;
@@ -665,11 +666,6 @@ h1,h2,h3{
   font-family: var(--display);
   font-size: 34px;
   display:block;
-  color: var(--sunshine);
-}
-.credential .big.years{
-  font-size: 102px;
-  line-height: 0.9;
   color: var(--sunshine);
 }
 .credential .label{
@@ -724,34 +720,48 @@ h1,h2,h3{
 .mini-reviews-track{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 20px;
   flex: 1;
 }
 .mini-review-card{
   background: var(--paper);
-  border-radius: 16px;
-  padding: 18px 18px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 20px;
+  padding: 28px 26px 22px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  gap: 14px;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-.mini-review-card:hover{ border-color: var(--ink); transform: translateY(-2px); }
+.mini-review-card:hover{ transform: translateY(-3px); }
 .mini-review-card.hidden{ display: none; }
-.mini-review-stars{ color: var(--sunshine); font-size: 26px; letter-spacing: 2px; }
+.mini-review-stars{ color: var(--sunshine); font-size: 16px; letter-spacing: 2px; }
 .mini-review-card p{
   font-family: var(--body);
-  font-size: 13.5px;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.65;
   font-style: italic;
-  color: rgba(22,21,39,0.8);
+  color: rgba(22,21,39,0.75);
   margin: 0;
   flex: 1;
 }
-.mini-review-card span{
-  font-family: var(--mono);
-  font-size: 11px;
+.mini-review-card .mini-review-author{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(22,21,39,0.1);
+}
+.mini-review-card .mini-review-name{
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: 14px;
   color: var(--ink);
+}
+.mini-review-card .mini-review-school{
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--orange);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-weight: 700;
@@ -1434,27 +1444,42 @@ body::after{ content: none; }
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
                   <p>"Mitch is professional, courteous and completely on the ball."</p>
-                  <span>Katherine — Riva Primary School</span>
+                  <div class="mini-review-author">
+                    <span class="mini-review-name">Katherine</span>
+                    <span class="mini-review-school">Riva Primary School</span>
+                  </div>
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
                   <p>"The show sounded amazing and we didn't have any mic issues."</p>
-                  <span>Corinna — The Kings College</span>
+                  <div class="mini-review-author">
+                    <span class="mini-review-name">Corinna</span>
+                    <span class="mini-review-school">The Kings College</span>
+                  </div>
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
                   <p>"Creativity and expertise in leading all the tech requirements."</p>
-                  <span>Sharlene — Carey Baptist College</span>
+                  <div class="mini-review-author">
+                    <span class="mini-review-name">Sharlene</span>
+                    <span class="mini-review-school">Carey Baptist College</span>
+                  </div>
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
                   <p>"Mitch has an exceptional ear and excellent communication skills."</p>
-                  <span>Doug — Methodist Ladies College</span>
+                  <div class="mini-review-author">
+                    <span class="mini-review-name">Doug</span>
+                    <span class="mini-review-school">Methodist Ladies College</span>
+                  </div>
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
                   <p>"Friendly, punctual, and made the whole process super smooth."</p>
-                  <span>Nicholas — Lyn Beazley Academy</span>
+                  <div class="mini-review-author">
+                    <span class="mini-review-name">Nicholas</span>
+                    <span class="mini-review-school">Lyn Beazley Academy</span>
+                  </div>
                 </div>
               </div>
               <button class="mini-nav-btn" id="miniNext" aria-label="Next">→</button>
