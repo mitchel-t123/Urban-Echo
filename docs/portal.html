@@ -259,7 +259,18 @@ body.auth-pending{ visibility: hidden; }
 .portal-card p{
   font-size:14px; color:rgba(22,21,39,0.62); line-height:1.5;
 }
-/* ── HANDBOOK VIEWER ── */
+/* ── HANDBOOK LAYOUT ── */
+.handbook-layout{
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media(max-width:780px){
+  .handbook-layout{ grid-template-columns: 1fr; }
+}
+
+/* PDF viewer column */
 .handbook-viewer{
   background: var(--paper);
   border: 2.5px solid var(--ink);
@@ -270,42 +281,73 @@ body.auth-pending{ visibility: hidden; }
 .handbook-toolbar{
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 20px;
+  gap: 8px;
+  padding: 10px 14px;
   border-bottom: 2px solid var(--ink);
   background: var(--cream);
   flex-wrap: wrap;
 }
 .hb-btn{
   font-family: var(--mono);
-  font-size: 12px; font-weight: 700;
+  font-size: 11px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.07em;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border: 2px solid var(--ink);
   border-radius: 100px;
   background: var(--ink); color: var(--paper);
   cursor: pointer;
   text-decoration: none;
   transition: opacity 0.15s;
+  white-space: nowrap;
 }
 .hb-btn:hover{ opacity: 0.75; }
 .hb-btn:disabled{ opacity: 0.3; cursor: default; }
 .hb-download{ background: var(--forest); }
 .hb-page-label{
-  font-family: var(--mono); font-size: 13px; font-weight: 700;
-  flex: 1; text-align: center;
-}
-.handbook-embed-wrap{
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4/5;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  flex: 1; text-align: center; white-space: nowrap;
 }
 .handbook-embed-wrap iframe{
-  width: 100%; height: 100%;
+  width: 100%; height: 440px;
   border: none; display: block;
 }
-@media(max-width:600px){
-  .handbook-embed-wrap{ aspect-ratio: 3/4; }
+
+/* Policy links column */
+.policy-panel{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.policy-panel-title{
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: rgba(22,21,39,0.45);
+  margin-bottom: 4px;
+}
+.policy-link{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: 3px 3px 0 var(--ink);
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 14px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.policy-link:hover{ transform: translateY(-2px); box-shadow: 4px 5px 0 var(--ink); }
+.policy-link-icon{ font-size: 22px; flex-shrink: 0; }
+.policy-link-meta{
+  display: flex; flex-direction: column; gap: 2px;
+}
+.policy-link-sub{
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--orange);
 }
 
 /* ── SCRIPTURE ── */
@@ -641,15 +683,81 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <div class="wrap">
       <h2>Employee Handbook</h2>
       <p style="font-size:14px;color:rgba(22,21,39,0.6);margin-bottom:20px;font-family:var(--mono);">2026 Edition — Urban Echo</p>
-      <div class="handbook-viewer">
-        <div class="handbook-toolbar">
-          <button id="hbPrev" class="hb-btn" disabled>← Prev</button>
-          <span class="hb-page-label">Page <span id="hbPageNum">1</span> of <span id="hbPageTotal">—</span></span>
-          <button id="hbNext" class="hb-btn">Next →</button>
-          <a href="employee-handbook-2026.pdf" download class="hb-btn hb-download">⬇ Download</a>
+      <div class="handbook-layout">
+
+        <!-- PDF viewer -->
+        <div class="handbook-viewer">
+          <div class="handbook-toolbar">
+            <button id="hbPrev" class="hb-btn" disabled>← Prev</button>
+            <span class="hb-page-label">Page <span id="hbPageNum">1</span> / <span id="hbPageTotal">95</span></span>
+            <button id="hbNext" class="hb-btn">Next →</button>
+            <a href="employee-handbook-2026.pdf" download class="hb-btn hb-download">⬇</a>
+          </div>
+          <div class="handbook-embed-wrap">
+            <iframe id="handbookFrame" src="employee-handbook-2026.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH" title="Employee Handbook 2026"></iframe>
+          </div>
         </div>
-        <div class="handbook-embed-wrap">
-          <iframe id="handbookFrame" src="employee-handbook-2026.pdf#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH" title="Employee Handbook 2026"></iframe>
+
+        <!-- Policy links -->
+        <div class="policy-panel">
+          <p class="policy-panel-title">Policies &amp; Documents</p>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">🛡️</span>
+            <span class="policy-link-meta">
+              <span>Child Safety Policy</span>
+              <span class="policy-link-sub">Mandatory · All Staff</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">🔒</span>
+            <span class="policy-link-meta">
+              <span>Privacy &amp; Confidentiality</span>
+              <span class="policy-link-sub">Policy · All Staff</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">⚠️</span>
+            <span class="policy-link-meta">
+              <span>Work Health &amp; Safety</span>
+              <span class="policy-link-sub">WHS Policy · 2026</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">🤝</span>
+            <span class="policy-link-meta">
+              <span>Code of Conduct</span>
+              <span class="policy-link-sub">Behaviour Standards</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">📱</span>
+            <span class="policy-link-meta">
+              <span>Social Media Policy</span>
+              <span class="policy-link-sub">External Communications</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">🚨</span>
+            <span class="policy-link-meta">
+              <span>Emergency Procedures</span>
+              <span class="policy-link-sub">Evacuation &amp; First Aid</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">💼</span>
+            <span class="policy-link-meta">
+              <span>Leave &amp; Availability</span>
+              <span class="policy-link-sub">Time Off · Rostering</span>
+            </span>
+          </a>
+
         </div>
       </div>
     </div>
