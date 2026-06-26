@@ -251,6 +251,7 @@ body.auth-pending{ visibility: hidden; }
 }
 .wwc-card.urgent{ border-color:var(--red); box-shadow:5px 5px 0 var(--red); }
 .wwc-card.urgent .wwc-label{ color:var(--red); }
+.wwc-card.urgent .wwc-renew-btn{ background:var(--red); }
 .wwc-label{
   font-family:var(--mono); font-size:11px; font-weight:700;
   text-transform:uppercase; letter-spacing:0.12em;
@@ -323,7 +324,7 @@ body.auth-pending{ visibility: hidden; }
   display: grid;
   grid-template-columns: 5fr 2fr;
   gap: 28px;
-  align-items: start;
+  align-items: stretch;
   margin-bottom: 56px;
 }
 @media(max-width:780px){
@@ -337,6 +338,8 @@ body.auth-pending{ visibility: hidden; }
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 5px 5px 0 var(--ink);
+  display: flex;
+  flex-direction: column;
 }
 .handbook-toolbar{
   display: flex;
@@ -369,17 +372,21 @@ body.auth-pending{ visibility: hidden; }
 }
 .handbook-embed-wrap{
   width: 100%;
-  height: 480px;
+  flex: 1;
   background: #525659;
   border-radius: 0 0 12px 12px;
   overflow: hidden;
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  gap: 2px;
 }
 .handbook-embed-wrap img{
   height: 100%;
   width: auto;
+  flex: 1;
+  object-fit: contain;
+  object-position: top;
   display: block;
 }
 
@@ -678,7 +685,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <div class="action-card-meta">
             Contract Agreement (Sole Trader) — June 2026 &nbsp;·&nbsp; Please review and sign before your next engagement.
           </div>
-          <a href="contractor-agreement-2026.pdf" target="_blank" rel="noopener" class="action-card-btn">Review &amp; Sign →</a>
+          <a href="#" id="openContractSign" class="action-card-btn">Review &amp; Sign →</a>
         </div>
 
         <!-- WWC — expiring soon (middle) -->
@@ -778,6 +785,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           </div>
           <div class="handbook-embed-wrap">
             <img id="handbookImg" src="handbook-pages/page-01.jpg" alt="Handbook page 1">
+            <img id="handbookImg2" src="handbook-pages/page-02.jpg" alt="Handbook page 2">
           </div>
         </div>
 
@@ -855,6 +863,38 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   </section>
 
 </main>
+
+<!-- ── CONTRACT SIGN MODAL ── -->
+<div class="hb-modal" id="contractSignModal" role="dialog" aria-modal="true" aria-label="Sign Contractor Agreement">
+  <div class="hb-modal-inner" style="max-width:680px;">
+    <div class="hb-modal-toolbar">
+      <button id="cPrev" class="hb-btn" disabled>← Prev</button>
+      <span class="hb-page-label">Page <span id="cPageNum">1</span> / 6</span>
+      <button id="cNext" class="hb-btn">Next →</button>
+      <a href="contractor-agreement-2026.pdf" download class="hb-btn hb-download">⬇</a>
+      <button class="hb-modal-close" id="contractSignClose">✕ Close</button>
+    </div>
+    <div class="hb-modal-body" id="contractPages">
+      <img id="contractImg" src="contract-pages/page-01.jpg" alt="Contract page 1" style="width:100%;height:auto;display:block;">
+      <!-- Signature section -->
+      <div style="padding:28px;border-top:2px solid rgba(22,21,39,0.1);background:var(--cream);">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:14px;">Signature</p>
+        <input id="sigName" type="text" placeholder="Full legal name" style="width:100%;padding:12px 16px;border:2px solid rgba(22,21,39,0.2);border-radius:10px;font-size:15px;font-family:var(--body);background:var(--paper);color:var(--ink);outline:none;margin-bottom:14px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:8px;">Draw your signature below</p>
+        <canvas id="sigCanvas" style="width:100%;height:140px;border:2px solid rgba(22,21,39,0.2);border-radius:10px;background:#fff;cursor:crosshair;display:block;touch-action:none;"></canvas>
+        <button id="sigClear" style="margin-top:8px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;background:none;border:none;color:rgba(22,21,39,0.45);cursor:pointer;">Clear signature</button>
+      </div>
+    </div>
+    <div id="contractSuccess" style="display:none;padding:40px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;">✅</div>
+      <div style="font-family:var(--display);font-size:22px;font-weight:700;margin-bottom:8px;">Contract Signed</div>
+      <div style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);">Your signature has been submitted to Mitchel.</div>
+    </div>
+    <div style="padding:16px 18px;border-top:2px solid rgba(22,21,39,0.1);background:var(--cream);flex-shrink:0;" id="contractSubmitRow">
+      <button id="contractSubmit" class="action-card-btn" style="width:100%;text-align:center;border-radius:10px;">Submit Signed Contract →</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── HANDBOOK FULLSCREEN MODAL ── -->
 <div class="hb-modal" id="hbModal" role="dialog" aria-modal="true" aria-label="Employee Handbook">
@@ -1288,23 +1328,24 @@ submitForm('riskForm', 'riskSuccess', '⚠️ Risk Assessment — Urban Echo Por
 submitForm('incidentForm', 'incidentSuccess', '🚨 Incident Report — Urban Echo Portal');
 submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo Portal');
 
-// ── Employee Handbook page navigator ────────────────────────
+// ── Employee Handbook page navigator (2-up spread) ──────────
 (function(){
-  var totalPages = 18;
-  var currentPage = 1;
+  var totalPages  = 18;
+  var currentPage = 1; // always odd: 1,3,5…
 
-  var img     = document.getElementById('handbookImg');
+  var img1    = document.getElementById('handbookImg');
+  var img2    = document.getElementById('handbookImg2');
   var numEl   = document.getElementById('hbPageNum');
   var prevBtn = document.getElementById('hbPrev');
   var nextBtn = document.getElementById('hbNext');
 
-  // Modal elements
-  var modal      = document.getElementById('hbModal');
-  var mImg       = document.getElementById('hbModalImg');
-  var mNumEl     = document.getElementById('hbMPageNum');
-  var mPrevBtn   = document.getElementById('hbMPrev');
-  var mNextBtn   = document.getElementById('hbMNext');
-  var closeBtn   = document.getElementById('hbModalClose');
+  // Modal
+  var modal    = document.getElementById('hbModal');
+  var mImg     = document.getElementById('hbModalImg');
+  var mNumEl   = document.getElementById('hbMPageNum');
+  var mPrevBtn = document.getElementById('hbMPrev');
+  var mNextBtn = document.getElementById('hbMNext');
+  var closeBtn = document.getElementById('hbModalClose');
 
   function pageUrl(page){
     var p = page < 10 ? '0' + page : '' + page;
@@ -1312,29 +1353,38 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
   }
 
   function goTo(page){
-    currentPage = Math.max(1, Math.min(totalPages, page));
-    var url = pageUrl(currentPage);
-    img.src = url;
-    img.alt = 'Handbook page ' + currentPage;
-    mImg.src = url;
-    mImg.alt = img.alt;
-    numEl.textContent = currentPage;
-    mNumEl.textContent = currentPage;
+    // snap to odd so spreads are always 1-2, 3-4, 5-6 …
+    currentPage = Math.max(1, Math.min(totalPages, page % 2 === 0 ? page - 1 : page));
+    var right = currentPage + 1;
+    img1.src = pageUrl(currentPage);
+    img1.alt = 'Handbook page ' + currentPage;
+    if(right <= totalPages){
+      img2.src = pageUrl(right);
+      img2.alt = 'Handbook page ' + right;
+      img2.style.display = '';
+    } else {
+      img2.style.display = 'none';
+    }
+    numEl.textContent = currentPage + (right <= totalPages ? '–' + right : '');
+    mNumEl.textContent = numEl.textContent;
     prevBtn.disabled = mPrevBtn.disabled = currentPage <= 1;
-    nextBtn.disabled = mNextBtn.disabled = currentPage >= totalPages;
+    nextBtn.disabled = mNextBtn.disabled = currentPage + 2 > totalPages;
   }
 
-  prevBtn.addEventListener('click', function(){ goTo(currentPage - 1); });
-  nextBtn.addEventListener('click', function(){ goTo(currentPage + 1); });
-  mPrevBtn.addEventListener('click', function(){ goTo(currentPage - 1); });
-  mNextBtn.addEventListener('click', function(){ goTo(currentPage + 1); });
+  // Prev/next move by 2 pages
+  prevBtn.addEventListener('click', function(){ goTo(currentPage - 2); });
+  nextBtn.addEventListener('click', function(){ goTo(currentPage + 2); });
+  mPrevBtn.addEventListener('click', function(){ goTo(currentPage - 2); });
+  mNextBtn.addEventListener('click', function(){ goTo(currentPage + 2); });
 
-  // Open modal when thumbnail is clicked
-  img.addEventListener('click', function(){
+  // Open modal on click — modal shows left page full-width
+  img1.addEventListener('click', openModal);
+  img2.addEventListener('click', openModal);
+  function openModal(){
     mImg.src = pageUrl(currentPage);
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
-  });
+  }
 
   function closeModal(){
     modal.classList.remove('open');
@@ -1343,6 +1393,125 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  goTo(1);
+})();
+
+// ── Contractor Agreement signing modal ───────────────────────
+(function(){
+  var totalPages  = 6;
+  var currentPage = 1;
+  var signatureData = null;
+  var drawing = false;
+
+  var openBtn   = document.getElementById('openContractSign');
+  var modal     = document.getElementById('contractSignModal');
+  var closeBtn  = document.getElementById('contractSignClose');
+  var pages     = document.getElementById('contractPages');
+  var cPrev     = document.getElementById('cPrev');
+  var cNext     = document.getElementById('cNext');
+  var cPageNum  = document.getElementById('cPageNum');
+  var cImg      = document.getElementById('contractImg');
+  var canvas    = document.getElementById('sigCanvas');
+  var ctx       = canvas.getContext('2d');
+  var clearBtn  = document.getElementById('sigClear');
+  var submitBtn = document.getElementById('contractSubmit');
+  var successEl = document.getElementById('contractSuccess');
+
+  if(!openBtn) return;
+
+  function contractPageUrl(p){
+    var pp = p < 10 ? '0' + p : '' + p;
+    return 'contract-pages/page-' + pp + '.jpg';
+  }
+
+  function goTo(p){
+    currentPage = Math.max(1, Math.min(totalPages, p));
+    cImg.src = contractPageUrl(currentPage);
+    cPageNum.textContent = currentPage;
+    cPrev.disabled = currentPage <= 1;
+    cNext.disabled = currentPage >= totalPages;
+  }
+
+  cPrev.addEventListener('click', function(){ goTo(currentPage - 1); });
+  cNext.addEventListener('click', function(){ goTo(currentPage + 1); });
+
+  // Signature pad
+  function resizeCanvas(){
+    var rect = canvas.getBoundingClientRect();
+    canvas.width  = rect.width;
+    canvas.height = rect.height;
+    ctx.strokeStyle = '#161527';
+    ctx.lineWidth   = 2.5;
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+  }
+
+  function getPos(e){
+    var rect = canvas.getBoundingClientRect();
+    var src  = e.touches ? e.touches[0] : e;
+    return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+  }
+
+  canvas.addEventListener('mousedown',  function(e){ drawing=true; ctx.beginPath(); var p=getPos(e); ctx.moveTo(p.x,p.y); });
+  canvas.addEventListener('mousemove',  function(e){ if(!drawing)return; var p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); });
+  canvas.addEventListener('mouseup',    function(){ drawing=false; signatureData=canvas.toDataURL(); });
+  canvas.addEventListener('mouseleave', function(){ drawing=false; });
+  canvas.addEventListener('touchstart', function(e){ e.preventDefault(); drawing=true; ctx.beginPath(); var p=getPos(e); ctx.moveTo(p.x,p.y); },{passive:false});
+  canvas.addEventListener('touchmove',  function(e){ e.preventDefault(); if(!drawing)return; var p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); },{passive:false});
+  canvas.addEventListener('touchend',   function(){ drawing=false; signatureData=canvas.toDataURL(); });
+
+  clearBtn.addEventListener('click', function(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    signatureData = null;
+  });
+
+  submitBtn.addEventListener('click', function(){
+    if(!signatureData){ alert('Please sign before submitting.'); return; }
+    var name = document.getElementById('sigName').value.trim();
+    if(!name){ alert('Please enter your full name.'); return; }
+    fetch('https://formspree.io/f/mlgyjyej', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        _subject: '✍️ Contract Signed — Urban Echo',
+        name: name,
+        document: 'Contractor Agreement (Sole Trader) June 2026',
+        signed_at: new Date().toLocaleString('en-AU'),
+        signature: signatureData
+      })
+    }).then(function(r){
+      if(r.ok){
+        pages.style.display = 'none';
+        submitBtn.style.display = 'none';
+        successEl.style.display = 'block';
+        // Update action card to show signed
+        var card = document.querySelector('.action-card');
+        if(card){
+          card.style.borderColor = 'var(--forest)';
+          card.style.boxShadow   = '5px 5px 0 var(--forest)';
+          card.querySelector('.action-card-label').textContent = '✔ Signed';
+          card.querySelector('.action-card-label').style.color = 'var(--forest)';
+          card.querySelector('.action-card-btn').style.display = 'none';
+        }
+      }
+    }).catch(function(){});
+  });
+
+  function openModal(){
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    goTo(1);
+    setTimeout(resizeCanvas, 50);
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
 })();
 </script>
 </body>
