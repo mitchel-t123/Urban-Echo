@@ -97,6 +97,8 @@ h1,h2,h3{
 .btn-cream:hover{ box-shadow: 6px 6px 0 var(--ink); }
 .btn-blue{ background: var(--indigo); color: #fff; border-color: var(--ink); }
 .btn-blue:hover{ box-shadow: 6px 6px 0 var(--ink); }
+.btn-green{ background: var(--forest); color: #fff; border-color: var(--ink); }
+.btn-green:hover{ box-shadow: 6px 6px 0 var(--ink); }
 
 /* ============ NAV ============ */
 .nav{
@@ -687,52 +689,74 @@ h1,h2,h3{
 }
 .school-logo img{ max-height: 105px; max-width: 270px; object-fit:contain; }
 
-.school-strip-inner{
-  display:flex;
-  gap:28px;
-  align-items:flex-start;
-  flex-wrap:wrap;
+/* ── Mini review carousel ── */
+.mini-reviews{
+  margin-bottom: 36px;
 }
-.school-strip-logos{ flex:1; min-width:220px; }
-.review-ticker{
-  flex:0 0 240px;
-  background: var(--ink);
-  color: var(--paper);
-  border-radius: 18px;
-  padding: 20px 20px 16px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  transition: opacity 0.5s ease;
+.mini-reviews-track{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
 }
-.review-ticker-stars{ color: var(--sunshine); font-size:14px; letter-spacing:2px; }
-.review-ticker-quote{
+.mini-review-card{
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.mini-review-card:hover{ border-color: var(--ink); transform: translateY(-2px); }
+.mini-review-card.hidden{ display: none; }
+.mini-review-stars{ color: var(--sunshine); font-size: 13px; letter-spacing: 2px; }
+.mini-review-card p{
   font-family: var(--body);
-  font-size:13px;
-  line-height:1.55;
-  font-style:italic;
-  color: rgba(255,252,245,0.85);
-  margin:0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  font-style: italic;
+  color: rgba(22,21,39,0.8);
+  margin: 0;
+  flex: 1;
 }
-.review-ticker-author{
+.mini-review-card span{
   font-family: var(--mono);
-  font-size:11px;
-  color: var(--orange);
-  text-transform:uppercase;
-  letter-spacing:0.06em;
+  font-size: 11px;
+  color: var(--orange-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
-.review-ticker-more{
-  display:inline-block;
-  margin-top:4px;
-  font-family:var(--body);
-  font-size:12px;
-  font-weight:700;
-  color:var(--paper);
-  text-decoration:none;
-  opacity:0.65;
-  transition:opacity 0.15s;
+.mini-reviews-nav{
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.review-ticker-more:hover{ opacity:1; }
+.mini-nav-btn{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.15s;
+}
+.mini-nav-btn:hover{ background: var(--ink); color: var(--paper); transform: scale(1.1); }
+.mini-nav-more{
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+.mini-nav-more:hover{ opacity: 1; }
 
 /* ============ PLAN ============ */
 .plan{
@@ -749,15 +773,15 @@ h1,h2,h3{
 .plan-step{
   position:relative;
   padding: 32px 26px 28px;
-  background: var(--paper);
-  border: 3px solid var(--ink);
-  border-radius: 20px;
+  background: var(--cream);
+  border: 2.5px solid var(--ink);
+  border-radius: 22px;
   box-shadow: 5px 5px 0 var(--ink);
 }
 .plan-step .step-num{
   font-family: var(--display);
   font-size: 56px;
-  color: var(--ink);
+  color: var(--orange);
   -webkit-text-stroke: 0;
   margin-bottom: 14px;
   display:block;
@@ -771,22 +795,9 @@ h1,h2,h3{
   margin-bottom: 10px;
 }
 .plan-step p{ font-size: 14.5px; color: rgba(22,21,39,0.68); }
-/* Step 1 — orange */
-.plan-step:nth-child(1){ background: var(--orange); }
-.plan-step:nth-child(1) .step-num{ color: var(--ink); -webkit-text-stroke: 0; }
-.plan-step:nth-child(1) p{ color: rgba(22,21,39,0.75); }
-/* Step 2 — sunshine yellow */
-.plan-step:nth-child(2){ background: var(--sunshine); }
-.plan-step:nth-child(2) .step-num{ color: var(--ink); -webkit-text-stroke: 0; }
-.plan-step:nth-child(2) p{ color: rgba(22,21,39,0.75); }
-/* Step 3 — forest green */
-.plan-step:nth-child(3){ background: var(--forest); color: var(--paper); }
-.plan-step:nth-child(3) .step-num{ color: var(--paper); -webkit-text-stroke: 0; }
-.plan-step:nth-child(3) p{ color: rgba(255,252,245,0.88); }
-.plan-step:nth-child(3) h3{ color: var(--paper); }
-.plan-step.resolved{ background: var(--forest); border-color: var(--ink); color: var(--paper); }
-.plan-step.resolved .step-num{ color: var(--paper); -webkit-text-stroke: 0; }
-.plan-step.resolved p{ color: rgba(255,252,245,0.88); }
+.plan-step.resolved{ background: var(--cream); border-color: var(--ink); }
+.plan-step.resolved .step-num{ color: var(--orange); }
+.plan-step.resolved p{ color: rgba(22,21,39,0.68); }
 
 /* ============ PACKAGES ============ */
 .packages{
@@ -877,70 +888,87 @@ h1,h2,h3{
 }
 .package-card .btn{ width:100%; justify-content:center; padding: 13px; font-size:14px; }
 
-/* Emergency card */
+/* Emergency card — matches package-card style */
 .emergency-note{
   margin-top: 28px;
-  padding: 32px 32px 28px;
-  background: #8B1A28;
-  color: var(--paper);
-  border-radius: 18px;
-  border: 3px solid var(--ink);
-  box-shadow: 6px 6px 0 var(--ink);
+  padding: 30px 26px;
+  background: var(--cream);
+  color: var(--ink);
+  border-radius: 22px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  display: flex;
+  flex-direction: column;
 }
 .emergency-heading{
-  font-family: var(--display);
-  font-size: clamp(22px, 2.8vw, 32px);
-  color: var(--paper);
+  font-family: var(--body);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-bottom: 8px;
+}
+.emergency-tag{
+  font-family: var(--mono);
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-  margin-bottom: 16px;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--orange-deep);
+  margin-bottom: 10px;
+  display: block;
 }
 .emergency-body{
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.65;
-  color: rgba(255,252,245,0.88);
-  margin-bottom: 10px;
-  max-width: 620px;
+  color: rgba(22,21,39,0.7);
+  margin-bottom: 8px;
 }
 .emergency-save-btn{
-  display: inline-flex;
-  margin-top: 10px;
-  background: var(--paper);
-  color: #8B1A28;
-  border: 2px solid var(--paper);
-  border-radius: 100px;
-  font-family: var(--body);
-  font-size: 15px;
-  font-weight: 700;
-  padding: 12px 24px;
-  text-decoration: none;
-  transition: background 0.15s, transform 0.15s;
+  margin-top: 16px;
+  background: var(--forest);
+  color: var(--paper);
+  border-color: var(--ink);
+  align-self: flex-start;
 }
-.emergency-save-btn:hover{ background: #fde8eb; transform: translateY(-2px); }
+.emergency-save-btn:hover{ background: var(--forest-deep); box-shadow: 4px 4px 0 var(--ink); }
 
 .bulk-note{
   margin-top: 20px;
-  padding: 24px 28px;
-  background: var(--indigo);
+  padding: 30px 26px;
+  background: var(--forest);
   color: var(--paper);
-  border-radius: 16px;
+  border-radius: 22px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
   font-size: 14.5px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .bulk-note-title{
-  width: 100%;
-  font-family: var(--display);
-  font-size: 20px;
-  color: var(--sunshine);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
+  font-family: var(--body);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--paper);
+  margin-bottom: 4px;
+  text-transform: none;
+  letter-spacing: 0;
 }
+.bulk-note-tag{
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: rgba(255,252,245,0.65);
+  margin-bottom: 2px;
+  display: block;
+}
+.bulk-note span{ color: rgba(255,252,245,0.82); }
 .bulk-note strong{ color: var(--sunshine); }
+.bulk-note .btn{ align-self: flex-start; margin-top: 6px; }
 
 /* ============ RECOVERY ============ */
 .recovery{
@@ -961,8 +989,8 @@ h1,h2,h3{
 .recovery p{ font-size:17px; color: rgba(22,21,39,0.78); max-width:480px; margin-bottom: 28px; }
 .recovery-figure{ display:flex; justify-content:center; }
 .recovery-figure-inner{ display:flex; flex-direction:column; align-items:center; }
-.recovery-figure img{ width:100%; max-width:448px; }
-.recovery-baseline{ width:70%; height:12px; background:var(--ink); border-radius:100px; margin-top:4px; }
+.recovery-figure img{ width:100%; max-width:448px; display:block; }
+.recovery-baseline{ width:88%; height:12px; background:var(--ink); border-radius:100px; margin-top:-6px; }
 .recovery-badges{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom: 30px; }
 .recovery-badge{
   background: var(--paper);
@@ -988,7 +1016,7 @@ h1,h2,h3{
 
 /* ============ CONTACT FORM ============ */
 .contact{
-  background: var(--ink);
+  background: var(--indigo);
   color: var(--paper);
   padding: 96px 0 60px;
 }
@@ -1013,7 +1041,7 @@ h1,h2,h3{
 .contact-detail .ic{
   width:38px; height:38px;
   border-radius: 50%;
-  background: var(--indigo);
+  background: rgba(255,252,245,0.15);
   display:flex; align-items:center; justify-content:center;
   flex-shrink:0;
   font-size: 16px;
@@ -1195,6 +1223,7 @@ h1,h2,h3{
       <a href="#symptoms" data-nav>School Sound Diagnosis</a>
       <a href="#plan" data-nav>How It Works</a>
       <a href="#packages" data-nav>Our Packages</a>
+      <a href="#reviews" data-nav>Reviews</a>
     </div>
     <a href="#contact" class="btn btn-blue">Contact Us</a>
   </div>
@@ -1355,24 +1384,50 @@ h1,h2,h3{
         </div>
 
         <div class="school-strip">
-          <div class="school-strip-inner">
-            <div class="school-strip-logos">
-              <span class="label">Trusted by schools across Perth</span>
-              <div class="school-logos">
-                <div class="school-logo"><img src="IMG_5570.jpeg" alt="School logo"></div>
-                <div class="school-logo"><img src="IMG_5571.jpeg" alt="School logo"></div>
-                <div class="school-logo"><img src="IMG_5572.jpeg" alt="School logo"></div>
-                <div class="school-logo"><img src="IMG_5573.jpeg" alt="School logo"></div>
-                <div class="school-logo"><img src="IMG_5578.jpeg" alt="School logo"></div>
-                <div class="school-logo"><img src="IMG_5574.png" alt="School logo"></div>
+          <!-- Mini review carousel -->
+          <div class="mini-reviews">
+            <div class="mini-reviews-track" id="miniReviewsTrack">
+              <div class="mini-review-card">
+                <div class="mini-review-stars">★★★★★</div>
+                <p>"Mitch is professional, courteous and completely on the ball."</p>
+                <span>Katherine — Riva Primary School</span>
+              </div>
+              <div class="mini-review-card">
+                <div class="mini-review-stars">★★★★★</div>
+                <p>"The show sounded amazing and we didn't have any mic issues."</p>
+                <span>Corinna — The Kings College</span>
+              </div>
+              <div class="mini-review-card">
+                <div class="mini-review-stars">★★★★★</div>
+                <p>"Creativity and expertise in leading all the tech requirements."</p>
+                <span>Sharlene — Carey Baptist College</span>
+              </div>
+              <div class="mini-review-card">
+                <div class="mini-review-stars">★★★★★</div>
+                <p>"Mitch has an exceptional ear and excellent communication skills."</p>
+                <span>Doug — Methodist Ladies College</span>
+              </div>
+              <div class="mini-review-card">
+                <div class="mini-review-stars">★★★★★</div>
+                <p>"Friendly, punctual, and made the whole process super smooth."</p>
+                <span>Nicholas — Lyn Beazley Academy</span>
               </div>
             </div>
-            <div class="review-ticker" id="reviewTicker">
-              <div class="review-ticker-stars">★★★★★</div>
-              <blockquote class="review-ticker-quote" id="reviewTickerQuote">"Thank you for providing an excellent sound job, once again. Mitch is professional, courteous and completely on the ball."</blockquote>
-              <div class="review-ticker-author" id="reviewTickerAuthor">Katherine — Riva Primary School</div>
-              <a href="#reviews" class="review-ticker-more">Read more reviews ↓</a>
+            <div class="mini-reviews-nav">
+              <button class="mini-nav-btn" id="miniPrev" aria-label="Previous">←</button>
+              <a href="#reviews" class="mini-nav-more">Read all reviews ↓</a>
+              <button class="mini-nav-btn" id="miniNext" aria-label="Next">→</button>
             </div>
+          </div>
+
+          <!-- School logos -->
+          <span class="label">Trusted by schools across Perth</span>
+          <div class="school-logos">
+            <div class="school-logo"><img src="IMG_5571.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5572.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5573.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5578.jpeg" alt="School logo"></div>
+            <div class="school-logo"><img src="IMG_5574.png" alt="School logo"></div>
           </div>
         </div>
       </div>
@@ -1465,17 +1520,19 @@ h1,h2,h3{
 
     <!-- Emergency card -->
     <div class="emergency-note" data-reveal>
+      <span class="emergency-tag">🚨 Emergency</span>
       <h3 class="emergency-heading">Last Minute Emergency Sound</h3>
       <p class="emergency-body">Have your sound person call in sick last minute? An event <em>'that teacher'</em> forgot to tell you about? Double booked yourself? We offer emergency last-minute sound bookings that have saved schools around Perth.</p>
       <p class="emergency-body">Make sure to add this number to your phone — we pick up.</p>
-      <a href="urban-echo-emergency.vcf" class="btn emergency-save-btn" download>📱 Save Our Number</a>
+      <a href="urban-echo-emergency.vcf" class="btn btn-green emergency-save-btn" download>📱 Save Our Number</a>
     </div>
 
     <!-- Bulk / auditorium note -->
     <div class="bulk-note" data-reveal>
-      <div class="bulk-note-title">We can help you make your school money — and it costs you nothing</div>
+      <span class="bulk-note-tag">💰 Bonus Revenue</span>
+      <div class="bulk-note-title">We can help your school make money — and it costs you nothing</div>
       <span>Got an auditorium sitting empty on weekends? <strong>We can help you turn it into a revenue stream</strong> — we manage external hire bookings and sound, you keep the income.</span>
-      <a href="#contact" class="btn btn-cream" style="white-space:nowrap;">Ask About This</a>
+      <a href="#contact" class="btn btn-cream">Ask About This</a>
     </div>
   </div>
 </section>
@@ -1594,7 +1651,7 @@ h1,h2,h3{
           <span class="ic">🌐</span>
           <a href="https://urbanecho.com.au">urbanecho.com.au</a>
         </div>
-        <a href="urban-echo-emergency.vcf" class="btn btn-blue" style="margin-top:18px;" download>📱 Save Our Number</a>
+        <a href="urban-echo-emergency.vcf" class="btn btn-green" style="margin-top:18px;" download>📱 Save Our Number</a>
 
       </div>
 
@@ -1974,29 +2031,28 @@ form.addEventListener('submit', async function(e){
     onScroll();
   })();
 
-/* ── Review ticker ── */
+/* ── Mini review carousel arrows ── */
 (function(){
-  var reviews = [
-    { q: '"Thank you for providing an excellent sound job, once again. Mitch is professional, courteous and completely on the ball."', a: 'Katherine — Riva Primary School' },
-    { q: '"The show sounded amazing and we didn\'t have any mic issues which is my pet hate in musicals."', a: 'Corinna — The Kings College' },
-    { q: '"Thank you for your creativity and expertise in leading all the tech requirements for the assemblies."', a: 'Sharlene — Carey Baptist College' },
-    { q: '"Mitch has an exceptional ear, and equally as important, excellent communication and diplomatic skills."', a: 'Doug — Methodist Ladies College' },
-    { q: '"Fantastic service from Urban Echo! Friendly, punctual, and made the whole process super smooth."', a: 'Nicholas — Lyn Beazley Academy' },
-  ];
-  var quoteEl  = document.getElementById('reviewTickerQuote');
-  var authorEl = document.getElementById('reviewTickerAuthor');
-  var ticker   = document.getElementById('reviewTicker');
-  if(!quoteEl || !authorEl) return;
-  var i = 0;
-  setInterval(function(){
-    i = (i + 1) % reviews.length;
-    ticker.style.opacity = '0';
-    setTimeout(function(){
-      quoteEl.textContent  = reviews[i].q;
-      authorEl.textContent = reviews[i].a;
-      ticker.style.opacity = '1';
-    }, 500);
-  }, 5000);
+  var cards  = document.querySelectorAll('.mini-review-card');
+  var prev   = document.getElementById('miniPrev');
+  var next   = document.getElementById('miniNext');
+  if(!cards.length || !prev || !next) return;
+  var PER_PAGE = 3;
+  var offset   = 0;
+  function show(){
+    cards.forEach(function(c, i){
+      c.classList.toggle('hidden', i < offset || i >= offset + PER_PAGE);
+    });
+  }
+  prev.addEventListener('click', function(){
+    offset = Math.max(0, offset - PER_PAGE);
+    show();
+  });
+  next.addEventListener('click', function(){
+    offset = Math.min(cards.length - PER_PAGE, offset + PER_PAGE);
+    show();
+  });
+  show();
 })();
 </script>
 
