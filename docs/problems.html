@@ -304,14 +304,33 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .diag-breadcrumb .sep{ opacity:0.4; }
 
 /* Restart */
+.diag-footer-row{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:14px;
+}
 .diag-restart{
-  margin-top:14px; background:none; border:none; cursor:pointer;
+  background:none; border:none; cursor:pointer;
   font-family:var(--mono); font-size:12px; font-weight:700;
   text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink); opacity:0.4; text-decoration:underline; padding:0;
   transition:opacity 0.15s;
 }
 .diag-restart:hover{ opacity:1; }
+.diag-flag-wrap{
+  display:flex; align-items:center; gap:8px;
+}
+.diag-flag-hint{
+  font-family:var(--mono); font-size:11px; font-weight:400;
+  color:var(--ink); opacity:0.35; letter-spacing:0.04em;
+  text-align:right; line-height:1.4; max-width:180px;
+}
+.diag-flag-btn{
+  background:none; border:none; cursor:pointer; padding:4px;
+  font-size:20px; line-height:1; transition:transform 0.15s;
+  filter: grayscale(1) brightness(2);
+}
+.diag-flag-btn:hover{ transform:scale(1.15); }
+.diag-flag-btn.flagged{ filter:none; }
 
 /* CTA at bottom */
 .diag-cta{
@@ -597,7 +616,13 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       <p class="diag-intro" id="diagIntro"></p>
       <div class="diag-breadcrumb" id="diagBreadcrumb"></div>
       <div id="diagSteps"></div>
-      <button class="diag-restart" id="diagRestart">↩ Start over</button>
+      <div class="diag-footer-row">
+        <button class="diag-restart" id="diagRestart">↩ Start over</button>
+        <div class="diag-flag-wrap">
+          <span class="diag-flag-hint">Notice an issue?<br>Click to flag it</span>
+          <button class="diag-flag-btn" id="diagFlagBtn" title="Flag an issue with this step" aria-label="Flag an issue">🚩</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -798,7 +823,13 @@ allProblemBtns.forEach(function(btn){
 });
 
 /* ── Restart ── */
+var diagFlagBtn = document.getElementById('diagFlagBtn');
+diagFlagBtn.addEventListener('click', function(){
+  this.classList.toggle('flagged');
+});
+
 diagRestart.addEventListener('click', function(){
+  diagFlagBtn.classList.remove('flagged');
   allProblemBtns.forEach(function(b){ b.classList.remove('active'); b.style.display = 'block'; });
   show(diagEmpty);
   hide(diagFlow);
@@ -1243,6 +1274,7 @@ function startDiagnosis(key){
   branchStack  = [];
   stepHistory  = [{ label: prob.label || key }];
 
+  diagFlagBtn.classList.remove('flagged');
   diagEyebrow.textContent = '🔍 Diagnosing';
   diagTitle.textContent   = prob.label || '';
   var intro = (skillLevel === 'expert' && prob.expertIntro) ? prob.expertIntro : (prob.intro || '');
