@@ -35,6 +35,8 @@ a{ color: inherit; }
 h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter-spacing:-0.01em; text-transform:uppercase; }
 
 /* ── NAV ── */
+.nav-login-btn{ display:flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; border:2px solid var(--ink); text-decoration:none; font-size:15px; line-height:1; transition:background 0.15s; }
+.nav-login-btn:hover{ background:var(--cream-deep); }
 .nav{ position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--line); }
 .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1180px; margin:0 auto; }
 .nav-logo{ height:30px; }
@@ -421,7 +423,10 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       <a href="index.html#reviews" class="nav-hide-xs">Reviews</a>
       <a href="problems.html" class="nav-troubleshoot">Troubleshooting Tool</a>
     </div>
-    <a href="index.html#contact" class="btn btn-blue btn-sm">Contact Us</a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="index.html#contact" class="btn btn-blue btn-sm">Contact Us</a>
+      <a href="login.html" class="nav-login-btn" title="Staff login" aria-label="Employee portal login">👤</a>
+    </div>
   </div>
 </nav>
 
