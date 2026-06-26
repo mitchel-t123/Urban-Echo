@@ -628,7 +628,6 @@ h1,h2,h3{
   font-size: 17px;
   color: rgba(255,252,245,0.86);
   margin-bottom:18px;
-  max-width: 480px;
 }
 .diagnosis-figure{
   display:flex;
@@ -652,6 +651,11 @@ h1,h2,h3{
   display:block;
   color: var(--sunshine);
 }
+.credential .big.years{
+  font-size: 102px;
+  line-height: 0.9;
+  color: var(--sunshine);
+}
 .credential .label{
   font-size: 12.5px;
   text-transform:uppercase;
@@ -665,13 +669,15 @@ h1,h2,h3{
   border-top: 1px solid rgba(255,252,245,0.2);
 }
 .school-strip .label{
-  font-family: var(--mono);
-  font-size: 13px;
+  font-family: var(--display);
+  font-size: clamp(22px, 3vw, 36px);
   text-transform:uppercase;
-  letter-spacing:0.1em;
-  opacity:0.75;
+  letter-spacing:-0.01em;
+  opacity:1;
+  color: var(--paper);
   margin-bottom:18px;
   display:block;
+  line-height:1.05;
 }
 .school-logos{
   display:flex;
@@ -707,7 +713,6 @@ h1,h2,h3{
 }
 .mini-review-card{
   background: var(--paper);
-  border: 2px solid var(--line);
   border-radius: 16px;
   padding: 18px 18px 14px;
   display: flex;
@@ -1377,7 +1382,7 @@ h1,h2,h3{
 
         <div class="credential-row">
           <div class="credential">
-            <span class="big">10+</span>
+            <span class="big years">10+</span>
             <span class="label">Years in Schools &amp; Churches</span>
           </div>
           <div class="credential">
@@ -1716,7 +1721,6 @@ h1,h2,h3{
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div class="wrap footer-inner">
-    <a href="#"><img src="logo-light.png" alt="Urban Echo" class="footer-logo"></a>
     <span>© 2026 Urban Echo. All rights reserved.</span>
     <span>Sound &amp; AV for Perth Schools.</span>
   </div>

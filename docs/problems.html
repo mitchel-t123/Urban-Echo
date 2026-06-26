@@ -110,7 +110,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .skill-btn:hover .skill-hint{ color:rgba(255,252,245,0.65); }
 .skill-btn.active{ background:var(--ink); color:var(--paper); }
 .skill-btn.active .skill-hint{ color:rgba(255,252,245,0.65); }
-.skill-icon{ font-size:30px; line-height:1; }
+.skill-top{ display:flex; align-items:center; justify-content:space-between; width:100%; }
 .skill-label{ font-weight:800; font-size:17px; }
 .skill-hint{ font-size:13px; color:rgba(22,21,39,0.5); }
 
@@ -219,7 +219,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
   text-transform:uppercase; letter-spacing:0.1em;
   color:var(--orange); margin-bottom:14px; display:block;
 }
-.diag-flow h2{ font-size:clamp(22px,3vw,34px); margin-bottom:6px; }
+.diag-flow h2{ font-size:clamp(22px,3vw,34px); margin-bottom:18px; }
 .diag-flow .diag-intro{ font-size:15px; color:rgba(22,21,39,0.68); margin-bottom:32px; max-width:560px; line-height:1.6; }
 
 /* Step card — single step display */
@@ -367,26 +367,29 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
     <!-- Top masthead (replaces hero) -->
     <div class="section-masthead">
       <span class="eyebrow">Sound Troubleshooting Tool</span>
-      <h2>What's the source<br>of the problem?</h2>
-      <p class="sub" id="mastheadSub">First — let us know your experience level so we can tailor the steps.</p>
+      <h2 id="mastheadH2">Let us know your<br>experience level</h2>
+      <p class="sub" id="mastheadSub">We'll tailor the steps to suit what you know.</p>
     </div>
 
     <!-- Step 1: Skill level -->
     <div id="skillPicker">
       <div class="skill-grid">
         <button class="skill-btn" data-level="beginner">
-          <span class="skill-icon">🟢</span>
-          <span class="skill-label">Beginner</span>
+          <div class="skill-top">
+            <span class="skill-label">Beginner 🙋</span>
+          </div>
           <span class="skill-hint">No idea about sound — walk me through everything</span>
         </button>
         <button class="skill-btn" data-level="moderate">
-          <span class="skill-icon">🟡</span>
-          <span class="skill-label">Moderate</span>
+          <div class="skill-top">
+            <span class="skill-label">Moderate 🎚️</span>
+          </div>
           <span class="skill-hint">I know some things about sound</span>
         </button>
         <button class="skill-btn" data-level="expert">
-          <span class="skill-icon">🔴</span>
-          <span class="skill-label">Expert</span>
+          <div class="skill-top">
+            <span class="skill-label">Expert ⚡</span>
+          </div>
           <span class="skill-hint">I know my stuff — skip the obvious steps</span>
         </button>
       </div>
@@ -589,6 +592,7 @@ var diagSteps       = document.getElementById('diagSteps');
 var diagRestart     = document.getElementById('diagRestart');
 var skillBadge      = document.getElementById('skillBadge');
 var mastheadSub     = document.getElementById('mastheadSub');
+var mastheadH2      = document.getElementById('mastheadH2');
 var allProblemBtns  = document.querySelectorAll('.problem-btn');
 
 var SKILL_LABELS = { beginner: '🟢 Beginner', moderate: '🟡 Moderate', expert: '🔴 Expert' };
@@ -604,6 +608,7 @@ document.querySelectorAll('.skill-btn').forEach(function(btn){
     this.classList.add('active');
     hide(skillPicker);
     show(categoryPicker);
+    mastheadH2.innerHTML = "What's the source<br>of the problem?";
     mastheadSub.textContent = 'Choose a category to narrow it down, or search below.';
   });
 });
@@ -613,7 +618,8 @@ document.getElementById('backToSkill').addEventListener('click', function(){
   show(skillPicker);
   problemSearch.value = '';
   hide(searchClear);
-  mastheadSub.textContent = 'First — let us know your experience level so we can tailor the steps.';
+  mastheadH2.innerHTML = 'Let us know your<br>experience level';
+  mastheadSub.textContent = 'We\'ll tailor the steps to suit what you know.';
 });
 
 /* ── Category picker ── */
