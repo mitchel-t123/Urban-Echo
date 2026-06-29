@@ -318,9 +318,9 @@ h1,h2,h3{
   transform: translateX(4px);
 }
 .hero-check.checked{
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
+  background: #16a34a;
+  color: #fff;
+  border-color: #16a34a;
 }
 
 .check-icon{
@@ -337,9 +337,9 @@ h1,h2,h3{
   font-weight: 900;
 }
 .hero-check.checked .check-icon{
-  background: var(--orange);
-  border-color: var(--orange);
-  color: var(--paper);
+  background: #fff;
+  border-color: #fff;
+  color: #16a34a;
 }
 
 /* Answer card — nested inside the symptom card */
@@ -1305,11 +1305,13 @@ h1,h2,h3{
 .meet-form-expand-inner{ overflow:hidden; }
 .meet-form-expand.open{ grid-template-rows:1fr; }
 .meet-success{ display:none; padding:48px 32px; text-align:center; }
-.meet-success-icon{ width:56px; height:56px; border-radius:50%; background:var(--indigo); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
+.meet-success-icon{ width:56px; height:56px; border-radius:50%; background:#16a34a; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
 .meet-success-icon svg{ display:block; }
-.meet-success-eyebrow{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--indigo); margin-bottom:8px; }
-.meet-success h3{ font-family:var(--display); font-size:22px; font-weight:700; margin-bottom:10px; }
-.meet-success p{ font-size:14.5px; color:rgba(22,21,39,0.6); margin-bottom:0; }
+.meet-success-eyebrow{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#16a34a; margin-bottom:8px; display:block; }
+.meet-success h3{ font-family:var(--display); font-size:24px; font-weight:700; margin-bottom:12px; color:var(--ink); }
+.meet-success-body{ font-size:15px; color:rgba(22,21,39,0.65); margin-bottom:0; }
+.meet-success-divider{ height:1.5px; background:rgba(22,21,39,0.1); margin:24px auto; width:60px; border-radius:2px; }
+.meet-success-footer{ font-size:14px; color:rgba(22,21,39,0.5); margin-bottom:0; }
 /* Meet responsive */
 @media(max-width:920px){
   .meet-row{ grid-template-columns:1fr; }
@@ -2168,9 +2170,11 @@ function initMeetPlaces(){
         <div class="meet-success-icon">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <p class="meet-success-eyebrow">Booking received</p>
-        <h3>We'll lock it in — see you soon!</h3>
-        <p>Mitchel will confirm one of your suggested times within one business day. A confirmation has been sent to <strong id="meetSuccessEmail"></strong>.</p>
+        <p class="meet-success-eyebrow">☕ Coffee booking received</p>
+        <h3>Thanks <span id="meetSuccessName"></span>— the coffee's on us!</h3>
+        <p class="meet-success-body">Mitchel will look over your availability and confirm a time within one business day. Keep an eye on <strong id="meetSuccessEmail"></strong> — we'll be in touch soon.</p>
+        <div class="meet-success-divider"></div>
+        <p class="meet-success-footer">Can't wait? Call us on <a href="tel:0429660186" style="font-weight:700;color:var(--indigo);">0429 660 186</a></p>
       </div>
     </div>
   </div>
@@ -2547,8 +2551,13 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       });
       if(res.ok){
         meetForm.style.display = 'none';
+        var firstName = name.split(' ')[0];
+        document.getElementById('meetSuccessName').textContent = firstName + ' ';
         document.getElementById('meetSuccessEmail').textContent = email;
         meetSuccess.style.display = 'block';
+        // Scroll meet card into view so they see the confirmation
+        var meetCard = document.querySelector('.meet-card');
+        if(meetCard) meetCard.scrollIntoView({ behavior:'smooth', block:'center' });
       } else {
         meetSubmit.disabled = false;
         meetSubmit.textContent = 'Request a Catch-Up →';
