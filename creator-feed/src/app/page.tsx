@@ -1,38 +1,18 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import VideoGrid from '@/components/VideoGrid';
 import { creators } from '@/config/creators';
-import { Video } from '@/types';
+import { fetchChannelVideos } from '@/lib/youtube';
 
-export default function HomePage() {
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+export default async function HomePage() {
+  const results = await Promise.all(
+    creators
+      .filter((c) => c.youtube)
+      .map((c) => fetchChannelVideos(c.youtube!.channelId, c.id))
+  );
 
-  useEffect(() => {
-    const youtubeCreators = creators.filter((c) => c.youtube);
-
-    Promise.all(
-      youtubeCreators.map((creator) =>
-        fetch(`/api/youtube/${creator.youtube!.channelId}?creatorId=${creator.id}`)
-          .then((r) => r.json())
-          .then((data) =>
-            (data.videos as Video[]).map((v) => ({ ...v, creatorId: creator.id }))
-          )
-          .catch(() => [] as Video[])
-      )
-    )
-      .then((results) => {
-        const all = results.flat().sort(
-          (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-        );
-        setVideos(all);
-      })
-      .catch(() => setError('Failed to load videos'))
-      .finally(() => setLoading(false));
-  }, []);
+  const videos = results
+    .flat()
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
   const youtubeCount = creators.filter((c) => c.youtube).length;
 
@@ -46,7 +26,7 @@ export default function HomePage() {
             Latest from {youtubeCount} creator{youtubeCount !== 1 ? 's' : ''} · sorted by date
           </p>
         </div>
-        <VideoGrid videos={videos} loading={loading} error={error} />
+        <VideoGrid videos={videos} />
       </main>
     </div>
   );

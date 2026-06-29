@@ -1,4 +1,3 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { XMLParser } from 'fast-xml-parser';
 import { Video } from '@/types';
 
@@ -8,29 +7,19 @@ const parser = new XMLParser({
   isArray: (name) => name === 'entry',
 });
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { channelId: string } }
-) {
-  const { channelId } = params;
-  const creatorId = request.nextUrl.searchParams.get('creatorId') || '';
-
+export async function fetchChannelVideos(channelId: string, creatorId: string): Promise<Video[]> {
   const res = await fetch(
-    `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
-    { next: { revalidate: 1800 } }
+    `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`
   );
 
-  if (!res.ok) {
-    return NextResponse.json({ error: 'Failed to fetch channel feed' }, { status: 502 });
-  }
+  if (!res.ok) return [];
 
   const xml = await res.text();
   const feed = parser.parse(xml);
-
   const entries: any[] = feed.feed?.entry ?? [];
   const channelName: string = feed.feed?.author?.name ?? 'Unknown';
 
-  const videos: Video[] = entries.slice(0, 12).map((entry) => {
+  return entries.slice(0, 12).map((entry) => {
     const videoId = entry['yt:videoId'] ?? '';
     return {
       id: videoId,
@@ -47,6 +36,4 @@ export async function GET(
       ),
     };
   });
-
-  return NextResponse.json({ videos, channelName });
 }
