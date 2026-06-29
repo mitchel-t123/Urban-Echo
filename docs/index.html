@@ -38,7 +38,7 @@
 html{
   scroll-behavior:auto; /* JS handles smooth scroll with custom duration */
   background: var(--ink); /* footer colour shows on overscroll, no blank space */
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: none !important;
 }
 
 body{
@@ -49,7 +49,7 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
   overflow-anchor: none;
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: none !important;
 }
 
 img{ max-width:100%; display:block; }
@@ -2398,7 +2398,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var menu  = document.getElementById('mobileMenu');
   if(!menu) return;
   function openMenu(){ if(btn) btn.classList.add('open'); menu.classList.add('open'); document.body.style.overflow='hidden'; }
-  function closeMenu(){ if(btn) btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }
+  function closeMenu(){ if(btn) btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; document.body.style.overscrollBehaviorY='none'; }
   if(btn) btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
   menu.addEventListener('click', function(e){ if(e.target === menu) closeMenu(); });
   menu.querySelectorAll('.mobile-menu-link').forEach(function(a){ a.addEventListener('click', closeMenu); });
