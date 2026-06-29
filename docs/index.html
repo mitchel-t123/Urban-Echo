@@ -569,7 +569,7 @@ h1,h2,h3{
   transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), background 0.35s ease, box-shadow 0.35s ease, opacity 0.35s ease;
   opacity: 0.28;
   background: transparent;
-  cursor: default;
+  cursor: pointer;
   position: relative;
   z-index: 1;
 }
@@ -2878,6 +2878,14 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       updateUI();
       track.setAttribute('aria-valuenow', lvl);
     }
+
+    // Allow clicking directly on individual emoji faces
+    track.querySelectorAll('.stress-face').forEach(function(face){
+      face.addEventListener('click', function(e){
+        e.stopPropagation();
+        setMeterLevel(parseInt(face.dataset.lvl));
+      });
+    });
 
     let dragging = false;
     track.addEventListener('mousedown', function(e){
