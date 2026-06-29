@@ -2412,12 +2412,15 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     });
     drinkPickHtml += '</div>';
 
-    personEl.innerHTML =
-      '<div class="person-order-header"><span class="person-order-label" data-header>' + defaultHeaderLabel + '</span>' + removeBtnHtml + '</div>' +
+    var nameRoleHtml = idx === 1 ? '' :
       '<div class="meet-row" style="gap:10px;margin-bottom:12px;">' +
         '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'name" placeholder="' + namePlaceholder + '" style="margin-bottom:0;" data-name-input></div>' +
         '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'role" placeholder="Role (e.g. Business Manager)" style="margin-bottom:0;"></div>' +
-      '</div>' +
+      '</div>';
+
+    personEl.innerHTML =
+      '<div class="person-order-header"><span class="person-order-label" data-header>' + defaultHeaderLabel + '</span>' + removeBtnHtml + '</div>' +
+      nameRoleHtml +
       drinkPickHtml +
       '<div class="person-drink-detail"></div>';
 
@@ -2425,10 +2428,10 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     var removeBtnEl = personEl.querySelector('.person-remove-btn');
     if(removeBtnEl) removeBtnEl.addEventListener('click', function(){ personEl.remove(); });
 
-    // Live name → header label update
+    // Live name → header label update (only for additional people)
     var nameInput = personEl.querySelector('[data-name-input]');
     var headerLabel = personEl.querySelector('[data-header]');
-    nameInput.addEventListener('input', function(){
+    if(nameInput) nameInput.addEventListener('input', function(){
       headerLabel.textContent = this.value.trim() || defaultHeaderLabel;
     });
 
