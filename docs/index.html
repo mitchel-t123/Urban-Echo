@@ -755,11 +755,12 @@ h1,h2,h3{
   display:flex;
   align-items:center;
   justify-content:center;
+  overflow:hidden;
 }
 .school-logo img{ max-height: calc(100% - 12px); max-width: calc(100% - 12px); object-fit:contain; }
 .school-logo img[src="logo-carey.png"],
 .school-logo img[src="logo-hampton.jpg"],
-.school-logo img[src="logo-hale.jpg"]{ width:calc(100% - 12px); height:calc(100% - 12px); max-width:none; max-height:none; object-fit:contain; }
+.school-logo img[src="logo-hale.jpg"]{ max-height: calc(100% - 12px); max-width: calc(100% - 12px); object-fit:contain; transform: scale(1.9); transform-origin: center; }
 
 /* ── Mini review carousel ── */
 .mini-reviews{
