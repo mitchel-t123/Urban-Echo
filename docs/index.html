@@ -2103,6 +2103,12 @@ function initMeetPlaces(){
             <input type="text" id="meetName" name="name" required placeholder="Jane Smith">
           </div>
           <div class="field">
+            <label for="meetRole">Your Role</label>
+            <input type="text" id="meetRole" name="role" placeholder="e.g. Business Manager">
+          </div>
+        </div>
+        <div class="meet-block meet-row">
+          <div class="field">
             <label for="meetSchool">School</label>
             <input type="text" id="meetSchool" name="school" placeholder="e.g. Wesley College">
           </div>
@@ -2399,11 +2405,9 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     personEl.className = 'person-order';
     personEl.dataset.person = idx;
 
+    var defaultHeaderLabel = idx === 1 ? 'Your order' : 'Person ' + idx;
     var namePlaceholder = idx === 1 ? 'Your name' : 'Their name';
-    var nameLabel = idx === 1 ? 'Your name' : 'Person ' + idx + '\'s name';
-    var removeBtn = idx === 1 ? '' : '<button type="button" class="person-remove-btn" title="Remove">✕ Remove</button>';
-    var headerHtml = '<div class="person-order-header"><span class="person-order-label">' + nameLabel + '</span>' + removeBtn + '</div>' +
-      '<div class="field" style="margin-bottom:12px;"><input type="text" name="' + p + 'name" placeholder="' + namePlaceholder + '" style="margin-bottom:0;"></div>';
+    var removeBtnHtml = idx === 1 ? '' : '<button type="button" class="person-remove-btn" title="Remove">✕ Remove</button>';
 
     var drinkPickHtml = '<div class="person-drink-pick">';
     Object.keys(DRINK_OPTS).forEach(function(key){
@@ -2413,11 +2417,25 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     });
     drinkPickHtml += '</div>';
 
-    personEl.innerHTML = headerHtml + drinkPickHtml + '<div class="person-drink-detail"></div>';
+    personEl.innerHTML =
+      '<div class="person-order-header"><span class="person-order-label" data-header>' + defaultHeaderLabel + '</span>' + removeBtnHtml + '</div>' +
+      '<div class="meet-row" style="gap:10px;margin-bottom:12px;">' +
+        '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'name" placeholder="' + namePlaceholder + '" style="margin-bottom:0;" data-name-input></div>' +
+        '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'role" placeholder="Role (e.g. Business Manager)" style="margin-bottom:0;"></div>' +
+      '</div>' +
+      drinkPickHtml +
+      '<div class="person-drink-detail"></div>';
 
     // Remove button
-    var removeBtn = personEl.querySelector('.person-remove-btn');
-    if(removeBtn) removeBtn.addEventListener('click', function(){ personEl.remove(); });
+    var removeBtnEl = personEl.querySelector('.person-remove-btn');
+    if(removeBtnEl) removeBtnEl.addEventListener('click', function(){ personEl.remove(); });
+
+    // Live name → header label update
+    var nameInput = personEl.querySelector('[data-name-input]');
+    var headerLabel = personEl.querySelector('[data-header]');
+    nameInput.addEventListener('input', function(){
+      headerLabel.textContent = this.value.trim() || defaultHeaderLabel;
+    });
 
     // Drink change
     personEl.querySelectorAll('input[type=radio]').forEach(function(r){
