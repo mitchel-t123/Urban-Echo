@@ -1243,10 +1243,13 @@ h1,h2,h3{
 .location-opt-label input:checked + .location-pill{ border-color:var(--indigo); background:rgba(63,63,240,0.07); color:var(--indigo); }
 /* Date grid */
 .date-grid{ display:flex; flex-direction:column; gap:12px; }
-.date-row{ display:grid; grid-template-columns:1fr 1fr auto 1fr; align-items:center; gap:10px; }
+.date-row{ display:grid; grid-template-columns:1fr 1fr auto 1fr; align-items:end; gap:10px; }
 .date-row .field{ margin-bottom:0; }
 .date-row input{ margin-bottom:0; }
-.time-range-sep{ font-size:11px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; padding:0 2px; }
+.time-range-sep{ font-size:11px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; padding:0 2px; padding-bottom:13px; }
+.time-select-pair{ display:flex; align-items:center; gap:2px; }
+.time-select-pair .select-wrap{ flex:1; }
+.time-sep-colon{ font-size:16px; font-weight:700; color:var(--ink); padding:0 1px; line-height:1; margin-top:2px; }
 .pac-container{ border:2px solid rgba(22,21,39,0.18); border-radius:10px; box-shadow:4px 4px 0 rgba(22,21,39,0.08); font-family:var(--body); margin-top:4px; }
 .pac-item{ padding:8px 14px; font-size:14px; cursor:pointer; }
 .pac-item:hover,.pac-item-selected{ background:rgba(63,63,240,0.06); }
@@ -1316,7 +1319,6 @@ h1,h2,h3{
   .date-row{ grid-template-columns:1fr 1fr; gap:8px; }
   .date-row .date-field{ grid-column:1/-1; }
   .date-row .time-range-sep{ display:none; }
-  .date-row .time-end-label::before{ content:'to '; opacity:0.5; font-size:10px; display:block; margin-bottom:4px; }
   .meet-card{ padding:24px 20px 20px; }
   .drink-icon{ width:56px; height:56px; font-size:30px; }
 }
@@ -2119,53 +2121,7 @@ function initMeetPlaces(){
         <!-- Dates -->
         <div class="meet-block">
           <span class="meet-block-label">Suggest a few dates &amp; times <span style="font-weight:400;opacity:0.55;">(give us options and we'll confirm one)</span></span>
-          <div class="date-grid">
-            <div class="date-row">
-              <div class="field date-field">
-                <label for="meetDate1">Option 1 — Date</label>
-                <input type="date" id="meetDate1" name="date_option_1_date" style="margin-bottom:0;">
-              </div>
-              <div class="field">
-                <label for="meetDate1Start">From</label>
-                <input type="time" id="meetDate1Start" name="date_option_1_start" step="900" style="margin-bottom:0;">
-              </div>
-              <span class="time-range-sep">to</span>
-              <div class="field time-end-label">
-                <label for="meetDate1End">Until</label>
-                <input type="time" id="meetDate1End" name="date_option_1_end" step="900" style="margin-bottom:0;">
-              </div>
-            </div>
-            <div class="date-row">
-              <div class="field date-field">
-                <label for="meetDate2">Option 2 — Date</label>
-                <input type="date" id="meetDate2" name="date_option_2_date" style="margin-bottom:0;">
-              </div>
-              <div class="field">
-                <label for="meetDate2Start">From</label>
-                <input type="time" id="meetDate2Start" name="date_option_2_start" step="900" style="margin-bottom:0;">
-              </div>
-              <span class="time-range-sep">to</span>
-              <div class="field time-end-label">
-                <label for="meetDate2End">Until</label>
-                <input type="time" id="meetDate2End" name="date_option_2_end" step="900" style="margin-bottom:0;">
-              </div>
-            </div>
-            <div class="date-row">
-              <div class="field date-field">
-                <label for="meetDate3">Option 3 — Date</label>
-                <input type="date" id="meetDate3" name="date_option_3_date" style="margin-bottom:0;">
-              </div>
-              <div class="field">
-                <label for="meetDate3Start">From</label>
-                <input type="time" id="meetDate3Start" name="date_option_3_start" step="900" style="margin-bottom:0;">
-              </div>
-              <span class="time-range-sep">to</span>
-              <div class="field time-end-label">
-                <label for="meetDate3End">Until</label>
-                <input type="time" id="meetDate3End" name="date_option_3_end" step="900" style="margin-bottom:0;">
-              </div>
-            </div>
-          </div>
+          <div class="date-grid" id="meetDateGrid"></div>
         </div>
 
         <!-- Notes -->
@@ -2381,6 +2337,38 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var meetSuccess = document.getElementById('meetSuccess');
   var meetSubmit  = document.getElementById('meetSubmitBtn');
   if(!meetForm) return;
+
+  // ── Date grid with 15-min time selects ───────────────────────────────────
+  (function(){
+    var grid = document.getElementById('meetDateGrid');
+    if(!grid) return;
+    var hours = [];
+    for(var h=6; h<=21; h++){
+      var ampm = h < 12 ? 'am' : 'pm';
+      var disp = h <= 12 ? h : h - 12;
+      hours.push({ val: (h<10?'0':'')+h, label: disp + ampm });
+    }
+    var mins = [{ val:'00', label:'00' },{ val:'15', label:'15' },{ val:'30', label:'30' },{ val:'45', label:'45' }];
+    function timeSelect(name){
+      var hOpts = hours.map(function(o){ return '<option value="'+o.val+'">'+o.label+'</option>'; }).join('');
+      var mOpts = mins.map(function(o){ return '<option value="'+o.val+'">'+o.val+'</option>'; }).join('');
+      return '<div class="time-select-pair">'+
+        '<div class="select-wrap"><select name="'+name+'_h" style="margin-bottom:0;">'+hOpts+'</select></div>'+
+        '<span class="time-sep-colon">:</span>'+
+        '<div class="select-wrap"><select name="'+name+'_m" style="margin-bottom:0;">'+mOpts+'</select></div>'+
+      '</div>';
+    }
+    [1,2,3].forEach(function(n){
+      var row = document.createElement('div');
+      row.className = 'date-row';
+      row.innerHTML =
+        '<div class="field date-field"><label>Option '+n+' — Date</label><input type="date" name="date_option_'+n+'_date" style="margin-bottom:0;"></div>'+
+        '<div class="field"><label>From</label>'+timeSelect('date_option_'+n+'_start')+'</div>'+
+        '<span class="time-range-sep">to</span>'+
+        '<div class="field time-end-label"><label>Until</label>'+timeSelect('date_option_'+n+'_end')+'</div>';
+      grid.appendChild(row);
+    });
+  })();
 
   // Update drink order panel based on drink + location selection
   // ── Person order builder ──────────────────────────────────────────────────
