@@ -1584,25 +1584,25 @@ function initMeetPlaces(){
       </div>
       <div class="hero-body">
         <div class="hero-checklist" id="heroChecklist">
-          <div class="hero-check" data-symptom="0">
-            <span class="check-icon"></span>
-            Endless School Events?
-          </div>
-          <div class="hero-check" data-symptom="1">
-            <span class="check-icon"></span>
-            No in-house Sound Guy?
-          </div>
-          <div class="hero-check hero-check-desktop" data-symptom="2">
+          <div class="hero-check hero-check-desktop" data-symptom="0">
             <span class="check-icon"></span>
             No Time?
           </div>
-          <div class="hero-check hero-check-desktop" data-symptom="3">
+          <div class="hero-check hero-check-desktop" data-symptom="1">
             <span class="check-icon"></span>
             Tired of Feedback?
           </div>
-          <div class="hero-check" data-symptom="4">
+          <div class="hero-check" data-symptom="2">
             <span class="check-icon"></span>
             Always Multi-tasking?
+          </div>
+          <div class="hero-check" data-symptom="3">
+            <span class="check-icon"></span>
+            Endless School Events?
+          </div>
+          <div class="hero-check" data-symptom="4">
+            <span class="check-icon"></span>
+            No in-house Sound Guy?
           </div>
         </div>
         <div class="hero-ctas hero-ctas-desktop">
@@ -2645,10 +2645,10 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var meterOverride = null; // set by stress meter drag; null = use checkbox count
 
   function computeCheckboxScore(){
-    // Major symptoms (endless events / no in-house guy) immediately max out
-    if(ticked.has('0') || ticked.has('1')) return 6;
-    // Minor symptoms (no time, feedback, multitasking) each add 1 point
-    return (ticked.has('2')?1:0) + (ticked.has('3')?1:0) + (ticked.has('4')?1:0);
+    // Major symptoms (endless events=3, no in-house guy=4) immediately max out
+    if(ticked.has('3') || ticked.has('4')) return 6;
+    // Minor symptoms (no time=0, feedback=1, multitasking=2) each add 1 point
+    return (ticked.has('0')?1:0) + (ticked.has('1')?1:0) + (ticked.has('2')?1:0);
   }
 
   function updateUI(){
@@ -2674,9 +2674,25 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       severityFill.style.backgroundColor = 'rgba(22,21,39,0.18)';
     }
 
-    // Answer card
-    answerLabel.textContent = L.ansLabel;
-    answerText.textContent  = L.ansText;
+    // Answer card — override text for major-symptom combinations
+    var ansLabel = L.ansLabel;
+    var ansText  = L.ansText;
+    if(meterOverride === null && score === 6){
+      var hasEndless = ticked.has('3');
+      var hasNoGuy   = ticked.has('4');
+      if(hasEndless && hasNoGuy){
+        ansLabel = '🚨 BOTH?! That\'s a full Sound Emergency';
+        ansText  = 'Endless events AND no in-house sound person — you\'re running on pure adrenaline. Urban Echo exists for exactly this. Let\'s fix it now.';
+      } else if(hasEndless){
+        ansLabel = '📅 Endless events with no AV support';
+        ansText  = 'Back-to-back events with no dedicated sound team is a recipe for chaos. Urban Echo steps in so every event runs without a hitch — not just the ones you remember in time.';
+      } else {
+        ansLabel = '🎚️ No in-house sound person';
+        ansText  = 'Without someone who knows the gear, every event is a gamble. Urban Echo becomes your on-call sound team — trained, reliable, and ready when you need us.';
+      }
+    }
+    answerLabel.textContent = ansLabel;
+    answerText.textContent  = ansText;
     answerCard.classList.toggle('active', L.active);
 
     // Stress face meter — highlight the face matching current score
