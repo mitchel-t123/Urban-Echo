@@ -1279,7 +1279,7 @@ h1,h2,h3{
 .sugar-pill{ display:inline-flex; align-items:center; justify-content:center; width:52px; height:40px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:14px; font-weight:700; font-family:var(--mono); color:var(--ink); transition:border-color 0.15s, background 0.15s, color 0.15s; }
 .sugar-opt input:checked + .sugar-pill{ border-color:var(--indigo); background:var(--indigo); color:#fff; }
 /* Free coffee badge */
-.free-coffee-badge{ display:inline-flex; align-items:center; gap:8px; background:var(--sunshine); border:2.5px solid var(--ink); border-radius:100px; padding:7px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); margin-bottom:20px; }
+.free-coffee-badge{ display:inline-flex; align-items:center; gap:8px; background:rgba(22,21,39,0.1); border:2.5px solid var(--ink); border-radius:100px; padding:7px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); margin-bottom:20px; }
 /* Responsive */
 @media(max-width:920px){
   .order-row{ grid-template-columns:1fr; }
@@ -2017,7 +2017,7 @@ function initMeetPlaces(){
           <span class="meet-block-label">What are you having?</span>
           <div class="drink-picker">
             <label class="drink-card-label">
-              <input type="radio" name="drink" value="Coffee" class="drink-radio" checked>
+              <input type="radio" name="drink" value="Coffee" class="drink-radio">
               <div class="drink-card-inner">
                 <div class="drink-icon" style="background:#F5E6C8;">☕</div>
                 <span class="drink-name">Coffee</span>
@@ -2045,7 +2045,7 @@ function initMeetPlaces(){
           <span class="meet-block-label">Where would you like to meet?</span>
           <div class="location-opts">
             <label class="location-opt-label">
-              <input type="radio" name="location_type" value="school" checked id="locSchool">
+              <input type="radio" name="location_type" value="school" id="locSchool">
               <span class="location-pill">🏫 Meet at my school</span>
             </label>
             <label class="location-opt-label">
