@@ -1270,6 +1270,19 @@ h1,h2,h3{
 /* Drink order panel */
 .drink-order-block{ background:rgba(63,63,240,0.04); border:2px solid rgba(63,63,240,0.18); border-radius:14px; padding:20px 22px 18px; margin-top:0; }
 .drink-order-block .meet-block-label{ color:var(--indigo); }
+.person-order{ border-top:1.5px solid rgba(63,63,240,0.15); margin-top:16px; padding-top:16px; }
+.person-order:first-child{ border-top:none; margin-top:0; padding-top:0; }
+.person-order-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.person-order-label{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--indigo); }
+.person-remove-btn{ background:none; border:none; cursor:pointer; font-size:13px; color:rgba(22,21,39,0.4); padding:2px 6px; border-radius:6px; line-height:1; }
+.person-remove-btn:hover{ background:rgba(217,54,54,0.08); color:var(--red); }
+.person-drink-pick{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
+.person-drink-opt input{ position:absolute; opacity:0; pointer-events:none; }
+.person-drink-opt{ position:relative; }
+.person-drink-pill{ display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:13px; font-weight:600; font-family:var(--body); cursor:pointer; transition:border-color 0.15s,background 0.15s; }
+.person-drink-opt input:checked + .person-drink-pill{ border-color:var(--indigo); background:rgba(63,63,240,0.07); color:var(--indigo); }
+.btn-add-person{ display:inline-flex; align-items:center; gap:7px; margin-top:16px; background:none; border:2px dashed rgba(63,63,240,0.3); border-radius:10px; padding:9px 18px; font-size:13px; font-weight:700; font-family:var(--body); color:var(--indigo); cursor:pointer; width:100%; justify-content:center; transition:border-color 0.15s,background 0.15s; }
+.btn-add-person:hover{ border-color:var(--indigo); background:rgba(63,63,240,0.05); }
 .order-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
 .order-row:last-child{ margin-bottom:0; }
 /* Sugar pill buttons */
@@ -2071,156 +2084,9 @@ function initMeetPlaces(){
         <div class="meet-block" id="drinkOrderBlock" style="display:none;">
           <div class="drink-order-block">
             <span class="meet-block-label">Your order — we're buying ☕</span>
-
-            <!-- Coffee order -->
-            <div id="coffeeOrder" style="display:none;">
-              <div class="order-row">
-                <div class="field">
-                  <label>Coffee type</label>
-                  <div class="select-wrap">
-                    <select name="coffee_type">
-                      <option>Flat White</option>
-                      <option>Latte</option>
-                      <option>Cappuccino</option>
-                      <option>Long Black</option>
-                      <option>Espresso</option>
-                      <option>Macchiato</option>
-                      <option>Mocha</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Milk</label>
-                  <div class="select-wrap">
-                    <select name="coffee_milk">
-                      <option>Full Cream</option>
-                      <option>Skim</option>
-                      <option>Oat</option>
-                      <option>Almond</option>
-                      <option>Soy</option>
-                      <option>Lactose Free</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="order-row">
-                <div class="field">
-                  <label>Size</label>
-                  <div class="sugar-opts">
-                    <label class="sugar-opt"><input type="radio" name="coffee_size" value="Small" checked><span class="sugar-pill">S</span></label>
-                    <label class="sugar-opt"><input type="radio" name="coffee_size" value="Medium"><span class="sugar-pill">M</span></label>
-                    <label class="sugar-opt"><input type="radio" name="coffee_size" value="Large"><span class="sugar-pill">L</span></label>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Sugars</label>
-                  <div class="sugar-opts">
-                    <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="0" checked><span class="sugar-pill">0</span></label>
-                    <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="1"><span class="sugar-pill">1</span></label>
-                    <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="2"><span class="sugar-pill">2</span></label>
-                    <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="3+"><span class="sugar-pill">3+</span></label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Hot chocolate order -->
-            <div id="hotChocOrder" style="display:none;">
-              <div class="order-row">
-                <div class="field">
-                  <label>Style</label>
-                  <div class="select-wrap">
-                    <select name="hotchoc_style">
-                      <option>Regular</option>
-                      <option>Dark Chocolate</option>
-                      <option>White Chocolate</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Milk</label>
-                  <div class="select-wrap">
-                    <select name="hotchoc_milk">
-                      <option>Full Cream</option>
-                      <option>Skim</option>
-                      <option>Oat</option>
-                      <option>Almond</option>
-                      <option>Soy</option>
-                      <option>Lactose Free</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="order-row">
-                <div class="field">
-                  <label>Size</label>
-                  <div class="sugar-opts">
-                    <label class="sugar-opt"><input type="radio" name="hotchoc_size" value="Small" checked><span class="sugar-pill">S</span></label>
-                    <label class="sugar-opt"><input type="radio" name="hotchoc_size" value="Medium"><span class="sugar-pill">M</span></label>
-                    <label class="sugar-opt"><input type="radio" name="hotchoc_size" value="Large"><span class="sugar-pill">L</span></label>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Sugars</label>
-                  <div class="sugar-opts">
-                    <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="0" checked><span class="sugar-pill">0</span></label>
-                    <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="1"><span class="sugar-pill">1</span></label>
-                    <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="2"><span class="sugar-pill">2</span></label>
-                    <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="3+"><span class="sugar-pill">3+</span></label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tea order -->
-            <div id="teaOrder" style="display:none;">
-              <div class="order-row">
-                <div class="field">
-                  <label>Tea type</label>
-                  <div class="select-wrap">
-                    <select name="tea_type">
-                      <option>English Breakfast</option>
-                      <option>Earl Grey</option>
-                      <option>Green Tea</option>
-                      <option>Chamomile</option>
-                      <option>Peppermint</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Milk</label>
-                  <div class="select-wrap">
-                    <select name="tea_milk">
-                      <option>No milk</option>
-                      <option>Full Cream</option>
-                      <option>Oat</option>
-                      <option>Almond</option>
-                      <option>Soy</option>
-                      <option>Skim</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="order-row">
-                <div class="field">
-                  <label>Size</label>
-                  <div class="sugar-opts">
-                    <label class="sugar-opt"><input type="radio" name="tea_size" value="Small" checked><span class="sugar-pill">S</span></label>
-                    <label class="sugar-opt"><input type="radio" name="tea_size" value="Medium"><span class="sugar-pill">M</span></label>
-                    <label class="sugar-opt"><input type="radio" name="tea_size" value="Large"><span class="sugar-pill">L</span></label>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Sugars</label>
-                  <div class="sugar-opts">
-                    <label class="sugar-opt"><input type="radio" name="tea_sugars" value="0" checked><span class="sugar-pill">0</span></label>
-                    <label class="sugar-opt"><input type="radio" name="tea_sugars" value="1"><span class="sugar-pill">1</span></label>
-                    <label class="sugar-opt"><input type="radio" name="tea_sugars" value="2"><span class="sugar-pill">2</span></label>
-                    <label class="sugar-opt"><input type="radio" name="tea_sugars" value="3+"><span class="sugar-pill">3+</span></label>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <!-- Person order entries injected here by JS -->
+            <div id="personOrderList"></div>
+            <button type="button" id="addPersonBtn" class="btn-add-person">+ Add another person</button>
           </div>
         </div>
 
@@ -2492,20 +2358,113 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   if(!meetForm) return;
 
   // Update drink order panel based on drink + location selection
+  // ── Person order builder ──────────────────────────────────────────────────
+  var personOrderList = document.getElementById('personOrderList');
+  var personCount = 0;
+
+  var DRINK_OPTS = {
+    Coffee: {
+      icon: '☕', label: 'Coffee',
+      type: { label:'Coffee type', name:'type', opts:['Flat White','Latte','Cappuccino','Long Black','Espresso','Macchiato','Mocha'] },
+      milk: { label:'Milk', name:'milk', opts:['Full Cream','Skim','Oat','Almond','Soy','Lactose Free'] },
+    },
+    'Hot Chocolate': {
+      icon: '🍫', label: 'Hot Chocolate',
+      type: { label:'Style', name:'style', opts:['Regular','Dark Chocolate','White Chocolate'] },
+      milk: { label:'Milk', name:'milk', opts:['Full Cream','Skim','Oat','Almond','Soy','Lactose Free'] },
+    },
+    Tea: {
+      icon: '🫖', label: 'Tea',
+      type: { label:'Tea type', name:'type', opts:['English Breakfast','Earl Grey','Green Tea','Chamomile','Peppermint'] },
+      milk: { label:'Milk', name:'milk', opts:['No milk','Full Cream','Oat','Almond','Soy','Skim'] },
+    },
+  };
+
+  function buildPersonOrder(idx, defaultDrink){
+    var p = 'person_' + idx + '_';
+    var personEl = document.createElement('div');
+    personEl.className = 'person-order';
+    personEl.dataset.person = idx;
+
+    var headerHtml = idx === 1
+      ? '<div class="person-order-header"><span class="person-order-label">Your drink</span></div>'
+      : '<div class="person-order-header"><span class="person-order-label">Person ' + idx + '\'s drink</span><button type="button" class="person-remove-btn" title="Remove">✕ Remove</button></div>';
+
+    var drinkPickHtml = '<div class="person-drink-pick">';
+    Object.keys(DRINK_OPTS).forEach(function(key){
+      var d = DRINK_OPTS[key];
+      var chk = key === defaultDrink ? ' checked' : '';
+      drinkPickHtml += '<label class="person-drink-opt"><input type="radio" name="' + p + 'drink" value="' + key + '"' + chk + '><span class="person-drink-pill">' + d.icon + ' ' + d.label + '</span></label>';
+    });
+    drinkPickHtml += '</div>';
+
+    personEl.innerHTML = headerHtml + drinkPickHtml + '<div class="person-drink-detail"></div>';
+
+    // Remove button
+    var removeBtn = personEl.querySelector('.person-remove-btn');
+    if(removeBtn) removeBtn.addEventListener('click', function(){ personEl.remove(); });
+
+    // Drink change
+    personEl.querySelectorAll('input[type=radio]').forEach(function(r){
+      r.addEventListener('change', function(){ renderDrinkDetail(personEl, idx); });
+    });
+
+    personOrderList.appendChild(personEl);
+    renderDrinkDetail(personEl, idx);
+  }
+
+  function renderDrinkDetail(personEl, idx){
+    var p = 'person_' + idx + '_';
+    var checked = personEl.querySelector('input[type=radio]:checked');
+    var drink = checked ? checked.value : null;
+    var detail = personEl.querySelector('.person-drink-detail');
+    if(!drink || !DRINK_OPTS[drink]){ detail.innerHTML = ''; return; }
+    var d = DRINK_OPTS[drink];
+
+    var uid = p + drink.replace(/\s/g,'').toLowerCase() + '_';
+    detail.innerHTML =
+      '<div class="order-row">' +
+        '<div class="field"><label>' + d.type.label + '</label><div class="select-wrap"><select name="' + p + d.type.name + '">' +
+          d.type.opts.map(function(o){ return '<option>' + o + '</option>'; }).join('') +
+        '</select></div></div>' +
+        '<div class="field"><label>' + d.milk.label + '</label><div class="select-wrap"><select name="' + p + 'milk">' +
+          d.milk.opts.map(function(o){ return '<option>' + o + '</option>'; }).join('') +
+        '</select></div></div>' +
+      '</div>' +
+      '<div class="order-row">' +
+        '<div class="field"><label>Size</label><div class="sugar-opts">' +
+          ['Small','Medium','Large'].map(function(s,i){ return '<label class="sugar-opt"><input type="radio" name="' + uid + 'size" value="' + s + '"' + (i===0?' checked':'') + '><span class="sugar-pill">' + s[0] + '</span></label>'; }).join('') +
+        '</div></div>' +
+        '<div class="field"><label>Sugars</label><div class="sugar-opts">' +
+          ['0','1','2','3+'].map(function(s,i){ return '<label class="sugar-opt"><input type="radio" name="' + uid + 'sugars" value="' + s + '"' + (i===0?' checked':'') + '><span class="sugar-pill">' + s + '</span></label>'; }).join('') +
+        '</div></div>' +
+      '</div>';
+  }
+
   function updateDrinkOrder(){
-    var drink    = (document.querySelector('input[name="drink"]:checked') || {}).value;
-    var locType  = (document.querySelector('input[name="location_type"]:checked') || {}).value;
+    var drink   = (document.querySelector('input[name="drink"]:checked') || {}).value;
+    var locType = (document.querySelector('input[name="location_type"]:checked') || {}).value;
     var block    = document.getElementById('drinkOrderBlock');
     var customLoc= document.getElementById('meetCustomLocation');
-    // Custom location address field
     customLoc.style.display = locType === 'custom' ? 'block' : 'none';
-    // Drink order block only when meeting at school
     block.style.display = locType === 'school' ? 'block' : 'none';
-    // Show correct order panel
-    document.getElementById('coffeeOrder').style.display  = (locType === 'school' && drink === 'Coffee') ? 'block' : 'none';
-    document.getElementById('hotChocOrder').style.display = (locType === 'school' && drink === 'Hot Chocolate') ? 'block' : 'none';
-    document.getElementById('teaOrder').style.display     = (locType === 'school' && drink === 'Tea') ? 'block' : 'none';
+    // Sync person 1's drink pill to the top-level drink picker
+    if(locType === 'school' && drink){
+      var p1 = personOrderList.querySelector('[data-person="1"]');
+      if(!p1){
+        personCount = 1;
+        buildPersonOrder(1, drink);
+      } else {
+        var p1Radio = p1.querySelector('input[value="' + drink + '"]');
+        if(p1Radio && !p1Radio.checked){ p1Radio.checked = true; renderDrinkDetail(p1, 1); }
+      }
+    }
   }
+
+  document.getElementById('addPersonBtn').addEventListener('click', function(){
+    personCount++;
+    buildPersonOrder(personCount, null);
+  });
 
   var meetExpand = document.getElementById('meetFormExpand');
   function expandMeetForm(){
@@ -2514,7 +2473,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
 
   document.querySelectorAll('input[name="drink"]').forEach(function(r){ r.addEventListener('change', function(){ updateDrinkOrder(); expandMeetForm(); }); });
   document.querySelectorAll('input[name="location_type"]').forEach(function(r){ r.addEventListener('change', function(){ updateDrinkOrder(); expandMeetForm(); }); });
-  updateDrinkOrder(); // run on load (does NOT expand — expansion only on user interaction)
+  updateDrinkOrder();
 
   // Form submit
   meetForm.addEventListener('submit', async function(e){
