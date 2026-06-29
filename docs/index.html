@@ -2961,7 +2961,8 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       if(!target) return;
       e.preventDefault();
       const start = window.scrollY;
-      const end   = target.getBoundingClientRect().top + window.scrollY - 72;
+      const navOffset = (document.querySelector('.nav') || {offsetHeight:72}).offsetHeight + 24;
+      const end   = target.getBoundingClientRect().top + window.scrollY - navOffset;
       const dist  = end - start;
       const dur   = 900; // ms — adjust for speed
       let t0 = null;
