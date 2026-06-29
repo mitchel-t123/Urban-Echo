@@ -2106,25 +2106,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           </div>
           <p id="drinkFirstHint" style="display:none;margin:8px 0 0;font-size:13px;color:var(--orange);font-family:var(--mono);">☝️ Pick your drink above</p>
           <div id="meetCustomLocation" style="display:none;margin-top:14px;">
-            <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;">
-              <div class="field" style="margin-bottom:0;">
-                <label for="meetAddress">Search for a café or address</label>
-                <input type="text" id="meetAddress" name="location" placeholder="e.g. Sayers Sister, Northbridge" autocomplete="off">
-                <input type="hidden" id="meetAddressPlace" name="location_place_id">
-              </div>
-              <div class="field" style="margin-bottom:0;min-width:160px;">
-                <label for="meetPlusOnes">How many plus 1s joining?</label>
-                <div class="select-wrap">
-                  <select id="meetPlusOnes" name="plus_ones">
-                    <option value="0">Just me</option>
-                    <option value="1">+ 1 person</option>
-                    <option value="2">+ 2 people</option>
-                    <option value="3">+ 3 people</option>
-                    <option value="4">+ 4 people</option>
-                    <option value="5+">+ 5 or more</option>
-                  </select>
-                </div>
-              </div>
+            <div class="field" style="margin-bottom:0;">
+              <label for="meetAddress">Search for a café or address</label>
+              <input type="text" id="meetAddress" name="location" placeholder="e.g. Sayers Sister, Northbridge" autocomplete="off">
+              <input type="hidden" id="meetAddressPlace" name="location_place_id">
             </div>
           </div>
         </div>
@@ -2157,6 +2142,19 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <div class="field">
             <label for="meetSchool">School</label>
             <input type="text" id="meetSchool" name="school" placeholder="e.g. Wesley College">
+          </div>
+          <div class="field" id="plusOnesField" style="display:none;">
+            <label for="meetPlusOnes">How many plus 1s joining?</label>
+            <div class="select-wrap">
+              <select id="meetPlusOnes" name="plus_ones">
+                <option value="0">Just me</option>
+                <option value="1">+ 1 person</option>
+                <option value="2">+ 2 people</option>
+                <option value="3">+ 3 people</option>
+                <option value="4">+ 4 people</option>
+                <option value="5+">+ 5 or more</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="meet-block meet-row">
@@ -2533,6 +2531,8 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     var customLoc= document.getElementById('meetCustomLocation');
     customLoc.style.display = locType === 'custom' ? 'block' : 'none';
     block.style.display = locType === 'school' ? 'block' : 'none';
+    var plusOnesField = document.getElementById('plusOnesField');
+    if(plusOnesField) plusOnesField.style.display = locType === 'custom' ? 'block' : 'none';
     // Sync person 1's drink pill to the top-level drink picker
     if(locType === 'school' && drink){
       var p1 = personOrderList.querySelector('[data-person="1"]');
