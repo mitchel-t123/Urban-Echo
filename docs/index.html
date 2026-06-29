@@ -1209,7 +1209,7 @@ h1,h2,h3{
 .meet-section .eyebrow{ color:var(--indigo); margin-bottom:14px; display:block; }
 .meet-section > .wrap > h2{ font-size:clamp(28px,4vw,44px); margin-bottom:14px; }
 .meet-section > .wrap > p{ font-size:17px; color:rgba(22,21,39,0.7); max-width:560px; margin-bottom:48px; }
-.meet-card{ background:var(--paper); border:2.5px solid var(--ink); border-bottom:10px solid var(--ink); border-radius:22px; box-shadow:5px 5px 0 var(--ink); padding:36px 36px 32px; max-width:720px; }
+.meet-card{ background:var(--paper); border:2.5px solid var(--ink); border-bottom:10px solid var(--ink); border-radius:22px; box-shadow:5px 5px 0 var(--ink); padding:36px 36px 32px; }
 .meet-block{ margin-bottom:28px; }
 .meet-block:last-child{ margin-bottom:0; }
 .meet-block-label{ display:block; font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.5); margin-bottom:14px; }
@@ -1953,7 +1953,7 @@ body{ overflow-x: hidden; }
   <div class="wrap">
     <span class="eyebrow" data-reveal>Let's Catch Up</span>
     <h2 data-reveal>Book a coffee meeting</h2>
-    <p data-reveal>Pick your drink, tell us when and where, and we'll lock in a time to chat about your school's AV needs — no pressure, just good conversation.</p>
+    <p data-reveal>Our husband-and-wife-owned business is built on a decade of experience working in both schools and churches — so even if we haven't met yet, we know you deserve a coffee. Pick your drink, tell us when and where, and we'll lock in a time.</p>
 
     <div class="meet-card" data-reveal>
       <form id="meetForm" novalidate>
@@ -1997,10 +1997,14 @@ body{ overflow-x: hidden; }
             <input type="text" id="meetSchool" name="school" placeholder="e.g. Wesley College">
           </div>
         </div>
-        <div class="meet-block">
+        <div class="meet-block meet-row">
           <div class="field">
             <label for="meetEmail">Email</label>
             <input type="email" id="meetEmail" name="email" required placeholder="jane@school.wa.edu.au">
+          </div>
+          <div class="field">
+            <label for="meetPhone">Phone</label>
+            <input type="tel" id="meetPhone" name="phone" placeholder="04xx xxx xxx">
           </div>
         </div>
 
