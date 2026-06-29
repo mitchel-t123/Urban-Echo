@@ -1243,9 +1243,9 @@ h1,h2,h3{
 .location-opt-label input:checked + .location-pill{ border-color:var(--indigo); background:rgba(63,63,240,0.07); color:var(--indigo); }
 /* Date grid */
 .date-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-.time-range{ display:flex; align-items:center; gap:8px; }
-.time-range input{ flex:1; min-width:0; }
-.time-range-sep{ font-size:12px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); white-space:nowrap; flex-shrink:0; }
+.time-range{ display:flex; flex-direction:column; gap:6px; }
+.time-range input{ width:100%; box-sizing:border-box; }
+.time-range-sep{ font-size:11px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); text-transform:uppercase; letter-spacing:0.06em; }
 .pac-container{ border:2px solid rgba(22,21,39,0.18); border-radius:10px; box-shadow:4px 4px 0 rgba(22,21,39,0.08); font-family:var(--body); margin-top:4px; }
 .pac-item{ padding:8px 14px; font-size:14px; cursor:pointer; }
 .pac-item:hover,.pac-item-selected{ background:rgba(63,63,240,0.06); }
