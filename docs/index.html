@@ -2411,9 +2411,11 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     personEl.className = 'person-order';
     personEl.dataset.person = idx;
 
-    var headerHtml = idx === 1
-      ? '<div class="person-order-header"><span class="person-order-label">Your drink</span></div>'
-      : '<div class="person-order-header"><span class="person-order-label">Person ' + idx + '\'s drink</span><button type="button" class="person-remove-btn" title="Remove">✕ Remove</button></div>';
+    var namePlaceholder = idx === 1 ? 'Your name' : 'Their name';
+    var nameLabel = idx === 1 ? 'Your name' : 'Person ' + idx + '\'s name';
+    var removeBtn = idx === 1 ? '' : '<button type="button" class="person-remove-btn" title="Remove">✕ Remove</button>';
+    var headerHtml = '<div class="person-order-header"><span class="person-order-label">' + nameLabel + '</span>' + removeBtn + '</div>' +
+      '<div class="field" style="margin-bottom:12px;"><input type="text" name="' + p + 'name" placeholder="' + namePlaceholder + '" style="margin-bottom:0;"></div>';
 
     var drinkPickHtml = '<div class="person-drink-pick">';
     Object.keys(DRINK_OPTS).forEach(function(key){
