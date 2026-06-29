@@ -1247,9 +1247,6 @@ h1,h2,h3{
 .date-row .field{ margin-bottom:0; }
 .date-row input{ margin-bottom:0; }
 .time-range-sep{ font-size:11px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; padding:0 2px; padding-bottom:13px; }
-.time-select-pair{ display:flex; align-items:center; gap:2px; }
-.time-select-pair .select-wrap{ flex:1; }
-.time-sep-colon{ font-size:16px; font-weight:700; color:var(--ink); padding:0 1px; line-height:1; margin-top:2px; }
 .pac-container{ border:2px solid rgba(22,21,39,0.18); border-radius:10px; box-shadow:4px 4px 0 rgba(22,21,39,0.08); font-family:var(--body); margin-top:4px; }
 .pac-item{ padding:8px 14px; font-size:14px; cursor:pointer; }
 .pac-item:hover,.pac-item-selected{ background:rgba(63,63,240,0.06); }
@@ -2348,21 +2345,19 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   (function(){
     var grid = document.getElementById('meetDateGrid');
     if(!grid) return;
-    var hours = [];
+    var times = [];
     for(var h=6; h<=21; h++){
       var ampm = h < 12 ? 'am' : 'pm';
       var disp = h <= 12 ? h : h - 12;
-      hours.push({ val: (h<10?'0':'')+h, label: disp + ampm });
+      [0,15,30,45].forEach(function(m){
+        var val = (h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+        var label = disp + ':' + (m<10?'0':'')+m + ampm;
+        times.push('<option value="'+val+'">'+label+'</option>');
+      });
     }
-    var mins = [{ val:'00', label:'00' },{ val:'15', label:'15' },{ val:'30', label:'30' },{ val:'45', label:'45' }];
+    var timeOpts = times.join('');
     function timeSelect(name){
-      var hOpts = hours.map(function(o){ return '<option value="'+o.val+'">'+o.label+'</option>'; }).join('');
-      var mOpts = mins.map(function(o){ return '<option value="'+o.val+'">'+o.val+'</option>'; }).join('');
-      return '<div class="time-select-pair">'+
-        '<div class="select-wrap"><select name="'+name+'_h" style="margin-bottom:0;">'+hOpts+'</select></div>'+
-        '<span class="time-sep-colon">:</span>'+
-        '<div class="select-wrap"><select name="'+name+'_m" style="margin-bottom:0;">'+mOpts+'</select></div>'+
-      '</div>';
+      return '<div class="select-wrap"><select name="'+name+'" style="margin-bottom:0;">'+timeOpts+'</select></div>';
     }
     [1,2,3].forEach(function(n){
       var row = document.createElement('div');
