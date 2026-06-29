@@ -1242,16 +1242,36 @@ h1,h2,h3{
 }
 .location-opt-label input:checked + .location-pill{ border-color:var(--indigo); background:rgba(63,63,240,0.07); color:var(--indigo); }
 /* Date grid */
-.date-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.date-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
 /* Form fields */
+.meet-card .field{ margin-bottom:0; }
 .meet-card .field label{ font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; font-family:var(--mono); color:rgba(22,21,39,0.5); display:block; margin-bottom:7px; }
 .meet-card .field input:not([type=radio]),
-.meet-card .field textarea{ width:100%; padding:11px 14px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:15px; font-family:var(--body); background:#fff; color:var(--ink); outline:none; transition:border-color 0.18s; box-sizing:border-box; }
+.meet-card .field textarea,
+.meet-card .field select{ width:100%; padding:11px 14px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:15px; font-family:var(--body); background:#fff; color:var(--ink); outline:none; transition:border-color 0.18s; box-sizing:border-box; -webkit-appearance:none; appearance:none; }
 .meet-card .field input[type=datetime-local]{ padding:10px 12px; font-size:14px; }
 .meet-card .field input:focus,
-.meet-card .field textarea:focus{ border-color:var(--indigo); }
+.meet-card .field textarea:focus,
+.meet-card .field select:focus{ border-color:var(--indigo); }
 .meet-card .field textarea{ min-height:90px; resize:vertical; }
 .meet-card .btn{ width:100%; justify-content:center; padding:16px; margin-top:4px; }
+/* Drink order panel */
+.drink-order-block{ background:rgba(63,63,240,0.04); border:2px solid rgba(63,63,240,0.18); border-radius:14px; padding:20px 22px 18px; margin-top:0; }
+.drink-order-block .meet-block-label{ color:var(--indigo); }
+.order-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.order-row:last-child{ margin-bottom:0; }
+/* Sugar pill buttons */
+.sugar-opts{ display:flex; gap:8px; flex-wrap:wrap; }
+.sugar-opt{ cursor:pointer; }
+.sugar-opt input{ position:absolute; opacity:0; pointer-events:none; }
+.sugar-pill{ display:inline-flex; align-items:center; justify-content:center; width:52px; height:40px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:14px; font-weight:700; font-family:var(--mono); color:var(--ink); transition:border-color 0.15s, background 0.15s, color 0.15s; }
+.sugar-opt input:checked + .sugar-pill{ border-color:var(--indigo); background:var(--indigo); color:#fff; }
+/* Free coffee badge */
+.free-coffee-badge{ display:inline-flex; align-items:center; gap:8px; background:var(--sunshine); border:2.5px solid var(--ink); border-radius:100px; padding:7px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); margin-bottom:20px; }
+/* Responsive */
+@media(max-width:920px){
+  .order-row{ grid-template-columns:1fr; }
+}
 /* Meet success */
 .meet-success{ display:none; padding:48px 32px; text-align:center; }
 .meet-success-icon{ width:56px; height:56px; border-radius:50%; background:var(--indigo); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
@@ -1953,6 +1973,7 @@ body{ overflow-x: hidden; }
   <div class="wrap">
     <span class="eyebrow" data-reveal>Let's Catch Up</span>
     <h2 data-reveal>Book a coffee meeting</h2>
+    <div data-reveal><span class="free-coffee-badge">☕ Free coffee on us</span></div>
     <p data-reveal>Our husband-and-wife-owned business is built on a decade of experience working in both schools and churches — so even if we haven't met yet, we know you deserve a coffee. Pick your drink, tell us when and where, and we'll lock in a time.</p>
 
     <div class="meet-card" data-reveal>
@@ -1986,6 +2007,27 @@ body{ overflow-x: hidden; }
           </div>
         </div>
 
+        <!-- Location (moved above details) -->
+        <div class="meet-block">
+          <span class="meet-block-label">Where would you like to meet?</span>
+          <div class="location-opts">
+            <label class="location-opt-label">
+              <input type="radio" name="location_type" value="school" checked id="locSchool">
+              <span class="location-pill">🏫 Meet at my school</span>
+            </label>
+            <label class="location-opt-label">
+              <input type="radio" name="location_type" value="custom" id="locCustom">
+              <span class="location-pill">📍 Suggest a place</span>
+            </label>
+          </div>
+          <div id="meetCustomLocation" style="display:none;margin-top:14px;">
+            <div class="field">
+              <label for="meetAddress">Address, café or paste a Google Maps link</label>
+              <input type="text" id="meetAddress" name="location" placeholder="e.g. Sayers Sister, Northbridge">
+            </div>
+          </div>
+        </div>
+
         <!-- Your details -->
         <div class="meet-block meet-row">
           <div class="field">
@@ -2008,23 +2050,117 @@ body{ overflow-x: hidden; }
           </div>
         </div>
 
-        <!-- Location -->
-        <div class="meet-block">
-          <span class="meet-block-label">Where would you like to meet?</span>
-          <div class="location-opts">
-            <label class="location-opt-label">
-              <input type="radio" name="location_type" value="school" checked id="locSchool">
-              <span class="location-pill">🏫 Meet at my school</span>
-            </label>
-            <label class="location-opt-label">
-              <input type="radio" name="location_type" value="custom" id="locCustom">
-              <span class="location-pill">📍 Suggest a place</span>
-            </label>
-          </div>
-          <div id="meetCustomLocation" style="display:none;margin-top:14px;">
-            <div class="field">
-              <label for="meetAddress">Address, café or paste a Google Maps link</label>
-              <input type="text" id="meetAddress" name="location" placeholder="e.g. Sayers Sister, Northbridge">
+        <!-- Drink order (shows when meeting at school) -->
+        <div class="meet-block" id="drinkOrderBlock" style="display:none;">
+          <div class="drink-order-block">
+            <span class="meet-block-label">Your order — we're buying ☕</span>
+
+            <!-- Coffee order -->
+            <div id="coffeeOrder" style="display:none;">
+              <div class="order-row">
+                <div class="field">
+                  <label>Coffee type</label>
+                  <select name="coffee_type">
+                    <option>Flat White</option>
+                    <option>Latte</option>
+                    <option>Cappuccino</option>
+                    <option>Long Black</option>
+                    <option>Espresso</option>
+                    <option>Macchiato</option>
+                    <option>Mocha</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Milk</label>
+                  <select name="coffee_milk">
+                    <option>Full Cream</option>
+                    <option>Skim</option>
+                    <option>Oat</option>
+                    <option>Almond</option>
+                    <option>Soy</option>
+                    <option>Lactose Free</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>Sugars</label>
+                <div class="sugar-opts">
+                  <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="0" checked><span class="sugar-pill">0</span></label>
+                  <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="1"><span class="sugar-pill">1</span></label>
+                  <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="2"><span class="sugar-pill">2</span></label>
+                  <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hot chocolate order -->
+            <div id="hotChocOrder" style="display:none;">
+              <div class="order-row">
+                <div class="field">
+                  <label>Style</label>
+                  <select name="hotchoc_style">
+                    <option>Regular</option>
+                    <option>Dark Chocolate</option>
+                    <option>White Chocolate</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Milk</label>
+                  <select name="hotchoc_milk">
+                    <option>Full Cream</option>
+                    <option>Skim</option>
+                    <option>Oat</option>
+                    <option>Almond</option>
+                    <option>Soy</option>
+                    <option>Lactose Free</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>Sugars</label>
+                <div class="sugar-opts">
+                  <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="0" checked><span class="sugar-pill">0</span></label>
+                  <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="1"><span class="sugar-pill">1</span></label>
+                  <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="2"><span class="sugar-pill">2</span></label>
+                  <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tea order -->
+            <div id="teaOrder" style="display:none;">
+              <div class="order-row">
+                <div class="field">
+                  <label>Tea type</label>
+                  <select name="tea_type">
+                    <option>English Breakfast</option>
+                    <option>Earl Grey</option>
+                    <option>Green Tea</option>
+                    <option>Chamomile</option>
+                    <option>Peppermint</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Milk</label>
+                  <select name="tea_milk">
+                    <option>No milk</option>
+                    <option>Full Cream</option>
+                    <option>Oat</option>
+                    <option>Almond</option>
+                    <option>Soy</option>
+                    <option>Skim</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label>Sugars</label>
+                <div class="sugar-opts">
+                  <label class="sugar-opt"><input type="radio" name="tea_sugars" value="0" checked><span class="sugar-pill">0</span></label>
+                  <label class="sugar-opt"><input type="radio" name="tea_sugars" value="1"><span class="sugar-pill">1</span></label>
+                  <label class="sugar-opt"><input type="radio" name="tea_sugars" value="2"><span class="sugar-pill">2</span></label>
+                  <label class="sugar-opt"><input type="radio" name="tea_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2033,9 +2169,9 @@ body{ overflow-x: hidden; }
         <div class="meet-block">
           <span class="meet-block-label">Suggest a few dates &amp; times <span style="font-weight:400;opacity:0.55;">(give us options and we'll confirm one)</span></span>
           <div class="date-grid">
-            <div class="field"><label for="meetDate1">Option 1</label><input type="datetime-local" id="meetDate1" name="date_option_1"></div>
-            <div class="field"><label for="meetDate2">Option 2</label><input type="datetime-local" id="meetDate2" name="date_option_2"></div>
-            <div class="field"><label for="meetDate3">Option 3</label><input type="datetime-local" id="meetDate3" name="date_option_3"></div>
+            <div class="field"><label for="meetDate1">Option 1</label><input type="datetime-local" id="meetDate1" name="date_option_1" style="margin-bottom:0;"></div>
+            <div class="field"><label for="meetDate2">Option 2</label><input type="datetime-local" id="meetDate2" name="date_option_2" style="margin-bottom:0;"></div>
+            <div class="field"><label for="meetDate3">Option 3</label><input type="datetime-local" id="meetDate3" name="date_option_3" style="margin-bottom:0;"></div>
           </div>
         </div>
 
@@ -2083,7 +2219,8 @@ body{ overflow-x: hidden; }
           <span class="ic">✉️</span>
           <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
         </div>
-        <a href="urban-echo-emergency.vcf" class="btn btn-green" style="margin-bottom:18px;" download>📱 Save Our Number</a>
+        <a href="urban-echo-emergency.vcf" class="btn btn-green" style="margin-bottom:12px;" download>📱 Save Our Number</a>
+        <a href="#meet" class="btn btn-blue" style="margin-bottom:18px;">☕ Get a Coffee With Us</a>
         <div class="contact-detail contact-social">
           <a href="https://www.facebook.com/urbanecho.perth" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
@@ -2250,12 +2387,25 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var meetSubmit  = document.getElementById('meetSubmitBtn');
   if(!meetForm) return;
 
-  // Location toggle
-  document.querySelectorAll('input[name="location_type"]').forEach(function(r){
-    r.addEventListener('change', function(){
-      document.getElementById('meetCustomLocation').style.display = this.value === 'custom' ? 'block' : 'none';
-    });
-  });
+  // Update drink order panel based on drink + location selection
+  function updateDrinkOrder(){
+    var drink    = (document.querySelector('input[name="drink"]:checked') || {}).value;
+    var locType  = (document.querySelector('input[name="location_type"]:checked') || {}).value;
+    var block    = document.getElementById('drinkOrderBlock');
+    var customLoc= document.getElementById('meetCustomLocation');
+    // Custom location address field
+    customLoc.style.display = locType === 'custom' ? 'block' : 'none';
+    // Drink order block only when meeting at school
+    block.style.display = locType === 'school' ? 'block' : 'none';
+    // Show correct order panel
+    document.getElementById('coffeeOrder').style.display  = (locType === 'school' && drink === 'Coffee') ? 'block' : 'none';
+    document.getElementById('hotChocOrder').style.display = (locType === 'school' && drink === 'Hot Chocolate') ? 'block' : 'none';
+    document.getElementById('teaOrder').style.display     = (locType === 'school' && drink === 'Tea') ? 'block' : 'none';
+  }
+
+  document.querySelectorAll('input[name="drink"]').forEach(function(r){ r.addEventListener('change', updateDrinkOrder); });
+  document.querySelectorAll('input[name="location_type"]').forEach(function(r){ r.addEventListener('change', updateDrinkOrder); });
+  updateDrinkOrder(); // run on load
 
   // Form submit
   meetForm.addEventListener('submit', async function(e){
