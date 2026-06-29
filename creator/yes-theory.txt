@@ -1,0 +1,710 @@
+3:I[9275,[],""]
+5:I[1343,[],""]
+4:["id","yes-theory","d"]
+0:["POwvKxyArhYhJPxAvWH1K",[[["",{"children":["creator",{"children":[["id","yes-theory","d"],{"children":["__PAGE__?{\"id\":\"yes-theory\"}",{}]}]}]},"$undefined","$undefined",true],["",{"children":["creator",{"children":[["id","yes-theory","d"],{"children":["__PAGE__",{},[["$L1","$L2"],null],null]},["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","creator","children","$4","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","notFoundStyles":"$undefined","styles":null}],null]},["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children","creator","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","notFoundStyles":"$undefined","styles":null}],null]},[["$","html",null,{"lang":"en","className":"dark","children":["$","body",null,{"children":["$","$L3",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":"404"}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],"notFoundStyles":[],"styles":null}]}]}],null],null],[[["$","link","0",{"rel":"stylesheet","href":"/Urban-Echo/_next/static/css/2fdf6b0ce93ed514.css","precedence":"next","crossOrigin":"$undefined"}]],[null,"$L6"]]]]]
+6:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","1",{"charSet":"utf-8"}],["$","title","2",{"children":"Creator Feed"}],["$","meta","3",{"name":"description","content":"Your curated, ad-free creator feed"}]]
+1:null
+7:I[4289,["313","static/chunks/313-cdb65c2b3cc9fd99.js","215","static/chunks/app/creator/%5Bid%5D/page-a4a65d33f8f300f9.js"],"default"]
+8:I[2773,["313","static/chunks/313-cdb65c2b3cc9fd99.js","215","static/chunks/app/creator/%5Bid%5D/page-a4a65d33f8f300f9.js"],"default"]
+9:Tb16,Download Airalo today and get 20% off your first eSIM with code YESTHEORY20 for a limited time: https://try.airalo.com/Yestheory
+
+Thank you to @QuentinBuggia for having helped us capture this experience!
+
+Major shout-out to Katie for supporting us through Seek Discomfort and joining us on this adventure!!
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Mélida Berton
+Production Coordinator: Beatrice Longoa:Tbc0,Use code YESTHEORY at the link below and get 60% off an annual plan: https://incogni.com/yestheory
+
+Is there anyone living alone in the Amazon? A few months ago we asked ourselves this question, and it started a wild search for months across the wildest place on earth which took us here.. We hope you enjoy our story :)
+
+Thank you to the Amazing Dudu and Caren for helping us pull off this wild adventure.
+
+Thank you to @CorySMartin who never misses with his cinematography!!
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Mélida Berton
+Production Coordinator: Beatrice Longob:Tc1a,Get an exclusive 20% discount on your first Airalo eSIM by using YESTHEORY20 code at the checkout: https://try.airalo.com/yestheory
+
+Welcome to South America's least visited and least known countries. We travel here with the hope to understand these isolated places and look to meet the humans to live here. Shout-out to the amazing humans we met in both countries.
+
+Thank you to @CorySMartin for capturing this experience alongside us.
+
+Highly recommend watching @Lost_in_Context highly insightful series on the Guiana's:
+https://www.youtube.com/watch?v=iaR53L2CFN0
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Mélida Berton
+Production Coordinator: Beatrice Longoc:Tc03,Go to https://surfshark.com/yestheory or use code YESTHEORY at checkout to get 4 extra months of Surfshark VPN!
+We venture into the very far North of Japan, in search of lost stories, of an unresolved conflict dating all the way back to WW2.. Join us as we explore and seek to meet the humans who live here and still remember the stories.
+
+Thank you to Kai @bykaiotomo for being our master translator and fixer in Japan!!
+
+Thank you to Daiki Shinomiya for helping us capture this experience! Follow his work here:
+www.instagram.com/daiki.shino
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Mélida Berton
+Production Coordinator: Beatrice Longod:Tbf8,Head to https://betterhelp.com/yestheory to get 10% off your first month with our sponsor, BetterHelp. Therapy can be a meaningful space to reflect, grow, and create positive change in your life.
+
+Follow and support Kira's work:
+https://www.instagram.com/earthkira
+Her website for a Japan countryside experience! https://www.kirameki.earth/
+
+Follow Ami's work:
+https://www.instagram.com/sumizumi.llc/
+And book her Airbnb we stayed in here!
+https://www.airbnb.com/rooms/1398188258838985134
+
+Thank you to our friend and cinematographer @CorySMartin for always bringing these stories to life.
+
+Follow our friend Kai's YouTube Channel!! @bykaiotomo 
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Mélida Berton
+Production Coordinator: Beatrice Longoe:Tcd4,This episode of Abandoned in pushes us past our comfort zones in every way - and we partnered with Brooks Running to help us take that leap. The Brooks Glycerin Flex is built for softness and support when you’re stepping into the unknown, physically or mentally.
+
+Get yours here: https://www.brooksrunning.com/en_us/featured/glycerin/mens/?tid=inf:yt:mega:targeted:Pm1x:USA:YesTheory
+
+Thank you to the incredible @AnnaCramling for being such a champion. After years, she finally proved that a Yes Theory challenge, with the right energy, intention and of course mindful precautions, is in fact available to all. Hope you all enjoyed this wild ride :)
+
+Thank you to https://www.youtube.com/@thehumanchris/ for having helped us capture this experience.
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Mélida Berton
+Production Coordinator: Beatrice Longof:Tb74,Join Revolut and get $40 here https://get.revolut.com/z4lF/YesTheory!  
+
+Offer expires 6 months from 04/05/2026. Exclusions apply. $40 bonus paid by Revolut subject to the terms and conditions found: http://revolut.com/en-US/legal/partner-sign-up-bonus/
+
+Link to Simon Bebe's Music!!
+https://www.youtube.com/watch?v=WwtMho1ay8o
+
+Thank you to our friend @CorySMartin for helping us capture this story.
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Mélida Berton
+Production Coordinator: Beatrice Longo10:Tc76,Take your personal data back with Incogni! Use code YESTHEORY at the link below and get 60% off an annual plan: https://incogni.com/yestheory
+New Seek Discomfort Questions Drop and re-launch of SPARK! http://seek-discomfort.com/
+
+DISCLAIMER: this video was filmed before the war in the Middle East broke out. We pray for a world at peace. ￼
+
+Asking Strangers is back! Bringing back an old-school Yes Theory concept, taking a stranger on an adventure. What did we think of this story??
+
+Thank you so much to Angama Mara for a truly life-changing experience at their Lodge. If you want to experience the best of the best when it comes to Safaris, we couldn't recommend them more:
+https://angama.com/
+
+Follow Waqar’s Journey Here!
+https://www.instagram.com/waqar453445
+
+Thank you to @CorySMartin for capturing this story so beautifully.
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producers: Beatrice Longo, Melida Berton11:Tb4b,Go to https://surfshark.com/yestheory or use code YESTHEORY at checkout to get 4 extra months of Surfshark VPN!
+
+We travel to two of our favorite countries, Pakistan and India, with the goal of not booking a place to stay... 
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+Thank you to Quentin Buggia for having helped us capture this experience (https://youtube.com/@QuentinBuggia?si=MrG8PgK_XGkE4Xml)
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Alexandra Zdrinca
+Production Coordinator: Beatrice Longo12:Tad4,Use Code YESTHEORY to get $3 off your eSIM with Airalo and download here: https://try.airalo.com/Yestheory
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+Thank you to Quentin Buggia for having helped us capture this experience (https://youtube.com/@QuentinBuggia?si=MrG8PgK_XGkE4Xml)
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Alexandra Zdrinca
+Production Coordinator: Beatrice Longo13:Tcdf,Tune in to Fear Factor: House of Fear Wednesdays at 9/8c on FOX, and the next day on Hulu. 
+
+Follow our friends the @StoltmanBrothers on YouTube and find them both on Instagram here:
+https://www.instagram.com/tomstoltmanofficial
+https://www.instagram.com/luke.stoltman
+
+Major shout-out to Patrik (Staffan's brother) for being so courageous & vulnerable. We are sending him endless love on his powerful journey of transformation:
+https://www.instagram.com/patrik_taylor
+
+And thank you to our cinematographer & dear friend Quentin for helping us capture this experience:
+https://www.instagram.com/buggia__
+
+Scattered around Scotland are endless abandoned castles. We venture into the unknown to explore them and their mysterious past alongside a legendary group.
+
+Who are we? 
+We believe life’s greatest moments and deepest connections exist outside your comfort zone.
+
+🙏🏼 Thank you for making these videos possible through your support of Seek Discomfort 
+⚡️ SEEK DISCOMFORT: http://seek-discomfort.com/yes-theory
+
+LISTEN TO OUR PODCAST!  @yestheorypodcast 
+https://www.youtube.com/@yestheorypodcast
+
+JOIN OUR COMMUNITY
+⁺ Seek Discomfort: https://www.youtube.com/seekdiscomfort
+📸 Instagram -  https://www.instagram.com/yestheory/
+🐦 Twitter - https://twitter.com/yestheory
+🎬  Facebook- https://www.facebook.com/yestheory/
+📱TikTok - https://www.tiktok.com/@yestheory/
+
+☮️ If you want to join the Yes Fam Facebook group which is 100,000+ of our most engaged and badass community members, you can apply here: 
+https://www.facebook.com/groups/yesfam/
+
+We’re partners with our favorite hotel in the world, CitizenM. Check them out here: https://shorturl.at/9wa1W
+
+🎥 HOW WE MAKE OUR VIDEOS
+
+🎵 Where we find our music:
+1- Epidemic Sound. Amazing royalty free music for YouTube. Free 30 day trial here: http://share.epidemicsound.com/wFFbr  
+
+2- Musicbed. Amazing label-quality cinematic music. 30-day free trial here:
+http://share.mscbd.fm/YesTheory​
+
+3- Artlist. 2 Months Free High Quality Music: https://artlist.io/artlist-70446/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+
+4- Soundstripe: Get 15% off by using the code YESTHEORY at the link https://soundstripe.com?fpr=yestheory
+
+🎞 Our b-roll and stock footage:
+2 Months Free Stock Footage Videos: https://artgrid.io/artgrid-114820/?artlist_aid=YesTheory_593&utm_source=affiliate_p&utm_medium=YesTheory_593&utm_campaign=YesTheory_593
+For an amazing b-roll and footage library, checkout:  http://www.storyblocks.com/YesTheory
+
+📈  Our Most Popular YouTube Videos
+🎬  Traveling to the least visited country in the world: https://youtu.be/ODuEl4oNae0
+🎬  Becoming Superhuman with Iceman Wim Hof: https://youtu.be/8cvhwquPqJ0
+🎬  We Helicopter Bungee Jumped with Will Smith: https://youtu.be/KSu6gRp7UBA
+
+🎙 The Yes Theory Podcast: https://spoti.fi/3sFdq6v
+
+GET IN TOUCH
+🌍 Our website -  http://www.yestheory.com 
+🌍 Advertise With Us - partnerships@yestheory.com
+🌍 Production - production@yestheory.com 
+
+Ask us a Question:
+Tweet us @yestheory
+
+Hosts: Thomas Brag, Ammar Kandil, Staffan Taylor, Thomas Dajer
+Editors: Thomas Dajer, Cam Peddle, Driaan Louw, Alan Haljeta
+Producer: Alexandra Zdrinca
+Production Coordinator: Beatrice Longo2:["$","div",null,{"className":"flex min-h-screen","children":[["$","$L7",null,{}],["$","main",null,{"className":"ml-60 flex-1 p-6 md:p-8","children":[["$","div",null,{"className":"mb-7","children":[["$","h2",null,{"className":"text-xl font-semibold text-white","children":"Yes Theory"}],["$","div",null,{"className":"flex items-center gap-3 mt-2","children":[["$","a",null,{"href":"https://youtube.com/@yestheory","target":"_blank","rel":"noopener noreferrer","className":"flex items-center gap-1.5 text-xs text-neutral-500 hover:text-neutral-300 transition-colors","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-youtube","children":[["$","path","1q2vi4",{"d":"M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"}],["$","path","1jp15x",{"d":"m10 15 5-3-5-3z"}],"$undefined"]}],["$","span",null,{"children":"@yestheory"}],["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":11,"height":11,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-external-link","children":[["$","path","1q9fwt",{"d":"M15 3h6v6"}],["$","path","gplh6r",{"d":"M10 14 21 3"}],["$","path","a6xqqp",{"d":"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"}],"$undefined"]}]]}],["$","a",null,{"href":"https://instagram.com/yestheory","target":"_blank","rel":"noopener noreferrer","className":"flex items-center gap-1.5 text-xs text-neutral-500 hover:text-neutral-300 transition-colors","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":13,"height":13,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-instagram","children":[["$","rect","2e1cvw",{"width":"20","height":"20","x":"2","y":"2","rx":"5","ry":"5"}],["$","path","9exkf1",{"d":"M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"}],["$","line","r4j83e",{"x1":"17.5","x2":"17.51","y1":"6.5","y2":"6.5"}],"$undefined"]}],["$","span",null,{"children":["@","yestheory"]}],["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":11,"height":11,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-external-link","children":[["$","path","1q9fwt",{"d":"M15 3h6v6"}],["$","path","gplh6r",{"d":"M10 14 21 3"}],["$","path","a6xqqp",{"d":"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"}],"$undefined"]}]]}]]}]]}],["$","div",null,{"className":"mb-7","children":[["$","p",null,{"className":"text-xs uppercase tracking-widest text-neutral-600 font-medium mb-3","children":"Instagram"}],["$","div",null,{"className":"max-w-sm","children":["$","a",null,{"href":"https://www.instagram.com/yestheory/","target":"_blank","rel":"noopener noreferrer","className":"flex items-center gap-3 p-3 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] hover:border-[#3a3a3a] hover:bg-[#1e1e1e] transition-colors group","children":[["$","div",null,{"className":"w-9 h-9 rounded-full bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center flex-shrink-0","children":["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":16,"height":16,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-instagram text-white","children":[["$","rect","2e1cvw",{"width":"20","height":"20","x":"2","y":"2","rx":"5","ry":"5"}],["$","path","9exkf1",{"d":"M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"}],["$","line","r4j83e",{"x1":"17.5","x2":"17.51","y1":"6.5","y2":"6.5"}],"$undefined"]}]}],["$","div",null,{"className":"flex-1 min-w-0","children":[["$","p",null,{"className":"text-sm font-medium text-neutral-200 group-hover:text-white transition-colors","children":["@","yestheory"]}],["$","p",null,{"className":"text-xs text-neutral-500","children":["Yes Theory"," on Instagram"]}]]}],["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":14,"height":14,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-external-link text-neutral-600 group-hover:text-neutral-400 transition-colors flex-shrink-0","children":[["$","path","1q9fwt",{"d":"M15 3h6v6"}],["$","path","gplh6r",{"d":"M10 14 21 3"}],["$","path","a6xqqp",{"d":"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"}],"$undefined"]}]]}]}]]}],["$","div",null,{"children":[["$","p",null,{"className":"text-xs uppercase tracking-widest text-neutral-600 font-medium mb-4","children":"Latest Videos"}],["$","$L8",null,{"videos":[{"id":"O021eXJ7qfE","title":"Traveling to Europe's Most Remote Island Airport (Impossible to Reach)","description":"$9","publishedAt":"2026-06-28T16:00:06+00:00","thumbnail":"https://i4.ytimg.com/vi/O021eXJ7qfE/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":455888},{"id":"dpHpKeXm-B0","title":"\"he's crazy\" - We Found a Man Living Alone in the Amazon (39 years isolated)","description":"$a","publishedAt":"2026-06-21T16:00:07+00:00","thumbnail":"https://i1.ytimg.com/vi/dpHpKeXm-B0/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":2488008},{"id":"LWiNBT22gOI","title":"Why Does Nobody Travel to South America's Strangest Countries?","description":"$b","publishedAt":"2026-05-31T16:00:23+00:00","thumbnail":"https://i1.ytimg.com/vi/LWiNBT22gOI/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":1562833},{"id":"2PB1ti2hFTM","title":"Exploring Japan's Remote Border with Russia (no one comes here)","description":"$c","publishedAt":"2026-05-24T16:00:02+00:00","thumbnail":"https://i3.ytimg.com/vi/2PB1ti2hFTM/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":1467936},{"id":"PApu9YFk1HI","title":"Why Does Japan Have 9,000,000 Abandoned Homes?","description":"$d","publishedAt":"2026-05-03T16:00:42+00:00","thumbnail":"https://i1.ytimg.com/vi/PApu9YFk1HI/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":3115144},{"id":"2Qrxj5N_eYE","title":"Abandoned in Germany with $0 for 24 Hours (Man vs. Woman)","description":"$e","publishedAt":"2026-04-26T16:00:07+00:00","thumbnail":"https://i3.ytimg.com/vi/2Qrxj5N_eYE/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":1256824},{"id":"IEIBXM1YwO8","title":"50 Hours on Europe's Most Dangerous Island","description":"$f","publishedAt":"2026-04-05T16:00:25+00:00","thumbnail":"https://i2.ytimg.com/vi/IEIBXM1YwO8/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":3169085},{"id":"w9oxLSRy-zc","title":"We Took Our Food Delivery Man on His First Vacation","description":"$10","publishedAt":"2026-03-22T17:01:16+00:00","thumbnail":"https://i4.ytimg.com/vi/w9oxLSRy-zc/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":1591856},{"id":"8_wiuDd691s","title":"24 Hours in 2 Countries that Hate Each Other","description":"$11","publishedAt":"2026-03-01T17:00:09+00:00","thumbnail":"https://i1.ytimg.com/vi/8_wiuDd691s/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":2681924},{"id":"C_2cE21MM7s","title":"Inside Pakistan’s Most Dangerous City (surreal)","description":"$12","publishedAt":"2026-02-15T17:00:27+00:00","thumbnail":"https://i4.ytimg.com/vi/C_2cE21MM7s/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":2944205},{"id":"_Ul2V3Dj2Mo","title":"Exploring Scotland's Forgotten Castles with Giants","description":"$13","publishedAt":"2026-01-18T17:00:56+00:00","thumbnail":"https://i4.ytimg.com/vi/_Ul2V3Dj2Mo/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":1287900},{"id":"1AlPe9RAYwQ","title":"Will Smith Surprising My Egyptian Dad!","description":"","publishedAt":"2026-01-15T17:03:45+00:00","thumbnail":"https://i2.ytimg.com/vi/1AlPe9RAYwQ/hqdefault.jpg","channelName":"Yes Theory","creatorId":"yes-theory","views":161377}]}]]}]]}]]}]
