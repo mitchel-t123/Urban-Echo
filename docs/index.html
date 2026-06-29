@@ -1188,13 +1188,24 @@ h1,h2,h3{
 .contact-method-opt{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:15px; cursor:pointer; }
 .form-success{
   display:none;
-  text-align:center;
-  padding: 40px 20px;
+  padding: 36px 32px 32px;
 }
-.form-success img{ width:220px; margin:0 auto 20px; }
-.form-success h3{ font-family:var(--body); text-transform:none; letter-spacing:0; font-size:20px; margin-bottom:8px; }
-.form-success p{ font-size:14.5px; color: rgba(22,21,39,0.65); margin-bottom:20px; }
-.form-success-back{ background:none; border:none; cursor:pointer; font-family:var(--body); font-weight:700; font-size:12px; color:var(--indigo); text-decoration:underline; padding:0; }
+.form-success-icon{
+  width:56px; height:56px; border-radius:50%;
+  background:var(--forest); display:flex; align-items:center; justify-content:center;
+  margin-bottom:20px;
+}
+.form-success-icon svg{ display:block; }
+.form-success-eyebrow{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--forest); margin-bottom:8px; }
+.form-success h3{ font-family:var(--display); text-transform:none; letter-spacing:0; font-size:22px; font-weight:700; margin-bottom:10px; color:var(--ink); line-height:1.25; }
+.form-success-body{ font-size:14.5px; color:rgba(22,21,39,0.65); margin-bottom:24px; line-height:1.6; }
+.form-success-body strong{ color:var(--ink); font-weight:600; }
+.form-success-divider{ height:1px; background:rgba(22,21,39,0.1); margin-bottom:20px; }
+.form-success-contact{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.form-success-contact span{ font-size:13px; color:rgba(22,21,39,0.55); }
+.form-success-contact a{ font-family:var(--mono); font-size:12px; font-weight:700; color:var(--indigo); text-decoration:none; letter-spacing:0.04em; }
+.form-success-contact a:hover{ text-decoration:underline; }
+.form-success-back{ background:none; border:none; cursor:pointer; font-family:var(--mono); font-weight:700; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(22,21,39,0.4); padding:0; }
 
 /* ============ FOOTER ============ */
 .footer{
@@ -1959,13 +1970,23 @@ body{ overflow-x: hidden; }
               </label>
             </div>
           </div>
+          <input type="hidden" name="_replyto" id="formReplyTo">
+          <input type="hidden" name="_autoresponse" value="Hi there, thanks for reaching out to Urban Echo! We've received your enquiry and Mitchel will be in touch within one business day. In the meantime, feel free to call us on 0429 660 186. — Urban Echo Team">
           <button type="submit" class="btn btn-orange">Send Enquiry</button>
         </form>
 
         <div class="form-success" id="formSuccess">
-          <img src="mascot tea happy.png" alt="">
-          <h3>Got it — thanks!</h3>
-          <p>We'll be in touch within one business day.</p>
+          <div class="form-success-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <p class="form-success-eyebrow">Enquiry received</p>
+          <h3>Thanks<span id="successName"></span> — we'll be in touch.</h3>
+          <p class="form-success-body">Your enquiry has landed with Mitchel. We aim to respond within one business day.<br>A confirmation has been sent to <strong id="successEmail"></strong>.</p>
+          <div class="form-success-divider"></div>
+          <div class="form-success-contact">
+            <span>Need to reach us sooner?</span>
+            <a href="tel:0429660186">Call 0429 660 186</a>
+          </div>
           <button class="form-success-back" id="formSuccessBack">← Submit another enquiry</button>
         </div>
       </div>
@@ -2007,6 +2028,10 @@ form.addEventListener('submit', async function(e){
   e.preventDefault();
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sending…';
+  // Mirror email into _replyto for auto-reply
+  const emailVal = form.querySelector('#email').value.trim();
+  const nameVal  = form.querySelector('#name').value.trim();
+  document.getElementById('formReplyTo').value = emailVal;
   try {
     const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
       method: 'POST',
@@ -2014,6 +2039,10 @@ form.addEventListener('submit', async function(e){
       headers: { 'Accept': 'application/json' }
     });
     if(res.ok){
+      // Personalise success state
+      const firstName = nameVal.split(' ')[0];
+      document.getElementById('successName').textContent = firstName ? ', ' + firstName : '';
+      document.getElementById('successEmail').textContent = emailVal;
       form.style.display = 'none';
       success.style.display = 'block';
     } else {
