@@ -1245,7 +1245,7 @@ h1,h2,h3{
 .date-grid{ display:flex; flex-direction:column; gap:12px; }
 .date-row{ display:grid; grid-template-columns:1fr 1fr auto 1fr; align-items:end; gap:10px; }
 .date-row .field{ margin-bottom:0; }
-.date-row input{ margin-bottom:0; }
+.date-row input{ margin-bottom:0; width:100%; box-sizing:border-box; }
 .time-range-sep{ font-size:11px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; padding:0 2px; padding-bottom:13px; }
 .pac-container{ border:2px solid rgba(22,21,39,0.18); border-radius:10px; box-shadow:4px 4px 0 rgba(22,21,39,0.08); font-family:var(--body); margin-top:4px; }
 .pac-item{ padding:8px 14px; font-size:14px; cursor:pointer; }
@@ -2418,8 +2418,11 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
         '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'role" placeholder="Role (e.g. Business Manager)" style="margin-bottom:0;"></div>' +
       '</div>';
 
+    var headerRowHtml = idx === 1 ? '' :
+      '<div class="person-order-header"><span class="person-order-label" data-header>' + defaultHeaderLabel + '</span>' + removeBtnHtml + '</div>';
+
     personEl.innerHTML =
-      '<div class="person-order-header"><span class="person-order-label" data-header>' + defaultHeaderLabel + '</span>' + removeBtnHtml + '</div>' +
+      headerRowHtml +
       nameRoleHtml +
       drinkPickHtml +
       '<div class="person-drink-detail"></div>';
