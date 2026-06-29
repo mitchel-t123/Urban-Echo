@@ -644,6 +644,38 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
   </div>
 </section>
 
+<!-- SUGGEST AN ISSUE -->
+<section style="background:var(--paper);border-top:3px solid var(--ink);padding:64px 0 72px;">
+  <div class="wrap" style="max-width:600px;">
+    <span style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);display:block;margin-bottom:10px;">Can't find what you need?</span>
+    <h2 style="font-family:var(--display);font-size:clamp(24px,3.5vw,38px);margin-bottom:12px;line-height:1.05;">Suggest an issue for us to cover</h2>
+    <p style="font-size:15px;color:rgba(22,21,39,0.62);margin-bottom:32px;line-height:1.6;">Tell us what problem you're having and we'll add a fix to the tool.</p>
+
+    <form id="suggestForm" novalidate>
+      <div class="field" style="margin-bottom:18px;">
+        <label style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Your name</label>
+        <input type="text" name="name" placeholder="e.g. Sarah" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
+      </div>
+      <div class="field" style="margin-bottom:18px;">
+        <label style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Email</label>
+        <input type="email" name="email" placeholder="you@school.edu.au" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
+      </div>
+      <div class="field" style="margin-bottom:26px;">
+        <label style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Describe the issue</label>
+        <textarea name="description" rows="4" placeholder="What problem are you trying to solve? The more detail, the better." style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;transition:border-color 0.15s;" required></textarea>
+      </div>
+      <button type="submit" id="suggestSubmit" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:15px;font-weight:700;cursor:pointer;transition:background 0.15s,transform 0.15s;">
+        Suggest this issue →
+      </button>
+    </form>
+
+    <div id="suggestSuccess" style="display:none;margin-top:28px;padding:24px 28px;background:#f0fdf4;border:2px solid #16a34a;border-radius:14px;">
+      <p style="font-weight:700;font-size:16px;margin:0 0 6px;color:#15803d;">✓ Thanks — suggestion received!</p>
+      <p style="font-size:14px;color:rgba(22,21,39,0.65);margin:0;">We'll review it and add a fix to the tool. We may reach out if we need more detail.</p>
+    </div>
+  </div>
+</section>
+
 <footer style="background:var(--ink);color:rgba(255,252,245,0.5);padding:0;height:72px;display:flex;align-items:center;border-top:1px solid rgba(255,252,245,0.12);font-size:13.5px;">
   <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-family:var(--mono);">
     <span>© 2026 Urban Echo. All rights reserved.</span>
@@ -1467,6 +1499,47 @@ function renderSteps(){
     diagSteps.appendChild(nav);
   }
 }
+
+// ── Suggest an issue form ──────────────────────────────────────────────────
+(function(){
+  var form    = document.getElementById('suggestForm');
+  var success = document.getElementById('suggestSuccess');
+  var btn     = document.getElementById('suggestSubmit');
+  if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name  = form.querySelector('[name="name"]').value.trim();
+    var email = form.querySelector('[name="email"]').value.trim();
+    var desc  = form.querySelector('[name="description"]').value.trim();
+    if(!name || !email || !desc) return;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    fetch('https://formspree.io/f/mlgyjyej', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Troubleshooting Tool Suggestion from ' + name,
+        name: name,
+        email: email,
+        suggestion: desc,
+        source: 'Troubleshooting Tool — Suggest an Issue'
+      })
+    }).then(function(r){
+      if(r.ok){
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Suggest this issue →';
+        alert('Something went wrong — please try again.');
+      }
+    }).catch(function(){
+      btn.disabled = false;
+      btn.textContent = 'Suggest this issue →';
+      alert('Something went wrong — please try again.');
+    });
+  });
+})();
 </script>
 
 </body>
