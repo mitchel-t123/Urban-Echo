@@ -1258,6 +1258,9 @@ h1,h2,h3{
 .meet-card .field input:not([type=radio]),
 .meet-card .field textarea,
 .meet-card .field select{ width:100%; padding:11px 14px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:15px; font-family:var(--body); background:#fff; color:var(--ink); outline:none; transition:border-color 0.18s; box-sizing:border-box; -webkit-appearance:none; appearance:none; }
+.select-wrap{ position:relative; display:block; }
+.select-wrap select{ padding-right:38px; }
+.select-wrap::after{ content:''; position:absolute; right:13px; top:50%; transform:translateY(-50%); width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid rgba(22,21,39,0.45); pointer-events:none; }
 .meet-card .field input[type=datetime-local]{ padding:10px 12px; font-size:14px; }
 .meet-card .field input:focus,
 .meet-card .field textarea:focus,
@@ -2027,7 +2030,7 @@ function initMeetPlaces(){
             <label class="drink-card-label">
               <input type="radio" name="drink" value="Tea" class="drink-radio">
               <div class="drink-card-inner">
-                <div class="drink-icon" style="background:#D9EDD9;">🍵</div>
+                <div class="drink-icon" style="background:#D9EDD9;">🫖</div>
                 <span class="drink-name">Tea</span>
               </div>
             </label>
@@ -2066,26 +2069,30 @@ function initMeetPlaces(){
               <div class="order-row">
                 <div class="field">
                   <label>Coffee type</label>
-                  <select name="coffee_type">
-                    <option>Flat White</option>
-                    <option>Latte</option>
-                    <option>Cappuccino</option>
-                    <option>Long Black</option>
-                    <option>Espresso</option>
-                    <option>Macchiato</option>
-                    <option>Mocha</option>
-                  </select>
+                  <div class="select-wrap">
+                    <select name="coffee_type">
+                      <option>Flat White</option>
+                      <option>Latte</option>
+                      <option>Cappuccino</option>
+                      <option>Long Black</option>
+                      <option>Espresso</option>
+                      <option>Macchiato</option>
+                      <option>Mocha</option>
+                    </select>
+                  </div>
                 </div>
                 <div class="field">
                   <label>Milk</label>
-                  <select name="coffee_milk">
-                    <option>Full Cream</option>
-                    <option>Skim</option>
-                    <option>Oat</option>
-                    <option>Almond</option>
-                    <option>Soy</option>
-                    <option>Lactose Free</option>
-                  </select>
+                  <div class="select-wrap">
+                    <select name="coffee_milk">
+                      <option>Full Cream</option>
+                      <option>Skim</option>
+                      <option>Oat</option>
+                      <option>Almond</option>
+                      <option>Soy</option>
+                      <option>Lactose Free</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="order-row">
@@ -2114,22 +2121,26 @@ function initMeetPlaces(){
               <div class="order-row">
                 <div class="field">
                   <label>Style</label>
-                  <select name="hotchoc_style">
-                    <option>Regular</option>
-                    <option>Dark Chocolate</option>
-                    <option>White Chocolate</option>
-                  </select>
+                  <div class="select-wrap">
+                    <select name="hotchoc_style">
+                      <option>Regular</option>
+                      <option>Dark Chocolate</option>
+                      <option>White Chocolate</option>
+                    </select>
+                  </div>
                 </div>
                 <div class="field">
                   <label>Milk</label>
-                  <select name="hotchoc_milk">
-                    <option>Full Cream</option>
-                    <option>Skim</option>
-                    <option>Oat</option>
-                    <option>Almond</option>
-                    <option>Soy</option>
-                    <option>Lactose Free</option>
-                  </select>
+                  <div class="select-wrap">
+                    <select name="hotchoc_milk">
+                      <option>Full Cream</option>
+                      <option>Skim</option>
+                      <option>Oat</option>
+                      <option>Almond</option>
+                      <option>Soy</option>
+                      <option>Lactose Free</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="order-row">
@@ -2158,24 +2169,28 @@ function initMeetPlaces(){
               <div class="order-row">
                 <div class="field">
                   <label>Tea type</label>
-                  <select name="tea_type">
-                    <option>English Breakfast</option>
-                    <option>Earl Grey</option>
-                    <option>Green Tea</option>
-                    <option>Chamomile</option>
-                    <option>Peppermint</option>
-                  </select>
+                  <div class="select-wrap">
+                    <select name="tea_type">
+                      <option>English Breakfast</option>
+                      <option>Earl Grey</option>
+                      <option>Green Tea</option>
+                      <option>Chamomile</option>
+                      <option>Peppermint</option>
+                    </select>
+                  </div>
                 </div>
                 <div class="field">
                   <label>Milk</label>
-                  <select name="tea_milk">
-                    <option>No milk</option>
-                    <option>Full Cream</option>
-                    <option>Oat</option>
-                    <option>Almond</option>
-                    <option>Soy</option>
-                    <option>Skim</option>
-                  </select>
+                  <div class="select-wrap">
+                    <select name="tea_milk">
+                      <option>No milk</option>
+                      <option>Full Cream</option>
+                      <option>Oat</option>
+                      <option>Almond</option>
+                      <option>Soy</option>
+                      <option>Skim</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="order-row">
