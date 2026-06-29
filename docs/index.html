@@ -1279,7 +1279,9 @@ h1,h2,h3{
 .sugar-pill{ display:inline-flex; align-items:center; justify-content:center; width:52px; height:40px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:14px; font-weight:700; font-family:var(--mono); color:var(--ink); transition:border-color 0.15s, background 0.15s, color 0.15s; }
 .sugar-opt input:checked + .sugar-pill{ border-color:var(--indigo); background:var(--indigo); color:#fff; }
 /* Free coffee badge */
-.free-coffee-badge{ display:inline-flex; align-items:center; gap:8px; background:rgba(22,21,39,0.1); border:2.5px solid var(--ink); border-radius:100px; padding:7px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); margin-bottom:20px; }
+.free-coffee-badge{ display:inline-flex; align-items:center; gap:8px; background:var(--sunshine); border:2.5px solid var(--ink); border-radius:100px; padding:7px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); margin-bottom:20px; }
+.btn-coffee{ background:var(--sunshine); color:var(--ink); border-color:var(--ink); }
+.btn-coffee:hover{ background:#f0b800; }
 /* Responsive */
 @media(max-width:920px){
   .order-row{ grid-template-columns:1fr; }
@@ -1606,7 +1608,7 @@ function initMeetPlaces(){
           </div>
         </div>
         <div class="hero-ctas hero-ctas-desktop">
-          <a href="#meet" class="btn btn-cream">☕ Let's Get Coffee</a>
+          <a href="#meet" class="btn btn-coffee">☕ Let's Get Coffee</a>
           <a href="#contact" class="btn btn-blue">Contact Us</a>
         </div>
       </div>
@@ -1645,7 +1647,7 @@ function initMeetPlaces(){
         </div>
         <!-- CTAs repeated for mobile — shown only on mobile, hidden on desktop -->
         <div class="hero-ctas hero-ctas-mobile">
-          <a href="#meet" class="btn btn-cream">☕ Let's Get Coffee</a>
+          <a href="#meet" class="btn btn-coffee">☕ Let's Get Coffee</a>
           <a href="#contact" class="btn btn-blue">Contact Us</a>
         </div>
       </div>
@@ -2322,7 +2324,7 @@ function initMeetPlaces(){
           <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
         </div>
         <a href="urban-echo-emergency.vcf" class="btn btn-green" style="margin-bottom:12px;" download>📱 Save Our Number</a>
-        <a href="#meet" class="btn btn-blue" style="margin-bottom:18px;">☕ Get a Coffee With Us</a>
+        <a href="#meet" class="btn btn-coffee" style="margin-bottom:18px;">☕ Get a Coffee With Us</a>
         <div class="contact-detail contact-social">
           <a href="https://www.facebook.com/urbanecho.perth" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
