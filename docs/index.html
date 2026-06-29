@@ -2104,7 +2104,7 @@ function initMeetPlaces(){
               <span class="location-pill">📍 Suggest a place</span>
             </label>
           </div>
-          <p id="drinkFirstHint" style="display:none;margin:8px 0 0;font-size:13px;color:var(--orange);font-family:var(--mono);">☝️ Pick your drink above first</p>
+          <p id="drinkFirstHint" style="display:none;margin:8px 0 0;font-size:13px;color:var(--orange);font-family:var(--mono);">☝️ Pick your drink above</p>
           <div id="meetCustomLocation" style="display:none;margin-top:14px;">
             <div class="field">
               <label for="meetAddress">Search for a café or address</label>
@@ -2552,23 +2552,19 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   });
 
   document.querySelectorAll('input[name="location_type"]').forEach(function(r){
-    r.addEventListener('click', function(e){
+    r.addEventListener('click', function(){
       var drinkSelected = document.querySelector('input[name="drink"]:checked');
       if(!drinkSelected){
-        e.preventDefault();
-        r.checked = false;
         if(drinkFirstHint){
           drinkFirstHint.style.display = 'block';
           drinkFirstHint.scrollIntoView({ behavior:'smooth', block:'nearest' });
         }
-        // Shake the drink section to draw attention
         var drinkPicker = document.querySelector('.drink-picker');
         if(drinkPicker){
           drinkPicker.classList.remove('shake-hint');
           void drinkPicker.offsetWidth;
           drinkPicker.classList.add('shake-hint');
         }
-        return;
       }
       updateDrinkOrder();
       expandMeetForm();
