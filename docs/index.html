@@ -581,10 +581,9 @@ h1,h2,h3{
 /* ── level colours ── */
 .stress-face[data-lvl="0"].active{ background:#22c55e; }
 .stress-face[data-lvl="1"].active{ background:#86efac; }
-.stress-face[data-lvl="2"].active{ background:#fb923c; }
+.stress-face[data-lvl="2"].active{ background:#facc15; }
 .stress-face[data-lvl="3"].active{ background:#f97316; }
-.stress-face[data-lvl="4"].active{ background:#ef4444; }
-.stress-face[data-lvl="5"].active{ background:#b91c1c; }
+.stress-face[data-lvl="4"].active{ background:#b91c1c; }
 
 /* Severity bar — always visible, grey until interacted with */
 .severity-bar{
@@ -1666,13 +1665,12 @@ function initMeetPlaces(){
         <!-- Stress face meter (interactive) -->
         <div class="stress-meter">
           <span class="stress-meter-label">Rate your sound &amp; AV stress to get a diagnosis</span>
-          <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" tabindex="0">
+          <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" tabindex="0">
             <div class="stress-face active" data-lvl="0">😌</div>
             <div class="stress-face" data-lvl="1">🙁</div>
             <div class="stress-face" data-lvl="2">😰</div>
             <div class="stress-face" data-lvl="3">😱</div>
-            <div class="stress-face" data-lvl="4">🤯</div>
-            <div class="stress-face" data-lvl="5">💀</div>
+            <div class="stress-face" data-lvl="4">💀</div>
           </div>
         </div>
         <!-- Card 1: Diagnosis + detail merged -->
@@ -2749,7 +2747,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'That sounds stressful',
       ansText:    'Even one AV headache is one too many. Urban Echo steps in so you don\'t have to think about it.',
       active:     true,
-      severity:   20,  barColor: '#86efac',
+      severity:   25,  barColor: '#86efac',
       stress:     1,   char1: 'calm',    char2: 'calm',
       treat:      { plan: 'Per-Event Package', link: '#packages', desc: 'Even one-off events deserve great sound. Book us for individual events with no lock-in.' },
     },
@@ -2759,7 +2757,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'We hear you',
       ansText:    'A pattern forming isn\'t your fault — it\'s a sign you need reliable support. That\'s exactly what Urban Echo provides.',
       active:     true,
-      severity:   40,  barColor: '#facc15',
+      severity:   50,  barColor: '#facc15',
       stress:     1,   char1: 'shocked', char2: 'calm',
       treat:      { plan: 'Termly Package', link: '#packages', desc: 'A pattern is forming. A termly package keeps your calendar stress-free all term long.' },
     },
@@ -2769,29 +2767,9 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'That\'s a lot to carry',
       ansText:    'Sound emergencies don\'t have to be your problem. Urban Echo is built for exactly this — let\'s talk.',
       active:     true,
-      severity:   60,  barColor: '#fb923c',
+      severity:   75,  barColor: '#fb923c',
       stress:     2,   char1: 'shocked', char2: 'worried',
       treat:      { plan: 'Per-Term Package', link: '#packages', desc: 'Cover every event across the full term — consistent, reliable sound without the scramble.' },
-    },
-    {
-      cardStatus: '🚨 DIAGNOSIS: CRITICAL',
-      cardDiag:   'Acute AV Overwhelm',
-      ansLabel:   'That\'s genuinely overwhelming',
-      ansText:    'Schools at this point need more than a quick fix. Urban Echo becomes your dedicated AV team so you can focus on what matters.',
-      active:     true,
-      severity:   67,  barColor: '#f97316',
-      stress:     2,   char1: 'shocked', char2: 'worried',
-      treat:      { plan: 'Term Plan', link: '#packages', desc: 'A term-by-term arrangement — consistent support without long-term lock-in.' },
-    },
-    {
-      cardStatus: '🆘 EMERGENCY',
-      cardDiag:   'Maximum AV Distress!',
-      ansLabel:   'You deserve better than this',
-      ansText:    'This is a full Sound Emergency. Urban Echo was made for schools like yours — let\'s sort this out together.',
-      active:     true,
-      severity:   83,  barColor: '#ef4444',
-      stress:     3,   char1: 'critical', char2: 'worried',
-      treat:      { plan: 'Yearly Plan', link: '#packages', desc: 'Full-year coverage — every event, every term, sorted. Our most popular option for busy schools.' },
     },
     {
       cardStatus: '🆘 CODE RED',
@@ -2810,18 +2788,13 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   function computeCheckboxScore(){
     var count = (ticked.has('0')?1:0) + (ticked.has('1')?1:0) + (ticked.has('2')?1:0)
               + (ticked.has('3')?1:0) + (ticked.has('4')?1:0);
-    // All 5 ticked → max out to 100%
-    return count === 5 ? 6 : count;
+    return Math.min(count, 4);
   }
 
   function updateUI(){
     var rawScore = meterOverride !== null ? meterOverride : computeCheckboxScore();
     // Mobile map only applies when meter is dragged, not for checkbox scoring
-    var score = rawScore;
-    if(meterOverride !== null && window.innerWidth <= 920){
-      var mobileMap = [0,1,3,6];
-      score = mobileMap[Math.min(rawScore, 3)];
-    }
+    var score = Math.min(rawScore, 4);
     const L = LEVELS[score];
 
     // Diagnostic card text
@@ -2906,11 +2879,11 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     function lvlFromX(clientX){
       const r = track.getBoundingClientRect();
       const pct = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
-      return Math.round(pct * 5);
+      return Math.round(pct * 4);
     }
 
     function setMeterLevel(lvl){
-      lvl = Math.max(0, Math.min(5, lvl));
+      lvl = Math.max(0, Math.min(4, lvl));
       meterOverride = lvl;
       updateUI();
       track.setAttribute('aria-valuenow', lvl);
