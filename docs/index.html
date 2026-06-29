@@ -2774,10 +2774,9 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var meterOverride = null; // set by stress meter drag; null = use checkbox count
 
   function computeCheckboxScore(){
-    // Major symptoms (endless events=3, no in-house guy=4) immediately max out
-    if(ticked.has('3') || ticked.has('4')) return 6;
-    // Minor symptoms (no time=0, feedback=1, multitasking=2) each add 1 point
-    return (ticked.has('0')?1:0) + (ticked.has('1')?1:0) + (ticked.has('2')?1:0);
+    // Each symptom adds 1 step to the meter
+    return (ticked.has('0')?1:0) + (ticked.has('1')?1:0) + (ticked.has('2')?1:0)
+         + (ticked.has('3')?1:0) + (ticked.has('4')?1:0);
   }
 
   function updateUI(){
@@ -2806,7 +2805,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     // Answer card — override text for major-symptom combinations
     var ansLabel = L.ansLabel;
     var ansText  = L.ansText;
-    if(meterOverride === null && score === 6){
+    if(meterOverride === null && score >= 4 && (ticked.has('3') || ticked.has('4'))){
       var hasEndless = ticked.has('3');
       var hasNoGuy   = ticked.has('4');
       if(hasEndless && hasNoGuy){
