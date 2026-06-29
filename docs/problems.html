@@ -512,6 +512,14 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
           <span class="cat-hint">No audio from laptop, video, or HDMI</span>
         </button>
       </div>
+
+      <!-- Can't find it prompt -->
+      <div style="margin-top:28px;padding-top:24px;border-top:1.5px solid rgba(22,21,39,0.1);display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);">Can't find what you need?</span>
+        <button id="openSuggestModal" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:transparent;border:2px solid var(--ink);border-radius:10px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer;transition:background 0.15s,color 0.15s;" onmouseover="this.style.background='var(--ink)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='inherit'">
+          ✏️ Suggest an issue for us to cover
+        </button>
+      </div>
     </div>
 
     <!-- Step 3: Problem picker -->
@@ -613,6 +621,37 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 
   </div>
 </section>
+
+<!-- SUGGEST MODAL -->
+<div id="suggestModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(22,21,39,0.55);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:36px 32px;max-width:520px;width:100%;position:relative;">
+    <button id="closeSuggestModal" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;line-height:1;color:rgba(22,21,39,0.45);">✕</button>
+    <span style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);display:block;margin-bottom:10px;">Can't find what you need?</span>
+    <h3 style="font-family:var(--display);font-size:24px;margin-bottom:8px;line-height:1.1;">Suggest an issue for us to cover</h3>
+    <p style="font-size:14px;color:rgba(22,21,39,0.6);margin-bottom:24px;line-height:1.5;">Tell us what problem you're running into and we'll add a fix to the tool.</p>
+    <form id="suggestModalForm" novalidate>
+      <div style="margin-bottom:16px;">
+        <label style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Your name</label>
+        <input type="text" name="name" placeholder="e.g. Sarah" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Email</label>
+        <input type="email" name="email" placeholder="you@school.edu.au" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Describe the issue</label>
+        <textarea name="description" rows="4" placeholder="What problem are you trying to solve? The more detail, the better." style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;transition:border-color 0.15s;" required></textarea>
+      </div>
+      <button type="submit" id="suggestModalSubmit" style="width:100%;padding:14px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:15px;font-weight:700;cursor:pointer;">
+        Suggest this issue →
+      </button>
+    </form>
+    <div id="suggestModalSuccess" style="display:none;margin-top:20px;padding:20px 24px;background:#f0fdf4;border:2px solid #16a34a;border-radius:12px;text-align:center;">
+      <p style="font-weight:700;font-size:16px;margin:0 0 6px;color:#15803d;">✓ Thanks — suggestion received!</p>
+      <p style="font-size:14px;color:rgba(22,21,39,0.65);margin:0;">We'll review it and may reach out if we need more detail.</p>
+    </div>
+  </div>
+</div>
 
 <!-- DIAGNOSIS PANEL -->
 <section class="diagnosis-panel" id="diagnosisPanel">
@@ -1500,7 +1539,57 @@ function renderSteps(){
   }
 }
 
-// ── Suggest an issue form ──────────────────────────────────────────────────
+// ── Suggest modal ─────────────────────────────────────────────────────────
+(function(){
+  var modal   = document.getElementById('suggestModal');
+  var openBtn = document.getElementById('openSuggestModal');
+  var closeBtn= document.getElementById('closeSuggestModal');
+  var form    = document.getElementById('suggestModalForm');
+  var success = document.getElementById('suggestModalSuccess');
+  var submitBtn = document.getElementById('suggestModalSubmit');
+  if(!modal) return;
+
+  function openModal(){ modal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+  function closeModal(){ modal.style.display = 'none'; document.body.style.overflow = ''; }
+
+  if(openBtn) openBtn.addEventListener('click', openModal);
+  if(closeBtn) closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name  = form.querySelector('[name="name"]').value.trim();
+    var email = form.querySelector('[name="email"]').value.trim();
+    var desc  = form.querySelector('[name="description"]').value.trim();
+    if(!name || !email || !desc) return;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    fetch('https://formspree.io/f/mlgyjyej', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Troubleshooting Tool Suggestion from ' + name,
+        name: name,
+        email: email,
+        suggestion: desc,
+        source: 'Troubleshooting Tool — Suggest an Issue'
+      })
+    }).then(function(r){
+      if(r.ok){
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Suggest this issue →';
+      }
+    }).catch(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Suggest this issue →';
+    });
+  });
+})();
+
+// ── Suggest an issue form (page bottom) ───────────────────────────────────
 (function(){
   var form    = document.getElementById('suggestForm');
   var success = document.getElementById('suggestSuccess');
