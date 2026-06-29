@@ -1304,7 +1304,7 @@ h1,h2,h3{
 .meet-form-expand{ display:grid; grid-template-rows:0fr; transition:grid-template-rows 0.45s cubic-bezier(0.4,0,0.2,1); }
 .meet-form-expand-inner{ overflow:hidden; }
 .meet-form-expand.open{ grid-template-rows:1fr; }
-.meet-success{ display:none; padding:48px 32px; text-align:center; }
+.meet-success{ display:none; padding:48px 32px; text-align:center; max-width:480px; margin:0 auto; }
 .meet-success-icon{ width:56px; height:56px; border-radius:50%; background:#16a34a; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
 .meet-success-icon svg{ display:block; }
 .meet-success-eyebrow{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#16a34a; margin-bottom:8px; display:block; }
@@ -2271,7 +2271,7 @@ function initMeetPlaces(){
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
           <p class="form-success-eyebrow">Enquiry received</p>
-          <h3>Thanks<span id="successName"></span> — we'll be in touch.</h3>
+          <h3>Thanks <span id="successName"></span>— we'll be in touch.</h3>
           <p class="form-success-body">Your enquiry has landed with Mitchel. We aim to respond within one business day.<br>A confirmation has been sent to <strong id="successEmail"></strong>.</p>
           <div class="form-success-divider"></div>
           <div class="form-success-contact">
@@ -2332,7 +2332,7 @@ form.addEventListener('submit', async function(e){
     if(res.ok){
       // Personalise success state
       const firstName = nameVal.split(' ')[0];
-      document.getElementById('successName').textContent = firstName ? ', ' + firstName : '';
+      document.getElementById('successName').textContent = firstName || '';
       document.getElementById('successEmail').textContent = emailVal;
       form.style.display = 'none';
       success.style.display = 'block';
