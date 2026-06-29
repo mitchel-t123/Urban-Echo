@@ -2640,7 +2640,8 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     // Build clean summary and submit as JSON
     var summary = buildMeetSummary();
     var payload = { name: name, email: email, _replyto: email, message: summary,
-      _subject: '☕ Coffee Meeting Request — ' + name };
+      _subject: '☕ Coffee Meeting Request — ' + name,
+      _autoresponse: 'Hi ' + name.split(' ')[0] + '! Thanks for booking a catch-up with Urban Echo ☕ We\'ve received your meeting request and Mitchel will confirm a time within one business day. See you soon! — Mitchel & the Urban Echo Team' };
 
     try {
       var res = await fetch('https://formspree.io/f/mlgyjyej', {
