@@ -1208,7 +1208,7 @@ h1,h2,h3{
 .meet-section{ background:var(--cream); padding:96px 0; border-bottom:6px solid var(--ink); }
 .meet-section .eyebrow{ color:var(--indigo); margin-bottom:14px; display:block; }
 .meet-section > .wrap > h2{ font-size:clamp(28px,4vw,44px); margin-bottom:14px; }
-.meet-section > .wrap > p{ font-size:17px; color:rgba(22,21,39,0.7); max-width:560px; margin-bottom:48px; }
+.meet-section > .wrap > p{ font-size:17px; color:rgba(22,21,39,0.7); margin-bottom:48px; }
 .meet-card{ background:var(--paper); border:2.5px solid var(--ink); border-bottom:10px solid var(--ink); border-radius:22px; box-shadow:5px 5px 0 var(--ink); padding:36px 36px 32px; }
 .meet-block{ margin-bottom:28px; }
 .meet-block:last-child{ margin-bottom:0; }
@@ -1243,6 +1243,15 @@ h1,h2,h3{
 .location-opt-label input:checked + .location-pill{ border-color:var(--indigo); background:rgba(63,63,240,0.07); color:var(--indigo); }
 /* Date grid */
 .date-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.time-range{ display:flex; align-items:center; gap:8px; }
+.time-range input{ flex:1; min-width:0; }
+.time-range-sep{ font-size:12px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); white-space:nowrap; flex-shrink:0; }
+.pac-container{ border:2px solid rgba(22,21,39,0.18); border-radius:10px; box-shadow:4px 4px 0 rgba(22,21,39,0.08); font-family:var(--body); margin-top:4px; }
+.pac-item{ padding:8px 14px; font-size:14px; cursor:pointer; }
+.pac-item:hover,.pac-item-selected{ background:rgba(63,63,240,0.06); }
+.pac-icon{ display:none; }
+.pac-item-query{ font-weight:600; color:var(--ink); }
+.pac-matched{ font-weight:700; color:var(--indigo); }
 /* Form fields */
 .meet-card .field{ margin-bottom:0; }
 .meet-card .field label{ font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; font-family:var(--mono); color:rgba(22,21,39,0.5); display:block; margin-bottom:7px; }
@@ -1496,6 +1505,24 @@ body{ overflow-x: hidden; }
   .fab-menu.visible{ opacity:1; pointer-events:auto; }
 }
 </style>
+<script>
+function initMeetPlaces(){
+  if(!window.google || !google.maps || !google.maps.places) return;
+  var input = document.getElementById('meetAddress');
+  if(!input) return;
+  var ac = new google.maps.places.Autocomplete(input, {
+    types: ['establishment','geocode'],
+    componentRestrictions: { country: 'au' }
+  });
+  ac.addListener('place_changed', function(){
+    var place = ac.getPlace();
+    var hidden = document.getElementById('meetAddressPlace');
+    if(hidden) hidden.value = place.place_id || '';
+    if(place.formatted_address) input.value = place.name ? place.name + ', ' + place.formatted_address : place.formatted_address;
+  });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-placeholder&libraries=places&callback=initMeetPlaces" async defer></script>
 </head>
 <body>
 
@@ -2022,8 +2049,9 @@ body{ overflow-x: hidden; }
           </div>
           <div id="meetCustomLocation" style="display:none;margin-top:14px;">
             <div class="field">
-              <label for="meetAddress">Address, café or paste a Google Maps link</label>
-              <input type="text" id="meetAddress" name="location" placeholder="e.g. Sayers Sister, Northbridge">
+              <label for="meetAddress">Search for a café or address</label>
+              <input type="text" id="meetAddress" name="location" placeholder="e.g. Sayers Sister, Northbridge" autocomplete="off">
+              <input type="hidden" id="meetAddressPlace" name="location_place_id">
             </div>
           </div>
         </div>
@@ -2199,9 +2227,30 @@ body{ overflow-x: hidden; }
         <div class="meet-block">
           <span class="meet-block-label">Suggest a few dates &amp; times <span style="font-weight:400;opacity:0.55;">(give us options and we'll confirm one)</span></span>
           <div class="date-grid">
-            <div class="field"><label for="meetDate1">Option 1</label><input type="datetime-local" id="meetDate1" name="date_option_1" style="margin-bottom:0;"></div>
-            <div class="field"><label for="meetDate2">Option 2</label><input type="datetime-local" id="meetDate2" name="date_option_2" style="margin-bottom:0;"></div>
-            <div class="field"><label for="meetDate3">Option 3</label><input type="datetime-local" id="meetDate3" name="date_option_3" style="margin-bottom:0;"></div>
+            <div class="field">
+              <label>Option 1 — I'm free between</label>
+              <div class="time-range">
+                <input type="datetime-local" id="meetDate1Start" name="date_option_1_start" style="margin-bottom:0;">
+                <span class="time-range-sep">to</span>
+                <input type="datetime-local" id="meetDate1End" name="date_option_1_end" style="margin-bottom:0;">
+              </div>
+            </div>
+            <div class="field">
+              <label>Option 2 — I'm free between</label>
+              <div class="time-range">
+                <input type="datetime-local" id="meetDate2Start" name="date_option_2_start" style="margin-bottom:0;">
+                <span class="time-range-sep">to</span>
+                <input type="datetime-local" id="meetDate2End" name="date_option_2_end" style="margin-bottom:0;">
+              </div>
+            </div>
+            <div class="field">
+              <label>Option 3 — I'm free between</label>
+              <div class="time-range">
+                <input type="datetime-local" id="meetDate3Start" name="date_option_3_start" style="margin-bottom:0;">
+                <span class="time-range-sep">to</span>
+                <input type="datetime-local" id="meetDate3End" name="date_option_3_end" style="margin-bottom:0;">
+              </div>
+            </div>
           </div>
         </div>
 
