@@ -1285,6 +1285,9 @@ h1,h2,h3{
   .order-row{ grid-template-columns:1fr; }
 }
 /* Meet success */
+.meet-form-expand{ display:grid; grid-template-rows:0fr; transition:grid-template-rows 0.45s cubic-bezier(0.4,0,0.2,1); }
+.meet-form-expand-inner{ overflow:hidden; }
+.meet-form-expand.open{ grid-template-rows:1fr; }
 .meet-success{ display:none; padding:48px 32px; text-align:center; }
 .meet-success-icon{ width:56px; height:56px; border-radius:50%; background:var(--indigo); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
 .meet-success-icon svg{ display:block; }
@@ -2059,6 +2062,9 @@ function initMeetPlaces(){
           </div>
         </div>
 
+        <!-- Expandable rest of form — hidden until user interacts with drink/location -->
+        <div id="meetFormExpand" class="meet-form-expand"><div class="meet-form-expand-inner">
+
         <!-- Drink order (shows when meeting at school) -->
         <div class="meet-block" id="drinkOrderBlock" style="display:none;">
           <div class="drink-order-block">
@@ -2282,6 +2288,8 @@ function initMeetPlaces(){
         <input type="hidden" name="_autoresponse" value="Hi! Thanks for booking a catch-up with Urban Echo. We've received your meeting request and Mitchel will confirm a time within one business day. See you soon! — Urban Echo">
 
         <button type="submit" class="btn btn-blue" id="meetSubmitBtn">Request a Catch-Up →</button>
+
+        </div></div><!-- /meet-form-expand-inner /meetFormExpand -->
       </form>
 
       <div class="meet-success" id="meetSuccess">
@@ -2497,9 +2505,14 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     document.getElementById('teaOrder').style.display     = (locType === 'school' && drink === 'Tea') ? 'block' : 'none';
   }
 
-  document.querySelectorAll('input[name="drink"]').forEach(function(r){ r.addEventListener('change', updateDrinkOrder); });
-  document.querySelectorAll('input[name="location_type"]').forEach(function(r){ r.addEventListener('change', updateDrinkOrder); });
-  updateDrinkOrder(); // run on load
+  var meetExpand = document.getElementById('meetFormExpand');
+  function expandMeetForm(){
+    if(meetExpand) meetExpand.classList.add('open');
+  }
+
+  document.querySelectorAll('input[name="drink"]').forEach(function(r){ r.addEventListener('change', function(){ updateDrinkOrder(); expandMeetForm(); }); });
+  document.querySelectorAll('input[name="location_type"]').forEach(function(r){ r.addEventListener('change', function(){ updateDrinkOrder(); expandMeetForm(); }); });
+  updateDrinkOrder(); // run on load (does NOT expand — expansion only on user interaction)
 
   // Form submit
   meetForm.addEventListener('submit', async function(e){
