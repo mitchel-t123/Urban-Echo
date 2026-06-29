@@ -2028,28 +2028,6 @@ body{ overflow-x: hidden; }
           </div>
         </div>
 
-        <!-- Your details -->
-        <div class="meet-block meet-row">
-          <div class="field">
-            <label for="meetName">Your Name</label>
-            <input type="text" id="meetName" name="name" required placeholder="Jane Smith">
-          </div>
-          <div class="field">
-            <label for="meetSchool">School</label>
-            <input type="text" id="meetSchool" name="school" placeholder="e.g. Wesley College">
-          </div>
-        </div>
-        <div class="meet-block meet-row">
-          <div class="field">
-            <label for="meetEmail">Email</label>
-            <input type="email" id="meetEmail" name="email" required placeholder="jane@school.wa.edu.au">
-          </div>
-          <div class="field">
-            <label for="meetPhone">Phone</label>
-            <input type="tel" id="meetPhone" name="phone" placeholder="04xx xxx xxx">
-          </div>
-        </div>
-
         <!-- Drink order (shows when meeting at school) -->
         <div class="meet-block" id="drinkOrderBlock" style="display:none;">
           <div class="drink-order-block">
@@ -2082,13 +2060,23 @@ body{ overflow-x: hidden; }
                   </select>
                 </div>
               </div>
-              <div class="field">
-                <label>Sugars</label>
-                <div class="sugar-opts">
-                  <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="0" checked><span class="sugar-pill">0</span></label>
-                  <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="1"><span class="sugar-pill">1</span></label>
-                  <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="2"><span class="sugar-pill">2</span></label>
-                  <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+              <div class="order-row">
+                <div class="field">
+                  <label>Size</label>
+                  <div class="sugar-opts">
+                    <label class="sugar-opt"><input type="radio" name="coffee_size" value="Small" checked><span class="sugar-pill">S</span></label>
+                    <label class="sugar-opt"><input type="radio" name="coffee_size" value="Medium"><span class="sugar-pill">M</span></label>
+                    <label class="sugar-opt"><input type="radio" name="coffee_size" value="Large"><span class="sugar-pill">L</span></label>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Sugars</label>
+                  <div class="sugar-opts">
+                    <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="0" checked><span class="sugar-pill">0</span></label>
+                    <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="1"><span class="sugar-pill">1</span></label>
+                    <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="2"><span class="sugar-pill">2</span></label>
+                    <label class="sugar-opt"><input type="radio" name="coffee_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2116,13 +2104,23 @@ body{ overflow-x: hidden; }
                   </select>
                 </div>
               </div>
-              <div class="field">
-                <label>Sugars</label>
-                <div class="sugar-opts">
-                  <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="0" checked><span class="sugar-pill">0</span></label>
-                  <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="1"><span class="sugar-pill">1</span></label>
-                  <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="2"><span class="sugar-pill">2</span></label>
-                  <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+              <div class="order-row">
+                <div class="field">
+                  <label>Size</label>
+                  <div class="sugar-opts">
+                    <label class="sugar-opt"><input type="radio" name="hotchoc_size" value="Small" checked><span class="sugar-pill">S</span></label>
+                    <label class="sugar-opt"><input type="radio" name="hotchoc_size" value="Medium"><span class="sugar-pill">M</span></label>
+                    <label class="sugar-opt"><input type="radio" name="hotchoc_size" value="Large"><span class="sugar-pill">L</span></label>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Sugars</label>
+                  <div class="sugar-opts">
+                    <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="0" checked><span class="sugar-pill">0</span></label>
+                    <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="1"><span class="sugar-pill">1</span></label>
+                    <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="2"><span class="sugar-pill">2</span></label>
+                    <label class="sugar-opt"><input type="radio" name="hotchoc_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2152,16 +2150,48 @@ body{ overflow-x: hidden; }
                   </select>
                 </div>
               </div>
-              <div class="field">
-                <label>Sugars</label>
-                <div class="sugar-opts">
-                  <label class="sugar-opt"><input type="radio" name="tea_sugars" value="0" checked><span class="sugar-pill">0</span></label>
-                  <label class="sugar-opt"><input type="radio" name="tea_sugars" value="1"><span class="sugar-pill">1</span></label>
-                  <label class="sugar-opt"><input type="radio" name="tea_sugars" value="2"><span class="sugar-pill">2</span></label>
-                  <label class="sugar-opt"><input type="radio" name="tea_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+              <div class="order-row">
+                <div class="field">
+                  <label>Size</label>
+                  <div class="sugar-opts">
+                    <label class="sugar-opt"><input type="radio" name="tea_size" value="Small" checked><span class="sugar-pill">S</span></label>
+                    <label class="sugar-opt"><input type="radio" name="tea_size" value="Medium"><span class="sugar-pill">M</span></label>
+                    <label class="sugar-opt"><input type="radio" name="tea_size" value="Large"><span class="sugar-pill">L</span></label>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Sugars</label>
+                  <div class="sugar-opts">
+                    <label class="sugar-opt"><input type="radio" name="tea_sugars" value="0" checked><span class="sugar-pill">0</span></label>
+                    <label class="sugar-opt"><input type="radio" name="tea_sugars" value="1"><span class="sugar-pill">1</span></label>
+                    <label class="sugar-opt"><input type="radio" name="tea_sugars" value="2"><span class="sugar-pill">2</span></label>
+                    <label class="sugar-opt"><input type="radio" name="tea_sugars" value="3+"><span class="sugar-pill">3+</span></label>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Your details -->
+        <div class="meet-block meet-row">
+          <div class="field">
+            <label for="meetName">Your Name</label>
+            <input type="text" id="meetName" name="name" required placeholder="Jane Smith">
+          </div>
+          <div class="field">
+            <label for="meetSchool">School</label>
+            <input type="text" id="meetSchool" name="school" placeholder="e.g. Wesley College">
+          </div>
+        </div>
+        <div class="meet-block meet-row">
+          <div class="field">
+            <label for="meetEmail">Email</label>
+            <input type="email" id="meetEmail" name="email" required placeholder="jane@school.wa.edu.au">
+          </div>
+          <div class="field">
+            <label for="meetPhone">Phone</label>
+            <input type="tel" id="meetPhone" name="phone" placeholder="04xx xxx xxx">
           </div>
         </div>
 
