@@ -2812,9 +2812,10 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var meterOverride = null; // set by stress meter drag; null = use checkbox count
 
   function computeCheckboxScore(){
-    // Each symptom adds 1 step to the meter
-    return (ticked.has('0')?1:0) + (ticked.has('1')?1:0) + (ticked.has('2')?1:0)
-         + (ticked.has('3')?1:0) + (ticked.has('4')?1:0);
+    var count = (ticked.has('0')?1:0) + (ticked.has('1')?1:0) + (ticked.has('2')?1:0)
+              + (ticked.has('3')?1:0) + (ticked.has('4')?1:0);
+    // All 5 ticked → max out to 100%
+    return count === 5 ? 6 : count;
   }
 
   function updateUI(){
