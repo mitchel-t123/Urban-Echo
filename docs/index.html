@@ -1216,6 +1216,15 @@ h1,h2,h3{
 .meet-block:last-child{ margin-bottom:0; }
 .meet-block-label{ display:block; font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.5); margin-bottom:14px; }
 .meet-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@keyframes shake-x{
+  0%,100%{ transform:translateX(0); }
+  20%{ transform:translateX(-6px); }
+  40%{ transform:translateX(6px); }
+  60%{ transform:translateX(-4px); }
+  80%{ transform:translateX(4px); }
+}
+.shake-hint{ animation:shake-x 0.45s ease; }
+
 /* Drink picker */
 .drink-picker{ display:flex; gap:14px; flex-wrap:wrap; }
 .drink-card-label{ flex:1; min-width:120px; cursor:pointer; position:relative; }
@@ -1552,9 +1561,6 @@ function initMeetPlaces(){
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-placeholder&libraries=places&callback=initMeetPlaces" async defer></script>
 <script>
-// Always start at top on load/refresh — prevents browser scroll restoration
-if('scrollRestoration' in history) history.scrollRestoration = 'manual';
-window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 // Lock overscroll permanently — runs before body paint and re-asserts on any DOM change
 (function lockOverscroll(){
   function apply(){
@@ -2098,6 +2104,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
               <span class="location-pill">📍 Suggest a place</span>
             </label>
           </div>
+          <p id="drinkFirstHint" style="display:none;margin:8px 0 0;font-size:13px;color:var(--orange);font-family:var(--mono);">☝️ Pick your drink above first</p>
           <div id="meetCustomLocation" style="display:none;margin-top:14px;">
             <div class="field">
               <label for="meetAddress">Search for a café or address</label>
@@ -2534,8 +2541,39 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     if(meetExpand) meetExpand.classList.add('open');
   }
 
-  document.querySelectorAll('input[name="drink"]').forEach(function(r){ r.addEventListener('change', function(){ updateDrinkOrder(); expandMeetForm(); }); });
-  document.querySelectorAll('input[name="location_type"]').forEach(function(r){ r.addEventListener('change', function(){ updateDrinkOrder(); expandMeetForm(); }); });
+  var drinkFirstHint = document.getElementById('drinkFirstHint');
+
+  document.querySelectorAll('input[name="drink"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      if(drinkFirstHint) drinkFirstHint.style.display = 'none';
+      updateDrinkOrder();
+      expandMeetForm();
+    });
+  });
+
+  document.querySelectorAll('input[name="location_type"]').forEach(function(r){
+    r.addEventListener('click', function(e){
+      var drinkSelected = document.querySelector('input[name="drink"]:checked');
+      if(!drinkSelected){
+        e.preventDefault();
+        r.checked = false;
+        if(drinkFirstHint){
+          drinkFirstHint.style.display = 'block';
+          drinkFirstHint.scrollIntoView({ behavior:'smooth', block:'nearest' });
+        }
+        // Shake the drink section to draw attention
+        var drinkPicker = document.querySelector('.drink-picker');
+        if(drinkPicker){
+          drinkPicker.classList.remove('shake-hint');
+          void drinkPicker.offsetWidth;
+          drinkPicker.classList.add('shake-hint');
+        }
+        return;
+      }
+      updateDrinkOrder();
+      expandMeetForm();
+    });
+  });
   updateDrinkOrder();
 
   // Build a clean human-readable summary for the email body
