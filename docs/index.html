@@ -2533,6 +2533,99 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   document.querySelectorAll('input[name="location_type"]').forEach(function(r){ r.addEventListener('change', function(){ updateDrinkOrder(); expandMeetForm(); }); });
   updateDrinkOrder();
 
+  // Build a clean human-readable summary for the email body
+  function buildMeetSummary(){
+    var f = function(id){ return (document.getElementById(id)||{}).value||''; };
+    var fq = function(sel){ return (meetForm.querySelector(sel)||{}).value||''; };
+
+    var name   = f('meetName');
+    var role   = f('meetRole');
+    var school = f('meetSchool');
+    var email  = f('meetEmail');
+    var phone  = f('meetPhone');
+    var notes  = f('meetNotes');
+
+    var locType = fq('input[name="location_type"]:checked');
+    var address = f('meetAddress');
+
+    var lines = [];
+    lines.push('=== ☕ COFFEE MEETING REQUEST ===');
+    lines.push('');
+    lines.push('CONTACT');
+    lines.push('Name:    ' + name + (role ? ' — ' + role : ''));
+    lines.push('School:  ' + (school || '—'));
+    lines.push('Email:   ' + email);
+    lines.push('Phone:   ' + (phone || '—'));
+    lines.push('');
+    lines.push('LOCATION');
+    if(locType === 'school'){
+      lines.push('Meet at their school');
+    } else {
+      lines.push('Suggested place: ' + (address || '—'));
+    }
+    lines.push('');
+
+    // Drink orders
+    var orderLines = [];
+    meetForm.querySelectorAll('.person-order').forEach(function(card){
+      var idx    = card.dataset.person;
+      var pName  = idx == 1 ? name : ((card.querySelector('[name$="_name"]')||{}).value||'Person '+idx);
+      var pRole  = idx == 1 ? role : ((card.querySelector('[name$="_role"]')||{}).value||'');
+      var drink  = (card.querySelector('input[type=radio]:checked')||{}).value||'';
+      if(!drink) return;
+
+      var type='', milk='', size='', sugars='';
+      if(drink==='Coffee'){
+        type   = (card.querySelector('[name$="_type"]')||{}).value||'';
+        milk   = (card.querySelector('[name$="_milk"]')||{}).value||'';
+        size   = (card.querySelector('input[name*="_size"]:checked')||{}).value||'';
+        sugars = (card.querySelector('input[name*="_sugars"]:checked')||{}).value||'';
+        orderLines.push((pName+(pRole?' ('+pRole+')':''))+': '+type+', '+milk+' milk, '+size+', '+sugars+' sugar');
+      } else if(drink==='Hot Chocolate'){
+        type   = (card.querySelector('[name$="_style"]')||{}).value||'';
+        milk   = (card.querySelector('[name$="_milk"]')||{}).value||'';
+        size   = (card.querySelector('input[name*="_size"]:checked')||{}).value||'';
+        sugars = (card.querySelector('input[name*="_sugars"]:checked')||{}).value||'';
+        orderLines.push((pName+(pRole?' ('+pRole+')':''))+': Hot Choc ('+type+'), '+milk+' milk, '+size+', '+sugars+' sugar');
+      } else if(drink==='Tea'){
+        type   = (card.querySelector('[name$="_type"]')||{}).value||'';
+        milk   = (card.querySelector('[name$="_milk"]')||{}).value||'';
+        size   = (card.querySelector('input[name*="_size"]:checked')||{}).value||'';
+        sugars = (card.querySelector('input[name*="_sugars"]:checked')||{}).value||'';
+        orderLines.push((pName+(pRole?' ('+pRole+')':''))+': '+type+', '+milk+' milk, '+size+', '+sugars+' sugar');
+      } else {
+        orderLines.push((pName+(pRole?' ('+pRole+')':''))+': '+drink);
+      }
+    });
+    if(orderLines.length){
+      lines.push('DRINKS ORDER');
+      orderLines.forEach(function(l){ lines.push('  • '+l); });
+      lines.push('');
+    }
+
+    // Availability
+    var avail = [];
+    [1,2,3].forEach(function(n){
+      var date  = (meetForm.querySelector('[name="date_option_'+n+'_date"]')||{}).value||'';
+      var start = (meetForm.querySelector('[name="date_option_'+n+'_start"]')||{}).value||'';
+      var end   = (meetForm.querySelector('[name="date_option_'+n+'_end"]')||{}).value||'';
+      if(date || start) avail.push('Option '+n+': '+(date||'—')+' from '+(start||'—')+' to '+(end||'—'));
+    });
+    if(avail.length){
+      lines.push('AVAILABILITY');
+      avail.forEach(function(l){ lines.push('  '+l); });
+      lines.push('');
+    }
+
+    if(notes){
+      lines.push('NOTES');
+      lines.push(notes);
+      lines.push('');
+    }
+
+    return lines.join('\n');
+  }
+
   // Form submit
   meetForm.addEventListener('submit', async function(e){
     e.preventDefault();
@@ -2543,11 +2636,17 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     document.getElementById('meetReplyTo').value = email;
     meetSubmit.disabled = true;
     meetSubmit.textContent = 'Sending…';
+
+    // Build clean summary and submit as JSON
+    var summary = buildMeetSummary();
+    var payload = { name: name, email: email, _replyto: email, message: summary,
+      _subject: '☕ Coffee Meeting Request — ' + name };
+
     try {
       var res = await fetch('https://formspree.io/f/mlgyjyej', {
         method: 'POST',
-        body: new FormData(meetForm),
-        headers: { 'Accept': 'application/json' }
+        body: JSON.stringify(payload),
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
       });
       if(res.ok){
         meetForm.style.display = 'none';
