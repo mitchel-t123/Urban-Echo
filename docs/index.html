@@ -1560,6 +1560,8 @@ function initMeetPlaces(){
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-placeholder&libraries=places&callback=initMeetPlaces" async defer></script>
 <script>
+if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 // Lock overscroll permanently — runs before body paint and re-asserts on any DOM change
 (function lockOverscroll(){
   function apply(){
