@@ -1242,10 +1242,11 @@ h1,h2,h3{
 }
 .location-opt-label input:checked + .location-pill{ border-color:var(--indigo); background:rgba(63,63,240,0.07); color:var(--indigo); }
 /* Date grid */
-.date-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-.time-range{ display:flex; flex-direction:column; gap:6px; }
-.time-range input{ width:100%; box-sizing:border-box; }
-.time-range-sep{ font-size:11px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); text-transform:uppercase; letter-spacing:0.06em; }
+.date-grid{ display:flex; flex-direction:column; gap:12px; }
+.date-row{ display:grid; grid-template-columns:1fr auto auto auto; align-items:center; gap:10px; }
+.date-row .field{ margin-bottom:0; }
+.date-row input{ margin-bottom:0; }
+.time-range-sep{ font-size:11px; font-family:var(--mono); font-weight:700; color:rgba(22,21,39,0.4); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap; padding:0 2px; }
 .pac-container{ border:2px solid rgba(22,21,39,0.18); border-radius:10px; box-shadow:4px 4px 0 rgba(22,21,39,0.08); font-family:var(--body); margin-top:4px; }
 .pac-item{ padding:8px 14px; font-size:14px; cursor:pointer; }
 .pac-item:hover,.pac-item-selected{ background:rgba(63,63,240,0.06); }
@@ -1312,7 +1313,10 @@ h1,h2,h3{
 /* Meet responsive */
 @media(max-width:920px){
   .meet-row{ grid-template-columns:1fr; }
-  .date-grid{ grid-template-columns:1fr; }
+  .date-row{ grid-template-columns:1fr 1fr; gap:8px; }
+  .date-row .date-field{ grid-column:1/-1; }
+  .date-row .time-range-sep{ display:none; }
+  .date-row .time-end-label::before{ content:'to '; opacity:0.5; font-size:10px; display:block; margin-bottom:4px; }
   .meet-card{ padding:24px 20px 20px; }
   .drink-icon{ width:56px; height:56px; font-size:30px; }
 }
@@ -2116,28 +2120,49 @@ function initMeetPlaces(){
         <div class="meet-block">
           <span class="meet-block-label">Suggest a few dates &amp; times <span style="font-weight:400;opacity:0.55;">(give us options and we'll confirm one)</span></span>
           <div class="date-grid">
-            <div class="field">
-              <label>Option 1 — I'm free between</label>
-              <div class="time-range">
-                <input type="datetime-local" id="meetDate1Start" name="date_option_1_start" step="900" style="margin-bottom:0;">
-                <span class="time-range-sep">to</span>
-                <input type="datetime-local" id="meetDate1End" name="date_option_1_end" step="900" style="margin-bottom:0;">
+            <div class="date-row">
+              <div class="field date-field">
+                <label for="meetDate1">Option 1 — Date</label>
+                <input type="date" id="meetDate1" name="date_option_1_date" style="margin-bottom:0;">
+              </div>
+              <div class="field">
+                <label for="meetDate1Start">From</label>
+                <input type="time" id="meetDate1Start" name="date_option_1_start" step="900" style="margin-bottom:0;">
+              </div>
+              <span class="time-range-sep">to</span>
+              <div class="field time-end-label">
+                <label for="meetDate1End">Until</label>
+                <input type="time" id="meetDate1End" name="date_option_1_end" step="900" style="margin-bottom:0;">
               </div>
             </div>
-            <div class="field">
-              <label>Option 2 — I'm free between</label>
-              <div class="time-range">
-                <input type="datetime-local" id="meetDate2Start" name="date_option_2_start" step="900" style="margin-bottom:0;">
-                <span class="time-range-sep">to</span>
-                <input type="datetime-local" id="meetDate2End" name="date_option_2_end" step="900" style="margin-bottom:0;">
+            <div class="date-row">
+              <div class="field date-field">
+                <label for="meetDate2">Option 2 — Date</label>
+                <input type="date" id="meetDate2" name="date_option_2_date" style="margin-bottom:0;">
+              </div>
+              <div class="field">
+                <label for="meetDate2Start">From</label>
+                <input type="time" id="meetDate2Start" name="date_option_2_start" step="900" style="margin-bottom:0;">
+              </div>
+              <span class="time-range-sep">to</span>
+              <div class="field time-end-label">
+                <label for="meetDate2End">Until</label>
+                <input type="time" id="meetDate2End" name="date_option_2_end" step="900" style="margin-bottom:0;">
               </div>
             </div>
-            <div class="field">
-              <label>Option 3 — I'm free between</label>
-              <div class="time-range">
-                <input type="datetime-local" id="meetDate3Start" name="date_option_3_start" step="900" style="margin-bottom:0;">
-                <span class="time-range-sep">to</span>
-                <input type="datetime-local" id="meetDate3End" name="date_option_3_end" step="900" style="margin-bottom:0;">
+            <div class="date-row">
+              <div class="field date-field">
+                <label for="meetDate3">Option 3 — Date</label>
+                <input type="date" id="meetDate3" name="date_option_3_date" style="margin-bottom:0;">
+              </div>
+              <div class="field">
+                <label for="meetDate3Start">From</label>
+                <input type="time" id="meetDate3Start" name="date_option_3_start" step="900" style="margin-bottom:0;">
+              </div>
+              <span class="time-range-sep">to</span>
+              <div class="field time-end-label">
+                <label for="meetDate3End">Until</label>
+                <input type="time" id="meetDate3End" name="date_option_3_end" step="900" style="margin-bottom:0;">
               </div>
             </div>
           </div>
