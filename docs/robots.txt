@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://urbanecho.com.au/sitemap.xml
