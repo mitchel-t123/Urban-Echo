@@ -922,7 +922,7 @@ diagFlagBtn.addEventListener('click', function(){
     var prob = currentKey ? PROBLEMS[currentKey] : null;
     var filtered = prob ? filterStepsForLevel(prob.steps) : [];
     var step = filtered[currentIndex];
-    fetch('https://formspree.io/f/mlgyjyej', {
+    fetch('https://formspree.io/f/xwvdrdly', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
@@ -1564,7 +1564,7 @@ function renderSteps(){
     if(!name || !email || !desc) return;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
-    fetch('https://formspree.io/f/mlgyjyej', {
+    fetch('https://formspree.io/f/xwvdrdly', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
@@ -1603,7 +1603,7 @@ function renderSteps(){
     if(!name || !email || !desc) return;
     btn.disabled = true;
     btn.textContent = 'Sending…';
-    fetch('https://formspree.io/f/mlgyjyej', {
+    fetch('https://formspree.io/f/xwvdrdly', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
