@@ -517,7 +517,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       <!-- Can't find it prompt -->
       <div style="margin-top:28px;padding-top:24px;border-top:1.5px solid rgba(22,21,39,0.1);display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
         <span style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);">Can't find what you need?</span>
-        <button id="openSuggestModal" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:transparent;border:2px solid var(--ink);border-radius:10px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer;transition:background 0.15s,color 0.15s;" onmouseover="this.style.background='var(--ink)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='inherit'">
+        <button class="open-suggest-modal" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:transparent;border:2px solid var(--ink);border-radius:10px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer;transition:background 0.15s,color 0.15s;" onmouseover="this.style.background='var(--ink)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='inherit'">
           ✏️ Suggest an issue for us to cover
         </button>
       </div>
@@ -618,6 +618,14 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       <p class="no-results" id="noResults" style="display:none;">
         No matching problems found. <a href="index.html#contact">Contact us directly</a> — we'll help diagnose it.
       </p>
+
+      <!-- Can't find it — problem picker & search -->
+      <div style="margin-top:28px;padding-top:24px;border-top:1.5px solid rgba(22,21,39,0.1);display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);">Can't find what you need?</span>
+        <button class="open-suggest-modal" style="display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:transparent;border:2px solid var(--ink);border-radius:10px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer;transition:background 0.15s,color 0.15s;" onmouseover="this.style.background='var(--ink)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='inherit'">
+          ✏️ Suggest an issue for us to cover
+        </button>
+      </div>
     </div>
 
   </div>
@@ -1590,7 +1598,6 @@ function renderSteps(){
 // ── Suggest modal ─────────────────────────────────────────────────────────
 (function(){
   var modal   = document.getElementById('suggestModal');
-  var openBtn = document.getElementById('openSuggestModal');
   var closeBtn= document.getElementById('closeSuggestModal');
   var form    = document.getElementById('suggestModalForm');
   var success = document.getElementById('suggestModalSuccess');
@@ -1600,7 +1607,9 @@ function renderSteps(){
   function openModal(){ modal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
   function closeModal(){ modal.style.display = 'none'; document.body.style.overflow = ''; }
 
-  if(openBtn) openBtn.addEventListener('click', openModal);
+  document.querySelectorAll('.open-suggest-modal').forEach(function(btn){
+    btn.addEventListener('click', openModal);
+  });
   if(closeBtn) closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
 
