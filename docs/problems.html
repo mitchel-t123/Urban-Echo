@@ -623,6 +623,28 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
   </div>
 </section>
 
+<!-- FLAG MODAL -->
+<div id="flagModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(22,21,39,0.55);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:36px 32px;max-width:480px;width:100%;position:relative;">
+    <button id="closeFlagModal" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;line-height:1;color:rgba(22,21,39,0.45);">✕</button>
+    <div id="flagModalForm">
+      <span style="font-size:28px;display:block;margin-bottom:12px;">🚩</span>
+      <h3 style="font-family:var(--display);font-size:22px;margin-bottom:10px;line-height:1.15;">Thanks for flagging this step</h3>
+      <p style="font-size:14px;color:rgba(22,21,39,0.65);margin-bottom:22px;line-height:1.6;">We're currently working on this feature and we appreciate you helping us. Want to add an extra comment to let us know what you've noticed?</p>
+      <textarea id="flagComment" rows="3" placeholder="Optional — tell us what seemed off…" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;margin-bottom:18px;transition:border-color 0.15s;"></textarea>
+      <div style="display:flex;gap:10px;">
+        <button id="flagModalSubmit" style="flex:1;padding:13px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:15px;font-weight:700;cursor:pointer;">Send feedback</button>
+        <button id="flagModalSkip" style="padding:13px 18px;background:transparent;color:rgba(22,21,39,0.5);border:2px solid rgba(22,21,39,0.18);border-radius:12px;font-family:var(--body);font-size:14px;cursor:pointer;">Skip</button>
+      </div>
+    </div>
+    <div id="flagModalSuccess" style="display:none;text-align:center;padding:12px 0;">
+      <span style="font-size:36px;display:block;margin-bottom:14px;">🙏</span>
+      <h3 style="font-family:var(--display);font-size:24px;margin-bottom:8px;">Thank you!</h3>
+      <p style="font-size:15px;color:rgba(22,21,39,0.65);line-height:1.6;">We appreciate you.</p>
+    </div>
+  </div>
+</div>
+
 <!-- SUGGEST MODAL -->
 <div id="suggestModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(22,21,39,0.55);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
   <div style="background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:36px 32px;max-width:520px;width:100%;position:relative;">
@@ -915,29 +937,54 @@ allProblemBtns.forEach(function(btn){
 });
 
 /* ── Restart ── */
-var diagFlagBtn = document.getElementById('diagFlagBtn');
+var diagFlagBtn  = document.getElementById('diagFlagBtn');
+var flagModal    = document.getElementById('flagModal');
+var flagModalForm= document.getElementById('flagModalForm');
+var flagSuccess  = document.getElementById('flagModalSuccess');
+var flagSubmit   = document.getElementById('flagModalSubmit');
+var flagSkip     = document.getElementById('flagModalSkip');
+var flagComment  = document.getElementById('flagComment');
+var closeFlagModal = document.getElementById('closeFlagModal');
+
+function openFlagModal(){ flagModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+function closeFlagModalFn(){ flagModal.style.display = 'none'; document.body.style.overflow = ''; }
+
+function submitFlag(comment){
+  var prob = currentKey ? PROBLEMS[currentKey] : null;
+  var filtered = prob ? filterStepsForLevel(prob.steps) : [];
+  var step = filtered[currentIndex];
+  diagFlagBtn.classList.add('flagged');
+  fetch('https://formspree.io/f/mjgqaqyn', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: '🚩 Step flagged: ' + (prob ? (prob.label || currentKey) : 'Unknown'),
+      type: 'Step Flag Report',
+      problem: prob ? (prob.label || currentKey) : 'Unknown',
+      step_number: 'Step ' + (currentIndex + 1) + ' of ' + filtered.length,
+      step_title: step ? step.title : 'Unknown',
+      skill_level: skillLevel,
+      comment: comment || '(no comment)',
+      url: window.location.href
+    })
+  });
+  flagModalForm.style.display = 'none';
+  flagSuccess.style.display = 'block';
+  setTimeout(closeFlagModalFn, 2200);
+}
+
 diagFlagBtn.addEventListener('click', function(){
-  var alreadyFlagged = this.classList.contains('flagged');
-  this.classList.toggle('flagged');
-  if(!alreadyFlagged){
-    var prob = currentKey ? PROBLEMS[currentKey] : null;
-    var filtered = prob ? filterStepsForLevel(prob.steps) : [];
-    var step = filtered[currentIndex];
-    fetch('https://formspree.io/f/mjgqaqyn', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: '🚩 Step flagged: ' + (prob ? (prob.label || currentKey) : 'Unknown'),
-        type: 'Step Flag Report',
-        problem: prob ? (prob.label || currentKey) : 'Unknown',
-        step_number: 'Step ' + (currentIndex + 1) + ' of ' + filtered.length,
-        step_title: step ? step.title : 'Unknown',
-        skill_level: skillLevel,
-        url: window.location.href
-      })
-    });
-  }
+  if(this.classList.contains('flagged')) return;
+  flagModalForm.style.display = 'block';
+  flagSuccess.style.display = 'none';
+  flagComment.value = '';
+  openFlagModal();
 });
+
+flagSubmit.addEventListener('click', function(){ submitFlag(flagComment.value.trim()); });
+flagSkip.addEventListener('click', function(){ submitFlag(''); });
+closeFlagModal.addEventListener('click', closeFlagModalFn);
+flagModal.addEventListener('click', function(e){ if(e.target === flagModal) closeFlagModalFn(); });
 
 diagRestart.addEventListener('click', function(){
   diagFlagBtn.classList.remove('flagged');
