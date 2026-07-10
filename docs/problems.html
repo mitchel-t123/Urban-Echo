@@ -271,6 +271,31 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
   text-transform:none; letter-spacing:0; font-size:18px; margin-bottom:8px;
 }
 .step-card p{ font-size:14.5px; color:rgba(22,21,39,0.72); line-height:1.65; }
+
+/* ── Glossary tooltips ── */
+.gloss-term{
+  border-bottom: 2px dotted var(--indigo);
+  color: var(--indigo);
+  cursor: pointer;
+  font-weight: 600;
+}
+#glossTooltip{
+  position: fixed;
+  z-index: 9999;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--body);
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border-radius: 10px;
+  max-width: 260px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+#glossTooltip.visible{ opacity: 1; }
 .step-card .step-tip{
   margin-top:12px; padding:10px 14px;
   background:rgba(244,97,46,0.1); border-left:3px solid var(--orange);
@@ -1397,44 +1422,46 @@ var PROBLEMS = {
 
 };
 
-/* ── Technical glossary for beginner expansions ── */
+/* ── Technical glossary for beginner tooltips ── */
 var GLOSSARY = {
-  'RF':        'RF (Radio Frequency, the wireless signal)',
-  'XLR':       'XLR (the 3-pin audio cable)',
-  'HPF':       'HPF (High-Pass Filter, cuts low rumble)',
-  'EQ':        'EQ (Equaliser, tone shaping)',
-  'dB':        'dB (decibels, unit of volume)',
-  'DI':        'DI (Direct Injection box, used to remove hum)',
-  'AUX':       'AUX (Auxiliary send, a secondary output)',
-  'FX':        'FX (Effects, like reverb or echo)',
-  'L/R':       'L/R (Left/Right main outputs)',
-  'PA':        'PA (Public Address, the speaker system)',
-  'preamp':    'preamp (pre-amplifier, the gain stage before the fader)',
-  'bus':       'bus (routing path inside the mixer)',
-  'fader':     'fader (the sliding volume control)',
-  'gain':      'gain (the input sensitivity knob, controls how loud the signal enters)',
-  'unity':     'unity (the 0 dB mark, the neutral starting position)',
-  'cardioid':  'cardioid (directional mic pattern, picks up sound in front)',
-  'condenser': 'condenser (sensitive mic type, often used in headsets)',
-  'dynamic':   'dynamic (robust mic type, common handhelds)',
-  'transmitter':'transmitter (the body-pack or handheld that sends the wireless signal)',
-  'receiver':  'receiver (the unit plugged into the mixer that picks up the wireless signal)',
-  'channel strip':'channel strip (one vertical section of the mixer for a single input)',
-  'ground loop':'ground loop (electrical interference caused by two devices on different power circuits)',
-  'ground lift':'ground lift (a switch that breaks the electrical loop causing hum)',
-  'monitor wedge':'monitor wedge (the floor speaker facing the performer on stage)',
-  'in-ear monitors':'in-ear monitors (IEM, earpiece speakers worn by performers)',
-  'comb-filter':'comb-filter (phase cancellation effect when two systems play slightly out of time)',
+  'RF':              'Radio Frequency — the wireless signal that carries audio between transmitter and receiver.',
+  'XLR':             'The 3-pin audio cable used to connect microphones and speakers to mixers.',
+  'HPF':             'High-Pass Filter — cuts out low rumble and handling noise below a set frequency.',
+  'EQ':              'Equaliser — adjusts the tone of the sound by boosting or cutting specific frequencies.',
+  'dB':              'Decibels — the unit used to measure volume levels.',
+  'DI':              'Direct Injection box — converts an unbalanced signal to balanced, and can remove hum caused by ground loops.',
+  'AUX':             'Auxiliary send — a secondary output on the mixer used for monitors or effects.',
+  'FX':              'Effects — audio processing like reverb or echo applied to a signal.',
+  'L/R':             'Left/Right — the two main stereo output channels of the mixer going to the PA.',
+  'PA':              'Public Address system — the main speaker system the audience hears.',
+  'preamp':          'Pre-amplifier — the gain stage that boosts the mic signal before the fader.',
+  'bus':             'A routing path inside the mixer that combines multiple signals together.',
+  'fader':           'The sliding volume control on a mixer channel.',
+  'gain':            'Input sensitivity knob — controls how loud the signal enters the mixer before the fader.',
+  'unity':           'The 0 dB mark on a fader — the neutral starting position with no boost or cut.',
+  'cardioid':        'A directional microphone pattern that picks up sound from the front and rejects sound from the back.',
+  'condenser':       'A sensitive microphone type commonly used in headsets and overhead mics.',
+  'dynamic':         'A robust microphone type, common for handhelds and instrument mics.',
+  'transmitter':     'The body-pack or handheld unit worn by the presenter that sends the wireless audio signal.',
+  'receiver':        'The unit plugged into the mixer that picks up the wireless signal from the transmitter.',
+  'channel strip':   'One vertical section of the mixer dedicated to a single input source.',
+  'ground loop':     'Electrical interference caused by two devices on different power circuits creating a hum.',
+  'ground lift':     'A switch on a DI box that breaks the electrical ground loop to eliminate hum.',
+  'monitor wedge':   'The wedge-shaped floor speaker on stage that faces performers so they can hear themselves.',
+  'in-ear monitors': 'Earpiece speakers worn by performers — also called IEMs.',
+  'comb-filter':     'A phase cancellation effect that creates a hollow or echo sound when two systems play slightly out of time.',
 };
 
-/* Apply glossary expansions for beginner level */
+/* Apply glossary tooltips for beginner level */
 function annotateForBeginner(text){
   if(skillLevel !== 'beginner') return text;
-  Object.keys(GLOSSARY).forEach(function(term){
-    var expanded = GLOSSARY[term];
-    // Only replace the first occurrence of the bare term (not if already expanded)
-    var re = new RegExp('\\b' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b(?!\\s*\\()', 'i');
-    text = text.replace(re, expanded);
+  Object.keys(GLOSSARY).sort(function(a,b){ return b.length - a.length; }).forEach(function(term){
+    var def = GLOSSARY[term];
+    var escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var re = new RegExp('(?<![\\w-])(' + escaped + ')(?![\\w-])', 'i');
+    text = text.replace(re, function(match){
+      return '<span class="gloss-term" data-def="' + def.replace(/"/g, '&quot;') + '">' + match + '</span>';
+    });
   });
   return text;
 }
@@ -1707,6 +1734,60 @@ function renderSteps(){
       btn.textContent = 'Suggest this issue →';
       alert('Something went wrong, please try again.');
     });
+  });
+})();
+</script>
+
+<!-- Glossary tooltip popup -->
+<div id="glossTooltip"></div>
+<script>
+(function(){
+  var tip = document.getElementById('glossTooltip');
+  var hideTimer;
+
+  function show(el, def){
+    clearTimeout(hideTimer);
+    tip.textContent = def;
+    tip.classList.add('visible');
+    position(el);
+  }
+
+  function hide(){
+    hideTimer = setTimeout(function(){ tip.classList.remove('visible'); }, 100);
+  }
+
+  function position(el){
+    var r = el.getBoundingClientRect();
+    var tw = tip.offsetWidth || 260;
+    var left = r.left + (r.width / 2) - (tw / 2);
+    var top  = r.top - tip.offsetHeight - 10;
+    // Clamp to viewport
+    left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+    if(top < 8){ top = r.bottom + 10; } // flip below if no room above
+    tip.style.left = left + 'px';
+    tip.style.top  = top  + 'px';
+  }
+
+  // Use event delegation so dynamically rendered terms always work
+  document.addEventListener('mouseover', function(e){
+    var el = e.target.closest('.gloss-term');
+    if(el) show(el, el.dataset.def);
+  });
+  document.addEventListener('mouseout', function(e){
+    if(e.target.closest('.gloss-term')) hide();
+  });
+  // Tap support for mobile
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('.gloss-term');
+    if(el){
+      if(tip.classList.contains('visible') && tip.textContent === el.dataset.def){
+        tip.classList.remove('visible');
+      } else {
+        show(el, el.dataset.def);
+      }
+    } else {
+      tip.classList.remove('visible');
+    }
   });
 })();
 </script>
