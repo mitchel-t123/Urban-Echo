@@ -91,7 +91,6 @@
 html{
   scroll-behavior:auto; /* JS handles smooth scroll with custom duration */
   background: var(--ink); /* footer colour shows on overscroll, no blank space */
-  overscroll-behavior-y: none !important;
 }
 
 body{
@@ -101,8 +100,6 @@ body{
   line-height:1.5;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
-  overflow-anchor: none;
-  overscroll-behavior-y: none !important;
 }
 
 img{ max-width:100%; display:block; }
@@ -1618,24 +1615,6 @@ function initMeetPlaces(){
 <script>
 if('scrollRestoration' in history) history.scrollRestoration = 'manual';
 window.addEventListener('load', function(){ window.scrollTo(0, 0); });
-// Lock overscroll permanently — runs before body paint and re-asserts on any DOM change
-(function lockOverscroll(){
-  function apply(){
-    document.documentElement.style.setProperty('overscroll-behavior-y','none','important');
-    document.body && document.body.style.setProperty('overscroll-behavior-y','none','important');
-  }
-  apply();
-  document.addEventListener('DOMContentLoaded', apply);
-  // Re-assert whenever any style attribute changes anywhere in the document
-  new MutationObserver(function(mutations){
-    for(var i=0;i<mutations.length;i++){
-      if(mutations[i].attributeName==='style' &&
-         (mutations[i].target===document.documentElement || mutations[i].target===document.body)){
-        apply();
-      }
-    }
-  }).observe(document.documentElement, { attributes:true, subtree:true, attributeFilter:['style'] });
-})();
 </script>
 </head>
 <body>
