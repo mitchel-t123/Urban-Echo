@@ -2822,6 +2822,12 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   var meterOverride = null; // set by stress meter drag; null = use checkbox count
 
   function computeCheckboxScore(){
+    var isMobile = window.innerWidth <= 768;
+    if(isMobile){
+      // Only 3 symptoms visible on mobile — scale so 3 ticks = score 4 (100%)
+      var mobileCount = (ticked.has('0')?1:0) + (ticked.has('1')?1:0) + (ticked.has('2')?1:0);
+      return Math.round((mobileCount / 3) * 4);
+    }
     var count = (ticked.has('0')?1:0) + (ticked.has('1')?1:0) + (ticked.has('2')?1:0)
               + (ticked.has('3')?1:0) + (ticked.has('4')?1:0);
     return Math.min(count, 4);
