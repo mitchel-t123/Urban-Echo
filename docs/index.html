@@ -1933,7 +1933,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <li>On-site specialist problem solving</li>
           <li>Pack down the sound equipment</li>
         </ul>
-        <a href="#contact" class="btn btn-cream">Get a Quote</a>
+        <a href="#contact" class="btn btn-cream" data-package="First Response — Single Event">Get a Quote</a>
       </div>
 
       <div class="package-card featured" data-reveal>
@@ -1948,7 +1948,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <li>15 events — save 20%</li>
           <li>Custom packages for longer events</li>
         </ul>
-        <a href="#contact" class="btn btn-orange">Get a Quote</a>
+        <a href="#contact" class="btn btn-orange" data-package="Events Package">Get a Quote</a>
       </div>
 
       <div class="package-card pink" data-reveal>
@@ -1961,7 +1961,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <li>50% discount on Urban Echo equipment</li>
           <li>Priced around your school calendar</li>
         </ul>
-        <a href="#contact" class="btn btn-cream">Get a Quote</a>
+        <a href="#contact" class="btn btn-cream" data-package="Fully Hands-Free (Annual)">Get a Quote</a>
       </div>
     </div>
 
@@ -1977,7 +1977,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <span class="bulk-note-tag">💰 Bonus Revenue</span>
         <div class="bulk-note-title">We can help your school make money and it costs you nothing</div>
         <span>Got an auditorium sitting empty on weekends? We can help you turn it into a revenue stream. We manage external hire bookings and the AV tech team, you keep the income.</span>
-        <a href="#contact" class="btn btn-cream">Ask About This</a>
+        <a href="#contact" class="btn btn-cream" data-package="Auditorium / External Hire">Ask About This</a>
       </div>
     </div>
   </div>
@@ -1996,7 +1996,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <span class="recovery-badge">No commitment</span>
           <span class="recovery-badge">Just good sound</span>
         </div>
-        <a href="#contact" class="btn btn-orange">Claim Your Free Trial Event</a>
+        <a href="#contact" class="btn btn-orange" data-package="Free Trial Event">Claim Your Free Trial Event</a>
       </div>
       <div class="recovery-figure" data-reveal>
         <div class="recovery-figure-inner">
@@ -2013,7 +2013,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <img src="mascot neutral smile.png" alt="Happy Urban Echo mascot" data-reveal>
     <h2 data-reveal>Calm school events. Confident speakers. No more sound emergencies.</h2>
     <p data-reveal>That's the whole job. Let's get your school's events sounding the way they're supposed to.</p>
-    <a href="#contact" class="btn btn-cream" data-reveal style="background:var(--paper);">Book Your Free Trial Event</a>
+    <a href="#contact" class="btn btn-cream" data-reveal data-package="Free Trial Event" style="background:var(--paper);">Book Your Free Trial Event</a>
   </div>
 </section>
 
@@ -2282,13 +2282,14 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <div class="field">
             <label for="package">What do you need?</label>
             <select id="package" name="package">
-              <option>Free Trial Event</option>
-              <option>First Response — Single Event</option>
-              <option>Events Package</option>
-              <option>Fully Hands-Free (Annual)</option>
-              <option>Equipment Hire</option>
-              <option>Auditorium / External Hire</option>
-              <option>Not Sure Yet</option>
+              <option value="General Enquiry">General Enquiry</option>
+              <option value="Free Trial Event">Free Trial Event</option>
+              <option value="First Response — Single Event">First Response — Single Event</option>
+              <option value="Events Package">Events Package</option>
+              <option value="Fully Hands-Free (Annual)">Fully Hands-Free (Annual)</option>
+              <option value="Equipment Hire">Equipment Hire</option>
+              <option value="Auditorium / External Hire">Auditorium / External Hire</option>
+              <option value="Not Sure Yet">Not Sure Yet</option>
             </select>
           </div>
           <div class="field">
@@ -2969,6 +2970,19 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   })();
 
 })();
+
+  /* Pre-select contact form package dropdown based on which button was clicked */
+  document.querySelectorAll('a[href="#contact"][data-package]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pkg = btn.getAttribute('data-package');
+      var sel = document.getElementById('package');
+      if(sel && pkg){
+        for(var i = 0; i < sel.options.length; i++){
+          if(sel.options[i].value === pkg){ sel.selectedIndex = i; break; }
+        }
+      }
+    });
+  });
 
   /* Slow smooth scroll for all anchor links */
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
