@@ -1143,34 +1143,42 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 </div>
 
 <script>
-// ── Auth check ──────────────────────────────────────────────
+// ── Clerk Auth ───────────────────────────────────────────────
+var PUBLISHABLE_KEY = 'pk_test_ZXhjaXRpbmctd2Fob28tOTkuY2xlcmsuYWNjb3VudHMuZGV2JA';
+var clerkInstance = null;
+
 function doLogout(){
-  sessionStorage.removeItem('ue_auth');
-  sessionStorage.removeItem('ue_name');
-  window.location.replace('login.html');
+  if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('login.html'); }); }
+  else { window.location.replace('login.html'); }
 }
 
-if(sessionStorage.getItem('ue_auth') !== '1'){
-  window.location.replace('login.html');
-} else {
+(async function initClerk(){
+  await new Promise(function(resolve, reject){
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+    s.crossOrigin = 'anonymous';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+
+  clerkInstance = new window.Clerk(PUBLISHABLE_KEY);
+  await clerkInstance.load();
+
+  if(!clerkInstance.user){
+    window.location.replace('login.html');
+    return;
+  }
+
   document.body.classList.remove('auth-pending');
-  var name = sessionStorage.getItem('ue_name') || 'Staff';
-  name = name.charAt(0).toUpperCase() + name.slice(1);
-  document.getElementById('portalUserName').textContent = name;
-}
 
-document.getElementById('logoutBtn').addEventListener('click', doLogout);
+  var user = clerkInstance.user;
+  var displayName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
+  displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+  document.getElementById('portalUserName').textContent = displayName;
 
-// ── Auto-logout: 2-minute idle timer (resets on any interaction) ────
-var IDLE_MS = 2 * 60 * 1000;
-var idleTimer = setTimeout(doLogout, IDLE_MS);
-function resetIdle(){
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(doLogout, IDLE_MS);
-}
-['click','keydown','mousemove','touchstart','scroll'].forEach(function(ev){
-  document.addEventListener(ev, resetIdle, { passive: true });
-});
+  document.getElementById('logoutBtn').addEventListener('click', doLogout);
+})();
 
 
 // ── WWC countdown ────────────────────────────────────────────

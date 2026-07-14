@@ -4,15 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Employee Login — Urban Echo</title>
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --cream: #FBF5E7;
-  --cream-deep: #F4ECD8;
   --indigo: #3F3FF0;
-  --forest: #4AAE74;
   --ink: #161527;
   --paper: #FFFCF5;
   --orange: #F4612E;
@@ -21,7 +20,7 @@
   --mono: 'Space Mono', monospace;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
-html{ background: var(--ink); overscroll-behavior-y: none; }
+html{ background: var(--ink); }
 body{
   font-family: var(--body);
   background: var(--ink);
@@ -33,180 +32,177 @@ body{
   justify-content: center;
   padding: 24px;
   -webkit-font-smoothing: antialiased;
-  overscroll-behavior-y: none;
-  margin-bottom: 0;
-  padding-bottom: 24px;
 }
-.login-box{
+.login-wrap{
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.login-header{
+  width: 100%;
   background: var(--paper);
   color: var(--ink);
-  border-radius: 24px;
+  border-radius: 24px 24px 0 0;
   border: 2.5px solid var(--ink);
+  border-bottom: none;
   box-shadow: 8px 8px 0 rgba(255,252,245,0.15);
-  padding: 40px 36px 36px;
+  padding: 32px 36px 24px;
 }
 .login-logo{
   display: block;
-  height: 28px;
-  margin-bottom: 28px;
+  height: 26px;
+  margin-bottom: 24px;
 }
 .login-eyebrow{
   font-family: var(--mono);
-  font-size:12px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--orange);
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
-.login-box h1{
+.login-header h1{
   font-family: var(--display);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   line-height: 1.05;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  margin-bottom: 28px;
 }
-.login-field{
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
-}
-.login-field label{
-  font-family: var(--mono);
-  font-size:12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(22,21,39,0.55);
-}
-.login-field input{
+
+/* Clerk component wrapper */
+#clerk-sign-in{
   width: 100%;
-  padding: 13px 16px;
-  border: 2px solid rgba(22,21,39,0.2);
-  border-radius: 10px;
-  font-family: var(--body);
-  font-size: 15px;
-  background: var(--cream);
-  color: var(--ink);
-  outline: none;
-  transition: border-color 0.15s;
 }
-.login-field input:focus{
-  border-color: var(--indigo);
+/* Override Clerk card to blend with our design */
+#clerk-sign-in .cl-card{
+  border-radius: 0 0 24px 24px !important;
+  border: 2.5px solid var(--ink) !important;
+  border-top: none !important;
+  box-shadow: 8px 8px 0 rgba(255,252,245,0.15) !important;
+  background: var(--paper) !important;
+  padding: 0 36px 32px !important;
 }
-.login-btn{
-  width: 100%;
-  margin-top: 8px;
-  padding: 14px;
-  background: var(--ink);
-  color: var(--paper);
-  border: none;
-  border-radius: 10px;
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-.login-btn:hover{ opacity: 0.82; }
-.login-error{
-  display: none;
-  margin-top: 14px;
-  padding: 12px 16px;
-  background: rgba(244,97,46,0.1);
-  border: 1.5px solid var(--orange);
-  border-radius: 8px;
-  font-size: 13.5px;
-  color: var(--orange);
-  font-weight: 600;
-  text-align: center;
-}
+#clerk-sign-in .cl-headerTitle,
+#clerk-sign-in .cl-headerSubtitle{ display: none !important; }
+#clerk-sign-in .cl-rootBox{ width: 100% !important; }
+
 .login-note{
   margin-top: 20px;
   font-family: var(--mono);
   font-size: 11.5px;
-  color: rgba(22,21,39,0.45);
+  color: rgba(255,252,245,0.45);
   text-align: center;
   line-height: 1.6;
 }
 .back-link{
   display: block;
-  margin-top: 28px;
+  margin-top: 20px;
   text-align: center;
   font-family: var(--mono);
   font-size: 12px;
-  color: rgba(255,252,245,0.5);
+  color: rgba(255,252,245,0.45);
   text-decoration: none;
 }
 .back-link:hover{ color: var(--paper); }
+
+/* Loading state */
+.login-loading{
+  width: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 0 0 24px 24px;
+  border: 2.5px solid var(--ink);
+  border-top: none;
+  padding: 40px 36px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(22,21,39,0.4);
+}
 </style>
 </head>
 <body>
 
-<div class="login-box">
-  <img src="logo.png" alt="Urban Echo" class="login-logo">
-  <span class="login-eyebrow">Employee Access</span>
-  <h1>Team Portal</h1>
+<div class="login-wrap">
+  <div class="login-header">
+    <img src="logo.png" alt="Urban Echo" class="login-logo">
+    <span class="login-eyebrow">Employee Access</span>
+    <h1>Team Portal</h1>
+  </div>
 
-  <form id="loginForm" novalidate>
-    <div class="login-field">
-      <label for="loginEmail">Email</label>
-      <input type="email" id="loginEmail" name="email" autocomplete="email" placeholder="you@urbanecho.com.au" value="mitchel@urbanecho.com.au" required>
-    </div>
-    <div class="login-field">
-      <label for="loginPassword">Password</label>
-      <input type="password" id="loginPassword" name="password" autocomplete="current-password" placeholder="••••••••" value="UrbanEcho2026!" required>
-    </div>
-    <button type="submit" class="login-btn">Log in →</button>
-    <div class="login-error" id="loginError">Incorrect email or password.</div>
-  </form>
-
-  <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
+  <div id="clerk-loading" class="login-loading">Loading…</div>
+  <div id="clerk-sign-in" style="display:none;width:100%;"></div>
 </div>
 
+<p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
 <a href="index.html" class="back-link">← Back to main site</a>
 
 <script>
-// ── Credentials (change before moving to Netlify) ──
-var USERS = [
-  { email: 'mitchel@urbanecho.com.au', password: 'UrbanEcho2026!' }
-];
+(async function(){
+  var PUBLISHABLE_KEY = 'pk_test_ZXhjaXRpbmctd2Fob28tOTkuY2xlcmsuYWNjb3VudHMuZGV2JA';
 
-var form = document.getElementById('loginForm');
-var errorEl = document.getElementById('loginError');
-
-// Already logged in?
-if(sessionStorage.getItem('ue_auth') === '1'){
-  window.location.replace('portal.html');
-}
-
-form.addEventListener('submit', function(e){
-  e.preventDefault();
-  var email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  var password = document.getElementById('loginPassword').value;
-
-  var match = USERS.find(function(u){
-    return u.email.toLowerCase() === email && u.password === password;
+  // Dynamically load Clerk JS
+  await new Promise(function(resolve, reject){
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+    s.crossOrigin = 'anonymous';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
   });
 
-  if(match){
-    sessionStorage.setItem('ue_auth', '1');
-    sessionStorage.setItem('ue_name', match.email.split('@')[0]);
+  var clerk = new window.Clerk(PUBLISHABLE_KEY);
+  await clerk.load();
+
+  // Already signed in — go straight to portal
+  if(clerk.user){
     window.location.replace('portal.html');
-  } else {
-    errorEl.style.display = 'block';
-    document.getElementById('loginPassword').value = '';
-    document.getElementById('loginPassword').focus();
+    return;
   }
-});
+
+  document.getElementById('clerk-loading').style.display = 'none';
+  document.getElementById('clerk-sign-in').style.display = '';
+
+  clerk.mountSignIn(document.getElementById('clerk-sign-in'), {
+    afterSignInUrl: 'portal.html',
+    appearance: {
+      variables: {
+        colorPrimary: '#3F3FF0',
+        colorText: '#161527',
+        colorBackground: '#FFFCF5',
+        colorInputBackground: '#FBF5E7',
+        colorInputText: '#161527',
+        borderRadius: '10px',
+        fontFamily: 'Inter, -apple-system, sans-serif',
+      },
+      elements: {
+        formButtonPrimary: {
+          backgroundColor: '#161527',
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '13px',
+          fontWeight: '700',
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+          borderRadius: '10px',
+        },
+        card: {
+          boxShadow: 'none',
+          border: 'none',
+          padding: '0',
+        },
+      }
+    }
+  });
+})();
 </script>
 </body>
 </html>
