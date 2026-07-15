@@ -33,104 +33,97 @@ body{
   padding: 24px;
   -webkit-font-smoothing: antialiased;
 }
-.login-box{
+.login-wrap{
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+}
+.login-header{
+  width: 100%;
   background: var(--paper);
   color: var(--ink);
-  border-radius: 24px;
+  border-radius: 24px 24px 0 0;
   border: 2.5px solid var(--ink);
+  border-bottom: none;
   box-shadow: 8px 8px 0 rgba(255,252,245,0.15);
-  padding: 40px 36px 36px;
+  padding: 32px 36px 24px;
 }
-.login-logo{ display:block; height:28px; margin-bottom:28px; }
+.login-logo{ display:block; height:26px; margin-bottom:24px; }
 .login-eyebrow{
   font-family: var(--mono); font-size:12px; font-weight:700;
   text-transform:uppercase; letter-spacing:0.12em;
-  color: var(--orange); display:block; margin-bottom:8px;
+  color: var(--orange); display:block; margin-bottom:6px;
 }
-.login-box h1{
-  font-family: var(--display); font-size:28px; font-weight:700;
+.login-header h1{
+  font-family: var(--display); font-size:26px; font-weight:700;
   line-height:1.05; text-transform:uppercase; letter-spacing:-0.01em;
-  margin-bottom:28px;
 }
-.login-field{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
-.login-field label{
-  font-family: var(--mono); font-size:12px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.1em;
-  color: rgba(22,21,39,0.55);
+.login-body{
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 0 0 24px 24px;
+  border: 2.5px solid var(--ink);
+  border-top: none;
+  box-shadow: 8px 8px 0 rgba(255,252,245,0.15);
+  padding: 0 0 8px;
+  min-height: 80px;
 }
-.login-field input{
-  width:100%; padding:13px 16px;
-  border:2px solid rgba(22,21,39,0.2); border-radius:10px;
-  font-family: var(--body); font-size:15px;
-  background: var(--cream); color: var(--ink);
-  outline:none; transition:border-color 0.15s;
-}
-.login-field input:focus{ border-color: var(--indigo); }
-.login-btn{
-  width:100%; margin-top:8px; padding:14px;
-  background: var(--ink); color: var(--paper);
-  border:none; border-radius:10px;
+.login-loading{
+  padding: 40px 36px;
+  text-align: center;
   font-family: var(--mono); font-size:13px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.08em;
-  cursor:pointer; transition:opacity 0.15s;
-  display:flex; align-items:center; justify-content:center; gap:10px;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color: rgba(22,21,39,0.35);
 }
-.login-btn:hover{ opacity:0.82; }
-.login-btn:disabled{ opacity:0.5; cursor:default; }
-.spinner{
-  display:none; width:16px; height:16px;
-  border:2px solid rgba(255,252,245,0.3);
-  border-top-color: var(--paper);
-  border-radius:50%;
-  animation: spin 0.7s linear infinite;
+/* Blend Clerk's card into our design */
+#clerk-sign-in .cl-rootBox{ width:100% !important; }
+#clerk-sign-in .cl-card{
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 12px 28px 28px !important;
 }
-@keyframes spin{ to{ transform:rotate(360deg); } }
-.login-error{
-  display:none; margin-top:14px; padding:12px 16px;
-  background:rgba(244,97,46,0.1); border:1.5px solid var(--orange);
-  border-radius:8px; font-size:13.5px; color:var(--orange);
-  font-weight:600; text-align:center;
+#clerk-sign-in .cl-headerTitle,
+#clerk-sign-in .cl-headerSubtitle,
+#clerk-sign-in .cl-header{ display:none !important; }
+#clerk-sign-in .cl-dividerLine{ background: rgba(22,21,39,0.15) !important; }
+#clerk-sign-in .cl-formButtonPrimary{
+  background: var(--ink) !important;
+  font-family: var(--mono) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
 }
 .login-note{
-  margin-top:20px; font-family:var(--mono); font-size:11.5px;
-  color:rgba(22,21,39,0.45); text-align:center; line-height:1.6;
+  margin-top: 20px; font-family:var(--mono); font-size:11.5px;
+  color:rgba(255,252,245,0.45); text-align:center; line-height:1.6;
 }
 .back-link{
-  display:block; margin-top:28px; text-align:center;
+  display:block; margin-top:20px; text-align:center;
   font-family:var(--mono); font-size:12px;
-  color:rgba(255,252,245,0.5); text-decoration:none;
+  color:rgba(255,252,245,0.45); text-decoration:none;
 }
 .back-link:hover{ color:var(--paper); }
 </style>
 </head>
 <body>
 
-<div class="login-box">
-  <img src="logo.png" alt="Urban Echo" class="login-logo">
-  <span class="login-eyebrow">Employee Access</span>
-  <h1>Team Portal</h1>
-
-  <form id="loginForm" novalidate>
-    <div class="login-field">
-      <label for="loginEmail">Email</label>
-      <input type="email" id="loginEmail" name="email" autocomplete="email" placeholder="you@urbanecho.com.au" required>
-    </div>
-    <div class="login-field">
-      <label for="loginPassword">Password</label>
-      <input type="password" id="loginPassword" name="password" autocomplete="current-password" placeholder="••••••••" required>
-    </div>
-    <button type="submit" class="login-btn" id="loginBtn">
-      <span id="btnText">Log in →</span>
-      <span class="spinner" id="btnSpinner"></span>
-    </button>
-    <div class="login-error" id="loginError">Incorrect email or password.</div>
-  </form>
-
-  <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
+<div class="login-wrap">
+  <div class="login-header">
+    <img src="logo.png" alt="Urban Echo" class="login-logo">
+    <span class="login-eyebrow">Employee Access</span>
+    <h1>Team Portal</h1>
+  </div>
+  <div class="login-body">
+    <div id="clerk-loading" class="login-loading">Loading…</div>
+    <div id="clerk-sign-in"></div>
+  </div>
 </div>
 
+<p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
 <a href="index.html" class="back-link">← Back to main site</a>
 
 <script
@@ -141,7 +134,10 @@ body{
 ></script>
 <script>
 (async function(){
-  // Wait for Clerk to be ready
+  var loadingEl = document.getElementById('clerk-loading');
+  var signInEl  = document.getElementById('clerk-sign-in');
+
+  // Wait for Clerk to auto-init via data-clerk-publishable-key
   await new Promise(function(resolve){
     function check(){ if(window.Clerk){ resolve(); } else { setTimeout(check, 50); } }
     check();
@@ -150,42 +146,27 @@ body{
   var clerk = window.Clerk;
   await clerk.load();
 
-  // Already signed in
   if(clerk.user){ window.location.replace('portal.html'); return; }
 
-  var form     = document.getElementById('loginForm');
-  var errorEl  = document.getElementById('loginError');
-  var btn      = document.getElementById('loginBtn');
-  var btnText  = document.getElementById('btnText');
-  var spinner  = document.getElementById('btnSpinner');
+  // Redirect as soon as a session appears (fires after successful sign-in)
+  clerk.addListener(function(state){
+    if(state.user){ window.location.replace('portal.html'); }
+  });
 
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    errorEl.style.display = 'none';
-    btn.disabled = true;
-    btnText.textContent = 'Logging in…';
-    spinner.style.display = 'block';
+  loadingEl.style.display = 'none';
 
-    try {
-      var result = await clerk.signIn.create({
-        identifier: document.getElementById('loginEmail').value.trim(),
-        password:   document.getElementById('loginPassword').value,
-      });
-
-      if(result.status === 'complete'){
-        await clerk.setActive({ session: result.createdSessionId });
-        window.location.replace('portal.html');
-      } else {
-        throw new Error('Sign-in incomplete: ' + result.status);
+  clerk.mountSignIn(signInEl, {
+    routing: 'virtual',
+    appearance: {
+      variables: {
+        colorPrimary: '#3F3FF0',
+        colorText: '#161527',
+        colorBackground: '#FFFCF5',
+        colorInputBackground: '#FBF5E7',
+        colorInputText: '#161527',
+        borderRadius: '10px',
+        fontFamily: 'Inter, -apple-system, sans-serif',
       }
-    } catch(err){
-      errorEl.textContent = err.errors ? err.errors[0].longMessage : 'Incorrect email or password.';
-      errorEl.style.display = 'block';
-      btn.disabled = false;
-      btnText.textContent = 'Log in →';
-      spinner.style.display = 'none';
-      document.getElementById('loginPassword').value = '';
-      document.getElementById('loginPassword').focus();
     }
   });
 })();
