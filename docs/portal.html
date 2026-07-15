@@ -1189,32 +1189,40 @@ function doLogout(){
       document.head.appendChild(s);
     });
 
-    // Wait for Clerk to auto-initialise
+    // Wait for Clerk to be available
     await new Promise(function(resolve){
-      if(window.Clerk && window.Clerk.load) return resolve();
-      document.addEventListener('clerk:loaded', resolve, { once: true });
-      setTimeout(resolve, 5000);
+      function check(){ if(window.Clerk){ resolve(); } else { setTimeout(check, 50); } }
+      check();
     });
 
     clerkInstance = window.Clerk;
-    if(!clerkInstance || !clerkInstance.load) throw new Error('Clerk did not initialise');
     await clerkInstance.load();
 
-    if(!clerkInstance.user){
-      // Give Clerk a moment to sync session after redirect before giving up
-      await new Promise(function(resolve){ setTimeout(resolve, 1500); });
-      await clerkInstance.load();
-      if(!clerkInstance.user){
-        window.location.replace('login.html');
-        return;
-      }
+    // Poll up to 5 seconds for a valid user session
+    var user = clerkInstance.user;
+    if(!user){
+      await new Promise(function(resolve){
+        var attempts = 0;
+        var t = setInterval(function(){
+          if(clerkInstance.user || attempts >= 10){
+            clearInterval(t);
+            resolve();
+          }
+          attempts++;
+        }, 500);
+      });
+      user = clerkInstance.user;
+    }
+
+    if(!user){
+      window.location.replace('login.html');
+      return;
     }
 
     // Auth confirmed — show portal
     loader.classList.remove('show');
     document.body.classList.remove('auth-pending');
 
-    var user = clerkInstance.user;
     var displayName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
     displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
     document.getElementById('portalUserName').textContent = displayName;
@@ -1222,7 +1230,6 @@ function doLogout(){
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
 
   } catch(err) {
-    // If Clerk fails to load, fall back to login page
     console.error('Clerk init error:', err);
     window.location.replace('login.html');
   }
