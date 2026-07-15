@@ -161,7 +161,9 @@ body{
       document.head.appendChild(s);
     });
 
-    var clerk = new window.Clerk(PUBLISHABLE_KEY);
+    var ClerkClass = window.Clerk || (window.__clerk_frontend_api && window.Clerk) || window.__clerk;
+    if(!ClerkClass) throw new Error('Clerk class not found. Keys: ' + Object.keys(window).filter(function(k){ return k.toLowerCase().includes('clerk'); }).join(', '));
+    var clerk = new ClerkClass(PUBLISHABLE_KEY);
     await clerk.load();
 
     if(clerk.user){
