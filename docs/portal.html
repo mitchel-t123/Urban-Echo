@@ -1168,7 +1168,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 
 <script>
 // ── Clerk Auth ───────────────────────────────────────────────
-var PUBLISHABLE_KEY = 'pk_test_ZXhjaXRpbmctd2Fob28tOTkuY2xlcmsuYWNjb3VudHMuZGV2JA';
+var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
 var clerkInstance = null;
 
 function doLogout(){
@@ -1181,7 +1181,7 @@ function doLogout(){
   try {
     await new Promise(function(resolve, reject){
       var s = document.createElement('script');
-      s.src = 'https://exciting-wahoo-99.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+      s.src = 'https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
       s.onload = resolve;
       s.onerror = reject;
       document.head.appendChild(s);
