@@ -1179,14 +1179,21 @@ function doLogout(){
 (async function initClerk(){
   var loader = document.getElementById('authLoader');
   try {
-    await new Promise(function(resolve, reject){
-      var s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-      s.crossOrigin = 'anonymous';
-      s.onload = resolve;
-      s.onerror = function(){ reject(new Error('Clerk script failed to load')); };
-      document.head.appendChild(s);
-    });
+    function loadScript(url){
+      return new Promise(function(resolve, reject){
+        var s = document.createElement('script');
+        s.src = url;
+        s.crossOrigin = 'anonymous';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+    try {
+      await loadScript('https://unpkg.com/@clerk/clerk-js@5/dist/clerk.browser.js');
+    } catch(e) {
+      await loadScript('https://cdn.jsdelivr.net/npm/@clerk/clerk-js@5/dist/clerk.browser.js');
+    }
 
     clerkInstance = new window.Clerk(PUBLISHABLE_KEY);
     await clerkInstance.load();
