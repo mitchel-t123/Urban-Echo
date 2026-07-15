@@ -40,6 +40,24 @@ body{
 }
 body.auth-pending{ visibility: hidden; }
 
+/* ── AUTH LOADING SCREEN ── */
+#authLoader{
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:var(--ink); align-items:center; justify-content:center;
+  flex-direction:column; gap:16px;
+}
+#authLoader.show{ display:flex; }
+#authLoader p{
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:rgba(255,252,245,0.45);
+}
+#authLoader .loader-dot{
+  width:10px; height:10px; border-radius:50%; background:var(--indigo);
+  animation:pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse{ 0%,100%{ opacity:0.2; transform:scale(0.8); } 50%{ opacity:1; transform:scale(1.2); } }
+
 /* ── NAV ── */
 .nav{
   position: sticky; top:0; z-index:100;
@@ -603,6 +621,12 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 </head>
 <body class="auth-pending">
 
+<!-- ── AUTH LOADER ── -->
+<div id="authLoader" class="show">
+  <div class="loader-dot"></div>
+  <p>Checking access…</p>
+</div>
+
 <!-- ── NAV ── -->
 <nav class="nav">
   <div class="nav-inner">
@@ -1153,31 +1177,41 @@ function doLogout(){
 }
 
 (async function initClerk(){
-  await new Promise(function(resolve, reject){
-    var s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-    s.crossOrigin = 'anonymous';
-    s.onload = resolve;
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
+  var loader = document.getElementById('authLoader');
+  try {
+    await new Promise(function(resolve, reject){
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+      s.crossOrigin = 'anonymous';
+      s.onload = resolve;
+      s.onerror = function(){ reject(new Error('Clerk script failed to load')); };
+      document.head.appendChild(s);
+    });
 
-  clerkInstance = new window.Clerk(PUBLISHABLE_KEY);
-  await clerkInstance.load();
+    clerkInstance = new window.Clerk(PUBLISHABLE_KEY);
+    await clerkInstance.load();
 
-  if(!clerkInstance.user){
+    if(!clerkInstance.user){
+      window.location.replace('login.html');
+      return;
+    }
+
+    // Auth confirmed — show portal
+    loader.classList.remove('show');
+    document.body.classList.remove('auth-pending');
+
+    var user = clerkInstance.user;
+    var displayName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
+    displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+    document.getElementById('portalUserName').textContent = displayName;
+
+    document.getElementById('logoutBtn').addEventListener('click', doLogout);
+
+  } catch(err) {
+    // If Clerk fails to load, fall back to login page
+    console.error('Clerk init error:', err);
     window.location.replace('login.html');
-    return;
   }
-
-  document.body.classList.remove('auth-pending');
-
-  var user = clerkInstance.user;
-  var displayName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
-  displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
-  document.getElementById('portalUserName').textContent = displayName;
-
-  document.getElementById('logoutBtn').addEventListener('click', doLogout);
 })();
 
 

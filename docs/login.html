@@ -149,59 +149,63 @@ body{
 <script>
 (async function(){
   var PUBLISHABLE_KEY = 'pk_test_ZXhjaXRpbmctd2Fob28tOTkuY2xlcmsuYWNjb3VudHMuZGV2JA';
+  var loadingEl = document.getElementById('clerk-loading');
+  var signInEl  = document.getElementById('clerk-sign-in');
 
-  // Dynamically load Clerk JS
-  await new Promise(function(resolve, reject){
-    var s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-    s.crossOrigin = 'anonymous';
-    s.onload = resolve;
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
+  try {
+    await new Promise(function(resolve, reject){
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+      s.crossOrigin = 'anonymous';
+      s.onload = resolve;
+      s.onerror = function(){ reject(new Error('Failed to load auth library')); };
+      document.head.appendChild(s);
+    });
 
-  var clerk = new window.Clerk(PUBLISHABLE_KEY);
-  await clerk.load();
+    var clerk = new window.Clerk(PUBLISHABLE_KEY);
+    await clerk.load();
 
-  // Already signed in — go straight to portal
-  if(clerk.user){
-    window.location.replace('portal.html');
-    return;
-  }
-
-  document.getElementById('clerk-loading').style.display = 'none';
-  document.getElementById('clerk-sign-in').style.display = '';
-
-  clerk.mountSignIn(document.getElementById('clerk-sign-in'), {
-    afterSignInUrl: 'portal.html',
-    appearance: {
-      variables: {
-        colorPrimary: '#3F3FF0',
-        colorText: '#161527',
-        colorBackground: '#FFFCF5',
-        colorInputBackground: '#FBF5E7',
-        colorInputText: '#161527',
-        borderRadius: '10px',
-        fontFamily: 'Inter, -apple-system, sans-serif',
-      },
-      elements: {
-        formButtonPrimary: {
-          backgroundColor: '#161527',
-          fontFamily: "'Space Mono', monospace",
-          fontSize: '13px',
-          fontWeight: '700',
-          textTransform: 'uppercase',
-          letterSpacing: '0.08em',
-          borderRadius: '10px',
-        },
-        card: {
-          boxShadow: 'none',
-          border: 'none',
-          padding: '0',
-        },
-      }
+    // Already signed in — go straight to portal
+    if(clerk.user){
+      window.location.replace('portal.html');
+      return;
     }
-  });
+
+    loadingEl.style.display = 'none';
+    signInEl.style.display = '';
+
+    clerk.mountSignIn(signInEl, {
+      afterSignInUrl: window.location.origin + window.location.pathname.replace('login.html','') + 'portal.html',
+      appearance: {
+        variables: {
+          colorPrimary: '#3F3FF0',
+          colorText: '#161527',
+          colorBackground: '#FFFCF5',
+          colorInputBackground: '#FBF5E7',
+          colorInputText: '#161527',
+          borderRadius: '10px',
+          fontFamily: 'Inter, -apple-system, sans-serif',
+        },
+        elements: {
+          formButtonPrimary: {
+            backgroundColor: '#161527',
+            fontFamily: "'Space Mono', monospace",
+            fontSize: '13px',
+            fontWeight: '700',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            borderRadius: '10px',
+          },
+          card: { boxShadow: 'none', border: 'none', padding: '0' },
+        }
+      }
+    });
+
+  } catch(err) {
+    console.error('Auth error:', err);
+    loadingEl.textContent = 'Could not load sign-in. Please refresh the page.';
+    loadingEl.style.color = '#F4612E';
+  }
 })();
 </script>
 </body>
