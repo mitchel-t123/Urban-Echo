@@ -144,15 +144,8 @@ body{
   });
 
   var clerk = window.Clerk;
-  await clerk.load();
 
-  if(clerk.user){ window.location.replace('portal.html'); return; }
-
-  // Redirect as soon as a session appears (fires after successful sign-in)
-  clerk.addListener(function(state){
-    if(state.user){ window.location.replace('portal.html'); }
-  });
-
+  // Show form immediately — don't wait for load() to finish
   loadingEl.style.display = 'none';
 
   clerk.mountSignIn(signInEl, {
@@ -168,6 +161,11 @@ body{
         fontFamily: 'Inter, -apple-system, sans-serif',
       }
     }
+  });
+
+  // Redirect once signed in
+  clerk.addListener(function(state){
+    if(state.user){ window.location.replace('portal.html'); }
   });
 })();
 </script>
