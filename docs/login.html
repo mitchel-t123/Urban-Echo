@@ -139,74 +139,19 @@ body{
     <h1>Team Portal</h1>
   </div>
 
-  <div id="clerk-loading" class="login-loading">Loading…</div>
-  <div id="clerk-sign-in" style="display:none;width:100%;"></div>
+  <!-- Fallback: direct link to Clerk's hosted sign-in page -->
+  <div style="background:var(--paper);color:var(--ink);border-radius:0 0 24px 24px;border:2.5px solid var(--ink);border-top:none;box-shadow:8px 8px 0 rgba(255,252,245,0.15);padding:28px 36px 32px;">
+    <a href="https://accounts.exciting-wahoo-99.clerk.accounts.dev/sign-in?redirect_url=https%3A%2F%2Furbanecho.com.au%2Fportal.html"
+       style="display:block;width:100%;padding:14px;background:var(--ink);color:var(--paper);border:none;border-radius:10px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;text-decoration:none;text-align:center;">
+      Log in →
+    </a>
+    <p style="margin-top:14px;font-family:'Space Mono',monospace;font-size:11px;color:rgba(22,21,39,0.4);text-align:center;line-height:1.6;">
+      You'll be taken to a secure sign-in page<br>and returned here after.
+    </p>
+  </div>
 </div>
 
 <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
 <a href="index.html" class="back-link">← Back to main site</a>
-
-<script>
-(async function(){
-  var PUBLISHABLE_KEY = 'pk_test_ZXhjaXRpbmctd2Fob28tOTkuY2xlcmsuYWNjb3VudHMuZGV2JA';
-  var loadingEl = document.getElementById('clerk-loading');
-  var signInEl  = document.getElementById('clerk-sign-in');
-
-  try {
-    await new Promise(function(resolve, reject){
-      var s = document.createElement('script');
-      // Load from Clerk's own CDN (most reliable — tied to your app)
-      s.src = 'https://exciting-wahoo-99.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
-
-    var clerk = new window.Clerk(PUBLISHABLE_KEY);
-    await clerk.load();
-
-    // Already signed in — go straight to portal
-    if(clerk.user){
-      window.location.replace('portal.html');
-      return;
-    }
-
-    loadingEl.style.display = 'none';
-    signInEl.style.display = '';
-
-    clerk.mountSignIn(signInEl, {
-      afterSignInUrl: window.location.origin + window.location.pathname.replace('login.html','') + 'portal.html',
-      appearance: {
-        variables: {
-          colorPrimary: '#3F3FF0',
-          colorText: '#161527',
-          colorBackground: '#FFFCF5',
-          colorInputBackground: '#FBF5E7',
-          colorInputText: '#161527',
-          borderRadius: '10px',
-          fontFamily: 'Inter, -apple-system, sans-serif',
-        },
-        elements: {
-          formButtonPrimary: {
-            backgroundColor: '#161527',
-            fontFamily: "'Space Mono', monospace",
-            fontSize: '13px',
-            fontWeight: '700',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            borderRadius: '10px',
-          },
-          card: { boxShadow: 'none', border: 'none', padding: '0' },
-        }
-      }
-    });
-
-  } catch(err) {
-    console.error('Auth error:', err);
-    loadingEl.textContent = 'Could not load sign-in. Please refresh the page.';
-    loadingEl.style.color = '#F4612E';
-  }
-})();
-</script>
 </body>
 </html>
