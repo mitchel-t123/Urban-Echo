@@ -145,11 +145,16 @@ body{
 
   var clerk = window.Clerk;
 
-  // Show form immediately — don't wait for load() to finish
+  await clerk.load({
+    signInForceRedirectUrl: 'https://urbanecho.com.au/portal.html',
+    signUpForceRedirectUrl: 'https://urbanecho.com.au/portal.html',
+  });
+
+  if(clerk.user){ window.location.replace('portal.html'); return; }
+
   loadingEl.style.display = 'none';
 
   clerk.mountSignIn(signInEl, {
-    routing: 'virtual',
     appearance: {
       variables: {
         colorPrimary: '#3F3FF0',
@@ -161,11 +166,6 @@ body{
         fontFamily: 'Inter, -apple-system, sans-serif',
       }
     }
-  });
-
-  // Redirect once signed in
-  clerk.addListener(function(state){
-    if(state.user){ window.location.replace('portal.html'); }
   });
 })();
 </script>
