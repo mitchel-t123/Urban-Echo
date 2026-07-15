@@ -201,7 +201,7 @@ body{
 
   } catch(err) {
     console.error('Auth error:', err);
-    loadingEl.textContent = 'Could not load sign-in. Please refresh the page.';
+    loadingEl.textContent = 'Error: ' + (err && err.message ? err.message : String(err));
     loadingEl.style.color = '#F4612E';
   }
 })();
