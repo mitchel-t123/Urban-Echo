@@ -168,18 +168,25 @@ body{
     var clerk = window.Clerk;
     if(!clerk || !clerk.load) throw new Error('Clerk did not initialise');
 
-    await clerk.load();
+    await clerk.load({
+      signInForceRedirectUrl: 'https://urbanecho.com.au/portal.html',
+      signUpForceRedirectUrl: 'https://urbanecho.com.au/portal.html',
+    });
 
     if(clerk.user){
       window.location.replace('portal.html');
       return;
     }
 
+    // Redirect as soon as a session is established
+    clerk.addListener(function(state){
+      if(state.session){ window.location.replace('portal.html'); }
+    });
+
     loadingEl.style.display = 'none';
     signInEl.style.display = '';
 
     clerk.mountSignIn(signInEl, {
-      afterSignInUrl: 'https://urbanecho.com.au/portal.html',
       appearance: {
         variables: {
           colorPrimary: '#3F3FF0',
