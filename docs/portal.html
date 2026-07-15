@@ -1181,13 +1181,23 @@ function doLogout(){
   try {
     await new Promise(function(resolve, reject){
       var s = document.createElement('script');
+      s.setAttribute('data-clerk-publishable-key', PUBLISHABLE_KEY);
+      s.crossOrigin = 'anonymous';
       s.src = 'https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
       s.onload = resolve;
       s.onerror = reject;
       document.head.appendChild(s);
     });
 
-    clerkInstance = new window.Clerk(PUBLISHABLE_KEY);
+    // Wait for Clerk to auto-initialise
+    await new Promise(function(resolve){
+      if(window.Clerk && window.Clerk.load) return resolve();
+      document.addEventListener('clerk:loaded', resolve, { once: true });
+      setTimeout(resolve, 5000);
+    });
+
+    clerkInstance = window.Clerk;
+    if(!clerkInstance || !clerkInstance.load) throw new Error('Clerk did not initialise');
     await clerkInstance.load();
 
     if(!clerkInstance.user){

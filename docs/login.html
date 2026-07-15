@@ -146,24 +146,28 @@ body{
 <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
 <a href="index.html" class="back-link">← Back to main site</a>
 
+<script
+  async
+  crossorigin="anonymous"
+  data-clerk-publishable-key="pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ"
+  src="https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+></script>
 <script>
 (async function(){
-  var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
   var loadingEl = document.getElementById('clerk-loading');
   var signInEl  = document.getElementById('clerk-sign-in');
 
   try {
-    await new Promise(function(resolve, reject){
-      var s = document.createElement('script');
-      s.src = 'https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
+    // Wait for Clerk to auto-initialise via data-clerk-publishable-key
+    await new Promise(function(resolve){
+      if(window.Clerk && window.Clerk.load) return resolve();
+      document.addEventListener('clerk:loaded', resolve, { once: true });
+      setTimeout(resolve, 5000); // fallback timeout
     });
 
-    var ClerkClass = window.Clerk || (window.__clerk_frontend_api && window.Clerk) || window.__clerk;
-    if(!ClerkClass) throw new Error('Clerk class not found. Keys: ' + Object.keys(window).filter(function(k){ return k.toLowerCase().includes('clerk'); }).join(', '));
-    var clerk = new ClerkClass(PUBLISHABLE_KEY);
+    var clerk = window.Clerk;
+    if(!clerk || !clerk.load) throw new Error('Clerk did not initialise');
+
     await clerk.load();
 
     if(clerk.user){
