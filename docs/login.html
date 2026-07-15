@@ -155,10 +155,13 @@ body{
 
   if(clerk.user){ window.location.replace('portal.html'); return; }
 
-  // Fire redirect the moment a session is established
-  clerk.addListener(function(state){
-    if(state.session){ window.location.replace('portal.html'); }
-  });
+  // Poll every 500ms — redirect as soon as a session exists
+  var poll = setInterval(function(){
+    if(window.Clerk && window.Clerk.session){
+      clearInterval(poll);
+      window.location.href = 'https://urbanecho.com.au/portal.html';
+    }
+  }, 500);
 
   loadingEl.style.display = 'none';
 
