@@ -145,12 +145,20 @@ body{
 
   var clerk = window.Clerk;
 
-  await clerk.load({
-    signInForceRedirectUrl: 'https://urbanecho.com.au/portal.html',
-    signUpForceRedirectUrl: 'https://urbanecho.com.au/portal.html',
-  });
+  await Promise.race([
+    clerk.load({
+      signInForceRedirectUrl: 'https://urbanecho.com.au/portal.html',
+      signUpForceRedirectUrl: 'https://urbanecho.com.au/portal.html',
+    }),
+    new Promise(function(resolve){ setTimeout(resolve, 4000); })
+  ]);
 
   if(clerk.user){ window.location.replace('portal.html'); return; }
+
+  // Fire redirect the moment a session is established
+  clerk.addListener(function(state){
+    if(state.session){ window.location.replace('portal.html'); }
+  });
 
   loadingEl.style.display = 'none';
 
