@@ -270,25 +270,27 @@ function doLogout(){
     clerkInstance = window.Clerk;
     await clerkInstance.load();
 
-    var user = clerkInstance.user;
-    if(!user){
-      await new Promise(function(resolve){
-        var attempts = 0;
-        var t = setInterval(function(){
-          if(clerkInstance.user || attempts >= 10){ clearInterval(t); resolve(); }
-          attempts++;
-        }, 500);
-      });
-      user = clerkInstance.user;
-    }
+    // Wait up to 15 seconds for Clerk to restore session (mobile can be slow)
+    var user = await new Promise(function(resolve){
+      if(clerkInstance.user){ resolve(clerkInstance.user); return; }
+      var attempts = 0;
+      var t = setInterval(function(){
+        if(clerkInstance.user){ clearInterval(t); resolve(clerkInstance.user); return; }
+        attempts++;
+        if(attempts >= 30){ clearInterval(t); resolve(null); }
+      }, 500);
+    });
 
     if(!user){ window.location.replace('login.html'); return; }
-    var userEmail = user.primaryEmailAddress && user.primaryEmailAddress.emailAddress;
-    if(user.id !== ADMIN_ID && userEmail !== ADMIN_EMAIL){ window.location.replace('portal.html'); return; }
 
+    var userEmail = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress) || '';
+    var isAdmin = user.id === ADMIN_ID || userEmail === ADMIN_EMAIL;
+    if(!isAdmin){ window.location.replace('portal.html'); return; }
+
+    // Supabase — non-fatal if JWT template not set up
     var token = null;
     try { token = await clerkInstance.session.getToken({ template: 'supabase' }); }
-    catch(tokenErr){ console.warn('JWT template error:', tokenErr.message); }
+    catch(tokenErr){ console.warn('JWT template:', tokenErr.message); }
 
     var headers = token ? { Authorization: 'Bearer ' + token } : {};
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
@@ -301,7 +303,7 @@ function doLogout(){
 
     loadTeam();
   } catch(err){
-    console.error(err);
+    console.error('Admin init error:', err);
     window.location.replace('login.html');
   }
 })();
