@@ -1232,6 +1232,8 @@ section[id], div[id].packages {
   color: var(--ink);
   outline:none;
   transition: border-color 0.15s;
+  -webkit-appearance:none;
+  appearance:none;
 }
 .field input:focus, .field select:focus, .field textarea:focus{ border-color: var(--indigo); }
 .field textarea{ resize:vertical; min-height:96px; font-family:var(--body); }
@@ -1325,7 +1327,7 @@ section[id], div[id].packages {
 .meet-card .field textarea,
 .meet-card .field select{ width:100%; padding:11px 14px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:15px; font-family:var(--body); background:#fff; color:var(--ink); outline:none; transition:border-color 0.18s; box-sizing:border-box; -webkit-appearance:none; appearance:none; }
 .select-wrap{ position:relative; display:block; }
-.select-wrap select{ padding-right:38px; }
+.select-wrap select{ padding-right:38px; -webkit-appearance:none; appearance:none; }
 .select-wrap::after{ content:''; position:absolute; right:13px; top:50%; transform:translateY(-50%); width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid rgba(22,21,39,0.45); pointer-events:none; }
 .meet-card .field input[type=datetime-local]{ padding:10px 12px; font-size:14px; }
 .meet-card .field input:focus,
