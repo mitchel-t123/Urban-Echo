@@ -719,6 +719,27 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     </div>
   </section>
 
+  <!-- MY DOCUMENTS -->
+  <section class="portal-section" id="myDocsSection" style="display:none;">
+    <div class="wrap">
+      <h2>My Documents</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" id="myDocsGrid">
+        <div>
+          <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--forest);margin-bottom:12px;">✔ Signed</div>
+          <div id="myDocsSigned" style="display:flex;flex-direction:column;gap:8px;">
+            <div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading…</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:12px;">⚠ Awaiting Signature</div>
+          <div id="myDocsPending" style="display:flex;flex-direction:column;gap:8px;">
+            <div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- WWC + COMPLIANCE -->
   <section class="portal-section">
     <div class="wrap">
@@ -1020,6 +1041,41 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <p id="adminError" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
 
   </div>
+<!-- DOCS MODAL -->
+<div id="docsModal" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(22,21,39,0.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:32px;position:relative;">
+    <button onclick="closeDocsModal()" style="position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(22,21,39,0.2);background:none;font-size:14px;cursor:pointer;">✕</button>
+    <span style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--indigo);display:block;margin-bottom:4px;">Documents</span>
+    <h2 id="docsModalName" style="font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:24px;">Member</h2>
+
+    <!-- Pending -->
+    <div style="margin-bottom:24px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">⚠ Awaiting Signature</div>
+      <div id="docsPendingList" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
+    <!-- Signed -->
+    <div style="margin-bottom:28px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--forest);margin-bottom:10px;">✔ Signed</div>
+      <div id="docsSignedList" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
+    <!-- Add doc form -->
+    <div style="border-top:2px solid rgba(22,21,39,0.1);padding-top:20px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.45);margin-bottom:12px;">Add Document</div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px;">
+        <label style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.5);">Document Name</label>
+        <input id="newDocName" type="text" placeholder="e.g. Contractor Agreement 2026" style="width:100%;padding:10px 13px;border:1.5px solid rgba(22,21,39,0.18);border-radius:9px;font-family:inherit;font-size:13px;background:var(--cream);color:var(--ink);outline:none;">
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="addDocItem('pending')" style="flex:1;padding:10px;border-radius:10px;border:2px solid var(--orange);background:none;color:var(--orange);font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;cursor:pointer;">+ Awaiting</button>
+        <button onclick="addDocItem('signed')" style="flex:1;padding:10px;border-radius:10px;border:2px solid var(--forest);background:none;color:var(--forest-deep);font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;cursor:pointer;">+ Signed</button>
+      </div>
+      <p id="docsError" style="display:none;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--red);font-weight:700;"></p>
+    </div>
+  </div>
+</div>
+
 </div><!-- end #adminPanel -->
 
 <!-- ── WHATSAPP CHAT FAB ── -->
@@ -1370,10 +1426,11 @@ function doLogout(){
         '  ·  Issued: ' + formatDate(profile.police_issued) +
         '  ·  Expires: ' + formatDate(profile.police_expiry);
       updateCountdown('police', profile.police_expiry, 'National Police Clearance');
+      loadMyDocs(profile.id);
 
     } else {
-      // Fallback name already set above; log error if any
       if(error) console.warn('Supabase profile error:', error.message);
+      loadMyDocs(user.id);
     }
 
   } catch(err) {
@@ -1849,7 +1906,10 @@ async function loadAdminTeam(){
           '<td style="padding:14px 16px;"><div style="font-weight:800;font-size:14px;white-space:nowrap;">' + (m.first_name||'') + ' ' + (m.last_name||'') + '</div><div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.4);max-width:160px;overflow:hidden;text-overflow:ellipsis;">' + (m.email||'') + '</div></td>' +
           '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + wwcCol + ';">' + wwcStatus + '</span></td>' +
           '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + polCol + ';">' + polStatus + '</span></td>' +
-          '<td style="padding:14px 16px;"><button onclick=\'openMemberModal(' + JSON.stringify(m) + ')\' style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 12px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;white-space:nowrap;">Edit</button></td>' +
+          '<td style="padding:14px 16px;display:flex;gap:6px;align-items:center;">' +
+            '<button onclick=\'openDocsModal("' + m.id + '","' + ((m.first_name||'') + ' ' + (m.last_name||'')).trim() + '")\' style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 12px;border-radius:100px;border:1.5px solid var(--indigo);background:var(--indigo);color:#fff;cursor:pointer;white-space:nowrap;">Files</button>' +
+            '<button onclick=\'openMemberModal(' + JSON.stringify(m) + ')\' style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 12px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;white-space:nowrap;">Edit</button>' +
+          '</td>' +
         '</tr>';
       }).join('');
 
@@ -1965,6 +2025,105 @@ async function saveMember(e){
   closeMemberModal();
   adminLoaded = false;
   loadAdminTeam();
+}
+
+// ── Documents modal (admin) ──────────────────────────────────
+var docsCurrentMemberId = null;
+
+async function openDocsModal(memberId, memberName){
+  docsCurrentMemberId = memberId;
+  document.getElementById('docsModalName').textContent = memberName || 'Member';
+  document.getElementById('docsError').style.display = 'none';
+  document.getElementById('newDocName').value = '';
+  document.getElementById('docsModal').style.display = 'flex';
+  await refreshDocLists();
+}
+
+function closeDocsModal(){
+  document.getElementById('docsModal').style.display = 'none';
+  docsCurrentMemberId = null;
+}
+
+async function refreshDocLists(){
+  var pendEl = document.getElementById('docsPendingList');
+  var signEl = document.getElementById('docsSignedList');
+  pendEl.innerHTML = '<div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading…</div>';
+  signEl.innerHTML = '';
+  if(!supabaseClient || !docsCurrentMemberId) return;
+  var { data, error } = await supabaseClient
+    .from('member_documents')
+    .select('*')
+    .eq('member_id', docsCurrentMemberId)
+    .order('created_at');
+  if(error){ pendEl.innerHTML = '<div style="font-family:var(--mono);font-size:11px;color:var(--red);">Error: ' + error.message + '</div>'; return; }
+  var pending = (data||[]).filter(function(d){ return d.status === 'pending'; });
+  var signed  = (data||[]).filter(function(d){ return d.status === 'signed'; });
+  pendEl.innerHTML = pending.length ? pending.map(docRow).join('') : '<div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.35);">None</div>';
+  signEl.innerHTML = signed.length  ? signed.map(docRow).join('')  : '<div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.35);">None</div>';
+}
+
+function docRow(d){
+  var isSigned = d.status === 'signed';
+  var col = isSigned ? '#379260' : 'var(--orange)';
+  var toggleLabel = isSigned ? 'Mark Pending' : 'Mark Signed';
+  return '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--cream);border-radius:10px;padding:10px 14px;">' +
+    '<span style="font-size:13px;font-weight:600;flex:1;">' + d.name + '</span>' +
+    '<div style="display:flex;gap:6px;flex-shrink:0;">' +
+      '<button onclick=\'toggleDoc("' + d.id + '","' + d.status + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 9px;border-radius:100px;border:1.5px solid ' + col + ';background:none;color:' + col + ';cursor:pointer;">' + toggleLabel + '</button>' +
+      '<button onclick=\'deleteDoc("' + d.id + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.15);background:none;color:rgba(22,21,39,0.4);cursor:pointer;">✕</button>' +
+    '</div>' +
+  '</div>';
+}
+
+async function addDocItem(status){
+  var name = document.getElementById('newDocName').value.trim();
+  var errEl = document.getElementById('docsError');
+  if(!name){ errEl.textContent = 'Please enter a document name.'; errEl.style.display = 'block'; return; }
+  errEl.style.display = 'none';
+  var payload = { member_id: docsCurrentMemberId, name: name, status: status };
+  if(status === 'signed') payload.signed_at = new Date().toISOString().split('T')[0];
+  var { error } = await supabaseClient.from('member_documents').insert(payload);
+  if(error){ errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  document.getElementById('newDocName').value = '';
+  await refreshDocLists();
+}
+
+async function toggleDoc(docId, currentStatus){
+  var newStatus = currentStatus === 'signed' ? 'pending' : 'signed';
+  var update = { status: newStatus };
+  if(newStatus === 'signed') update.signed_at = new Date().toISOString().split('T')[0];
+  await supabaseClient.from('member_documents').update(update).eq('id', docId);
+  await refreshDocLists();
+}
+
+async function deleteDoc(docId){
+  await supabaseClient.from('member_documents').delete().eq('id', docId);
+  await refreshDocLists();
+}
+
+// ── Load member's own docs for portal view ───────────────────
+async function loadMyDocs(memberId){
+  if(!supabaseClient || !memberId) return;
+  var { data } = await supabaseClient
+    .from('member_documents')
+    .select('*')
+    .eq('member_id', memberId)
+    .order('created_at');
+  if(!data || data.length === 0) return;
+  document.getElementById('myDocsSection').style.display = 'block';
+  var signed  = data.filter(function(d){ return d.status === 'signed'; });
+  var pending = data.filter(function(d){ return d.status === 'pending'; });
+  function portalDocRow(d, signed){
+    var bg  = signed ? 'rgba(74,174,116,0.1)' : 'rgba(244,97,46,0.08)';
+    var col = signed ? '#379260' : 'var(--orange)';
+    var icon = signed ? '✔' : '⚠';
+    return '<div style="background:' + bg + ';border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;">' +
+      '<span style="font-family:var(--mono);font-size:13px;color:' + col + ';font-weight:700;">' + icon + '</span>' +
+      '<span style="font-size:13px;font-weight:600;">' + d.name + '</span>' +
+    '</div>';
+  }
+  document.getElementById('myDocsSigned').innerHTML  = signed.length  ? signed.map(function(d){ return portalDocRow(d,true); }).join('') : '<div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">None yet</div>';
+  document.getElementById('myDocsPending').innerHTML = pending.length ? pending.map(function(d){ return portalDocRow(d,false); }).join('') : '<div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">All clear</div>';
 }
 
 async function deleteMember(){
