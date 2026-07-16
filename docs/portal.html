@@ -1869,14 +1869,17 @@ function buildMemberModal(){
       mSection('Account') +
       mField('mId','Clerk User ID','text','user_xxxxxxxxxxxxxxxx') +
       '<div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.45);margin-top:-8px;margin-bottom:12px;">Find in Clerk Dashboard → Users → click the member</div>' +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' + mField('mFirst','First Name','text','Mitchel') + mField('mLast','Last Name','text','Tinsley') + '</div>' +
+      mField('mFirst','First Name','text','Mitchel') +
+      mField('mLast','Last Name','text','Tinsley') +
       mField('mEmail','Email','email','mitchel@urbanecho.com.au') +
       mSection('Working With Children Check') +
       mField('mWwcNum','Card Number','text','WWC0123456E') +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' + mField('mWwcIssued','Issued','date','') + mField('mWwcExpiry','Expiry','date','') + '</div>' +
+      mField('mWwcIssued','Issued','date','') +
+      mField('mWwcExpiry','Expiry','date','') +
       mSection('National Police Clearance') +
       mField('mPolRef','Reference Number','text','NPC20240001') +
-      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' + mField('mPolIssued','Issued','date','') + mField('mPolExpiry','Expiry','date','') + '</div>' +
+      mField('mPolIssued','Issued','date','') +
+      mField('mPolExpiry','Expiry','date','') +
       '<p id="mError" style="display:none;margin:12px 0;padding:10px 14px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:8px;font-family:var(--mono);font-size:11px;color:var(--red);font-weight:700;"></p>' +
       '<button type="submit" style="width:100%;margin-top:14px;padding:13px;background:var(--ink);color:var(--paper);border:none;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Save Member</button>' +
     '</form>' +
