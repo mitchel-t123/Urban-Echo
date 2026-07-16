@@ -618,6 +618,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="auth-pending">
 
@@ -1167,18 +1168,22 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 </div>
 
 <script>
-// ── Clerk Auth ───────────────────────────────────────────────
-var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
-var clerkInstance = null;
+// ── Config ───────────────────────────────────────────────────
+var PUBLISHABLE_KEY  = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
+var SUPABASE_URL     = 'https://wqmtdccrclhhtiwfgcgl.supabase.co';
+var SUPABASE_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxbXRkY2NyY2xoaHRpd2ZnY2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDk3OTEsImV4cCI6MjA5OTcyNTc5MX0.6FQZFzUJirFogCdJvzLYU-obG0RYFhtOpYZ1odlqP5M';
+var clerkInstance    = null;
+var supabaseClient   = null;
 
 function doLogout(){
   if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('login.html'); }); }
   else { window.location.replace('login.html'); }
 }
 
-(async function initClerk(){
+(async function initPortal(){
   var loader = document.getElementById('authLoader');
   try {
+    // ── Load Clerk ──
     await new Promise(function(resolve, reject){
       var s = document.createElement('script');
       s.setAttribute('data-clerk-publishable-key', PUBLISHABLE_KEY);
@@ -1189,7 +1194,6 @@ function doLogout(){
       document.head.appendChild(s);
     });
 
-    // Wait for Clerk to be available
     await new Promise(function(resolve){
       function check(){ if(window.Clerk){ resolve(); } else { setTimeout(check, 50); } }
       check();
@@ -1204,95 +1208,104 @@ function doLogout(){
       await new Promise(function(resolve){
         var attempts = 0;
         var t = setInterval(function(){
-          if(clerkInstance.user || attempts >= 10){
-            clearInterval(t);
-            resolve();
-          }
+          if(clerkInstance.user || attempts >= 10){ clearInterval(t); resolve(); }
           attempts++;
         }, 500);
       });
       user = clerkInstance.user;
     }
 
-    if(!user){
-      window.location.replace('login.html');
-      return;
-    }
+    if(!user){ window.location.replace('login.html'); return; }
 
-    // Auth confirmed — show portal
+    // ── Get Supabase JWT from Clerk ──
+    var supabaseToken = await clerkInstance.session.getToken({ template: 'supabase' });
+
+    // ── Init Supabase with Clerk JWT ──
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      global: { headers: { Authorization: 'Bearer ' + supabaseToken } }
+    });
+
+    // ── Fetch profile from Supabase ──
+    var { data: profile, error } = await supabaseClient
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    // ── Show portal ──
     loader.classList.remove('show');
     document.body.classList.remove('auth-pending');
-
-    var displayName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
-    displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
-    document.getElementById('portalUserName').textContent = displayName;
-
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
 
+    if(profile){
+      // Name
+      var displayName = profile.first_name || user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
+      displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+      document.getElementById('portalUserName').textContent = displayName;
+
+      // WWC
+      document.querySelector('.wwc-card .wwc-name').textContent = profile.first_name + ' Tinsley';
+      document.querySelector('.wwc-card .wwc-meta').textContent =
+        'Card No. ' + profile.wwc_number +
+        '  ·  Issued: ' + formatDate(profile.wwc_issued) +
+        '  ·  Expires: ' + formatDate(profile.wwc_expiry);
+      updateCountdown('wwc', profile.wwc_expiry, 'Working With Children Check');
+
+      // Police
+      document.querySelector('#policeCard .wwc-name').textContent = profile.first_name + ' Tinsley';
+      document.querySelector('#policeCard .wwc-meta').textContent =
+        'Ref No. ' + profile.police_ref +
+        '  ·  Issued: ' + formatDate(profile.police_issued) +
+        '  ·  Expires: ' + formatDate(profile.police_expiry);
+      updateCountdown('police', profile.police_expiry, 'National Police Clearance');
+
+    } else {
+      // Fallback to Clerk name if no profile found
+      var displayName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
+      displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+      document.getElementById('portalUserName').textContent = displayName;
+      if(error) console.warn('Supabase profile error:', error.message);
+    }
+
   } catch(err) {
-    console.error('Clerk init error:', err);
+    console.error('Portal init error:', err);
     window.location.replace('login.html');
   }
 })();
 
+function formatDate(dateStr){
+  if(!dateStr) return '—';
+  var d = new Date(dateStr);
+  return d.toLocaleDateString('en-AU', { day:'2-digit', month:'short', year:'numeric' });
+}
 
-// ── WWC countdown ────────────────────────────────────────────
-(function(){
-  var expiry = new Date('2026-07-07T00:00:00');
+function updateCountdown(type, expiryStr, label){
+  var expiry = new Date(expiryStr);
   var today  = new Date(); today.setHours(0,0,0,0);
   var days   = Math.round((expiry - today) / 86400000);
-  var el     = document.getElementById('wwcCountdown');
-  var card   = document.getElementById('wwcCard');
-  var label  = document.getElementById('wwcLabel');
+  var el     = document.getElementById(type + 'Countdown');
+  var card   = document.getElementById(type + 'Card');
+  var labelEl = document.getElementById(type + 'Label');
+  if(!el) return;
 
   if(days > 30){
     el.textContent = days + ' days until renewal required';
   } else if(days > 0){
     el.textContent = days + ' day' + (days !== 1 ? 's' : '') + ' until expiry — renew soon';
-    el.classList.add('urgent');
-    card.classList.add('urgent');
-    label.textContent = '⚠️ Working With Children Check — Expiring Soon';
+    el.classList.add('urgent'); card.classList.add('urgent');
+    labelEl.textContent = '⚠️ ' + label + ' — Expiring Soon';
   } else if(days === 0){
     el.textContent = 'Expires today — renew immediately';
-    el.classList.add('urgent');
-    card.classList.add('urgent');
-    label.textContent = '⚠️ Working With Children Check — Expires Today';
+    el.classList.add('urgent'); card.classList.add('urgent');
+    labelEl.textContent = '⚠️ ' + label + ' — Expires Today';
   } else {
     el.textContent = 'Expired ' + Math.abs(days) + ' day' + (Math.abs(days) !== 1 ? 's' : '') + ' ago';
-    el.classList.add('urgent');
-    card.classList.add('urgent');
-    label.textContent = '⚠️ Working With Children Check — EXPIRED';
+    el.classList.add('urgent'); card.classList.add('urgent');
+    labelEl.textContent = '⚠️ ' + label + ' — EXPIRED';
   }
-})();
+}
 
-// ── Police clearance countdown ───────────────────────────────
-(function(){
-  var expiry = new Date('2029-04-03T00:00:00');
-  var today  = new Date(); today.setHours(0,0,0,0);
-  var days   = Math.round((expiry - today) / 86400000);
-  var el     = document.getElementById('policeCountdown');
-  var card   = document.getElementById('policeCard');
-  var label  = document.getElementById('policeLabel');
 
-  if(days > 30){
-    el.textContent = days + ' days until renewal required';
-  } else if(days > 0){
-    el.textContent = days + ' day' + (days !== 1 ? 's' : '') + ' until expiry — renew soon';
-    el.classList.add('urgent');
-    card.classList.add('urgent');
-    label.textContent = '⚠️ National Police Clearance — Expiring Soon';
-  } else if(days === 0){
-    el.textContent = 'Expires today — renew immediately';
-    el.classList.add('urgent');
-    card.classList.add('urgent');
-    label.textContent = '⚠️ National Police Clearance — Expires Today';
-  } else {
-    el.textContent = 'Expired ' + Math.abs(days) + ' day' + (Math.abs(days) !== 1 ? 's' : '') + ' ago';
-    el.classList.add('urgent');
-    card.classList.add('urgent');
-    label.textContent = '⚠️ National Police Clearance — EXPIRED';
-  }
-})();
 
 // ── Risk level chips ─────────────────────────────────────────
 document.querySelectorAll('#riskLevel .risk-chip').forEach(function(chip){
