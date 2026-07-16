@@ -1223,25 +1223,44 @@ function doLogout(){
       document.getElementById('adminLink').style.display = 'inline';
     }
 
-    // ── Get Supabase JWT from Clerk ──
-    var supabaseToken = await clerkInstance.session.getToken({ template: 'supabase' });
-
-    // ── Init Supabase with Clerk JWT ──
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
-      global: { headers: { Authorization: 'Bearer ' + supabaseToken } }
-    });
-
-    // ── Fetch profile from Supabase ──
-    var { data: profile, error } = await supabaseClient
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single();
-
-    // ── Show portal ──
+    // ── Show portal immediately — don't wait for Supabase ──
     loader.classList.remove('show');
     document.body.classList.remove('auth-pending');
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
+    // Set fallback name now; Supabase may update it below
+    var fallbackName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
+    fallbackName = fallbackName.charAt(0).toUpperCase() + fallbackName.slice(1);
+    document.getElementById('portalUserName').textContent = fallbackName;
+
+    // ── Get Supabase JWT from Clerk (non-fatal if template not configured) ──
+    var supabaseToken = null;
+    try {
+      supabaseToken = await clerkInstance.session.getToken({ template: 'supabase' });
+    } catch(tokenErr) {
+      console.warn('Supabase JWT template error:', tokenErr.message);
+    }
+
+    // ── Init Supabase with Clerk JWT ──
+    var supabaseHeaders = supabaseToken
+      ? { Authorization: 'Bearer ' + supabaseToken }
+      : {};
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      global: { headers: supabaseHeaders }
+    });
+
+    // ── Fetch profile from Supabase ──
+    var profile = null, error = null;
+    try {
+      var result = await supabaseClient
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      profile = result.data;
+      error = result.error;
+    } catch(dbErr) {
+      console.warn('Supabase fetch error:', dbErr.message);
+    }
 
     if(profile){
       // Name
@@ -1266,10 +1285,7 @@ function doLogout(){
       updateCountdown('police', profile.police_expiry, 'National Police Clearance');
 
     } else {
-      // Fallback to Clerk name if no profile found
-      var displayName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
-      displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
-      document.getElementById('portalUserName').textContent = displayName;
+      // Fallback name already set above; log error if any
       if(error) console.warn('Supabase profile error:', error.message);
     }
 
