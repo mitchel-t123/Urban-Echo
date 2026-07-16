@@ -1219,7 +1219,9 @@ function doLogout(){
     if(!user){ window.location.replace('login.html'); return; }
 
     // Show admin button immediately after confirming user identity
-    if(user.id === 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV'){
+    var userEmail = user.primaryEmailAddress && user.primaryEmailAddress.emailAddress;
+    var isAdmin = user.id === 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV' || userEmail === 'mitchel@urbanecho.com.au';
+    if(isAdmin){
       document.getElementById('adminLink').style.display = 'inline';
     }
 

@@ -241,6 +241,7 @@ var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
 var SUPABASE_URL    = 'https://wqmtdccrclhhtiwfgcgl.supabase.co';
 var SUPABASE_ANON   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxbXRkY2NyY2xoaHRpd2ZnY2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDk3OTEsImV4cCI6MjA5OTcyNTc5MX0.6FQZFzUJirFogCdJvzLYU-obG0RYFhtOpYZ1odlqP5M';
 var ADMIN_ID        = 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV';
+var ADMIN_EMAIL     = 'mitchel@urbanecho.com.au';
 
 var clerkInstance  = null;
 var supabase       = null;
@@ -282,7 +283,8 @@ function doLogout(){
     }
 
     if(!user){ window.location.replace('login.html'); return; }
-    if(user.id !== ADMIN_ID){ window.location.replace('portal.html'); return; }
+    var userEmail = user.primaryEmailAddress && user.primaryEmailAddress.emailAddress;
+    if(user.id !== ADMIN_ID && userEmail !== ADMIN_EMAIL){ window.location.replace('portal.html'); return; }
 
     var token = await clerkInstance.session.getToken({ template: 'supabase' });
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
