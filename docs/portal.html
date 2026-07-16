@@ -1239,12 +1239,12 @@ function doLogout(){
 
     if(profile){
       // Name
-      var displayName = profile.first_name || user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
-      displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+      var fullName = [profile.first_name, profile.last_name].filter(Boolean).join(' ');
+      var displayName = fullName || user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
       document.getElementById('portalUserName').textContent = displayName;
 
       // WWC
-      document.querySelector('.wwc-card .wwc-name').textContent = profile.first_name + ' Tinsley';
+      document.querySelector('.wwc-card .wwc-name').textContent = fullName || profile.first_name;
       document.querySelector('.wwc-card .wwc-meta').textContent =
         'Card No. ' + profile.wwc_number +
         '  ·  Issued: ' + formatDate(profile.wwc_issued) +
@@ -1252,7 +1252,7 @@ function doLogout(){
       updateCountdown('wwc', profile.wwc_expiry, 'Working With Children Check');
 
       // Police
-      document.querySelector('#policeCard .wwc-name').textContent = profile.first_name + ' Tinsley';
+      document.querySelector('#policeCard .wwc-name').textContent = fullName || profile.first_name;
       document.querySelector('#policeCard .wwc-meta').textContent =
         'Ref No. ' + profile.police_ref +
         '  ·  Issued: ' + formatDate(profile.police_issued) +
