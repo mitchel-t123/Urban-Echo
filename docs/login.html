@@ -111,89 +111,18 @@ body{
   <span class="login-eyebrow">Employee Access</span>
   <h1>Team Portal</h1>
 
-  <form id="loginForm" novalidate>
-    <div class="login-field">
-      <label for="loginEmail">Email</label>
-      <input type="email" id="loginEmail" autocomplete="email" placeholder="you@urbanecho.com.au" required>
-    </div>
-    <div class="login-field">
-      <label for="loginPassword">Password</label>
-      <input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••••" required>
-    </div>
-    <button type="submit" class="login-btn" id="loginBtn">
-      <span id="btnText">Log in →</span>
-      <span class="spinner" id="btnSpinner"></span>
-    </button>
-    <div class="login-error" id="loginError"></div>
-  </form>
+  <a href="https://accounts.urbanecho.com.au/sign-in?redirect_url=https://urbanecho.com.au/portal.html" class="login-btn" style="text-decoration:none;">
+    <span>Log in →</span>
+  </a>
 
   <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
 </div>
 
 <a href="index.html" class="back-link">← Back to main site</a>
 
-<script
-  async
-  crossorigin="anonymous"
-  data-clerk-publishable-key="pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ"
-  src="https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
-></script>
 <script>
-(async function(){
-  // Wait for Clerk to be ready
-  await new Promise(function(resolve){
-    function check(){ if(window.Clerk){ resolve(); } else { setTimeout(check, 50); } }
-    check();
-  });
-
-  var clerk = window.Clerk;
-  await clerk.load();
-
-  // Already signed in — go straight to portal
-  if(clerk.user){
-    window.location.href = 'portal.html';
-    return;
-  }
-
-  var form    = document.getElementById('loginForm');
-  var errorEl = document.getElementById('loginError');
-  var btn     = document.getElementById('loginBtn');
-  var btnText = document.getElementById('btnText');
-  var spinner = document.getElementById('btnSpinner');
-
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    errorEl.style.display = 'none';
-    btn.disabled = true;
-    btnText.textContent = 'Logging in…';
-    spinner.style.display = 'block';
-
-    try {
-      var result = await clerk.signIn.create({
-        identifier: document.getElementById('loginEmail').value.trim(),
-        password:   document.getElementById('loginPassword').value,
-      });
-
-      if(result.status === 'complete'){
-        await clerk.setActive({ session: result.createdSessionId });
-        window.location.href = 'portal.html';
-      } else {
-        throw new Error('Sign-in incomplete — status: ' + result.status);
-      }
-
-    } catch(err){
-      var msg = 'Incorrect email or password.';
-      if(err.errors && err.errors[0]) msg = err.errors[0].longMessage || err.errors[0].message || msg;
-      errorEl.textContent = msg;
-      errorEl.style.display = 'block';
-      btn.disabled = false;
-      btnText.textContent = 'Log in →';
-      spinner.style.display = 'none';
-      document.getElementById('loginPassword').value = '';
-      document.getElementById('loginPassword').focus();
-    }
-  });
-})();
+  // If already signed in via Clerk session cookie, go straight to portal
+  // (Clerk's account portal handles this automatically via redirect_url)
 </script>
 </body>
 </html>
