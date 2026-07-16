@@ -115,9 +115,9 @@ body{
     <span>Log in →</span>
   </a>
 
-  <a href="https://accounts.urbanecho.com.au/sign-in?redirect_url=https://urbanecho.com.au/admin.html" class="login-btn" style="text-decoration:none;margin-top:10px;background:var(--orange);">
+  <button onclick="adminLogin()" class="login-btn" style="margin-top:10px;background:var(--orange);border:none;cursor:pointer;">
     <span>Admin Login →</span>
-  </a>
+  </button>
 
   <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
 </div>
@@ -125,8 +125,10 @@ body{
 <a href="index.html" class="back-link">← Back to main site</a>
 
 <script>
-  // If already signed in via Clerk session cookie, go straight to portal
-  // (Clerk's account portal handles this automatically via redirect_url)
+function adminLogin(){
+  sessionStorage.setItem('adminRedirect', '1');
+  window.location.href = 'https://accounts.urbanecho.com.au/sign-in';
+}
 </script>
 </body>
 </html>

@@ -1239,6 +1239,12 @@ function doLogout(){
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
     if(user.id === 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV'){
       document.getElementById('adminLink').style.display = 'inline';
+      // If arrived via admin login button, go straight to admin panel
+      if(document.referrer.includes('accounts.urbanecho.com.au') && sessionStorage.getItem('adminRedirect')){
+        sessionStorage.removeItem('adminRedirect');
+        window.location.replace('admin.html');
+        return;
+      }
     }
 
     if(profile){
