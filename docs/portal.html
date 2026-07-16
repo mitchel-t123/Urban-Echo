@@ -634,6 +634,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <a href="index.html"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div class="nav-user">
       <span class="nav-user-name" id="portalUserName">Loading…</span>
+      <a href="admin.html" id="adminLink" style="display:none;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--orange);text-decoration:none;">Admin</a>
       <button class="btn-logout" id="logoutBtn">Log out</button>
     </div>
   </div>
@@ -1236,6 +1237,9 @@ function doLogout(){
     loader.classList.remove('show');
     document.body.classList.remove('auth-pending');
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
+    if(user.id === 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV'){
+      document.getElementById('adminLink').style.display = 'inline';
+    }
 
     if(profile){
       // Name
