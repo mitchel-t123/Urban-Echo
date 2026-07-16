@@ -286,9 +286,13 @@ function doLogout(){
     var userEmail = user.primaryEmailAddress && user.primaryEmailAddress.emailAddress;
     if(user.id !== ADMIN_ID && userEmail !== ADMIN_EMAIL){ window.location.replace('portal.html'); return; }
 
-    var token = await clerkInstance.session.getToken({ template: 'supabase' });
+    var token = null;
+    try { token = await clerkInstance.session.getToken({ template: 'supabase' }); }
+    catch(tokenErr){ console.warn('JWT template error:', tokenErr.message); }
+
+    var headers = token ? { Authorization: 'Bearer ' + token } : {};
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
-      global: { headers: { Authorization: 'Bearer ' + token } }
+      global: { headers: headers }
     });
 
     loader.classList.remove('show');
