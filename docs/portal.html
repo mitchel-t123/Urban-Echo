@@ -1315,7 +1315,7 @@ function doLogout(){
       global: { headers: supabaseHeaders }
     });
 
-    // ── Fetch profile from Supabase ──
+    // ── Fetch profile from Supabase (try by ID, fallback to email) ──
     var profile = null, error = null;
     try {
       var result = await supabaseClient
@@ -1325,8 +1325,28 @@ function doLogout(){
         .single();
       profile = result.data;
       error = result.error;
+      // If not found by ID, try by email
+      if(!profile && userEmail){
+        var r2 = await supabaseClient
+          .from('profiles')
+          .select('*')
+          .eq('email', userEmail)
+          .single();
+        profile = r2.data;
+        error = r2.error;
+      }
     } catch(dbErr) {
       console.warn('Supabase fetch error:', dbErr.message);
+    }
+
+    // ── Fallback: run countdown from hardcoded HTML dates if no profile ──
+    if(!profile){
+      var wwcMetaText = document.querySelector('.wwc-card .wwc-meta') && document.querySelector('.wwc-card .wwc-meta').textContent;
+      var polMetaText = document.querySelector('#policeCard .wwc-meta') && document.querySelector('#policeCard .wwc-meta').textContent;
+      var wwcMatch = wwcMetaText && wwcMetaText.match(/Expires:\s*([0-9A-Za-z ]+)/);
+      var polMatch = polMetaText && polMetaText.match(/Expires:\s*([0-9A-Za-z ]+)/);
+      if(wwcMatch) updateCountdown('wwc', new Date(wwcMatch[1]).toISOString(), 'Working With Children Check');
+      if(polMatch) updateCountdown('police', new Date(polMatch[1]).toISOString(), 'National Police Clearance');
     }
 
     if(profile){
