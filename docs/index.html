@@ -933,7 +933,7 @@ h1,h2,h3{
 /* ============ PACKAGES ============ */
 /* Ensure all anchor sections clear the sticky nav */
 section[id], div[id].packages {
-  scroll-margin-top: 80px;
+  scroll-margin-top: 72px;
 }
 
 .packages{
@@ -3013,7 +3013,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       if(!target) return;
       e.preventDefault();
       const start = window.scrollY;
-      const navOffset = (document.querySelector('.nav') || {offsetHeight:72}).offsetHeight + 24;
+      const navOffset = (document.querySelector('.nav') || {offsetHeight:72}).offsetHeight;
       const end   = target.getBoundingClientRect().top + window.scrollY - navOffset;
       const dist  = end - start;
       const dur   = 900; // ms — adjust for speed
