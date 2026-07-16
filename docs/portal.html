@@ -634,11 +634,14 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <a href="index.html"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div class="nav-user">
       <span class="nav-user-name" id="portalUserName">Loading…</span>
-      <a href="admin.html" id="adminLink" style="display:none;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--paper);background:var(--orange);padding:7px 16px;border-radius:100px;text-decoration:none;">Admin</a>
+      <button onclick="openAdmin()" id="adminLink" style="display:none;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--paper);background:var(--orange);padding:7px 16px;border-radius:100px;border:none;cursor:pointer;">Admin</button>
       <button class="btn-logout" id="logoutBtn">Log out</button>
     </div>
   </div>
 </nav>
+
+<!-- ══ PORTAL VIEW ══ -->
+<div id="mainPortal">
 
 <!-- ── HEADER ── -->
 <div class="portal-header">
@@ -956,6 +959,70 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     </div>
   </div>
 </div>
+
+</div><!-- end #mainPortal -->
+
+<!-- ══ ADMIN PANEL ══ -->
+<div id="adminPanel" style="display:none;">
+
+  <div class="portal-header" style="background:var(--orange);border-bottom:6px solid var(--ink);">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div>
+        <span class="portal-eyebrow" style="color:var(--ink);">Admin Panel</span>
+        <h1 style="color:var(--ink);">Team Admin</h1>
+        <p style="color:rgba(22,21,39,0.6);">Manage profiles, compliance records and portal access.</p>
+      </div>
+      <button onclick="closeAdmin()" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:10px 20px;border-radius:100px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;">← Back to Portal</button>
+    </div>
+  </div>
+
+  <div style="max-width:1180px;margin:0 auto;padding:40px 48px 60px;">
+
+    <!-- Stats -->
+    <div id="adminStats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:36px;">
+      <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--ink);">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Team Members</div>
+        <div id="statTotal" style="font-family:var(--display);font-size:36px;font-weight:900;line-height:1;">—</div>
+      </div>
+      <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--ink);">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:6px;">WWC Expiring ≤30 Days</div>
+        <div id="statWwc" style="font-family:var(--display);font-size:36px;font-weight:900;line-height:1;color:var(--orange);">—</div>
+      </div>
+      <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--ink);">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Police Expiring ≤30 Days</div>
+        <div id="statPolice" style="font-family:var(--display);font-size:36px;font-weight:900;line-height:1;color:var(--orange);">—</div>
+      </div>
+    </div>
+
+    <!-- Table header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:2.5px solid var(--ink);">
+      <h2 style="font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:-0.01em;">Team Members</h2>
+      <button onclick="openMemberModal(null)" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:100px;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;border:2px solid var(--ink);cursor:pointer;">+ Add Member</button>
+    </div>
+
+    <!-- Table -->
+    <div style="overflow-x:auto;border-radius:16px;border:2.5px solid var(--ink);box-shadow:5px 5px 0 var(--ink);">
+      <table style="width:100%;border-collapse:collapse;background:var(--paper);">
+        <thead>
+          <tr style="border-bottom:2px solid rgba(22,21,39,0.12);background:var(--cream);">
+            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">Name</th>
+            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">Email</th>
+            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">WWC</th>
+            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">WWC Expiry</th>
+            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">Police Expiry</th>
+            <th style="padding:12px 16px;"></th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody">
+          <tr><td colspan="6" style="padding:28px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p id="adminError" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
+
+  </div>
+</div><!-- end #adminPanel -->
 
 <!-- ── WHATSAPP CHAT FAB ── -->
 <a href="https://wa.me/61429660186" target="_blank" rel="noopener" class="wa-fab" aria-label="Message Mitchel on WhatsApp">
@@ -1712,6 +1779,180 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
 })();
+
+// ── Admin Panel ──────────────────────────────────────────────
+var adminLoaded = false;
+
+function openAdmin(){
+  document.getElementById('mainPortal').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  window.scrollTo(0,0);
+  if(!adminLoaded){ loadAdminTeam(); adminLoaded = true; }
+}
+
+function closeAdmin(){
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('mainPortal').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+async function loadAdminTeam(){
+  var tbody = document.getElementById('adminTableBody');
+  var errEl = document.getElementById('adminError');
+  if(!supabaseClient){
+    errEl.textContent = 'Supabase not connected — check JWT template in Clerk dashboard.';
+    errEl.style.display = 'block';
+    tbody.innerHTML = '<tr><td colspan="6" style="padding:28px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">No connection.</td></tr>';
+    return;
+  }
+  var { data, error } = await supabaseClient.from('profiles').select('*').order('first_name');
+  if(error){
+    errEl.textContent = 'Could not load team: ' + error.message;
+    errEl.style.display = 'block';
+    tbody.innerHTML = '<tr><td colspan="6" style="padding:28px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Error loading.</td></tr>';
+    return;
+  }
+  var today = new Date(); today.setHours(0,0,0,0);
+  var wwcSoon = 0, policeSoon = 0;
+  document.getElementById('statTotal').textContent = data.length;
+
+  tbody.innerHTML = (data.length === 0)
+    ? '<tr><td colspan="6" style="padding:28px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">No team members yet. Add one above.</td></tr>'
+    : data.map(function(m){
+        var wwcDays  = m.wwc_expiry  ? Math.round((new Date(m.wwc_expiry)  - today) / 86400000) : null;
+        var polDays  = m.police_expiry ? Math.round((new Date(m.police_expiry) - today) / 86400000) : null;
+        if(wwcDays !== null && wwcDays <= 30) wwcSoon++;
+        if(polDays !== null && polDays <= 30) policeSoon++;
+        return '<tr style="border-bottom:1.5px solid rgba(22,21,39,0.1);">' +
+          '<td style="padding:14px 16px;"><div style="font-weight:800;font-size:14px;">' + (m.first_name||'') + ' ' + (m.last_name||'') + '</div><div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.4);">' + (m.id||'') + '</div></td>' +
+          '<td style="padding:14px 16px;font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.6);">' + (m.email||'—') + '</td>' +
+          '<td style="padding:14px 16px;">' + badge(m.wwc_number, 'number') + '</td>' +
+          '<td style="padding:14px 16px;">' + expiryBadge(wwcDays, m.wwc_expiry) + '</td>' +
+          '<td style="padding:14px 16px;">' + expiryBadge(polDays, m.police_expiry) + '</td>' +
+          '<td style="padding:14px 16px;"><button onclick=\'openMemberModal(' + JSON.stringify(m) + ')\' style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 12px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;">Edit</button></td>' +
+        '</tr>';
+      }).join('');
+
+  document.getElementById('statWwc').textContent = wwcSoon;
+  document.getElementById('statPolice').textContent = policeSoon;
+  document.getElementById('statWwc').style.color = wwcSoon > 0 ? 'var(--red)' : 'var(--forest)';
+  document.getElementById('statPolice').style.color = policeSoon > 0 ? 'var(--red)' : 'var(--forest)';
+}
+
+function badge(val, type){
+  if(!val) return '<span style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.3);">—</span>';
+  return '<span style="font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;background:rgba(74,174,116,0.15);color:#379260;border:1px solid rgba(74,174,116,0.3);">✔ ' + val + '</span>';
+}
+function expiryBadge(days, dateStr){
+  if(days === null || !dateStr) return '<span style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.3);">—</span>';
+  var d = new Date(dateStr); var label = d.toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'});
+  var col = days > 30 ? 'rgba(74,174,116,0.15)' : 'rgba(217,54,54,0.1)';
+  var textCol = days > 30 ? '#379260' : 'var(--red)';
+  var border = days > 30 ? 'rgba(74,174,116,0.3)' : 'rgba(217,54,54,0.3)';
+  var icon = days > 30 ? '✔' : '⚠';
+  return '<span style="font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;background:' + col + ';color:' + textCol + ';border:1px solid ' + border + ';">' + icon + ' ' + label + '</span>';
+}
+
+// ── Member modal ─────────────────────────────────────────────
+var memberModalEl = null;
+var memberEditingId = null;
+
+function buildMemberModal(){
+  if(memberModalEl) return;
+  memberModalEl = document.createElement('div');
+  memberModalEl.style.cssText = 'display:none;position:fixed;inset:0;z-index:600;background:rgba(22,21,39,0.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;';
+  memberModalEl.innerHTML = '<div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:32px;position:relative;">' +
+    '<button id="mClose" style="position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(22,21,39,0.2);background:none;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>' +
+    '<span style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);display:block;margin-bottom:6px;">Urban Echo</span>' +
+    '<h2 id="mTitle" style="font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:22px;">Add Member</h2>' +
+    '<form id="mForm" autocomplete="off">' +
+      mSection('Account') +
+      mField('mId','Clerk User ID','text','user_xxxxxxxxxxxxxxxx') +
+      '<div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.45);margin-top:-8px;margin-bottom:12px;">Find in Clerk Dashboard → Users → click the member</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' + mField('mFirst','First Name','text','Mitchel') + mField('mLast','Last Name','text','Tinsley') + '</div>' +
+      mField('mEmail','Email','email','mitchel@urbanecho.com.au') +
+      mSection('Working With Children Check') +
+      mField('mWwcNum','Card Number','text','WWC0123456E') +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' + mField('mWwcIssued','Issued','date','') + mField('mWwcExpiry','Expiry','date','') + '</div>' +
+      mSection('National Police Clearance') +
+      mField('mPolRef','Reference Number','text','NPC20240001') +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' + mField('mPolIssued','Issued','date','') + mField('mPolExpiry','Expiry','date','') + '</div>' +
+      '<p id="mError" style="display:none;margin:12px 0;padding:10px 14px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:8px;font-family:var(--mono);font-size:11px;color:var(--red);font-weight:700;"></p>' +
+      '<button type="submit" style="width:100%;margin-top:14px;padding:13px;background:var(--ink);color:var(--paper);border:none;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Save Member</button>' +
+    '</form>' +
+    '<button id="mDelete" style="display:none;width:100%;margin-top:8px;padding:11px;background:none;color:var(--red);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Remove member…</button>' +
+  '</div>';
+  document.body.appendChild(memberModalEl);
+  memberModalEl.addEventListener('click', function(e){ if(e.target===memberModalEl) closeMemberModal(); });
+  document.getElementById('mClose').addEventListener('click', closeMemberModal);
+  document.getElementById('mForm').addEventListener('submit', saveMember);
+  document.getElementById('mDelete').addEventListener('click', deleteMember);
+}
+
+function mSection(label){
+  return '<p style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(22,21,39,0.45);margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(22,21,39,0.1);">' + label + '</p>';
+}
+function mField(id, label, type, placeholder){
+  return '<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px;">' +
+    '<label for="' + id + '" style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.5);">' + label + '</label>' +
+    '<input id="' + id + '" type="' + type + '" placeholder="' + placeholder + '" style="width:100%;padding:10px 13px;border:1.5px solid rgba(22,21,39,0.18);border-radius:9px;font-family:inherit;font-size:13px;background:var(--cream);color:var(--ink);outline:none;">' +
+  '</div>';
+}
+
+function openMemberModal(member){
+  buildMemberModal();
+  memberEditingId = member ? member.id : null;
+  document.getElementById('mTitle').textContent = member ? 'Edit Member' : 'Add Member';
+  document.getElementById('mId').value       = member ? member.id : '';
+  document.getElementById('mId').readOnly    = !!member;
+  document.getElementById('mFirst').value    = member ? (member.first_name||'') : '';
+  document.getElementById('mLast').value     = member ? (member.last_name||'') : '';
+  document.getElementById('mEmail').value    = member ? (member.email||'') : '';
+  document.getElementById('mWwcNum').value   = member ? (member.wwc_number||'') : '';
+  document.getElementById('mWwcIssued').value= member ? (member.wwc_issued||'') : '';
+  document.getElementById('mWwcExpiry').value= member ? (member.wwc_expiry||'') : '';
+  document.getElementById('mPolRef').value   = member ? (member.police_ref||'') : '';
+  document.getElementById('mPolIssued').value= member ? (member.police_issued||'') : '';
+  document.getElementById('mPolExpiry').value= member ? (member.police_expiry||'') : '';
+  document.getElementById('mError').style.display = 'none';
+  document.getElementById('mDelete').style.display = member ? 'block' : 'none';
+  memberModalEl.style.display = 'flex';
+}
+function closeMemberModal(){ if(memberModalEl) memberModalEl.style.display = 'none'; }
+
+async function saveMember(e){
+  e.preventDefault();
+  var errEl = document.getElementById('mError');
+  errEl.style.display = 'none';
+  if(!supabaseClient){ errEl.textContent = 'No Supabase connection.'; errEl.style.display = 'block'; return; }
+  var payload = {
+    id:           document.getElementById('mId').value.trim(),
+    first_name:   document.getElementById('mFirst').value.trim(),
+    last_name:    document.getElementById('mLast').value.trim(),
+    email:        document.getElementById('mEmail').value.trim(),
+    wwc_number:   document.getElementById('mWwcNum').value.trim() || null,
+    wwc_issued:   document.getElementById('mWwcIssued').value || null,
+    wwc_expiry:   document.getElementById('mWwcExpiry').value || null,
+    police_ref:   document.getElementById('mPolRef').value.trim() || null,
+    police_issued:document.getElementById('mPolIssued').value || null,
+    police_expiry:document.getElementById('mPolExpiry').value || null,
+  };
+  var { error } = await supabaseClient.from('profiles').upsert(payload, { onConflict: 'id' });
+  if(error){ errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  closeMemberModal();
+  adminLoaded = false;
+  loadAdminTeam();
+}
+
+async function deleteMember(){
+  if(!memberEditingId) return;
+  if(!confirm('Remove this team member? This cannot be undone.')) return;
+  var { error } = await supabaseClient.from('profiles').delete().eq('id', memberEditingId);
+  if(error){ document.getElementById('mError').textContent = error.message; document.getElementById('mError').style.display = 'block'; return; }
+  closeMemberModal();
+  adminLoaded = false;
+  loadAdminTeam();
+}
 </script>
 </body>
 </html>
