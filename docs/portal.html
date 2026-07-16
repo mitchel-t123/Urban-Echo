@@ -1006,10 +1006,8 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
         <thead>
           <tr style="border-bottom:2px solid rgba(22,21,39,0.12);background:var(--cream);">
             <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">Name</th>
-            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">Email</th>
-            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">WWC</th>
-            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">WWC Expiry</th>
-            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">Police Expiry</th>
+            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:center;">WWC</th>
+            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:center;">Police</th>
             <th style="padding:12px 16px;"></th>
           </tr>
         </thead>
@@ -1823,13 +1821,15 @@ async function loadAdminTeam(){
         var polDays  = m.police_expiry ? Math.round((new Date(m.police_expiry) - today) / 86400000) : null;
         if(wwcDays !== null && wwcDays <= 30) wwcSoon++;
         if(polDays !== null && polDays <= 30) policeSoon++;
+        var wwcStatus = wwcDays === null ? '—' : (wwcDays > 30 ? '✔ OK' : (wwcDays >= 0 ? '⚠ ' + wwcDays + 'd' : '✕ Expired'));
+        var polStatus = polDays === null ? '—' : (polDays > 30 ? '✔ OK' : (polDays >= 0 ? '⚠ ' + polDays + 'd' : '✕ Expired'));
+        var wwcCol = wwcDays === null ? 'rgba(22,21,39,0.3)' : (wwcDays > 30 ? '#379260' : 'var(--red)');
+        var polCol = polDays === null ? 'rgba(22,21,39,0.3)' : (polDays > 30 ? '#379260' : 'var(--red)');
         return '<tr style="border-bottom:1.5px solid rgba(22,21,39,0.1);">' +
-          '<td style="padding:14px 16px;"><div style="font-weight:800;font-size:14px;">' + (m.first_name||'') + ' ' + (m.last_name||'') + '</div><div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.4);">' + (m.id||'') + '</div></td>' +
-          '<td style="padding:14px 16px;font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.6);">' + (m.email||'—') + '</td>' +
-          '<td style="padding:14px 16px;">' + badge(m.wwc_number, 'number') + '</td>' +
-          '<td style="padding:14px 16px;">' + expiryBadge(wwcDays, m.wwc_expiry) + '</td>' +
-          '<td style="padding:14px 16px;">' + expiryBadge(polDays, m.police_expiry) + '</td>' +
-          '<td style="padding:14px 16px;"><button onclick=\'openMemberModal(' + JSON.stringify(m) + ')\' style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 12px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;">Edit</button></td>' +
+          '<td style="padding:14px 16px;"><div style="font-weight:800;font-size:14px;white-space:nowrap;">' + (m.first_name||'') + ' ' + (m.last_name||'') + '</div><div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.4);max-width:160px;overflow:hidden;text-overflow:ellipsis;">' + (m.email||'') + '</div></td>' +
+          '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + wwcCol + ';">' + wwcStatus + '</span></td>' +
+          '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + polCol + ';">' + polStatus + '</span></td>' +
+          '<td style="padding:14px 16px;"><button onclick=\'openMemberModal(' + JSON.stringify(m) + ')\' style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 12px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;white-space:nowrap;">Edit</button></td>' +
         '</tr>';
       }).join('');
 
