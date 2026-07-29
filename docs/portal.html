@@ -1023,19 +1023,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 
     <!-- Table -->
     <div style="overflow-x:auto;border-radius:16px;border:2.5px solid var(--ink);box-shadow:5px 5px 0 var(--ink);">
-      <table style="width:100%;border-collapse:collapse;background:var(--paper);">
-        <thead>
-          <tr style="border-bottom:2px solid rgba(22,21,39,0.12);background:var(--cream);">
-            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:left;">Name</th>
-            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:center;">WWC</th>
-            <th style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);padding:12px 16px;text-align:center;">Police</th>
-            <th style="padding:12px 16px;"></th>
-          </tr>
-        </thead>
-        <tbody id="adminTableBody">
-          <tr><td colspan="6" style="padding:28px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading…</td></tr>
-        </tbody>
-      </table>
+      <div id="adminTableBody" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:4px 0;"></div>
     </div>
 
     <p id="adminError" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
@@ -1908,32 +1896,83 @@ async function loadAdminTeam(){
   document.getElementById('statTotal').textContent = data.length;
 
   tbody.innerHTML = (data.length === 0)
-    ? '<tr><td colspan="6" style="padding:28px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">No team members yet. Add one above.</td></tr>'
+    ? '<div style="grid-column:1/-1;padding:40px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">No team members yet. Add one above.</div>'
     : data.map(function(m){
         var wwcDays  = m.wwc_expiry  ? Math.round((new Date(m.wwc_expiry)  - today) / 86400000) : null;
         var polDays  = m.police_expiry ? Math.round((new Date(m.police_expiry) - today) / 86400000) : null;
         if(wwcDays !== null && wwcDays <= 30) wwcSoon++;
         if(polDays !== null && polDays <= 30) policeSoon++;
-        var wwcStatus = wwcDays === null ? '—' : (wwcDays > 30 ? '✔ OK' : (wwcDays >= 0 ? '⚠ ' + wwcDays + 'd' : '✕ Expired'));
-        var polStatus = polDays === null ? '—' : (polDays > 30 ? '✔ OK' : (polDays >= 0 ? '⚠ ' + polDays + 'd' : '✕ Expired'));
-        var wwcCol = wwcDays === null ? 'rgba(22,21,39,0.3)' : (wwcDays > 30 ? '#379260' : 'var(--red)');
-        var polCol = polDays === null ? 'rgba(22,21,39,0.3)' : (polDays > 30 ? '#379260' : 'var(--red)');
-        return '<tr style="border-bottom:1.5px solid rgba(22,21,39,0.1);">' +
-          '<td style="padding:14px 16px;"><div style="font-weight:800;font-size:14px;white-space:nowrap;">' + (m.first_name||'') + ' ' + (m.last_name||'') + '</div>' +
-            (m.email ? '<a href="mailto:' + m.email + '" style="font-family:var(--mono);font-size:10px;color:var(--indigo);text-decoration:none;display:block;">' + m.email + '</a>' : '') +
-            (m.phone ? '<a href="tel:' + m.phone + '" style="font-family:var(--mono);font-size:10px;color:var(--forest-deep);text-decoration:none;display:block;">' + m.phone + '</a>' : '') +
-            '<div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;">' +
-              (m.role ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 7px;border-radius:100px;background:rgba(63,63,240,0.1);color:var(--indigo);">' + m.role.replace('_',' ') + '</span>' : '') +
-              (m.login_given ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 7px;border-radius:100px;background:rgba(74,174,116,0.15);color:#2a7a50;">✔ Login</span>' : '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 7px;border-radius:100px;background:rgba(22,21,39,0.07);color:rgba(22,21,39,0.4);">No Login</span>') +
+
+        function complianceBadge(label, days, hasData){
+          var bg, col, status;
+          if(!hasData){
+            bg='rgba(22,21,39,0.06)'; col='rgba(22,21,39,0.35)'; status='Not set';
+          } else if(days > 30){
+            bg='rgba(74,174,116,0.15)'; col='#2a7a50'; status='✔ OK';
+          } else if(days >= 0){
+            bg='rgba(249,195,40,0.2)'; col='#7a5c00'; status='⚠ '+days+'d';
+          } else {
+            bg='rgba(217,54,54,0.12)'; col='var(--red)'; status='✕ Expired';
+          }
+          return '<div style="flex:1;min-width:0;background:'+bg+';border-radius:10px;padding:10px 12px;">' +
+            '<div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:'+col+';margin-bottom:2px;">'+label+'</div>' +
+            '<div style="font-family:var(--mono);font-size:12px;font-weight:800;color:'+col+';">'+status+'</div>' +
+            (hasData && m.wwc_expiry && label==='WWC' ? '<div style="font-family:var(--mono);font-size:9px;color:'+col+';opacity:0.7;">Exp '+m.wwc_expiry+'</div>' : '') +
+            (hasData && m.police_expiry && label==='Police' ? '<div style="font-family:var(--mono);font-size:9px;color:'+col+';opacity:0.7;">Exp '+m.police_expiry+'</div>' : '') +
+          '</div>';
+        }
+
+        function policyBadge(label, signed){
+          var bg = signed ? 'rgba(74,174,116,0.15)' : 'rgba(22,21,39,0.06)';
+          var col = signed ? '#2a7a50' : 'rgba(22,21,39,0.35)';
+          var status = signed ? '✔ Signed' : 'Awaiting';
+          return '<div style="flex:1;min-width:0;background:'+bg+';border-radius:10px;padding:10px 12px;">' +
+            '<div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:'+col+';margin-bottom:2px;">'+label+'</div>' +
+            '<div style="font-family:var(--mono);font-size:12px;font-weight:800;color:'+col+';">'+status+'</div>' +
+          '</div>';
+        }
+
+        var memberName = ((m.first_name||'') + ' ' + (m.last_name||'')).trim();
+        var initials = ((m.first_name||'')[0]||'') + ((m.last_name||'')[0]||'');
+        var roleLabel = m.role ? m.role.replace(/_/g,' ') : '';
+
+        return '<div style="background:var(--paper);border:2px solid rgba(22,21,39,0.1);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:3px 3px 0 rgba(22,21,39,0.06);">' +
+
+          // Header — avatar + name + contact
+          '<div style="display:flex;align-items:flex-start;gap:12px;">' +
+            '<div style="width:44px;height:44px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--mono);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-transform:uppercase;">' + initials + '</div>' +
+            '<div style="flex:1;min-width:0;">' +
+              '<div style="font-weight:800;font-size:15px;line-height:1.2;">' + memberName + '</div>' +
+              (m.notes ? '<div style="font-size:12px;color:rgba(22,21,39,0.55);margin-top:1px;">' + m.notes + '</div>' : '') +
+              '<div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;">' +
+                (roleLabel ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(63,63,240,0.1);color:var(--indigo);">' + roleLabel + '</span>' : '') +
+                (m.login_given
+                  ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(74,174,116,0.15);color:#2a7a50;">✔ Login</span>'
+                  : '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(22,21,39,0.07);color:rgba(22,21,39,0.4);">No Login</span>') +
+              '</div>' +
+              (m.email ? '<a href="mailto:'+m.email+'" style="font-family:var(--mono);font-size:10px;color:var(--indigo);text-decoration:none;display:block;margin-top:4px;">'+m.email+'</a>' : '') +
+              (m.phone ? '<a href="tel:'+m.phone+'" style="font-family:var(--mono);font-size:10px;color:#2a7a50;text-decoration:none;display:block;">'+m.phone+'</a>' : '') +
             '</div>' +
-          '</td>' +
-          '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + wwcCol + ';">' + wwcStatus + '</span></td>' +
-          '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + polCol + ';">' + polStatus + '</span></td>' +
-          '<td style="padding:14px 16px;display:flex;gap:6px;align-items:center;">' +
-            '<button onclick=\'openDocsModal("' + m.id + '","' + ((m.first_name||'') + ' ' + (m.last_name||'')).trim() + '")\' style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 12px;border-radius:100px;border:1.5px solid var(--indigo);background:var(--indigo);color:#fff;cursor:pointer;white-space:nowrap;">Files</button>' +
-            '<button onclick=\'openMemberModal(' + JSON.stringify(m) + ')\' style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 12px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;white-space:nowrap;">Edit</button>' +
-          '</td>' +
-        '</tr>';
+          '</div>' +
+
+          // Compliance row
+          '<div style="display:flex;gap:8px;">' +
+            complianceBadge('WWC', wwcDays, wwcDays !== null) +
+            complianceBadge('Police', polDays, polDays !== null) +
+          '</div>' +
+
+          // Policy/contract row
+          '<div style="display:flex;gap:8px;">' +
+            policyBadge('Contract', !!m.contract_signed) +
+            policyBadge('Child Safety', !!m.child_safety_signed) +
+          '</div>' +
+
+          // Action buttons
+          '<div style="display:flex;gap:8px;padding-top:4px;border-top:1.5px solid rgba(22,21,39,0.08);">' +
+            '<button onclick=\'openDocsModal("'+m.id+'","'+memberName.replace(/'/g,"\\'")+'")\' style="flex:1;font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:8px 12px;border-radius:100px;border:1.5px solid var(--indigo);background:var(--indigo);color:#fff;cursor:pointer;">📁 Files</button>' +
+            '<button onclick=\'openMemberModal('+JSON.stringify(m)+')\' style="flex:1;font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:8px 12px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;">Edit</button>' +
+          '</div>' +
+        '</div>';
       }).join('');
 
   document.getElementById('statWwc').textContent = wwcSoon;
@@ -1986,9 +2025,17 @@ function buildMemberModal(){
           '<option value="contractor">Contractor</option>' +
         '</select>' +
       '</div>' +
-      '<div style="margin-bottom:16px;display:flex;align-items:center;gap:10px;">' +
+      '<div style="margin-bottom:12px;display:flex;align-items:center;gap:10px;">' +
         '<input type="checkbox" id="mLoginGiven" style="width:18px;height:18px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;">' +
         '<label for="mLoginGiven" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink);cursor:pointer;">Portal Login Given</label>' +
+      '</div>' +
+      '<div style="margin-bottom:12px;display:flex;align-items:center;gap:10px;">' +
+        '<input type="checkbox" id="mContractSigned" style="width:18px;height:18px;accent-color:var(--forest);cursor:pointer;flex-shrink:0;">' +
+        '<label for="mContractSigned" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink);cursor:pointer;">Contract Signed</label>' +
+      '</div>' +
+      '<div style="margin-bottom:16px;display:flex;align-items:center;gap:10px;">' +
+        '<input type="checkbox" id="mChildSafety" style="width:18px;height:18px;accent-color:var(--forest);cursor:pointer;flex-shrink:0;">' +
+        '<label for="mChildSafety" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink);cursor:pointer;">Child Safety Policy Signed</label>' +
       '</div>' +
       '<div style="margin-bottom:16px;">' +
         '<label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:6px;">Role / Notes</label>' +
@@ -2043,8 +2090,10 @@ function openMemberModal(member){
   document.getElementById('mEmail').value    = member ? (member.email||'') : '';
   document.getElementById('mPhone').value    = member ? (member.phone||'') : '';
   document.getElementById('mRole').value     = member ? (member.role||'') : '';
-  document.getElementById('mLoginGiven').checked = member ? !!member.login_given : false;
-  document.getElementById('mNotes').value    = member ? (member.notes||'') : '';
+  document.getElementById('mLoginGiven').checked      = member ? !!member.login_given : false;
+  document.getElementById('mContractSigned').checked  = member ? !!member.contract_signed : false;
+  document.getElementById('mChildSafety').checked     = member ? !!member.child_safety_signed : false;
+  document.getElementById('mNotes').value              = member ? (member.notes||'') : '';
   document.getElementById('mWwcNum').value   = member ? (member.wwc_number||'') : '';
   document.getElementById('mWwcExpiry').value= member ? (member.wwc_expiry||'') : '';
   document.getElementById('mPolRef').value   = member ? (member.police_ref||'') : '';
@@ -2081,8 +2130,10 @@ async function saveMember(e){
     email:        document.getElementById('mEmail').value.trim(),
     phone:        document.getElementById('mPhone').value.trim() || null,
     role:         document.getElementById('mRole').value || null,
-    login_given:  document.getElementById('mLoginGiven').checked,
-    notes:        document.getElementById('mNotes').value.trim() || null,
+    login_given:       document.getElementById('mLoginGiven').checked,
+    contract_signed:   document.getElementById('mContractSigned').checked,
+    child_safety_signed: document.getElementById('mChildSafety').checked,
+    notes:             document.getElementById('mNotes').value.trim() || null,
     wwc_number:   document.getElementById('mWwcNum').value.trim() || null,
     wwc_expiry:   document.getElementById('mWwcExpiry').value || null,
     police_ref:   document.getElementById('mPolRef').value.trim() || null,
