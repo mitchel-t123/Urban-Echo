@@ -1041,6 +1041,9 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <p id="adminError" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
 
   </div>
+<!-- hidden file picker for doc uploads -->
+<input type="file" id="docFileInput" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" style="display:none;">
+
 <!-- DOCS MODAL -->
 <div id="docsModal" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(22,21,39,0.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
   <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:32px;position:relative;">
@@ -2066,13 +2069,46 @@ function docRow(d){
   var isSigned = d.status === 'signed';
   var col = isSigned ? '#379260' : 'var(--orange)';
   var toggleLabel = isSigned ? 'Mark Pending' : 'Mark Signed';
+  var fileBtn = d.file_path
+    ? '<button onclick=\'viewDocFile("' + d.file_path + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 9px;border-radius:100px;border:1.5px solid var(--indigo);background:var(--indigo);color:#fff;cursor:pointer;">⬇ View</button>'
+    : '<button onclick=\'triggerDocUpload("' + d.id + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 9px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;color:rgba(22,21,39,0.5);cursor:pointer;">⬆ Upload</button>';
   return '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--cream);border-radius:10px;padding:10px 14px;">' +
     '<span style="font-size:13px;font-weight:600;flex:1;">' + d.name + '</span>' +
-    '<div style="display:flex;gap:6px;flex-shrink:0;">' +
+    '<div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">' +
+      fileBtn +
       '<button onclick=\'toggleDoc("' + d.id + '","' + d.status + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 9px;border-radius:100px;border:1.5px solid ' + col + ';background:none;color:' + col + ';cursor:pointer;">' + toggleLabel + '</button>' +
       '<button onclick=\'deleteDoc("' + d.id + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.15);background:none;color:rgba(22,21,39,0.4);cursor:pointer;">✕</button>' +
     '</div>' +
   '</div>';
+}
+
+var uploadTargetDocId = null;
+function triggerDocUpload(docId){
+  uploadTargetDocId = docId;
+  document.getElementById('docFileInput').value = '';
+  document.getElementById('docFileInput').click();
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('docFileInput').addEventListener('change', async function(){
+    var file = this.files[0];
+    if(!file || !uploadTargetDocId || !docsCurrentMemberId) return;
+    var errEl = document.getElementById('docsError');
+    errEl.style.display = 'none';
+    var path = docsCurrentMemberId + '/' + uploadTargetDocId + '/' + file.name;
+    var { error: upErr } = await supabaseClient.storage.from('contracts').upload(path, file, { upsert: true });
+    if(upErr){ errEl.textContent = 'Upload failed: ' + upErr.message; errEl.style.display = 'block'; return; }
+    var { error: dbErr } = await supabaseClient.from('member_documents').update({ file_path: path }).eq('id', uploadTargetDocId);
+    if(dbErr){ errEl.textContent = 'Saved file but could not update record: ' + dbErr.message; errEl.style.display = 'block'; return; }
+    uploadTargetDocId = null;
+    await refreshDocLists();
+  });
+});
+
+async function viewDocFile(filePath){
+  var { data, error } = await supabaseClient.storage.from('contracts').createSignedUrl(filePath, 3600);
+  if(error || !data){ alert('Could not get file link: ' + (error && error.message)); return; }
+  window.open(data.signedUrl, '_blank');
 }
 
 async function addDocItem(status){
