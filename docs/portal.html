@@ -1992,8 +1992,7 @@ function buildMemberModal(){
       '</div>' +
       mSection('Working With Children Check') +
       mField('mWwcNum','Card Number','text','WWC0123456E') +
-      mField('mWwcIssued','Issued','date','') +
-      mField('mWwcExpiry','Expiry','date','') +
+      mField('mWwcExpiry','Expiry Date','date','') +
       '<div style="margin-bottom:14px;">' +
         '<div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Card Photo</div>' +
         '<div id="wwcPhotoPreview" style="display:none;margin-bottom:8px;"><img id="wwcPhotoImg" style="max-width:100%;max-height:160px;border-radius:8px;border:1.5px solid rgba(22,21,39,0.15);object-fit:cover;" src=""></div>' +
@@ -2043,7 +2042,6 @@ function openMemberModal(member){
   document.getElementById('mRole').value     = member ? (member.role||'') : '';
   document.getElementById('mLoginGiven').checked = member ? !!member.login_given : false;
   document.getElementById('mWwcNum').value   = member ? (member.wwc_number||'') : '';
-  document.getElementById('mWwcIssued').value= member ? (member.wwc_issued||'') : '';
   document.getElementById('mWwcExpiry').value= member ? (member.wwc_expiry||'') : '';
   document.getElementById('mPolRef').value   = member ? (member.police_ref||'') : '';
   document.getElementById('mPolIssued').value= member ? (member.police_issued||'') : '';
@@ -2082,7 +2080,6 @@ async function saveMember(e){
     role:         document.getElementById('mRole').value || null,
     login_given:  document.getElementById('mLoginGiven').checked,
     wwc_number:   document.getElementById('mWwcNum').value.trim() || null,
-    wwc_issued:   document.getElementById('mWwcIssued').value || null,
     wwc_expiry:   document.getElementById('mWwcExpiry').value || null,
     police_ref:   document.getElementById('mPolRef').value.trim() || null,
     police_issued:document.getElementById('mPolIssued').value || null,
