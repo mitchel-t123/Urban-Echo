@@ -1041,8 +1041,9 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <p id="adminError" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
 
   </div>
-<!-- hidden file picker for doc uploads -->
+<!-- hidden file pickers -->
 <input type="file" id="docFileInput" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" style="display:none;">
+<input type="file" id="photoFileInput" accept=".jpg,.jpeg,.png,.heic" style="display:none;">
 
 <!-- DOCS MODAL -->
 <div id="docsModal" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(22,21,39,0.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
@@ -1959,10 +1960,20 @@ function buildMemberModal(){
       mField('mWwcNum','Card Number','text','WWC0123456E') +
       mField('mWwcIssued','Issued','date','') +
       mField('mWwcExpiry','Expiry','date','') +
+      '<div style="margin-bottom:14px;">' +
+        '<div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Card Photo</div>' +
+        '<div id="wwcPhotoPreview" style="display:none;margin-bottom:8px;"><img id="wwcPhotoImg" style="max-width:100%;max-height:160px;border-radius:8px;border:1.5px solid rgba(22,21,39,0.15);object-fit:cover;" src=""></div>' +
+        '<button type="button" onclick="triggerPhotoUpload(\'wwc\')" style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;color:rgba(22,21,39,0.6);">⬆ Upload Card Photo</button>' +
+      '</div>' +
       mSection('National Police Clearance') +
       mField('mPolRef','Reference Number','text','NPC20240001') +
       mField('mPolIssued','Issued','date','') +
       mField('mPolExpiry','Expiry','date','') +
+      '<div style="margin-bottom:14px;">' +
+        '<div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Clearance Photo</div>' +
+        '<div id="policePhotoPreview" style="display:none;margin-bottom:8px;"><img id="policePhotoImg" style="max-width:100%;max-height:160px;border-radius:8px;border:1.5px solid rgba(22,21,39,0.15);object-fit:cover;" src=""></div>' +
+        '<button type="button" onclick="triggerPhotoUpload(\'police\')" style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;color:rgba(22,21,39,0.6);">⬆ Upload Clearance Photo</button>' +
+      '</div>' +
       '<p id="mError" style="display:none;margin:12px 0;padding:10px 14px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:8px;font-family:var(--mono);font-size:11px;color:var(--red);font-weight:700;"></p>' +
       '<button type="submit" style="width:100%;margin-top:14px;padding:13px;background:var(--ink);color:var(--paper);border:none;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Save Member</button>' +
     '</form>' +
@@ -2002,6 +2013,20 @@ function openMemberModal(member){
   document.getElementById('mPolExpiry').value= member ? (member.police_expiry||'') : '';
   document.getElementById('mError').style.display = 'none';
   document.getElementById('mDelete').style.display = member ? 'block' : 'none';
+  // Reset photo previews
+  document.getElementById('wwcPhotoPreview').style.display = 'none';
+  document.getElementById('policePhotoPreview').style.display = 'none';
+  // Load existing photos
+  if(member && member.wwc_photo && supabaseClient){
+    supabaseClient.storage.from('contracts').createSignedUrl(member.wwc_photo, 3600).then(function(r){
+      if(r.data){ document.getElementById('wwcPhotoImg').src = r.data.signedUrl; document.getElementById('wwcPhotoPreview').style.display = 'block'; }
+    });
+  }
+  if(member && member.police_photo && supabaseClient){
+    supabaseClient.storage.from('contracts').createSignedUrl(member.police_photo, 3600).then(function(r){
+      if(r.data){ document.getElementById('policePhotoImg').src = r.data.signedUrl; document.getElementById('policePhotoPreview').style.display = 'block'; }
+    });
+  }
   memberModalEl.style.display = 'flex';
 }
 function closeMemberModal(){ if(memberModalEl) memberModalEl.style.display = 'none'; }
@@ -2161,6 +2186,38 @@ async function loadMyDocs(memberId){
   document.getElementById('myDocsSigned').innerHTML  = signed.length  ? signed.map(function(d){ return portalDocRow(d,true); }).join('') : '<div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">None yet</div>';
   document.getElementById('myDocsPending').innerHTML = pending.length ? pending.map(function(d){ return portalDocRow(d,false); }).join('') : '<div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">All clear</div>';
 }
+
+// ── Compliance photo uploads ─────────────────────────────────
+var photoUploadType = null;
+function triggerPhotoUpload(type){
+  photoUploadType = type;
+  document.getElementById('photoFileInput').value = '';
+  document.getElementById('photoFileInput').click();
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('photoFileInput').addEventListener('change', async function(){
+    var file = this.files[0];
+    if(!file || !memberEditingId || !supabaseClient) return;
+    var errEl = document.getElementById('mError');
+    errEl.style.display = 'none';
+    var ext = file.name.split('.').pop();
+    var path = memberEditingId + '/' + photoUploadType + '-card.' + ext;
+    var { error: upErr } = await supabaseClient.storage.from('contracts').upload(path, file, { upsert: true });
+    if(upErr){ errEl.textContent = 'Upload failed: ' + upErr.message; errEl.style.display = 'block'; return; }
+    var col = photoUploadType === 'wwc' ? 'wwc_photo' : 'police_photo';
+    var { error: dbErr } = await supabaseClient.from('profiles').update({ [col]: path }).eq('id', memberEditingId);
+    if(dbErr){ errEl.textContent = 'Saved photo but could not update record: ' + dbErr.message; errEl.style.display = 'block'; return; }
+    // Show thumbnail preview
+    var r = await supabaseClient.storage.from('contracts').createSignedUrl(path, 3600);
+    if(r.data){
+      var previewId = photoUploadType === 'wwc' ? 'wwcPhotoPreview' : 'policePhotoPreview';
+      var imgId     = photoUploadType === 'wwc' ? 'wwcPhotoImg'     : 'policePhotoImg';
+      document.getElementById(imgId).src = r.data.signedUrl;
+      document.getElementById(previewId).style.display = 'block';
+    }
+  });
+});
 
 async function deleteMember(){
   if(!memberEditingId) return;
