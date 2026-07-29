@@ -2139,12 +2139,16 @@ function docRow(d){
   var fileBtn = d.file_path
     ? '<button onclick=\'viewDocFile("' + d.file_path + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 9px;border-radius:100px;border:1.5px solid var(--indigo);background:var(--indigo);color:#fff;cursor:pointer;">⬇ View</button>'
     : '<button onclick=\'triggerDocUpload("' + d.id + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 9px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;color:rgba(22,21,39,0.5);cursor:pointer;">⬆ Upload</button>';
-  return '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--cream);border-radius:10px;padding:10px 14px;">' +
-    '<span style="font-size:13px;font-weight:600;flex:1;">' + d.name + '</span>' +
-    '<div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">' +
+  var safeId = d.id.replace(/[^a-z0-9]/gi,'');
+  return '<div style="background:var(--cream);border-radius:10px;padding:10px 14px;margin-bottom:2px;">' +
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">' +
+      '<input id="docname_' + safeId + '" value="' + d.name.replace(/"/g,'&quot;') + '" style="flex:1;font-size:13px;font-weight:600;border:1.5px solid transparent;border-radius:7px;padding:3px 6px;background:transparent;color:var(--ink);font-family:inherit;outline:none;" onfocus="this.style.borderColor=\'rgba(22,21,39,0.25)\';this.style.background=\'#fff\';" onblur="this.style.borderColor=\'transparent\';this.style.background=\'transparent\';">' +
+      '<button onclick=\'renameDoc("' + d.id + '","' + safeId + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 9px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;color:rgba(22,21,39,0.5);cursor:pointer;white-space:nowrap;">Rename</button>' +
+    '</div>' +
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
       fileBtn +
       '<button onclick=\'toggleDoc("' + d.id + '","' + d.status + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:4px 9px;border-radius:100px;border:1.5px solid ' + col + ';background:none;color:' + col + ';cursor:pointer;">' + toggleLabel + '</button>' +
-      '<button onclick=\'deleteDoc("' + d.id + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.15);background:none;color:rgba(22,21,39,0.4);cursor:pointer;">✕</button>' +
+      '<button onclick=\'deleteDoc("' + d.id + '")\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1.5px solid rgba(217,54,54,0.3);background:none;color:var(--red);cursor:pointer;">✕ Delete</button>' +
     '</div>' +
   '</div>';
 }
@@ -2210,7 +2214,20 @@ async function toggleDoc(docId, currentStatus){
   await refreshDocLists();
 }
 
+async function renameDoc(docId, safeId){
+  var input = document.getElementById('docname_' + safeId);
+  if(!input) return;
+  var newName = input.value.trim();
+  if(!newName){ input.value = input.defaultValue; return; }
+  var errEl = document.getElementById('docsError');
+  errEl.style.display = 'none';
+  var { error } = await supabaseClient.from('member_documents').update({ name: newName }).eq('id', docId);
+  if(error){ errEl.textContent = 'Rename failed: ' + error.message; errEl.style.display = 'block'; return; }
+  await refreshDocLists();
+}
+
 async function deleteDoc(docId){
+  if(!confirm('Delete this document permanently? This cannot be undone.')) return;
   await supabaseClient.from('member_documents').delete().eq('id', docId);
   await refreshDocLists();
 }
