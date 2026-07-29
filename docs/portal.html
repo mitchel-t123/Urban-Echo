@@ -1990,6 +1990,10 @@ function buildMemberModal(){
         '<input type="checkbox" id="mLoginGiven" style="width:18px;height:18px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;">' +
         '<label for="mLoginGiven" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink);cursor:pointer;">Portal Login Given</label>' +
       '</div>' +
+      '<div style="margin-bottom:16px;">' +
+        '<label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:6px;">Role / Notes</label>' +
+        '<textarea id="mNotes" rows="3" placeholder="e.g. Audio Technician — mainly handles school events in the northern suburbs…" style="width:100%;padding:10px 14px;border:2px solid rgba(22,21,39,0.15);border-radius:10px;font-family:inherit;font-size:13px;background:#fff;color:var(--ink);resize:vertical;box-sizing:border-box;"></textarea>' +
+      '</div>' +
       mSection('Working With Children Check') +
       mField('mWwcNum','Card Number','text','WWC0123456E') +
       mField('mWwcExpiry','Expiry Date','date','') +
@@ -2000,8 +2004,7 @@ function buildMemberModal(){
       '</div>' +
       mSection('National Police Clearance') +
       mField('mPolRef','Reference Number','text','NPC20240001') +
-      mField('mPolIssued','Issued','date','') +
-      mField('mPolExpiry','Expiry','date','') +
+      mField('mPolExpiry','Expiry Date','date','') +
       '<div style="margin-bottom:14px;">' +
         '<div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Clearance Photo</div>' +
         '<div id="policePhotoPreview" style="display:none;margin-bottom:8px;"><img id="policePhotoImg" style="max-width:100%;max-height:160px;border-radius:8px;border:1.5px solid rgba(22,21,39,0.15);object-fit:cover;" src=""></div>' +
@@ -2041,10 +2044,10 @@ function openMemberModal(member){
   document.getElementById('mPhone').value    = member ? (member.phone||'') : '';
   document.getElementById('mRole').value     = member ? (member.role||'') : '';
   document.getElementById('mLoginGiven').checked = member ? !!member.login_given : false;
+  document.getElementById('mNotes').value    = member ? (member.notes||'') : '';
   document.getElementById('mWwcNum').value   = member ? (member.wwc_number||'') : '';
   document.getElementById('mWwcExpiry').value= member ? (member.wwc_expiry||'') : '';
   document.getElementById('mPolRef').value   = member ? (member.police_ref||'') : '';
-  document.getElementById('mPolIssued').value= member ? (member.police_issued||'') : '';
   document.getElementById('mPolExpiry').value= member ? (member.police_expiry||'') : '';
   document.getElementById('mError').style.display = 'none';
   document.getElementById('mDelete').style.display = member ? 'block' : 'none';
@@ -2079,10 +2082,10 @@ async function saveMember(e){
     phone:        document.getElementById('mPhone').value.trim() || null,
     role:         document.getElementById('mRole').value || null,
     login_given:  document.getElementById('mLoginGiven').checked,
+    notes:        document.getElementById('mNotes').value.trim() || null,
     wwc_number:   document.getElementById('mWwcNum').value.trim() || null,
     wwc_expiry:   document.getElementById('mWwcExpiry').value || null,
     police_ref:   document.getElementById('mPolRef').value.trim() || null,
-    police_issued:document.getElementById('mPolIssued').value || null,
     police_expiry:document.getElementById('mPolExpiry').value || null,
   };
   var { error } = await supabaseClient.from('profiles').upsert(payload, { onConflict: 'id' });
