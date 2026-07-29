@@ -1384,6 +1384,8 @@ function doLogout(){
     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
       global: { headers: supabaseHeaders }
     });
+    // Storage client always uses anon key only — Clerk JWT breaks storage RLS
+    window.supabaseStorage = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
     // ── Fetch profile from Supabase (try by ID, fallback to email) ──
     var profile = null, error = null;
@@ -2053,12 +2055,12 @@ function openMemberModal(member){
   document.getElementById('policePhotoPreview').style.display = 'none';
   // Load existing photos
   if(member && member.wwc_photo && supabaseClient){
-    supabaseClient.storage.from('contracts').createSignedUrl(member.wwc_photo, 3600).then(function(r){
+    window.supabaseStorage.storage.from('contracts').createSignedUrl(member.wwc_photo, 3600).then(function(r){
       if(r.data){ document.getElementById('wwcPhotoImg').src = r.data.signedUrl; document.getElementById('wwcPhotoPreview').style.display = 'block'; }
     });
   }
   if(member && member.police_photo && supabaseClient){
-    supabaseClient.storage.from('contracts').createSignedUrl(member.police_photo, 3600).then(function(r){
+    window.supabaseStorage.storage.from('contracts').createSignedUrl(member.police_photo, 3600).then(function(r){
       if(r.data){ document.getElementById('policePhotoImg').src = r.data.signedUrl; document.getElementById('policePhotoPreview').style.display = 'block'; }
     });
   }
@@ -2161,7 +2163,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var errEl = document.getElementById('docsError');
     errEl.style.display = 'none';
     var path = docsCurrentMemberId + '/' + uploadTargetDocId + '/' + file.name;
-    var { error: upErr } = await supabaseClient.storage.from('contracts').upload(path, file, { upsert: true });
+    var { error: upErr } = await window.supabaseStorage.storage.from('contracts').upload(path, file, { upsert: true });
     if(upErr){ errEl.textContent = 'Upload failed: ' + upErr.message; errEl.style.display = 'block'; return; }
     var { error: dbErr } = await supabaseClient.from('member_documents').update({ file_path: path }).eq('id', uploadTargetDocId);
     if(dbErr){ errEl.textContent = 'Saved file but could not update record: ' + dbErr.message; errEl.style.display = 'block'; return; }
@@ -2171,7 +2173,7 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 async function viewDocFile(filePath){
-  var { data, error } = await supabaseClient.storage.from('contracts').createSignedUrl(filePath, 3600);
+  var { data, error } = await window.supabaseStorage.storage.from('contracts').createSignedUrl(filePath, 3600);
   if(error || !data){ alert('Could not get file link: ' + (error && error.message)); return; }
   window.open(data.signedUrl, '_blank');
 }
@@ -2190,7 +2192,7 @@ async function addDocItem(status){
   var file = fileEl && fileEl.files[0];
   if(file && inserted){
     var path = docsCurrentMemberId + '/' + inserted.id + '/' + file.name;
-    var { error: upErr } = await supabaseClient.storage.from('contracts').upload(path, file, { upsert: true });
+    var { error: upErr } = await window.supabaseStorage.storage.from('contracts').upload(path, file, { upsert: true });
     if(upErr){ errEl.textContent = 'Doc saved but file upload failed: ' + upErr.message; errEl.style.display = 'block'; }
     else { await supabaseClient.from('member_documents').update({ file_path: path }).eq('id', inserted.id); }
     fileEl.value = '';
@@ -2254,13 +2256,13 @@ document.addEventListener('DOMContentLoaded', function(){
     errEl.style.display = 'none';
     var ext = file.name.split('.').pop();
     var path = memberEditingId + '/' + photoUploadType + '-card.' + ext;
-    var { error: upErr } = await supabaseClient.storage.from('contracts').upload(path, file, { upsert: true });
+    var { error: upErr } = await window.supabaseStorage.storage.from('contracts').upload(path, file, { upsert: true });
     if(upErr){ errEl.textContent = 'Upload failed: ' + upErr.message; errEl.style.display = 'block'; return; }
     var col = photoUploadType === 'wwc' ? 'wwc_photo' : 'police_photo';
     var { error: dbErr } = await supabaseClient.from('profiles').update({ [col]: path }).eq('id', memberEditingId);
     if(dbErr){ errEl.textContent = 'Saved photo but could not update record: ' + dbErr.message; errEl.style.display = 'block'; return; }
     // Show thumbnail preview
-    var r = await supabaseClient.storage.from('contracts').createSignedUrl(path, 3600);
+    var r = await window.supabaseStorage.storage.from('contracts').createSignedUrl(path, 3600);
     if(r.data){
       var previewId = photoUploadType === 'wwc' ? 'wwcPhotoPreview' : 'policePhotoPreview';
       var imgId     = photoUploadType === 'wwc' ? 'wwcPhotoImg'     : 'policePhotoImg';
