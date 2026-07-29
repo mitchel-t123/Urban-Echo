@@ -1910,6 +1910,10 @@ async function loadAdminTeam(){
           '<td style="padding:14px 16px;"><div style="font-weight:800;font-size:14px;white-space:nowrap;">' + (m.first_name||'') + ' ' + (m.last_name||'') + '</div>' +
             (m.email ? '<a href="mailto:' + m.email + '" style="font-family:var(--mono);font-size:10px;color:var(--indigo);text-decoration:none;display:block;">' + m.email + '</a>' : '') +
             (m.phone ? '<a href="tel:' + m.phone + '" style="font-family:var(--mono);font-size:10px;color:var(--forest-deep);text-decoration:none;display:block;">' + m.phone + '</a>' : '') +
+            '<div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;">' +
+              (m.role ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 7px;border-radius:100px;background:rgba(63,63,240,0.1);color:var(--indigo);">' + m.role.replace('_',' ') + '</span>' : '') +
+              (m.login_given ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 7px;border-radius:100px;background:rgba(74,174,116,0.15);color:#2a7a50;">✔ Login</span>' : '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 7px;border-radius:100px;background:rgba(22,21,39,0.07);color:rgba(22,21,39,0.4);">No Login</span>') +
+            '</div>' +
           '</td>' +
           '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + wwcCol + ';">' + wwcStatus + '</span></td>' +
           '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + polCol + ';">' + polStatus + '</span></td>' +
@@ -1960,6 +1964,20 @@ function buildMemberModal(){
       mField('mLast','Last Name','text','Tinsley') +
       mField('mEmail','Email','email','mitchel@urbanecho.com.au') +
       mField('mPhone','Mobile','tel','0400 000 000') +
+      '<div style="margin-bottom:16px;">' +
+        '<label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:6px;">Employment Type</label>' +
+        '<select id="mRole" style="width:100%;padding:10px 14px;border:2px solid rgba(22,21,39,0.15);border-radius:10px;font-family:var(--mono);font-size:13px;background:#fff;color:var(--ink);appearance:auto;">' +
+          '<option value="">— Select —</option>' +
+          '<option value="casual">Casual</option>' +
+          '<option value="part_time">Part Time</option>' +
+          '<option value="full_time">Full Time</option>' +
+          '<option value="contractor">Contractor</option>' +
+        '</select>' +
+      '</div>' +
+      '<div style="margin-bottom:16px;display:flex;align-items:center;gap:10px;">' +
+        '<input type="checkbox" id="mLoginGiven" style="width:18px;height:18px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;">' +
+        '<label for="mLoginGiven" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink);cursor:pointer;">Portal Login Given</label>' +
+      '</div>' +
       mSection('Working With Children Check') +
       mField('mWwcNum','Card Number','text','WWC0123456E') +
       mField('mWwcIssued','Issued','date','') +
@@ -2010,6 +2028,8 @@ function openMemberModal(member){
   document.getElementById('mLast').value     = member ? (member.last_name||'') : '';
   document.getElementById('mEmail').value    = member ? (member.email||'') : '';
   document.getElementById('mPhone').value    = member ? (member.phone||'') : '';
+  document.getElementById('mRole').value     = member ? (member.role||'') : '';
+  document.getElementById('mLoginGiven').checked = member ? !!member.login_given : false;
   document.getElementById('mWwcNum').value   = member ? (member.wwc_number||'') : '';
   document.getElementById('mWwcIssued').value= member ? (member.wwc_issued||'') : '';
   document.getElementById('mWwcExpiry').value= member ? (member.wwc_expiry||'') : '';
@@ -2047,6 +2067,8 @@ async function saveMember(e){
     last_name:    document.getElementById('mLast').value.trim(),
     email:        document.getElementById('mEmail').value.trim(),
     phone:        document.getElementById('mPhone').value.trim() || null,
+    role:         document.getElementById('mRole').value || null,
+    login_given:  document.getElementById('mLoginGiven').checked,
     wwc_number:   document.getElementById('mWwcNum').value.trim() || null,
     wwc_issued:   document.getElementById('mWwcIssued').value || null,
     wwc_expiry:   document.getElementById('mWwcExpiry').value || null,
