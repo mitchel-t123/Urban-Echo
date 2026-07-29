@@ -1907,7 +1907,10 @@ async function loadAdminTeam(){
         var wwcCol = wwcDays === null ? 'rgba(22,21,39,0.3)' : (wwcDays > 30 ? '#379260' : 'var(--red)');
         var polCol = polDays === null ? 'rgba(22,21,39,0.3)' : (polDays > 30 ? '#379260' : 'var(--red)');
         return '<tr style="border-bottom:1.5px solid rgba(22,21,39,0.1);">' +
-          '<td style="padding:14px 16px;"><div style="font-weight:800;font-size:14px;white-space:nowrap;">' + (m.first_name||'') + ' ' + (m.last_name||'') + '</div><div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.4);max-width:160px;overflow:hidden;text-overflow:ellipsis;">' + (m.email||'') + '</div></td>' +
+          '<td style="padding:14px 16px;"><div style="font-weight:800;font-size:14px;white-space:nowrap;">' + (m.first_name||'') + ' ' + (m.last_name||'') + '</div>' +
+            (m.email ? '<a href="mailto:' + m.email + '" style="font-family:var(--mono);font-size:10px;color:var(--indigo);text-decoration:none;display:block;">' + m.email + '</a>' : '') +
+            (m.phone ? '<a href="tel:' + m.phone + '" style="font-family:var(--mono);font-size:10px;color:var(--forest-deep);text-decoration:none;display:block;">' + m.phone + '</a>' : '') +
+          '</td>' +
           '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + wwcCol + ';">' + wwcStatus + '</span></td>' +
           '<td style="padding:14px 16px;text-align:center;"><span style="font-family:var(--mono);font-size:11px;font-weight:700;color:' + polCol + ';">' + polStatus + '</span></td>' +
           '<td style="padding:14px 16px;display:flex;gap:6px;align-items:center;">' +
@@ -1956,6 +1959,7 @@ function buildMemberModal(){
       mField('mFirst','First Name','text','Mitchel') +
       mField('mLast','Last Name','text','Tinsley') +
       mField('mEmail','Email','email','mitchel@urbanecho.com.au') +
+      mField('mPhone','Mobile','tel','0400 000 000') +
       mSection('Working With Children Check') +
       mField('mWwcNum','Card Number','text','WWC0123456E') +
       mField('mWwcIssued','Issued','date','') +
@@ -2005,6 +2009,7 @@ function openMemberModal(member){
   document.getElementById('mFirst').value    = member ? (member.first_name||'') : '';
   document.getElementById('mLast').value     = member ? (member.last_name||'') : '';
   document.getElementById('mEmail').value    = member ? (member.email||'') : '';
+  document.getElementById('mPhone').value    = member ? (member.phone||'') : '';
   document.getElementById('mWwcNum').value   = member ? (member.wwc_number||'') : '';
   document.getElementById('mWwcIssued').value= member ? (member.wwc_issued||'') : '';
   document.getElementById('mWwcExpiry').value= member ? (member.wwc_expiry||'') : '';
@@ -2041,6 +2046,7 @@ async function saveMember(e){
     first_name:   document.getElementById('mFirst').value.trim(),
     last_name:    document.getElementById('mLast').value.trim(),
     email:        document.getElementById('mEmail').value.trim(),
+    phone:        document.getElementById('mPhone').value.trim() || null,
     wwc_number:   document.getElementById('mWwcNum').value.trim() || null,
     wwc_issued:   document.getElementById('mWwcIssued').value || null,
     wwc_expiry:   document.getElementById('mWwcExpiry').value || null,
