@@ -1902,7 +1902,7 @@ async function loadAdminTeam(){
           if(!hasData){
             bg='rgba(22,21,39,0.06)'; col='rgba(22,21,39,0.35)'; status='Not set';
           } else if(days > 30){
-            bg='rgba(74,174,116,0.15)'; col='#2a7a50'; status='✔ OK';
+            bg='rgba(74,174,116,0.15)'; col='#2a7a50'; status='✔ Current';
           } else if(days >= 0){
             bg='rgba(249,195,40,0.2)'; col='#7a5c00'; status='⚠ '+days+'d';
           } else {
@@ -1928,7 +1928,9 @@ async function loadAdminTeam(){
 
         var memberName = ((m.first_name||'') + ' ' + (m.last_name||'')).trim();
         var initials = ((m.first_name||'')[0]||'') + ((m.last_name||'')[0]||'');
-        var roleLabel = m.role ? m.role.replace(/_/g,' ') : '';
+        var roleNames = {'sound_tech':'Sound Tech','av_tech':'AV Tech','setup_packdown':'Setup & Packdown','security':'Security','venue_manager':'Venue Manager','light_tech':'Light Technician'};
+        var roleLabels = m.role ? m.role.split(',').map(function(r){ return roleNames[r]||r; }) : [];
+        var employmentLabel = m.employment ? m.employment.replace(/_/g,' ') : '';
 
         return '<div style="background:var(--paper);border:2px solid rgba(22,21,39,0.1);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:3px 3px 0 rgba(22,21,39,0.06);">' +
 
@@ -1939,7 +1941,8 @@ async function loadAdminTeam(){
               '<div style="font-weight:800;font-size:15px;line-height:1.2;">' + memberName + '</div>' +
               (m.notes ? '<div style="font-size:12px;color:rgba(22,21,39,0.55);margin-top:1px;">' + m.notes + '</div>' : '') +
               '<div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;">' +
-                (roleLabel ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(63,63,240,0.1);color:var(--indigo);">' + roleLabel + '</span>' : '') +
+                (employmentLabel ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(63,63,240,0.1);color:var(--indigo);">' + employmentLabel + '</span>' : '') +
+              roleLabels.map(function(r){ return '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(249,195,40,0.2);color:#7a5c00;">' + r + '</span>'; }).join('') +
                 (m.login_given
                   ? '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(74,174,116,0.15);color:#2a7a50;">✔ Login</span>'
                   : '<span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(22,21,39,0.07);color:rgba(22,21,39,0.4);">No Login</span>') +
@@ -2010,14 +2013,23 @@ function buildMemberModal(){
       mField('mEmail','Email','email','mitchel@urbanecho.com.au') +
       mField('mPhone','Mobile','tel','0400 000 000') +
       '<div style="margin-bottom:16px;">' +
-        '<label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:6px;">Employment Type</label>' +
-        '<select id="mRole" style="width:100%;padding:10px 14px;border:2px solid rgba(22,21,39,0.15);border-radius:10px;font-family:var(--mono);font-size:13px;background:#fff;color:var(--ink);appearance:auto;">' +
+        '<label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:8px;">Employment Type</label>' +
+        '<select id="mEmployment" style="width:100%;padding:10px 14px;border:2px solid rgba(22,21,39,0.15);border-radius:10px;font-family:var(--mono);font-size:13px;background:#fff;color:var(--ink);appearance:auto;">' +
           '<option value="">— Select —</option>' +
           '<option value="casual">Casual</option>' +
           '<option value="part_time">Part Time</option>' +
           '<option value="full_time">Full Time</option>' +
           '<option value="contractor">Contractor</option>' +
         '</select>' +
+      '</div>' +
+      '<div style="margin-bottom:16px;">' +
+        '<label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:8px;">Roles</label>' +
+        '<div style="display:flex;flex-direction:column;gap:8px;">' +
+          ['sound_tech:Sound Tech','av_tech:AV Tech','setup_packdown:Setup & Packdown Crew','security:Security','venue_manager:Venue Manager','light_tech:Light Technician'].map(function(r){
+            var parts = r.split(':'); var val = parts[0]; var label = parts[1];
+            return '<label style="display:flex;align-items:center;gap:10px;cursor:pointer;"><input type="checkbox" id="mRole_'+val+'" value="'+val+'" style="width:16px;height:16px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;"><span style="font-size:13px;font-weight:600;">'+label+'</span></label>';
+          }).join('') +
+        '</div>' +
       '</div>' +
       '<div style="margin-bottom:12px;display:flex;align-items:center;gap:10px;">' +
         '<input type="checkbox" id="mLoginGiven" style="width:18px;height:18px;accent-color:var(--indigo);cursor:pointer;flex-shrink:0;">' +
@@ -2083,7 +2095,11 @@ function openMemberModal(member){
   document.getElementById('mLast').value     = member ? (member.last_name||'') : '';
   document.getElementById('mEmail').value    = member ? (member.email||'') : '';
   document.getElementById('mPhone').value    = member ? (member.phone||'') : '';
-  document.getElementById('mRole').value     = member ? (member.role||'') : '';
+  document.getElementById('mEmployment').value = member ? (member.employment||'') : '';
+  var memberRoles = member && member.role ? member.role.split(',') : [];
+  ['sound_tech','av_tech','setup_packdown','security','venue_manager','light_tech'].forEach(function(v){
+    var el = document.getElementById('mRole_'+v); if(el) el.checked = memberRoles.indexOf(v) > -1;
+  });
   document.getElementById('mLoginGiven').checked      = member ? !!member.login_given : false;
   document.getElementById('mContractSigned').checked  = member ? !!member.contract_signed : false;
   document.getElementById('mChildSafety').checked     = member ? !!member.child_safety_signed : false;
@@ -2123,7 +2139,8 @@ async function saveMember(e){
     last_name:    document.getElementById('mLast').value.trim(),
     email:        document.getElementById('mEmail').value.trim(),
     phone:        document.getElementById('mPhone').value.trim() || null,
-    role:         document.getElementById('mRole').value || null,
+    employment:   document.getElementById('mEmployment').value || null,
+    role:         ['sound_tech','av_tech','setup_packdown','security','venue_manager','light_tech'].filter(function(v){ var el=document.getElementById('mRole_'+v); return el && el.checked; }).join(',') || null,
     login_given:       document.getElementById('mLoginGiven').checked,
     contract_signed:   document.getElementById('mContractSigned').checked,
     child_safety_signed: document.getElementById('mChildSafety').checked,
