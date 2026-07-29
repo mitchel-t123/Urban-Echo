@@ -1028,7 +1028,34 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 
     <p id="adminError" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
 
+    <!-- Schools section -->
+    <div style="margin-top:52px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:2.5px solid var(--ink);">
+        <h2 style="font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:-0.01em;">Schools</h2>
+        <button onclick="openSchoolModal(null)" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:100px;background:var(--orange);color:var(--ink);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;border:2px solid var(--ink);cursor:pointer;">+ Add School</button>
+      </div>
+      <div id="schoolsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;"></div>
+      <p id="schoolsError" style="display:none;margin-top:12px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
+    </div>
+
   </div>
+<!-- SCHOOL MODAL -->
+<div id="schoolModal" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(22,21,39,0.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:500px;max-height:90vh;overflow-y:auto;padding:32px;position:relative;">
+    <button onclick="closeSchoolModal()" style="position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(22,21,39,0.2);background:none;font-size:14px;cursor:pointer;">✕</button>
+    <span style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);display:block;margin-bottom:4px;">Schools</span>
+    <h2 id="schoolModalTitle" style="font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:24px;">Add School</h2>
+    <form id="schoolForm" style="display:flex;flex-direction:column;gap:0;">
+      <div id="sFields"></div>
+      <p id="schoolError" style="display:none;margin:8px 0 12px;padding:10px 14px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:8px;font-family:var(--mono);font-size:11px;color:var(--red);font-weight:700;"></p>
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <button type="submit" style="flex:1;padding:13px;border-radius:12px;border:2.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Save School</button>
+        <button type="button" id="sDelete" onclick="deleteSchool()" style="display:none;padding:13px 18px;border-radius:12px;border:2px solid var(--red);background:none;color:var(--red);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;cursor:pointer;">Delete</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- hidden file pickers -->
 <input type="file" id="docFileInput" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" style="display:none;">
 <input type="file" id="photoFileInput" accept=".jpg,.jpeg,.png,.heic" style="display:none;">
@@ -1103,45 +1130,8 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
       <span style="font-size:28px;">📞</span>
       <span>Call Mitchel Tinsley<br><span style="font-family:var(--mono);font-size:12px;font-weight:400;opacity:0.7;">0429 660 186 — Owner</span></span>
     </a>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-
-      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
-        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Penrhos College</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong> — Ross</span><span style="color:rgba(22,21,39,0.5);">Events Coordinator</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Grounds</strong> — Rob</span><span style="color:rgba(22,21,39,0.5);">Facilities</span></div>
-        </div>
-      </div>
-
-      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
-        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Carey Baptist College</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong> — Tom</span><span style="color:rgba(22,21,39,0.5);">Events Manager</span></div>
-        </div>
-      </div>
-
-      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
-        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Methodist Ladies College</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong> — Doug</span><span style="color:rgba(22,21,39,0.5);">Performing Arts</span></div>
-        </div>
-      </div>
-
-      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
-        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Shenton College</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong> — Sarah</span><span style="color:rgba(22,21,39,0.5);">Music Department</span></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Caretaker</strong> — Dave</span><span style="color:rgba(22,21,39,0.5);">Access &amp; Facilities</span></div>
-        </div>
-      </div>
-
-      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
-        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Willetton Senior High School</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong> — Karen</span><span style="color:rgba(22,21,39,0.5);">Deputy Principal</span></div>
-        </div>
-      </div>
-
+    <div id="contactsSchoolList" style="display:flex;flex-direction:column;gap:14px;">
+      <div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);padding:20px 0;text-align:center;">Loading…</div>
     </div>
   </div>
 </div>
@@ -1866,7 +1856,7 @@ function openAdmin(){
   document.getElementById('mainPortal').style.display = 'none';
   document.getElementById('adminPanel').style.display = 'block';
   window.scrollTo(0,0);
-  if(!adminLoaded){ loadAdminTeam(); adminLoaded = true; }
+  if(!adminLoaded){ loadAdminTeam(); loadSchools(); adminLoaded = true; }
 }
 
 function closeAdmin(){
@@ -2349,6 +2339,152 @@ async function deleteMember(){
   adminLoaded = false;
   loadAdminTeam();
 }
+
+// ── Schools ─────────────────────────────────────────────────
+var schoolEditingId = null;
+
+function sField(id, label, type, placeholder){
+  if(type === 'textarea'){
+    return '<div style="margin-bottom:14px;"><label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:6px;">'+label+'</label><textarea id="'+id+'" rows="3" placeholder="'+placeholder+'" style="width:100%;padding:10px 14px;border:2px solid rgba(22,21,39,0.15);border-radius:10px;font-family:inherit;font-size:13px;background:#fff;color:var(--ink);resize:vertical;box-sizing:border-box;"></textarea></div>';
+  }
+  return '<div style="margin-bottom:14px;"><label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:6px;">'+label+'</label><input id="'+id+'" type="'+type+'" placeholder="'+placeholder+'" style="width:100%;padding:10px 14px;border:2px solid rgba(22,21,39,0.15);border-radius:10px;font-family:inherit;font-size:13px;background:#fff;color:var(--ink);box-sizing:border-box;"></div>';
+}
+
+function buildSchoolModal(){
+  document.getElementById('sFields').innerHTML =
+    sField('sName','School Name','text','e.g. Penrhos College') +
+    sField('sContact','Main Contact Name','text','e.g. Ross') +
+    sField('sContactRole','Contact Role / Title','text','e.g. Events Coordinator') +
+    sField('sPhone','Contact Phone','tel','0400 000 000') +
+    sField('sEmail','Contact Email','email','contact@school.edu.au') +
+    sField('sCSO','Child Safety Officer','text','e.g. Jane Smith') +
+    sField('sAddress','School Address','text','e.g. 34 Strathalbyn Dr, Applecross') +
+    sField('sNotes','Notes','textarea','e.g. Park on left side, check in at reception first…');
+  document.getElementById('schoolForm').addEventListener('submit', saveSchool);
+}
+
+function openSchoolModal(school){
+  buildSchoolModal();
+  schoolEditingId = school ? school.id : null;
+  document.getElementById('schoolModalTitle').textContent = school ? 'Edit School' : 'Add School';
+  document.getElementById('sName').value        = school ? (school.name||'') : '';
+  document.getElementById('sContact').value     = school ? (school.contact_name||'') : '';
+  document.getElementById('sContactRole').value = school ? (school.contact_role||'') : '';
+  document.getElementById('sPhone').value       = school ? (school.phone||'') : '';
+  document.getElementById('sEmail').value       = school ? (school.email||'') : '';
+  document.getElementById('sCSO').value         = school ? (school.child_safety_officer||'') : '';
+  document.getElementById('sAddress').value     = school ? (school.address||'') : '';
+  document.getElementById('sNotes').value       = school ? (school.notes||'') : '';
+  document.getElementById('sDelete').style.display = school ? 'block' : 'none';
+  document.getElementById('schoolError').style.display = 'none';
+  document.getElementById('schoolModal').style.display = 'flex';
+}
+
+function closeSchoolModal(){
+  document.getElementById('schoolModal').style.display = 'none';
+  schoolEditingId = null;
+}
+
+async function saveSchool(e){
+  e.preventDefault();
+  var errEl = document.getElementById('schoolError');
+  errEl.style.display = 'none';
+  if(!supabaseClient){ errEl.textContent = 'No Supabase connection.'; errEl.style.display = 'block'; return; }
+  var name = document.getElementById('sName').value.trim();
+  if(!name){ errEl.textContent = 'School name is required.'; errEl.style.display = 'block'; return; }
+  var payload = {
+    name: name,
+    contact_name:         document.getElementById('sContact').value.trim() || null,
+    contact_role:         document.getElementById('sContactRole').value.trim() || null,
+    phone:                document.getElementById('sPhone').value.trim() || null,
+    email:                document.getElementById('sEmail').value.trim() || null,
+    child_safety_officer: document.getElementById('sCSO').value.trim() || null,
+    address:              document.getElementById('sAddress').value.trim() || null,
+    notes:                document.getElementById('sNotes').value.trim() || null,
+  };
+  var error;
+  if(schoolEditingId){
+    ({ error } = await supabaseClient.from('schools').update(payload).eq('id', schoolEditingId));
+  } else {
+    ({ error } = await supabaseClient.from('schools').insert(payload));
+  }
+  if(error){ errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  closeSchoolModal();
+  adminLoaded = false;
+  loadSchools();
+}
+
+async function deleteSchool(){
+  if(!confirm('Delete this school permanently? This cannot be undone.')) return;
+  if(!schoolEditingId) return;
+  var { error } = await supabaseClient.from('schools').delete().eq('id', schoolEditingId);
+  if(error){ document.getElementById('schoolError').textContent = error.message; document.getElementById('schoolError').style.display = 'block'; return; }
+  closeSchoolModal();
+  adminLoaded = false;
+  loadSchools();
+}
+
+async function loadSchools(){
+  var grid = document.getElementById('schoolsGrid');
+  if(!grid) return;
+  if(!supabaseClient){ grid.innerHTML = '<div style="font-family:var(--mono);font-size:12px;color:var(--red);">No connection.</div>'; return; }
+  var { data, error } = await supabaseClient.from('schools').select('*').order('name');
+  if(error){ grid.innerHTML = '<div style="font-family:var(--mono);font-size:12px;color:var(--red);">'+error.message+'</div>'; return; }
+  grid.innerHTML = !data || data.length === 0
+    ? '<div style="grid-column:1/-1;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);padding:20px 0;">No schools added yet.</div>'
+    : data.map(function(s){
+        return '<div style="background:var(--paper);border:2px solid rgba(22,21,39,0.1);border-radius:16px;padding:20px;box-shadow:3px 3px 0 rgba(22,21,39,0.06);display:flex;flex-direction:column;gap:10px;">' +
+          '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">' +
+            '<div style="font-weight:800;font-size:15px;line-height:1.2;">' + s.name + '</div>' +
+            '<button onclick=\'openSchoolModal('+JSON.stringify(s)+')\' style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:4px 10px;border-radius:100px;border:1.5px solid rgba(22,21,39,0.2);background:none;cursor:pointer;white-space:nowrap;flex-shrink:0;">Edit</button>' +
+          '</div>' +
+          (s.address ? '<div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.5);">📍 '+s.address+'</div>' : '') +
+          '<div style="display:flex;flex-direction:column;gap:6px;border-top:1.5px solid rgba(22,21,39,0.08);padding-top:10px;">' +
+            (s.contact_name ? '<div style="font-size:12px;"><strong>Contact:</strong> '+s.contact_name+(s.contact_role ? ' <span style="color:rgba(22,21,39,0.5);">— '+s.contact_role+'</span>' : '')+'</div>' : '') +
+            (s.phone ? '<a href="tel:'+s.phone+'" style="font-family:var(--mono);font-size:11px;color:var(--indigo);text-decoration:none;">📞 '+s.phone+'</a>' : '') +
+            (s.email ? '<a href="mailto:'+s.email+'" style="font-family:var(--mono);font-size:11px;color:var(--indigo);text-decoration:none;">✉ '+s.email+'</a>' : '') +
+            (s.child_safety_officer ? '<div style="font-size:12px;margin-top:2px;"><span style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:100px;background:rgba(74,174,116,0.15);color:#2a7a50;">Child Safety Officer</span> <span style="font-size:12px;font-weight:600;">'+s.child_safety_officer+'</span></div>' : '') +
+          '</div>' +
+          (s.notes ? '<div style="font-size:12px;color:rgba(22,21,39,0.55);border-top:1.5px solid rgba(22,21,39,0.08);padding-top:8px;">'+s.notes+'</div>' : '') +
+        '</div>';
+      }).join('');
+  // Also refresh key contacts modal
+  loadContactsModal(data);
+}
+
+function loadContactsModal(schools){
+  var el = document.getElementById('contactsSchoolList');
+  if(!el) return;
+  if(!schools || schools.length === 0){
+    el.innerHTML = '<div style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);padding:12px 0;">No schools on file yet.</div>';
+    return;
+  }
+  el.innerHTML = schools.map(function(s){
+    return '<div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">' +
+      '<div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">'+s.name+'</div>' +
+      '<div style="display:flex;flex-direction:column;gap:6px;">' +
+        (s.contact_name ? '<div style="font-size:12px;"><strong>'+s.contact_name+'</strong>'+(s.contact_role ? ' <span style="color:rgba(22,21,39,0.5);">— '+s.contact_role+'</span>' : '')+'</div>' : '') +
+        (s.phone ? '<a href="tel:'+s.phone+'" style="font-family:var(--mono);font-size:11px;color:var(--indigo);text-decoration:none;">📞 '+s.phone+'</a>' : '') +
+        (s.email ? '<a href="mailto:'+s.email+'" style="font-family:var(--mono);font-size:11px;color:var(--indigo);text-decoration:none;">✉ '+s.email+'</a>' : '') +
+        (s.child_safety_officer ? '<div style="font-size:12px;margin-top:2px;"><span style="color:rgba(22,21,39,0.5);">Child Safety:</span> <strong>'+s.child_safety_officer+'</strong></div>' : '') +
+        (s.address ? '<div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.45);margin-top:2px;">'+s.address+'</div>' : '') +
+        (s.notes ? '<div style="font-size:12px;color:rgba(22,21,39,0.55);margin-top:4px;padding-top:8px;border-top:1px solid rgba(22,21,39,0.08);">'+s.notes+'</div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// Load schools into key contacts when modal opens (portal view)
+document.addEventListener('DOMContentLoaded', function(){
+  var btn = document.getElementById('openContactsBtn');
+  if(btn) btn.addEventListener('click', function(){
+    if(supabaseClient){
+      supabaseClient.from('schools').select('*').order('name').then(function(r){
+        if(r.data) loadContactsModal(r.data);
+      });
+    }
+  });
+});
 </script>
 </body>
 </html>
