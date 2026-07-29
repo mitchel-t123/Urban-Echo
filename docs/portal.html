@@ -1020,9 +1020,28 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     </div>
 
     <!-- Table header -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:2.5px solid var(--ink);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:14px;border-bottom:2.5px solid var(--ink);flex-wrap:wrap;gap:10px;">
       <h2 style="font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:-0.01em;">Team Members</h2>
       <button onclick="openMemberModal(null)" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:100px;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;border:2px solid var(--ink);cursor:pointer;">+ Add Member</button>
+    </div>
+
+    <!-- Role filter -->
+    <div style="margin-bottom:20px;position:relative;display:inline-block;">
+      <button onclick="toggleRoleFilter()" id="roleFilterBtn" style="display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:100px;border:2px solid rgba(22,21,39,0.2);background:var(--paper);font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">
+        🔍 Filter by Role <span id="roleFilterCount" style="display:none;background:var(--indigo);color:#fff;border-radius:100px;padding:1px 7px;font-size:10px;"></span>
+      </button>
+      <div id="roleFilterDropdown" style="display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:200;background:var(--paper);border:2px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink);padding:16px;min-width:220px;">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.45);margin-bottom:10px;">Show members with:</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label style="display:flex;align-items:center;gap:9px;cursor:pointer;"><input type="checkbox" class="roleFilter" value="sound_tech" onchange="applyRoleFilter()" style="accent-color:var(--indigo);width:15px;height:15px;"><span style="font-size:13px;">Sound Tech</span></label>
+          <label style="display:flex;align-items:center;gap:9px;cursor:pointer;"><input type="checkbox" class="roleFilter" value="av_tech" onchange="applyRoleFilter()" style="accent-color:var(--indigo);width:15px;height:15px;"><span style="font-size:13px;">AV Tech</span></label>
+          <label style="display:flex;align-items:center;gap:9px;cursor:pointer;"><input type="checkbox" class="roleFilter" value="setup_packdown" onchange="applyRoleFilter()" style="accent-color:var(--indigo);width:15px;height:15px;"><span style="font-size:13px;">Setup & Packdown Crew</span></label>
+          <label style="display:flex;align-items:center;gap:9px;cursor:pointer;"><input type="checkbox" class="roleFilter" value="security" onchange="applyRoleFilter()" style="accent-color:var(--indigo);width:15px;height:15px;"><span style="font-size:13px;">Security</span></label>
+          <label style="display:flex;align-items:center;gap:9px;cursor:pointer;"><input type="checkbox" class="roleFilter" value="venue_manager" onchange="applyRoleFilter()" style="accent-color:var(--indigo);width:15px;height:15px;"><span style="font-size:13px;">Venue Manager</span></label>
+          <label style="display:flex;align-items:center;gap:9px;cursor:pointer;"><input type="checkbox" class="roleFilter" value="light_tech" onchange="applyRoleFilter()" style="accent-color:var(--indigo);width:15px;height:15px;"><span style="font-size:13px;">Light Technician</span></label>
+        </div>
+        <button onclick="clearRoleFilter()" style="margin-top:12px;width:100%;padding:7px;border-radius:8px;border:1.5px solid rgba(22,21,39,0.15);background:none;font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;color:rgba(22,21,39,0.5);">Clear Filter</button>
+      </div>
     </div>
 
     <!-- Table -->
@@ -1060,6 +1079,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   </div>
 </div>
 
+<input type="file" id="avatarFileInput" accept=".jpg,.jpeg,.png,.heic,.webp" style="display:none;">
 <!-- hidden file pickers -->
 <input type="file" id="docFileInput" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" style="display:none;">
 <input type="file" id="photoFileInput" accept=".jpg,.jpeg,.png,.heic" style="display:none;">
@@ -1885,12 +1905,18 @@ async function loadAdminTeam(){
     tbody.innerHTML = '<tr><td colspan="6" style="padding:28px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Error loading.</td></tr>';
     return;
   }
+  allMembersData = data || [];
+  document.getElementById('statTotal').textContent = allMembersData.length;
+  renderMemberCards(allMembersData);
+}
+
+function renderMemberCards(data){
+  var tbody = document.getElementById('adminTableBody');
   var today = new Date(); today.setHours(0,0,0,0);
   var wwcSoon = 0, policeSoon = 0;
-  document.getElementById('statTotal').textContent = data.length;
 
   tbody.innerHTML = (data.length === 0)
-    ? '<div style="grid-column:1/-1;padding:40px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">No team members yet. Add one above.</div>'
+    ? '<div style="grid-column:1/-1;padding:40px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">No members match the selected roles.</div>'
     : data.map(function(m){
         var wwcDays  = m.wwc_expiry  ? Math.round((new Date(m.wwc_expiry)  - today) / 86400000) : null;
         var polDays  = m.police_expiry ? Math.round((new Date(m.police_expiry) - today) / 86400000) : null;
@@ -1936,7 +1962,10 @@ async function loadAdminTeam(){
 
           // Header — avatar + name + contact
           '<div style="display:flex;align-items:flex-start;gap:12px;">' +
-            '<div style="width:44px;height:44px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--mono);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-transform:uppercase;">' + initials + '</div>' +
+            '<div onclick=\'triggerAvatarUpload("'+m.id+'")\' title="Click to upload profile photo" style="width:52px;height:52px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--mono);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-transform:uppercase;cursor:pointer;overflow:hidden;position:relative;border:2.5px solid var(--ink);">' +
+              (m.avatar_url ? '<img src="'+m.avatar_url+'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.display=\'none\'">' : '') +
+              '<span style="position:relative;z-index:1;'+(m.avatar_url?'opacity:0;':'')+'">' + initials + '</span>' +
+            '</div>' +
             '<div style="flex:1;min-width:0;">' +
               '<div style="font-weight:800;font-size:15px;line-height:1.2;">' + memberName + '</div>' +
               (m.notes ? '<div style="font-size:12px;color:rgba(22,21,39,0.55);margin-top:1px;">' + m.notes + '</div>' : '') +
@@ -2507,7 +2536,66 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     }
   });
+
+  // Close role filter dropdown when clicking outside
+  document.addEventListener('click', function(e){
+    var dd = document.getElementById('roleFilterDropdown');
+    var btn = document.getElementById('roleFilterBtn');
+    if(dd && !dd.contains(e.target) && btn && !btn.contains(e.target)){
+      dd.style.display = 'none';
+    }
+  });
+
+  // Avatar upload
+  document.getElementById('avatarFileInput').addEventListener('change', async function(){
+    var file = this.files[0];
+    if(!file || !avatarUploadMemberId) return;
+    var ext = file.name.split('.').pop();
+    var path = avatarUploadMemberId + '/avatar.' + ext;
+    var { error: upErr } = await window.supabaseStorage.storage.from('contracts').upload(path, file, { upsert: true });
+    if(upErr){ alert('Photo upload failed: ' + upErr.message); return; }
+    var { data: urlData } = await window.supabaseStorage.storage.from('contracts').createSignedUrl(path, 60 * 60 * 24 * 365);
+    if(!urlData) return;
+    await supabaseClient.from('profiles').update({ avatar_url: urlData.signedUrl, avatar_path: path }).eq('id', avatarUploadMemberId);
+    avatarUploadMemberId = null;
+    adminLoaded = false;
+    loadAdminTeam();
+  });
 });
+
+var avatarUploadMemberId = null;
+function triggerAvatarUpload(memberId){
+  avatarUploadMemberId = memberId;
+  document.getElementById('avatarFileInput').value = '';
+  document.getElementById('avatarFileInput').click();
+}
+
+// ── Role filter ──────────────────────────────────────────────
+var allMembersData = [];
+
+function toggleRoleFilter(){
+  var dd = document.getElementById('roleFilterDropdown');
+  dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+}
+
+function applyRoleFilter(){
+  var checked = Array.from(document.querySelectorAll('.roleFilter:checked')).map(function(el){ return el.value; });
+  var countEl = document.getElementById('roleFilterCount');
+  if(checked.length > 0){ countEl.textContent = checked.length; countEl.style.display = 'inline'; }
+  else { countEl.style.display = 'none'; }
+  var filtered = checked.length === 0 ? allMembersData : allMembersData.filter(function(m){
+    if(!m.role) return false;
+    var mRoles = m.role.split(',');
+    return checked.every(function(r){ return mRoles.indexOf(r) > -1; });
+  });
+  renderMemberCards(filtered);
+}
+
+function clearRoleFilter(){
+  document.querySelectorAll('.roleFilter').forEach(function(el){ el.checked = false; });
+  document.getElementById('roleFilterCount').style.display = 'none';
+  renderMemberCards(allMembersData);
+}
 </script>
 </body>
 </html>
