@@ -1222,7 +1222,7 @@ section[id], div[id].packages {
 .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
 .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
 .field label{ font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; font-family:var(--mono); }
-.field input, .field select, .field textarea{
+.field input:not([type="radio"]):not([type="checkbox"]), .field select, .field textarea{
   font-family: var(--body);
   font-size: 15px;
   padding: 13px 14px;
@@ -1235,7 +1235,7 @@ section[id], div[id].packages {
   -webkit-appearance:none;
   appearance:none;
 }
-.field input:focus, .field select:focus, .field textarea:focus{ border-color: var(--indigo); }
+.field input:not([type="radio"]):not([type="checkbox"]):focus, .field select:focus, .field textarea:focus{ border-color: var(--indigo); }
 .field textarea{ resize:vertical; min-height:96px; font-family:var(--body); }
 .form-card .btn{ width:100%; justify-content:center; padding:16px; margin-top:6px; margin-bottom:0; }
 .form-card{ padding-bottom:36px; }
