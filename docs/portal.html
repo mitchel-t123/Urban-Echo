@@ -2664,7 +2664,10 @@ async function rentmanGet(path){
   var r = await fetch(RENTMAN_BASE + path, {
     headers: { 'Content-Type': 'application/json' }
   });
-  if(!r.ok) throw new Error('Rentman proxy ' + r.status + ' on ' + path);
+  if(!r.ok){
+    var body = await r.text().catch(function(){ return ''; });
+    throw new Error('HTTP ' + r.status + ' — ' + body.slice(0,200));
+  }
   return r.json();
 }
 
@@ -2712,7 +2715,7 @@ async function loadRentmanRoster(){
   } catch(e) {
     console.warn('Rentman roster error:', e);
     var el = document.getElementById('rosterList');
-    if(el) el.innerHTML = '<div style="padding:20px;font-family:var(--mono);font-size:12px;color:var(--red);">Could not load jobs from Rentman. Check token or network.</div>';
+    if(el) el.innerHTML = '<div style="padding:20px;font-family:var(--mono);font-size:12px;color:var(--red);">Rentman error: ' + e.message + '</div>';
   }
 }
 
