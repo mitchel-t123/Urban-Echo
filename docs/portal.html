@@ -1125,15 +1125,17 @@ body{ overflow-x:hidden; }
 
 <!-- ── CONFLICT CHECKER MODAL ── -->
 <div id="conflictModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(22,21,39,0.55);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:20px;box-shadow:6px 6px 0 var(--ink);max-width:600px;width:100%;padding:36px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <h3 style="margin:0;">Check Conflicts</h3>
-      <button onclick="closeConflictChecker()" style="background:none;border:none;font-size:22px;cursor:pointer;line-height:1;color:var(--ink);">×</button>
+  <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:20px;box-shadow:6px 6px 0 var(--ink);max-width:600px;width:100%;max-height:88vh;display:flex;flex-direction:column;">
+    <div style="padding:28px 28px 16px;flex-shrink:0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <h3 style="margin:0;">Check Conflicts</h3>
+        <button onclick="closeConflictChecker()" style="background:none;border:none;font-size:22px;cursor:pointer;line-height:1;color:var(--ink);">×</button>
+      </div>
+      <p style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.6);margin-bottom:12px;">Paste any text containing dates and we'll check each one against existing jobs.</p>
+      <textarea id="conflictInput" placeholder="Paste text here…" style="width:100%;height:110px;font-family:var(--mono);font-size:13px;border:2px solid var(--ink);border-radius:10px;padding:12px;box-sizing:border-box;background:var(--paper);color:var(--ink);resize:none;"></textarea>
+      <button onclick="runConflictCheck()" style="margin-top:10px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:10px 24px;border-radius:100px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;">Search</button>
     </div>
-    <p style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.6);margin-bottom:12px;">Paste any text containing dates (emails, quotes, messages) and we'll check for clashing jobs.</p>
-    <textarea id="conflictInput" placeholder="Paste text here…" style="width:100%;height:140px;font-family:var(--mono);font-size:13px;border:2px solid var(--ink);border-radius:10px;padding:12px;box-sizing:border-box;background:var(--paper);color:var(--ink);resize:vertical;"></textarea>
-    <button onclick="runConflictCheck()" style="margin-top:12px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:10px 24px;border-radius:100px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;">Search</button>
-    <div id="conflictResults" style="margin-top:20px;"></div>
+    <div id="conflictResults" style="overflow-y:auto;padding:0 28px 28px;flex:1;"></div>
   </div>
 </div>
 
@@ -2967,34 +2969,68 @@ function runConflictCheck(){
   var el = document.getElementById('conflictResults');
   if(!text.trim()){ el.innerHTML = '<p style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.5);">Paste some text first.</p>'; return; }
   var dates = extractDatesFromText(text);
-  if(!dates.length){ el.innerHTML = '<p style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.5);">No dates found in the pasted text. Try formats like "15 Nov", "November 8", or "15/11/2026".</p>'; return; }
-  var minD = new Date(Math.min.apply(null, dates)); minD.setHours(0,0,0,0);
-  var maxD = new Date(Math.max.apply(null, dates)); maxD.setHours(23,59,59,999);
-  var detectedStr = '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);margin-bottom:12px;">Detected ' + dates.length + ' date' + (dates.length>1?'s':'') + ' · Checking ' + minD.toLocaleDateString('en-AU',{day:'2-digit',month:'short'}) + ' – ' + maxD.toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'}) + '</div>';
-  var conflicts = rentmanProjects.filter(function(p){
-    var start = p.usageperiod_start ? new Date(p.usageperiod_start) : (p.planperiod_start ? new Date(p.planperiod_start) : null);
-    var end   = p.usageperiod_end   ? new Date(p.usageperiod_end)   : (p.planperiod_end   ? new Date(p.planperiod_end)   : start);
-    if(!start) return false;
-    return start <= maxD && end >= minD;
+  if(!dates.length){ el.innerHTML = '<p style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.5);">No dates found. Try formats like "15 Nov", "November 8", or "15/11/2026".</p>'; return; }
+
+  // Deduplicate dates by day
+  var seen = {};
+  var uniqueDates = dates.filter(function(d){
+    var key = d.toDateString();
+    if(seen[key]) return false;
+    seen[key] = true;
+    return true;
+  }).sort(function(a,b){ return a-b; });
+
+  var clashing = [];
+  var clear = [];
+
+  uniqueDates.forEach(function(d){
+    var dayStart = new Date(d); dayStart.setHours(0,0,0,0);
+    var dayEnd   = new Date(d); dayEnd.setHours(23,59,59,999);
+    var hits = rentmanProjects.filter(function(p){
+      var start = p.usageperiod_start ? new Date(p.usageperiod_start) : (p.planperiod_start ? new Date(p.planperiod_start) : null);
+      var end   = p.usageperiod_end   ? new Date(p.usageperiod_end)   : (p.planperiod_end   ? new Date(p.planperiod_end)   : start);
+      if(!start) return false;
+      return start <= dayEnd && end >= dayStart;
+    });
+    if(hits.length){ clashing.push({ date: d, jobs: hits }); }
+    else { clear.push(d); }
   });
-  var rangeStr = minD.toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'});
-  if(minD.getTime() !== maxD.getTime()) rangeStr += ' – ' + maxD.toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'});
-  if(!conflicts.length){
-    el.innerHTML = detectedStr + '<div style="background:#f0faf4;border:2px solid var(--forest);border-radius:12px;padding:16px;font-family:var(--mono);font-size:13px;color:var(--forest);">✔ No clashing jobs found for <strong>' + rangeStr + '</strong></div>';
-    return;
+
+  var html = '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.45);margin-bottom:16px;">Checked ' + uniqueDates.length + ' date' + (uniqueDates.length>1?'s':'') + '</div>';
+
+  if(clashing.length){
+    html += '<div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--orange);margin-bottom:8px;">⚠ Clashes (' + clashing.length + ')</div>';
+    html += '<div style="border:2px solid var(--orange);border-radius:12px;overflow:hidden;margin-bottom:20px;">';
+    clashing.forEach(function(item, i){
+      var bg = i%2===0 ? 'var(--paper)' : 'rgba(22,21,39,0.03)';
+      var dateStr = item.date.toLocaleDateString('en-AU',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+      item.jobs.forEach(function(p){
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:' + bg + ';gap:12px;">' +
+          '<div>' +
+            '<div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--orange);">' + dateStr + '</div>' +
+            '<div style="font-size:13px;font-weight:700;margin-top:2px;">' + (p.name||'Untitled') + '</div>' +
+            '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);">' + fmtRentmanDate(p.usageperiod_start) + (p.usageperiod_end ? ' – ' + fmtRentmanDate(p.usageperiod_end) : '') + '</div>' +
+          '</div>' +
+          '<a href="https://app.rentman.net/#/project/' + p.id + '" target="_blank" style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--indigo);text-decoration:none;border:1.5px solid var(--indigo);border-radius:100px;padding:4px 10px;white-space:nowrap;flex-shrink:0;">View ↗</a>' +
+        '</div>';
+      });
+    });
+    html += '</div>';
   }
-  el.innerHTML = detectedStr + '<div style="background:#fff8f0;border:2px solid var(--orange);border-radius:12px;padding:16px;margin-bottom:12px;font-family:var(--mono);font-size:12px;color:var(--orange);font-weight:700;">⚠ ' + conflicts.length + ' clashing job' + (conflicts.length>1?'s':'') + ' found for ' + rangeStr + '</div>' +
-    conflicts.map(function(p){
-      return '<div class="roster-item" style="cursor:pointer;" onclick="closeConflictChecker();openJobModal(' + p.id + ')">' +
-        '<div class="roster-date"><span>' + (p.usageperiod_start ? new Date(p.usageperiod_start).getDate() : '—') + '</span>' +
-        (p.usageperiod_start ? new Date(p.usageperiod_start).toLocaleDateString('en-AU',{month:'short',year:'numeric'}) : '') + '</div>' +
-        '<div class="roster-detail"><h4>' + (p.name||'Untitled') + '</h4>' +
-        '<p>' + fmtRentmanDate(p.usageperiod_start) + (p.usageperiod_end ? ' – ' + fmtRentmanDate(p.usageperiod_end) : '') + '</p></div>' +
-        '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">' +
-          rentmanStatusBadge(p) +
-          '<a href="https://app.rentman.net/#/project/' + p.id + '" target="_blank" onclick="event.stopPropagation()" style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--indigo);text-decoration:none;border:1.5px solid var(--indigo);border-radius:100px;padding:3px 10px;white-space:nowrap;">View on Rentman ↗</a>' +
-        '</div></div>';
-    }).join('');
+
+  if(clear.length){
+    html += '<div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--forest);margin-bottom:8px;">✔ Available (' + clear.length + ')</div>';
+    html += '<div style="border:2px solid var(--forest);border-radius:12px;overflow:hidden;">';
+    clear.forEach(function(d, i){
+      var bg = i%2===0 ? 'var(--paper)' : 'rgba(22,21,39,0.03)';
+      html += '<div style="padding:10px 14px;background:' + bg + ';font-family:var(--mono);font-size:12px;">' +
+        d.toLocaleDateString('en-AU',{weekday:'short',day:'2-digit',month:'short',year:'numeric'}) +
+        '<span style="color:var(--forest);margin-left:8px;font-weight:700;">No bookings</span></div>';
+    });
+    html += '</div>';
+  }
+
+  el.innerHTML = html;
 }
 
 // ── Job Detail Modal ──────────────────────────────────────────
