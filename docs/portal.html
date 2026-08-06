@@ -2951,9 +2951,10 @@ function runConflictCheck(){
   var el = document.getElementById('conflictResults');
   if(!text.trim()){ el.innerHTML = '<p style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.5);">Paste some text first.</p>'; return; }
   var dates = extractDatesFromText(text);
-  if(!dates.length){ el.innerHTML = '<p style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.5);">No dates found in the pasted text.</p>'; return; }
+  if(!dates.length){ el.innerHTML = '<p style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.5);">No dates found in the pasted text. Try formats like "15 Nov", "November 8", or "15/11/2026".</p>'; return; }
   var minD = new Date(Math.min.apply(null, dates)); minD.setHours(0,0,0,0);
   var maxD = new Date(Math.max.apply(null, dates)); maxD.setHours(23,59,59,999);
+  var detectedStr = '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);margin-bottom:12px;">Detected ' + dates.length + ' date' + (dates.length>1?'s':'') + ' · Checking ' + minD.toLocaleDateString('en-AU',{day:'2-digit',month:'short'}) + ' – ' + maxD.toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'}) + '</div>';
   var conflicts = rentmanProjects.filter(function(p){
     var start = p.usageperiod_start ? new Date(p.usageperiod_start) : (p.planperiod_start ? new Date(p.planperiod_start) : null);
     var end   = p.usageperiod_end   ? new Date(p.usageperiod_end)   : (p.planperiod_end   ? new Date(p.planperiod_end)   : start);
@@ -2963,10 +2964,10 @@ function runConflictCheck(){
   var rangeStr = minD.toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'});
   if(minD.getTime() !== maxD.getTime()) rangeStr += ' – ' + maxD.toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'});
   if(!conflicts.length){
-    el.innerHTML = '<div style="background:#f0faf4;border:2px solid var(--forest);border-radius:12px;padding:16px;font-family:var(--mono);font-size:13px;color:var(--forest);">✔ No clashing jobs found for <strong>' + rangeStr + '</strong></div>';
+    el.innerHTML = detectedStr + '<div style="background:#f0faf4;border:2px solid var(--forest);border-radius:12px;padding:16px;font-family:var(--mono);font-size:13px;color:var(--forest);">✔ No clashing jobs found for <strong>' + rangeStr + '</strong></div>';
     return;
   }
-  el.innerHTML = '<div style="background:#fff8f0;border:2px solid var(--orange);border-radius:12px;padding:16px;margin-bottom:12px;font-family:var(--mono);font-size:12px;color:var(--orange);font-weight:700;">⚠ ' + conflicts.length + ' clashing job' + (conflicts.length>1?'s':'') + ' found for ' + rangeStr + '</div>' +
+  el.innerHTML = detectedStr + '<div style="background:#fff8f0;border:2px solid var(--orange);border-radius:12px;padding:16px;margin-bottom:12px;font-family:var(--mono);font-size:12px;color:var(--orange);font-weight:700;">⚠ ' + conflicts.length + ' clashing job' + (conflicts.length>1?'s':'') + ' found for ' + rangeStr + '</div>' +
     conflicts.map(function(p){
       return '<div class="roster-item" style="cursor:pointer;" onclick="closeConflictChecker();openJobModal(' + p.id + ')">' +
         '<div class="roster-date"><span>' + (p.usageperiod_start ? new Date(p.usageperiod_start).getDate() : '—') + '</span>' +
@@ -3018,6 +3019,16 @@ async function openJobModal(projectId){
         '<div style="font-size:13px;font-weight:600;">' + m.value + '</div>' +
       '</div>';
     }).join('');
+
+    // Google Maps button
+    var location = p.location || p.venue || '';
+    if(location && location !== '—'){
+      var mapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(location);
+      document.getElementById('jobModalMeta').innerHTML +=
+        '<div style="grid-column:1/-1;margin-top:4px;">' +
+        '<a href="' + mapsUrl + '" target="_blank" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#fff;background:#4285F4;border-radius:100px;padding:9px 18px;text-decoration:none;">📍 Get Directions</a>' +
+        '</div>';
+    }
 
     // Crew
     var crew = crewRes.data || [];
