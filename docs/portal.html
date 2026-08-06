@@ -2858,37 +2858,44 @@ function closeConflictChecker(){
   document.getElementById('conflictModal').style.display = 'none';
 }
 function extractDatesFromText(text){
-  // Match common date formats: 12 Aug 2026, 12/08/2026, 2026-08-12, Aug 12 2026, 12-08-26 etc.
-  var patterns = [
-    /(\d{1,2})[\/\-\. ](\d{1,2})[\/\-\. ](\d{2,4})/g,
-    /(\d{1,2})\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[\s,\-\.]*(\d{2,4})/gi,
-    /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[\s,\-\.]*(\d{1,2})[\s,\-\.]*(\d{2,4})/gi,
-    /(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/g,
-  ];
-  var months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+  var months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,
+    january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+  var now = new Date();
   var dates = [];
   var m;
-  // dd/mm/yyyy or dd-mm-yyyy
-  var p1 = /(\d{1,2})[\/\-\. ](\d{1,2})[\/\-\. ](\d{2,4})/g;
+  function guessYear(mon, day){
+    // pick current year; if that date has passed, use next year
+    var y = now.getFullYear();
+    var d = new Date(y, mon, day);
+    if(d < now) d = new Date(y+1, mon, day);
+    return d;
+  }
+  // "November 8" or "November 8 2026" or "8 November" or "8 November 2026"
+  var p1 = /(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\s+(\d{1,2})(?:[,\s\-]*(\d{4}))?/gi;
   while((m = p1.exec(text)) !== null){
-    var y = parseInt(m[3]); if(y < 100) y += 2000;
-    dates.push(new Date(y, parseInt(m[2])-1, parseInt(m[1])));
+    var mon = months[m[1].toLowerCase()];
+    var day = parseInt(m[2]);
+    var d = m[3] ? new Date(parseInt(m[3]), mon, day) : guessYear(mon, day);
+    dates.push(d);
   }
-  // 12 Aug 2026 or Aug 12 2026
-  var p2 = /(\d{1,2})\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[,\s\-]*(\d{4})/gi;
+  var p2 = /(\d{1,2})\s+(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)(?:[,\s\-]*(\d{4}))?/gi;
   while((m = p2.exec(text)) !== null){
-    dates.push(new Date(parseInt(m[3]), months[m[2].toLowerCase().slice(0,3)], parseInt(m[1])));
+    var mon2 = months[m[2].toLowerCase()];
+    var day2 = parseInt(m[1]);
+    var d2 = m[3] ? new Date(parseInt(m[3]), mon2, day2) : guessYear(mon2, day2);
+    dates.push(d2);
   }
-  var p3 = /(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[,\s\-]*(\d{1,2})[,\s\-]*(\d{4})/gi;
+  // dd/mm/yyyy or dd-mm-yyyy
+  var p3 = /(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/g;
   while((m = p3.exec(text)) !== null){
-    dates.push(new Date(parseInt(m[3]), months[m[1].toLowerCase().slice(0,3)], parseInt(m[2])));
+    var y3 = parseInt(m[3]); if(y3 < 100) y3 += 2000;
+    dates.push(new Date(y3, parseInt(m[2])-1, parseInt(m[1])));
   }
   // yyyy-mm-dd
-  var p4 = /(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/g;
+  var p4 = /(\d{4})-(\d{2})-(\d{2})/g;
   while((m = p4.exec(text)) !== null){
     dates.push(new Date(parseInt(m[1]), parseInt(m[2])-1, parseInt(m[3])));
   }
-  // filter valid dates
   return dates.filter(function(d){ return !isNaN(d.getTime()) && d.getFullYear() > 2000; });
 }
 function runConflictCheck(){
