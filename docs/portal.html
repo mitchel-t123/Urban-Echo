@@ -1300,7 +1300,10 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 // ── Config ───────────────────────────────────────────────────
 var PUBLISHABLE_KEY  = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
 var RENTMAN_TOKEN    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3ODYwMDQyNDYsIm1lZGV3ZXJrZXIiOjIzNSwiYWNjb3VudCI6InVyYmFuZWNobyIsImNsaWVudF90eXBlIjoib3BlbmFwaSIsImNsaWVudC5uYW1lIjoib3BlbmFwaSIsImV4cCI6MjEwMTYyMzQ0NiwiaXNzIjoie1wibmFtZVwiOlwiYmFja2VuZFwiLFwidmVyc2lvblwiOlwiNC44OTguMC4zXCJ9In0.mmUxM4_Y8331gWAENfT3yjEVSzwFd7luUFP4LaksxC0';
-var RENTMAN_BASE     = 'https://api.rentman.net';
+// Proxy needed because Rentman API does not set CORS headers for browser requests.
+// Deploy the worker in docs/rentman-proxy/worker.js to Cloudflare Workers, then update this URL.
+var RENTMAN_PROXY    = 'https://rentman-proxy.urbanecho.workers.dev';
+var RENTMAN_BASE     = RENTMAN_PROXY || 'https://api.rentman.net';
 var SUPABASE_URL     = 'https://wqmtdccrclhhtiwfgcgl.supabase.co';
 var SUPABASE_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxbXRkY2NyY2xoaHRpd2ZnY2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDk3OTEsImV4cCI6MjA5OTcyNTc5MX0.6FQZFzUJirFogCdJvzLYU-obG0RYFhtOpYZ1odlqP5M';
 var clerkInstance    = null;
@@ -1358,7 +1361,7 @@ function doLogout(){
     // ── Show portal immediately — don't wait for Supabase ──
     loader.classList.remove('show');
     document.body.classList.remove('auth-pending');
-    initRentman();
+    initRentman(null); // crew ID set later once profile loads
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
     // Set fallback name now; Supabase may update it below
     var fallbackName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
@@ -1439,6 +1442,7 @@ function doLogout(){
         '  ·  Expires: ' + formatDate(profile.police_expiry);
       updateCountdown('police', profile.police_expiry, 'National Police Clearance');
       loadMyDocs(profile.id);
+      if(profile.rentman_crew_id){ rentmanMyCrewId = profile.rentman_crew_id; }
 
     } else {
       if(error) console.warn('Supabase profile error:', error.message);
@@ -2071,6 +2075,12 @@ function buildMemberModal(){
         '<label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:6px;">Role / Notes</label>' +
         '<textarea id="mNotes" rows="3" placeholder="e.g. Audio Technician — mainly handles school events in the northern suburbs…" style="width:100%;padding:10px 14px;border:2px solid rgba(22,21,39,0.15);border-radius:10px;font-family:inherit;font-size:13px;background:#fff;color:var(--ink);resize:vertical;box-sizing:border-box;"></textarea>' +
       '</div>' +
+      mSection('Rentman') +
+      '<div style="margin-bottom:16px;">' +
+        '<label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.6);margin-bottom:6px;">Rentman Crew ID</label>' +
+        '<input type="number" id="mRentmanId" placeholder="e.g. 235" style="width:100%;padding:10px 14px;border:2px solid rgba(22,21,39,0.15);border-radius:10px;font-family:var(--mono);font-size:13px;background:#fff;color:var(--ink);">' +
+        '<div style="font-family:var(--mono);font-size:10px;color:rgba(22,21,39,0.4);margin-top:5px;">Found in Rentman under Crew → select member → check the URL (e.g. /crew/<strong>235</strong>)</div>' +
+      '</div>' +
       mSection('Working With Children Check') +
       mField('mWwcNum','Card Number','text','WWC0123456E') +
       mField('mWwcExpiry','Expiry Date (DD/MM/YY)','text','04/09/28') +
@@ -2138,6 +2148,7 @@ function openMemberModal(member){
   document.getElementById('mContractSigned').checked  = member ? !!member.contract_signed : false;
   document.getElementById('mChildSafety').checked     = member ? !!member.child_safety_signed : false;
   document.getElementById('mNotes').value              = member ? (member.notes||'') : '';
+  document.getElementById('mRentmanId').value          = member ? (member.rentman_crew_id||'') : '';
   document.getElementById('mWwcNum').value   = member ? (member.wwc_number||'') : '';
   document.getElementById('mWwcExpiry').value= member ? formatExpiryForDisplay(member.wwc_expiry) : '';
   document.getElementById('mPolRef').value   = member ? (member.police_ref||'') : '';
@@ -2189,6 +2200,7 @@ async function saveMember(e){
     contract_signed:   document.getElementById('mContractSigned').checked,
     child_safety_signed: document.getElementById('mChildSafety').checked,
     notes:             document.getElementById('mNotes').value.trim() || null,
+    rentman_crew_id:   parseInt(document.getElementById('mRentmanId').value) || null,
     wwc_number:   document.getElementById('mWwcNum').value.trim() || null,
     wwc_expiry:   parseExpiryDate(document.getElementById('mWwcExpiry').value),
     police_ref:   document.getElementById('mPolRef').value.trim() || null,
