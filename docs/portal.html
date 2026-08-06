@@ -665,18 +665,18 @@ body{ overflow-x:hidden; }
       <!-- Filter bar -->
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center;">
         <input id="rosterSearch" type="text" placeholder="Search jobs…" oninput="renderRoster()" style="font-family:var(--mono);font-size:13px;padding:8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);outline:none;flex:1;min-width:160px;max-width:300px;">
-        <select id="rosterMonthFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 32px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;appearance:auto;">
+        <select id="rosterMonthFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 36px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center;color:var(--ink);cursor:pointer;-webkit-appearance:none;appearance:none;">
           <option value="">All months</option>
           <option>January</option><option>February</option><option>March</option><option>April</option>
           <option>May</option><option>June</option><option>July</option><option>August</option>
           <option>September</option><option>October</option><option>November</option><option>December</option>
         </select>
-        <select id="rosterStatusFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 32px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;appearance:auto;">
+        <select id="rosterStatusFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 36px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center;color:var(--ink);cursor:pointer;-webkit-appearance:none;appearance:none;">
           <option value="">All statuses</option>
           <option value="Confirmed">Confirmed</option>
           <option value="Active">Active</option>
         </select>
-        <select id="rosterClientFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 32px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;appearance:auto;">
+        <select id="rosterClientFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 36px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center;color:var(--ink);cursor:pointer;-webkit-appearance:none;appearance:none;">
           <option value="">All clients</option>
         </select>
         <button onclick="clearRosterFilters()" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:8px 16px;border-radius:100px;border:2px solid rgba(22,21,39,0.25);background:transparent;color:rgba(22,21,39,0.45);cursor:pointer;">Clear</button>
@@ -3060,7 +3060,7 @@ async function openJobModal(projectId){
     // Meta grid
     var metaItems = [
       { label: 'Status',   value: p.status === 3 ? '✔ Confirmed' : p.status === 4 ? '✕ Cancelled' : 'Pending' },
-      { label: 'Location', value: (function(){ var l = p.location || p.venue || ''; return (l && !l.startsWith('/')) ? l : '—'; })() },
+      { label: 'Location', value: (function(){ var l = p.location || p.venue || ''; return (l && !l.startsWith('/')) ? l : (p.name || '—'); })() },
       { label: 'Start',    value: p.usageperiod_start ? fmtRentmanDate(p.usageperiod_start) + ' ' + fmtRentmanTime(p.usageperiod_start) : '—' },
       { label: 'End',      value: p.usageperiod_end   ? fmtRentmanDate(p.usageperiod_end)   + ' ' + fmtRentmanTime(p.usageperiod_end)   : '—' },
       { label: 'Ref',      value: p.number || '—' },
@@ -3073,11 +3073,12 @@ async function openJobModal(projectId){
       '</div>';
     }).join('');
 
-    // Google Maps button
+    // Google Maps button — use real address if available, otherwise fall back to job name (school name)
     var rawLoc2 = p.location || p.venue || '';
-    var location = (rawLoc2 && !rawLoc2.startsWith('/')) ? rawLoc2 : '';
+    var mapsSearch = (rawLoc2 && !rawLoc2.startsWith('/')) ? rawLoc2 : (p.name || '');
+    var location = mapsSearch;
     if(location){
-      var mapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(location);
+      var mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(location);
       document.getElementById('jobModalMeta').innerHTML +=
         '<div style="grid-column:1/-1;margin-top:4px;">' +
         '<a href="' + mapsUrl + '" target="_blank" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#fff;background:#4285F4;border-radius:100px;padding:9px 18px;text-decoration:none;">📍 Get Directions</a>' +
