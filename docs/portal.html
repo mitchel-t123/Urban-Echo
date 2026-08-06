@@ -662,6 +662,22 @@ body{ overflow-x:hidden; }
           <button id="conflictBtn" onclick="openConflictChecker()" style="display:none;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:7px 16px;border-radius:100px;border:2px solid var(--orange);background:transparent;color:var(--orange);cursor:pointer;">Check Conflicts</button>
         </div>
       </div>
+      <!-- Filter bar -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center;">
+        <input id="rosterSearch" type="text" placeholder="Search jobs…" oninput="renderRoster()" style="font-family:var(--mono);font-size:13px;padding:8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);outline:none;flex:1;min-width:160px;max-width:300px;">
+        <select id="rosterMonthFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;">
+          <option value="">All months</option>
+          <option>January</option><option>February</option><option>March</option><option>April</option>
+          <option>May</option><option>June</option><option>July</option><option>August</option>
+          <option>September</option><option>October</option><option>November</option><option>December</option>
+        </select>
+        <select id="rosterStatusFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;">
+          <option value="">All statuses</option>
+          <option value="Confirmed">Confirmed</option>
+          <option value="Active">Active</option>
+        </select>
+        <button onclick="clearRosterFilters()" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:8px 16px;border-radius:100px;border:2px solid rgba(22,21,39,0.25);background:transparent;color:rgba(22,21,39,0.45);cursor:pointer;">Clear</button>
+      </div>
       <div id="rosterList" class="roster-list">
         <div style="padding:28px 0;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading jobs from Rentman…</div>
       </div>
@@ -2756,14 +2772,43 @@ function switchRosterTab(tab){
   renderRoster();
 }
 
+function clearRosterFilters(){
+  var s = document.getElementById('rosterSearch'); if(s) s.value = '';
+  var m = document.getElementById('rosterMonthFilter'); if(m) m.value = '';
+  var st = document.getElementById('rosterStatusFilter'); if(st) st.value = '';
+  renderRoster();
+}
+
 function renderRoster(){
   var el = document.getElementById('rosterList');
   if(!el) return;
   var today = new Date(); today.setHours(0,0,0,0);
+  var keyword = (document.getElementById('rosterSearch') ? document.getElementById('rosterSearch').value : '').toLowerCase().trim();
+  var monthFilter = document.getElementById('rosterMonthFilter') ? document.getElementById('rosterMonthFilter').value : '';
+  var statusFilter = document.getElementById('rosterStatusFilter') ? document.getElementById('rosterStatusFilter').value : '';
+  var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
   var projects = rentmanProjects.filter(function(p){
     var start = p.usageperiod_start ? new Date(p.usageperiod_start) : null;
-    return start && start >= today;
-  }).slice(0, 20);
+    if(!start || start < today) return false;
+    // keyword search across name, location, venue
+    if(keyword){
+      var haystack = [(p.name||''),(p.location||''),(p.venue||'')].join(' ').toLowerCase();
+      if(haystack.indexOf(keyword) === -1) return false;
+    }
+    // month filter
+    if(monthFilter){
+      var mon = monthNames[start.getMonth()];
+      if(mon !== monthFilter) return false;
+    }
+    // status filter
+    if(statusFilter){
+      var type = (p.project_type||'').toString();
+      var label = (type.indexOf('104')>-1||type.indexOf('112')>-1) ? 'Confirmed' : 'Active';
+      if(label !== statusFilter) return false;
+    }
+    return true;
+  }).slice(0, 50);
 
   if(rosterTab === 'mine'){
     if(!rentmanMyCrewId){
