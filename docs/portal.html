@@ -2704,9 +2704,11 @@ async function loadRentmanRoster(){
   try {
     // Fetch upcoming projects sorted by start
     var today = new Date(); today.setHours(0,0,0,0);
-    var res = await rentmanGet('/projects?sort=usageperiod_start&order=asc&limit=100');
+    var res = await rentmanGet('/projects?limit=100');
     rentmanProjects = (res.data || []).filter(function(p){
-      return p.status !== 4; // exclude cancelled
+      return p.status !== 4;
+    }).sort(function(a, b){
+      return new Date(a.usageperiod_start || a.planperiod_start || 0) - new Date(b.usageperiod_start || b.planperiod_start || 0);
     });
     // Update roster source note
     var src = document.getElementById('rosterSource');
@@ -2774,8 +2776,10 @@ async function loadAdminJobs(force){
   var errEl = document.getElementById('adminJobsError');
   if(grid) grid.innerHTML = '<div style="padding:20px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading from Rentman…</div>';
   try {
-    var res = await rentmanGet('/projects?sort=usageperiod_start&order=desc&limit=200');
-    adminJobsData = res.data || [];
+    var res = await rentmanGet('/projects?limit=200');
+    adminJobsData = (res.data || []).sort(function(a, b){
+      return new Date(b.usageperiod_start || b.planperiod_start || 0) - new Date(a.usageperiod_start || a.planperiod_start || 0);
+    });
     document.getElementById('statJobs').textContent = adminJobsData.filter(function(p){ return p.status === 3; }).length;
     renderAdminJobs();
   } catch(e) {
