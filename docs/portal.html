@@ -2830,12 +2830,10 @@ function renderRoster(){
   el.innerHTML = projects.map(function(p){
     var dl = dayLabel(p.usageperiod_start);
     var timeStr = fmtRentmanTime(p.usageperiod_start) + (p.usageperiod_end ? '–' + fmtRentmanTime(p.usageperiod_end) : '');
-    var location = p.location || p.venue || '';
-    var meta = [location, timeStr].filter(Boolean).join(' · ');
     return '<div class="roster-item" style="cursor:pointer;" onclick="openJobModal(' + p.id + ')">' +
       '<div class="roster-date"><span>' + dl.day + '</span>' + dl.mon + '</div>' +
       '<div class="roster-detail"><h4>' + (p.name || 'Untitled') + '</h4>' +
-        (meta ? '<p>' + meta + '</p>' : '') +
+        (timeStr ? '<p>' + timeStr + '</p>' : '') +
       '</div>' +
       '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">' +
         rentmanStatusBadge(p) +
