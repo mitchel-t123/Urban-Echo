@@ -2837,7 +2837,10 @@ function renderRoster(){
       '<div class="roster-detail"><h4>' + (p.name || 'Untitled') + '</h4>' +
         (meta ? '<p>' + meta + '</p>' : '') +
       '</div>' +
-      rentmanStatusBadge(p) +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">' +
+        rentmanStatusBadge(p) +
+        '<a href="https://app.rentman.net/#/project/' + p.id + '" target="_blank" onclick="event.stopPropagation()" style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--indigo);text-decoration:none;border:1.5px solid var(--indigo);border-radius:100px;padding:3px 10px;white-space:nowrap;">View on Rentman ↗</a>' +
+      '</div>' +
     '</div>';
   }).join('');
 }
@@ -2970,7 +2973,10 @@ function runConflictCheck(){
         (p.usageperiod_start ? new Date(p.usageperiod_start).toLocaleDateString('en-AU',{month:'short',year:'numeric'}) : '') + '</div>' +
         '<div class="roster-detail"><h4>' + (p.name||'Untitled') + '</h4>' +
         '<p>' + fmtRentmanDate(p.usageperiod_start) + (p.usageperiod_end ? ' – ' + fmtRentmanDate(p.usageperiod_end) : '') + '</p></div>' +
-        rentmanStatusBadge(p) + '</div>';
+        '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">' +
+          rentmanStatusBadge(p) +
+          '<a href="https://app.rentman.net/#/project/' + p.id + '" target="_blank" onclick="event.stopPropagation()" style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--indigo);text-decoration:none;border:1.5px solid var(--indigo);border-radius:100px;padding:3px 10px;white-space:nowrap;">View on Rentman ↗</a>' +
+        '</div></div>';
     }).join('');
 }
 
