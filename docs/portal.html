@@ -654,68 +654,20 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 <!-- ── CONTENT ── -->
 <main>
 
-  <!-- UPCOMING ROSTER -->
+  <!-- UPCOMING JOBS (Rentman live) -->
   <section class="portal-section">
     <div class="wrap">
-      <h2>Upcoming Roster</h2>
-      <div class="roster-list">
-
-        <div class="roster-item" data-event="0" style="cursor:pointer;">
-          <div class="roster-date"><span>28</span>Jun 2026</div>
-          <div class="roster-detail">
-            <h4>Perth Modern School — Year 12 Valedictory Assembly</h4>
-            <p>Winthrop Hall · 09:00–13:00 · PA + Lapel Wireless × 2</p>
-          </div>
-          <span class="roster-badge confirmed">Confirmed</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <h2 style="margin-bottom:0;">Upcoming Jobs</h2>
+        <div style="display:flex;gap:8px;">
+          <button id="rosterTabAll" onclick="switchRosterTab('all')" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:7px 16px;border-radius:100px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer;">All Jobs</button>
+          <button id="rosterTabMine" onclick="switchRosterTab('mine')" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:7px 16px;border-radius:100px;border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;">My Schedule</button>
         </div>
-
-        <div class="roster-item" data-event="1" style="cursor:pointer;">
-          <div class="roster-date"><span>02</span>Jul 2026</div>
-          <div class="roster-detail">
-            <h4>Shenton College — Winter Arts Concert</h4>
-            <p>School Hall · 17:30–21:30 · Full PA + Stage Lighting</p>
-          </div>
-          <span class="roster-badge confirmed">Confirmed</span>
-        </div>
-
-        <div class="roster-item" data-event="2" style="cursor:pointer;">
-          <div class="roster-date"><span>08</span>Jul 2026</div>
-          <div class="roster-detail">
-            <h4>Willetton Senior High School — ATAR Results Ceremony</h4>
-            <p>Gymnasium · 10:00–12:30 · PA + Projector + Livestream</p>
-          </div>
-          <span class="roster-badge confirmed">Confirmed</span>
-        </div>
-
-        <div class="roster-item" data-event="3" style="cursor:pointer;">
-          <div class="roster-date"><span>15</span>Jul 2026</div>
-          <div class="roster-detail">
-            <h4>Canning Vale College — Sports Presentation Evening</h4>
-            <p>Main Hall · 18:00–21:00 · PA + Background Music</p>
-          </div>
-          <span class="roster-badge pending">Pending</span>
-        </div>
-
-        <div class="roster-item" data-event="4" style="cursor:pointer;">
-          <div class="roster-date"><span>22</span>Jul 2026</div>
-          <div class="roster-detail">
-            <h4>Applecross Senior High School — Music Night</h4>
-            <p>PAC · 19:00–22:00 · Full Band PA + IEM Monitoring</p>
-          </div>
-          <span class="roster-badge confirmed">Confirmed</span>
-        </div>
-
-        <div class="roster-item" data-event="5" style="cursor:pointer;">
-          <div class="roster-date"><span>05</span>Aug 2026</div>
-          <div class="roster-detail">
-            <h4>John Curtin College of the Arts — Drama Production (Night 1)</h4>
-            <p>Theatre · 19:00–22:30 · FOH + Stage Comms + Recording</p>
-          </div>
-          <span class="roster-badge pending">Pending</span>
-        </div>
-
       </div>
-      <p class="roster-source">Sample data — live sync with Rentman coming soon</p>
+      <div id="rosterList" class="roster-list">
+        <div style="padding:28px 0;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading jobs from Rentman…</div>
+      </div>
+      <p id="rosterSource" class="roster-source" style="margin-top:12px;"></p>
     </div>
   </section>
 
@@ -1000,7 +952,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   <div style="max-width:1180px;margin:0 auto;padding:40px 48px 60px;">
 
     <!-- Stats -->
-    <div id="adminStats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px;">
+    <div id="adminStats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:36px;">
       <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--ink);">
         <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Team Members</div>
         <div id="statTotal" style="font-family:var(--display);font-size:36px;font-weight:900;line-height:1;">—</div>
@@ -1008,6 +960,10 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
       <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--ink);">
         <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Schools</div>
         <div id="statSchools" style="font-family:var(--display);font-size:36px;font-weight:900;line-height:1;">—</div>
+      </div>
+      <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--indigo);">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:6px;">Active Jobs</div>
+        <div id="statJobs" style="font-family:var(--display);font-size:36px;font-weight:900;line-height:1;color:var(--indigo);">—</div>
       </div>
       <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--ink);">
         <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:6px;">WWC Expiring ≤30 Days</div>
@@ -1059,6 +1015,25 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
       </div>
       <div id="schoolsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;"></div>
       <p id="schoolsError" style="display:none;margin-top:12px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
+    </div>
+
+    <!-- Jobs section (Rentman) -->
+    <div style="margin-top:52px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:2.5px solid var(--ink);flex-wrap:wrap;gap:10px;">
+        <h2 style="font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:-0.01em;">Jobs — Rentman</h2>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select id="adminJobFilter" onchange="renderAdminJobs()" style="font-family:var(--mono);font-size:11px;font-weight:700;padding:8px 14px;border-radius:100px;border:2px solid var(--ink);background:var(--paper);cursor:pointer;text-transform:uppercase;letter-spacing:0.06em;">
+            <option value="upcoming">Upcoming</option>
+            <option value="all">All</option>
+            <option value="past">Past</option>
+          </select>
+          <button onclick="loadAdminJobs(true)" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:100px;background:var(--indigo);color:#fff;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;border:2px solid var(--indigo);cursor:pointer;">↻ Refresh</button>
+        </div>
+      </div>
+      <div id="adminJobsGrid" style="display:flex;flex-direction:column;gap:10px;">
+        <div style="padding:28px 0;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading…</div>
+      </div>
+      <p id="adminJobsError" style="display:none;margin-top:12px;padding:12px 16px;background:rgba(217,54,54,0.08);border:1.5px solid var(--red);border-radius:10px;font-family:var(--mono);font-size:12px;color:var(--red);font-weight:700;"></p>
     </div>
 
   </div>
@@ -1130,6 +1105,22 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 </div>
 
 </div><!-- end #adminPanel -->
+
+<!-- ── JOB DETAIL MODAL (Rentman) ── -->
+<div id="jobDetailModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(22,21,39,0.55);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:20px;box-shadow:6px 6px 0 var(--ink);max-width:640px;width:100%;max-height:85vh;overflow-y:auto;padding:36px;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:24px;">
+      <div>
+        <div id="jobModalEyebrow" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--indigo);margin-bottom:6px;"></div>
+        <h2 id="jobModalTitle" style="font-family:var(--display);font-size:22px;line-height:1.15;"></h2>
+      </div>
+      <button onclick="closeJobModal()" style="flex-shrink:0;background:none;border:2px solid var(--ink);border-radius:100px;padding:6px 14px;font-family:var(--mono);font-size:11px;font-weight:700;cursor:pointer;">✕ Close</button>
+    </div>
+    <div id="jobModalMeta" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;"></div>
+    <div id="jobModalCrew" style="margin-bottom:24px;"></div>
+    <div id="jobModalEquipment"></div>
+  </div>
+</div>
 
 <!-- ── WHATSAPP CHAT FAB ── -->
 <a href="https://wa.me/61429660186" target="_blank" rel="noopener" class="wa-fab" aria-label="Message Mitchel on WhatsApp">
@@ -1308,6 +1299,8 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 <script>
 // ── Config ───────────────────────────────────────────────────
 var PUBLISHABLE_KEY  = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
+var RENTMAN_TOKEN    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3ODYwMDQyNDYsIm1lZGV3ZXJrZXIiOjIzNSwiYWNjb3VudCI6InVyYmFuZWNobyIsImNsaWVudF90eXBlIjoib3BlbmFwaSIsImNsaWVudC5uYW1lIjoib3BlbmFwaSIsImV4cCI6MjEwMTYyMzQ0NiwiaXNzIjoie1wibmFtZVwiOlwiYmFja2VuZFwiLFwidmVyc2lvblwiOlwiNC44OTguMC4zXCJ9In0.mmUxM4_Y8331gWAENfT3yjEVSzwFd7luUFP4LaksxC0';
+var RENTMAN_BASE     = 'https://api.rentman.net';
 var SUPABASE_URL     = 'https://wqmtdccrclhhtiwfgcgl.supabase.co';
 var SUPABASE_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxbXRkY2NyY2xoaHRpd2ZnY2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDk3OTEsImV4cCI6MjA5OTcyNTc5MX0.6FQZFzUJirFogCdJvzLYU-obG0RYFhtOpYZ1odlqP5M';
 var clerkInstance    = null;
@@ -1365,6 +1358,7 @@ function doLogout(){
     // ── Show portal immediately — don't wait for Supabase ──
     loader.classList.remove('show');
     document.body.classList.remove('auth-pending');
+    initRentman();
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
     // Set fallback name now; Supabase may update it below
     var fallbackName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
@@ -1880,7 +1874,7 @@ function openAdmin(){
   document.getElementById('mainPortal').style.display = 'none';
   document.getElementById('adminPanel').style.display = 'block';
   window.scrollTo(0,0);
-  if(!adminLoaded){ loadAdminTeam(); loadSchools(); adminLoaded = true; }
+  if(!adminLoaded){ loadAdminTeam(); loadSchools(); loadAdminJobs(); adminLoaded = true; }
 }
 
 function closeAdmin(){
@@ -2649,6 +2643,260 @@ function clearRoleFilter(){
   document.querySelectorAll('.roleFilter').forEach(function(el){ el.checked = false; });
   document.getElementById('roleFilterCount').style.display = 'none';
   renderMemberCards(allMembersData);
+}
+
+// ── Rentman API ───────────────────────────────────────────────
+var rentmanProjects = [];
+var rentmanMyCrewId = null; // Rentman crew member ID for current user
+var rosterTab = 'all';
+var adminJobsData = [];
+
+async function rentmanGet(path){
+  var r = await fetch(RENTMAN_BASE + path, {
+    headers: { 'Authorization': 'Bearer ' + RENTMAN_TOKEN, 'Content-Type': 'application/json' }
+  });
+  if(!r.ok) throw new Error('Rentman ' + r.status + ': ' + path);
+  return r.json();
+}
+
+function rentmanStatusBadge(status){
+  var map = {
+    1:'Concept', 2:'Option', 3:'Confirmed', 4:'Cancelled', 5:'Archived', 8:'Completed'
+  };
+  var label = map[status] || ('Status ' + status);
+  var color = status === 3 ? 'var(--forest)' : status === 4 ? 'var(--red)' : status === 8 ? 'var(--indigo)' : 'var(--orange)';
+  return '<span class="roster-badge" style="background:' + color + ';color:#fff;border:none;">' + label + '</span>';
+}
+
+function fmtRentmanDate(iso){
+  if(!iso) return '—';
+  var d = new Date(iso);
+  return d.toLocaleDateString('en-AU', { day:'2-digit', month:'short', year:'numeric' });
+}
+function fmtRentmanTime(iso){
+  if(!iso) return '';
+  var d = new Date(iso);
+  return d.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit', hour12:false });
+}
+function dayLabel(iso){
+  if(!iso) return { day:'—', mon:'' };
+  var d = new Date(iso);
+  return {
+    day: d.getDate(),
+    mon: d.toLocaleDateString('en-AU', { month:'short', year:'numeric' })
+  };
+}
+
+// Load projects from Rentman and populate portal roster
+async function loadRentmanRoster(){
+  try {
+    // Fetch upcoming projects sorted by start
+    var today = new Date(); today.setHours(0,0,0,0);
+    var res = await rentmanGet('/projects?sort=usageperiod_start&order=asc&limit=100');
+    rentmanProjects = (res.data || []).filter(function(p){
+      return p.status !== 4; // exclude cancelled
+    });
+    // Update roster source note
+    var src = document.getElementById('rosterSource');
+    if(src) src.textContent = 'Live from Rentman · ' + rentmanProjects.length + ' jobs loaded';
+    renderRoster();
+  } catch(e) {
+    console.warn('Rentman roster error:', e);
+    var el = document.getElementById('rosterList');
+    if(el) el.innerHTML = '<div style="padding:20px;font-family:var(--mono);font-size:12px;color:var(--red);">Could not load jobs from Rentman. Check token or network.</div>';
+  }
+}
+
+function switchRosterTab(tab){
+  rosterTab = tab;
+  document.getElementById('rosterTabAll').style.background  = tab === 'all'  ? 'var(--ink)' : 'transparent';
+  document.getElementById('rosterTabAll').style.color       = tab === 'all'  ? 'var(--paper)' : 'var(--ink)';
+  document.getElementById('rosterTabMine').style.background = tab === 'mine' ? 'var(--ink)' : 'transparent';
+  document.getElementById('rosterTabMine').style.color      = tab === 'mine' ? 'var(--paper)' : 'var(--ink)';
+  renderRoster();
+}
+
+function renderRoster(){
+  var el = document.getElementById('rosterList');
+  if(!el) return;
+  var today = new Date(); today.setHours(0,0,0,0);
+  var projects = rentmanProjects.filter(function(p){
+    var start = p.usageperiod_start ? new Date(p.usageperiod_start) : null;
+    return start && start >= today;
+  }).slice(0, 20);
+
+  if(rosterTab === 'mine'){
+    // Filter to jobs where current user is crewed — requires rentman_crew_id on profile
+    // If not set, show a hint
+    if(!rentmanMyCrewId){
+      el.innerHTML = '<div style="padding:20px;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.45);">My Schedule requires your Rentman crew ID to be linked in your profile. Ask an admin to set it up.</div>';
+      return;
+    }
+    projects = projects.filter(function(p){ return p._crewIds && p._crewIds.indexOf(rentmanMyCrewId) > -1; });
+  }
+
+  if(!projects.length){
+    el.innerHTML = '<div style="padding:20px;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.45);">No upcoming jobs found.</div>';
+    return;
+  }
+
+  el.innerHTML = projects.map(function(p){
+    var dl = dayLabel(p.usageperiod_start);
+    var timeStr = fmtRentmanTime(p.usageperiod_start) + (p.usageperiod_end ? '–' + fmtRentmanTime(p.usageperiod_end) : '');
+    var location = p.location || p.venue || '';
+    var meta = [location, timeStr].filter(Boolean).join(' · ');
+    return '<div class="roster-item" style="cursor:pointer;" onclick="openJobModal(' + p.id + ')">' +
+      '<div class="roster-date"><span>' + dl.day + '</span>' + dl.mon + '</div>' +
+      '<div class="roster-detail"><h4>' + (p.name || 'Untitled') + '</h4>' +
+        (meta ? '<p>' + meta + '</p>' : '') +
+      '</div>' +
+      rentmanStatusBadge(p.status) +
+    '</div>';
+  }).join('');
+}
+
+// ── Admin Jobs Panel ──────────────────────────────────────────
+async function loadAdminJobs(force){
+  if(adminJobsData.length && !force){ renderAdminJobs(); return; }
+  var grid = document.getElementById('adminJobsGrid');
+  var errEl = document.getElementById('adminJobsError');
+  if(grid) grid.innerHTML = '<div style="padding:20px;text-align:center;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">Loading from Rentman…</div>';
+  try {
+    var res = await rentmanGet('/projects?sort=usageperiod_start&order=desc&limit=200');
+    adminJobsData = res.data || [];
+    document.getElementById('statJobs').textContent = adminJobsData.filter(function(p){ return p.status === 3; }).length;
+    renderAdminJobs();
+  } catch(e) {
+    if(errEl){ errEl.textContent = 'Rentman error: ' + e.message; errEl.style.display = 'block'; }
+  }
+}
+
+function renderAdminJobs(){
+  var grid = document.getElementById('adminJobsGrid');
+  if(!grid) return;
+  var filter = document.getElementById('adminJobFilter') ? document.getElementById('adminJobFilter').value : 'upcoming';
+  var today = new Date(); today.setHours(0,0,0,0);
+  var data = adminJobsData.filter(function(p){
+    var start = p.usageperiod_start ? new Date(p.usageperiod_start) : null;
+    if(filter === 'upcoming') return start && start >= today;
+    if(filter === 'past')     return start && start < today;
+    return true;
+  });
+
+  if(!data.length){
+    grid.innerHTML = '<div style="padding:20px;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.4);">No jobs found.</div>';
+    return;
+  }
+
+  grid.innerHTML = data.map(function(p){
+    var start = fmtRentmanDate(p.usageperiod_start);
+    var end   = p.usageperiod_end ? fmtRentmanDate(p.usageperiod_end) : '';
+    var dateRange = end && end !== start ? start + ' – ' + end : start;
+    var location = p.location || p.venue || '—';
+    return '<div onclick="openJobModal(' + p.id + ')" style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:16px 20px;cursor:pointer;transition:box-shadow 0.15s;" onmouseover="this.style.boxShadow=\'3px 3px 0 var(--ink)\'" onmouseout="this.style.boxShadow=\'none\'">' +
+      '<div>' +
+        '<div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--indigo);margin-bottom:4px;">' + dateRange + '</div>' +
+        '<div style="font-weight:700;font-size:15px;margin-bottom:4px;">' + (p.name || 'Untitled') + '</div>' +
+        '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);">📍 ' + location + '</div>' +
+      '</div>' +
+      rentmanStatusBadge(p.status) +
+    '</div>';
+  }).join('');
+}
+
+// ── Job Detail Modal ──────────────────────────────────────────
+async function openJobModal(projectId){
+  var modal = document.getElementById('jobDetailModal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('jobModalTitle').textContent = 'Loading…';
+  document.getElementById('jobModalEyebrow').textContent = '';
+  document.getElementById('jobModalMeta').innerHTML = '';
+  document.getElementById('jobModalCrew').innerHTML = '';
+  document.getElementById('jobModalEquipment').innerHTML = '';
+
+  try {
+    // Fetch project, crew and equipment in parallel
+    var [projRes, crewRes, equipRes] = await Promise.all([
+      rentmanGet('/projects/' + projectId),
+      rentmanGet('/projects/' + projectId + '/crews').catch(function(){ return {data:[]}; }),
+      rentmanGet('/projects/' + projectId + '/projectequipment').catch(function(){ return {data:[]}; })
+    ]);
+
+    var p = projRes.data || {};
+    document.getElementById('jobModalEyebrow').textContent = fmtRentmanDate(p.usageperiod_start) + (p.usageperiod_end && p.usageperiod_end !== p.usageperiod_start ? ' – ' + fmtRentmanDate(p.usageperiod_end) : '');
+    document.getElementById('jobModalTitle').textContent = p.name || 'Untitled Job';
+
+    // Meta grid
+    var metaItems = [
+      { label: 'Status',   value: p.status === 3 ? '✔ Confirmed' : p.status === 4 ? '✕ Cancelled' : 'Pending' },
+      { label: 'Location', value: p.location || p.venue || '—' },
+      { label: 'Start',    value: p.usageperiod_start ? fmtRentmanDate(p.usageperiod_start) + ' ' + fmtRentmanTime(p.usageperiod_start) : '—' },
+      { label: 'End',      value: p.usageperiod_end   ? fmtRentmanDate(p.usageperiod_end)   + ' ' + fmtRentmanTime(p.usageperiod_end)   : '—' },
+      { label: 'Ref',      value: p.number || '—' },
+      { label: 'Notes',    value: p.remark || '—' }
+    ];
+    document.getElementById('jobModalMeta').innerHTML = metaItems.map(function(m){
+      return '<div style="background:var(--cream);border-radius:10px;padding:12px 14px;">' +
+        '<div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.45);margin-bottom:4px;">' + m.label + '</div>' +
+        '<div style="font-size:13px;font-weight:600;">' + m.value + '</div>' +
+      '</div>';
+    }).join('');
+
+    // Crew
+    var crew = crewRes.data || [];
+    if(crew.length){
+      document.getElementById('jobModalCrew').innerHTML =
+        '<div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--indigo);margin-bottom:10px;">Crew (' + crew.length + ')</div>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:8px;">' +
+        crew.map(function(c){
+          var name = (c.crew && c.crew.displayname) || c.displayname || c.name || 'Crew Member';
+          return '<span style="font-family:var(--mono);font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;border:2px solid var(--ink);background:var(--paper);">' + name + '</span>';
+        }).join('') +
+        '</div>';
+    }
+
+    // Equipment
+    var equip = equipRes.data || [];
+    if(equip.length){
+      document.getElementById('jobModalEquipment').innerHTML =
+        '<div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--indigo);margin-bottom:10px;margin-top:20px;">Equipment (' + equip.length + ' lines)</div>' +
+        '<div style="border:2px solid var(--ink);border-radius:12px;overflow:hidden;">' +
+        equip.map(function(e, i){
+          var name = (e.equipment && e.equipment.name) || e.name || e.displayname || 'Item';
+          var qty  = e.quantity || e.amount || 1;
+          var bg   = i % 2 === 0 ? 'var(--paper)' : 'var(--cream)';
+          return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:' + bg + ';font-size:13px;">' +
+            '<span>' + name + '</span>' +
+            '<span style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--indigo);">×' + qty + '</span>' +
+          '</div>';
+        }).join('') +
+        '</div>';
+    } else {
+      document.getElementById('jobModalEquipment').innerHTML = '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.4);margin-top:16px;">No equipment listed for this job.</div>';
+    }
+
+  } catch(e) {
+    document.getElementById('jobModalTitle').textContent = 'Error loading job';
+    document.getElementById('jobModalMeta').innerHTML = '<div style="font-family:var(--mono);font-size:12px;color:var(--red);">' + e.message + '</div>';
+  }
+}
+
+function closeJobModal(){
+  document.getElementById('jobDetailModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.getElementById('jobDetailModal').addEventListener('click', function(e){
+  if(e.target === this) closeJobModal();
+});
+
+// Kick off roster load after auth
+document.addEventListener('DOMContentLoaded', function(){
+  // loadRentmanRoster is called after auth in initPortal — trigger it now if already loaded
+});
+// Called after auth completes
+function initRentman(){
+  loadRentmanRoster();
 }
 </script>
 </body>
