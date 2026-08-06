@@ -2662,10 +2662,7 @@ var adminJobsData = [];
 
 async function rentmanGet(path){
   var r = await fetch(RENTMAN_BASE + path, {
-    headers: {
-      'Authorization': 'Bearer ' + SUPABASE_ANON,
-      'Content-Type': 'application/json'
-    }
+    headers: { 'Content-Type': 'application/json' }
   });
   if(!r.ok) throw new Error('Rentman proxy ' + r.status + ' on ' + path);
   return r.json();
