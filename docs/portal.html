@@ -2902,12 +2902,13 @@ function renderAdminJobs(){
     var start = fmtRentmanDate(p.usageperiod_start);
     var end   = p.usageperiod_end ? fmtRentmanDate(p.usageperiod_end) : '';
     var dateRange = end && end !== start ? start + ' – ' + end : start;
-    var location = p.location || p.venue || '—';
+    var rawLoc = p.location || p.venue || '';
+    var location = (rawLoc && !rawLoc.startsWith('/')) ? rawLoc : '';
     return '<div onclick="openJobModal(' + p.id + ')" style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:16px 20px;cursor:pointer;transition:box-shadow 0.15s;" onmouseover="this.style.boxShadow=\'3px 3px 0 var(--ink)\'" onmouseout="this.style.boxShadow=\'none\'">' +
       '<div>' +
         '<div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--indigo);margin-bottom:4px;">' + dateRange + '</div>' +
         '<div style="font-weight:700;font-size:15px;margin-bottom:4px;">' + (p.name || 'Untitled') + '</div>' +
-        '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);">📍 ' + location + '</div>' +
+        (location ? '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);">📍 ' + location + '</div>' : '') +
       '</div>' +
       rentmanStatusBadge(p) +
     '</div>';
@@ -3059,7 +3060,7 @@ async function openJobModal(projectId){
     // Meta grid
     var metaItems = [
       { label: 'Status',   value: p.status === 3 ? '✔ Confirmed' : p.status === 4 ? '✕ Cancelled' : 'Pending' },
-      { label: 'Location', value: p.location || p.venue || '—' },
+      { label: 'Location', value: (function(){ var l = p.location || p.venue || ''; return (l && !l.startsWith('/')) ? l : '—'; })() },
       { label: 'Start',    value: p.usageperiod_start ? fmtRentmanDate(p.usageperiod_start) + ' ' + fmtRentmanTime(p.usageperiod_start) : '—' },
       { label: 'End',      value: p.usageperiod_end   ? fmtRentmanDate(p.usageperiod_end)   + ' ' + fmtRentmanTime(p.usageperiod_end)   : '—' },
       { label: 'Ref',      value: p.number || '—' },
@@ -3073,8 +3074,9 @@ async function openJobModal(projectId){
     }).join('');
 
     // Google Maps button
-    var location = p.location || p.venue || '';
-    if(location && location !== '—'){
+    var rawLoc2 = p.location || p.venue || '';
+    var location = (rawLoc2 && !rawLoc2.startsWith('/')) ? rawLoc2 : '';
+    if(location){
       var mapsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(location);
       document.getElementById('jobModalMeta').innerHTML +=
         '<div style="grid-column:1/-1;margin-top:4px;">' +
