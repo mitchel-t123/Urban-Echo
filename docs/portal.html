@@ -665,16 +665,19 @@ body{ overflow-x:hidden; }
       <!-- Filter bar -->
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center;">
         <input id="rosterSearch" type="text" placeholder="Search jobs…" oninput="renderRoster()" style="font-family:var(--mono);font-size:13px;padding:8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);outline:none;flex:1;min-width:160px;max-width:300px;">
-        <select id="rosterMonthFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;">
+        <select id="rosterMonthFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 32px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;appearance:auto;">
           <option value="">All months</option>
           <option>January</option><option>February</option><option>March</option><option>April</option>
           <option>May</option><option>June</option><option>July</option><option>August</option>
           <option>September</option><option>October</option><option>November</option><option>December</option>
         </select>
-        <select id="rosterStatusFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;">
+        <select id="rosterStatusFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 32px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;appearance:auto;">
           <option value="">All statuses</option>
           <option value="Confirmed">Confirmed</option>
           <option value="Active">Active</option>
+        </select>
+        <select id="rosterClientFilter" onchange="renderRoster()" style="font-family:var(--mono);font-size:12px;padding:8px 32px 8px 14px;border:2px solid var(--ink);border-radius:100px;background:var(--paper);color:var(--ink);cursor:pointer;appearance:auto;">
+          <option value="">All clients</option>
         </select>
         <button onclick="clearRosterFilters()" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:8px 16px;border-radius:100px;border:2px solid rgba(22,21,39,0.25);background:transparent;color:rgba(22,21,39,0.45);cursor:pointer;">Clear</button>
       </div>
@@ -2755,6 +2758,7 @@ async function loadRentmanRoster(){
     // Update roster source note
     var src = document.getElementById('rosterSource');
     if(src) src.textContent = 'Live from Rentman · ' + rentmanProjects.length + ' jobs loaded';
+    populateClientFilter();
     renderRoster();
   } catch(e) {
     console.warn('Rentman roster error:', e);
@@ -2776,7 +2780,18 @@ function clearRosterFilters(){
   var s = document.getElementById('rosterSearch'); if(s) s.value = '';
   var m = document.getElementById('rosterMonthFilter'); if(m) m.value = '';
   var st = document.getElementById('rosterStatusFilter'); if(st) st.value = '';
+  var cl = document.getElementById('rosterClientFilter'); if(cl) cl.value = '';
   renderRoster();
+}
+
+function populateClientFilter(){
+  var sel = document.getElementById('rosterClientFilter');
+  if(!sel) return;
+  var names = {};
+  rentmanProjects.forEach(function(p){ if(p.name) names[p.name] = true; });
+  var sorted = Object.keys(names).sort();
+  sel.innerHTML = '<option value="">All clients</option>' +
+    sorted.map(function(n){ return '<option value="' + n.replace(/"/g,'&quot;') + '">' + n + '</option>'; }).join('');
 }
 
 function renderRoster(){
@@ -2786,6 +2801,7 @@ function renderRoster(){
   var keyword = (document.getElementById('rosterSearch') ? document.getElementById('rosterSearch').value : '').toLowerCase().trim();
   var monthFilter = document.getElementById('rosterMonthFilter') ? document.getElementById('rosterMonthFilter').value : '';
   var statusFilter = document.getElementById('rosterStatusFilter') ? document.getElementById('rosterStatusFilter').value : '';
+  var clientFilter = document.getElementById('rosterClientFilter') ? document.getElementById('rosterClientFilter').value : '';
   var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
   var projects = rentmanProjects.filter(function(p){
@@ -2807,6 +2823,8 @@ function renderRoster(){
       var label = (type.indexOf('104')>-1||type.indexOf('112')>-1) ? 'Confirmed' : 'Active';
       if(label !== statusFilter) return false;
     }
+    // client filter
+    if(clientFilter && (p.name||'') !== clientFilter) return false;
     return true;
   }).slice(0, 50);
 
