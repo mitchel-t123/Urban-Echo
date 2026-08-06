@@ -2671,12 +2671,14 @@ async function rentmanGet(path){
   return r.json();
 }
 
-function rentmanStatusBadge(status){
-  var map = {
-    1:'Concept', 2:'Option', 3:'Confirmed', 4:'Cancelled', 5:'Archived', 8:'Completed'
-  };
-  var label = map[status] || ('Status ' + status);
-  var color = status === 3 ? 'var(--forest)' : status === 4 ? 'var(--red)' : status === 8 ? 'var(--indigo)' : 'var(--orange)';
+function rentmanStatusBadge(p){
+  // Rentman list endpoint doesn't return status — infer from project_type path
+  var type = (p.project_type || '').toString();
+  var label, color;
+  if(type.indexOf('111') > -1){ label = 'Shifts'; color = 'var(--mid)'; }
+  else if(type.indexOf('104') > -1){ label = 'Confirmed'; color = 'var(--forest)'; }
+  else if(type.indexOf('112') > -1){ label = 'Confirmed'; color = 'var(--forest)'; }
+  else { label = 'Active'; color = 'var(--indigo)'; }
   return '<span class="roster-badge" style="background:' + color + ';color:#fff;border:none;">' + label + '</span>';
 }
 
@@ -2706,7 +2708,7 @@ async function loadRentmanRoster(){
     var today = new Date(); today.setHours(0,0,0,0);
     var res = await rentmanGet('/projects?sort=created&limit=100');
     rentmanProjects = (res.data || []).filter(function(p){
-      return p.status !== 4;
+      return (p.project_type || '').indexOf('111') === -1; // exclude Shifts admin project
     }).sort(function(a, b){
       return new Date(a.usageperiod_start || a.planperiod_start || 0) - new Date(b.usageperiod_start || b.planperiod_start || 0);
     });
@@ -2764,7 +2766,7 @@ function renderRoster(){
       '<div class="roster-detail"><h4>' + (p.name || 'Untitled') + '</h4>' +
         (meta ? '<p>' + meta + '</p>' : '') +
       '</div>' +
-      rentmanStatusBadge(p.status) +
+      rentmanStatusBadge(p) +
     '</div>';
   }).join('');
 }
@@ -2780,7 +2782,7 @@ async function loadAdminJobs(force){
     adminJobsData = (res.data || []).sort(function(a, b){
       return new Date(b.usageperiod_start || b.planperiod_start || 0) - new Date(a.usageperiod_start || a.planperiod_start || 0);
     });
-    document.getElementById('statJobs').textContent = adminJobsData.filter(function(p){ return p.status === 3; }).length;
+    document.getElementById('statJobs').textContent = adminJobsData.filter(function(p){ return (p.project_type||'').indexOf('111') === -1; }).length;
     renderAdminJobs();
   } catch(e) {
     if(errEl){ errEl.textContent = 'Rentman error: ' + e.message; errEl.style.display = 'block'; }
@@ -2815,7 +2817,7 @@ function renderAdminJobs(){
         '<div style="font-weight:700;font-size:15px;margin-bottom:4px;">' + (p.name || 'Untitled') + '</div>' +
         '<div style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);">📍 ' + location + '</div>' +
       '</div>' +
-      rentmanStatusBadge(p.status) +
+      rentmanStatusBadge(p) +
     '</div>';
   }).join('');
 }
