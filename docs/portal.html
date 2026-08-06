@@ -2753,13 +2753,10 @@ function renderRoster(){
       return;
     }
     var crewPath = '/crew/' + rentmanMyCrewId;
-    console.log('[My Schedule] crewPath:', crewPath, '| checking', rentmanProjects.length, 'total projects');
-    rentmanProjects.slice(0,5).forEach(function(p){ console.log('  project:', p.name, '| account_manager:', p.account_manager, '| creator:', p.creator); });
     projects = projects.filter(function(p){
       return (p.account_manager||'') === crewPath ||
              (p.creator||'') === crewPath;
     });
-    console.log('[My Schedule] matched', projects.length, 'projects');
   }
 
   if(!projects.length){
