@@ -1440,6 +1440,12 @@ function doLogout(){
       updateCountdown('police', profile.police_expiry, 'National Police Clearance');
       loadMyDocs(profile.id);
       if(profile.rentman_crew_id){ rentmanMyCrewId = profile.rentman_crew_id; }
+      // Only Mitchel (crew 33) can see All Jobs tab
+      if(rentmanMyCrewId !== 33){
+        var allBtn = document.getElementById('rosterTabAll');
+        if(allBtn) allBtn.style.display = 'none';
+        switchRosterTab('mine');
+      }
 
     } else {
       if(error) console.warn('Supabase profile error:', error.message);
@@ -2742,13 +2748,15 @@ function renderRoster(){
   }).slice(0, 20);
 
   if(rosterTab === 'mine'){
-    // Filter to jobs where current user is crewed — requires rentman_crew_id on profile
-    // If not set, show a hint
     if(!rentmanMyCrewId){
       el.innerHTML = '<div style="padding:20px;font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.45);">My Schedule requires your Rentman crew ID to be linked in your profile. Ask an admin to set it up.</div>';
       return;
     }
-    projects = projects.filter(function(p){ return p._crewIds && p._crewIds.indexOf(rentmanMyCrewId) > -1; });
+    var crewPath = '/crew/' + rentmanMyCrewId;
+    projects = projects.filter(function(p){
+      return (p.account_manager||'') === crewPath ||
+             (p.creator||'') === crewPath;
+    });
   }
 
   if(!projects.length){
