@@ -1301,9 +1301,9 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 var PUBLISHABLE_KEY  = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
 var RENTMAN_TOKEN    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3ODYwMDQyNDYsIm1lZGV3ZXJrZXIiOjIzNSwiYWNjb3VudCI6InVyYmFuZWNobyIsImNsaWVudF90eXBlIjoib3BlbmFwaSIsImNsaWVudC5uYW1lIjoib3BlbmFwaSIsImV4cCI6MjEwMTYyMzQ0NiwiaXNzIjoie1wibmFtZVwiOlwiYmFja2VuZFwiLFwidmVyc2lvblwiOlwiNC44OTguMC4zXCJ9In0.mmUxM4_Y8331gWAENfT3yjEVSzwFd7luUFP4LaksxC0';
 // Proxy needed because Rentman API does not set CORS headers for browser requests.
-// Deploy the worker in docs/rentman-proxy/worker.js to Cloudflare Workers, then update this URL.
-var RENTMAN_PROXY    = 'https://rentman-proxy.urbanecho.workers.dev';
-var RENTMAN_BASE     = RENTMAN_PROXY || 'https://api.rentman.net';
+// Deployed as a Supabase Edge Function — see supabase/functions/rentman-proxy/index.ts
+var RENTMAN_PROXY    = 'https://wqmtdccrclhhtiwfgcgl.supabase.co/functions/v1/rentman-proxy';
+var RENTMAN_BASE     = RENTMAN_PROXY;
 var SUPABASE_URL     = 'https://wqmtdccrclhhtiwfgcgl.supabase.co';
 var SUPABASE_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxbXRkY2NyY2xoaHRpd2ZnY2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDk3OTEsImV4cCI6MjA5OTcyNTc5MX0.6FQZFzUJirFogCdJvzLYU-obG0RYFhtOpYZ1odlqP5M';
 var clerkInstance    = null;
