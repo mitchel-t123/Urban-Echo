@@ -32,13 +32,13 @@
 <meta name="twitter:description" content="On-demand Sound and AV operators for Perth schools. Calm, professional technicians for school events, graduations and presentations — without the in-house headache.">
 <meta name="twitter:image" content="https://urbanecho.com.au/og-image.png">
 
-<!-- LocalBusiness structured data -->
+<!-- Structured data: LocalBusiness -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "Urban Echo",
-  "description": "On-demand Sound and AV operators for Perth schools. Professional technicians for school events, graduations and presentations.",
+  "description": "On-demand Sound and AV operators for Perth schools. Professional technicians for school events, graduations, presentation nights and carnivals — without the in-house headache.",
   "url": "https://urbanecho.com.au",
   "email": "mitchel@urbanecho.com.au",
   "telephone": "+61429660186",
@@ -46,16 +46,161 @@
     "@type": "PostalAddress",
     "addressLocality": "Perth",
     "addressRegion": "WA",
+    "postalCode": "6000",
     "addressCountry": "AU"
   },
-  "areaServed": {
-    "@type": "City",
-    "name": "Perth"
-  },
-  "serviceType": ["Sound Technician", "AV Operator", "School Events AV", "Audio Visual Services"],
+  "areaServed": [
+    "Perth", "Fremantle", "Subiaco", "Nedlands", "Claremont", "Cottesloe",
+    "Joondalup", "Wanneroo", "Stirling", "Karrinyup", "Scarborough",
+    "Midland", "Swan", "Armadale", "Rockingham", "Mandurah",
+    "Melville", "Canning", "Cockburn", "Gosnells", "Bayswater",
+    "Vincent", "Cambridge", "Belmont", "Victoria Park"
+  ],
+  "serviceType": [
+    "Sound Technician", "AV Operator", "School Events AV",
+    "Audio Visual Services", "Graduation AV", "School Presentation Sound",
+    "Emergency AV Support", "Auditorium Hire Management"
+  ],
   "priceRange": "$$",
   "image": "https://urbanecho.com.au/og-image.png",
+  "logo": "https://urbanecho.com.au/favicon.png",
   "sameAs": []
+}
+</script>
+
+<!-- Structured data: Services -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Urban Echo AV Services for Perth Schools",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Service",
+        "name": "First Response — Single Event",
+        "description": "A sound technician for any school event up to 3 hours, including 30-minute setup and pack-down. Covers EQ, sound operation and on-site problem solving.",
+        "provider": { "@type": "LocalBusiness", "name": "Urban Echo" },
+        "areaServed": "Perth, WA",
+        "offers": {
+          "@type": "Offer",
+          "price": "500",
+          "priceCurrency": "AUD",
+          "priceSpecification": { "@type": "UnitPriceSpecification", "unitText": "per event" }
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Service",
+        "name": "Events Package",
+        "description": "Multi-event AV packages for Perth schools. 5 events from $2,250. Save 10% on 5 events, 15% on 10 events, 20% on 15 events.",
+        "provider": { "@type": "LocalBusiness", "name": "Urban Echo" },
+        "areaServed": "Perth, WA",
+        "offers": {
+          "@type": "Offer",
+          "price": "2250",
+          "priceCurrency": "AUD",
+          "priceSpecification": { "@type": "UnitPriceSpecification", "unitText": "from, per 5 events" }
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "Service",
+        "name": "Fully Hands-Free Annual Plan",
+        "description": "Lock Urban Echo in as your school's AV tech team for the entire year — school events, carnivals, presentation nights, and graduations. 25% discount on AV operators and 50% off Urban Echo equipment.",
+        "provider": { "@type": "LocalBusiness", "name": "Urban Echo" },
+        "areaServed": "Perth, WA"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "Service",
+        "name": "Emergency Last-Minute AV Support",
+        "description": "Last-minute emergency sound and AV support for Perth schools. AV tech called in sick? Forgotten event? We pick up the phone and we show up.",
+        "provider": { "@type": "LocalBusiness", "name": "Urban Echo" },
+        "areaServed": "Perth, WA"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "Service",
+        "name": "Auditorium & External Hire Management",
+        "description": "Urban Echo manages external hire bookings and the AV tech team for your school auditorium, helping your school generate revenue from unused space.",
+        "provider": { "@type": "LocalBusiness", "name": "Urban Echo" },
+        "areaServed": "Perth, WA"
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Structured data: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does a school AV technician cost in Perth?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Urban Echo's single-event package (First Response) starts at $500 for events up to 3 hours, including setup and pack-down. Multi-event packages start from $2,250 for 5 events, with discounts of up to 20% for larger bookings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What areas in Perth do you service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Urban Echo services schools across the entire Perth metropolitan area, including the northern suburbs (Joondalup, Wanneroo, Stirling), southern suburbs (Rockingham, Cockburn, Armadale), eastern suburbs (Midland, Swan, Bayswater), and all inner-city and western suburbs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you provide emergency AV support for schools at short notice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Urban Echo offers emergency last-minute AV support for Perth schools — whether your AV person has called in sick, an event was forgotten, or you're double-booked. We pick up the phone and we show up."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What school events do you cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Urban Echo covers all types of school events including graduation ceremonies, presentation nights, school assemblies, performing arts productions, sports carnivals, and external auditorium hire events."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer annual AV packages for schools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The Fully Hands-Free Annual Plan locks Urban Echo in as your school's dedicated AV tech team for the whole year. It includes a 25% discount on AV operators and a 50% discount on Urban Echo equipment, priced around your school calendar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Urban Echo help our school earn money from our auditorium?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. If your school has an auditorium sitting empty on weekends, Urban Echo can manage external hire bookings and the AV tech team, generating revenue for your school at no cost to you."
+      }
+    }
+  ]
 }
 </script>
 
