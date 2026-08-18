@@ -329,9 +329,9 @@ h1,h2,h3{
   color: var(--indigo); display: block; margin-bottom: 10px;
 }
 .entry-popup h2{
-  font-family: var(--display); font-size: clamp(22px,4vw,30px);
-  text-transform: uppercase; letter-spacing: -0.01em;
-  margin-bottom: 12px; line-height: 1.1;
+  font-family: var(--body); font-size: clamp(20px,3.5vw,26px);
+  font-weight: 600; letter-spacing: -0.01em;
+  margin-bottom: 12px; line-height: 1.2;
 }
 .entry-popup p{
   font-size: 15px; color: rgba(22,21,39,0.68);
@@ -348,6 +348,7 @@ h1,h2,h3{
 .ep-btn-primary{ background: var(--indigo); color: #fff; }
 .ep-btn-secondary{ background: transparent; color: var(--ink); }
 .ep-dot{ width:8px; height:8px; border-radius:50%; background:#22c55e; display:inline-block; margin-right:6px; animation: pulse 1.6s infinite; vertical-align:middle; }
+.ep-btn-other{ background:transparent; color:rgba(22,21,39,0.45); border-color:rgba(22,21,39,0.2); font-size:11px; }
 
 /* ============ TICKER ============ */
 .ticker-wrap{
@@ -1862,11 +1863,12 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <div class="entry-popup-overlay" id="entryPopup">
   <div class="entry-popup">
     <span class="ep-eyebrow"><span class="ep-dot"></span>Perth's Dedicated School AV Team</span>
-    <h2>So you only get the good type of feedback</h2>
-    <p>Professional sound &amp; AV operators for school events — graduations, presentation nights, assemblies and more. No lock-in contracts, no in-house headaches.</p>
+    <h2>So you only get the good type of feedback 🎤</h2>
+    <p>Professional sound &amp; AV operators for school events 🎓 — graduations, presentation nights, assemblies and more. No lock-in contracts, no in-house headaches.</p>
     <div class="entry-popup-btns">
       <a href="#contact" class="ep-btn-primary" onclick="closeEntryPopup()">Get a Quote →</a>
       <button class="ep-btn-secondary" onclick="closeEntryPopup()">Explore the site</button>
+      <a href="enquire.html" class="ep-btn-other">Not a school? →</a>
     </div>
   </div>
 </div>
