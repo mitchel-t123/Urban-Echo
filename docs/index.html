@@ -301,14 +301,69 @@ h1,h2,h3{
 .btn-green{ background: var(--forest); color: #fff; border-color: var(--ink); }
 .btn-green:hover{ box-shadow: 6px 6px 0 var(--ink); }
 
+/* ============ ANNOUNCEMENT BAR ============ */
+.announce-bar{
+  position: sticky;
+  top: 0;
+  z-index: 101;
+  background: var(--indigo);
+  color: #fff;
+  text-align: center;
+  padding: 9px 20px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.announce-bar a{ color:#fff; text-decoration:underline; }
+
+/* ============ TICKER ============ */
+.ticker-wrap{
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 3px solid var(--ink);
+  padding: 10px 0;
+}
+.ticker-track{
+  display: inline-block;
+  animation: ticker 28s linear infinite;
+}
+.ticker-track:hover{ animation-play-state: paused; }
+.ticker-item{
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0 32px;
+}
+.ticker-sep{ opacity: 0.35; }
+@keyframes ticker{
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* ============ NAV ============ */
 .nav{
   position: sticky;
-  top: 0;
+  top: 37px;
   z-index: 100;
   background: #ffffff;
   border-bottom: 1px solid var(--line);
 }
+.nav-tagline{
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(22,21,39,0.42);
+  margin-top: 2px;
+}
+@media(max-width:600px){ .nav-tagline{ display:none; } }
 .nav-inner{
   display:flex;
   align-items:center;
@@ -1771,10 +1826,18 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </head>
 <body>
 
+<!-- ============ ANNOUNCEMENT BAR ============ -->
+<div class="announce-bar">
+  Perth's dedicated school events AV team — graduations, presentation nights, assemblies &amp; more &nbsp;·&nbsp; <a href="#contact">Get a quote →</a>
+</div>
+
 <!-- ============ NAV ============ -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="#"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
+    <a href="#" style="display:flex;flex-direction:column;align-items:flex-start;gap:0;text-decoration:none;">
+      <img src="logo.png" alt="Urban Echo" class="nav-logo">
+      <span class="nav-tagline">Sound &amp; AV for Schools</span>
+    </a>
     <div class="nav-links" id="navLinks">
       <div class="nav-pill" id="navPill"></div>
       <a href="#symptoms" data-nav class="nav-hide-md">School Sound Diagnosis</a>
@@ -1805,6 +1868,29 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <a href="#contact" class="mobile-menu-link" style="margin-top:8px;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;">Contact Us</a>
     <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);">📱 Save Our Number</a>
     <a href="login.html" class="mobile-menu-link" style="margin-top:8px;background:var(--ink);color:var(--paper) !important;font-weight:700;border-radius:10px;display:flex;align-items:center;gap:10px;"><img src="avatar.png" alt="" style="width:20px;height:20px;filter:invert(1);flex-shrink:0;"> Team Login</a>
+  </div>
+</div>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">🎓 Graduation Ceremonies</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🎤 Presentation Nights</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🏫 School Assemblies</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🎵 Performing Arts</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🚨 Emergency AV Support</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🏆 Sports Carnivals</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🎙️ Speech Nights</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🏛️ Auditorium Hire</span><span class="ticker-item ticker-sep">·</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">🎓 Graduation Ceremonies</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🎤 Presentation Nights</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🏫 School Assemblies</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🎵 Performing Arts</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🚨 Emergency AV Support</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🏆 Sports Carnivals</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🎙️ Speech Nights</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🏛️ Auditorium Hire</span><span class="ticker-item ticker-sep">·</span>
   </div>
 </div>
 
