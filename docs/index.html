@@ -306,8 +306,8 @@ h1,h2,h3{
   position: sticky;
   top: 0;
   z-index: 101;
-  background: var(--orange);
-  color: var(--ink);
+  background: var(--indigo);
+  color: #fff;
   text-align: center;
   padding: 9px 20px;
   font-family: var(--mono);
@@ -315,11 +315,11 @@ h1,h2,h3{
   font-weight: 700;
   letter-spacing: 0.04em;
 }
-.announce-bar a{ color:var(--ink); text-decoration:underline; }
+.announce-bar a{ color:#fff; text-decoration:underline; }
 
 /* ============ TICKER ============ */
 .ticker-wrap{
-  background: var(--orange);
+  background: var(--sunshine);
   color: var(--ink);
   overflow: hidden;
   white-space: nowrap;
@@ -340,7 +340,7 @@ h1,h2,h3{
   letter-spacing: 0.1em;
   padding: 0 32px;
 }
-.ticker-sep{ opacity: 0.35; }
+.ticker-sep{ opacity: 0.6; font-weight: 900; }
 @keyframes ticker{
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -1871,31 +1871,31 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <!-- ============ TICKER ============ -->
 <div class="ticker-wrap" aria-hidden="true">
   <div class="ticker-track">
-    <span class="ticker-item">🎓 Graduation Ceremonies</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🎤 Presentation Nights</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🏫 School Assemblies</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🎵 Performing Arts</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🚨 Emergency AV Support</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🏆 Sports Carnivals</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🎙️ Speech Nights</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🏛️ Auditorium Hire</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">💃 Dance Fest</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🪑 Chair Setup Team</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">💡 Light Operation</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🎛️ Additional Gear Hire</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🎓 Graduation Ceremonies</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎤 Presentation Nights</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏫 School Assemblies</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎵 Performing Arts</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🚨 Emergency AV Support</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏆 Sports Carnivals</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎙️ Speech Nights</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏛️ Auditorium Hire</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">💃 Dance Fest</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🪑 Chair Setup Team</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">💡 Light Operation</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎛️ Additional Gear Hire</span><span class="ticker-item ticker-sep">+</span>
     <!-- duplicate for seamless loop -->
-    <span class="ticker-item">🎓 Graduation Ceremonies</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🎤 Presentation Nights</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🏫 School Assemblies</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🎵 Performing Arts</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🚨 Emergency AV Support</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🏆 Sports Carnivals</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🎙️ Speech Nights</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🏛️ Auditorium Hire</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">💃 Dance Fest</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🪑 Chair Setup Team</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">💡 Light Operation</span><span class="ticker-item ticker-sep">·</span>
-    <span class="ticker-item">🎛️ Additional Gear Hire</span><span class="ticker-item ticker-sep">·</span>
+    <span class="ticker-item">🎓 Graduation Ceremonies</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎤 Presentation Nights</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏫 School Assemblies</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎵 Performing Arts</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🚨 Emergency AV Support</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏆 Sports Carnivals</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎙️ Speech Nights</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏛️ Auditorium Hire</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">💃 Dance Fest</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🪑 Chair Setup Team</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">💡 Light Operation</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎛️ Additional Gear Hire</span><span class="ticker-item ticker-sep">+</span>
   </div>
 </div>
 
