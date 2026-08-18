@@ -301,21 +301,53 @@ h1,h2,h3{
 .btn-green{ background: var(--forest); color: #fff; border-color: var(--ink); }
 .btn-green:hover{ box-shadow: 6px 6px 0 var(--ink); }
 
-/* ============ ANNOUNCEMENT BAR ============ */
-.announce-bar{
-  position: sticky;
-  top: 0;
-  z-index: 101;
-  background: var(--indigo);
-  color: #fff;
-  text-align: center;
-  padding: 9px 20px;
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+/* ============ ENTRY POPUP ============ */
+.entry-popup-overlay{
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(22,21,39,0.6);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: fadeInOverlay 0.4s ease;
 }
-.announce-bar a{ color:#fff; text-decoration:underline; }
+.entry-popup-overlay.hidden{ display: none; }
+@keyframes fadeInOverlay{ from{ opacity:0; } to{ opacity:1; } }
+.entry-popup{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 var(--ink);
+  max-width: 480px;
+  width: 100%;
+  padding: 36px 32px 28px;
+  text-align: center;
+  animation: popUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popUp{ from{ opacity:0; transform:scale(0.88) translateY(20px); } to{ opacity:1; transform:none; } }
+.entry-popup .ep-eyebrow{
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--indigo); display: block; margin-bottom: 10px;
+}
+.entry-popup h2{
+  font-family: var(--display); font-size: clamp(22px,4vw,30px);
+  text-transform: uppercase; letter-spacing: -0.01em;
+  margin-bottom: 12px; line-height: 1.1;
+}
+.entry-popup p{
+  font-size: 15px; color: rgba(22,21,39,0.68);
+  margin-bottom: 24px; line-height: 1.55;
+}
+.entry-popup-btns{ display: flex; flex-direction: column; gap: 10px; }
+.entry-popup-btns a, .entry-popup-btns button{
+  display: block; width: 100%; padding: 13px;
+  border-radius: 100px; font-family: var(--mono);
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; cursor: pointer; text-decoration: none;
+  border: 2px solid var(--ink);
+}
+.ep-btn-primary{ background: var(--indigo); color: #fff; }
+.ep-btn-secondary{ background: transparent; color: var(--ink); }
+.ep-dot{ width:8px; height:8px; border-radius:50%; background:#22c55e; display:inline-block; margin-right:6px; animation: pulse 1.6s infinite; vertical-align:middle; }
 
 /* ============ TICKER ============ */
 .ticker-wrap{
@@ -328,7 +360,7 @@ h1,h2,h3{
 }
 .ticker-track{
   display: inline-block;
-  animation: ticker 55s linear infinite;
+  animation: ticker 90s linear infinite;
 }
 .ticker-track:hover{ animation-play-state: paused; }
 .ticker-item{
@@ -349,7 +381,7 @@ h1,h2,h3{
 /* ============ NAV ============ */
 .nav{
   position: sticky;
-  top: 37px;
+  top: 0;
   z-index: 100;
   background: #ffffff;
   border-bottom: 1px solid var(--line);
@@ -1826,9 +1858,17 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </head>
 <body>
 
-<!-- ============ ANNOUNCEMENT BAR ============ -->
-<div class="announce-bar">
-  Perth's dedicated school events AV team — so you only get the good type of feedback &nbsp;·&nbsp; <a href="#contact">Get a quote →</a>
+<!-- ============ ENTRY POPUP ============ -->
+<div class="entry-popup-overlay" id="entryPopup">
+  <div class="entry-popup">
+    <span class="ep-eyebrow"><span class="ep-dot"></span>Perth's Dedicated School AV Team</span>
+    <h2>So you only get the good type of feedback</h2>
+    <p>Professional sound &amp; AV operators for school events — graduations, presentation nights, assemblies and more. No lock-in contracts, no in-house headaches.</p>
+    <div class="entry-popup-btns">
+      <a href="#contact" class="ep-btn-primary" onclick="closeEntryPopup()">Get a Quote →</a>
+      <button class="ep-btn-secondary" onclick="closeEntryPopup()">Explore the site</button>
+    </div>
+  </div>
 </div>
 
 <!-- ============ NAV ============ -->
@@ -3385,6 +3425,21 @@ if(navTT){
   navTT.addEventListener('mousedown', function(){ this.classList.add('clicked'); });
   navTT.addEventListener('blur', function(){ this.classList.remove('clicked'); });
 }
+</script>
+
+<script>
+function closeEntryPopup(){
+  document.getElementById('entryPopup').classList.add('hidden');
+  sessionStorage.setItem('ue-popup-seen', '1');
+}
+// Only show once per browser session
+if(sessionStorage.getItem('ue-popup-seen')){
+  document.getElementById('entryPopup').classList.add('hidden');
+}
+// Close on overlay click (outside the card)
+document.getElementById('entryPopup').addEventListener('click', function(e){
+  if(e.target === this) closeEntryPopup();
+});
 </script>
 
 </body>
