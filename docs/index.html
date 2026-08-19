@@ -356,6 +356,7 @@ h1,h2,h3{
   color: var(--ink);
   overflow: hidden;
   white-space: nowrap;
+  border-top: 3px solid var(--ink);
   border-bottom: 3px solid var(--ink);
   padding: 10px 0;
 }
@@ -491,10 +492,11 @@ h1,h2,h3{
   top: 0;
   left: 0;
   height: 100%;
+  width: 0;
   border-radius: 8px;
   background: var(--cream);
   border: 2px solid var(--ink);
-  transition: transform 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1);
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1), opacity 0.2s;
   pointer-events: none;
   z-index: 0;
   opacity: 0;
