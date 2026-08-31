@@ -784,6 +784,7 @@ h2,h3{
   background: var(--forest);
   color: var(--paper);
   padding: 96px 0;
+  border-top: 6px solid var(--ink);
   border-bottom: 6px solid var(--ink);
   position:relative;
   overflow:hidden;
@@ -791,7 +792,7 @@ h2,h3{
 .diagnosis-grid{
   display:block;
 }
-.diagnosis .eyebrow{ color: var(--ink); margin-bottom:16px; display:block; }
+.diagnosis .eyebrow{ display:inline-block; background:var(--cream); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:5px 16px; font-size:11px; letter-spacing:0.1em; margin-bottom:18px; margin-top:-52px; position:relative; z-index:2; }
 .diagnosis .school-strip{ border-top-color: rgba(22,21,39,0.15); }
 .diagnosis h2{
   font-size: clamp(28px, 4vw, 42px);
@@ -1521,7 +1522,7 @@ body{ padding-bottom: 0; margin-bottom: 0; }
   padding: 96px 0;
 }
 .reviews .section-head{ margin-bottom: 52px; }
-.reviews .eyebrow{ color: var(--orange); border-color: rgba(22,21,39,0.2); }
+.reviews .eyebrow{ color: var(--ink); border-color: var(--ink); }
 .reviews h2{ color: var(--ink); }
 .reviews-grid{
   display: grid;
