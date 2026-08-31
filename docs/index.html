@@ -346,11 +346,12 @@ h2,h3{
 .hero-h1-box{
   background: var(--cream);
   color: var(--ink);
+  border: 3px solid var(--ink);
   border-radius: 20px;
   padding: 28px 32px 24px;
   display: inline-block;
   margin-bottom: 28px;
-  box-shadow: 6px 6px 0 rgba(22,21,39,0.18);
+  box-shadow: 6px 6px 0 var(--ink);
 }
 .hero h1{
   font-size: clamp(36px, 5.4vw, 68px);
@@ -394,7 +395,7 @@ h2,h3{
   cursor: pointer;
   padding: 11px 16px;
   border-radius: 12px;
-  border: 2px solid rgba(22,21,39,0.25);
+  border: 2px solid var(--ink);
   background: var(--cream);
   user-select: none;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
@@ -634,7 +635,7 @@ h2,h3{
   justify-content: space-between;
   background: #ffffff;
   border-radius: 100px;
-  padding: 6px 8px;
+  padding: 10px 10px;
   gap: 0;
   position: relative;
   cursor: grab;
@@ -665,10 +666,10 @@ h2,h3{
 .stress-face.active{
   opacity: 1;
   transform: scale(1.35) translateY(-4px);
-  box-shadow: 0 6px 18px rgba(22,21,39,0.22), 0 2px 6px rgba(22,21,39,0.14);
+  box-shadow: none;
 }
 /* ── level colours ── */
-.stress-face[data-lvl="0"].active{ background:#ffffff; box-shadow: 0 0 0 2.5px var(--ink), 0 6px 18px rgba(22,21,39,0.22); }
+.stress-face[data-lvl="0"].active{ background:#ffffff; box-shadow: 0 0 0 2.5px var(--ink); }
 .stress-face[data-lvl="1"].active{ background:#A8D5B8; }
 .stress-face[data-lvl="2"].active{ background:var(--sunshine); }
 .stress-face[data-lvl="3"].active{ background:var(--orange); }
