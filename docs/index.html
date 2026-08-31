@@ -781,8 +781,8 @@ h2,h3{
 
 /* ============ DIAGNOSIS / GUIDE ============ */
 .diagnosis{
-  background: var(--forest);
-  color: var(--paper);
+  background: var(--cream);
+  color: var(--ink);
   padding: 96px 0;
   border-bottom: 6px solid var(--ink);
   position:relative;
@@ -791,18 +791,31 @@ h2,h3{
 .diagnosis-grid{
   display:block;
 }
-.diagnosis .eyebrow{ color: var(--sunshine); margin-bottom:16px; display:block; }
-.diagnosis .school-strip{ border-top-color: rgba(255,252,245,0.2); }
+.diagnosis .eyebrow{ color: var(--ink); margin-bottom:16px; display:block; }
+.diagnosis .school-strip{ border-top-color: rgba(22,21,39,0.15); }
 .diagnosis h2{
   font-size: clamp(28px, 4vw, 42px);
   margin-bottom: 22px;
+  color: var(--ink);
 }
 .diagnosis p{
   font-size: 17px;
-  color: rgba(255,252,245,0.86);
+  color: rgba(22,21,39,0.8);
   margin-bottom:18px;
   max-width: 700px;
 }
+.diagnosis-copy-box{
+  background: var(--forest);
+  color: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  padding: 28px 30px 24px;
+  margin-bottom: 28px;
+  box-shadow: 7px 7px 0 var(--ink);
+}
+.diagnosis-copy-box h2{ color: #fff; margin-bottom: 16px; }
+.diagnosis-copy-box p{ color: rgba(255,255,255,0.88); margin-bottom: 12px; }
+.diagnosis-copy-box p:last-child{ margin-bottom: 0; }
 .diagnosis-figure{
   display:flex;
   justify-content:center;
@@ -1340,8 +1353,8 @@ section[id], div[id].packages {
 .form-success-back{ background:none; border:none; cursor:pointer; font-family:var(--mono); font-weight:700; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(22,21,39,0.4); padding:0; }
 
 /* ============ MEET SECTION ============ */
-.meet-section{ background:var(--cream); padding:96px 0; border-bottom:6px solid var(--ink); }
-.meet-section .eyebrow{ color:var(--indigo); margin-bottom:14px; display:block; }
+.meet-section{ background:var(--cream); padding:96px 0; border-top:6px solid var(--ink); border-bottom:6px solid var(--ink); }
+.meet-section .eyebrow{ display:inline-block; background:var(--cream); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:5px 16px; font-size:11px; letter-spacing:0.1em; margin-bottom:18px; margin-top:-52px; position:relative; z-index:2; }
 .meet-section > .wrap > h2{ font-size:clamp(28px,4vw,44px); margin-bottom:14px; }
 .meet-section > .wrap > p{ font-size:17px; color:rgba(22,21,39,0.7); margin-bottom:48px; }
 .meet-card{ background:var(--paper); border:2.5px solid var(--ink); border-bottom:10px solid var(--ink); border-radius:22px; box-shadow:5px 5px 0 var(--ink); padding:36px 36px 32px; }
@@ -1503,7 +1516,7 @@ body{ padding-bottom: 0; margin-bottom: 0; }
   .reviews-next-btn{ display:none !important; }
 }
 .reviews{
-  background: var(--cream-deep);
+  background: var(--sunshine);
   color: var(--ink);
   padding: 96px 0;
 }
@@ -1905,9 +1918,11 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <div class="diagnosis-grid">
       <div class="diagnosis-copy" data-reveal>
         <span class="eyebrow">The Diagnosis</span>
+        <div class="diagnosis-copy-box">
         <h2>You need Urban Echo to help you reduce your workload and ensure your school sounds its best.</h2>
         <p>Urban Echo was started by owner-operator Mitchel Tinsley to give Perth schools flexible, custom-fit Sound and AV teams for every event and budget, without the headache.</p>
         <p>We're a husband-and-wife-owned business that is built on a decade of experience working in schools and churches. So even if we haven't met yet, we already know you need more than a coffee.</p>
+        </div>
 
         <div class="credential-row">
           <div class="credential">
