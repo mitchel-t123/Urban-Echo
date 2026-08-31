@@ -3070,11 +3070,15 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     function onScroll(){
       const navH   = navEl.offsetHeight;
       const mid    = window.scrollY + navH + window.innerHeight * 0.25;
-      let active   = 0; // default to first link (Symptoms) so pill always shows
+      let active   = -1;
       sections.forEach(function(sec, i){
         if(sec && sec.offsetTop <= mid) active = i;
       });
-      movePillTo(links[active]);
+      if(active >= 0){
+        movePillTo(links[active]);
+      } else {
+        pill.classList.remove('visible');
+      }
     }
 
     window.addEventListener('scroll', onScroll, {passive:true});
