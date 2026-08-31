@@ -671,11 +671,11 @@ h2,h3{
   box-shadow: none;
 }
 /* ── level colours ── */
-.stress-face[data-lvl="0"].active{ background:transparent; }
-.stress-face[data-lvl="1"].active{ background:#A8D5B8; }
-.stress-face[data-lvl="2"].active{ background:var(--sunshine); }
-.stress-face[data-lvl="3"].active{ background:var(--orange); }
-.stress-face[data-lvl="4"].active{ background:var(--coral); }
+.stress-face[data-lvl="0"].active,
+.stress-face[data-lvl="1"].active,
+.stress-face[data-lvl="2"].active,
+.stress-face[data-lvl="3"].active,
+.stress-face[data-lvl="4"].active{ background:#ffffff; box-shadow: 0 0 0 2.5px var(--ink); }
 
 /* Severity bar — always visible, grey until interacted with */
 .severity-bar{
@@ -2935,7 +2935,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     },
   ];
 
-  var meterOverride = null; // set by stress meter drag; null = use checkbox count
+  var meterOverride = 0; // default to level 0 on load
 
   function computeCheckboxScore(){
     var isMobile = window.innerWidth <= 768;
