@@ -715,7 +715,20 @@ h2,h3{
   max-width: 640px;
   margin-bottom: 52px;
 }
-.section-head .eyebrow{ color: var(--orange-deep); margin-bottom: 14px; display:block; }
+.section-head .eyebrow{
+  display: inline-block;
+  background: var(--cream);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 5px 16px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  margin-bottom: 18px;
+  margin-top: -52px;
+  position: relative;
+  z-index: 2;
+}
 .section-head h2{ font-size: clamp(30px, 4.4vw, 48px); }
 .section-head p{ margin-top:18px; font-size:17px; color: rgba(22,21,39,0.72); max-width: 560px; }
 
