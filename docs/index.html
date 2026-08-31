@@ -325,7 +325,7 @@ h2,h3{
   gap:10px;
   background: var(--cream);
   color: var(--ink);
-  border: 1.5px solid rgba(22,21,39,0.18);
+  border: 2px solid var(--ink);
   padding: 8px 18px;
   border-radius: 100px;
   font-family: var(--mono);
@@ -338,7 +338,7 @@ h2,h3{
 }
 .hero-tag .dot{
   width:8px; height:8px; border-radius:50%;
-  background: #22c55e;
+  background: var(--forest);
   animation: pulse 1.6s infinite;
 }
 @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
@@ -594,7 +594,7 @@ h2,h3{
   display: inline-block;
   margin-top: 14px;
   background: #fff;
-  color: #1e7e4a;
+  color: var(--forest-deep);
   font-family: var(--body);
   font-size: 16px;
   font-weight: 700;
@@ -605,7 +605,7 @@ h2,h3{
   transition: background 0.15s ease, transform 0.15s ease;
 }
 .treat-link:hover{
-  background: #e6f4ec;
+  background: var(--cream);
   transform: translateX(3px);
 }
 
@@ -667,11 +667,11 @@ h2,h3{
   box-shadow: 0 6px 18px rgba(22,21,39,0.22), 0 2px 6px rgba(22,21,39,0.14);
 }
 /* ── level colours ── */
-.stress-face[data-lvl="0"].active{ background:#22c55e; }
-.stress-face[data-lvl="1"].active{ background:#86efac; }
-.stress-face[data-lvl="2"].active{ background:#facc15; }
-.stress-face[data-lvl="3"].active{ background:#f97316; }
-.stress-face[data-lvl="4"].active{ background:#b91c1c; }
+.stress-face[data-lvl="0"].active{ background:var(--forest); }
+.stress-face[data-lvl="1"].active{ background:#A8D5B8; }
+.stress-face[data-lvl="2"].active{ background:var(--sunshine); }
+.stress-face[data-lvl="3"].active{ background:var(--orange); }
+.stress-face[data-lvl="4"].active{ background:var(--coral); }
 
 /* Severity bar — always visible, grey until interacted with */
 .severity-bar{
@@ -698,7 +698,7 @@ h2,h3{
   border-radius: 100px;
   width: 0%;
   transition: width 0.5s ease, background-color 0.5s ease;
-  background: #22c55e; /* starts green, JS updates to yellow/red as score rises */
+  background: #4AAE74; /* starts green, JS updates to yellow/red as score rises */
 }
 
 /* ============ SYMPTOMS / PROBLEM ============ */
@@ -1417,9 +1417,9 @@ section[id], div[id].packages {
 .meet-form-expand-inner{ overflow:hidden; }
 .meet-form-expand.open{ grid-template-rows:1fr; }
 .meet-success{ display:none; padding:48px 32px; text-align:center; max-width:480px; margin:0 auto; }
-.meet-success-icon{ width:56px; height:56px; border-radius:50%; background:#16a34a; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
+.meet-success-icon{ width:56px; height:56px; border-radius:50%; background:var(--forest); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
 .meet-success-icon svg{ display:block; }
-.meet-success-eyebrow{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#16a34a; margin-bottom:8px; display:block; }
+.meet-success-eyebrow{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--forest); margin-bottom:8px; display:block; }
 .meet-success h3{ font-family:var(--display); font-size:24px; font-weight:700; margin-bottom:12px; color:var(--ink); }
 .meet-success-body{ font-size:16px; color:rgba(22,21,39,0.65); margin-bottom:0; }
 .meet-success-divider{ height:1.5px; background:rgba(22,21,39,0.1); margin:24px auto; width:60px; border-radius:2px; }
@@ -2876,7 +2876,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'Awaiting diagnosis...',
       ansText:    'Tick the boxes that apply to your school.',
       active:     false,
-      severity:   0,   barColor: '#22c55e',
+      severity:   0,   barColor: '#4AAE74',
       stress:     0,   char1: 'calm',    char2: 'calm',
       treat:      { plan: 'Select your symptoms', link: null, desc: 'Tick the boxes to get your recommended response plan.' },
     },
@@ -2886,7 +2886,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'That sounds stressful',
       ansText:    'Even one AV headache is one too many. Urban Echo steps in so you don\'t have to think about it.',
       active:     true,
-      severity:   25,  barColor: '#86efac',
+      severity:   25,  barColor: '#A8D5B8',
       stress:     1,   char1: 'calm',    char2: 'calm',
       treat:      { plan: 'Per-Event Package', link: '#packages', desc: 'Even one-off events deserve great sound. Book us for individual events with no lock-in.' },
     },
@@ -2896,7 +2896,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'We hear you',
       ansText:    'A pattern forming isn\'t your fault, it\'s a sign you need reliable support. That\'s exactly what Urban Echo provides.',
       active:     true,
-      severity:   50,  barColor: '#facc15',
+      severity:   50,  barColor: '#F9C328',
       stress:     1,   char1: 'shocked', char2: 'calm',
       treat:      { plan: 'Termly Package', link: '#packages', desc: 'A pattern is forming. A termly package keeps your calendar stress-free all term long.' },
     },
@@ -2906,7 +2906,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'That\'s a lot to carry',
       ansText:    'Sound emergencies don\'t have to be your problem. Urban Echo is built for exactly this, let\'s talk.',
       active:     true,
-      severity:   75,  barColor: '#fb923c',
+      severity:   75,  barColor: '#F4612E',
       stress:     2,   char1: 'shocked', char2: 'worried',
       treat:      { plan: 'Per-Term Package', link: '#packages', desc: 'Cover every event across the full term — consistent, reliable sound without the scramble.' },
     },
@@ -2916,7 +2916,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'This is a crisis — and it\'s fixable',
       ansText:    'You\'ve hit maximum AV stress. Urban Echo exists to take this completely off your plate. Let\'s talk.',
       active:     true,
-      severity:   100, barColor: '#b91c1c',
+      severity:   100, barColor: '#E0413B',
       stress:     3,   char1: 'critical', char2: 'worried',
       treat:      { plan: 'Yearly Plan — Priority Support', link: '#packages', desc: 'Maximum coverage, priority scheduling, and a dedicated Urban Echo contact for your school.' },
     },
