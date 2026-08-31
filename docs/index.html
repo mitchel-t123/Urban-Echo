@@ -612,7 +612,7 @@ h2,h3{
   touch-action: none;
 }
 .stress-track:active{ cursor: grabbing; }
-.stress-track:focus{ outline: 2px solid var(--ink); outline-offset: 3px; }
+.stress-track:focus{ outline: none; }
 .stress-face{
   width: 44px;
   height: 44px;
@@ -628,6 +628,8 @@ h2,h3{
   cursor: pointer;
   position: relative;
   z-index: 1;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .stress-face.active{
   opacity: 1;
