@@ -961,18 +961,23 @@ section[id], div[id].packages {
   border: 2.5px solid var(--ink);
   border-radius: 22px;
   padding: 30px 26px;
-  background: var(--cream);
+  background: var(--sunshine);
   display:flex;
   flex-direction:column;
 }
 .package-card.featured{
-  background: var(--sunshine);
+  background: #F9C0C8;
   transform: translateY(-10px);
   box-shadow: 8px 8px 0 var(--ink);
 }
 .package-card.pink{
-  background: #F9C0C8;
+  background: var(--forest);
+  color: #fff;
 }
+.package-card.pink .desc{ color: rgba(255,255,255,0.85); }
+.package-card.pink .package-list li{ border-top-color: rgba(255,255,255,0.2); }
+.package-card.pink .package-list li::before{ color: #fff; }
+.package-card.pink .price{ color: #fff; }
 .package-tag{
   font-family: var(--mono);
   font-size: 12px;
