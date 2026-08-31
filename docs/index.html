@@ -804,19 +804,24 @@ h2,h3{
 }
 .credential{
   font-family: var(--mono);
-  min-width: 150px;
+  min-width: 130px;
+  background: var(--cream);
+  border: 2.5px solid var(--ink);
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 4px 4px 0 var(--ink);
 }
 .credential .big{
   font-family: var(--display);
-  font-size: 34px;
+  font-size: 30px;
   display:block;
-  color: var(--sunshine);
+  color: var(--ink);
 }
 .credential .label{
-  font-size: 12.5px;
+  font-size: 12px;
   text-transform:uppercase;
   letter-spacing:0.08em;
-  opacity:0.8;
+  color: rgba(22,21,39,0.7);
 }
 
 .school-strip{
@@ -842,6 +847,7 @@ h2,h3{
 }
 .school-logo{
   background: var(--paper);
+  border: 2.5px solid var(--ink);
   border-radius: 14px;
   padding: 6px;
   height: 165px;
@@ -1902,6 +1908,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <div class="credential">
             <span class="big">100%</span>
             <span class="label">Hand-Picked Technicians</span>
+          </div>
+          <div class="credential">
+            <span class="big">WWCC</span>
+            <span class="label">Verified &amp; Cleared</span>
           </div>
         </div>
 
