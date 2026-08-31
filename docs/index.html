@@ -633,9 +633,9 @@ h2,h3{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #ffffff;
-  border-radius: 100px;
-  padding: 10px 10px;
+  background: transparent;
+  border-radius: 0;
+  padding: 4px 0;
   gap: 0;
   position: relative;
   cursor: grab;
@@ -655,8 +655,9 @@ h2,h3{
   font-size: 20px;
   flex-shrink: 0;
   transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), background 0.35s ease, box-shadow 0.35s ease, opacity 0.35s ease;
-  opacity: 0.28;
-  background: transparent;
+  opacity: 0.55;
+  background: #ffffff;
+  border: 2px solid var(--ink);
   cursor: pointer;
   position: relative;
   z-index: 1;
@@ -665,8 +666,9 @@ h2,h3{
 }
 .stress-face.active{
   opacity: 1;
-  transform: scale(1.35) translateY(-4px);
+  transform: scale(1.2) translateY(-3px);
   box-shadow: none;
+  border-color: var(--ink);
 }
 /* ── level colours ── */
 .stress-face[data-lvl="0"].active{ background:#ffffff; box-shadow: 0 0 0 2.5px var(--ink); }
