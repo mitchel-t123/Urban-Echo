@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Echo — Enquire About Our Services</title>
+<link rel="canonical" href="https://urbanecho.com.au/enquire.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Urban Echo provides professional sound and AV services beyond schools — events, corporate, community and more. Get in touch.">
+<meta name="robots" content="index, follow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream: #FBF5E7;
+  --cream-deep: #F4ECD8;
+  --indigo: #3F3FF0;
+  --orange: #F4612E;
+  --forest: #4AAE74;
+  --forest-deep: #379260;
+  --sunshine: #F9C328;
+  --ink: #161527;
+  --paper: #FFFCF5;
+  --line: rgba(22,21,39,0.12);
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ background: var(--ink); }
+body{ font-family:var(--body); background:var(--cream); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden; min-height:100vh; }
+
+/* NAV */
+.nav{ position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--line); }
+.nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1100px; margin:0 auto; }
+.nav-logo{ height:30px; }
+.nav-back{ font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:6px; }
+.nav-back:hover{ color:var(--indigo); }
+@media(max-width:600px){ .nav-inner{ padding:12px 20px; } }
+
+/* HERO */
+.eq-hero{
+  background: var(--indigo);
+  color: var(--paper);
+  padding: 80px 32px 72px;
+  text-align: center;
+  border-bottom: 4px solid var(--sunshine);
+}
+.eq-hero .eyebrow{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.14em;
+  color: var(--sunshine); display:block; margin-bottom:16px;
+}
+.eq-hero h1{
+  font-family:var(--display); font-size:clamp(32px,5vw,56px);
+  text-transform:uppercase; letter-spacing:-0.01em;
+  line-height:1.05; margin-bottom:20px;
+}
+.eq-hero p{
+  font-size:17px; color:rgba(255,252,245,0.72);
+  max-width:520px; margin:0 auto 32px;
+}
+.eq-hero .hero-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--sunshine); color:var(--ink);
+  border:2px solid var(--sunshine); border-radius:100px;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:13px 28px; text-decoration:none;
+  box-shadow:4px 4px 0 rgba(255,252,245,0.3);
+  transition:box-shadow 0.15s;
+}
+.eq-hero .hero-btn:hover{ box-shadow:6px 6px 0 rgba(255,252,245,0.3); }
+
+/* SERVICES */
+.eq-services{ padding:80px 32px; max-width:1100px; margin:0 auto; }
+.eq-services h2{
+  font-family:var(--display); font-size:clamp(26px,3.5vw,38px);
+  text-transform:uppercase; margin-bottom:12px;
+}
+.eq-services > p{ font-size:16px; color:rgba(22,21,39,0.65); margin-bottom:48px; max-width:560px; }
+
+.eq-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px; }
+.eq-card{
+  background:var(--paper);
+  border:2px solid var(--ink);
+  border-radius:16px;
+  padding:28px 24px;
+  box-shadow:4px 4px 0 var(--ink);
+}
+.eq-card .icon{ font-size:32px; margin-bottom:14px; display:block; }
+.eq-card h3{ font-size:18px; font-weight:800; margin-bottom:8px; }
+.eq-card p{ font-size:14px; color:rgba(22,21,39,0.62); line-height:1.55; }
+
+/* FORM */
+.eq-form-section{
+  background:var(--paper);
+  border-top:3px solid var(--ink);
+  padding:80px 32px;
+}
+.eq-form-inner{ max-width:640px; margin:0 auto; }
+.eq-form-inner .eyebrow{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.12em;
+  color:var(--indigo); display:block; margin-bottom:10px;
+}
+.eq-form-inner h2{
+  font-family:var(--display); font-size:clamp(24px,3.5vw,36px);
+  text-transform:uppercase; margin-bottom:12px;
+}
+.eq-form-inner > p{ font-size:15px; color:rgba(22,21,39,0.6); margin-bottom:36px; }
+
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+@media(max-width:600px){ .form-row{ grid-template-columns:1fr; } }
+.field{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+.field label{ font-family:var(--mono); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.5); }
+.field input, .field select, .field textarea{
+  padding:13px 16px; border:2px solid var(--line);
+  border-radius:10px; font-family:var(--body); font-size:14px;
+  background:var(--cream); color:var(--ink); outline:none;
+  transition:border-color 0.15s;
+}
+.field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--indigo); }
+.field select{
+  -webkit-appearance:none; appearance:none;
+  background:var(--cream) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center;
+  padding-right:36px;
+}
+.field textarea{ resize:vertical; min-height:120px; }
+.submit-btn{
+  width:100%; padding:15px; border-radius:100px;
+  background:var(--ink); color:var(--paper);
+  border:2px solid var(--ink); font-family:var(--mono);
+  font-size:12px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.1em; cursor:pointer;
+  box-shadow:4px 4px 0 rgba(22,21,39,0.25);
+  transition:box-shadow 0.15s;
+}
+.submit-btn:hover{ box-shadow:6px 6px 0 rgba(22,21,39,0.25); }
+#eqSuccess{ display:none; text-align:center; padding:32px; background:var(--cream); border:2px solid var(--forest); border-radius:14px; margin-top:20px; }
+#eqSuccess h3{ font-size:20px; font-weight:800; margin-bottom:8px; color:var(--forest-deep); }
+#eqSuccess p{ font-size:14px; color:rgba(22,21,39,0.65); }
+
+/* FOOTER */
+.eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:32px 20px; font-family:var(--mono); font-size:12px; opacity:0.7; }
+.eq-footer a{ color:var(--sunshine); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
+    <a href="index.html" class="nav-back">← Back to Schools</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="eq-hero">
+  <span class="eyebrow">🎵 Not a School? No worries.</span>
+  <h1>We do more than schools</h1>
+  <p>Urban Echo provides professional sound &amp; AV for all kinds of events and venues across Perth. Tell us what you need.</p>
+  <a href="#enquire" class="hero-btn">Get in Touch ↓</a>
+</section>
+
+<!-- SERVICES -->
+<section class="eq-services">
+  <h2>What we can help with</h2>
+  <p>If it needs sound, lighting or AV — we've got it covered.</p>
+  <div class="eq-grid">
+    <div class="eq-card">
+      <span class="icon">🎪</span>
+      <h3>Community Events</h3>
+      <p>Markets, festivals, fetes, fundraisers and outdoor events. Full sound setup and operation from start to finish.</p>
+    </div>
+    <div class="eq-card">
+      <span class="icon">🏢</span>
+      <h3>Corporate Events</h3>
+      <p>Conferences, AGMs, product launches, team days and awards nights. Professional AV with no fuss.</p>
+    </div>
+    <div class="eq-card">
+      <span class="icon">💍</span>
+      <h3>Private Functions</h3>
+      <p>Weddings, engagements, birthday parties and celebrations. Great sound so you can focus on enjoying it.</p>
+    </div>
+    <div class="eq-card">
+      <span class="icon">🎭</span>
+      <h3>Performing Arts</h3>
+      <p>Theatre productions, dance shows, live music and performances. We know how to make talent sound great.</p>
+    </div>
+    <div class="eq-card">
+      <span class="icon">🏛️</span>
+      <h3>Venue & Auditorium Hire</h3>
+      <p>Got a venue sitting empty? We manage bookings and operate the AV so you can turn it into revenue.</p>
+    </div>
+    <div class="eq-card">
+      <span class="icon">🎛️</span>
+      <h3>Equipment Hire</h3>
+      <p>Need gear without the operator? We hire out speakers, microphones, mixers, lighting rigs and more.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="eq-form-section" id="enquire">
+  <div class="eq-form-inner">
+    <span class="eyebrow">Let's talk</span>
+    <h2>Send us an enquiry</h2>
+    <p>Fill in the details below and Mitchel will get back to you within one business day.</p>
+
+    <form id="eqForm" action="https://formsubmit.co/mitchel@urbanecho.com.au" method="POST">
+      <input type="hidden" name="_subject" value="New Non-School Enquiry — Urban Echo">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://urbanecho.com.au/enquire.html?sent=1">
+
+      <div class="form-row">
+        <div class="field">
+          <label for="eq-name">Your Name</label>
+          <input type="text" id="eq-name" name="name" placeholder="Jane Smith" required>
+        </div>
+        <div class="field">
+          <label for="eq-phone">Phone</label>
+          <input type="tel" id="eq-phone" name="phone" placeholder="04xx xxx xxx">
+        </div>
+      </div>
+      <div class="field">
+        <label for="eq-email">Email</label>
+        <input type="email" id="eq-email" name="email" placeholder="jane@example.com" required>
+      </div>
+      <div class="field">
+        <label for="eq-org">Organisation / Venue <span style="font-weight:400;opacity:0.55;">(if applicable)</span></label>
+        <input type="text" id="eq-org" name="organisation" placeholder="e.g. The Rechabite, Smith Family">
+      </div>
+      <div class="field">
+        <label for="eq-service">What do you need?</label>
+        <select id="eq-service" name="service" required>
+          <option value="">Select a service…</option>
+          <option>Community Event</option>
+          <option>Corporate Event</option>
+          <option>Private Function / Wedding</option>
+          <option>Performing Arts Production</option>
+          <option>Venue / Auditorium Hire Management</option>
+          <option>Equipment Hire Only</option>
+          <option>Something Else</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="eq-date">Event Date <span style="font-weight:400;opacity:0.55;">(if known)</span></label>
+        <input type="date" id="eq-date" name="event_date">
+      </div>
+      <div class="field">
+        <label for="eq-notes">Tell us more</label>
+        <textarea id="eq-notes" name="notes" placeholder="Venue, expected attendance, equipment you have, anything else useful…"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Enquiry →</button>
+    </form>
+
+    <div id="eqSuccess">
+      <h3>✔ Enquiry received!</h3>
+      <p>Thanks for reaching out. Mitchel will be in touch within one business day.<br>In the meantime you can call or text on <a href="tel:+61429660186">0429 660 186</a>.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="eq-footer">
+  © Urban Echo 2026 · <a href="index.html">Back to Schools page</a> · <a href="tel:+61429660186">0429 660 186</a>
+</footer>
+
+<script>
+// Show success message if redirected back after form submit
+if(window.location.search.includes('sent=1')){
+  document.getElementById('eqForm').style.display = 'none';
+  document.getElementById('eqSuccess').style.display = 'block';
+}
+</script>
+</body>
+</html>
