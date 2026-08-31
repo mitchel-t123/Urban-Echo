@@ -990,10 +990,11 @@ section[id], div[id].packages {
 .package-card{
   border: 2.5px solid var(--ink);
   border-radius: 22px;
-  padding: 30px 26px;
+  padding: 46px 26px 30px;
   background: var(--sunshine);
   display:flex;
   flex-direction:column;
+  position: relative;
 }
 .package-card.featured{
   background: #F9C0C8;
@@ -1009,13 +1010,21 @@ section[id], div[id].packages {
 .package-card.pink .package-list li::before{ color: #fff; }
 .package-card.pink .price{ color: #fff; }
 .package-tag{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 11px;
   text-transform:uppercase;
-  letter-spacing:0.08em;
+  letter-spacing:0.1em;
   font-weight:700;
-  color: var(--orange-deep);
-  margin-bottom: 10px;
+  background: var(--cream);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: 5px 16px;
+  border-radius: 100px;
+  white-space: nowrap;
 }
 .package-card h3{
   font-family: var(--body);
@@ -2007,7 +2016,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
     <div class="package-grid">
       <div class="package-card" data-reveal>
-        <span class="package-tag" style="display:inline-block;background:var(--cream);color:var(--ink);border:2px solid var(--ink);padding:5px 14px;border-radius:100px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;margin-bottom:14px;">One-Off Event</span>
+        <span class="package-tag">One-Off Event</span>
         <h3>First Response</h3>
         <div class="desc">Covers a sound technician for any event up to 3 hours, plus it also includes a 30 min setup and 30 min pack-down before and after your event. Need extra time or technicians to cover slides, lighting, backstage hands, venue setup, chair setup/packdown? We have you covered. Contact us and we will send you a quote.</div>
         <div class="price">$500 <span>/ per event</span></div>
