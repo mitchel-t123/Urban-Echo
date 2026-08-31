@@ -164,6 +164,36 @@ h2,h3{
 .btn-green{ background: var(--forest); color: #fff; border-color: var(--ink); }
 .btn-green:hover{ box-shadow: 6px 6px 0 var(--ink); }
 
+/* ============ TICKER ============ */
+.ticker-wrap{
+  background: var(--sunshine);
+  color: var(--ink);
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  padding: 10px 0;
+}
+.ticker-track{
+  display: inline-block;
+  animation: ticker 90s linear infinite;
+}
+.ticker-track:hover{ animation-play-state: paused; }
+.ticker-item{
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0 32px;
+}
+.ticker-sep{ opacity: 0.6; font-weight: 900; }
+@keyframes ticker{
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* ============ NAV ============ */
 .nav{
   position: sticky;
@@ -534,7 +564,7 @@ h2,h3{
 
 /* Diagnostic card (tilted clipboard) — sits in the copy column */
 .hero-symptom-card{
-  background: #F9C0C8;
+  background: var(--cream);
   border: 3px solid var(--ink);
   border-radius: 22px;
   padding: 20px 24px 18px;
@@ -1661,6 +1691,37 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
   </div>
 </nav>
+
+<!-- Ticker -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">🎓 Graduation Ceremonies</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎤 Presentation Nights</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏫 School Assemblies</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎵 Performing Arts</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🚨 Emergency AV Support</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏆 Sports Carnivals</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎙️ Speech Nights</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏛️ Auditorium Hire</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">💃 Dance Fest</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🪑 Chair Setup Team</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">💡 Light Operation</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎛️ Additional Gear Hire</span><span class="ticker-item ticker-sep">+</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">🎓 Graduation Ceremonies</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎤 Presentation Nights</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏫 School Assemblies</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎵 Performing Arts</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🚨 Emergency AV Support</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏆 Sports Carnivals</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎙️ Speech Nights</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🏛️ Auditorium Hire</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">💃 Dance Fest</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🪑 Chair Setup Team</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">💡 Light Operation</span><span class="ticker-item ticker-sep">+</span>
+    <span class="ticker-item">🎛️ Additional Gear Hire</span><span class="ticker-item ticker-sep">+</span>
+  </div>
+</div>
 
 <!-- Floating back-to-top button (mobile) -->
 <button class="fab-menu" id="fabMenu" aria-label="Back to top">↑</button>
