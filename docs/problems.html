@@ -34,7 +34,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -52,11 +52,11 @@
   --line: rgba(22,21,39,0.12);
   --display: 'Archivo Black', 'Arial Black', sans-serif;
   --body: 'Inter', -apple-system, sans-serif;
-  --mono: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --mono: 'Space Mono', monospace;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
-html{ scroll-behavior:auto; background: var(--ink); }
-body{ font-family: var(--body); background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; overscroll-behavior-y: none; }
+html{ scroll-behavior:auto; background: var(--ink); overscroll-behavior-y: none; }
+body{ font-family: var(--body); background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; overscroll-behavior-y: none; padding-bottom:0; margin-bottom:0; }
 footer{ margin-bottom:0; padding-bottom:0; }
 a{ color: inherit; }
 h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter-spacing:-0.01em; text-transform:uppercase; }
@@ -382,8 +382,10 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .diag-flag-btn{
   background:none; border:none; cursor:pointer; padding:4px;
   font-size:20px; line-height:1; transition:transform 0.15s;
+  filter: grayscale(1) brightness(2);
 }
 .diag-flag-btn:hover{ transform:scale(1.15); }
+.diag-flag-btn.flagged{ filter:none; }
 
 /* CTA at bottom */
 .diag-cta{

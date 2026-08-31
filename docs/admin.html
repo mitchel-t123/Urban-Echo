@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --cream:#FBF5E7; --indigo:#3F3FF0; --forest:#4AAE74; --forest-deep:#379260;
@@ -15,7 +15,7 @@
   --red:#D93636; --line:rgba(22,21,39,0.12);
   --display:'Archivo Black','Arial Black',sans-serif;
   --body:'Inter',-apple-system,sans-serif;
-  --mono:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  --mono:'Space Mono',monospace;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
 html{ background:var(--ink); }
@@ -241,7 +241,6 @@ var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
 var SUPABASE_URL    = 'https://wqmtdccrclhhtiwfgcgl.supabase.co';
 var SUPABASE_ANON   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxbXRkY2NyY2xoaHRpd2ZnY2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDk3OTEsImV4cCI6MjA5OTcyNTc5MX0.6FQZFzUJirFogCdJvzLYU-obG0RYFhtOpYZ1odlqP5M';
 var ADMIN_ID        = 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV';
-var ADMIN_EMAIL     = 'mitchel@urbanecho.com.au';
 
 var clerkInstance  = null;
 var supabase       = null;
@@ -270,31 +269,24 @@ function doLogout(){
     clerkInstance = window.Clerk;
     await clerkInstance.load();
 
-    // Wait up to 15 seconds for Clerk to restore session (mobile can be slow)
-    var user = await new Promise(function(resolve){
-      if(clerkInstance.user){ resolve(clerkInstance.user); return; }
-      var attempts = 0;
-      var t = setInterval(function(){
-        if(clerkInstance.user){ clearInterval(t); resolve(clerkInstance.user); return; }
-        attempts++;
-        if(attempts >= 30){ clearInterval(t); resolve(null); }
-      }, 500);
-    });
+    var user = clerkInstance.user;
+    if(!user){
+      await new Promise(function(resolve){
+        var attempts = 0;
+        var t = setInterval(function(){
+          if(clerkInstance.user || attempts >= 10){ clearInterval(t); resolve(); }
+          attempts++;
+        }, 500);
+      });
+      user = clerkInstance.user;
+    }
 
     if(!user){ window.location.replace('login.html'); return; }
+    if(user.id !== ADMIN_ID){ window.location.replace('portal.html'); return; }
 
-    var userEmail = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress) || '';
-    var isAdmin = user.id === ADMIN_ID || userEmail === ADMIN_EMAIL;
-    if(!isAdmin){ window.location.replace('portal.html'); return; }
-
-    // Supabase — non-fatal if JWT template not set up
-    var token = null;
-    try { token = await clerkInstance.session.getToken({ template: 'supabase' }); }
-    catch(tokenErr){ console.warn('JWT template:', tokenErr.message); }
-
-    var headers = token ? { Authorization: 'Bearer ' + token } : {};
+    var token = await clerkInstance.session.getToken({ template: 'supabase' });
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
-      global: { headers: headers }
+      global: { headers: { Authorization: 'Bearer ' + token } }
     });
 
     loader.classList.remove('show');
@@ -303,7 +295,7 @@ function doLogout(){
 
     loadTeam();
   } catch(err){
-    console.error('Admin init error:', err);
+    console.error(err);
     window.location.replace('login.html');
   }
 })();
