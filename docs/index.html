@@ -171,7 +171,7 @@ h2,h3{
 
 /* ============ TICKER ============ */
 .ticker-wrap{
-  background: var(--cream);
+  background: var(--sunshine);
   color: var(--ink);
   overflow: hidden;
   white-space: nowrap;
@@ -250,9 +250,9 @@ h2,h3{
 .nav-troubleshoot:hover{ background: var(--forest-deep); box-shadow: 5px 5px 0 var(--ink); }
 .nav-bubble{ border: 2px solid var(--ink) !important; border-radius: 100px !important; padding: 5px 14px !important; font-weight: 700 !important; color: var(--ink) !important; transition: transform 0.1s !important; }
 .nav-bubble:hover{ transform: translateY(-1px); }
-.nav-bubble-yellow{ background: var(--sunshine) !important; }
-.nav-bubble-pink{ background: var(--sunshine) !important; }
-.nav-bubble-green{ background: var(--sunshine) !important; }
+.nav-bubble-yellow{ background: #ffffff !important; }
+.nav-bubble-pink{ background: #ffffff !important; }
+.nav-bubble-green{ background: #ffffff !important; }
 .nav-troubleshoot:focus, .nav-troubleshoot.clicked{ outline: none; }
 /* Responsive nav hiding */
 @media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
@@ -324,7 +324,7 @@ h2,h3{
 
 /* ============ HERO ============ */
 .hero{
-  background: #ffffff;
+  background: var(--orange);
   color: var(--ink);
   position: relative;
   overflow: hidden;
@@ -537,7 +537,8 @@ h2,h3{
 
 /* Treatment recommendation card */
 .hero-treatment-card{
-  background: #ffffff;
+  background: var(--forest);
+  color: #ffffff;
   color: var(--ink);
   border: 3px solid var(--ink);
   border-radius: 22px;
@@ -3139,8 +3140,8 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     if(score > 0){
       severityFill.style.width = L.severity + '%';
       severityFill.style.backgroundColor = L.barColor;
-      treatCard.style.background = 'var(--sunshine)';
-      treatCard.style.color = 'var(--ink)';
+      treatCard.style.background = 'var(--forest)';
+      treatCard.style.color = '#ffffff';
     } else {
       severityFill.style.width = '0%';
       severityFill.style.backgroundColor = 'rgba(22,21,39,0.18)';
