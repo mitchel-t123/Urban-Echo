@@ -3139,9 +3139,8 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     if(score > 0){
       severityFill.style.width = L.severity + '%';
       severityFill.style.backgroundColor = L.barColor;
-      treatCard.style.background = L.barColor;
-      // dark text on lighter colours (green/amber), white on orange/red
-      treatCard.style.color = (L.severity <= 50) ? 'var(--ink)' : '#fff';
+      treatCard.style.background = 'var(--sunshine)';
+      treatCard.style.color = 'var(--ink)';
     } else {
       severityFill.style.width = '0%';
       severityFill.style.backgroundColor = 'rgba(22,21,39,0.18)';
