@@ -463,13 +463,26 @@ h2,h3{
 
 .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; padding-bottom: 64px; margin-top: 20px; }
 
+.stress-label-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
 .stress-arrow{
-  font-size: 28px;
-  line-height: 1;
-  color: var(--ink);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
   font-weight: 900;
-  margin: 2px 0 2px;
-  display: block;
+  color: var(--ink);
+  flex-shrink: 0;
 }
 
 /* ---- HERO FIGURE: TWO CHARACTERS SIDE BY SIDE ---- */
@@ -644,7 +657,7 @@ h2,h3{
   border: 2px solid var(--ink);
   border-radius: 100px;
   padding: 6px 16px;
-  margin-bottom: 5px;
+  margin-bottom: 0;
   box-shadow: 3px 3px 0 var(--ink);
   width: fit-content;
 }
@@ -1873,8 +1886,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
       <div class="hero-figure">
         <!-- Stress face meter (interactive) -->
-        <span class="stress-meter-label">Rate your sound &amp; AV stress to get a diagnosis</span>
-        <div class="stress-arrow" aria-hidden="true">↓</div>
+        <div class="stress-label-row">
+          <span class="stress-meter-label">Rate your sound &amp; AV stress to get a diagnosis</span>
+          <div class="stress-arrow" aria-hidden="true">↓</div>
+        </div>
         <div class="stress-meter">
           <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" tabindex="0">
             <div class="stress-face active" data-lvl="0">😌</div>
