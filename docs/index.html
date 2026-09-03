@@ -771,37 +771,80 @@ h2,h3{
 .section-head h2{ font-size: clamp(30px, 4.4vw, 48px); }
 .section-head p{ margin-top:18px; font-size:17px; color: rgba(22,21,39,0.72); max-width: 560px; }
 
-.symptom-grid{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+/* ---- Symptom tab slider ---- */
+.symptom-tab-bar{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+.symptom-tab{
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 7px 16px;
+  cursor: pointer;
+  color: var(--ink);
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+.symptom-tab:hover{ background: var(--cream); box-shadow: 2px 2px 0 var(--ink); }
+.symptom-tab.active{ background: var(--ink); color: #fff; box-shadow: 3px 3px 0 rgba(22,21,39,0.25); }
+.symptom-progress-track{
+  width: 100%;
+  height: 6px;
+  background: rgba(22,21,39,0.1);
+  border-radius: 100px;
+  margin: 18px 0 28px;
+  overflow: hidden;
+}
+.symptom-progress-fill{
+  height: 100%;
+  background: var(--ink);
+  border-radius: 100px;
+  transition: width 0.4s cubic-bezier(.4,0,.2,1);
+}
+.symptom-panel{
+  display: none;
+  animation: symptomFadeIn 0.3s ease;
+}
+.symptom-panel.active{ display: block; }
+@keyframes symptomFadeIn{
+  from{ opacity:0; transform: translateY(6px); }
+  to{ opacity:1; transform: translateY(0); }
 }
 .symptom-card{
   background: var(--paper);
   border: 2px solid var(--ink);
   border-radius: 18px;
-  padding: 26px 24px;
-  position:relative;
-  transition: transform 0.2s ease;
+  padding: 32px 30px;
+  box-shadow: 5px 5px 0 var(--ink);
+  max-width: 640px;
 }
-.symptom-card:hover{ transform: translateY(-4px); }
 .symptom-card .num{
-  font-family: var(--body);
-  font-size: 13px;
+  font-family: var(--mono);
+  font-size: 12px;
   font-weight:700;
   color: var(--orange-deep);
   display:block;
   margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 .symptom-card h3{
   font-family: var(--body);
   font-weight: 800;
   text-transform: none;
-  font-size: 18px;
+  font-size: clamp(22px,3vw,30px);
   letter-spacing: 0;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
-.symptom-card p{ font-size:14.5px; color: rgba(22,21,39,0.68); }
+.symptom-card p{ font-size:16px; color: rgba(22,21,39,0.72); line-height: 1.6; }
 
 .symptom-divider{
   display:flex;
@@ -1077,13 +1120,13 @@ section[id], div[id].packages {
   box-shadow: 8px 8px 0 var(--ink);
 }
 .package-card.pink{
-  background: var(--forest);
-  color: #fff;
+  background: #C2D0F5;
+  color: var(--ink);
 }
-.package-card.pink .desc{ color: rgba(255,255,255,0.85); }
-.package-card.pink .package-list li{ border-top-color: rgba(255,255,255,0.2); }
-.package-card.pink .package-list li::before{ color: #fff; }
-.package-card.pink .price{ color: #fff; }
+.package-card.pink .desc{ color: rgba(22,21,39,0.78); }
+.package-card.pink .package-list li{ border-top-color: rgba(22,21,39,0.15); }
+.package-card.pink .package-list li::before{ color: var(--ink); }
+.package-card.pink .price{ color: var(--ink); }
 .package-tag{
   position: absolute;
   top: 0;
@@ -1945,36 +1988,62 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       <p>If you ticked yes to more than one of these, you're not alone, it's the most common diagnosis we see across Perth schools.</p>
     </div>
 
-    <div class="symptom-grid">
-      <div class="symptom-card" data-reveal>
-        <span class="num">01</span>
+    <!-- Tab bar -->
+    <div class="symptom-tab-bar" id="symptomTabBar" data-reveal>
+      <button class="symptom-tab active" data-tab="0">Endless Events</button>
+      <button class="symptom-tab" data-tab="1">No Sound Guy</button>
+      <button class="symptom-tab" data-tab="2">Too Many Events</button>
+      <button class="symptom-tab" data-tab="3">No Time</button>
+      <button class="symptom-tab" data-tab="4">Tired of Feedback</button>
+      <button class="symptom-tab" data-tab="5">Always Multi-tasking</button>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="symptom-progress-track">
+      <div class="symptom-progress-fill" id="symptomProgress" style="width:16.6%"></div>
+    </div>
+
+    <!-- Panels -->
+    <div class="symptom-panel active" data-panel="0">
+      <div class="symptom-card">
+        <span class="num">01 / 06</span>
         <h3>Endless school events</h3>
-        <p>School events, sports carnivals, presentation nights, graduations, the calendar never stops, and someone has to run sound for all of it.</p>
+        <p>School events, sports carnivals, presentation nights, graduations — the calendar never stops, and someone has to run sound for all of it.</p>
       </div>
-      <div class="symptom-card" data-reveal>
-        <span class="num">02</span>
+    </div>
+    <div class="symptom-panel" data-panel="1">
+      <div class="symptom-card">
+        <span class="num">02 / 06</span>
         <h3>No in-house sound guy</h3>
         <p>You're relying on whoever's free, not whoever's trained. That's a lot of pressure to put on a teacher with a spare period.</p>
       </div>
-      <div class="symptom-card" data-reveal>
-        <span class="num">03</span>
+    </div>
+    <div class="symptom-panel" data-panel="2">
+      <div class="symptom-card">
+        <span class="num">03 / 06</span>
         <h3>Too many school events</h3>
-        <p>Weekly, fortnightly, whole-school, year-group, they add up fast and each one needs someone behind the desk.</p>
+        <p>Weekly, fortnightly, whole-school, year-group — they add up fast and each one needs someone behind the desk.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal>
-        <span class="num">04</span>
+    </div>
+    <div class="symptom-panel" data-panel="3">
+      <div class="symptom-card">
+        <span class="num">04 / 06</span>
         <h3>No time</h3>
         <p>You've got a school to run. Cables, mic checks and EQ settings shouldn't be eating into your actual job.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal>
-        <span class="num">05</span>
+    </div>
+    <div class="symptom-panel" data-panel="4">
+      <div class="symptom-card">
+        <span class="num">05 / 06</span>
         <h3>Tired of feedback</h3>
         <p>Literally and figuratively. Feedback belongs in staff meetings, not screeching through the PA mid-speech.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal>
-        <span class="num">06</span>
+    </div>
+    <div class="symptom-panel" data-panel="5">
+      <div class="symptom-card">
+        <span class="num">06 / 06</span>
         <h3>Always multi-tasking</h3>
-        <p>Running the projector, the mic, the slides and the program at once isn't sustainable, and it shows.</p>
+        <p>Running the projector, the mic, the slides and the program at once isn't sustainable — and it shows.</p>
       </div>
     </div>
 
@@ -3233,6 +3302,26 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       requestAnimationFrame(step);
     });
   });
+
+  /* ── Symptom tab slider ── */
+  (function(){
+    const tabs     = document.querySelectorAll('.symptom-tab');
+    const panels   = document.querySelectorAll('.symptom-panel');
+    const progress = document.getElementById('symptomProgress');
+    const total    = tabs.length;
+    function activate(idx){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
+      tabs[idx].classList.add('active');
+      panels[idx].classList.add('active');
+      if(progress) progress.style.width = ((idx + 1) / total * 100) + '%';
+    }
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        activate(parseInt(tab.getAttribute('data-tab')));
+      });
+    });
+  })();
 
   /* ── Nav sliding pill ── */
   (function(){
