@@ -357,7 +357,7 @@ h2,h3{
 @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
 
 .hero-h1-box{
-  background: #ffffff;
+  background: var(--coral);
   color: var(--ink);
   border: 3px solid var(--ink);
   border-radius: 20px;
@@ -724,7 +724,7 @@ h2,h3{
 .stress-face[data-lvl="1"].active,
 .stress-face[data-lvl="2"].active,
 .stress-face[data-lvl="3"].active,
-.stress-face[data-lvl="4"].active{ background:#ffffff; box-shadow: 0 0 0 2.5px var(--ink); }
+.stress-face[data-lvl="4"].active{ background:var(--forest); box-shadow: 0 0 0 2.5px var(--ink); }
 
 /* Severity bar — always visible, grey until interacted with */
 .severity-bar{
@@ -1996,32 +1996,32 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
 
     <div class="symptom-grid">
-      <div class="symptom-card" data-reveal>
+      <div class="symptom-card" data-reveal style="background:var(--pink);">
         <span class="num">01</span>
         <h3>Endless school events</h3>
         <p>School events, sports carnivals, presentation nights, graduations, the calendar never stops, and someone has to run sound for all of it.</p>
       </div>
-      <div class="symptom-card" data-reveal>
+      <div class="symptom-card" data-reveal style="background:#C8D8F8;">
         <span class="num">02</span>
         <h3>No in-house sound guy</h3>
         <p>You're relying on whoever's free, not whoever's trained. That's a lot of pressure to put on a teacher with a spare period.</p>
       </div>
-      <div class="symptom-card" data-reveal>
+      <div class="symptom-card" data-reveal style="background:var(--forest);">
         <span class="num">03</span>
         <h3>Too many school events</h3>
         <p>Weekly, fortnightly, whole-school, year-group, they add up fast and each one needs someone behind the desk.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal>
+      <div class="symptom-card symptom-card-desktop" data-reveal style="background:var(--sunshine);">
         <span class="num">04</span>
         <h3>No time</h3>
         <p>You've got a school to run. Cables, mic checks and EQ settings shouldn't be eating into your actual job.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal>
+      <div class="symptom-card symptom-card-desktop" data-reveal style="background:var(--coral);">
         <span class="num">05</span>
         <h3>Tired of feedback</h3>
         <p>Literally and figuratively. Feedback belongs in staff meetings, not screeching through the PA mid-speech.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal>
+      <div class="symptom-card symptom-card-desktop" data-reveal style="background:var(--cream);">
         <span class="num">06</span>
         <h3>Always multi-tasking</h3>
         <p>Running the projector, the mic, the slides and the program at once isn't sustainable, and it shows.</p>
@@ -2044,19 +2044,19 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <p>We're a husband-and-wife-owned business that is built on a decade of experience working in schools and churches. So even if we haven't met yet, we already know you need more than a coffee.</p>
 
         <div class="credential-row">
-          <div class="credential" style="background:var(--forest);">
+          <div class="credential" style="background:var(--pink);">
             <span class="big years">10+</span>
             <span class="label">Years in Schools &amp; Churches</span>
           </div>
-          <div class="credential" style="background:var(--pink);">
+          <div class="credential" style="background:#C8D8F8;">
             <span class="big">Zero</span>
             <span class="label">Lock-in Contracts</span>
           </div>
-          <div class="credential" style="background:#C8D8F8;">
+          <div class="credential" style="background:var(--forest);">
             <span class="big">100%</span>
             <span class="label">Hand-Picked Technicians</span>
           </div>
-          <div class="credential" style="background:var(--coral);">
+          <div class="credential" style="background:var(--sunshine);">
             <span class="big">WWCC</span>
             <span class="label">Verified &amp; Cleared</span>
           </div>
