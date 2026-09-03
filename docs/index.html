@@ -803,11 +803,11 @@ h2,h3{
   font-family: var(--body);
   font-weight: 800;
   text-transform: none;
-  font-size: clamp(22px,3vw,30px);
+  font-size: 18px;
   letter-spacing: 0;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
-.symptom-card p{ font-size:16px; color: rgba(22,21,39,0.72); line-height: 1.6; }
+.symptom-card p{ font-size:14.5px; color: rgba(22,21,39,0.68); }
 
 .symptom-divider{
   display:flex;
@@ -948,18 +948,34 @@ h2,h3{
   min-width: 0;
 }
 .mini-review-card{
-  background: var(--cream);
+  background: var(--sunshine);
   border: 2px solid var(--ink);
   border-radius: 20px;
-  padding: 28px 26px 22px;
+  padding: 36px 26px 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   transition: background 0.2s ease, transform 0.2s ease;
+  position: relative;
 }
 .mini-review-card:hover{ transform: translateY(-3px); }
 .mini-review-card.hidden{ display: none; }
-.mini-review-stars{ color: var(--sunshine); font-size: 16px; letter-spacing: 2px; }
+.mini-review-stars{
+  position: absolute;
+  top: 0;
+  left: 20px;
+  transform: translateY(-50%);
+  display: inline-block;
+  background: #ffffff;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 4px 12px;
+  color: var(--sunshine);
+  font-size: 14px;
+  letter-spacing: 2px;
+  box-shadow: 2px 2px 0 var(--ink);
+  white-space: nowrap;
+}
 .mini-review-card p{
   font-family: var(--body);
   font-size: 16px;
