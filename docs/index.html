@@ -67,18 +67,18 @@
 <style>
 /* ============ TOKENS ============ */
 :root{
-  --cream: #FAF6F0;
-  --cream-deep: #F4ECD8;
-  --indigo: #4B6BE8;
-  --indigo-deep: #2D4DBF;
-  --indigo-ink: #1C2E8A;
+  --cream: #F5E8D0;
+  --cream-deep: #EDD8B8;
+  --indigo: #3D7FD5;
+  --indigo-deep: #2B65B8;
+  --indigo-ink: #2828C8;
   --orange: #F4612E;
   --orange-deep: #D8491B;
-  --coral: #E0413B;
-  --forest: #2FAD6A;
+  --coral: #E04040;
+  --forest: #35B06A;
   --forest-deep: #1E9256;
-  --sunshine: #F9C328;
-  --pink: #F08090;
+  --sunshine: #F5C518;
+  --pink: #F5A8BC;
   --ink: #161527;
   --paper: #FFFCF5;
   --line: rgba(22,21,39,0.12);
@@ -171,7 +171,7 @@ h2,h3{
 
 /* ============ TICKER ============ */
 .ticker-wrap{
-  background: #F9C0C8;
+  background: #F5A8BC;
   color: var(--ink);
   overflow: hidden;
   white-space: nowrap;
@@ -426,7 +426,7 @@ h2,h3{
 }
 .hero-check.checked{
   background: var(--forest);
-  color: #fff;
+  color: var(--ink);
   border-color: var(--ink);
 }
 
@@ -444,9 +444,9 @@ h2,h3{
   font-weight: 900;
 }
 .hero-check.checked .check-icon{
-  background: #fff;
-  border-color: #fff;
-  color: var(--forest);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
 }
 
 /* Answer card — nested inside the symptom card */
@@ -532,7 +532,7 @@ h2,h3{
 
 /* Treatment recommendation card */
 .hero-treatment-card{
-  background: #F9C0C8;
+  background: #F5A8BC;
   color: var(--ink);
   border: 3px solid var(--ink);
   border-radius: 22px;
@@ -652,7 +652,7 @@ h2,h3{
 
 /* ── Stress face meter ── */
 .stress-meter{
-  background: var(--indigo);
+  background: var(--sunshine);
   border: 3px solid var(--ink);
   border-radius: 22px;
   padding: 18px 20px 16px;
@@ -666,7 +666,7 @@ h2,h3{
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--ink);
-  background: var(--forest);
+  background: var(--pink);
   border: 2px solid var(--ink);
   border-radius: 100px;
   padding: 6px 16px;
@@ -746,7 +746,7 @@ h2,h3{
   border-radius: 100px;
   width: 0%;
   transition: width 0.5s ease, background-color 0.5s ease;
-  background: #2FAD6A; /* starts green, JS updates to yellow/red as score rises */
+  background: #35B06A; /* starts green, JS updates to yellow/red as score rises */
 }
 
 /* ============ WAVE DIVIDERS ============ */
@@ -771,7 +771,7 @@ h2,h3{
   padding: 6px 18px;
   font-size: 13px;
   letter-spacing: 0.08em;
-  margin-bottom: 18px;
+  margin-bottom: 28px;
   margin-top: -52px;
   position: relative;
   z-index: 2;
@@ -923,7 +923,7 @@ h2,h3{
   gap: 14px;
 }
 .school-logo{
-  background: var(--paper);
+  background: #ffffff;
   border: 2.5px solid var(--ink);
   border-radius: 14px;
   padding: 6px;
@@ -1108,11 +1108,11 @@ section[id], div[id].packages {
   box-shadow: 5px 5px 0 var(--ink);
 }
 .package-card.featured{
-  background: #F9C0C8;
+  background: #F5A8BC;
   transform: translateY(-10px);
 }
 .package-card.pink{
-  background: #C2D0F5;
+  background: #C8D8F8;
   color: var(--ink);
 }
 .package-card.pink .desc{ color: rgba(22,21,39,0.78); }
@@ -2046,7 +2046,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             <span class="big">Zero</span>
             <span class="label">Lock-in Contracts</span>
           </div>
-          <div class="credential" style="background:#C2D0F5;">
+          <div class="credential" style="background:#C8D8F8;">
             <span class="big">100%</span>
             <span class="label">Hand-Picked Technicians</span>
           </div>
@@ -3059,7 +3059,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'Awaiting diagnosis...',
       ansText:    'Tick the boxes that apply to your school.',
       active:     false,
-      severity:   0,   barColor: '#2FAD6A',
+      severity:   0,   barColor: '#35B06A',
       stress:     0,   char1: 'calm',    char2: 'calm',
       treat:      { plan: 'Select your symptoms', link: null, desc: 'Tick the boxes to get your recommended response plan.' },
     },
@@ -3069,7 +3069,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'That sounds stressful',
       ansText:    'Even one AV headache is one too many. Urban Echo steps in so you don\'t have to think about it.',
       active:     true,
-      severity:   25,  barColor: '#47C27E',
+      severity:   25,  barColor: '#4AC87E',
       stress:     1,   char1: 'calm',    char2: 'calm',
       treat:      { plan: 'Per-Event Package', link: '#packages', desc: 'Even one-off events deserve great sound. Book us for individual events with no lock-in.' },
     },
@@ -3099,7 +3099,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'This is a crisis — and it\'s fixable',
       ansText:    'You\'ve hit maximum AV stress. Urban Echo exists to take this completely off your plate. Let\'s talk.',
       active:     true,
-      severity:   100, barColor: '#E0413B',
+      severity:   100, barColor: '#E04040',
       stress:     3,   char1: 'critical', char2: 'worried',
       treat:      { plan: 'Yearly Plan — Priority Support', link: '#packages', desc: 'Maximum coverage, priority scheduling, and a dedicated Urban Echo contact for your school.' },
     },
