@@ -1570,7 +1570,7 @@ body{ padding-bottom: 0; margin-bottom: 0; }
 .reviews-grid .review-card:nth-child(4){ grid-column: 1 / span 3; }
 .reviews-grid .review-card:nth-child(5){ grid-column: 4 / span 3; }
 .review-card{
-  background: var(--paper);
+  background: var(--sunshine);
   border: 2px solid var(--ink);
   border-radius: 20px;
   padding: 28px 26px 24px;
@@ -1580,13 +1580,20 @@ body{ padding-bottom: 0; margin-bottom: 0; }
   transition: background 0.2s ease, transform 0.2s ease;
 }
 .review-card:hover{
-  background: var(--paper);
+  background: var(--sunshine);
   transform: translateY(-3px);
 }
 .review-stars{
+  display: inline-block;
+  background: #ffffff;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 4px 12px;
   color: var(--sunshine);
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 2px;
+  width: fit-content;
+  box-shadow: 2px 2px 0 var(--ink);
 }
 .review-quote{
   font-family: var(--body);
@@ -1987,15 +1994,15 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             <span class="big years">10+</span>
             <span class="label">Years in Schools &amp; Churches</span>
           </div>
-          <div class="credential" style="background:var(--sunshine);">
+          <div class="credential" style="background:#F9C0C8;">
             <span class="big">Zero</span>
             <span class="label">Lock-in Contracts</span>
           </div>
-          <div class="credential" style="background:var(--sunshine);">
+          <div class="credential" style="background:#BDD7FF;">
             <span class="big">100%</span>
             <span class="label">Hand-Picked Technicians</span>
           </div>
-          <div class="credential" style="background:var(--sunshine);">
+          <div class="credential" style="background:#FFCF9C;">
             <span class="big">WWCC</span>
             <span class="label">Verified &amp; Cleared</span>
           </div>
