@@ -324,7 +324,7 @@ h2,h3{
 
 /* ============ HERO ============ */
 .hero{
-  background: var(--orange);
+  background: #ffffff;
   color: var(--ink);
   position: relative;
   overflow: hidden;
@@ -357,7 +357,7 @@ h2,h3{
 @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
 
 .hero-h1-box{
-  background: var(--cream);
+  background: var(--orange);
   color: var(--ink);
   border: 3px solid var(--ink);
   border-radius: 20px;
@@ -999,7 +999,16 @@ h2,h3{
   font-size: 12px;
   color: var(--ink);
 }
+.mini-review-card .mini-review-school-heading{
+  font-family: var(--body);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.2;
+}
 .mini-review-card .mini-review-school{
+  display: none;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--ink);
@@ -1625,6 +1634,14 @@ body{ padding-bottom: 0; margin-bottom: 0; }
   width: fit-content;
   box-shadow: 2px 2px 0 var(--ink);
 }
+.review-school-heading{
+  font-family: var(--body);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.2;
+}
 .review-quote{
   font-family: var(--body);
   font-size: 16px;
@@ -1648,12 +1665,7 @@ body{ padding-bottom: 0; margin-bottom: 0; }
   color: var(--ink);
 }
 .review-school{
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  display: none;
 }
 
 /* ============ SCROLL REVEAL ============ */
@@ -2048,42 +2060,42 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
               <div class="mini-reviews-track" id="miniReviewsTrack">
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
+                  <h3 class="mini-review-school-heading">Riva Primary School</h3>
                   <p>"Mitch is professional, courteous and completely on the ball."</p>
                   <div class="mini-review-author">
                     <span class="mini-review-name">Katherine</span>
-                    <span class="mini-review-school">Riva Primary School</span>
                   </div>
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
+                  <h3 class="mini-review-school-heading">The Kings College</h3>
                   <p>"The show sounded amazing and we didn't have any mic issues."</p>
                   <div class="mini-review-author">
                     <span class="mini-review-name">Corinna</span>
-                    <span class="mini-review-school">The Kings College</span>
                   </div>
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
+                  <h3 class="mini-review-school-heading">Carey Baptist College</h3>
                   <p>"Creativity and expertise in leading all the tech requirements."</p>
                   <div class="mini-review-author">
                     <span class="mini-review-name">Sharlene</span>
-                    <span class="mini-review-school">Carey Baptist College</span>
                   </div>
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
+                  <h3 class="mini-review-school-heading">Methodist Ladies College</h3>
                   <p>"Mitch has an exceptional ear and excellent communication skills."</p>
                   <div class="mini-review-author">
                     <span class="mini-review-name">Doug</span>
-                    <span class="mini-review-school">Methodist Ladies College</span>
                   </div>
                 </div>
                 <div class="mini-review-card">
                   <div class="mini-review-stars">★★★★★</div>
+                  <h3 class="mini-review-school-heading">Lyn Beazley Academy</h3>
                   <p>"Friendly, punctual, and made the whole process super smooth."</p>
                   <div class="mini-review-author">
                     <span class="mini-review-name">Nicholas Da Prato</span>
-                    <span class="mini-review-school">Lyn Beazley Academy</span>
                   </div>
                 </div>
               </div>
@@ -2274,42 +2286,42 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <div class="reviews-carousel" id="reviewsCarousel">
       <div class="review-card" data-reveal>
         <div class="review-stars">★★★★★</div>
+        <h3 class="review-school-heading">Riva Primary School</h3>
         <blockquote class="review-quote">"Thank you for providing an excellent sound job, once again. Mitch is professional, courteous and completely on the ball, and I hope to be able to work with him again in future."</blockquote>
         <div class="review-author">
           <span class="review-name">Katherine</span>
-          <span class="review-school">Riva Primary School</span>
         </div>
       </div>
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
+        <h3 class="review-school-heading">The Kings College</h3>
         <blockquote class="review-quote">"Thank you again!! The show sounded amazing and we didn't have any mic issues which is my pet hate in musicals."</blockquote>
         <div class="review-author">
           <span class="review-name">Corinna</span>
-          <span class="review-school">The Kings College</span>
         </div>
       </div>
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
+        <h3 class="review-school-heading">Carey Baptist College</h3>
         <blockquote class="review-quote">"Thank you to our tech team for your creativity and expertise in leading all the tech requirements for the assemblies."</blockquote>
         <div class="review-author">
           <span class="review-name">Sharlene</span>
-          <span class="review-school">Carey Baptist College</span>
         </div>
       </div>
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
+        <h3 class="review-school-heading">Methodist Ladies College</h3>
         <blockquote class="review-quote">"Mitch has an exceptional ear, and equally as important in our environment, excellent communication, and diplomatic skills. I really appreciated the care he took of my venue when he ran events in my absence."</blockquote>
         <div class="review-author">
           <span class="review-name">Doug</span>
-          <span class="review-school">Methodist Ladies College</span>
         </div>
       </div>
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
+        <h3 class="review-school-heading">Lyn Beazley Academy</h3>
         <blockquote class="review-quote">"Fantastic service from Urban Echo! The team was friendly, punctual, and made the whole process super smooth from start to finish. Highly recommend!"</blockquote>
         <div class="review-author">
           <span class="review-name">Nicholas Da Prato</span>
-          <span class="review-school">Lyn Beazley Academy</span>
         </div>
       </div>
     </div>
