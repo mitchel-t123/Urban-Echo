@@ -745,6 +745,53 @@ h2,h3{
   background: #4AAE74; /* starts green, JS updates to yellow/red as score rises */
 }
 
+/* ============ SECTION PROGRESS BAR ============ */
+.section-progress-bar{
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+  background: #fff;
+  border-bottom: 2px solid var(--ink);
+  box-shadow: 0 2px 0 rgba(22,21,39,0.06);
+}
+.section-progress-inner{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.section-progress-inner::-webkit-scrollbar{ display:none; }
+.spb-tab{
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(22,21,39,0.45);
+  text-decoration: none;
+  padding: 13px 18px;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.spb-tab:hover{ color: var(--ink); }
+.spb-tab.active{ color: var(--ink); border-bottom-color: var(--ink); }
+.spb-track{
+  height: 3px;
+  background: rgba(22,21,39,0.08);
+  position: relative;
+}
+.spb-fill{
+  height: 100%;
+  background: var(--ink);
+  width: 0%;
+  transition: width 0.35s cubic-bezier(.4,0,.2,1);
+}
+
 /* ============ SYMPTOMS / PROBLEM ============ */
 .symptoms{
   background: #ffffff;
@@ -771,61 +818,20 @@ h2,h3{
 .section-head h2{ font-size: clamp(30px, 4.4vw, 48px); }
 .section-head p{ margin-top:18px; font-size:17px; color: rgba(22,21,39,0.72); max-width: 560px; }
 
-/* ---- Symptom tab slider ---- */
-.symptom-tab-bar{
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 0;
-}
-.symptom-tab{
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  background: #fff;
-  border: 2px solid var(--ink);
-  border-radius: 100px;
-  padding: 7px 16px;
-  cursor: pointer;
-  color: var(--ink);
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-  white-space: nowrap;
-}
-.symptom-tab:hover{ background: var(--cream); box-shadow: 2px 2px 0 var(--ink); }
-.symptom-tab.active{ background: var(--ink); color: #fff; box-shadow: 3px 3px 0 rgba(22,21,39,0.25); }
-.symptom-progress-track{
-  width: 100%;
-  height: 6px;
-  background: rgba(22,21,39,0.1);
-  border-radius: 100px;
-  margin: 18px 0 28px;
-  overflow: hidden;
-}
-.symptom-progress-fill{
-  height: 100%;
-  background: var(--ink);
-  border-radius: 100px;
-  transition: width 0.4s cubic-bezier(.4,0,.2,1);
-}
-.symptom-panel{
-  display: none;
-  animation: symptomFadeIn 0.3s ease;
-}
-.symptom-panel.active{ display: block; }
-@keyframes symptomFadeIn{
-  from{ opacity:0; transform: translateY(6px); }
-  to{ opacity:1; transform: translateY(0); }
+.symptom-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 .symptom-card{
   background: var(--paper);
   border: 2px solid var(--ink);
   border-radius: 18px;
-  padding: 32px 30px;
-  box-shadow: 5px 5px 0 var(--ink);
-  max-width: 640px;
+  padding: 26px 24px;
+  position:relative;
+  transition: transform 0.2s ease;
 }
+.symptom-card:hover{ transform: translateY(-4px); }
 .symptom-card .num{
   font-family: var(--mono);
   font-size: 12px;
@@ -1980,6 +1986,19 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </header>
 
 <!-- ============ SYMPTOMS ============ -->
+<!-- ============ SECTION PROGRESS BAR ============ -->
+<div class="section-progress-bar" id="sectionProgressBar">
+  <div class="section-progress-inner">
+    <a class="spb-tab" href="#symptoms" data-spb="symptoms">Symptom Check</a>
+    <a class="spb-tab" href="#about" data-spb="about">The Diagnosis</a>
+    <a class="spb-tab" href="#schools" data-spb="schools">Our Clients</a>
+    <a class="spb-tab" href="#plan" data-spb="plan">Treatment Plan</a>
+    <a class="spb-tab" href="#packages" data-spb="packages">Package Menu</a>
+    <a class="spb-tab" href="#reviews" data-spb="reviews">Client Reviews</a>
+  </div>
+  <div class="spb-track"><div class="spb-fill" id="spbFill"></div></div>
+</div>
+
 <section class="symptoms" id="symptoms">
   <div class="wrap">
     <div class="section-head" data-reveal>
@@ -1988,62 +2007,36 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       <p>If you ticked yes to more than one of these, you're not alone, it's the most common diagnosis we see across Perth schools.</p>
     </div>
 
-    <!-- Tab bar -->
-    <div class="symptom-tab-bar" id="symptomTabBar" data-reveal>
-      <button class="symptom-tab active" data-tab="0">Endless Events</button>
-      <button class="symptom-tab" data-tab="1">No Sound Guy</button>
-      <button class="symptom-tab" data-tab="2">Too Many Events</button>
-      <button class="symptom-tab" data-tab="3">No Time</button>
-      <button class="symptom-tab" data-tab="4">Tired of Feedback</button>
-      <button class="symptom-tab" data-tab="5">Always Multi-tasking</button>
-    </div>
-
-    <!-- Progress bar -->
-    <div class="symptom-progress-track">
-      <div class="symptom-progress-fill" id="symptomProgress" style="width:16.6%"></div>
-    </div>
-
-    <!-- Panels -->
-    <div class="symptom-panel active" data-panel="0">
-      <div class="symptom-card">
-        <span class="num">01 / 06</span>
+    <div class="symptom-grid">
+      <div class="symptom-card" data-reveal>
+        <span class="num">01</span>
         <h3>Endless school events</h3>
-        <p>School events, sports carnivals, presentation nights, graduations — the calendar never stops, and someone has to run sound for all of it.</p>
+        <p>School events, sports carnivals, presentation nights, graduations, the calendar never stops, and someone has to run sound for all of it.</p>
       </div>
-    </div>
-    <div class="symptom-panel" data-panel="1">
-      <div class="symptom-card">
-        <span class="num">02 / 06</span>
+      <div class="symptom-card" data-reveal>
+        <span class="num">02</span>
         <h3>No in-house sound guy</h3>
         <p>You're relying on whoever's free, not whoever's trained. That's a lot of pressure to put on a teacher with a spare period.</p>
       </div>
-    </div>
-    <div class="symptom-panel" data-panel="2">
-      <div class="symptom-card">
-        <span class="num">03 / 06</span>
+      <div class="symptom-card" data-reveal>
+        <span class="num">03</span>
         <h3>Too many school events</h3>
-        <p>Weekly, fortnightly, whole-school, year-group — they add up fast and each one needs someone behind the desk.</p>
+        <p>Weekly, fortnightly, whole-school, year-group, they add up fast and each one needs someone behind the desk.</p>
       </div>
-    </div>
-    <div class="symptom-panel" data-panel="3">
-      <div class="symptom-card">
-        <span class="num">04 / 06</span>
+      <div class="symptom-card symptom-card-desktop" data-reveal>
+        <span class="num">04</span>
         <h3>No time</h3>
         <p>You've got a school to run. Cables, mic checks and EQ settings shouldn't be eating into your actual job.</p>
       </div>
-    </div>
-    <div class="symptom-panel" data-panel="4">
-      <div class="symptom-card">
-        <span class="num">05 / 06</span>
+      <div class="symptom-card symptom-card-desktop" data-reveal>
+        <span class="num">05</span>
         <h3>Tired of feedback</h3>
         <p>Literally and figuratively. Feedback belongs in staff meetings, not screeching through the PA mid-speech.</p>
       </div>
-    </div>
-    <div class="symptom-panel" data-panel="5">
-      <div class="symptom-card">
-        <span class="num">06 / 06</span>
+      <div class="symptom-card symptom-card-desktop" data-reveal>
+        <span class="num">06</span>
         <h3>Always multi-tasking</h3>
-        <p>Running the projector, the mic, the slides and the program at once isn't sustainable — and it shows.</p>
+        <p>Running the projector, the mic, the slides and the program at once isn't sustainable, and it shows.</p>
       </div>
     </div>
 
@@ -3303,24 +3296,35 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     });
   });
 
-  /* ── Symptom tab slider ── */
+  /* ── Section progress bar ── */
   (function(){
-    const tabs     = document.querySelectorAll('.symptom-tab');
-    const panels   = document.querySelectorAll('.symptom-panel');
-    const progress = document.getElementById('symptomProgress');
-    const total    = tabs.length;
-    function activate(idx){
-      tabs.forEach(function(t){ t.classList.remove('active'); });
-      panels.forEach(function(p){ p.classList.remove('active'); });
-      tabs[idx].classList.add('active');
-      panels[idx].classList.add('active');
-      if(progress) progress.style.width = ((idx + 1) / total * 100) + '%';
-    }
-    tabs.forEach(function(tab){
-      tab.addEventListener('click', function(){
-        activate(parseInt(tab.getAttribute('data-tab')));
+    const bar    = document.getElementById('sectionProgressBar');
+    const fill   = document.getElementById('spbFill');
+    const tabs   = document.querySelectorAll('.spb-tab');
+    const ids    = ['symptoms','about','schools','plan','packages','reviews'];
+    const total  = ids.length;
+    if(!bar || !fill || !tabs.length) return;
+
+    function update(){
+      const navH = (document.querySelector('.nav')||{offsetHeight:72}).offsetHeight;
+      const barH = bar.offsetHeight;
+      let active = -1;
+      ids.forEach(function(id, i){
+        const el = document.getElementById(id);
+        if(!el) return;
+        if(el.getBoundingClientRect().top <= navH + barH + 40) active = i;
       });
-    });
+      tabs.forEach(function(t, i){
+        t.classList.toggle('active', i === active);
+      });
+      if(active >= 0){
+        fill.style.width = ((active + 1) / total * 100) + '%';
+      } else {
+        fill.style.width = '0%';
+      }
+    }
+    window.addEventListener('scroll', update, {passive:true});
+    update();
   })();
 
   /* ── Nav sliding pill ── */
