@@ -243,6 +243,11 @@ h2,h3{
   white-space: nowrap;
 }
 .nav-troubleshoot:hover{ background: var(--forest-deep); box-shadow: 4px 4px 0 var(--ink); }
+.nav-bubble{ border: 2px solid var(--ink) !important; border-radius: 100px !important; padding: 5px 14px !important; font-weight: 700 !important; box-shadow: 2px 2px 0 var(--ink); color: var(--ink) !important; transition: box-shadow 0.15s, transform 0.1s !important; }
+.nav-bubble:hover{ box-shadow: 3px 3px 0 var(--ink) !important; transform: translateY(-1px); }
+.nav-bubble-yellow{ background: var(--sunshine) !important; }
+.nav-bubble-pink{ background: #F9C0C8 !important; }
+.nav-bubble-green{ background: var(--forest) !important; color: #fff !important; }
 .nav-troubleshoot:focus, .nav-troubleshoot.clicked{ outline: none; }
 /* Responsive nav hiding */
 @media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
@@ -1784,9 +1789,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <a href="#"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div class="nav-links" id="navLinks">
       <div class="nav-pill" id="navPill"></div>
-      <a href="#packages" data-nav class="nav-hide-sm">Our Packages</a>
-      <a href="#reviews" data-nav class="nav-hide-xs">Reviews</a>
-      <a href="#meet" data-nav class="nav-hide-xs">☕ Free Coffee</a>
+      <a href="#packages" data-nav class="nav-hide-sm nav-bubble nav-bubble-yellow">📦 Packages</a>
+      <a href="#reviews" data-nav class="nav-hide-xs nav-bubble nav-bubble-pink">⭐ Reviews</a>
+      <a href="#meet" data-nav class="nav-hide-xs nav-bubble nav-bubble-green">☕ Free Coffee</a>
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <a href="problems.html" class="nav-troubleshoot" id="navTroubleshoot">Troubleshooting Tool <span style="font-size:10px;font-weight:700;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;vertical-align:middle;">BETA</span></a>
