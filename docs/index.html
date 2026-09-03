@@ -69,8 +69,8 @@
 :root{
   --cream: #FAF6F0;
   --cream-deep: #F4ECD8;
-  --indigo: #3F3FF0;
-  --indigo-deep: #2C2CC4;
+  --indigo: #4A4A8A;
+  --indigo-deep: #35356B;
   --indigo-ink: #1C1B5C;
   --orange: #F4612E;
   --orange-deep: #D8491B;
@@ -620,7 +620,7 @@ h2,h3{
   box-shadow: 7px 7px 0 var(--ink);
 }
 .stress-meter-label{
-  display: inline-block;
+  display: block;
   font-family: var(--mono);
   font-size:11px;
   font-weight: 700;
@@ -633,6 +633,7 @@ h2,h3{
   padding: 6px 16px;
   margin-bottom: 10px;
   box-shadow: 3px 3px 0 var(--ink);
+  width: fit-content;
 }
 .stress-track{
   display: flex;
@@ -1896,8 +1897,8 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
       <div class="hero-figure">
         <!-- Stress face meter (interactive) -->
+        <span class="stress-meter-label">Rate your sound &amp; AV stress to get a diagnosis</span>
         <div class="stress-meter">
-          <span class="stress-meter-label">Rate your sound &amp; AV stress to get a diagnosis</span>
           <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" tabindex="0">
             <div class="stress-face active" data-lvl="0">😌</div>
             <div class="stress-face" data-lvl="1">🙁</div>
