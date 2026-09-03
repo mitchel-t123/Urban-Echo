@@ -1691,6 +1691,73 @@ body{ overflow-x: hidden; }
   .fab-menu{ display:flex; opacity:0; pointer-events:none; }
   .fab-menu.visible{ opacity:1; pointer-events:auto; }
 }
+
+/* ============ JOURNEY RAIL ============ */
+.journey-rail{
+  display: none;
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 80;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+@media(min-width:1280px){
+  .journey-rail{ display:flex; }
+}
+.journey-line{
+  width: 2px;
+  flex: 1;
+  min-height: 20px;
+  background: var(--ink);
+  opacity: 0.15;
+  transition: opacity 0.3s;
+}
+.journey-node{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.journey-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.journey-node.active .journey-dot{
+  background: var(--ink);
+  transform: scale(1.35);
+}
+.journey-label{
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  opacity: 0;
+  white-space: nowrap;
+  transform: translateX(-4px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  background: var(--paper);
+  padding: 3px 8px;
+  border-radius: 100px;
+  border: 1.5px solid var(--ink);
+}
+.journey-node.active .journey-label,
+.journey-node:hover .journey-label{
+  opacity: 1;
+  transform: translateX(0);
+}
 </style>
 <script>
 function initMeetPlaces(){
@@ -3284,6 +3351,62 @@ if(navTT){
   navTT.addEventListener('mousedown', function(){ this.classList.add('clicked'); });
   navTT.addEventListener('blur', function(){ this.classList.remove('clicked'); });
 }
+</script>
+
+<!-- Journey rail (desktop) -->
+<nav class="journey-rail" id="journeyRail" aria-label="Page sections"></nav>
+
+<script>
+(function(){
+  var stops = [
+    { id: 'symptoms',  label: 'Symptom Check' },
+    { id: 'about',     label: 'The Diagnosis' },
+    { id: 'plan',      label: 'Treatment Plan' },
+    { id: 'packages',  label: 'Our Packages'  },
+    { id: 'schools',   label: 'Our Schools'   },
+    { id: 'reviews',   label: 'Reviews'       },
+    { id: 'meet',      label: "Let's Catch Up" },
+    { id: 'contact',   label: 'Get In Touch'  },
+  ];
+
+  var rail = document.getElementById('journeyRail');
+  if(!rail) return;
+
+  // Build rail HTML
+  stops.forEach(function(s, i){
+    if(i > 0){
+      var line = document.createElement('div');
+      line.className = 'journey-line';
+      rail.appendChild(line);
+    }
+    var node = document.createElement('div');
+    node.className = 'journey-node';
+    node.dataset.idx = i;
+    node.innerHTML = '<div class="journey-dot"></div><span class="journey-label">' + s.label + '</span>';
+    node.addEventListener('click', function(){
+      var el = document.getElementById(stops[i].id);
+      if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    rail.appendChild(node);
+  });
+
+  var nodes = rail.querySelectorAll('.journey-node');
+
+  function update(){
+    var mid = window.scrollY + window.innerHeight * 0.4;
+    var active = -1;
+    stops.forEach(function(s, i){
+      var el = document.getElementById(s.id);
+      if(el && el.offsetTop <= mid) active = i;
+    });
+    nodes.forEach(function(n, i){
+      n.classList.toggle('active', i === active);
+    });
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
 </script>
 
 </body>
