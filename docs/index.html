@@ -69,15 +69,16 @@
 :root{
   --cream: #FAF6F0;
   --cream-deep: #F4ECD8;
-  --indigo: #2D50BA;
-  --indigo-deep: #0A3D8F;
-  --indigo-ink: #1C1B5C;
+  --indigo: #4B6BE8;
+  --indigo-deep: #2D4DBF;
+  --indigo-ink: #1C2E8A;
   --orange: #F4612E;
   --orange-deep: #D8491B;
   --coral: #E0413B;
-  --forest: #4AAE74;
-  --forest-deep: #379260;
+  --forest: #2FAD6A;
+  --forest-deep: #1E9256;
   --sunshine: #F9C328;
+  --pink: #F08090;
   --ink: #161527;
   --paper: #FFFCF5;
   --line: rgba(22,21,39,0.12);
@@ -742,7 +743,7 @@ h2,h3{
   border-radius: 100px;
   width: 0%;
   transition: width 0.5s ease, background-color 0.5s ease;
-  background: #4AAE74; /* starts green, JS updates to yellow/red as score rises */
+  background: #2FAD6A; /* starts green, JS updates to yellow/red as score rises */
 }
 
 /* ============ WAVE DIVIDERS ============ */
@@ -3041,7 +3042,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'Awaiting diagnosis...',
       ansText:    'Tick the boxes that apply to your school.',
       active:     false,
-      severity:   0,   barColor: '#4AAE74',
+      severity:   0,   barColor: '#2FAD6A',
       stress:     0,   char1: 'calm',    char2: 'calm',
       treat:      { plan: 'Select your symptoms', link: null, desc: 'Tick the boxes to get your recommended response plan.' },
     },
@@ -3051,7 +3052,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       ansLabel:   'That sounds stressful',
       ansText:    'Even one AV headache is one too many. Urban Echo steps in so you don\'t have to think about it.',
       active:     true,
-      severity:   25,  barColor: '#60B88A',
+      severity:   25,  barColor: '#47C27E',
       stress:     1,   char1: 'calm',    char2: 'calm',
       treat:      { plan: 'Per-Event Package', link: '#packages', desc: 'Even one-off events deserve great sound. Book us for individual events with no lock-in.' },
     },
