@@ -665,8 +665,8 @@ h2,h3{
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--ink);
-  background: var(--pink);
+  color: #fff;
+  background: var(--indigo);
   border: 2px solid var(--ink);
   border-radius: 100px;
   padding: 6px 16px;
@@ -1206,15 +1206,16 @@ section[id], div[id].packages {
   flex-direction: column;
 }
 .emergency-heading{
-  font-family: var(--body);
-  font-size: 22px;
-  font-weight: 800;
+  font-family: var(--display);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 900;
   color: var(--ink);
   -webkit-text-stroke: 0;
   -webkit-text-fill-color: var(--ink);
   text-transform: none;
-  letter-spacing: 0;
+  letter-spacing: -0.01em;
   margin-bottom: 8px;
+  line-height: 1.1;
 }
 .emergency-tag{
   font-family: var(--mono);
@@ -1829,7 +1830,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <a href="problems.html" class="nav-troubleshoot" id="navTroubleshoot">Troubleshooting Tool <span style="font-size:10px;font-weight:800;font-family:inherit;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;vertical-align:middle;">BETA</span></a>
-      <a href="#contact" class="btn btn-blue">Contact Us</a>
+      <a href="#contact" class="btn btn-blue" style="font-weight:800;">Contact Us</a>
       <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><img src="avatar.png" alt="Team login" style="width:38px;height:38px;display:block;"></a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -2225,7 +2226,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <div class="extra-cards-row" data-reveal>
       <div class="emergency-note">
         <span class="emergency-tag">🚨 Emergency</span>
-        <h3 class="emergency-heading">Last Minute Emergency Sound/AV Support</h3>
+        <h3 class="emergency-heading">Last minute emergency sound/AV support</h3>
         <p class="emergency-body">Has your AV person called in sick last minute? An event <em>'that teacher'</em> forgot to tell you about? Double booked yourself? We offer emergency last-minute AV support that has saved schools around Perth. Add this number to your phone, we pick up.</p>
         <a href="urban-echo-emergency.vcf" class="btn btn-cream emergency-save-btn" download>📱 Save Our Number</a>
       </div>
@@ -2503,7 +2504,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <span class="ic">✉️</span>
           <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
         </div>
-        <a href="urban-echo-emergency.vcf" class="btn btn-blue" style="margin-bottom:12px;" download>📱 Save Our Number</a>
+        <a href="urban-echo-emergency.vcf" class="btn btn-blue" style="margin-bottom:12px;background:#fff;color:var(--ink);" download>📱 Save Our Number</a>
         <a href="#meet" class="btn btn-coffee" style="margin-bottom:18px;">☕ Get a Coffee With Us</a>
         <div class="contact-detail contact-social">
           <a href="https://www.facebook.com/urbanecho.perth" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
