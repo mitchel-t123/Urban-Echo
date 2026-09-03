@@ -1086,17 +1086,18 @@ section[id], div[id].packages {
 }
 .package-card{
   border: 2.5px solid var(--ink);
+  border-bottom: 12px solid var(--ink);
   border-radius: 22px;
   padding: 32px 26px 30px;
   background: var(--sunshine);
   display:flex;
   flex-direction:column;
   position: relative;
+  box-shadow: 5px 5px 0 var(--ink);
 }
 .package-card.featured{
   background: #F9C0C8;
   transform: translateY(-10px);
-  box-shadow: 8px 8px 0 var(--ink);
 }
 .package-card.pink{
   background: #C2D0F5;
@@ -1655,10 +1656,13 @@ body{ padding-bottom: 0; margin-bottom: 0; }
 /* ============ SCROLL REVEAL ============ */
 .js-reveal{
   opacity:0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(28px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
 }
 .js-reveal.in{ opacity:1; transform:translateY(0); }
+.js-reveal:nth-child(2){ transition-delay:0.08s; }
+.js-reveal:nth-child(3){ transition-delay:0.16s; }
+.js-reveal:nth-child(4){ transition-delay:0.24s; }
 
 @media (prefers-reduced-motion: reduce){
   .js-reveal{ opacity:1; transform:none; transition:none; }
@@ -2003,7 +2007,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,48 240,0 360,24 C480,48 600,0 720,24 C840,48 960,0 1080,24 C1200,48 1320,0 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1380,10 1440,40" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 
 <!-- ============ DIAGNOSIS / GUIDE ============ -->
 <section class="diagnosis" id="about">
@@ -2092,7 +2096,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,0 240,48 360,24 C480,0 600,48 720,24 C840,0 960,48 1080,24 C1200,0 1320,48 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C180,0 360,80 540,40 C720,0 900,80 1080,40 C1260,0 1380,70 1440,40" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ OUR CLIENTS ============ -->
 <section class="diagnosis" id="schools-panel" style="padding:96px 0;">
   <div class="wrap">
@@ -2115,7 +2119,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,48 240,0 360,24 C480,48 600,0 720,24 C840,48 960,0 1080,24 C1200,48 1320,0 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1380,10 1440,40" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ PLAN ============ -->
 <section class="plan" id="plan">
   <div class="wrap">
@@ -2148,7 +2152,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,0 240,48 360,24 C480,0 600,48 720,24 C840,0 960,48 1080,24 C1200,0 1320,48 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C180,0 360,80 540,40 C720,0 900,80 1080,40 C1260,0 1380,70 1440,40" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ PACKAGES ============ -->
 <section class="packages" id="packages">
   <div class="wrap">
@@ -2159,7 +2163,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
 
     <div class="package-grid">
-      <div class="package-card" data-reveal>
+      <div class="package-card" data-reveal data-delay="0">
         <span class="package-tag">One-Off Event</span>
         <h3>First Response</h3>
         <div class="desc">Covers a sound technician for any event up to 3 hours, plus it also includes a 30 min setup and 30 min pack-down before and after your event. Need extra time or technicians to cover slides, lighting, backstage hands, venue setup, chair setup/packdown? We have you covered. Contact us and we will send you a quote.</div>
@@ -2174,7 +2178,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <a href="#contact" class="btn btn-cream" data-package="Single Event">Get a Quote</a>
       </div>
 
-      <div class="package-card featured" data-reveal>
+      <div class="package-card featured" data-reveal data-delay="100">
         <span class="package-tag">Most Popular</span>
         <h3>Events Package</h3>
         <div class="desc">Covers a sound technician for any event up to 3 hours, plus it also includes a 30 min setup and 30 min pack-down before and after your event. Need extra time or technicians to cover slides, lighting, backstage hands, venue setup, chair setup/packdown? We have you covered. Contact us and we will send you a quote.</div>
@@ -2189,7 +2193,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <a href="#contact" class="btn btn-cream" data-package="Events Package">Get a Quote</a>
       </div>
 
-      <div class="package-card pink" data-reveal>
+      <div class="package-card pink" data-reveal data-delay="200">
         <span class="package-tag">Whole Year</span>
         <h3>Fully Hands-Free</h3>
         <div class="desc">Lock us in as your AV tech team for the whole year, school events, carnivals, presentation nights, graduations.</div>
@@ -2256,7 +2260,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,48 240,0 360,24 C480,48 600,0 720,24 C840,48 960,0 1080,24 C1200,48 1320,0 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1380,10 1440,40" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ REVIEWS ============ -->
 <section class="reviews" id="reviews">
   <div class="wrap">
@@ -2312,7 +2316,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,0 240,48 360,24 C480,0 600,48 720,24 C840,0 960,48 1080,24 C1200,0 1320,48 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C180,0 360,80 540,40 C720,0 900,80 1080,40 C1260,0 1380,70 1440,40" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ MEET ============ -->
 <section class="meet-section" id="meet">
   <div class="wrap">
@@ -2601,7 +2605,11 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 // Scroll reveal
 if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window){
   const revealEls = document.querySelectorAll('[data-reveal]');
-  revealEls.forEach(el => el.classList.add('js-reveal'));
+  revealEls.forEach(el => {
+    el.classList.add('js-reveal');
+    const d = el.getAttribute('data-delay');
+    if(d) el.style.transitionDelay = d + 'ms';
+  });
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
@@ -2609,7 +2617,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersecti
         io.unobserve(entry.target);
       }
     });
-  },{ threshold: 0.12 });
+  },{ threshold: 0.08 });
   revealEls.forEach(el=>io.observe(el));
 }
 
