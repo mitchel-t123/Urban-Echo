@@ -620,15 +620,19 @@ h2,h3{
   box-shadow: 7px 7px 0 var(--ink);
 }
 .stress-meter-label{
-  display: block;
+  display: inline-block;
   font-family: var(--mono);
-  font-size:12px;
+  font-size:11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  opacity: 1;
   color: var(--ink);
-  margin-bottom: 12px;
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  padding: 6px 16px;
+  margin-bottom: 10px;
+  box-shadow: 3px 3px 0 var(--ink);
 }
 .stress-track{
   display: flex;
@@ -1793,18 +1797,6 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       </div>
       <div class="hero-body">
         <div class="hero-checklist" id="heroChecklist">
-          <div class="hero-check hero-check-desktop" data-symptom="0">
-            <span class="check-icon"></span>
-            No Time?
-          </div>
-          <div class="hero-check hero-check-desktop" data-symptom="1">
-            <span class="check-icon"></span>
-            Tired of Feedback?
-          </div>
-          <div class="hero-check" data-symptom="2">
-            <span class="check-icon"></span>
-            Always Multi-tasking?
-          </div>
           <div class="hero-check" data-symptom="3">
             <span class="check-icon"></span>
             Endless School Events?
@@ -1812,6 +1804,18 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <div class="hero-check" data-symptom="4">
             <span class="check-icon"></span>
             No in-house Sound Guy?
+          </div>
+          <div class="hero-check" data-symptom="2">
+            <span class="check-icon"></span>
+            Always Multi-tasking?
+          </div>
+          <div class="hero-check hero-check-desktop" data-symptom="0">
+            <span class="check-icon"></span>
+            No Time?
+          </div>
+          <div class="hero-check hero-check-desktop" data-symptom="1">
+            <span class="check-icon"></span>
+            Tired of Feedback?
           </div>
         </div>
         <div class="hero-ctas hero-ctas-desktop">
