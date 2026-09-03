@@ -745,51 +745,56 @@ h2,h3{
   background: #4AAE74; /* starts green, JS updates to yellow/red as score rises */
 }
 
-/* ============ SECTION PROGRESS BAR ============ */
-.section-progress-bar{
+/* ============ SECTION TAB SWITCHER ============ */
+.section-tab-wrap{
+  background: #ffffff;
+  padding: 28px 32px 0;
   position: sticky;
   top: 72px;
   z-index: 90;
-  background: #fff;
-  border-bottom: 2px solid var(--ink);
-  box-shadow: 0 2px 0 rgba(22,21,39,0.06);
+  border-bottom: 2px solid rgba(22,21,39,0.1);
 }
-.section-progress-inner{
+.section-tab-bar{
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0 32px;
   display: flex;
-  gap: 0;
+  gap: 10px;
+  flex-wrap: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
+  padding-bottom: 18px;
 }
-.section-progress-inner::-webkit-scrollbar{ display:none; }
+.section-tab-bar::-webkit-scrollbar{ display:none; }
 .spb-tab{
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: rgba(22,21,39,0.45);
-  text-decoration: none;
-  padding: 13px 18px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: #fff;
+  border: 2.5px solid var(--ink);
+  border-radius: 100px;
+  padding: 9px 20px;
   white-space: nowrap;
-  border-bottom: 3px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+  cursor: pointer;
   flex-shrink: 0;
+  transition: background 0.15s, box-shadow 0.12s, transform 0.1s;
+  box-shadow: 3px 3px 0 var(--ink);
+  text-decoration: none;
+  display: inline-block;
 }
-.spb-tab:hover{ color: var(--ink); }
-.spb-tab.active{ color: var(--ink); border-bottom-color: var(--ink); }
-.spb-track{
-  height: 3px;
-  background: rgba(22,21,39,0.08);
-  position: relative;
+.spb-tab:hover{ transform: translateY(-1px); box-shadow: 4px 4px 0 var(--ink); }
+.spb-tab.active{
+  background: var(--sunshine);
+  box-shadow: 3px 3px 0 var(--ink);
 }
-.spb-fill{
-  height: 100%;
-  background: var(--ink);
-  width: 0%;
-  transition: width 0.35s cubic-bezier(.4,0,.2,1);
+/* Section panels — hide all, show active */
+.spanel{ display: none; }
+.spanel.active{ display: block; animation: spFadeIn 0.3s ease; }
+@keyframes spFadeIn{
+  from{ opacity:0; transform:translateY(8px); }
+  to{ opacity:1; transform:translateY(0); }
 }
 
 /* ============ SYMPTOMS / PROBLEM ============ */
@@ -1986,20 +1991,19 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </header>
 
 <!-- ============ SYMPTOMS ============ -->
-<!-- ============ SECTION PROGRESS BAR ============ -->
-<div class="section-progress-bar" id="sectionProgressBar">
-  <div class="section-progress-inner">
-    <a class="spb-tab" href="#symptoms" data-spb="symptoms">Symptom Check</a>
-    <a class="spb-tab" href="#about" data-spb="about">The Diagnosis</a>
-    <a class="spb-tab" href="#schools" data-spb="schools">Our Clients</a>
-    <a class="spb-tab" href="#plan" data-spb="plan">Treatment Plan</a>
-    <a class="spb-tab" href="#packages" data-spb="packages">Package Menu</a>
-    <a class="spb-tab" href="#reviews" data-spb="reviews">Client Reviews</a>
+<!-- ============ SECTION TAB SWITCHER ============ -->
+<div class="section-tab-wrap">
+  <div class="section-tab-bar" id="sectionTabBar">
+    <button class="spb-tab active" data-panel="symptoms">Symptom Check</button>
+    <button class="spb-tab" data-panel="about">The Diagnosis</button>
+    <button class="spb-tab" data-panel="schools-panel">Our Clients</button>
+    <button class="spb-tab" data-panel="plan">Treatment Plan</button>
+    <button class="spb-tab" data-panel="packages">Package Menu</button>
+    <button class="spb-tab" data-panel="reviews">Client Reviews</button>
   </div>
-  <div class="spb-track"><div class="spb-fill" id="spbFill"></div></div>
 </div>
 
-<section class="symptoms" id="symptoms">
+<section class="symptoms spanel active" id="symptoms">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Symptom Check</span>
@@ -2044,7 +2048,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </section>
 
 <!-- ============ DIAGNOSIS / GUIDE ============ -->
-<section class="diagnosis" id="about">
+<section class="diagnosis spanel" id="about">
   <div class="wrap">
     <div class="diagnosis-grid">
       <div class="diagnosis-copy" data-reveal>
@@ -2124,29 +2128,36 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             </div>
           </div>
 
-          <!-- School logos -->
-          <span class="eyebrow" id="schools" style="display:inline-block;background:var(--cream);color:var(--ink);border:2px solid var(--ink);border-radius:100px;padding:6px 18px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:18px;margin-top:56px;">Trusted by schools across Perth</span>
-          <h2 style="font-size:clamp(28px,4vw,42px);margin-bottom:22px;color:var(--ink);">Our Clients</h2>
-          <div class="school-logos">
-            <div class="school-logo"><img src="logo-wesley.png" alt="Wesley College"></div>
-            <div class="school-logo"><img src="logo-mlc.jpg" alt="Methodist Ladies College"></div>
-            <div class="school-logo"><img src="logo-carey.png" alt="Carey Baptist College"></div>
-            <div class="school-logo"><img src="logo-hampton.jpg" alt="Hampton Senior High School"></div>
-            <div class="school-logo"><img src="logo-hale.jpg" alt="Hale School"></div>
-            <div class="school-logo"><img src="IMG_5574.png" alt="Quinns Baptist College"></div>
-            <div class="school-logo"><img src="IMG_5578.jpeg" alt="The King's College"></div>
-            <div class="school-logo"><img src="IMG_5571.jpeg" alt="Fremantle Christian College"></div>
-            <div class="school-logo"><img src="IMG_5572.jpeg" alt="John Forrest Secondary College"></div>
-            <div class="school-logo"><img src="IMG_5573.jpeg" alt="Lyn Beazley Academy"></div>
-          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ============ OUR CLIENTS ============ -->
+<section class="diagnosis spanel" id="schools-panel" style="padding:96px 0;">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow" id="schools">Trusted by schools across Perth</span>
+      <h2>Our Clients</h2>
+    </div>
+    <div class="school-logos">
+      <div class="school-logo"><img src="logo-wesley.png" alt="Wesley College"></div>
+      <div class="school-logo"><img src="logo-mlc.jpg" alt="Methodist Ladies College"></div>
+      <div class="school-logo"><img src="logo-carey.png" alt="Carey Baptist College"></div>
+      <div class="school-logo"><img src="logo-hampton.jpg" alt="Hampton Senior High School"></div>
+      <div class="school-logo"><img src="logo-hale.jpg" alt="Hale School"></div>
+      <div class="school-logo"><img src="IMG_5574.png" alt="Quinns Baptist College"></div>
+      <div class="school-logo"><img src="IMG_5578.jpeg" alt="The King's College"></div>
+      <div class="school-logo"><img src="IMG_5571.jpeg" alt="Fremantle Christian College"></div>
+      <div class="school-logo"><img src="IMG_5572.jpeg" alt="John Forrest Secondary College"></div>
+      <div class="school-logo"><img src="IMG_5573.jpeg" alt="Lyn Beazley Academy"></div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ PLAN ============ -->
-<section class="plan" id="plan">
+<section class="plan spanel" id="plan">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">The Treatment Plan</span>
@@ -2178,7 +2189,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </section>
 
 <!-- ============ PACKAGES ============ -->
-<section class="packages" id="packages">
+<section class="packages spanel" id="packages">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Package Menu</span>
@@ -2285,7 +2296,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </section>
 
 <!-- ============ REVIEWS ============ -->
-<section class="reviews" id="reviews">
+<section class="reviews spanel" id="reviews">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Client Reviews</span>
@@ -3296,35 +3307,40 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     });
   });
 
-  /* ── Section progress bar ── */
+  /* ── Section tab switcher ── */
   (function(){
-    const bar    = document.getElementById('sectionProgressBar');
-    const fill   = document.getElementById('spbFill');
-    const tabs   = document.querySelectorAll('.spb-tab');
-    const ids    = ['symptoms','about','schools','plan','packages','reviews'];
-    const total  = ids.length;
-    if(!bar || !fill || !tabs.length) return;
+    const tabs   = document.querySelectorAll('#sectionTabBar .spb-tab');
+    const panels = document.querySelectorAll('.spanel');
+    if(!tabs.length || !panels.length) return;
 
-    function update(){
-      const navH = (document.querySelector('.nav')||{offsetHeight:72}).offsetHeight;
-      const barH = bar.offsetHeight;
-      let active = -1;
-      ids.forEach(function(id, i){
-        const el = document.getElementById(id);
-        if(!el) return;
-        if(el.getBoundingClientRect().top <= navH + barH + 40) active = i;
-      });
-      tabs.forEach(function(t, i){
-        t.classList.toggle('active', i === active);
-      });
-      if(active >= 0){
-        fill.style.width = ((active + 1) / total * 100) + '%';
-      } else {
-        fill.style.width = '0%';
+    function activate(panelId){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
+      document.querySelector('[data-panel="'+panelId+'"]').classList.add('active');
+      var target = document.getElementById(panelId);
+      if(target) target.classList.add('active');
+      // Scroll to top of tab bar
+      var bar = document.querySelector('.section-tab-wrap');
+      if(bar){
+        var y = bar.getBoundingClientRect().top + window.scrollY - (document.querySelector('.nav')||{offsetHeight:72}).offsetHeight;
+        window.scrollTo({top: y, behavior: 'smooth'});
       }
     }
-    window.addEventListener('scroll', update, {passive:true});
-    update();
+
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        activate(tab.getAttribute('data-panel'));
+      });
+    });
+
+    // Wire "Read More Reviews" to switch to reviews tab
+    var miniNext = document.getElementById('miniNext');
+    if(miniNext){
+      miniNext.addEventListener('click', function(e){
+        e.preventDefault();
+        activate('reviews');
+      });
+    }
   })();
 
   /* ── Nav sliding pill ── */
