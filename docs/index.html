@@ -955,15 +955,20 @@ h2,h3{
   background: var(--sunshine);
   border: 2px solid var(--ink);
   border-radius: 20px;
-  padding: 28px 26px 22px;
+  padding: 36px 26px 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   transition: background 0.2s ease, transform 0.2s ease;
+  position: relative;
 }
 .mini-review-card:hover{ transform: translateY(-3px); }
 .mini-review-card.hidden{ display: none; }
 .mini-review-stars{
+  position: absolute;
+  top: 0;
+  left: 20px;
+  transform: translateY(-50%);
   display: inline-block;
   background: #ffffff;
   border: 2px solid var(--ink);
@@ -974,7 +979,6 @@ h2,h3{
   letter-spacing: 2px;
   box-shadow: 2px 2px 0 var(--ink);
   white-space: nowrap;
-  width: fit-content;
 }
 .mini-review-card p{
   font-family: var(--body);
@@ -1607,17 +1611,22 @@ body{ padding-bottom: 0; margin-bottom: 0; }
   background: var(--sunshine);
   border: 2px solid var(--ink);
   border-radius: 20px;
-  padding: 28px 26px 24px;
+  padding: 36px 26px 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   transition: background 0.2s ease, transform 0.2s ease;
+  position: relative;
 }
 .review-card:hover{
   background: var(--sunshine);
   transform: translateY(-3px);
 }
 .review-stars{
+  position: absolute;
+  top: 0;
+  left: 20px;
+  transform: translateY(-50%);
   display: inline-block;
   background: #ffffff;
   border: 2px solid var(--ink);
@@ -1626,8 +1635,8 @@ body{ padding-bottom: 0; margin-bottom: 0; }
   color: var(--sunshine);
   font-size: 14px;
   letter-spacing: 2px;
-  width: fit-content;
   box-shadow: 2px 2px 0 var(--ink);
+  white-space: nowrap;
 }
 .review-school-heading{
   font-family: var(--body);
