@@ -745,57 +745,9 @@ h2,h3{
   background: #4AAE74; /* starts green, JS updates to yellow/red as score rises */
 }
 
-/* ============ SECTION TAB SWITCHER ============ */
-.section-tab-wrap{
-  background: #ffffff;
-  padding: 28px 32px 0;
-  position: sticky;
-  top: 72px;
-  z-index: 90;
-  border-bottom: 2px solid rgba(22,21,39,0.1);
-}
-.section-tab-bar{
-  max-width: 1180px;
-  margin: 0 auto;
-  display: flex;
-  gap: 10px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 18px;
-}
-.section-tab-bar::-webkit-scrollbar{ display:none; }
-.spb-tab{
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink);
-  background: #fff;
-  border: 2.5px solid var(--ink);
-  border-radius: 100px;
-  padding: 9px 20px;
-  white-space: nowrap;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.15s, box-shadow 0.12s, transform 0.1s;
-  box-shadow: 3px 3px 0 var(--ink);
-  text-decoration: none;
-  display: inline-block;
-}
-.spb-tab:hover{ transform: translateY(-1px); box-shadow: 4px 4px 0 var(--ink); }
-.spb-tab.active{
-  background: var(--sunshine);
-  box-shadow: 3px 3px 0 var(--ink);
-}
-/* Section panels — hide all, show active */
-.spanel{ display: none; }
-.spanel.active{ display: block; animation: spFadeIn 0.3s ease; }
-@keyframes spFadeIn{
-  from{ opacity:0; transform:translateY(8px); }
-  to{ opacity:1; transform:translateY(0); }
-}
+/* ============ WAVE DIVIDERS ============ */
+.wave-divider{ display:block; width:100%; overflow:hidden; line-height:0; }
+.wave-divider svg{ display:block; width:100%; }
 
 /* ============ SYMPTOMS / PROBLEM ============ */
 .symptoms{
@@ -1991,19 +1943,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </header>
 
 <!-- ============ SYMPTOMS ============ -->
-<!-- ============ SECTION TAB SWITCHER ============ -->
-<div class="section-tab-wrap">
-  <div class="section-tab-bar" id="sectionTabBar">
-    <button class="spb-tab active" data-panel="symptoms">Symptom Check</button>
-    <button class="spb-tab" data-panel="about">The Diagnosis</button>
-    <button class="spb-tab" data-panel="schools-panel">Our Clients</button>
-    <button class="spb-tab" data-panel="plan">Treatment Plan</button>
-    <button class="spb-tab" data-panel="packages">Package Menu</button>
-    <button class="spb-tab" data-panel="reviews">Client Reviews</button>
-  </div>
-</div>
-
-<section class="symptoms spanel active" id="symptoms">
+<section class="symptoms" id="symptoms">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Symptom Check</span>
@@ -2047,8 +1987,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,48 240,0 360,24 C480,48 600,0 720,24 C840,48 960,0 1080,24 C1200,48 1320,0 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
+
 <!-- ============ DIAGNOSIS / GUIDE ============ -->
-<section class="diagnosis spanel" id="about">
+<section class="diagnosis" id="about">
   <div class="wrap">
     <div class="diagnosis-grid">
       <div class="diagnosis-copy" data-reveal>
@@ -2134,8 +2076,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,0 240,48 360,24 C480,0 600,48 720,24 C840,0 960,48 1080,24 C1200,0 1320,48 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ OUR CLIENTS ============ -->
-<section class="diagnosis spanel" id="schools-panel" style="padding:96px 0;">
+<section class="diagnosis" id="schools-panel" style="padding:96px 0;">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow" id="schools">Trusted by schools across Perth</span>
@@ -2156,8 +2099,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,48 240,0 360,24 C480,48 600,0 720,24 C840,48 960,0 1080,24 C1200,48 1320,0 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ PLAN ============ -->
-<section class="plan spanel" id="plan">
+<section class="plan" id="plan">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">The Treatment Plan</span>
@@ -2188,8 +2132,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,0 240,48 360,24 C480,0 600,48 720,24 C840,0 960,48 1080,24 C1200,0 1320,48 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ PACKAGES ============ -->
-<section class="packages spanel" id="packages">
+<section class="packages" id="packages">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Package Menu</span>
@@ -2295,8 +2240,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,48 240,0 360,24 C480,48 600,0 720,24 C840,48 960,0 1080,24 C1200,48 1320,0 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ REVIEWS ============ -->
-<section class="reviews spanel" id="reviews">
+<section class="reviews" id="reviews">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">Client Reviews</span>
@@ -2350,6 +2296,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C120,0 240,48 360,24 C480,0 600,48 720,24 C840,0 960,48 1080,24 C1200,0 1320,48 1440,24" fill="none" stroke="rgba(22,21,39,0.15)" stroke-width="2"/></svg></div>
 <!-- ============ MEET ============ -->
 <section class="meet-section" id="meet">
   <div class="wrap">
@@ -3307,41 +3254,6 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     });
   });
 
-  /* ── Section tab switcher ── */
-  (function(){
-    const tabs   = document.querySelectorAll('#sectionTabBar .spb-tab');
-    const panels = document.querySelectorAll('.spanel');
-    if(!tabs.length || !panels.length) return;
-
-    function activate(panelId){
-      tabs.forEach(function(t){ t.classList.remove('active'); });
-      panels.forEach(function(p){ p.classList.remove('active'); });
-      document.querySelector('[data-panel="'+panelId+'"]').classList.add('active');
-      var target = document.getElementById(panelId);
-      if(target) target.classList.add('active');
-      // Scroll to top of tab bar
-      var bar = document.querySelector('.section-tab-wrap');
-      if(bar){
-        var y = bar.getBoundingClientRect().top + window.scrollY - (document.querySelector('.nav')||{offsetHeight:72}).offsetHeight;
-        window.scrollTo({top: y, behavior: 'smooth'});
-      }
-    }
-
-    tabs.forEach(function(tab){
-      tab.addEventListener('click', function(){
-        activate(tab.getAttribute('data-panel'));
-      });
-    });
-
-    // Wire "Read More Reviews" to switch to reviews tab
-    var miniNext = document.getElementById('miniNext');
-    if(miniNext){
-      miniNext.addEventListener('click', function(e){
-        e.preventDefault();
-        activate('reviews');
-      });
-    }
-  })();
 
   /* ── Nav sliding pill ── */
   (function(){
