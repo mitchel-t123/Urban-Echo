@@ -1785,6 +1785,12 @@ body{ overflow-x: hidden; }
   /* Mini-reviews: full-width single card, show arrows */
   .mini-reviews-track{ grid-template-columns: 1fr; }
   .mini-reviews-with-arrows{ align-items: stretch; }
+  /* Mobile: nav scrolls with page (not sticky) */
+  .nav{ position: static; }
+  /* Mobile: hide Sound Emergency h1 box so stress meter is above the fold */
+  .hero-h1-box{ display: none; }
+  /* Mobile: hide back-to-top FAB */
+  .fab-menu{ display: none !important; }
   /* Mobile: thicker wave divider lines */
   .wave-divider svg path{ stroke-width: 10 !important; stroke: rgba(22,21,39,0.35) !important; }
   /* Mobile: hide mini-reviews and read-more, show full carousel in slot */
