@@ -683,6 +683,7 @@ h2,h3{
   box-shadow: 3px 3px 0 var(--ink);
   width: fit-content;
 }
+.stress-label-mobile{ display: none; }
 .stress-track{
   display: flex;
   align-items: center;
@@ -1777,11 +1778,19 @@ body{ overflow-x: hidden; }
   /* Mini-reviews: full-width single card, show arrows */
   .mini-reviews-track{ grid-template-columns: 1fr; }
   .mini-reviews-with-arrows{ align-items: stretch; }
-  /* Symptom check: ensure items don't overflow, reduce gap to emoticon bar */
-  .hero-checklist{ max-width:100%; margin-bottom:9px; }
-  .hero-check{ font-size:15px; }
+  /* Mobile: hide troubleshoot button from nav */
+  .nav-troubleshoot{ display: none !important; }
+  /* Mobile: swap stress meter label */
+  .stress-label-desktop{ display: none; }
+  .stress-label-mobile{ display: inline; }
+  /* Mobile: hide hero checklist entirely */
+  .hero-checklist{ display: none; }
   /* Mobile: hide non-essential symptom items */
   .hero-check-desktop{ display: none; }
+  /* Mobile: larger emergency heading */
+  .emergency-heading{ font-size: clamp(28px, 7vw, 42px); line-height: 1.1; }
+  /* Symptom check: ensure items don't overflow, reduce gap to emoticon bar */
+  .hero-check{ font-size:15px; }
   /* Mobile: hide last 3 symptom section cards */
   .symptom-card-desktop{ display: none; }
   /* Hero CTAs: hide in checklist column, show below treatment card */
@@ -1807,8 +1816,12 @@ body{ overflow-x: hidden; }
   .hero{ padding-top:36px; }
   .nav-inner{ padding:10px 14px; }
   .nav .btn{ padding:8px 14px; font-size:13px; }
-  .school-logo{ height:auto; padding:6px; }
-  .school-logo img{ max-width:140px; max-height:70px; }
+  .school-logo{ height:auto; padding:8px; min-width:90px; flex:0 0 calc(33.333% - 10px); max-width:calc(33.333% - 10px); }
+  .school-logo img{ max-width:110px; max-height:60px; }
+  /* Credentials: 2×2 grid */
+  .credential-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px; }
+  /* Reviews: reduce gap below CTA button */
+  .reviews{ padding-bottom: 48px; }
 }
 /* Desktop: hide the mobile-only CTA duplicate */
 @media (min-width: 921px){
@@ -1929,7 +1942,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
 <!-- Floating back-to-top button (mobile) -->
 <button class="fab-menu" id="fabMenu" aria-label="Back to top">
-  <span class="fab-rx">Rx ↑</span>
+  <span class="fab-rx">↑</span>
   <span class="fab-label">Back to top</span>
 </button>
 
@@ -1991,7 +2004,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       <div class="hero-figure">
         <!-- Stress face meter (interactive) -->
         <div class="stress-label-row">
-          <span class="stress-meter-label">Rate your sound &amp; AV stress to get a diagnosis</span>
+          <span class="stress-meter-label">
+            <span class="stress-label-desktop">Rate your sound &amp; AV stress to get a diagnosis</span>
+            <span class="stress-label-mobile">Rate your sound and AV stress</span>
+          </span>
           <div class="stress-arrow" aria-hidden="true">↓</div>
         </div>
         <div class="stress-meter">
@@ -2387,8 +2403,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         </div>
       </div>
     </div>
-    <div class="reviews-next-btn" style="text-align:center; margin-top:24px;">
-      <button id="reviewNext" style="padding:12px 32px;border-radius:100px;border:2.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;transition:opacity 0.15s;">Next →</button>
+    <div class="reviews-next-btn" style="text-align:center; margin-top:24px; display:flex; justify-content:center; gap:12px;">
+      <button id="reviewPrev" style="padding:12px 28px;border-radius:100px;border:2.5px solid var(--ink);background:var(--paper);color:var(--ink);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;transition:opacity 0.15s;">← Back</button>
+      <button id="reviewNext" style="padding:12px 28px;border-radius:100px;border:2.5px solid var(--ink);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;transition:opacity 0.15s;">Next →</button>
     </div>
     <div style="text-align:center; margin-top:32px;" data-reveal>
       <a href="#contact" class="btn btn-blue" style="font-weight:800;">Contact Us →</a>
@@ -3168,7 +3185,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       active:     true,
       severity:   100, barColor: '#E04040',
       stress:     3,   char1: 'critical', char2: 'worried',
-      treat:      { plan: 'Yearly Plan — Priority Support', link: '#packages', desc: 'Maximum coverage, priority scheduling, and a dedicated Urban Echo contact for your school.' },
+      treat:      { plan: 'Yearly Plan', link: '#packages', desc: 'Maximum coverage, priority scheduling, and a dedicated Urban Echo contact for your school.' },
     },
   ];
 
@@ -3439,6 +3456,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
 (function(){
   var cards = document.querySelectorAll('#reviewsCarousel .review-card');
   var nextBtn = document.getElementById('reviewNext');
+  var prevBtn = document.getElementById('reviewPrev');
   if(!cards.length || !nextBtn) return;
   var idx = 0;
   function show(i){
@@ -3454,6 +3472,12 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   nextBtn.addEventListener('click', function(){
     clearInterval(auto);
     idx = (idx + 1) % cards.length;
+    show(idx);
+    auto = setInterval(function(){ idx = (idx + 1) % cards.length; show(idx); }, 7000);
+  });
+  if(prevBtn) prevBtn.addEventListener('click', function(){
+    clearInterval(auto);
+    idx = (idx - 1 + cards.length) % cards.length;
     show(idx);
     auto = setInterval(function(){ idx = (idx + 1) % cards.length; show(idx); }, 7000);
   });
