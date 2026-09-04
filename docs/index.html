@@ -1845,6 +1845,11 @@ body{ overflow-x: hidden; }
   /* Mobile: hide last 3 symptom section cards and desktop-only card content */
   .symptom-card-desktop{ display: none; }
   .symptom-card-mobile-only{ display: block; }
+  /* Mobile: symptom card number inline with heading */
+  .symptom-card .num{ display: inline; margin-bottom: 0; margin-right: 6px; }
+  .symptom-card h3{ display: inline; }
+  /* Mobile: fix resolved step-num (step 3) — keep text ink not orange */
+  .plan-step.resolved .step-num{ color: var(--ink) !important; }
   /* Hero CTAs: hide in checklist column, show below treatment card */
   .hero-ctas-desktop{ display: none; }
   .hero-ctas-mobile{ display: flex; flex-direction:column; gap:12px; margin-top:20px; padding-bottom:0; }
@@ -1886,9 +1891,10 @@ body{ overflow-x: hidden; }
   /* ── Mobile type scale: 3 sizes only ── */
   /* SIZE 1 — 32px: section headings */
   h2, .hero h2{ font-size: 32px !important; line-height: 1.15; }
-  /* SIZE 2 — 13px: card headings, body, labels, tags, stars, meta */
+  /* SIZE 2 — 16px: card headings, review school names, symptom titles */
   h3, .review-school-heading, .mini-review-school-heading,
-  .package-name, .symptom-title, .plan-step h3,
+  .package-name, .symptom-title, .plan-step h3{ font-size: 16px !important; line-height: 1.4; }
+  /* SIZE 3 — 13px: body, labels, tags, stars, meta */
   .emergency-heading, p, .lede, blockquote,
   .eyebrow, .mono, .review-stars, .mini-review-stars,
   .credential .label, .package-label,
