@@ -1778,6 +1778,13 @@ body{ overflow-x: hidden; }
   /* Mini-reviews: full-width single card, show arrows */
   .mini-reviews-track{ grid-template-columns: 1fr; }
   .mini-reviews-with-arrows{ align-items: stretch; }
+  /* Mobile: thicker wave divider lines */
+  .wave-divider svg path{ stroke-width: 10 !important; stroke: rgba(22,21,39,0.35) !important; }
+  /* Mobile: hide mini-reviews and read-more, show full carousel in slot */
+  .mini-reviews{ display: none !important; }
+  #mobileReviewsSlot{ display: block !important; margin-top: 24px; }
+  /* Mobile: hide the original full reviews section */
+  .reviews{ display: none !important; }
   /* Mobile: hide troubleshoot button from nav */
   .nav-troubleshoot{ display: none !important; }
   /* Mobile: swap stress meter label */
@@ -2127,6 +2134,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             <span class="label">Verified &amp; Cleared</span>
           </div>
         </div>
+
+        <!-- Mobile-only: full reviews carousel relocated here -->
+        <div id="mobileReviewsSlot" style="display:none;"></div>
 
         <div class="school-strip">
           <!-- Mini review carousel -->
@@ -3482,6 +3492,24 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     auto = setInterval(function(){ idx = (idx + 1) % cards.length; show(idx); }, 7000);
   });
   show(0);
+})();
+/* ── Mobile: relocate reviews carousel into slot ── */
+(function(){
+  if(window.innerWidth > 920) return;
+  var slot = document.getElementById('mobileReviewsSlot');
+  var reviewsSection = document.getElementById('reviews');
+  if(!slot || !reviewsSection) return;
+  // Move the reviews section's inner content (carousel + buttons) into the slot
+  var wrap = reviewsSection.querySelector('.wrap');
+  if(!wrap) return;
+  // Clone carousel and nav buttons into slot, styled compactly
+  var carousel = reviewsSection.querySelector('#reviewsCarousel');
+  var navBtns  = reviewsSection.querySelector('.reviews-next-btn');
+  if(carousel) slot.appendChild(carousel);
+  if(navBtns)  slot.appendChild(navBtns);
+  // Ensure the first card is active
+  var firstCard = slot.querySelector('.review-card');
+  if(firstCard && !firstCard.classList.contains('active')) firstCard.classList.add('active');
 })();
 // Hamburger + FAB menu
 (function(){
