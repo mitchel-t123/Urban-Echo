@@ -1413,8 +1413,33 @@ section[id], div[id].packages {
 .field textarea{ resize:vertical; min-height:96px; font-family:var(--body); }
 .form-card .btn{ width:100%; justify-content:center; padding:16px; margin-top:6px; margin-bottom:0; }
 .form-card{ padding-bottom:36px; }
-.contact-method-row{ display:flex; gap:20px; padding:10px 0; }
-.contact-method-opt{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:16px; cursor:pointer; }
+.contact-method-row{ display:flex; gap:12px; padding:10px 0; flex-wrap:wrap; }
+.contact-method-opt{
+  display:flex; align-items:center; gap:8px;
+  font-weight:600; font-size:15px; cursor:pointer;
+  border: 2px solid var(--ink); border-radius:12px;
+  padding: 8px 16px;
+  background: #ffffff;
+  transition: background 0.15s, border-color 0.15s;
+  user-select:none;
+}
+.contact-method-opt input[type="radio"]{ display:none; }
+.contact-method-tick{
+  width:20px; height:20px; border-radius:50%;
+  border: 2px solid var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; flex-shrink:0;
+  background:#fff;
+  transition: background 0.15s;
+}
+.contact-method-opt:has(input:checked){
+  background: var(--forest);
+  border-color: var(--ink);
+}
+.contact-method-opt:has(input:checked) .contact-method-tick{
+  background: var(--ink);
+  color: #fff;
+}
 .form-success{
   display:none;
   padding: 36px 32px 32px;
@@ -2609,10 +2634,16 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             <label>Preferred contact method</label>
             <div class="contact-method-row">
               <label class="contact-method-opt">
-                <input type="radio" name="contact_method" value="Call me"> Call me
+                <input type="radio" name="contact_method" value="Call me">
+                <span class="contact-method-tick">✓</span> Call me
               </label>
               <label class="contact-method-opt">
-                <input type="radio" name="contact_method" value="Email me" checked> Email me
+                <input type="radio" name="contact_method" value="Email me" checked>
+                <span class="contact-method-tick">✓</span> Email me
+              </label>
+              <label class="contact-method-opt">
+                <input type="radio" name="contact_method" value="Text me">
+                <span class="contact-method-tick">✓</span> Text me
               </label>
             </div>
           </div>
