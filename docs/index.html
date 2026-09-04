@@ -292,13 +292,25 @@ h2,h3{
 .mobile-menu.open{ display:block; }
 .mobile-menu-panel{
   position:absolute; top:0; left:0; right:0;
-  background:#fff; padding:80px 28px 36px;
+  background:#fff; padding:20px 20px 28px;
   border-bottom:3px solid var(--ink);
-  display:flex; flex-direction:column; gap:6px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.mobile-menu-close{
+  align-self:flex-end;
+  width:38px; height:38px; border-radius:50%;
+  border:2.5px solid var(--ink); background:var(--cream);
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; font-weight:700; cursor:pointer;
+  box-shadow:3px 3px 0 var(--ink);
+  margin-bottom:4px; flex-shrink:0;
+}
+.mobile-menu-bubbles{
+  display:flex; flex-wrap:wrap; gap:8px;
 }
 .mobile-menu-panel a{
-  display:block; font-weight:700; font-size:18px; text-decoration:none;
-  color:var(--ink); padding:13px 16px; border-radius:10px;
+  display:block; font-weight:700; font-size:16px; text-decoration:none;
+  color:var(--ink); padding:11px 16px; border-radius:10px;
   transition:background 0.15s;
 }
 .mobile-menu-panel a:hover{ background:var(--cream); }
@@ -691,6 +703,9 @@ h2,h3{
 }
 .stress-label-mobile{ display: none; }
 .symptom-card-mobile-only{ display: none; }
+.school-logo-more{ display: none; }
+.mobile-reviews-heading{ display: none; }
+.footer-tagline-short{ display: none; }
 .stress-track{
   display: flex;
   align-items: center;
@@ -1791,6 +1806,14 @@ body{ overflow-x: hidden; }
   .hero-h1-box{ display: none; }
   /* Mobile: hide back-to-top FAB */
   .fab-menu{ display: none !important; }
+  /* Mobile: Now Treating bubble full width */
+  .hero-tag{ width: 100%; justify-content: center; box-sizing: border-box; margin-bottom: 8px; }
+  /* Mobile: + more logo box shown */
+  .school-logo-more{ display: flex; align-items: center; justify-content: center; background: var(--sunshine); font-family: var(--mono); font-weight: 700; font-size: 13px; color: var(--ink); }
+  /* Mobile: footer single line */
+  .footer-inner{ flex-wrap: nowrap; gap: 6px; }
+  .footer-tagline-full{ display: none; }
+  .footer-tagline-short{ display: inline; }
   /* Mobile: thicker wave divider lines */
   .wave-divider svg path{ stroke-width: 10 !important; stroke: rgba(22,21,39,0.35) !important; }
   /* Mobile: hide mini-reviews and read-more, show full carousel in slot */
@@ -1798,8 +1821,8 @@ body{ overflow-x: hidden; }
   #mobileReviewsSlot{ display: block !important; margin-top: 40px; }
   /* Mobile: hide the original full reviews section */
   .reviews{ display: none !important; }
-  /* Mobile: hide troubleshoot button from nav */
-  .nav-troubleshoot{ display: none !important; }
+  /* Mobile: hide troubleshoot button from top nav bar only (kept in dropdown) */
+  .nav > .nav-inner .nav-troubleshoot{ display: none !important; }
   /* Mobile: swap stress meter label */
   .stress-label-desktop{ display: none; }
   .stress-label-mobile{ display: inline; }
@@ -1834,6 +1857,22 @@ body{ overflow-x: hidden; }
   .plan-step p{ grid-column:2; }
   /* Contact form: reduce space above submit button on mobile */
   .form-card .btn{ margin-top: 0; }
+  /* Mobile: plan step numbers as orange bubbles, top-left like review stars */
+  .plan-step{ padding-top: 48px; position: relative; }
+  .plan-step .step-num{
+    position: absolute; top: 14px; left: 16px;
+    width: 36px; height: 36px;
+    border-radius: 50%; border: 2px solid var(--ink);
+    background: var(--orange); color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800; font-family: var(--body);
+    margin-bottom: 0; line-height: 1;
+  }
+  /* Mobile: emergency heading matches bulk-note-title size */
+  .emergency-heading{ font-size: 22px !important; }
+  /* Mobile: reviews slot heading */
+  .mobile-reviews-heading{ display: block; }
+  /* Mobile: hide "+ more" on desktop (it's already hidden by default below) */
 
   /* ── Mobile type scale: 3 sizes only ── */
   /* SIZE 1 — 32px: section headings */
@@ -1996,13 +2035,18 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <!-- Mobile menu overlay -->
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-panel">
-    <a href="#packages" class="mobile-menu-link nav-bubble" style="display:inline-flex;width:fit-content;">📦 Packages</a>
-    <a href="#reviews" class="mobile-menu-link nav-bubble" style="display:inline-flex;width:fit-content;">💬 Reviews</a>
-    <a href="#meet" class="mobile-menu-link nav-bubble" style="display:inline-flex;width:fit-content;">☕ Free Coffee</a>
-    <a href="problems.html" class="nav-troubleshoot mobile-menu-link">Troubleshooting Tool <span style="font-size:10px;font-weight:800;font-family:inherit;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;vertical-align:middle;">BETA</span></a>
-    <a href="#contact" class="mobile-menu-link" style="margin-top:8px;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;">Contact Us</a>
-    <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);">📱 Save Our Number</a>
-    <a href="login.html" class="mobile-menu-link" style="margin-top:8px;background:var(--pink);color:var(--ink) !important;font-weight:700;border-radius:10px;border:2px solid var(--ink);display:flex;align-items:center;gap:10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--ink)" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> Team Login</a>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+    <div class="mobile-menu-bubbles">
+      <a href="#packages" class="mobile-menu-link nav-bubble" style="display:inline-flex;">📦 Packages</a>
+      <a href="#reviews" class="mobile-menu-link nav-bubble" style="display:inline-flex;">💬 Reviews</a>
+      <a href="#meet" class="mobile-menu-link nav-bubble" style="display:inline-flex;">☕ Free Coffee</a>
+    </div>
+    <a href="problems.html" class="nav-troubleshoot mobile-menu-link" style="display:block;">Troubleshooting Tool <span style="font-size:10px;font-weight:800;font-family:inherit;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;vertical-align:middle;">BETA</span></a>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <a href="#contact" class="mobile-menu-link" style="flex:1;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;text-align:center;">Contact Us</a>
+      <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="flex:1;background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);text-align:center;">📱 Save Number</a>
+    </div>
+    <a href="login.html" class="mobile-menu-link" style="background:var(--pink);color:var(--ink) !important;font-weight:700;border-radius:10px;border:2px solid var(--ink);display:flex;align-items:center;gap:10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--ink)" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> Team Login</a>
   </div>
 </div>
 
@@ -2178,6 +2222,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         </div>
 
         <!-- Mobile-only: full reviews carousel relocated here -->
+        <h2 class="mobile-reviews-heading" style="margin-top:40px;margin-bottom:16px;font-size:32px;">Our Reviews</h2>
         <div id="mobileReviewsSlot" style="display:none;"></div>
 
         <div class="school-strip">
@@ -2257,6 +2302,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       <div class="school-logo"><img src="IMG_5571.jpeg" alt="Fremantle Christian College"></div>
       <div class="school-logo"><img src="IMG_5572.jpeg" alt="John Forrest Secondary College"></div>
       <div class="school-logo"><img src="IMG_5573.jpeg" alt="Lyn Beazley Academy"></div>
+      <div class="school-logo school-logo-more" aria-hidden="true">+ more</div>
     </div>
     <div style="text-align:center; margin-top:40px;" data-reveal>
       <a href="#contact" class="btn btn-blue" style="font-weight:800;">Join Our Clients →</a>
@@ -2356,7 +2402,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <div class="extra-cards-row" data-reveal>
       <div class="emergency-note">
         <span class="emergency-tag">🚨 Emergency</span>
-        <h3 class="emergency-heading">Last minute emergency sound/AV support</h3>
+        <h3 class="emergency-heading">Last minute emergency support</h3>
         <p class="emergency-body">Has your AV person called in sick last minute? An event <em>'that teacher'</em> forgot to tell you about? Double booked yourself? We offer emergency last-minute AV support that has saved schools around Perth. Add this number to your phone, we pick up.</p>
         <a href="urban-echo-emergency.vcf" class="btn btn-blue emergency-save-btn" download>📱 Save Our Number</a>
       </div>
@@ -2751,7 +2797,8 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <footer class="footer">
   <div class="wrap footer-inner">
     <span>© 2026 Urban Echo. All rights reserved.</span>
-    <span>Sound &amp; AV for Perth Schools.</span>
+    <span class="footer-tagline-full">Sound &amp; AV for Perth Schools.</span>
+    <span class="footer-tagline-short">Perth Schools.</span>
   </div>
 </footer>
 
@@ -3562,6 +3609,8 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   function openMenu(){ if(btn) btn.classList.add('open'); menu.classList.add('open'); document.body.style.overflow='hidden'; }
   function closeMenu(){ if(btn) btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }
   if(btn) btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  var closeBtn = document.getElementById('mobileMenuClose');
+  if(closeBtn) closeBtn.addEventListener('click', closeMenu);
   menu.addEventListener('click', function(e){ if(e.target === menu) closeMenu(); });
   menu.querySelectorAll('.mobile-menu-link').forEach(function(a){ a.addEventListener('click', closeMenu); });
   // FAB = scroll to top; show when nav scrolls off screen
