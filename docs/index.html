@@ -1782,7 +1782,7 @@ body{ overflow-x: hidden; }
   .wave-divider svg path{ stroke-width: 10 !important; stroke: rgba(22,21,39,0.35) !important; }
   /* Mobile: hide mini-reviews and read-more, show full carousel in slot */
   .mini-reviews{ display: none !important; }
-  #mobileReviewsSlot{ display: block !important; margin-top: 24px; }
+  #mobileReviewsSlot{ display: block !important; margin-top: 40px; }
   /* Mobile: hide the original full reviews section */
   .reviews{ display: none !important; }
   /* Mobile: hide troubleshoot button from nav */
@@ -1820,6 +1820,24 @@ body{ overflow-x: hidden; }
   .plan-step p{ grid-column:2; }
   /* Contact form: reduce space above submit button on mobile */
   .form-card .btn{ margin-top: 0; }
+
+  /* ── Mobile type scale: 3 sizes only ── */
+  /* SIZE 1 — 32px: section headings */
+  h2, .hero h2{ font-size: 32px !important; line-height: 1.15; }
+  /* SIZE 2 — 16px: card headings, review school names, package titles, body */
+  h3, .review-school-heading, .mini-review-school-heading,
+  .package-name, .symptom-title, .plan-step h3,
+  .emergency-heading, p, .lede, blockquote{ font-size: 16px !important; line-height: 1.5; }
+  /* SIZE 3 — 12px: eyebrows, mono labels, tags, stars, meta */
+  .eyebrow, .mono, .review-stars, .mini-review-stars,
+  .credential .label, .package-label, .step-num,
+  .stress-meter-label span, .nav-pill, .hero-tag,
+  .section-head .eyebrow, footer, .ticker-item{ font-size: 12px !important; }
+  /* Keep hero h1 big at its own size since it's the hero centrepiece */
+  .hero h1 .big{ font-size: clamp(36px, 10vw, 52px) !important; }
+  .hero h1 .small{ font-size: 14px !important; }
+  /* Credential big numbers stay large */
+  .credential .big{ font-size: 26px !important; }
 }
 @media (max-width: 600px){
   .symptom-grid{ grid-template-columns:1fr; }
