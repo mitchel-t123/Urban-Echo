@@ -690,6 +690,7 @@ h2,h3{
   width: fit-content;
 }
 .stress-label-mobile{ display: none; }
+.symptom-card-mobile-only{ display: none; }
 .stress-track{
   display: flex;
   align-items: center;
@@ -1808,8 +1809,9 @@ body{ overflow-x: hidden; }
   .hero h1 .big{ font-size: clamp(42px, 11vw, 64px); }
   /* Symptom check: ensure items don't overflow, reduce gap to emoticon bar */
   .hero-check{ font-size:15px; }
-  /* Mobile: hide last 3 symptom section cards */
+  /* Mobile: hide last 3 symptom section cards and desktop-only card content */
   .symptom-card-desktop{ display: none; }
+  .symptom-card-mobile-only{ display: block; }
   /* Hero CTAs: hide in checklist column, show below treatment card */
   .hero-ctas-desktop{ display: none; }
   .hero-ctas-mobile{ display: flex; flex-direction:column; gap:12px; margin-top:20px; padding-bottom:0; }
@@ -2109,8 +2111,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       </div>
       <div class="symptom-card" data-reveal style="background:var(--forest);">
         <span class="num">03</span>
-        <h3>Too many school events</h3>
-        <p>Weekly, fortnightly, whole-school, year-group, they add up fast and each one needs someone behind the desk.</p>
+        <h3 class="symptom-card-desktop">Too many school events</h3>
+        <p class="symptom-card-desktop">Weekly, fortnightly, whole-school, year-group, they add up fast and each one needs someone behind the desk.</p>
+        <h3 class="symptom-card-mobile-only">Always multi-tasking</h3>
+        <p class="symptom-card-mobile-only">Running the projector, the mic, the slides and the program at once isn't sustainable, and it shows.</p>
       </div>
       <div class="symptom-card symptom-card-desktop" data-reveal style="background:var(--sunshine);">
         <span class="num">04</span>
