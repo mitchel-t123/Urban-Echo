@@ -1833,9 +1833,9 @@ body{ overflow-x: hidden; }
   .credential .label, .package-label, .step-num,
   .stress-meter-label span, .nav-pill, .hero-tag,
   .section-head .eyebrow, footer, .ticker-item{ font-size: 12px !important; }
-  /* Keep hero h1 big at its own size since it's the hero centrepiece */
-  .hero h1 .big{ font-size: clamp(36px, 10vw, 52px) !important; }
-  .hero h1 .small{ font-size: 14px !important; }
+  /* Hero h1: two-line box — "In the case of a" + "Sound Emergency" on one line */
+  .hero h1 .big{ font-size: clamp(26px, 7.5vw, 36px) !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hero h1 .small{ font-size: 13px !important; }
   /* Credential big numbers stay large */
   .credential .big{ font-size: 26px !important; }
 }
@@ -1844,7 +1844,7 @@ body{ overflow-x: hidden; }
   .wrap{ padding: 0 20px; }
   .hero{ padding-top:20px; }
   .hero-tag{ margin-bottom: 12px; }
-  .hero-h1-box{ margin-bottom: 12px; padding: 18px 20px 14px; }
+  .hero-h1-box{ margin-bottom: 8px; padding: 14px 18px 12px; }
   .hero-body{ gap: 10px; }
   .stress-meter{ margin-top: 0; }
   .nav-inner{ padding:10px 14px; }
