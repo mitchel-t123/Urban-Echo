@@ -69,7 +69,7 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .nav-links{ display:flex; align-items:center; gap:12px; font-weight:600; font-size:16px; position:relative; }
 .nav-links a{ text-decoration:none; color:var(--ink); padding:7px 14px; border-radius:8px; transition:color 0.15s; position:relative; z-index:1; }
 .nav-links a:hover{ color:var(--ink); }
-.nav-bubble{ border:2px solid var(--ink) !important; border-radius:100px !important; padding:5px 14px !important; font-weight:700 !important; color:var(--ink) !important; transition:transform 0.1s !important; background:#ffffff !important; }
+.nav-bubble{ border:2px solid var(--ink) !important; border-radius:100px !important; padding:5px 14px !important; font-weight:700 !important; color:var(--ink) !important; transition:transform 0.1s, box-shadow 0.1s !important; background:#ffffff !important; box-shadow:3px 3px 0 var(--ink) !important; }
 .nav-bubble:hover{ transform:translateY(-1px); }
 .nav-troubleshoot{ color:var(--paper) !important; background:var(--forest); border:2px solid var(--ink); border-radius:8px; font-weight:800; padding:7px 14px; text-decoration:none; box-shadow:3px 3px 0 var(--ink); transition:background 0.15s, box-shadow 0.15s; white-space:nowrap; }
 .nav-troubleshoot:hover{ background:var(--forest-deep); box-shadow:5px 5px 0 var(--ink); }
