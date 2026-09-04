@@ -311,8 +311,10 @@ h2,h3{
 .mobile-menu-panel a{
   display:block; font-weight:700; font-size:16px; text-decoration:none;
   color:var(--ink); padding:11px 16px; border-radius:10px;
-  transition:background 0.15s;
+  border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink);
+  transition:background 0.15s, box-shadow 0.1s, transform 0.1s;
 }
+.mobile-menu-panel a:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
 .mobile-menu-panel a:hover{ background:var(--cream); }
 .mobile-menu-panel .nav-bubble{
   font-size: 15px !important;
@@ -1891,7 +1893,7 @@ body{ overflow-x: hidden; }
   .emergency-heading, p, .lede, blockquote{ font-size: 16px !important; line-height: 1.5; }
   /* SIZE 3 — 12px: eyebrows, mono labels, tags, stars, meta */
   .eyebrow, .mono, .review-stars, .mini-review-stars,
-  .credential .label, .package-label, .step-num,
+  .credential .label, .package-label,
   .stress-meter-label span, .nav-pill, .hero-tag,
   .section-head .eyebrow, footer, .ticker-item{ font-size: 12px !important; }
   /* Hero h1: two-line box — "In the case of a" + "Sound Emergency" on one line */
@@ -2331,17 +2333,17 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
     <div class="plan-steps">
       <div class="plan-step" data-reveal style="background:var(--sunshine);">
-        <span class="step-num">01</span>
+        <span class="step-num">1</span>
         <h3>Tell us your event</h3>
         <p>One school event or a whole year of them, let us know the date, the room and what you need covered. Tell us what extra gear you need and we'll get that sorted too.</p>
       </div>
       <div class="plan-step" data-reveal style="background:var(--sunshine);">
-        <span class="step-num">02</span>
+        <span class="step-num">2</span>
         <h3>We hand-pick your tech</h3>
         <p>A calm, friendly Sound and AV professional arrives early, sets up, and rings out the room before a single guest walks in.</p>
       </div>
       <div class="plan-step resolved" data-reveal style="background:var(--sunshine);">
-        <span class="step-num">03</span>
+        <span class="step-num">3</span>
         <h3 style="color:var(--ink);">You run the event, not the cables</h3>
         <p>We setup the sound and AV, we operate, problem-solve and pack down. You focus on the program and we ensure the speakers behave themselves.</p>
       </div>
