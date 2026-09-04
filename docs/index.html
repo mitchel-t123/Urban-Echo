@@ -302,6 +302,12 @@ h2,h3{
   transition:background 0.15s;
 }
 .mobile-menu-panel a:hover{ background:var(--cream); }
+.mobile-menu-panel .nav-bubble{
+  font-size: 15px !important;
+  padding: 8px 18px !important;
+  border-radius: 100px !important;
+  margin-bottom: 2px;
+}
 .mobile-menu-panel .nav-troubleshoot{
   background:var(--forest); color:var(--paper) !important;
   font-weight:800; margin-top:6px;
@@ -1982,9 +1988,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <!-- Mobile menu overlay -->
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-panel">
-    <a href="#packages" class="mobile-menu-link">Our Packages</a>
-    <a href="#reviews" class="mobile-menu-link">Reviews</a>
-    <a href="#meet" class="mobile-menu-link">☕ Free Coffee</a>
+    <a href="#packages" class="mobile-menu-link nav-bubble" style="display:inline-flex;width:fit-content;">📦 Packages</a>
+    <a href="#reviews" class="mobile-menu-link nav-bubble" style="display:inline-flex;width:fit-content;">💬 Reviews</a>
+    <a href="#meet" class="mobile-menu-link nav-bubble" style="display:inline-flex;width:fit-content;">☕ Free Coffee</a>
     <a href="problems.html" class="nav-troubleshoot mobile-menu-link">Troubleshooting Tool <span style="font-size:10px;font-weight:800;font-family:inherit;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;vertical-align:middle;">BETA</span></a>
     <a href="#contact" class="mobile-menu-link" style="margin-top:8px;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;">Contact Us</a>
     <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);">📱 Save Our Number</a>
