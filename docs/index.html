@@ -1999,14 +1999,35 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <body>
 
 <!-- ============ SCHOOL POPUP ============ -->
-<div id="schoolPopup" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(22,21,39,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:#fff;border:3px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);max-width:420px;width:100%;padding:36px 32px;text-align:center;position:relative;">
-    <div style="font-size:40px;margin-bottom:16px;">🏫</div>
-    <h2 style="font-family:var(--body);font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;line-height:1.2;">Are you visiting on behalf of a school?</h2>
-    <p style="font-size:14px;color:rgba(22,21,39,0.6);margin-bottom:28px;line-height:1.5;">Urban Echo specialises in schools, but we work with all kinds of events and venues too.</p>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button id="popupYes" style="background:var(--orange);color:var(--ink);border:2.5px solid var(--ink);border-radius:100px;padding:14px 24px;font-family:var(--body);font-size:15px;font-weight:800;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform 0.1s,box-shadow 0.1s;">Yes, I'm from a school ✓</button>
-      <a href="enquire.html" id="popupNo" style="background:var(--cream);color:var(--ink);border:2.5px solid var(--ink);border-radius:100px;padding:14px 24px;font-family:var(--body);font-size:15px;font-weight:800;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform 0.1s,box-shadow 0.1s;text-decoration:none;display:block;">No, I'm not a school</a>
+<style>
+#schoolPopup{ animation: popupFadeIn 0.25s ease; }
+@keyframes popupFadeIn{ from{ opacity:0; } to{ opacity:1; } }
+#popupCard{ animation: popupSlideUp 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes popupSlideUp{ from{ opacity:0; transform:translateY(28px) scale(0.96); } to{ opacity:1; transform:translateY(0) scale(1); } }
+.popup-choice{ cursor:pointer; border:3px solid var(--ink); border-radius:20px; padding:28px 20px 24px; text-align:center; transition:transform 0.12s, box-shadow 0.12s; box-shadow:5px 5px 0 var(--ink); flex:1; text-decoration:none; color:var(--ink); display:flex; flex-direction:column; align-items:center; gap:10px; }
+.popup-choice:hover{ transform:translateY(-4px); box-shadow:5px 9px 0 var(--ink); }
+.popup-choice:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink); }
+.popup-choice .popup-icon{ font-size:52px; line-height:1; }
+.popup-choice .popup-label{ font-family:var(--body); font-size:17px; font-weight:800; letter-spacing:-0.02em; line-height:1.2; }
+.popup-choice .popup-hint{ font-family:var(--body); font-size:12px; color:rgba(22,21,39,0.55); line-height:1.4; }
+@media(max-width:500px){ #popupChoices{ flex-direction:column !important; } }
+</style>
+<div id="schoolPopup" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(22,21,39,0.65);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:20px;">
+  <div id="popupCard" style="background:var(--paper);border:3px solid var(--ink);border-radius:28px;box-shadow:8px 8px 0 var(--ink);max-width:520px;width:100%;padding:36px 28px 32px;text-align:center;">
+    <div style="display:inline-block;background:var(--sunshine);border:2px solid var(--ink);border-radius:100px;padding:5px 16px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:18px;">Quick question ✋</div>
+    <h2 style="font-family:var(--body);font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;line-height:1.2;">Who are you here for?</h2>
+    <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:28px;">We'll point you in the right direction.</p>
+    <div id="popupChoices" style="display:flex;gap:14px;">
+      <button id="popupYes" class="popup-choice" style="background:var(--orange);">
+        <span class="popup-icon">🏫</span>
+        <span class="popup-label">I'm from a school</span>
+        <span class="popup-hint">Assemblies, graduations, productions &amp; more</span>
+      </button>
+      <a href="enquire.html" id="popupNo" class="popup-choice" style="background:var(--cream);">
+        <span class="popup-icon">🎪</span>
+        <span class="popup-label">Not a school</span>
+        <span class="popup-hint">Events, venues, corporate &amp; private functions</span>
+      </a>
     </div>
   </div>
 </div>
