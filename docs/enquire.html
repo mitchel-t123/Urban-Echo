@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Urban Echo — Enquire About Our Services</title>
+<title>Urban Echo — Events & Venues</title>
 <link rel="canonical" href="https://urbanecho.com.au/enquire.html">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="description" content="Urban Echo provides professional sound and AV services beyond schools — events, corporate, community and more. Get in touch.">
+<meta name="description" content="Professional sound and AV operators for events across Perth. Corporate, community, performing arts, private functions and more.">
 <meta name="robots" content="index, follow">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,13 +17,16 @@
 
 <style>
 :root{
-  --cream: #FBF5E7;
-  --cream-deep: #F4ECD8;
-  --indigo: #3F3FF0;
+  --cream: #F5E8D0;
+  --cream-deep: #EDD8B8;
+  --indigo: #3D7FD5;
+  --indigo-deep: #2B65B8;
   --orange: #F4612E;
-  --forest: #4AAE74;
-  --forest-deep: #379260;
-  --sunshine: #F9C328;
+  --orange-deep: #D8491B;
+  --forest: #35B06A;
+  --forest-deep: #1E9256;
+  --sunshine: #F5C518;
+  --pink: #F5A8BC;
   --ink: #161527;
   --paper: #FFFCF5;
   --line: rgba(22,21,39,0.12);
@@ -33,121 +36,133 @@
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
 html{ background: var(--ink); }
-body{ font-family:var(--body); background:var(--cream); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden; min-height:100vh; }
+body{ font-family:var(--body); background:var(--paper); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+h1,h2,h3{ font-family:var(--body); font-weight:800; line-height:1.1; letter-spacing:-0.02em; }
+a{ color:inherit; }
 
 /* NAV */
-.nav{ position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--line); }
-.nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1100px; margin:0 auto; }
+.nav{ position:sticky; top:0; z-index:100; background:var(--cream); border-bottom:2px solid var(--ink); }
+.nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px 40px; max-width:1200px; margin:0 auto; }
 .nav-logo{ height:30px; }
-.nav-back{ font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:6px; }
-.nav-back:hover{ color:var(--indigo); }
+.nav-back{ font-family:var(--body); font-size:13px; font-weight:700; color:var(--ink); text-decoration:none; display:inline-flex; align-items:center; gap:6px; background:var(--paper); border:2px solid var(--ink); border-radius:100px; padding:7px 16px; box-shadow:3px 3px 0 var(--ink); transition:box-shadow 0.1s, transform 0.1s; }
+.nav-back:hover{ box-shadow:4px 4px 0 var(--ink); transform:translateY(-1px); }
 @media(max-width:600px){ .nav-inner{ padding:12px 20px; } }
 
+.wrap{ max-width:1180px; margin:0 auto; padding:0 40px; }
+@media(max-width:600px){ .wrap{ padding:0 20px; } }
+
+.btn{ display:inline-flex; align-items:center; gap:8px; font-family:var(--body); font-weight:700; font-size:16px; padding:13px 26px; border-radius:100px; border:2.5px solid var(--ink); text-decoration:none; cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:box-shadow 0.1s, transform 0.1s; }
+.btn:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-2px); }
+.btn:active{ box-shadow:2px 2px 0 var(--ink); transform:translate(2px,2px); }
+.btn-orange{ background:var(--orange); color:var(--ink); }
+.btn-blue{ background:var(--indigo); color:#fff; }
+.btn-ink{ background:var(--ink); color:var(--paper); }
+
+/* TICKER */
+.ticker-wrap{ background:var(--sunshine); border-bottom:2px solid var(--ink); overflow:hidden; padding:10px 0; }
+.ticker-track{ display:flex; gap:0; animation:ticker 22s linear infinite; white-space:nowrap; }
+.ticker-item{ font-family:var(--mono); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); padding:0 32px; flex-shrink:0; }
+.ticker-item .sep{ margin:0 8px; opacity:0.4; }
+@keyframes ticker{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
 /* HERO */
-.eq-hero{
-  background: var(--indigo);
-  color: var(--paper);
-  padding: 80px 32px 72px;
-  text-align: center;
-  border-bottom: 4px solid var(--sunshine);
-}
-.eq-hero .eyebrow{
-  font-family:var(--mono); font-size:11px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.14em;
-  color: var(--sunshine); display:block; margin-bottom:16px;
-}
-.eq-hero h1{
-  font-family:var(--display); font-size:clamp(32px,5vw,56px);
-  text-transform:uppercase; letter-spacing:-0.01em;
-  line-height:1.05; margin-bottom:20px;
-}
-.eq-hero p{
-  font-size:17px; color:rgba(255,252,245,0.72);
-  max-width:520px; margin:0 auto 32px;
-}
-.eq-hero .hero-btn{
-  display:inline-flex; align-items:center; gap:8px;
-  background:var(--sunshine); color:var(--ink);
-  border:2px solid var(--sunshine); border-radius:100px;
-  font-family:var(--mono); font-size:12px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.08em;
-  padding:13px 28px; text-decoration:none;
-  box-shadow:4px 4px 0 rgba(255,252,245,0.3);
-  transition:box-shadow 0.15s;
-}
-.eq-hero .hero-btn:hover{ box-shadow:6px 6px 0 rgba(255,252,245,0.3); }
+.eq-hero{ background:var(--orange); border-bottom:3px solid var(--ink); padding:80px 0 72px; position:relative; overflow:hidden; }
+.eq-hero-inner{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+.eq-hero-eyebrow{ display:inline-block; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
+.eq-hero h1{ font-size:clamp(36px,5vw,60px); color:var(--ink); margin-bottom:20px; line-height:1.05; }
+.eq-hero .sub{ font-size:17px; color:rgba(22,21,39,0.78); margin-bottom:32px; max-width:460px; line-height:1.6; }
+.eq-hero-btns{ display:flex; gap:12px; flex-wrap:wrap; }
+.eq-hero-cards{ display:flex; flex-direction:column; gap:14px; }
+.eq-hero-stat{ background:#fff; border:2.5px solid var(--ink); border-radius:18px; padding:22px 24px; box-shadow:5px 5px 0 var(--ink); display:flex; align-items:center; gap:16px; }
+.eq-hero-stat .big{ font-size:36px; font-weight:800; letter-spacing:-0.03em; line-height:1; }
+.eq-hero-stat .label{ font-size:13px; color:rgba(22,21,39,0.6); font-weight:600; line-height:1.3; }
+@media(max-width:860px){ .eq-hero-inner{ grid-template-columns:1fr; } .eq-hero-cards{ display:grid; grid-template-columns:1fr 1fr; } }
+@media(max-width:500px){ .eq-hero-cards{ grid-template-columns:1fr; } }
+
+/* WAVE */
+.wave-divider{ display:block; width:100%; overflow:hidden; line-height:0; }
+.wave-divider svg{ display:block; width:100%; }
+
+/* HOW IT WORKS */
+.how{ background:var(--cream); border-bottom:3px solid var(--ink); padding:80px 0; }
+.how h2{ font-size:clamp(28px,4vw,44px); margin-bottom:12px; }
+.how .lede{ font-size:17px; color:rgba(22,21,39,0.68); max-width:520px; margin-bottom:56px; line-height:1.6; }
+.how-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.how-step{ background:var(--paper); border:2.5px solid var(--ink); border-radius:20px; padding:30px 26px; box-shadow:5px 5px 0 var(--ink); }
+.how-step .step-num{ display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; border:2px solid var(--ink); background:var(--orange); color:var(--ink); font-size:15px; font-weight:800; margin-right:10px; vertical-align:middle; flex-shrink:0; }
+.how-step h3{ display:inline; font-size:17px; font-weight:800; vertical-align:middle; }
+.how-step p{ margin-top:12px; font-size:14px; color:rgba(22,21,39,0.65); line-height:1.6; }
+@media(max-width:760px){ .how-grid{ grid-template-columns:1fr; } }
 
 /* SERVICES */
-.eq-services{ padding:80px 32px; max-width:1100px; margin:0 auto; }
-.eq-services h2{
-  font-family:var(--display); font-size:clamp(26px,3.5vw,38px);
-  text-transform:uppercase; margin-bottom:12px;
-}
-.eq-services > p{ font-size:16px; color:rgba(22,21,39,0.65); margin-bottom:48px; max-width:560px; }
+.services{ padding:80px 0; background:var(--paper); border-bottom:3px solid var(--ink); }
+.services h2{ font-size:clamp(28px,4vw,44px); margin-bottom:12px; }
+.services .lede{ font-size:17px; color:rgba(22,21,39,0.68); max-width:520px; margin-bottom:52px; line-height:1.6; }
+.services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.service-card{ background:var(--cream); border:2.5px solid var(--ink); border-radius:20px; padding:28px 24px; box-shadow:5px 5px 0 var(--ink); }
+.service-card .icon{ font-size:34px; display:block; margin-bottom:14px; }
+.service-card h3{ font-size:17px; font-weight:800; margin-bottom:8px; }
+.service-card p{ font-size:13.5px; color:rgba(22,21,39,0.65); line-height:1.6; }
+@media(max-width:860px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:500px){ .services-grid{ grid-template-columns:1fr; } }
 
-.eq-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px; }
-.eq-card{
-  background:var(--paper);
-  border:2px solid var(--ink);
-  border-radius:16px;
-  padding:28px 24px;
-  box-shadow:4px 4px 0 var(--ink);
-}
-.eq-card .icon{ font-size:32px; margin-bottom:14px; display:block; }
-.eq-card h3{ font-size:18px; font-weight:800; margin-bottom:8px; }
-.eq-card p{ font-size:14px; color:rgba(22,21,39,0.62); line-height:1.55; }
+/* PACKAGES */
+.packages{ background:var(--cream); border-bottom:3px solid var(--ink); padding:80px 0; }
+.packages h2{ font-size:clamp(28px,4vw,44px); margin-bottom:12px; }
+.packages .lede{ font-size:17px; color:rgba(22,21,39,0.68); max-width:520px; margin-bottom:52px; line-height:1.6; }
+.pkg-eyebrow{ display:inline-block; background:var(--forest); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
+.pkg-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:0; }
+.pkg-card{ background:var(--paper); border:2.5px solid var(--ink); border-radius:22px; padding:32px 26px 28px; box-shadow:5px 5px 0 var(--ink); display:flex; flex-direction:column; }
+.pkg-card.featured{ background:var(--ink); color:var(--paper); }
+.pkg-card.featured .pkg-desc{ color:rgba(255,252,245,0.68); }
+.pkg-card.featured .pkg-list li{ border-top-color:rgba(255,252,245,0.12); color:rgba(255,252,245,0.85); }
+.pkg-card.featured .pkg-list li::before{ color:var(--forest); }
+.pkg-card.pink{ background:var(--pink); }
+.pkg-tag{ display:inline-block; background:var(--sunshine); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:4px 14px; font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:16px; }
+.pkg-card.featured .pkg-tag{ background:var(--orange); }
+.pkg-card h3{ font-size:22px; font-weight:800; margin-bottom:10px; }
+.pkg-desc{ font-size:13.5px; color:rgba(22,21,39,0.65); line-height:1.6; margin-bottom:18px; flex-grow:1; }
+.pkg-price-label{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; opacity:0.5; margin-bottom:4px; }
+.pkg-price{ font-size:36px; font-weight:800; letter-spacing:-0.03em; margin-bottom:20px; }
+.pkg-price span{ font-size:16px; font-weight:600; opacity:0.55; letter-spacing:0; }
+.pkg-list{ list-style:none; margin-bottom:24px; }
+.pkg-list li{ font-size:14px; padding:10px 0; border-top:1.5px solid var(--line); display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+.pkg-list li:first-child{ border-top:none; }
+.pkg-list li::before{ content:'+'; font-weight:800; color:var(--forest); flex-shrink:0; margin-top:1px; }
+.pkg-card .btn{ width:100%; justify-content:center; }
+@media(max-width:860px){ .pkg-grid{ grid-template-columns:1fr; } }
 
-/* FORM */
-.eq-form-section{
-  background:var(--paper);
-  border-top:3px solid var(--ink);
-  padding:80px 32px;
-}
-.eq-form-inner{ max-width:640px; margin:0 auto; }
-.eq-form-inner .eyebrow{
-  font-family:var(--mono); font-size:11px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.12em;
-  color:var(--indigo); display:block; margin-bottom:10px;
-}
-.eq-form-inner h2{
-  font-family:var(--display); font-size:clamp(24px,3.5vw,36px);
-  text-transform:uppercase; margin-bottom:12px;
-}
-.eq-form-inner > p{ font-size:15px; color:rgba(22,21,39,0.6); margin-bottom:36px; }
-
+/* CONTACT */
+.contact{ background:var(--indigo); color:var(--paper); border-bottom:3px solid var(--ink); padding:100px 0; }
+.contact-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; align-items:start; }
+.contact .eyebrow{ display:inline-block; background:var(--forest); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-size:13px; letter-spacing:0.08em; margin-bottom:18px; margin-top:-52px; position:relative; z-index:2; }
+.contact h2{ font-size:clamp(28px,4vw,42px); margin-bottom:18px; color:var(--paper); }
+.contact p{ color:rgba(255,252,245,0.75); font-size:16px; margin-bottom:28px; max-width:420px; line-height:1.6; }
+.contact-detail{ display:flex; align-items:center; gap:14px; margin-bottom:16px; font-family:var(--mono); font-size:15px; }
+.contact-detail a{ text-decoration:none; color:var(--paper); }
+.contact-detail .ic{ width:38px; height:38px; border-radius:50%; background:rgba(255,252,245,0.12); border:1.5px solid rgba(255,252,245,0.25); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px; }
+.form-card{ background:#ffffff; color:var(--ink); border-radius:24px; padding:36px; border:2.5px solid var(--ink); box-shadow:5px 5px 0 var(--ink); }
 .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-@media(max-width:600px){ .form-row{ grid-template-columns:1fr; } }
 .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
-.field label{ font-family:var(--mono); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.5); }
-.field input, .field select, .field textarea{
-  padding:13px 16px; border:2px solid var(--line);
-  border-radius:10px; font-family:var(--body); font-size:14px;
-  background:var(--cream); color:var(--ink); outline:none;
-  transition:border-color 0.15s;
-}
-.field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--indigo); }
-.field select{
-  -webkit-appearance:none; appearance:none;
-  background:var(--cream) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center;
-  padding-right:36px;
-}
-.field textarea{ resize:vertical; min-height:120px; }
-.submit-btn{
-  width:100%; padding:15px; border-radius:100px;
-  background:var(--ink); color:var(--paper);
-  border:2px solid var(--ink); font-family:var(--mono);
-  font-size:12px; font-weight:700; text-transform:uppercase;
-  letter-spacing:0.1em; cursor:pointer;
-  box-shadow:4px 4px 0 rgba(22,21,39,0.25);
-  transition:box-shadow 0.15s;
-}
-.submit-btn:hover{ box-shadow:6px 6px 0 rgba(22,21,39,0.25); }
-#eqSuccess{ display:none; text-align:center; padding:32px; background:var(--cream); border:2px solid var(--forest); border-radius:14px; margin-top:20px; }
-#eqSuccess h3{ font-size:20px; font-weight:800; margin-bottom:8px; color:var(--forest-deep); }
-#eqSuccess p{ font-size:14px; color:rgba(22,21,39,0.65); }
+.field label{ font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; font-family:var(--body); color:var(--ink); }
+.field input,.field select,.field textarea{ font-family:var(--body); font-size:15px; padding:13px 14px; border-radius:10px; border:2px solid var(--line); background:var(--cream); color:var(--ink); outline:none; transition:border-color 0.15s; -webkit-appearance:none; appearance:none; }
+.field select{ background:var(--cream) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center; padding-right:36px; }
+.field input:focus,.field select:focus,.field textarea:focus{ border-color:var(--indigo); }
+.field textarea{ resize:vertical; min-height:100px; font-family:var(--body); }
+.contact-method-row{ display:flex; gap:12px; flex-wrap:wrap; padding:6px 0; }
+.contact-method-opt{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:15px; cursor:pointer; border:2px solid var(--ink); border-radius:12px; padding:8px 16px; background:var(--cream); transition:background 0.15s; user-select:none; }
+.contact-method-opt input[type="radio"]{ display:none; }
+.contact-method-tick{ width:20px; height:20px; border-radius:50%; border:2px solid rgba(22,21,39,0.3); background:#fff; display:flex; align-items:center; justify-content:center; transition:background 0.15s, border-color 0.15s; }
+.contact-method-opt.selected{ background:var(--forest); border-color:var(--forest); }
+.contact-method-opt.selected .contact-method-tick{ background:var(--ink); border-color:var(--ink); }
+.contact-method-opt.selected .contact-method-tick::after{ content:''; width:8px; height:8px; border-radius:50%; background:#fff; display:block; }
+#eqSuccess{ display:none; text-align:center; padding:36px 24px; background:var(--cream); border:2.5px solid var(--forest); border-radius:18px; box-shadow:5px 5px 0 var(--ink); }
+#eqSuccess h3{ font-size:22px; font-weight:800; margin-bottom:10px; }
+#eqSuccess p{ font-size:15px; color:rgba(22,21,39,0.68); line-height:1.6; }
+@media(max-width:860px){ .contact-grid{ grid-template-columns:1fr; } .form-row{ grid-template-columns:1fr; } }
 
 /* FOOTER */
-.eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:32px 20px; font-family:var(--mono); font-size:12px; opacity:0.7; }
+.eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:28px 20px; font-family:var(--mono); font-size:12px; }
 .eq-footer a{ color:var(--sunshine); text-decoration:none; }
 </style>
 </head>
@@ -160,123 +175,330 @@ body{ font-family:var(--body); background:var(--cream); color:var(--ink); line-h
   </div>
 </nav>
 
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">🎤 Corporate Events <span class="sep">+</span></span>
+    <span class="ticker-item">🎉 Private Functions <span class="sep">+</span></span>
+    <span class="ticker-item">🎭 Performing Arts <span class="sep">+</span></span>
+    <span class="ticker-item">🏢 Conferences <span class="sep">+</span></span>
+    <span class="ticker-item">🎪 Community Events <span class="sep">+</span></span>
+    <span class="ticker-item">💍 Weddings <span class="sep">+</span></span>
+    <span class="ticker-item">🔊 AV Hire <span class="sep">+</span></span>
+    <span class="ticker-item">🎤 Corporate Events <span class="sep">+</span></span>
+    <span class="ticker-item">🎉 Private Functions <span class="sep">+</span></span>
+    <span class="ticker-item">🎭 Performing Arts <span class="sep">+</span></span>
+    <span class="ticker-item">🏢 Conferences <span class="sep">+</span></span>
+    <span class="ticker-item">🎪 Community Events <span class="sep">+</span></span>
+    <span class="ticker-item">💍 Weddings <span class="sep">+</span></span>
+    <span class="ticker-item">🔊 AV Hire <span class="sep">+</span></span>
+  </div>
+</div>
+
 <!-- HERO -->
 <section class="eq-hero">
-  <span class="eyebrow">🎵 Not a School? No worries.</span>
-  <h1>We do more than schools</h1>
-  <p>Urban Echo provides professional sound &amp; AV for all kinds of events and venues across Perth. Tell us what you need.</p>
-  <a href="#enquire" class="hero-btn">Get in Touch ↓</a>
-</section>
-
-<!-- SERVICES -->
-<section class="eq-services">
-  <h2>What we can help with</h2>
-  <p>If it needs sound, lighting or AV — we've got it covered.</p>
-  <div class="eq-grid">
-    <div class="eq-card">
-      <span class="icon">🎪</span>
-      <h3>Community Events</h3>
-      <p>Markets, festivals, fetes, fundraisers and outdoor events. Full sound setup and operation from start to finish.</p>
-    </div>
-    <div class="eq-card">
-      <span class="icon">🏢</span>
-      <h3>Corporate Events</h3>
-      <p>Conferences, AGMs, product launches, team days and awards nights. Professional AV with no fuss.</p>
-    </div>
-    <div class="eq-card">
-      <span class="icon">💍</span>
-      <h3>Private Functions</h3>
-      <p>Weddings, engagements, birthday parties and celebrations. Great sound so you can focus on enjoying it.</p>
-    </div>
-    <div class="eq-card">
-      <span class="icon">🎭</span>
-      <h3>Performing Arts</h3>
-      <p>Theatre productions, dance shows, live music and performances. We know how to make talent sound great.</p>
-    </div>
-    <div class="eq-card">
-      <span class="icon">🏛️</span>
-      <h3>Venue & Auditorium Hire</h3>
-      <p>Got a venue sitting empty? We manage bookings and operate the AV so you can turn it into revenue.</p>
-    </div>
-    <div class="eq-card">
-      <span class="icon">🎛️</span>
-      <h3>Equipment Hire</h3>
-      <p>Need gear without the operator? We hire out speakers, microphones, mixers, lighting rigs and more.</p>
+  <div class="wrap">
+    <div class="eq-hero-inner">
+      <div>
+        <span class="eq-hero-eyebrow">Perth Sound & AV</span>
+        <h1>Great sound for every event.</h1>
+        <p class="sub">Whether it's a corporate conference, a wedding, a live production or a community event — Urban Echo brings professional sound and AV so you can focus on everything else.</p>
+        <div class="eq-hero-btns">
+          <a href="#enquire" class="btn btn-ink">Get a Quote →</a>
+          <a href="tel:0429660186" class="btn" style="background:var(--paper);">📞 Call Us</a>
+        </div>
+      </div>
+      <div class="eq-hero-cards">
+        <div class="eq-hero-stat">
+          <div>
+            <div class="big">5+</div>
+            <div class="label">Years running live events<br>across Perth</div>
+          </div>
+        </div>
+        <div class="eq-hero-stat">
+          <div>
+            <div class="big">100+</div>
+            <div class="label">Events successfully<br>operated</div>
+          </div>
+        </div>
+        <div class="eq-hero-stat">
+          <div>
+            <div class="big">0</div>
+            <div class="label">Events we've left<br>without sound</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- FORM -->
-<section class="eq-form-section" id="enquire">
-  <div class="eq-form-inner">
-    <span class="eyebrow">Let's talk</span>
-    <h2>Send us an enquiry</h2>
-    <p>Fill in the details below and Mitchel will get back to you within one business day.</p>
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 Q45,8 90,40 Q135,72 180,40 Q225,8 270,40 Q315,72 360,40 Q405,8 450,40 Q495,72 540,40 Q585,8 630,40 Q675,72 720,40 Q765,8 810,40 Q855,72 900,40 Q945,8 990,40 Q1035,72 1080,40 Q1125,8 1170,40 Q1215,72 1260,40 Q1305,8 1350,40 Q1395,72 1440,40" fill="none" stroke="rgba(22,21,39,0.2)" stroke-width="3.5" stroke-linecap="round"/></svg></div>
 
-    <form id="eqForm" action="https://formsubmit.co/mitchel@urbanecho.com.au" method="POST">
-      <input type="hidden" name="_subject" value="New Non-School Enquiry — Urban Echo">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://urbanecho.com.au/enquire.html?sent=1">
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="wrap">
+    <span style="display:inline-block;background:var(--orange);color:var(--ink);border:2px solid var(--ink);border-radius:100px;padding:6px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:20px;">How it works</span>
+    <h2>Sound sorted in three steps.</h2>
+    <p class="lede">No complicated contracts. No hidden fees. Just reliable sound and AV from people who know what they're doing.</p>
+    <div class="how-grid">
+      <div class="how-step">
+        <span class="step-num">1</span><h3>Tell us about your event</h3>
+        <p>Fill in the enquiry form below or give us a call. Tell us what kind of event, when, where, and roughly how many people. We'll get back to you within one business day.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-num">2</span><h3>We send you a quote</h3>
+        <p>We'll put together a clear, itemised quote based on your event needs. No surprises. If you need equipment hire, extra operators or extended hours — it's all in there.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-num">3</span><h3>We show up and deliver</h3>
+        <p>On the day, our technician arrives early, sets up, and operates the sound so everything runs without a hitch. You focus on your event. We focus on making it sound great.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="form-row">
-        <div class="field">
-          <label for="eq-name">Your Name</label>
-          <input type="text" id="eq-name" name="name" placeholder="Jane Smith" required>
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 Q45,72 90,40 Q135,8 180,40 Q225,72 270,40 Q315,8 360,40 Q405,72 450,40 Q495,8 540,40 Q585,72 630,40 Q675,8 720,40 Q765,72 810,40 Q855,8 900,40 Q945,72 990,40 Q1035,8 1080,40 Q1125,72 1170,40 Q1215,8 1260,40 Q1305,72 1350,40 Q1395,8 1440,40" fill="none" stroke="rgba(22,21,39,0.2)" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="wrap">
+    <span style="display:inline-block;background:var(--indigo);color:#fff;border:2px solid var(--ink);border-radius:100px;padding:6px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:20px;">What we cover</span>
+    <h2>We can help with all of this.</h2>
+    <p class="lede">From a 20-person boardroom presentation to a 500-seat gala dinner — if it needs sound, we've got it.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="icon">🏢</span>
+        <h3>Corporate Events</h3>
+        <p>Conferences, AGMs, product launches, team days and awards nights. Professional AV run by someone who knows what they're doing.</p>
+      </div>
+      <div class="service-card">
+        <span class="icon">🎉</span>
+        <h3>Private Functions</h3>
+        <p>Weddings, engagements, milestone birthdays and celebrations. Great sound so you can focus on enjoying the moment.</p>
+      </div>
+      <div class="service-card">
+        <span class="icon">🎭</span>
+        <h3>Performing Arts</h3>
+        <p>Theatre productions, dance shows, live music and recitals. We know how to make talent sound exactly as it should.</p>
+      </div>
+      <div class="service-card">
+        <span class="icon">🎪</span>
+        <h3>Community Events</h3>
+        <p>Markets, festivals, fundraisers and outdoor events. Full sound setup and operation from bump-in to bump-out.</p>
+      </div>
+      <div class="service-card">
+        <span class="icon">🏛️</span>
+        <h3>Venue AV Management</h3>
+        <p>Got a venue or auditorium? We manage bookings and operate the AV for hirers so you don't have to lift a finger.</p>
+      </div>
+      <div class="service-card">
+        <span class="icon">🔊</span>
+        <h3>Equipment Hire</h3>
+        <p>Need gear without the operator? We hire out speakers, microphones, mixers and more. Just let us know what you need.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 Q45,8 90,40 Q135,72 180,40 Q225,8 270,40 Q315,72 360,40 Q405,8 450,40 Q495,72 540,40 Q585,8 630,40 Q675,72 720,40 Q765,8 810,40 Q855,72 900,40 Q945,8 990,40 Q1035,72 1080,40 Q1125,8 1170,40 Q1215,72 1260,40 Q1305,8 1350,40 Q1395,72 1440,40" fill="none" stroke="rgba(22,21,39,0.2)" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+
+<!-- PACKAGES -->
+<section class="packages">
+  <div class="wrap">
+    <span class="pkg-eyebrow">Pricing</span>
+    <h2>Simple, transparent pricing.</h2>
+    <p class="lede">Whether you need us once or regularly, there's a package that fits. All prices are starting from — we'll send you a detailed quote once we know your event.</p>
+    <div class="pkg-grid">
+      <div class="pkg-card" style="background:var(--pink);">
+        <span class="pkg-tag">One-Off Event</span>
+        <h3>Single Event</h3>
+        <div class="pkg-desc">A sound technician for any event up to 3 hours, including a 30-minute setup and 30-minute pack-down. Need extra time, additional operators, lighting or slides? We'll quote it separately.</div>
+        <div class="pkg-price">$500 <span>/ event</span></div>
+        <ul class="pkg-list">
+          <li>Setup and EQ the room</li>
+          <li>Operate sound for up to 3 hours</li>
+          <li>On-site problem solving</li>
+          <li>Pack down included</li>
+          <li>No lock-in required</li>
+        </ul>
+        <a href="#enquire" class="btn btn-blue">Get a Quote</a>
+      </div>
+
+      <div class="pkg-card featured">
+        <span class="pkg-tag" style="background:var(--orange);">Most Popular</span>
+        <h3>Events Package</h3>
+        <div class="pkg-desc">Lock in multiple events and save. Same great service for every event — we show up, set up, operate and pack down. Perfect for venues, recurring functions or organisations with a regular events calendar.</div>
+        <div class="pkg-price-label">5 events starting from</div>
+        <div class="pkg-price">$2,250</div>
+        <ul class="pkg-list">
+          <li>5 events, save 10%</li>
+          <li>10 events, save 15%</li>
+          <li>15 events, save 20%</li>
+          <li>Custom packages available</li>
+          <li>Priority scheduling</li>
+        </ul>
+        <a href="#enquire" class="btn btn-orange">Get a Quote</a>
+      </div>
+
+      <div class="pkg-card" style="background:var(--cream);">
+        <span class="pkg-tag">Ongoing</span>
+        <h3>Fully Hands-Free</h3>
+        <div class="pkg-desc">Lock us in as your dedicated AV team for the year. Ideal for venues, performing arts organisations or businesses with a packed events calendar. We handle everything.</div>
+        <div class="pkg-price">Custom <span>quote</span></div>
+        <ul class="pkg-list">
+          <li>25% discount on AV operators</li>
+          <li>50% discount on equipment hire</li>
+          <li>Priced around your calendar</li>
+          <li>Dedicated point of contact</li>
+          <li>Priority availability</li>
+        </ul>
+        <a href="#enquire" class="btn btn-blue">Get a Quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 Q45,72 90,40 Q135,8 180,40 Q225,72 270,40 Q315,8 360,40 Q405,72 450,40 Q495,8 540,40 Q585,72 630,40 Q675,8 720,40 Q765,72 810,40 Q855,8 900,40 Q945,72 990,40 Q1035,8 1080,40 Q1125,72 1170,40 Q1215,8 1260,40 Q1305,72 1350,40 Q1395,8 1440,40" fill="none" stroke="rgba(22,21,39,0.2)" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+
+<!-- CONTACT -->
+<section class="contact" id="enquire">
+  <div class="wrap">
+    <div class="contact-grid">
+      <!-- Left -->
+      <div>
+        <span class="eyebrow">Let's Talk</span>
+        <h2>Send us an enquiry.</h2>
+        <p>Fill in the form and Mitchel will get back to you within one business day with a quote or to find out more about your event.</p>
+        <div class="contact-detail">
+          <span class="ic">📞</span>
+          <a href="tel:0429660186">0429 660 186</a>
         </div>
-        <div class="field">
-          <label for="eq-phone">Phone</label>
-          <input type="tel" id="eq-phone" name="phone" placeholder="04xx xxx xxx">
+        <div class="contact-detail">
+          <span class="ic">✉️</span>
+          <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
         </div>
       </div>
-      <div class="field">
-        <label for="eq-email">Email</label>
-        <input type="email" id="eq-email" name="email" placeholder="jane@example.com" required>
+      <!-- Form -->
+      <div class="form-card">
+        <form id="eqForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="eq-name">Your Name</label>
+              <input type="text" id="eq-name" name="name" placeholder="Jane Smith" required>
+            </div>
+            <div class="field">
+              <label for="eq-phone">Phone</label>
+              <input type="tel" id="eq-phone" name="phone" placeholder="04xx xxx xxx">
+            </div>
+          </div>
+          <div class="field">
+            <label for="eq-email">Email</label>
+            <input type="email" id="eq-email" name="email" placeholder="jane@example.com" required>
+          </div>
+          <div class="field">
+            <label for="eq-org">Organisation / Venue <span style="font-weight:400;opacity:0.55;">(if applicable)</span></label>
+            <input type="text" id="eq-org" name="organisation" placeholder="e.g. The Rechabite, Smith Family">
+          </div>
+          <div class="field">
+            <label for="eq-service">What do you need?</label>
+            <select id="eq-service" name="service" required>
+              <option value="">Select a service…</option>
+              <option>Single Event (One-Off)</option>
+              <option>Events Package (Multiple Events)</option>
+              <option>Corporate Event or Conference</option>
+              <option>Wedding or Private Function</option>
+              <option>Performing Arts Production</option>
+              <option>Community or Outdoor Event</option>
+              <option>Venue AV Management</option>
+              <option>Equipment Hire Only</option>
+              <option>Something Else</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="eq-date">Event Date <span style="font-weight:400;opacity:0.55;">(if known)</span></label>
+            <input type="date" id="eq-date" name="event_date">
+          </div>
+          <div class="field">
+            <label>Preferred contact method</label>
+            <div class="contact-method-row">
+              <label class="contact-method-opt" id="cmo-call">
+                <input type="radio" name="contact_method" value="Call me">
+                <span class="contact-method-tick"></span> Call me
+              </label>
+              <label class="contact-method-opt" id="cmo-text">
+                <input type="radio" name="contact_method" value="Text me">
+                <span class="contact-method-tick"></span> Text me
+              </label>
+              <label class="contact-method-opt" id="cmo-email">
+                <input type="radio" name="contact_method" value="Email me">
+                <span class="contact-method-tick"></span> Email me
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="eq-notes">Tell us more</label>
+            <textarea id="eq-notes" name="notes" placeholder="Venue, expected attendance, equipment you have, anything else useful…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center;padding:16px;font-size:16px;">Send Enquiry →</button>
+        </form>
+        <div id="eqSuccess">
+          <div style="font-size:40px;margin-bottom:12px;">✅</div>
+          <h3>Enquiry received!</h3>
+          <p>Thanks for reaching out. Mitchel will be in touch within one business day.<br>In the meantime you can call or text on <a href="tel:+61429660186" style="color:var(--indigo);font-weight:700;">0429 660 186</a>.</p>
+        </div>
       </div>
-      <div class="field">
-        <label for="eq-org">Organisation / Venue <span style="font-weight:400;opacity:0.55;">(if applicable)</span></label>
-        <input type="text" id="eq-org" name="organisation" placeholder="e.g. The Rechabite, Smith Family">
-      </div>
-      <div class="field">
-        <label for="eq-service">What do you need?</label>
-        <select id="eq-service" name="service" required>
-          <option value="">Select a service…</option>
-          <option>Community Event</option>
-          <option>Corporate Event</option>
-          <option>Private Function / Wedding</option>
-          <option>Performing Arts Production</option>
-          <option>Venue / Auditorium Hire Management</option>
-          <option>Equipment Hire Only</option>
-          <option>Something Else</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="eq-date">Event Date <span style="font-weight:400;opacity:0.55;">(if known)</span></label>
-        <input type="date" id="eq-date" name="event_date">
-      </div>
-      <div class="field">
-        <label for="eq-notes">Tell us more</label>
-        <textarea id="eq-notes" name="notes" placeholder="Venue, expected attendance, equipment you have, anything else useful…"></textarea>
-      </div>
-      <button type="submit" class="submit-btn">Send Enquiry →</button>
-    </form>
-
-    <div id="eqSuccess">
-      <h3>✔ Enquiry received!</h3>
-      <p>Thanks for reaching out. Mitchel will be in touch within one business day.<br>In the meantime you can call or text on <a href="tel:+61429660186">0429 660 186</a>.</p>
     </div>
   </div>
 </section>
 
 <footer class="eq-footer">
-  © Urban Echo 2026 · <a href="index.html">Back to Schools page</a> · <a href="tel:+61429660186">0429 660 186</a>
+  <span>© 2026 Urban Echo. All rights reserved.</span>
+  &nbsp;·&nbsp;
+  <a href="index.html">Back to Schools</a>
+  &nbsp;·&nbsp;
+  <a href="tel:+61429660186">0429 660 186</a>
 </footer>
 
 <script>
-// Show success message if redirected back after form submit
-if(window.location.search.includes('sent=1')){
-  document.getElementById('eqForm').style.display = 'none';
-  document.getElementById('eqSuccess').style.display = 'block';
+// Contact method toggle styling
+document.querySelectorAll('.contact-method-opt').forEach(function(opt){
+  opt.addEventListener('click', function(){
+    document.querySelectorAll('.contact-method-opt').forEach(function(o){ o.classList.remove('selected'); });
+    opt.classList.add('selected');
+  });
+});
+// Pre-select "Call me"
+var callOpt = document.querySelector('.contact-method-opt');
+if(callOpt){
+  callOpt.classList.add('selected');
+  callOpt.querySelector('input').checked = true;
 }
+
+// Form submit
+document.getElementById('eqForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var btn = this.querySelector('button[type="submit"]');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  var data = {};
+  new FormData(this).forEach(function(v,k){ data[k]=v; });
+  try{
+    var res = await fetch('https://formspree.io/f/xwvdrdly', {
+      method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify(data)
+    });
+    if(res.ok){
+      document.getElementById('eqForm').style.display='none';
+      document.getElementById('eqSuccess').style.display='block';
+    } else {
+      btn.textContent = 'Try again →';
+      btn.disabled = false;
+    }
+  } catch(err){
+    btn.textContent = 'Try again →';
+    btn.disabled = false;
+  }
+});
 </script>
 </body>
 </html>
