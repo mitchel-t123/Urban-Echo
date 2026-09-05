@@ -1998,6 +1998,35 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </head>
 <body>
 
+<!-- ============ SCHOOL POPUP ============ -->
+<div id="schoolPopup" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(22,21,39,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border:3px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);max-width:420px;width:100%;padding:36px 32px;text-align:center;position:relative;">
+    <div style="font-size:40px;margin-bottom:16px;">🏫</div>
+    <h2 style="font-family:var(--body);font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;line-height:1.2;">Are you visiting on behalf of a school?</h2>
+    <p style="font-size:14px;color:rgba(22,21,39,0.6);margin-bottom:28px;line-height:1.5;">Urban Echo specialises in schools, but we work with all kinds of events and venues too.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button id="popupYes" style="background:var(--orange);color:var(--ink);border:2.5px solid var(--ink);border-radius:100px;padding:14px 24px;font-family:var(--body);font-size:15px;font-weight:800;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform 0.1s,box-shadow 0.1s;">Yes, I'm from a school ✓</button>
+      <a href="enquire.html" id="popupNo" style="background:var(--cream);color:var(--ink);border:2.5px solid var(--ink);border-radius:100px;padding:14px 24px;font-family:var(--body);font-size:15px;font-weight:800;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform 0.1s,box-shadow 0.1s;text-decoration:none;display:block;">No, I'm not a school</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  if(sessionStorage.getItem('ue-school-popup-seen')) {
+    document.getElementById('schoolPopup').style.display = 'none';
+    return;
+  }
+  document.getElementById('schoolPopup').style.display = 'flex';
+  document.getElementById('popupYes').addEventListener('click', function(){
+    sessionStorage.setItem('ue-school-popup-seen','1');
+    document.getElementById('schoolPopup').style.display = 'none';
+  });
+  document.getElementById('popupNo').addEventListener('click', function(){
+    sessionStorage.setItem('ue-school-popup-seen','1');
+  });
+})();
+</script>
+
 <!-- ============ NAV ============ -->
 <nav class="nav">
   <div class="nav-inner">
