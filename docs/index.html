@@ -952,6 +952,7 @@ h2,h3{
   display:block;
   line-height:1.05;
 }
+#schools-panel .section-head{ margin-bottom: 24px; }
 .school-logos{
   display:flex;
   flex-wrap:wrap;
@@ -1104,24 +1105,27 @@ h2,h3{
   box-shadow: 5px 5px 0 var(--ink);
 }
 .plan-step .step-num{
-  font-family: var(--body);
-  font-size: 18px;
-  color: var(--orange);
-  -webkit-text-stroke: 0;
-  margin-bottom: 8px;
-  display:block;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2px solid var(--ink); background: var(--cream);
+  color: var(--ink); font-size: 15px; font-weight: 800;
+  font-family: var(--body); flex-shrink: 0;
+  margin-bottom: 0; vertical-align: middle; margin-right: 10px;
 }
 .plan-step h3{
+  display: inline;
   font-family: var(--body);
   font-weight: 800;
   text-transform:none;
   letter-spacing:0;
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
+.plan-step p{ margin-top: 12px; display: block; }
 .plan-step p{ font-size: 14.5px; color: rgba(22,21,39,0.68); }
 .plan-step.resolved{ background: var(--cream); border-color: var(--ink); }
-.plan-step.resolved .step-num{ color: var(--orange); }
+.plan-step.resolved .step-num{ color: var(--ink); }
 .plan-step.resolved p{ color: rgba(22,21,39,0.68); }
 
 /* ============ PACKAGES ============ */
