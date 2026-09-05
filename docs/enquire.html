@@ -141,9 +141,11 @@ a{ color:inherit; }
 .pkg-card.featured .pkg-desc{ color:rgba(255,252,245,0.68); }
 .pkg-card.featured .pkg-list li{ border-top-color:rgba(255,252,245,0.12); color:rgba(255,252,245,0.85); }
 .pkg-card.featured .pkg-list li::before{ color:var(--forest); }
-.pkg-tag{ display:inline-block; background:var(--sunshine); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:4px 14px; font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:16px; }
+.pkg-tag{ display:inline-block; background:var(--sunshine); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:4px 14px; font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0; vertical-align:middle; }
+.pkg-card h3{ display:inline; font-size:22px; font-weight:800; vertical-align:middle; margin-left:10px; }
+.pkg-title-row{ margin-bottom:16px; }
 .pkg-card.featured .pkg-tag{ background:var(--orange); }
-.pkg-card h3{ font-size:22px; font-weight:800; margin-bottom:10px; }
+.pkg-card.featured h3{ color:var(--paper); }
 .pkg-desc{ font-size:13.5px; color:rgba(22,21,39,0.65); line-height:1.6; margin-bottom:18px; flex-grow:1; }
 .pkg-price-label{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; opacity:0.5; margin-bottom:4px; }
 .pkg-price{ font-size:36px; font-weight:800; letter-spacing:-0.03em; margin-bottom:20px; }
@@ -375,11 +377,10 @@ a{ color:inherit; }
   <div class="wrap">
     <span class="section-eyebrow">Pricing</span>
     <h2>Simple, transparent pricing.</h2>
-    <p class="lede">Whether you need us once or regularly, there's a package that fits. All prices are starting from, and we'll send you a detailed quote once we know your event.</p>
+    <p class="lede" style="max-width:780px;">Whether you need us once or regularly, there's a package that fits. All prices are starting from, and we'll send you a detailed quote once we know your event.</p>
     <div class="pkg-grid">
       <div class="pkg-card" style="background:var(--pink);">
-        <span class="pkg-tag">One-Off Event</span>
-        <h3>Single Event</h3>
+        <div class="pkg-title-row"><span class="pkg-tag">One-Off Event</span><h3>Single Event</h3></div>
         <div class="pkg-desc">A sound technician for any event up to 3 hours, including a 30-minute setup and 30-minute pack-down. Need extra time, additional operators, lighting or slides? We'll quote it separately.</div>
         <div class="pkg-price">$500 <span>/ event</span></div>
         <ul class="pkg-list">
@@ -393,8 +394,7 @@ a{ color:inherit; }
       </div>
 
       <div class="pkg-card featured">
-        <span class="pkg-tag" style="background:var(--orange);">Most Popular</span>
-        <h3>Events Package</h3>
+        <div class="pkg-title-row"><span class="pkg-tag" style="background:var(--orange);">Most Popular</span><h3>Events Package</h3></div>
         <div class="pkg-desc">Lock in multiple events and save. Same great service every time: we show up, set up, operate and pack down. Perfect for venues, recurring functions or organisations with a regular events calendar.</div>
         <div class="pkg-price-label">5 events starting from</div>
         <div class="pkg-price">$2,250</div>
@@ -409,8 +409,7 @@ a{ color:inherit; }
       </div>
 
       <div class="pkg-card" style="background:var(--cream);">
-        <span class="pkg-tag">Ongoing</span>
-        <h3>Fully Hands-Free</h3>
+        <div class="pkg-title-row"><span class="pkg-tag">Ongoing</span><h3>Fully Hands-Free</h3></div>
         <div class="pkg-desc">Lock us in as your dedicated AV team for the year. Ideal for venues, performing arts organisations or businesses with a packed events calendar. We handle everything.</div>
         <div class="pkg-price">Custom <span>quote</span></div>
         <ul class="pkg-list">
