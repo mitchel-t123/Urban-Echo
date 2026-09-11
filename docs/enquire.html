@@ -572,7 +572,7 @@ document.getElementById('eqForm').addEventListener('submit', async function(e){
   var data = {};
   new FormData(this).forEach(function(v,k){ data[k]=v; });
   try{
-    var res = await fetch('https://formspree.io/f/xwvdrdly', {
+    var res = await fetch('https://formspree.io/f/xvkolvoa', {
       method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
       body: JSON.stringify(data)
     });
