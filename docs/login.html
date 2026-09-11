@@ -20,7 +20,7 @@
   --mono: 'Inter', -apple-system, sans-serif;
 }
 *{ margin:0; padding:0; box-sizing:border-box; }
-html{ background: var(--ink); }
+html{ background: var(--ink); min-height: 100%; }
 body{
   font-family: var(--body);
   background: var(--ink);
@@ -32,6 +32,7 @@ body{
   justify-content: center;
   padding: 24px;
   -webkit-font-smoothing: antialiased;
+  overflow-y: auto;
 }
 .login-box{
   width: 100%;
