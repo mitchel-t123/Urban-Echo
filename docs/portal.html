@@ -1271,6 +1271,11 @@ function doLogout(){
       displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
       document.getElementById('portalUserName').textContent = displayName;
       if(error) console.warn('Supabase profile error:', error.message);
+      // Clear "Calculating…" so it doesn't look broken
+      var wwcEl = document.getElementById('wwcCountdown');
+      var policeEl = document.getElementById('policeCountdown');
+      if(wwcEl) wwcEl.textContent = 'No data — contact Mitchel to update your profile';
+      if(policeEl) policeEl.textContent = 'No data — contact Mitchel to update your profile';
     }
 
   } catch(err) {
