@@ -54,16 +54,125 @@
     "@type": "PostalAddress",
     "addressLocality": "Perth",
     "addressRegion": "WA",
+    "postalCode": "6000",
     "addressCountry": "AU"
   },
   "areaServed": {
     "@type": "City",
     "name": "Perth"
   },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Urban Echo Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Single Event",
+          "description": "On-demand sound and AV technician for a single school event."
+        },
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "price": "500",
+          "priceCurrency": "AUD",
+          "minPrice": "500"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Events Package",
+          "description": "Bundled sound and AV coverage for multiple school events throughout the year."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Annual Plan",
+          "description": "Full-year AV support with priority scheduling and a dedicated Urban Echo contact."
+        }
+      }
+    ]
+  },
   "serviceType": ["Sound Technician", "AV Operator", "School Events AV", "Audio Visual Services"],
   "priceRange": "$$",
   "image": "https://urbanecho.com.au/og-image.png",
   "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What exactly does Urban Echo do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Urban Echo provides on-demand sound and AV operators for Perth schools. We send a trained technician to your event who sets up, runs, and packs down all the audio and visual equipment — so your staff don't have to touch a thing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of school events do you cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We cover the full school calendar: assemblies, speech nights, graduations, performing arts productions, sports carnivals, presentation evenings, open days, concerts, and more. If it needs a microphone or a projector, we can handle it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you bring your own equipment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We arrive with everything needed for your event — PA systems, microphones, mixing desks, projectors, and cabling. You don't need to own or hire any gear separately. We also work with your existing equipment if you have it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pricing starts from $500 per event for a single booking. Schools with regular events save significantly with our Events Package or Annual Plan. Get in touch for a tailored quote."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How far in advance do we need to book?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We recommend booking at least two weeks ahead for single events, though we do our best to accommodate last-minute requests. Annual plan clients get priority access to our calendar and are locked in at the start of each school year."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can we try Urban Echo before committing to a plan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — we offer a free trial event for new school clients. It's a no-risk way to see how we work before signing up to a package."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you only work with schools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our core focus is Perth schools, but we also work with corporate events, community organisations, churches, and performing arts groups."
+      }
+    }
+  ]
 }
 </script>
 
@@ -1404,6 +1513,20 @@ section[id], div[id].packages {
   grid-template-columns: 0.9fr 1.1fr;
   gap: 60px;
 }
+/* ============ FAQ ============ */
+.faq-section{ background: var(--cream); padding: 96px 0; }
+.faq-section .section-head{ margin-bottom: 48px; }
+.faq-list{ display: flex; flex-direction: column; gap: 12px; max-width: 780px; margin: 0 auto; }
+.faq-item{ background: #ffffff; border: 2px solid var(--ink); border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); overflow: hidden; }
+.faq-item[open]{ box-shadow: 6px 6px 0 var(--ink); }
+.faq-q{ font-family: var(--body); font-size: 17px; font-weight: 700; color: var(--ink); padding: 18px 22px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.faq-q::-webkit-details-marker{ display: none; }
+.faq-q::after{ content: '+'; font-size: 22px; font-weight: 400; flex-shrink: 0; transition: transform 0.2s ease; }
+.faq-item[open] .faq-q::after{ transform: rotate(45deg); }
+.faq-a{ font-family: var(--body); font-size: 16px; color: rgba(22,21,39,0.8); line-height: 1.65; padding: 0 22px 20px; }
+.faq-a a{ color: var(--indigo); font-weight: 600; text-decoration: none; }
+.faq-a a:hover{ text-decoration: underline; }
+
 .contact .eyebrow{ display:inline-block; background:var(--forest); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-size:13px; letter-spacing:0.08em; margin-bottom:18px; margin-top:-52px; position:relative; z-index:2; }
 .contact h2{ font-size: clamp(28px,4vw,42px); margin-bottom: 18px; font-family: var(--body); text-transform: none; letter-spacing: 0; font-weight: 800; color: var(--ink); }
 .contact p{ color: rgba(22,21,39,0.82); font-size:16px; margin-bottom: 28px; max-width:420px; }
@@ -2798,6 +2921,46 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <div class="meet-success-divider"></div>
         <p class="meet-success-footer">Can't wait? Call or text us on <a href="tel:0429660186" style="font-weight:700;color:var(--indigo);">0429 660 186</a></p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq-section" id="faq">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">FAQ</span>
+      <h2>Common questions</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item" data-reveal>
+        <summary class="faq-q">What exactly does Urban Echo do?</summary>
+        <div class="faq-a">Urban Echo provides on-demand sound and AV operators for Perth schools. We send a trained technician to your event who sets up, runs, and packs down all the audio and visual equipment — so your staff don't have to touch a thing.</div>
+      </details>
+      <details class="faq-item" data-reveal>
+        <summary class="faq-q">What types of school events do you cover?</summary>
+        <div class="faq-a">We cover the full school calendar: assemblies, speech nights, graduations, performing arts productions, sports carnivals, presentation evenings, open days, concerts, and more. If it needs a microphone or a projector, we can handle it.</div>
+      </details>
+      <details class="faq-item" data-reveal>
+        <summary class="faq-q">Do you bring your own equipment?</summary>
+        <div class="faq-a">Yes. We arrive with everything needed for your event — PA systems, microphones, mixing desks, projectors, and cabling. You don't need to own or hire any gear separately. We also work with your existing equipment if you have it.</div>
+      </details>
+      <details class="faq-item" data-reveal>
+        <summary class="faq-q">How much does it cost?</summary>
+        <div class="faq-a">Pricing starts from $500 per event for a single booking. Schools with regular events save significantly with our Events Package or Annual Plan — which include priority scheduling, a dedicated contact, and discounted rates. Get in touch for a tailored quote.</div>
+      </details>
+      <details class="faq-item" data-reveal>
+        <summary class="faq-q">How far in advance do we need to book?</summary>
+        <div class="faq-a">We recommend booking at least two weeks ahead for single events, though we do our best to accommodate last-minute requests. Annual plan clients get priority access to our calendar and are locked in at the start of each school year.</div>
+      </details>
+      <details class="faq-item" data-reveal>
+        <summary class="faq-q">Can we try Urban Echo before committing to a plan?</summary>
+        <div class="faq-a">Yes — we offer a free trial event for new school clients. It's a no-risk way to see how we work before signing up to a package. <a href="#contact">Get in touch to book your free trial.</a></div>
+      </details>
+      <details class="faq-item" data-reveal>
+        <summary class="faq-q">Do you only work with schools?</summary>
+        <div class="faq-a">Our core focus is Perth schools, but we also work with corporate events, community organisations, churches, and performing arts groups. See our <a href="enquire.html">Events &amp; Venues page</a> for more.</div>
+      </details>
     </div>
   </div>
 </section>
