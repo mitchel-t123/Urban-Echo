@@ -2048,10 +2048,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 (function(){
   var popup = document.getElementById('schoolPopup');
   function hidePopup(){
-    popup.style.display = 'none';
-    popup.style.pointerEvents = 'none';
-    popup.style.visibility = 'hidden';
-    popup.classList.remove('visible');
+    popup.remove();
   }
   function showPopup(){
     popup.style.display = 'flex';
@@ -2060,7 +2057,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     popup.classList.add('visible');
   }
   if(sessionStorage.getItem('ue-school-popup-seen')) {
-    hidePopup();
+    popup.remove();
     return;
   }
   showPopup();
