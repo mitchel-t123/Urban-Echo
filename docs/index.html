@@ -1939,16 +1939,18 @@ body{ overflow-x: hidden; }
 }
 /* Not a school pill — desktop only */
 #notSchoolPill{
-  position:fixed; bottom:28px; right:28px; z-index:998;
-  display:inline-flex; align-items:center; gap:8px;
-  font-family:var(--body); font-size:15px; font-weight:800;
+  position:fixed; bottom:50%; right:0; transform:translateY(50%) rotate(-90deg) translateX(0);
+  transform-origin: right center; z-index:998;
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--body); font-size:12px; font-weight:800;
   color:var(--ink); text-decoration:none;
-  background:var(--paper); border:2.5px solid var(--ink);
-  border-radius:100px; padding:12px 22px;
-  box-shadow:4px 4px 0 var(--ink);
-  transition:box-shadow 0.1s, transform 0.1s;
+  background:var(--paper); border:2px solid var(--ink);
+  border-radius:100px 100px 0 0; padding:8px 16px;
+  box-shadow:-3px -3px 0 var(--ink);
+  transition:box-shadow 0.1s, padding-bottom 0.15s;
+  white-space:nowrap;
 }
-#notSchoolPill:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-2px); }
+#notSchoolPill:hover{ padding-bottom:14px; box-shadow:-4px -4px 0 var(--ink); }
 @media(max-width:920px){ #notSchoolPill{ display:none; } }
 /* ── Floating back-to-top button (mobile) ── */
 .fab-menu{
