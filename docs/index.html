@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-77DYLMT4GJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-77DYLMT4GJ');
+</script>
 <title>Urban Echo — Sound &amp; AV for Perth Schools</title>
 <link rel="canonical" href="https://urbanecho.com.au/">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -2976,6 +2984,7 @@ form.addEventListener('submit', async function(e){
       document.getElementById('successEmail').textContent = emailVal;
       form.style.display = 'none';
       success.style.display = 'block';
+      gtag('event', 'contact_form_submit', { event_category: 'engagement' });
     } else {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Send Enquiry';
@@ -3324,6 +3333,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
         document.getElementById('meetSuccessName').textContent = firstName + ' ';
         document.getElementById('meetSuccessEmail').textContent = email;
         meetSuccess.style.display = 'block';
+        gtag('event', 'coffee_meeting_request', { event_category: 'engagement' });
         // Scroll meet card into view so they see the confirmation
         var meetCard = document.querySelector('.meet-card');
         if(meetCard) meetCard.scrollIntoView({ behavior:'smooth', block:'center' });
@@ -3505,6 +3515,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
         ticked.add(idx);
         this.classList.add('checked');
         this.querySelector('.check-icon').textContent = '✓';
+        gtag('event', 'symptom_checked', { event_category: 'hero', symptom_index: idx });
       }
       meterOverride = null; // checkbox click takes priority over meter
       updateUI();
@@ -3527,6 +3538,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     function setMeterLevel(lvl){
       lvl = Math.max(0, Math.min(4, lvl));
       meterOverride = lvl;
+      gtag('event', 'stress_meter_changed', { event_category: 'hero', stress_level: lvl });
       updateUI();
       track.setAttribute('aria-valuenow', lvl);
     }
@@ -3764,6 +3776,26 @@ if(navTT){
   navTT.addEventListener('mousedown', function(){ this.classList.add('clicked'); });
   navTT.addEventListener('blur', function(){ this.classList.remove('clicked'); });
 }
+
+// ── GA4 CTA click tracking ───────────────────────────────────────────────
+document.addEventListener('click', function(e){
+  var el = e.target.closest('a[href],button');
+  if(!el) return;
+  var href = el.getAttribute('href') || '';
+  var text = (el.textContent || '').trim().replace(/\s+/g,' ').slice(0, 60);
+  if(el.classList.contains('btn-coffee') || href === '#meet'){
+    gtag('event', 'cta_click', { event_category: 'cta', cta_label: "Let's Get Coffee" });
+  } else if(el.classList.contains('btn-blue') && href === '#contact'){
+    var pkg = el.getAttribute('data-package') || '';
+    gtag('event', 'cta_click', { event_category: 'cta', cta_label: 'Contact Us', package: pkg });
+  } else if(href === '#packages' || el.classList.contains('btn-blue') && href === '#packages'){
+    gtag('event', 'cta_click', { event_category: 'cta', cta_label: 'View Packages' });
+  } else if(el.classList.contains('emergency-save-btn')){
+    gtag('event', 'cta_click', { event_category: 'cta', cta_label: 'Save Number' });
+  } else if(href && href.endsWith('.html')){
+    gtag('event', 'page_link_click', { event_category: 'navigation', destination: href });
+  }
+});
 </script>
 
 
