@@ -2202,12 +2202,12 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 (function(){
   var popup = document.getElementById('schoolPopup');
   // Only show once per browser session
-  if(sessionStorage.getItem('popupSeen')){
+  if(localStorage.getItem('popupSeen')){
     popup.remove();
     return;
   }
   function hidePopup(){
-    sessionStorage.setItem('popupSeen', '1');
+    localStorage.setItem('popupSeen', '1');
     popup.classList.remove('visible');
     // Force repaint then remove — eliminates any stale compositing layer
     requestAnimationFrame(function(){
