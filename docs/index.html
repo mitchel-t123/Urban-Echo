@@ -827,7 +827,7 @@ h2,h3{
 }
 .stress-label-mobile{ display: none; }
 .symptom-card-mobile-only{ display: none; }
-.school-logo-more{ display: none; }
+.school-logo-more{ display: flex; align-items: center; justify-content: center; background: var(--cream); font-family: var(--mono); font-weight: 800; font-size: 18px; color: var(--ink); }
 .mobile-reviews-heading{ display: none; }
 .footer-tagline-short{ display: none; }
 .stress-track{
@@ -1079,8 +1079,8 @@ h2,h3{
 }
 #schools-panel .section-head{ margin-bottom: 24px; }
 .school-logos{
-  display:flex;
-  flex-wrap:wrap;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 14px;
 }
 .school-logo{
@@ -1088,7 +1088,7 @@ h2,h3{
   border: 2.5px solid var(--ink);
   border-radius: 14px;
   padding: 6px;
-  height: 165px;
+  height: 130px;
   box-shadow: 5px 5px 0 var(--ink);
   display:flex;
   align-items:center;
@@ -2065,7 +2065,8 @@ body{ overflow-x: hidden; }
   .stress-meter{ margin-top: 0; }
   .nav-inner{ padding:10px 14px; }
   .nav .btn{ padding:8px 14px; font-size:13px; }
-  .school-logo{ height:auto; padding:8px; min-width:90px; flex:0 0 calc(33.333% - 10px); max-width:calc(33.333% - 10px); }
+  .school-logos{ grid-template-columns: repeat(3, 1fr); }
+  .school-logo{ height: auto; padding: 8px; }
   .school-logo img{ max-width:110px; max-height:60px; }
   /* Credentials: 2×2 grid */
   .credential-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px; }
