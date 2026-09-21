@@ -287,9 +287,9 @@ h2,h3{
 /* Mobile menu */
 .mobile-menu{
   display:none; position:fixed; top:0; left:0; right:0; bottom:0;
-  background:rgba(22,21,39,0.55); z-index:99; backdrop-filter:blur(2px);
+  background:rgba(22,21,39,0.55); z-index:99;
 }
-.mobile-menu.open{ display:block; }
+.mobile-menu.open{ display:block; backdrop-filter:blur(2px); }
 .mobile-menu-panel{
   position:absolute; top:0; left:0; right:0;
   background:#fff; padding:20px 20px 28px;
