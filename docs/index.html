@@ -425,6 +425,9 @@ h2,h3{
   flex-direction: column;
   gap: 8px;
   margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .hero-check{
@@ -444,6 +447,8 @@ h2,h3{
   user-select: none;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
   -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+  position: relative;
 }
 .hero-check:hover{
   background: #ffffff;
@@ -717,10 +722,12 @@ h2,h3{
   padding: 4px 0;
   gap: 0;
   position: relative;
+  z-index: 1;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;
+  pointer-events: auto;
 }
 .stress-track:active{ cursor: grabbing; }
 .stress-track:focus{ outline: none; }
@@ -739,9 +746,10 @@ h2,h3{
   border: none;
   cursor: pointer;
   position: relative;
-  z-index: 1;
+  z-index: 2;
   outline: none;
   -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
 }
 .stress-face.active{
   opacity: 1;
@@ -2002,17 +2010,20 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
 <!-- ============ SCHOOL POPUP ============ -->
 <style>
-#schoolPopup.visible{ animation: popupFadeIn 0.25s ease; }
-@keyframes popupFadeIn{ from{ opacity:0; } to{ opacity:1; } }
-#schoolPopup.visible #popupCard{ animation: popupSlideUp 0.3s cubic-bezier(0.34,1.56,0.64,1); }
-@keyframes popupSlideUp{ from{ opacity:0; transform:translateY(28px) scale(0.96); } to{ opacity:1; transform:translateY(0) scale(1); } }
 #schoolPopup{
+  display:none;
   position:fixed; inset:0; z-index:9999;
   background:rgba(22,21,39,0.65);
-  display:flex;
   align-items:center; justify-content:center;
   padding:20px; overflow-y:auto;
 }
+#schoolPopup.visible{
+  display:flex;
+  animation: popupFadeIn 0.25s ease;
+}
+@keyframes popupFadeIn{ from{ opacity:0; } to{ opacity:1; } }
+#schoolPopup.visible #popupCard{ animation: popupSlideUp 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes popupSlideUp{ from{ opacity:0; transform:translateY(28px) scale(0.96); } to{ opacity:1; transform:translateY(0) scale(1); } }
 #popupCard{
   background:var(--paper); border:3px solid var(--ink);
   border-radius:28px; box-shadow:8px 8px 0 var(--ink);
@@ -2036,7 +2047,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   .popup-choice .popup-hint{ display:none; }
 }
 </style>
-<div id="schoolPopup" style="pointer-events:none;visibility:hidden;">
+<div id="schoolPopup">
   <div id="popupCard">
     <div style="display:inline-block;background:var(--orange);border:2px solid var(--ink);border-radius:100px;padding:5px 16px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:18px;color:#fff;">Quick question 👇🏻</div>
     <h2 style="font-family:var(--body);font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;line-height:1.2;">Who are you here for?</h2>
@@ -2058,12 +2069,22 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <script>
 (function(){
   var popup = document.getElementById('schoolPopup');
-  function hidePopup(){
+  // Only show once per browser session
+  if(sessionStorage.getItem('popupSeen')){
     popup.remove();
+    return;
+  }
+  function hidePopup(){
+    sessionStorage.setItem('popupSeen', '1');
+    popup.classList.remove('visible');
+    // Force repaint then remove — eliminates any stale compositing layer
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        popup.remove();
+      });
+    });
   }
   function showPopup(){
-    popup.style.pointerEvents = 'auto';
-    popup.style.visibility = 'visible';
     popup.classList.add('visible');
   }
   showPopup();
