@@ -1937,6 +1937,19 @@ body{ overflow-x: hidden; }
 @media (min-width: 921px){
   .hero-ctas-mobile{ display: none; }
 }
+/* Not a school pill — desktop only */
+#notSchoolPill{
+  position:fixed; bottom:28px; right:28px; z-index:998;
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--body); font-size:15px; font-weight:800;
+  color:var(--ink); text-decoration:none;
+  background:var(--paper); border:2.5px solid var(--ink);
+  border-radius:100px; padding:12px 22px;
+  box-shadow:4px 4px 0 var(--ink);
+  transition:box-shadow 0.1s, transform 0.1s;
+}
+#notSchoolPill:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-2px); }
+@media(max-width:920px){ #notSchoolPill{ display:none; } }
 /* ── Floating back-to-top button (mobile) ── */
 .fab-menu{
   display:none;
@@ -2000,7 +2013,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
 <!-- ============ SCHOOL POPUP ============ -->
 <style>
-#schoolPopup.visible{ animation: popupFadeIn 0.25s ease; }
+#schoolPopup.visible{ animation: popupFadeIn 0.25s ease; backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px); }
 @keyframes popupFadeIn{ from{ opacity:0; } to{ opacity:1; } }
 #schoolPopup.visible #popupCard{ animation: popupSlideUp 0.3s cubic-bezier(0.34,1.56,0.64,1); }
 @keyframes popupSlideUp{ from{ opacity:0; transform:translateY(28px) scale(0.96); } to{ opacity:1; transform:translateY(0) scale(1); } }
@@ -2012,7 +2025,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 .popup-choice .popup-hint{ font-family:var(--body); font-size:12px; color:rgba(22,21,39,0.55); line-height:1.4; }
 @media(max-width:500px){ #popupChoices{ flex-direction:column !important; } }
 </style>
-<div id="schoolPopup" style="display:none;pointer-events:none;position:fixed;inset:0;z-index:9999;background:rgba(22,21,39,0.65);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:20px;">
+<div id="schoolPopup" style="display:none;pointer-events:none;visibility:hidden;position:fixed;inset:0;z-index:9999;background:rgba(22,21,39,0.65);align-items:center;justify-content:center;padding:20px;">
   <div id="popupCard" style="background:var(--paper);border:3px solid var(--ink);border-radius:28px;box-shadow:8px 8px 0 var(--ink);max-width:520px;width:100%;padding:36px 28px 32px;text-align:center;">
     <div style="display:inline-block;background:var(--orange);border:2px solid var(--ink);border-radius:100px;padding:5px 16px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:18px;color:#fff;">Quick question 👇🏻</div>
     <h2 style="font-family:var(--body);font-size:24px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;line-height:1.2;">Who are you here for?</h2>
@@ -2037,11 +2050,13 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   function hidePopup(){
     popup.style.display = 'none';
     popup.style.pointerEvents = 'none';
+    popup.style.visibility = 'hidden';
     popup.classList.remove('visible');
   }
   function showPopup(){
     popup.style.display = 'flex';
     popup.style.pointerEvents = 'auto';
+    popup.style.visibility = 'visible';
     popup.classList.add('visible');
   }
   if(sessionStorage.getItem('ue-school-popup-seen')) {
@@ -2080,6 +2095,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
   </div>
 </nav>
+
+<!-- Not a school floating pill (desktop only) -->
+<a href="enquire.html" id="notSchoolPill" aria-label="Not a school? Click here">🎉 Not a school?</a>
 
 <!-- Ticker -->
 <div class="ticker-wrap" aria-hidden="true">
@@ -2131,6 +2149,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       <a href="#meet" class="mobile-menu-link nav-bubble" style="display:inline-flex;">☕ Free Coffee</a>
     </div>
     <a href="problems.html" class="nav-troubleshoot mobile-menu-link" style="display:block;">Troubleshooting Tool <span style="font-size:10px;font-weight:800;font-family:inherit;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;vertical-align:middle;">BETA</span></a>
+    <a href="enquire.html" class="mobile-menu-link" style="background:var(--paper);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);display:block;text-align:center;">🎉 Not a school?</a>
     <div style="display:flex;gap:8px;margin-top:4px;">
       <a href="#contact" class="mobile-menu-link" style="flex:1;background:var(--indigo);color:#fff !important;font-weight:700;border-radius:10px;text-align:center;">Contact Us</a>
       <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="flex:1;background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);text-align:center;">📱 Save Number</a>
