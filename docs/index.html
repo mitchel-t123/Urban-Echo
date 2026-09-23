@@ -1250,25 +1250,30 @@ h2,h3{
   border-radius: 22px;
   box-shadow: 5px 5px 0 var(--ink);
 }
+.plan-step-head{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
 .plan-step .step-num{
   display: inline-flex; align-items: center; justify-content: center;
   width: 34px; height: 34px; border-radius: 50%;
   border: 2px solid var(--ink); background: var(--cream);
   color: var(--ink); font-size: 15px; font-weight: 800;
   font-family: var(--body); flex-shrink: 0;
-  margin-bottom: 0; vertical-align: middle; margin-right: 10px;
+  margin-top: 1px;
 }
 .plan-step h3{
-  display: inline;
+  display: block;
   font-family: var(--body);
   font-weight: 800;
   text-transform:none;
   letter-spacing:0;
   font-size: 18px;
   margin-bottom: 0;
-  vertical-align: middle;
 }
-.plan-step p{ margin-top: 12px; display: block; }
+.plan-step p{ margin-top: 0; display: block; }
 .plan-step p{ font-size: 14.5px; color: rgba(22,21,39,0.68); }
 .plan-step.resolved{ background: var(--cream); border-color: var(--ink); }
 .plan-step.resolved .step-num{ color: var(--ink); }
@@ -2035,30 +2040,17 @@ body{ overflow-x: hidden; }
   .extra-cards-row{ grid-template-columns: 1fr; }
   /* Reduce section header bottom gap by 20% */
   .section-head{ margin-bottom: 42px; }
-  /* Plan steps: number left, header right, same size */
-  .plan-step{ display:grid; grid-template-columns:auto 1fr; column-gap:16px; align-items:start; }
-  .plan-step .step-num{ font-size:32px; margin-bottom:0; line-height:1.1; }
-  .plan-step .step-num{ font-size:18px; margin-bottom:0; }
-  .plan-step h3{ font-size:18px; font-family:var(--body); font-weight:800; letter-spacing:0; text-transform:none; align-self:center; }
-  .plan-step p{ grid-column:2; }
   /* Contact form: reduce space above submit button on mobile */
   .form-card .btn{ margin-top: 0; }
-  /* Mobile: plan steps — number bubble inline left of heading */
-  .plan-step{ padding: 20px 18px 18px; display: block; }
+  /* Mobile: plan steps */
+  .plan-step{ padding: 20px 18px 18px; }
   .plan-step .step-num{
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 32px; height: 32px; border-radius: 50%;
-    border: 2px solid var(--ink); background: var(--orange);
-    color: var(--ink); font-size: 14px; font-weight: 800;
-    font-family: var(--body); flex-shrink: 0;
-    margin-bottom: 0; vertical-align: middle; margin-right: 10px;
+    width: 32px; height: 32px;
+    font-size: 14px;
+    background: var(--orange);
   }
-  .plan-step h3{
-    display: inline; font-size: 16px !important;
-    font-family: var(--body); font-weight: 800;
-    letter-spacing: 0; text-transform: none; vertical-align: middle;
-  }
-  .plan-step p{ margin-top: 10px; display: block; }
+  .plan-step h3{ font-size: 16px !important; }
+  .plan-step p{ margin-top: 10px; }
   /* Mobile: emergency heading matches bulk-note-title size */
   .emergency-heading{ font-size: 22px !important; }
   /* Mobile: reviews slot heading */
@@ -2616,18 +2608,15 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
     <div class="plan-steps">
       <div class="plan-step" data-reveal style="background:var(--sunshine);">
-        <span class="step-num">1</span>
-        <h3>Tell us your event</h3>
+        <div class="plan-step-head"><span class="step-num">1</span><h3>Tell us your event</h3></div>
         <p>One school event or a whole year of them, let us know the date, the room and what you need covered. Tell us what extra gear you need and we'll get that sorted too.</p>
       </div>
       <div class="plan-step" data-reveal style="background:var(--sunshine);">
-        <span class="step-num">2</span>
-        <h3>We hand-pick your tech</h3>
+        <div class="plan-step-head"><span class="step-num">2</span><h3>We hand-pick your tech</h3></div>
         <p>A calm, friendly Sound and AV professional arrives early, sets up, and rings out the room before a single guest walks in.</p>
       </div>
       <div class="plan-step resolved" data-reveal style="background:var(--sunshine);">
-        <span class="step-num">3</span>
-        <h3 style="color:var(--ink);">You run the event, not the cables</h3>
+        <div class="plan-step-head"><span class="step-num">3</span><h3 style="color:var(--ink);">You run the event, not the cables</h3></div>
         <p>We setup the sound and AV, we operate, problem-solve and pack down. You focus on the program and we ensure the speakers behave themselves.</p>
       </div>
     </div>
