@@ -1243,6 +1243,10 @@ function doLogout(){
     document.body.classList.remove('auth-pending');
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
 
+    // ── Load Rentman roster for this user ──
+    var userEmail = user.emailAddresses[0].emailAddress;
+    loadRentmanRoster(userEmail);
+
     if(profile){
       // Name
       var fullName = [profile.first_name, profile.last_name].filter(Boolean).join(' ');
@@ -1317,6 +1321,92 @@ function updateCountdown(type, expiryStr, label){
 }
 
 
+
+// ── Rentman roster ───────────────────────────────────────────
+var PROXY = SUPABASE_URL + '/functions/v1/rentman-proxy';
+
+async function rentmanGet(path){
+  var r = await fetch(PROXY + path, {
+    headers: { Authorization: 'Bearer ' + SUPABASE_ANON }
+  });
+  if(!r.ok) throw new Error('Rentman ' + path + ' ' + r.status);
+  return r.json();
+}
+
+async function loadRentmanRoster(userEmail){
+  var list = document.querySelector('.roster-list');
+  var source = document.querySelector('.roster-source');
+  try {
+    // 1. Find crew member whose email matches the logged-in user
+    var crewData = await rentmanGet('/crew?limit=100');
+    var members = crewData.data || [];
+    var me = members.find(function(m){
+      return (m.email || '').toLowerCase() === userEmail.toLowerCase();
+    });
+
+    if(!me){
+      if(source) source.textContent = 'No Rentman crew profile found for ' + userEmail;
+      return;
+    }
+
+    // 2. Fetch planning items assigned to this crew member (upcoming)
+    var today = new Date().toISOString().split('T')[0];
+    var planData = await rentmanGet('/planningitems?crew=' + encodeURIComponent(me.id) + '&usageperiod_from=' + today + '&limit=50&sort=usageperiod_from');
+    var items = planData.data || [];
+
+    if(items.length === 0){
+      list.innerHTML = '<p style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);padding:16px 0;">No upcoming jobs found.</p>';
+      if(source) source.textContent = 'Live data from Rentman';
+      return;
+    }
+
+    // 3. Fetch project details for each unique project
+    var projectIds = [...new Set(items.map(function(i){ return i.project_id; }).filter(Boolean))];
+    var projects = {};
+    await Promise.all(projectIds.map(async function(pid){
+      try {
+        var pData = await rentmanGet('/projects/' + pid);
+        if(pData.data) projects[pid] = pData.data;
+      } catch(e){}
+    }));
+
+    // 4. Render
+    list.innerHTML = items.map(function(item){
+      var proj = projects[item.project_id] || {};
+      var from = item.usageperiod_from ? new Date(item.usageperiod_from) : null;
+      var to   = item.usageperiod_to   ? new Date(item.usageperiod_to)   : null;
+      var day  = from ? from.getDate() : '?';
+      var mon  = from ? from.toLocaleDateString('en-AU', { month:'short', year:'numeric' }) : '';
+      var time = '';
+      if(from && to){
+        time = from.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false}) +
+               '–' + to.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false});
+      }
+      var name    = proj.name || item.remark || 'Unnamed Job';
+      var location = proj.location || proj.usageperiod_location || '';
+      var status   = (proj.status || '').toLowerCase();
+      var badge = status === 'confirmed' || status === 'in_progress'
+        ? '<span class="roster-badge confirmed">Confirmed</span>'
+        : '<span class="roster-badge pending">Pending</span>';
+      var sub = [location, time, item.function || ''].filter(Boolean).join(' · ');
+      return '<div class="roster-item">' +
+        '<div class="roster-date"><span>' + day + '</span>' + mon + '</div>' +
+        '<div class="roster-detail"><h4>' + escHtml(name) + '</h4>' +
+        (sub ? '<p>' + escHtml(sub) + '</p>' : '') + '</div>' +
+        badge + '</div>';
+    }).join('');
+
+    if(source) source.textContent = 'Live data from Rentman · Updated just now';
+
+  } catch(err){
+    console.warn('Rentman roster error:', err);
+    if(source) source.textContent = 'Could not load Rentman data — showing saved roster';
+  }
+}
+
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
 // ── Risk level chips ─────────────────────────────────────────
 document.querySelectorAll('#riskLevel .risk-chip').forEach(function(chip){
