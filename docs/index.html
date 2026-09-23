@@ -461,6 +461,13 @@ h2,h3{
   padding: 52px 0 0;
 
 }
+.hero-tag-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
 .hero-tag{
   display: flex;
   width: fit-content;
@@ -476,8 +483,30 @@ h2,h3{
   font-weight:700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   box-shadow: 3px 3px 0 var(--ink);
+}
+.hero-tag-bubble{
+  display: inline-flex;
+  align-items: center;
+  background: #2563eb;
+  color: #ffffff;
+  border: 2px solid #1d4ed8;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 #1d4ed8;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.hero-tag-bubble:hover{
+  background: #1d4ed8;
+  box-shadow: 1px 1px 0 #1e3a8a;
+  transform: translate(2px, 2px);
 }
 .hero-tag .dot{
   width:8px; height:8px; border-radius:50%;
@@ -1945,7 +1974,8 @@ body{ overflow-x: hidden; }
   /* Mobile: hide back-to-top FAB */
   .fab-menu{ display: none !important; }
   /* Mobile: Now Treating bubble full width with larger font, no gap below */
-  .hero-tag{ width: 100%; justify-content: center; box-sizing: border-box; margin-bottom: 4px; padding: 10px 18px; }
+  .hero-tag-row{ justify-content: center; margin-bottom: 4px; }
+  .hero-tag{ width: auto; justify-content: center; box-sizing: border-box; padding: 10px 18px; }
   /* Mobile: package cards more breathing room */
   .package-grid{ gap: 20px; }
   .package-card{ margin-bottom: 4px; }
@@ -2050,7 +2080,7 @@ body{ overflow-x: hidden; }
   .symptom-grid{ grid-template-columns:1fr; }
   .wrap{ padding: 0 20px; }
   .hero{ padding-top:20px; }
-  .hero-tag{ margin-bottom: 0; }
+  .hero-tag-row{ margin-bottom: 0; }
   .hero-head{ margin-bottom: 6px; }
   .hero-h1-box{ margin-bottom: 8px; padding: 14px 18px 12px; }
   .hero-body{ gap: 10px; }
@@ -2306,7 +2336,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-head">
-        <div class="hero-tag"><span class="dot"></span> Now Treating Perth Schools</div>
+        <div class="hero-tag-row">
+          <div class="hero-tag"><span class="dot"></span> Now Treating Perth Schools</div>
+          <a href="enquire.html" class="hero-tag-bubble">Not a school?</a>
+        </div>
         <div class="hero-h1-box">
           <h1>
             <span class="small">Are you experiencing a</span>
