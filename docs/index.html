@@ -1922,9 +1922,18 @@ body{ padding-bottom: 0; margin-bottom: 0; }
 .js-reveal:nth-child(2){ transition-delay:0.12s; }
 .js-reveal:nth-child(3){ transition-delay:0.24s; }
 .js-reveal:nth-child(4){ transition-delay:0.36s; }
+/* Symptom card group reveal */
+[data-reveal-item]{
+  opacity:0;
+  transform: translateY(20px);
+  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  transition-delay: calc(var(--i, 0) * 0.1s);
+}
+[data-reveal-item].in{ opacity:1; transform:translateY(0); }
 
 @media (prefers-reduced-motion: reduce){
   .js-reveal{ opacity:1; transform:none; transition:none; }
+  [data-reveal-item]{ opacity:1; transform:none; transition:none; }
   .duo-stage.stress-1 .char-wrap,
   .duo-stage.stress-2 .char-wrap,
   .duo-stage.stress-3 .char-wrap{ animation: none; }
@@ -2432,35 +2441,35 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       <p>If you ticked yes to more than one of these, you're not alone, it's the most common diagnosis we see across Perth schools.</p>
     </div>
 
-    <div class="symptom-grid">
-      <div class="symptom-card" data-reveal style="background:var(--pink);">
+    <div class="symptom-grid" data-reveal-group>
+      <div class="symptom-card" data-reveal-item style="background:var(--pink);--i:0;">
         <span class="num">01</span>
         <h3>Endless school events</h3>
         <p>School events, sports carnivals, presentation nights, graduations, the calendar never stops, and someone has to run sound for all of it.</p>
       </div>
-      <div class="symptom-card" data-reveal style="background:#C8D8F8;">
+      <div class="symptom-card" data-reveal-item style="background:#C8D8F8;--i:1;">
         <span class="num">02</span>
         <h3>No in-house sound guy</h3>
         <p>You're relying on whoever's free, not whoever's trained. That's a lot of pressure to put on a teacher with a spare period.</p>
       </div>
-      <div class="symptom-card" data-reveal style="background:var(--forest);">
+      <div class="symptom-card" data-reveal-item style="background:var(--forest);--i:2;">
         <span class="num">03</span>
         <h3 class="symptom-card-desktop">Too many school events</h3>
         <p class="symptom-card-desktop">Weekly, fortnightly, whole-school, year-group, they add up fast and each one needs someone behind the desk.</p>
         <h3 class="symptom-card-mobile-only">Always multi-tasking</h3>
         <p class="symptom-card-mobile-only">Running the projector, the mic, the slides and the program at once isn't sustainable, and it shows.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal style="background:var(--sunshine);">
+      <div class="symptom-card symptom-card-desktop" data-reveal-item style="background:var(--sunshine);--i:3;">
         <span class="num">04</span>
         <h3>No time</h3>
         <p>You've got a school to run. Cables, mic checks and EQ settings shouldn't be eating into your actual job.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal style="background:var(--coral);">
+      <div class="symptom-card symptom-card-desktop" data-reveal-item style="background:var(--coral);--i:4;">
         <span class="num">05</span>
         <h3>Tired of feedback</h3>
         <p>Literally and figuratively. Feedback belongs in staff meetings, not screeching through the PA mid-speech.</p>
       </div>
-      <div class="symptom-card symptom-card-desktop" data-reveal style="background:var(--cream);">
+      <div class="symptom-card symptom-card-desktop" data-reveal-item style="background:var(--cream);--i:5;">
         <span class="num">06</span>
         <h3>Always multi-tasking</h3>
         <p>Running the projector, the mic, the slides and the program at once isn't sustainable, and it shows.</p>
@@ -3142,6 +3151,18 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersecti
     });
   },{ threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
   revealEls.forEach(el=>io.observe(el));
+
+  // Group reveal — triggers all children together when the group enters view
+  const groupEls = document.querySelectorAll('[data-reveal-group]');
+  const groupIo = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.querySelectorAll('[data-reveal-item]').forEach(el=>el.classList.add('in'));
+        groupIo.unobserve(entry.target);
+      }
+    });
+  },{ threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  groupEls.forEach(el=>groupIo.observe(el));
 }
 
 // Contact form — submits to Formspree, shows custom success card
