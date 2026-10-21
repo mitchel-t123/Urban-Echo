@@ -262,6 +262,9 @@ a{ color:inherit; }
             <label class="check-opt"><input type="checkbox" name="role_slides" value="Slides Operator"> 📽️ Slides Operator</label>
             <label class="check-opt"><input type="checkbox" name="role_venue" value="Venue Management"> 🏛️ Venue Management</label>
             <label class="check-opt"><input type="checkbox" name="role_security" value="Security"> 🔒 Security</label>
+            <label class="check-opt"><input type="checkbox" name="role_photo" value="Photography"> 📷 Photography</label>
+            <label class="check-opt"><input type="checkbox" name="role_video" value="Videography"> 🎥 Videography</label>
+            <label class="check-opt"><input type="checkbox" name="role_maintenance" value="Maintenance"> 🔧 Maintenance</label>
             <label class="check-opt"><input type="checkbox" name="role_other" value="Other"> Other</label>
           </div>
         </div>
@@ -316,16 +319,6 @@ a{ color:inherit; }
             <label class="radio-opt"><input type="radio" name="police" value="No — not willing"> No</label>
           </div>
         </div>
-        <div class="field">
-          <label for="app-transport">Do you have your own transport?</label>
-          <select id="app-transport" name="transport">
-            <option value="">Select…</option>
-            <option>Yes — own car</option>
-            <option>Yes — can borrow a car</option>
-            <option>No — public transport only</option>
-          </select>
-        </div>
-
         <span class="form-section-label">Current situation</span>
         <div class="field">
           <label for="app-employment">Current employment status</label>
@@ -377,10 +370,6 @@ a{ color:inherit; }
 
 <footer class="eq-footer">
   <span>© 2026 Urban Echo. All rights reserved.</span>
-  &nbsp;·&nbsp;
-  <a href="/">Back to main site</a>
-  &nbsp;·&nbsp;
-  <a href="tel:+61429660186">0429 660 186</a>
 </footer>
 
 <script>
@@ -397,7 +386,7 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
 
   // Collect multi-select checkboxes into comma-separated strings
   var roles = [];
-  ['sound','lighting','setup','dj','musician','slides','venue','security','other'].forEach(function(r){
+  ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','other'].forEach(function(r){
     var cb = document.querySelector('input[name="role_' + r + '"]');
     if(cb && cb.checked) roles.push(cb.value);
   });
