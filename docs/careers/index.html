@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work With Us — Urban Echo</title>
+<link rel="canonical" href="https://urbanecho.com.au/careers">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="description" content="Join the Urban Echo crew. We're looking for sound operators, lighting technicians, setup crew and more across Perth.">
+<meta name="robots" content="index, follow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-77DYLMT4GJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-77DYLMT4GJ');
+</script>
+
+<style>
+:root{
+  --cream: #F5E8D0;
+  --cream-deep: #EDD8B8;
+  --indigo: #3D7FD5;
+  --indigo-deep: #2B65B8;
+  --orange: #F4612E;
+  --orange-deep: #D8491B;
+  --forest: #35B06A;
+  --forest-deep: #1E9256;
+  --sunshine: #F5C518;
+  --pink: #F5A8BC;
+  --ink: #161527;
+  --paper: #FFFCF5;
+  --line: rgba(22,21,39,0.12);
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'Inter', -apple-system, sans-serif;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ background:var(--ink); }
+body{ font-family:var(--body); background:var(--paper); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+h1,h2,h3{ font-family:var(--body); font-weight:800; line-height:1.1; letter-spacing:-0.02em; }
+a{ color:inherit; }
+
+/* NAV */
+.nav{ position:sticky; top:0; z-index:100; background:#ffffff; border-bottom:2px solid var(--ink); }
+.nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1180px; margin:0 auto; }
+.nav-logo{ height:30px; width:auto; }
+.btn{ display:inline-flex; align-items:center; gap:8px; font-family:var(--body); font-weight:700; font-size:16px; padding:13px 26px; border-radius:100px; border:2.5px solid var(--ink); text-decoration:none; cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:box-shadow 0.1s, transform 0.1s; }
+.btn:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-2px); }
+.btn:active{ box-shadow:2px 2px 0 var(--ink); transform:translate(2px,2px); }
+.btn-orange{ background:var(--orange); color:var(--ink); }
+.btn-blue{ background:var(--indigo); color:#fff; }
+.btn-ink{ background:var(--ink); color:var(--paper); }
+
+.wrap{ max-width:1180px; margin:0 auto; padding:0 40px; }
+@media(max-width:600px){ .wrap{ padding:0 20px; } }
+
+/* HERO */
+.hero{ background:var(--sunshine); padding:80px 0 72px; border-bottom:3px solid var(--ink); }
+.hero-eyebrow{ display:inline-block; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
+.hero h1{ font-size:clamp(36px,5vw,64px); color:var(--ink); margin-bottom:20px; line-height:1.0; max-width:720px; }
+.hero .sub{ font-size:17px; color:rgba(22,21,39,0.72); max-width:520px; line-height:1.6; margin-bottom:32px; }
+.hero-roles{ display:flex; flex-wrap:wrap; gap:10px; }
+.role-chip{ display:inline-flex; align-items:center; gap:6px; background:#fff; border:2px solid var(--ink); border-radius:100px; padding:7px 16px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; box-shadow:3px 3px 0 var(--ink); }
+
+/* WAVE */
+.wave-divider{ display:block; width:100%; overflow:hidden; line-height:0; background:#ffffff; }
+.wave-divider svg{ display:block; width:100%; }
+
+/* PERKS */
+.perks-section{ background:#ffffff; padding:72px 0; }
+.perks-section h2{ font-size:clamp(26px,3.5vw,40px); margin-bottom:10px; }
+.perks-section .lede{ font-size:16px; color:rgba(22,21,39,0.65); max-width:500px; margin-bottom:44px; line-height:1.6; }
+.perks-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.perk-card{ border:2.5px solid var(--ink); border-radius:20px; padding:26px 24px; box-shadow:5px 5px 0 var(--ink); }
+.perk-card .icon{ font-size:30px; display:block; margin-bottom:12px; }
+.perk-card h3{ font-size:16px; font-weight:800; margin-bottom:6px; }
+.perk-card p{ font-size:13.5px; color:rgba(22,21,39,0.62); line-height:1.6; }
+@media(max-width:860px){ .perks-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:500px){ .perks-grid{ grid-template-columns:1fr; } }
+
+/* FORM SECTION */
+.form-section{ background:#ffffff; padding:0 0 80px; }
+.form-section h2{ font-size:clamp(26px,3.5vw,40px); margin-bottom:10px; }
+.form-section .lede{ font-size:16px; color:rgba(22,21,39,0.65); max-width:560px; margin-bottom:44px; line-height:1.6; }
+
+.section-eyebrow{ display:inline-block; background:var(--forest); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:18px; }
+
+.app-form{ background:var(--paper); border:2.5px solid var(--ink); border-radius:24px; padding:40px; box-shadow:6px 6px 0 var(--ink); max-width:780px; }
+.form-section-label{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(22,21,39,0.45); margin:28px 0 16px; padding-top:28px; border-top:1.5px solid var(--line); display:block; }
+.form-section-label:first-child{ margin-top:0; padding-top:0; border-top:none; }
+.field{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+.field label{ font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; font-family:var(--body); color:var(--ink); }
+.field label .opt{ font-weight:400; opacity:0.5; text-transform:none; letter-spacing:0; }
+.field input,.field select,.field textarea{
+  font-family:var(--body); font-size:15px; padding:13px 14px;
+  border-radius:10px; border:2px solid var(--line);
+  background:var(--cream); color:var(--ink); outline:none;
+  transition:border-color 0.15s; -webkit-appearance:none; appearance:none;
+}
+.field select{ background:var(--cream) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center; padding-right:36px; }
+.field input:focus,.field select:focus,.field textarea:focus{ border-color:var(--indigo); }
+.field textarea{ resize:vertical; min-height:100px; font-family:var(--body); }
+.frow{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media(max-width:560px){ .frow{ grid-template-columns:1fr; } }
+
+/* Checkbox group */
+.check-group{ display:flex; flex-wrap:wrap; gap:10px; }
+.check-opt{ display:flex; align-items:center; gap:8px; background:var(--cream); border:2px solid var(--ink); border-radius:12px; padding:9px 16px; cursor:pointer; font-weight:600; font-size:14px; user-select:none; transition:background 0.15s; }
+.check-opt input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--indigo); flex-shrink:0; }
+.check-opt:has(input:checked){ background:var(--indigo); color:#fff; border-color:var(--indigo-deep); }
+
+/* Radio group */
+.radio-group{ display:flex; flex-wrap:wrap; gap:10px; }
+.radio-opt{ display:flex; align-items:center; gap:8px; background:var(--cream); border:2px solid var(--ink); border-radius:12px; padding:9px 16px; cursor:pointer; font-weight:600; font-size:14px; user-select:none; transition:background 0.15s; }
+.radio-opt input[type="radio"]{ width:16px; height:16px; accent-color:var(--indigo); flex-shrink:0; }
+.radio-opt:has(input:checked){ background:var(--sunshine); border-color:var(--ink); }
+
+.submit-btn{ width:100%; margin-top:24px; padding:16px; background:var(--indigo); color:#fff; border:2.5px solid var(--ink); border-radius:100px; font-family:var(--body); font-size:16px; font-weight:700; cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:box-shadow 0.1s, transform 0.1s; display:flex; align-items:center; justify-content:center; gap:10px; }
+.submit-btn:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-2px); }
+.submit-btn:disabled{ opacity:0.55; cursor:default; transform:none; box-shadow:4px 4px 0 var(--ink); }
+
+#appSuccess{ display:none; text-align:center; padding:48px 24px; }
+#appSuccess .tick{ font-size:56px; display:block; margin-bottom:16px; }
+#appSuccess h3{ font-size:24px; font-weight:800; margin-bottom:10px; }
+#appSuccess p{ font-size:15px; color:rgba(22,21,39,0.65); line-height:1.6; max-width:400px; margin:0 auto; }
+
+/* FOOTER */
+.eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:28px 20px; font-family:var(--mono); font-size:12px; }
+.eq-footer a{ color:var(--sunshine); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/"><img src="../logo.png" alt="Urban Echo" class="nav-logo"></a>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <a href="/" style="font-family:var(--mono);font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);">← Back to main site</a>
+      <a href="#apply" class="btn btn-orange" style="font-size:14px;padding:10px 22px;">Apply Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <span class="hero-eyebrow">We're Hiring</span>
+    <h1>Come work with us.</h1>
+    <p class="sub">Urban Echo is a small, tight-knit AV crew operating across Perth schools and events. If you're reliable and want to work with the best team in Perth — we want to hear from you.</p>
+    <h3 style="font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);color:rgba(22,21,39,0.6);margin-bottom:12px;">Areas we're hiring</h3>
+    <div class="hero-roles">
+      <span class="role-chip">🎚️ Sound Operators</span>
+      <span class="role-chip">💡 Lighting Technicians</span>
+      <span class="role-chip">🏗️ Setup Crew</span>
+      <span class="role-chip">🎧 DJs</span>
+      <span class="role-chip">🎵 Musicians</span>
+      <span class="role-chip">📽️ Slides Operators</span>
+      <span class="role-chip">🏛️ Venue Management</span>
+      <span class="role-chip">🔒 Security</span>
+      <span class="role-chip">📷 Photography</span>
+      <span class="role-chip">🎥 Videography</span>
+      <span class="role-chip">🔧 Maintenance</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="perks-section" style="padding-bottom:0;border-top:2px solid var(--ink);">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;padding-bottom:64px;">
+
+      <div>
+        <span class="section-eyebrow">What we do</span>
+        <h2 style="font-size:clamp(24px,3vw,36px);margin-bottom:16px;">Sound and AV for Perth schools and events.</h2>
+        <p style="font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;margin-bottom:14px;">Urban Echo provides professional sound and AV services across metropolitan Perth. The bulk of our work is in schools — assemblies, graduations, performing arts productions, formals and award ceremonies — where reliability and working well with students and staff really matters.</p>
+        <p style="font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;margin-bottom:14px;">Outside of schools, we operate corporate events, private functions, community events, weddings and live productions. If it needs sound, lighting, a screen or someone to make it run smoothly, that's us.</p>
+        <p style="font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;">Most work happens in the evenings and on weekends during school term, with a good amount of activity through holidays too. Jobs range from a two-hour assembly in a school hall to full multi-day productions in proper theatres.</p>
+      </div>
+
+      <div style="background:var(--indigo);border-radius:24px;border:2.5px solid var(--ink);padding:36px;box-shadow:6px 6px 0 rgba(22,21,39,0.15);">
+        <span style="display:inline-block;background:var(--orange);color:var(--ink);border:2px solid var(--ink);border-radius:100px;padding:5px 16px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:18px;">Who you'd be working with</span>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;">
+          <div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2.5px solid rgba(255,252,245,0.3);flex-shrink:0;"><img src="../mitchel.jpg" alt="Mitchel Tinsley" style="width:100%;height:100%;object-fit:cover;object-position:center top;"></div>
+          <div>
+            <div style="font-family:var(--body);font-size:18px;font-weight:800;color:var(--paper);letter-spacing:-0.02em;">Mitchel Tinsley</div>
+            <div style="font-family:var(--mono);font-size:12px;color:rgba(255,252,245,0.5);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Owner &amp; Lead Operator</div>
+          </div>
+        </div>
+        <p style="font-size:14px;color:rgba(255,252,245,0.72);line-height:1.7;margin-bottom:14px;">Mitchel started Urban Echo after years running sound for school productions, corporate events and live music across Perth. He's operated everything from small classroom PA setups to 60,000-person events.</p>
+        <p style="font-size:14px;color:rgba(255,252,245,0.72);line-height:1.7;margin-bottom:20px;">He runs a tight, reliable operation and hires people he'd actually want to work alongside — people who are switched on, easy to communicate with and take the work seriously without taking themselves too seriously.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="tel:0429660186" style="display:flex;align-items:center;gap:10px;background:rgba(255,252,245,0.08);border:1.5px solid rgba(255,252,245,0.2);border-radius:10px;padding:11px 16px;text-decoration:none;color:var(--paper);font-family:var(--mono);font-size:13px;font-weight:700;">
+            <span>📞</span> 0429 660 186
+          </a>
+          <a href="mailto:mitchel@urbanecho.com.au" style="display:flex;align-items:center;gap:10px;background:rgba(255,252,245,0.08);border:1.5px solid rgba(255,252,245,0.2);border-radius:10px;padding:11px 16px;text-decoration:none;color:var(--paper);font-family:var(--mono);font-size:13px;font-weight:700;">
+            <span>✉️</span> mitchel@urbanecho.com.au
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PERKS -->
+<section class="perks-section" style="border-top:2px solid var(--ink);">
+  <div class="wrap">
+    <span class="section-eyebrow">Why Urban Echo</span>
+    <h2>What it's like working with us.</h2>
+    <p class="lede">We're a small operation — which means less bureaucracy and more real experience on live events.</p>
+    <div class="perks-grid">
+      <div class="perk-card" style="background:var(--pink);">
+        <span class="icon">📅</span>
+        <h3>Flexible Casual</h3>
+        <p>Mostly evenings and weekends. You pick up the jobs that suit you — no lock-in, no minimum hours.</p>
+      </div>
+      <div class="perk-card" style="background:#C8D8F8;">
+        <span class="icon">🎓</span>
+        <h3>School & Events Work</h3>
+        <p>Assemblies, concerts, productions, formals and community events. Varied work that keeps it interesting.</p>
+      </div>
+      <div class="perk-card" style="background:var(--forest);">
+        <span class="icon">🛠️</span>
+        <h3>Good Gear</h3>
+        <p>We run quality PA systems and proper stage equipment. No duct tape and prayers.</p>
+      </div>
+      <div class="perk-card" style="background:var(--sunshine);">
+        <span class="icon">📈</span>
+        <h3>Grow Your Skills</h3>
+        <p>Whether you're just starting out or building a portfolio, you'll get real experience on proper gigs.</p>
+      </div>
+      <div class="perk-card" style="background:var(--cream);">
+        <span class="icon">🤝</span>
+        <h3>Small Team</h3>
+        <p>You'll work directly with Mitchel, not get lost in a roster. Clear communication, on-time pay.</p>
+      </div>
+      <div class="perk-card" style="background:var(--paper);">
+        <span class="icon">📍</span>
+        <h3>Perth Based</h3>
+        <p>All work is across metropolitan Perth. No long-haul travel, no regional commitments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION FORM -->
+<section class="form-section" id="apply" style="border-top:2px solid var(--ink);">
+  <div class="wrap">
+    <span class="section-eyebrow">Apply Now</span>
+    <h2>Tell us about yourself.</h2>
+    <p class="lede">Fill in the form below and Mitchel will be in touch within a few days. No cover letter needed — just be honest.</p>
+
+    <div class="app-form">
+      <form id="appForm" novalidate>
+
+        <span class="form-section-label">About you</span>
+        <div class="frow">
+          <div class="field">
+            <label for="app-first">First Name</label>
+            <input type="text" id="app-first" name="first_name" placeholder="Jane" required>
+          </div>
+          <div class="field">
+            <label for="app-last">Last Name</label>
+            <input type="text" id="app-last" name="last_name" placeholder="Smith" required>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="field">
+            <label for="app-email">Email</label>
+            <input type="email" id="app-email" name="email" placeholder="jane@example.com" required>
+          </div>
+          <div class="field">
+            <label for="app-phone">Phone</label>
+            <input type="tel" id="app-phone" name="phone" placeholder="04xx xxx xxx" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="app-suburb">Suburb <span class="opt">(so we know you're Perth based)</span></label>
+          <input type="text" id="app-suburb" name="suburb" placeholder="e.g. Mount Lawley">
+        </div>
+
+        <span class="form-section-label">Roles you're interested in</span>
+        <div class="field">
+          <label>What can you do? <span class="opt">Select all that apply</span></label>
+          <div class="check-group">
+            <label class="check-opt"><input type="checkbox" name="role_sound" value="Sound Operator"> 🎚️ Sound Operator</label>
+            <label class="check-opt"><input type="checkbox" name="role_lighting" value="Lighting Technician"> 💡 Lighting Technician</label>
+            <label class="check-opt"><input type="checkbox" name="role_setup" value="Setup Crew"> 🏗️ Setup Crew</label>
+            <label class="check-opt"><input type="checkbox" name="role_dj" value="DJ"> 🎧 DJ</label>
+            <label class="check-opt"><input type="checkbox" name="role_musician" value="Musician"> 🎵 Musician</label>
+            <label class="check-opt"><input type="checkbox" name="role_slides" value="Slides Operator"> 📽️ Slides Operator</label>
+            <label class="check-opt"><input type="checkbox" name="role_venue" value="Venue Management"> 🏛️ Venue Management</label>
+            <label class="check-opt"><input type="checkbox" name="role_security" value="Security"> 🔒 Security</label>
+            <label class="check-opt"><input type="checkbox" name="role_photo" value="Photography"> 📷 Photography</label>
+            <label class="check-opt"><input type="checkbox" name="role_video" value="Videography"> 🎥 Videography</label>
+            <label class="check-opt"><input type="checkbox" name="role_maintenance" value="Maintenance"> 🔧 Maintenance</label>
+            <label class="check-opt"><input type="checkbox" name="role_other" value="Other"> Other</label>
+          </div>
+        </div>
+
+        <span class="form-section-label">Experience</span>
+        <div class="field">
+          <label for="app-exp-level">Experience level</label>
+          <select id="app-exp-level" name="experience_level" required>
+            <option value="">Select…</option>
+            <option>Just starting out — keen to learn</option>
+            <option>Some experience — done a few gigs</option>
+            <option>Intermediate — comfortable running live events</option>
+            <option>Experienced — this is my thing</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="app-exp-detail">Tell us about your experience</label>
+          <textarea id="app-exp-detail" name="experience_detail" placeholder="What have you worked on? What gear are you comfortable with? Be as specific as you like — venues, events, consoles, anything relevant." style="min-height:120px;"></textarea>
+        </div>
+        <div class="field">
+          <label>Have you worked with schools or children before?</label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="radio" name="school_experience" value="Yes — regularly"> Yes, regularly</label>
+            <label class="radio-opt"><input type="radio" name="school_experience" value="Yes — a few times"> Yes, a few times</label>
+            <label class="radio-opt"><input type="radio" name="school_experience" value="No"> No, not yet</label>
+          </div>
+        </div>
+
+        <span class="form-section-label">Availability &amp; compliance</span>
+        <div class="field">
+          <label>When are you generally available? <span class="opt">Select all that apply</span></label>
+          <div class="check-group">
+            <label class="check-opt"><input type="checkbox" name="avail_weekday_day" value="Weekday days"> Weekday days</label>
+            <label class="check-opt"><input type="checkbox" name="avail_weekday_eve" value="Weekday evenings"> Weekday evenings</label>
+            <label class="check-opt"><input type="checkbox" name="avail_weekend" value="Weekends"> Weekends</label>
+            <label class="check-opt"><input type="checkbox" name="avail_school_term" value="School term only"> School term only</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Do you hold a current Working With Children (WWC) Check?</label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="radio" name="wwc" value="Yes — current"> Yes, current</label>
+            <label class="radio-opt"><input type="radio" name="wwc" value="No — willing to get one"> No, willing to get one</label>
+            <label class="radio-opt"><input type="radio" name="wwc" value="No — not willing"> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Do you hold a current National Police Clearance?</label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="radio" name="police" value="Yes — current"> Yes, current</label>
+            <label class="radio-opt"><input type="radio" name="police" value="No — willing to get one"> No, willing to get one</label>
+            <label class="radio-opt"><input type="radio" name="police" value="No — not willing"> No</label>
+          </div>
+        </div>
+        <span class="form-section-label">Current situation</span>
+        <div class="field">
+          <label for="app-employment">Current employment status</label>
+          <select id="app-employment" name="employment_status">
+            <option value="">Select…</option>
+            <option>Unemployed — actively looking</option>
+            <option>Casual — looking for more work</option>
+            <option>Part-time — have availability</option>
+            <option>Full-time — looking to supplement</option>
+            <option>Student — looking for casual work</option>
+            <option>Self-employed / freelance</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+
+        <span class="form-section-label">Anything else</span>
+        <div class="field">
+          <label for="app-notes">Anything else you want us to know? <span class="opt">Optional</span></label>
+          <textarea id="app-notes" name="notes" placeholder="Links to work, social media, questions for us — anything at all."></textarea>
+        </div>
+        <div class="field">
+          <label for="app-how">How did you hear about us?</label>
+          <select id="app-how" name="how_heard">
+            <option value="">Select…</option>
+            <option>Word of mouth</option>
+            <option>Instagram</option>
+            <option>Facebook</option>
+            <option>Google search</option>
+            <option>A school I work at</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <button type="submit" class="submit-btn" id="appSubmit">
+          <span id="appBtnLabel">Submit Application →</span>
+        </button>
+
+      </form>
+
+      <div id="appSuccess">
+        <span class="tick">🎉</span>
+        <h3>Application received!</h3>
+        <p>Thanks for applying. Mitchel will review your application and be in touch within a few days.<br><br>In the meantime, feel free to reach out on <a href="tel:+61429660186" style="color:var(--indigo);font-weight:700;">0429 660 186</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="background:var(--paper);border-top:2px solid var(--ink);padding:72px 0;">
+  <div class="wrap">
+    <span class="section-eyebrow">FAQ</span>
+    <h2 style="font-size:clamp(26px,3.5vw,40px);margin-bottom:10px;">Frequently asked questions.</h2>
+    <p style="font-size:16px;color:rgba(22,21,39,0.65);max-width:500px;margin-bottom:44px;line-height:1.6;">Got a question before you apply? Here are the most common ones.</p>
+    <div style="max-width:720px;display:flex;flex-direction:column;gap:0;">
+
+      <details style="border-top:2px solid var(--ink);padding:20px 0;" open>
+        <summary style="font-size:16px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+          Do I need formal qualifications? <span style="font-size:20px;font-weight:400;flex-shrink:0;">+</span>
+        </summary>
+        <p style="margin-top:12px;font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;">No formal qualifications are required. We care far more about attitude, reliability and a genuine interest in the work than certificates. If you're keen to learn, we'll teach you.</p>
+      </details>
+
+      <details style="border-top:2px solid var(--ink);padding:20px 0;">
+        <summary style="font-size:16px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+          How many hours a week is it? <span style="font-size:20px;font-weight:400;flex-shrink:0;">+</span>
+        </summary>
+        <p style="margin-top:12px;font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;">It varies. Most crew work a handful of evenings and weekend jobs per week during busy periods (school term, event season). There's no minimum hours commitment — you pick up the jobs that suit you.</p>
+      </details>
+
+      <details style="border-top:2px solid var(--ink);padding:20px 0;">
+        <summary style="font-size:16px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+          Do I need a Working With Children Check? <span style="font-size:20px;font-weight:400;flex-shrink:0;">+</span>
+        </summary>
+        <p style="margin-top:12px;font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;">For any school work, yes — a current WWC Check is required. If you don't have one, we can work with you on getting it sorted. It's straightforward and relatively quick to obtain in WA.</p>
+      </details>
+
+      <details style="border-top:2px solid var(--ink);padding:20px 0;">
+        <summary style="font-size:16px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+          What does a typical job look like? <span style="font-size:20px;font-weight:400;flex-shrink:0;">+</span>
+        </summary>
+        <p style="margin-top:12px;font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;">Usually a school assembly, concert, production or formal. You'd arrive to help with bump-in, operate your role during the event, then help with pack-down. Jobs run anywhere from two hours to a full day for bigger productions.</p>
+      </details>
+
+      <details style="border-top:2px solid var(--ink);padding:20px 0;">
+        <summary style="font-size:16px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+          How do I find out about available jobs? <span style="font-size:20px;font-weight:400;flex-shrink:0;">+</span>
+        </summary>
+        <p style="margin-top:12px;font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;">Once you're on the crew, Mitchel sends out job offers directly — usually via text or our scheduling system. You reply to confirm availability and that's it. Simple.</p>
+      </details>
+
+      <details style="border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:20px 0;">
+        <summary style="font-size:16px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+          What happens after I apply? <span style="font-size:20px;font-weight:400;flex-shrink:0;">+</span>
+        </summary>
+        <p style="margin-top:12px;font-size:15px;color:rgba(22,21,39,0.68);line-height:1.7;">Mitchel reviews applications personally and gets in touch within a few days. If it looks like a good fit, you'll have a quick chat — no formal interview, just a conversation — and go from there.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<footer class="eq-footer">
+  <span>© 2026 Urban Echo. All rights reserved.</span>
+</footer>
+
+<script>
+document.getElementById('appForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var btn   = document.getElementById('appSubmit');
+  var label = document.getElementById('appBtnLabel');
+  btn.disabled = true;
+  label.textContent = 'Sending…';
+
+  // Collect all fields including checkboxes
+  var data = {};
+  new FormData(this).forEach(function(v, k){ data[k] = v; });
+
+  // Collect multi-select checkboxes into comma-separated strings
+  var roles = [];
+  ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','other'].forEach(function(r){
+    var cb = document.querySelector('input[name="role_' + r + '"]');
+    if(cb && cb.checked) roles.push(cb.value);
+  });
+  data.roles = roles.join(', ') || 'None selected';
+
+  var availability = [];
+  ['weekday_day','weekday_eve','weekend','school_term'].forEach(function(a){
+    var cb = document.querySelector('input[name="avail_' + a + '"]');
+    if(cb && cb.checked) availability.push(cb.value);
+  });
+  data.availability = availability.join(', ') || 'None selected';
+
+  data._subject = '🎚️ New Job Application — Urban Echo';
+
+  try {
+    // REPLACE xxxxxxxxxxx with your Formspree form ID for job applications
+    var res = await fetch('https://formspree.io/f/xxxxxxxxxxx', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if(res.ok){
+      document.getElementById('appForm').style.display = 'none';
+      document.getElementById('appSuccess').style.display = 'block';
+    } else {
+      label.textContent = 'Try again →';
+      btn.disabled = false;
+    }
+  } catch(err){
+    label.textContent = 'Try again →';
+    btn.disabled = false;
+  }
+});
+</script>
+
+</body>
+</html>
