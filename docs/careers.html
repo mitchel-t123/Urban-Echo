@@ -64,7 +64,7 @@ a{ color:inherit; }
 @media(max-width:600px){ .wrap{ padding:0 20px; } }
 
 /* HERO */
-.hero{ background:var(--sunshine); border-bottom:3px solid var(--ink); padding:80px 0 72px; }
+.hero{ background:var(--sunshine); padding:80px 0 72px; }
 .hero-eyebrow{ display:inline-block; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
 .hero h1{ font-size:clamp(36px,5vw,64px); color:var(--ink); margin-bottom:20px; line-height:1.0; max-width:720px; }
 .hero .sub{ font-size:17px; color:rgba(22,21,39,0.72); max-width:520px; line-height:1.6; margin-bottom:32px; }
@@ -259,6 +259,9 @@ a{ color:inherit; }
             <label class="check-opt"><input type="checkbox" name="role_setup" value="Setup Crew"> 🏗️ Setup Crew</label>
             <label class="check-opt"><input type="checkbox" name="role_dj" value="DJ"> 🎧 DJ</label>
             <label class="check-opt"><input type="checkbox" name="role_musician" value="Musician"> 🎵 Musician</label>
+            <label class="check-opt"><input type="checkbox" name="role_slides" value="Slides Operator"> 📽️ Slides Operator</label>
+            <label class="check-opt"><input type="checkbox" name="role_venue" value="Venue Management"> 🏛️ Venue Management</label>
+            <label class="check-opt"><input type="checkbox" name="role_security" value="Security"> 🔒 Security</label>
             <label class="check-opt"><input type="checkbox" name="role_other" value="Other"> Other</label>
           </div>
         </div>
@@ -323,6 +326,21 @@ a{ color:inherit; }
           </select>
         </div>
 
+        <span class="form-section-label">Current situation</span>
+        <div class="field">
+          <label for="app-employment">Current employment status</label>
+          <select id="app-employment" name="employment_status">
+            <option value="">Select…</option>
+            <option>Unemployed — actively looking</option>
+            <option>Casual — looking for more work</option>
+            <option>Part-time — have availability</option>
+            <option>Full-time — looking to supplement</option>
+            <option>Student — looking for casual work</option>
+            <option>Self-employed / freelance</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+
         <span class="form-section-label">Anything else</span>
         <div class="field">
           <label for="app-notes">Anything else you want us to know? <span class="opt">Optional</span></label>
@@ -379,7 +397,7 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
 
   // Collect multi-select checkboxes into comma-separated strings
   var roles = [];
-  ['sound','lighting','setup','dj','musician','other'].forEach(function(r){
+  ['sound','lighting','setup','dj','musician','slides','venue','security','other'].forEach(function(r){
     var cb = document.querySelector('input[name="role_' + r + '"]');
     if(cb && cb.checked) roles.push(cb.value);
   });
