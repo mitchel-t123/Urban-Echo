@@ -466,6 +466,9 @@ a{ color:inherit; }
 </footer>
 
 <script>
+// Replace this with your Formspree form ID when ready (e.g. 'xabcdefg')
+var FORMSPREE_ID = 'xxxxxxxxxxx';
+
 document.getElementById('appForm').addEventListener('submit', async function(e){
   e.preventDefault();
   var btn   = document.getElementById('appSubmit');
@@ -473,11 +476,9 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
   btn.disabled = true;
   label.textContent = 'Sending…';
 
-  // Collect all fields including checkboxes
   var data = {};
   new FormData(this).forEach(function(v, k){ data[k] = v; });
 
-  // Collect multi-select checkboxes into comma-separated strings
   var roles = [];
   ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','other'].forEach(function(r){
     var cb = document.querySelector('input[name="role_' + r + '"]');
@@ -492,26 +493,50 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
   });
   data.availability = availability.join(', ') || 'None selected';
 
-  data._subject = '🎚️ New Job Application — Urban Echo';
+  data._subject = 'New Job Application — Urban Echo';
 
-  try {
-    // REPLACE xxxxxxxxxxx with your Formspree form ID for job applications
-    var res = await fetch('https://formspree.io/f/xxxxxxxxxxx', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    if(res.ok){
-      document.getElementById('appForm').style.display = 'none';
-      document.getElementById('appSuccess').style.display = 'block';
-    } else {
-      label.textContent = 'Try again →';
-      btn.disabled = false;
-    }
-  } catch(err){
-    label.textContent = 'Try again →';
-    btn.disabled = false;
+  // Use Formspree if ID is set, otherwise fall back to mailto
+  if(FORMSPREE_ID && FORMSPREE_ID !== 'xxxxxxxxxxx'){
+    try {
+      var res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if(res.ok){
+        document.getElementById('appForm').style.display = 'none';
+        document.getElementById('appSuccess').style.display = 'block';
+        return;
+      }
+    } catch(err){}
   }
+
+  // Mailto fallback — builds a pre-filled email to mitchel@urbanecho.com.au
+  var lines = [
+    'Name: ' + (data.first_name || '') + ' ' + (data.last_name || ''),
+    'Email: ' + (data.email || ''),
+    'Phone: ' + (data.phone || ''),
+    'Suburb: ' + (data.suburb || ''),
+    '',
+    'Roles: ' + data.roles,
+    'Experience level: ' + (data.experience_level || ''),
+    'Experience detail: ' + (data.experience_detail || ''),
+    'School experience: ' + (data.school_experience || ''),
+    '',
+    'Availability: ' + data.availability,
+    'WWC Check: ' + (data.wwc || ''),
+    'Police Clearance: ' + (data.police || ''),
+    'Employment status: ' + (data.employment_status || ''),
+    '',
+    'Notes: ' + (data.notes || ''),
+    'How heard: ' + (data.how_heard || '')
+  ];
+  var mailto = 'mailto:mitchel@urbanecho.com.au'
+    + '?subject=' + encodeURIComponent('New Job Application — Urban Echo')
+    + '&body=' + encodeURIComponent(lines.join('\n'));
+  window.location.href = mailto;
+  document.getElementById('appForm').style.display = 'none';
+  document.getElementById('appSuccess').style.display = 'block';
 });
 </script>
 
