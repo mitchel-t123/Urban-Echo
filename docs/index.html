@@ -2088,9 +2088,11 @@ body{ overflow-x: hidden; }
   .stress-meter{ margin-top: 0; }
   .nav-inner{ padding:10px 14px; }
   .nav .btn{ padding:8px 14px; font-size:13px; }
-  .school-logos{ grid-template-columns: repeat(3, 1fr); }
-  .school-logo{ height: auto; padding: 8px; }
-  .school-logo img{ max-width:110px; max-height:60px; }
+  .school-logos{ grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; }
+  .school-logo{ height: auto; min-height:72px; padding:8px; box-shadow:3px 3px 0 var(--ink); }
+  .school-logo img{ width:100%; max-width:none; max-height:52px; }
+  .package-card .price{ font-size:28px; }
+  .package-card .price-label{ font-size:11px; }
   /* Credentials: 2×2 grid */
   .credential-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px; }
   /* Reviews: reduce gap below CTA button */
