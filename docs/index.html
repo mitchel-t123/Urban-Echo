@@ -2192,11 +2192,11 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 }
 @media(max-width:500px){
   #popupChoices{ flex-direction:row !important; }
-  .popup-choice{ padding:16px 12px; gap:8px; flex-direction:row !important; align-items:center; justify-content:center; }
-  .popup-choice .popup-icon{ font-size:36px; flex-shrink:0; }
-  .popup-choice .popup-label{ font-size:16px; }
+  .popup-choice{ padding:16px 12px; gap:8px; flex-direction:column !important; align-items:center; justify-content:center; }
+  .popup-choice .popup-icon{ font-size:36px; }
+  .popup-choice .popup-label{ font-size:16px; text-align:center; }
   .popup-choice .popup-hint{ display:none; }
-  #popupHiring{ padding:16px 20px; gap:10px; }
+  #popupHiring{ flex-direction:row !important; padding:16px 20px; gap:10px; }
   #popupHiring .popup-hiring-label{ font-size:0 !important; }
   #popupHiring .popup-hiring-label::before{ content:"We\2019re hiring \2014 apply to join"; font-size:16px; font-family:var(--body); font-weight:800; color:#fff; letter-spacing:-0.01em; }
   #popupHiring span:first-child{ font-size:30px !important; }
