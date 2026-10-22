@@ -2191,10 +2191,13 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   #popupCard{ padding:24px 18px 22px; }
 }
 @media(max-width:500px){
-  #popupChoices{ flex-direction:column !important; }
-  .popup-choice{ padding:16px 14px 14px; gap:6px; }
-  .popup-choice .popup-icon{ font-size:32px; }
+  #popupChoices{ flex-direction:row !important; }
+  .popup-choice{ padding:14px 10px; gap:6px; flex-direction:row !important; align-items:center; justify-content:center; }
+  .popup-choice .popup-icon{ font-size:26px; flex-shrink:0; }
+  .popup-choice .popup-label{ font-size:14px; }
   .popup-choice .popup-hint{ display:none; }
+  #popupHiring .popup-hiring-label{ font-size:0 !important; }
+  #popupHiring .popup-hiring-label::before{ content:"We\2019re hiring \2014 apply to join"; font-size:14px; font-family:var(--body); font-weight:800; color:#fff; letter-spacing:-0.01em; }
 }
 </style>
 <div id="schoolPopup">
@@ -2205,18 +2208,18 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <div id="popupChoices" style="display:flex;gap:14px;">
       <button id="popupYes" class="popup-choice" style="background:var(--orange);">
         <span class="popup-icon">🏫</span>
-        <span class="popup-label" style="color:var(--ink);">I'm from a school</span>
+        <span class="popup-label" style="color:#fff;">I'm from a school</span>
         <span class="popup-hint">Assemblies, graduations, productions &amp; more</span>
       </button>
-      <a href="soundhire" id="popupNo" class="popup-choice" style="background:var(--indigo);color:var(--ink);">
+      <a href="soundhire" id="popupNo" class="popup-choice" style="background:var(--indigo);color:#fff;">
         <span class="popup-icon">🎉</span>
-        <span class="popup-label" style="color:var(--ink);">Not a school</span>
+        <span class="popup-label" style="color:#fff;">Not a school</span>
         <span class="popup-hint">Personal or corporate events</span>
       </a>
     </div>
-    <a href="/careers" id="popupHiring" class="popup-choice" style="background:var(--ink);color:var(--paper);margin-top:16px;flex-direction:row;padding:16px 24px;justify-content:center;gap:10px;">
+    <a href="/careers" id="popupHiring" class="popup-choice" style="background:var(--ink);color:#fff;margin-top:16px;flex-direction:row;padding:16px 24px;justify-content:center;gap:10px;">
       <span style="font-size:22px;line-height:1;">🎚️</span>
-      <span style="font-family:var(--body);font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.01em;">We're Hiring — Apply to join the crew</span>
+      <span class="popup-hiring-label" style="font-family:var(--body);font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.01em;">We're Hiring — Apply to join the crew</span>
     </a>
   </div>
 </div>
