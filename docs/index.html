@@ -401,11 +401,12 @@ h2,h3{
 .mobile-menu.open{ display:block; backdrop-filter:blur(2px); }
 .mobile-menu-panel{
   position:absolute; top:0; left:0; right:0;
-  background:#fff; padding:20px 20px 28px;
+  background:#fff; padding:52px 20px 28px;
   border-bottom:3px solid var(--ink);
   display:flex; flex-direction:column; gap:10px;
 }
 .mobile-menu-close{
+  position:absolute; top:14px; right:14px;
   width:38px; height:38px; border-radius:50%;
   border:2.5px solid var(--ink); background:var(--cream);
   display:flex; align-items:center; justify-content:center;
@@ -2311,10 +2312,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <!-- Mobile menu overlay -->
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-panel">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-      <img src="logo.png" alt="Urban Echo" style="height:28px;" width="2272" height="376" loading="lazy">
-      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
-    </div>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
     <div class="mobile-menu-bubbles">
       <a href="#packages" class="mobile-menu-link nav-bubble" style="display:inline-flex;">📦 Packages</a>
       <a href="#reviews" class="mobile-menu-link nav-bubble" style="display:inline-flex;">💬 Reviews</a>
