@@ -1094,6 +1094,78 @@ h2,h3{
 .diagnosis-grid{
   display:block;
 }
+.diagnosis-two-col{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:40px;
+  align-items:start;
+}
+@media(max-width:900px){ .diagnosis-two-col{ grid-template-columns:1fr; } }
+.who-card{
+  background:var(--indigo);
+  border:2.5px solid var(--ink);
+  border-radius:22px;
+  padding:28px 26px 26px;
+  box-shadow:5px 5px 0 var(--ink);
+  color:#fff;
+}
+.who-pill{
+  display:inline-block;
+  background:var(--orange);
+  color:var(--ink);
+  border:2px solid var(--ink);
+  border-radius:100px;
+  padding:5px 14px;
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  margin-bottom:20px;
+}
+.who-profile{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:18px;
+}
+.who-avatar{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  border:2.5px solid rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:800;
+  color:#fff;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.who-avatar img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
+.who-name{ font-weight:800; font-size:17px; color:#fff; line-height:1.2; }
+.who-title{ font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.65); margin-top:3px; }
+.who-bio{ font-size:14px; color:rgba(255,255,255,0.85); line-height:1.6; margin-bottom:10px; }
+.who-contact-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,255,255,0.12);
+  border:1.5px solid rgba(255,255,255,0.25);
+  border-radius:10px;
+  padding:11px 16px;
+  font-size:14px;
+  font-weight:700;
+  color:#fff;
+  text-decoration:none;
+  margin-bottom:8px;
+  transition:background 0.15s;
+}
+.who-contact-btn:hover{ background:rgba(255,255,255,0.22); }
+.who-contact-btn:last-child{ margin-bottom:0; }
+.who-contact-icon{ font-size:16px; flex-shrink:0; }
 .diagnosis .eyebrow{ display:inline-block; background:var(--forest); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-size:13px; letter-spacing:0.08em; margin-bottom:18px; margin-top:-52px; position:relative; z-index:2; }
 
 .diagnosis h2{
@@ -2362,8 +2434,8 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <div class="dd-col-label">What else we offer</div>
         <a href="soundhire" class="dd-link"><span class="dd-icon">🎉</span><span class="dd-text"><strong>Private &amp; Corporate Events</strong><small>Not a school? We do that too</small></span></a>
         <a href="careers" class="dd-link"><span class="dd-icon">🎛️</span><span class="dd-text"><strong>Join the Team</strong><small>Work with Urban Echo</small></span></a>
-        <a href="problems.html" class="dd-link" style="background:var(--forest);border-color:var(--ink);box-shadow:2px 2px 0 var(--ink);margin-top:4px;"><span class="dd-icon">🔧</span><span class="dd-text" style="color:#fff;"><span style="display:flex;align-items:center;gap:6px;"><strong style="color:#fff;">Troubleshooting Tool</strong><span style="font-size:10px;font-weight:800;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 6px;flex-shrink:0;">BETA</span></span><small style="color:rgba(255,255,255,0.7);">Diagnose your AV issues</small></span></a>
         <a href="login.html" class="dd-link" style="background:var(--ink);border-color:var(--ink);box-shadow:2px 2px 0 rgba(0,0,0,0.3);margin-top:4px;"><span class="dd-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span><span class="dd-text" style="color:#fff;"><strong style="color:#fff;">Team Login</strong><small style="color:rgba(255,255,255,0.6);">Employee portal</small></span></a>
+        <a href="problems.html" class="dd-link" style="background:var(--forest);border-color:var(--ink);box-shadow:2px 2px 0 var(--ink);margin-top:4px;"><span class="dd-icon">🔧</span><span class="dd-text" style="color:#fff;"><span style="display:flex;align-items:center;gap:6px;"><strong style="color:#fff;">Troubleshooting Tool</strong><span style="font-size:10px;font-weight:800;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 6px;flex-shrink:0;">BETA</span></span><small style="color:rgba(255,255,255,0.7);">Diagnose your AV issues</small></span></a>
       </div>
       <!-- Col 3: Actions -->
       <div>
@@ -2616,7 +2688,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <!-- ============ DIAGNOSIS / GUIDE ============ -->
 <section class="diagnosis" id="about">
   <div class="wrap">
-    <div class="diagnosis-grid">
+    <div class="diagnosis-two-col">
       <div class="diagnosis-copy" data-reveal>
         <span class="eyebrow">The Diagnosis</span>
         <h2>You Need Help. We've Got You.</h2>
@@ -2641,14 +2713,39 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             <span class="label">Verified &amp; Cleared</span>
           </div>
         </div>
+      </div>
 
-        <!-- Mobile-only: full reviews carousel relocated here -->
-        <h2 class="mobile-reviews-heading" style="margin-top:40px;margin-bottom:16px;font-size:32px;">Our Reviews</h2>
-        <div id="mobileReviewsSlot" style="display:none;"></div>
+      <!-- WHO YOU'D BE WORKING WITH card -->
+      <div style="background:var(--indigo);border-radius:24px;border:2.5px solid var(--ink);padding:32px 28px;box-shadow:5px 5px 0 var(--ink);">
+        <span style="display:inline-block;background:var(--orange);color:var(--ink);border:2px solid var(--ink);border-radius:100px;padding:5px 16px;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:18px;">Who you'd be working with</span>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
+          <div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2.5px solid rgba(255,252,245,0.3);flex-shrink:0;"><img src="mitchel.jpg" alt="Mitchel Tinsley" style="width:100%;height:100%;object-fit:cover;object-position:center top;"></div>
+          <div>
+            <div style="font-family:var(--body);font-size:18px;font-weight:800;color:var(--paper);letter-spacing:-0.02em;">Mitchel Tinsley</div>
+            <div style="font-family:var(--mono);font-size:12px;color:rgba(255,252,245,0.5);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Owner &amp; Lead Operator</div>
+          </div>
+        </div>
+        <p style="font-size:14px;color:rgba(255,252,245,0.72);line-height:1.7;margin-bottom:14px;">Mitchel started Urban Echo after years running sound for school productions, corporate events and live music across Perth. He's operated everything from small classroom PA setups to 60,000-person events.</p>
+        <p style="font-size:14px;color:rgba(255,252,245,0.72);line-height:1.7;margin-bottom:20px;">He runs a tight, reliable operation — people who are switched on, easy to communicate with and take the work seriously without taking themselves too seriously.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="tel:0429660186" style="display:flex;align-items:center;gap:10px;background:rgba(255,252,245,0.08);border:1.5px solid rgba(255,252,245,0.2);border-radius:10px;padding:11px 16px;text-decoration:none;color:var(--paper);font-family:var(--mono);font-size:13px;font-weight:700;">
+            <span>📞</span> 0429 660 186
+          </a>
+          <a href="mailto:mitchel@urbanecho.com.au" style="display:flex;align-items:center;gap:10px;background:rgba(255,252,245,0.08);border:1.5px solid rgba(255,252,245,0.2);border-radius:10px;padding:11px 16px;text-decoration:none;color:var(--paper);font-family:var(--mono);font-size:13px;font-weight:700;">
+            <span>✉️</span> mitchel@urbanecho.com.au
+          </a>
+        </div>
+      </div>
+    </div>
 
-        <div class="school-strip">
-          <!-- Mini review carousel -->
-          <div class="mini-reviews">
+    <!-- Mini reviews below the two-column layout -->
+    <div class="school-strip" style="margin-top:40px;">
+      <!-- Mobile-only: full reviews carousel relocated here -->
+      <h2 class="mobile-reviews-heading" style="margin-bottom:16px;font-size:32px;">Our Reviews</h2>
+      <div id="mobileReviewsSlot" style="display:none;"></div>
+
+      <!-- Mini review carousel -->
+      <div class="mini-reviews">
             <div class="mini-reviews-with-arrows">
               <div class="mini-reviews-track" id="miniReviewsTrack">
                 <div class="mini-review-card">
@@ -2699,12 +2796,11 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           </div>
 
         </div>
-      </div>
     </div>
   </div>
 </section>
 
-<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
+<div aria-hidden="true" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <!-- ============ OUR CLIENTS ============ -->
 <section class="diagnosis" id="schools-panel" style="padding:64px 0;">
@@ -2733,7 +2829,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
+<div aria-hidden="true" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <!-- ============ PLAN ============ -->
 <section class="plan" id="plan">
@@ -2764,7 +2860,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
+<div aria-hidden="true" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <!-- ============ PACKAGES ============ -->
 <section class="packages" id="packages">
@@ -3019,7 +3115,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </section>
 
 
-<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
+<div aria-hidden="true" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <!-- ============ MEET ============ -->
 <section class="meet-section" id="meet">

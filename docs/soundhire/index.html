@@ -206,22 +206,80 @@ a{ color:inherit; }
 /* FOOTER */
 .eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:28px 20px; font-family:var(--mono); font-size:12px; border-top:3px solid var(--ink); }
 .eq-footer a{ color:var(--sunshine); text-decoration:none; }
+
+/* NAV LOGIN BTN - black, no shadow */
+.nav-login-btn{ display:flex; align-items:center; justify-content:center; height:38px; width:38px; border-radius:50%; background:var(--ink); border:2.5px solid var(--ink); text-decoration:none; transition:opacity 0.15s; flex-shrink:0; }
+.nav-login-btn:hover{ opacity:0.75; }
+@media(max-width:920px){ .nav-login-btn{ display:none; } }
+
+/* DESKTOP MENU BTN */
+.desktop-menu-btn{ display:flex; align-items:center; gap:8px; background:none; border:2px solid var(--ink); border-radius:8px; padding:7px 14px; cursor:pointer; font-weight:700; font-size:15px; color:var(--ink); font-family:inherit; transition:background 0.15s, box-shadow 0.15s; box-shadow:3px 3px 0 var(--ink); white-space:nowrap; }
+.desktop-menu-btn:hover{ background:var(--cream); box-shadow:5px 5px 0 var(--ink); }
+.desktop-menu-btn .menu-bars{ display:flex; flex-direction:column; gap:4px; }
+.desktop-menu-btn .menu-bars span{ display:block; width:16px; height:2px; background:var(--ink); border-radius:2px; transition:transform 0.2s, opacity 0.2s; }
+.desktop-menu-btn.open .menu-bars span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.desktop-menu-btn.open .menu-bars span:nth-child(2){ opacity:0; }
+.desktop-menu-btn.open .menu-bars span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+@media(max-width:920px){ .desktop-menu-btn{ display:none; } }
+
+/* DESKTOP DROPDOWN */
+.desktop-dropdown{ display:none; position:absolute; top:100%; left:0; right:0; z-index:99; background:#fff; border-bottom:3px solid var(--ink); box-shadow:0 8px 32px rgba(22,21,39,0.12); }
+.desktop-dropdown.open{ display:block; }
+.desktop-dropdown-inner{ max-width:1180px; margin:0 auto; padding:28px 32px 32px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:32px; }
+.dd-col-label{ font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink); opacity:0.45; margin-bottom:12px; }
+.dd-link{ display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); font-weight:700; font-size:15px; padding:9px 12px; border-radius:8px; border:2px solid transparent; transition:background 0.12s, border-color 0.12s, box-shadow 0.12s; }
+.dd-link:hover{ background:var(--cream); border-color:var(--ink); box-shadow:2px 2px 0 var(--ink); }
+.dd-link .dd-icon{ font-size:18px; flex-shrink:0; }
+.dd-link .dd-text{ display:flex; flex-direction:column; }
+.dd-link .dd-text strong{ font-size:15px; line-height:1.2; }
+.dd-link .dd-text small{ font-size:12px; font-weight:500; opacity:0.55; margin-top:1px; }
+.dd-cta{ display:block; text-align:center; text-decoration:none; font-weight:800; font-size:15px; padding:11px 16px; border-radius:10px; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); color:var(--ink); transition:box-shadow 0.1s, transform 0.1s, background 0.12s; margin-bottom:10px; }
+.dd-cta:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-1px); }
+.dd-cta:last-child{ margin-bottom:0; }
 </style>
 </head>
 <body>
 
 <!-- ============ NAV ============ -->
-<nav class="nav">
+<nav class="nav" style="position:relative;">
   <div class="nav-inner">
     <a href="/"><img src="../logo.png" alt="Urban Echo" class="nav-logo"></a>
-    <div class="nav-links" id="navLinks"></div>
     <div style="display:flex;align-items:center;gap:10px;">
-      <a href="sms:0429660186" class="nav-contact-btn" style="white-space:nowrap;">💬 Text Us</a>
-      <a href="#enquire" class="nav-contact-btn nav-contact-btn--email" style="white-space:nowrap;">✉️ Email Us</a>
-      <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--ink)" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      <a href="#enquire" class="btn btn-blue" style="font-weight:800;white-space:nowrap;">Contact Us</a>
+      <a href="../login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login" style="background:var(--ink);"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      <button class="desktop-menu-btn" id="desktopMenuBtn" aria-label="Open navigation menu" aria-expanded="false">
+        <div class="menu-bars"><span></span><span></span><span></span></div>
+        Menu
+      </button>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
+    </div>
+  </div>
+  <!-- Desktop dropdown -->
+  <div class="desktop-dropdown" id="desktopDropdown" aria-hidden="true">
+    <div class="desktop-dropdown-inner">
+      <div>
+        <div class="dd-col-label">Jump to</div>
+        <a href="#what-we-offer" class="dd-link desktop-dd-link"><span class="dd-icon">🎚️</span><span class="dd-text"><strong>Our Services</strong><small>What we bring to every event</small></span></a>
+        <a href="#how-it-works" class="dd-link desktop-dd-link"><span class="dd-icon">📋</span><span class="dd-text"><strong>How It Works</strong><small>Our process from enquiry to event</small></span></a>
+        <a href="#packages" class="dd-link desktop-dd-link"><span class="dd-icon">📦</span><span class="dd-text"><strong>Packages</strong><small>Pricing &amp; plans</small></span></a>
+        <a href="#what-we-do" class="dd-link desktop-dd-link"><span class="dd-icon">🎤</span><span class="dd-text"><strong>What We Do</strong><small>Sound, AV &amp; production</small></span></a>
+        <a href="#reviews" class="dd-link desktop-dd-link"><span class="dd-icon">💬</span><span class="dd-text"><strong>Reviews</strong><small>What clients say about us</small></span></a>
+      </div>
+      <div>
+        <div class="dd-col-label">What else we offer</div>
+        <a href="/" class="dd-link"><span class="dd-icon">🏫</span><span class="dd-text"><strong>Urban Echo for Schools</strong><small>AV support for Perth schools</small></span></a>
+        <a href="../careers" class="dd-link"><span class="dd-icon">🎛️</span><span class="dd-text"><strong>Join the Team</strong><small>Work with Urban Echo</small></span></a>
+        <a href="../login.html" class="dd-link" style="background:var(--ink);border-color:var(--ink);box-shadow:2px 2px 0 rgba(0,0,0,0.3);margin-top:4px;"><span class="dd-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span><span class="dd-text" style="color:#fff;"><strong style="color:#fff;">Team Login</strong><small style="color:rgba(255,255,255,0.6);">Employee portal</small></span></a>
+        <a href="../problems.html" class="dd-link" style="background:var(--forest);border-color:var(--ink);box-shadow:2px 2px 0 var(--ink);margin-top:4px;"><span class="dd-icon">🔧</span><span class="dd-text" style="color:#fff;"><span style="display:flex;align-items:center;gap:6px;"><strong style="color:#fff;">Troubleshooting Tool</strong><span style="font-size:10px;font-weight:800;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 6px;flex-shrink:0;">BETA</span></span><small style="color:rgba(255,255,255,0.7);">Diagnose your AV issues</small></span></a>
+      </div>
+      <div>
+        <div class="dd-col-label">Get in touch</div>
+        <a href="tel:0429660186" class="dd-cta" style="background:#fff;">📞 Call Us</a>
+        <a href="#enquire" class="dd-cta desktop-dd-link" style="background:var(--indigo);color:#fff;">✉️ Make an Enquiry</a>
+        <a href="../urban-echo-emergency.vcf" download class="dd-cta" style="background:var(--cream);">📱 Save Our Number</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -378,7 +436,7 @@ a{ color:inherit; }
 </section>
 
 <!-- WAVE -->
-<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
+<div aria-hidden="true" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <!-- WHAT WE OFFER -->
 <section class="mid-section" id="what-we-offer">
@@ -452,7 +510,7 @@ a{ color:inherit; }
 </section>
 
 <!-- WAVE -->
-<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
+<div aria-hidden="true" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <!-- HOW IT WORKS -->
 <section class="mid-section" id="how-it-works">
@@ -481,7 +539,7 @@ a{ color:inherit; }
 </section>
 
 <!-- WAVE between How It Works and Packages -->
-<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
+<div aria-hidden="true" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <!-- PACKAGES -->
 <section class="mid-section" id="packages">
@@ -540,7 +598,7 @@ a{ color:inherit; }
   </div>
 </section>
 
-<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
+<div aria-hidden="true" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <!-- CONTACT -->
 <section class="contact" id="enquire">
@@ -709,6 +767,18 @@ document.getElementById('eqForm').addEventListener('submit', async function(e){
     btn.disabled = false;
   }
 });
+
+(function(){
+  var dBtn = document.getElementById('desktopMenuBtn');
+  var dDrop = document.getElementById('desktopDropdown');
+  if(!dBtn || !dDrop) return;
+  function openDD(){ dBtn.classList.add('open'); dDrop.classList.add('open'); dBtn.setAttribute('aria-expanded','true'); dDrop.setAttribute('aria-hidden','false'); }
+  function closeDD(){ dBtn.classList.remove('open'); dDrop.classList.remove('open'); dBtn.setAttribute('aria-expanded','false'); dDrop.setAttribute('aria-hidden','true'); }
+  dBtn.addEventListener('click', function(e){ e.stopPropagation(); dDrop.classList.contains('open') ? closeDD() : openDD(); });
+  document.addEventListener('click', function(e){ if(!dDrop.contains(e.target) && e.target !== dBtn) closeDD(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDD(); });
+  dDrop.querySelectorAll('.desktop-dd-link').forEach(function(a){ a.addEventListener('click', closeDD); });
+})();
 </script>
 </body>
 </html>
