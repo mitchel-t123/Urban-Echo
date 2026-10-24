@@ -2027,8 +2027,10 @@ body{ overflow-x: hidden; max-width: 100%; }
   /* Mobile: swap stress meter label */
   .stress-label-desktop{ display: none; }
   .stress-label-mobile{ display: inline; }
-  /* Mobile: hide hero checklist entirely */
-  .hero-checklist{ display: none; }
+  /* Mobile: stack checker grid */
+  .checker-grid{ grid-template-columns: 1fr !important; }
+  /* Mobile: show checklist (visible in the checker section on mobile) */
+  .hero-checklist{ display: flex; }
   /* Mobile: hide non-essential symptom items */
   .hero-check-desktop{ display: none; }
   /* Mobile: larger emergency heading */
@@ -2395,6 +2397,79 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
   </div>
 </header>
+
+<!-- ============ INTERACTIVE SYMPTOM CHECKER ============ -->
+<section style="background:#ffffff; padding:72px 0; border-bottom:3px solid var(--ink);" id="symptom-checker">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;" class="checker-grid">
+      <!-- Left: checklist -->
+      <div>
+        <span class="eyebrow" style="margin-bottom:20px;display:inline-block;">Sound familiar?</span>
+        <h2 style="font-size:clamp(28px,3.5vw,44px);margin-bottom:10px;">Tick what applies to your school.</h2>
+        <p style="font-size:16px;margin-bottom:28px;max-width:460px;line-height:1.6;opacity:0.8;">The more you tick, the more we can help. Check the boxes to get your instant diagnosis.</p>
+        <div class="hero-checklist" id="heroChecklist">
+          <div class="hero-check" data-symptom="3">
+            <span class="check-icon"></span>
+            Endless School Events?
+          </div>
+          <div class="hero-check" data-symptom="4">
+            <span class="check-icon"></span>
+            No in-house Sound Guy?
+          </div>
+          <div class="hero-check" data-symptom="2">
+            <span class="check-icon"></span>
+            Always Multi-tasking?
+          </div>
+          <div class="hero-check" data-symptom="0">
+            <span class="check-icon"></span>
+            No Time for AV Headaches?
+          </div>
+          <div class="hero-check" data-symptom="1">
+            <span class="check-icon"></span>
+            Tired of Feedback Screeching?
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;">
+          <a href="#contact" class="btn btn-orange" style="font-weight:800;">Get Our Help →</a>
+          <a href="tel:0429660186" class="btn" style="background:var(--paper);color:var(--ink);">📞 Call Us</a>
+        </div>
+      </div>
+      <!-- Right: diagnosis + treatment cards -->
+      <div class="hero-figure" style="padding-top:0;padding-bottom:0;gap:16px;">
+        <div class="stress-label-row">
+          <span class="stress-meter-label">Or drag to rate your AV stress</span>
+          <div class="stress-arrow" aria-hidden="true">↓</div>
+        </div>
+        <div class="stress-meter">
+          <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" tabindex="0">
+            <div class="stress-face active" data-lvl="0">😌</div>
+            <div class="stress-face" data-lvl="1">🙁</div>
+            <div class="stress-face" data-lvl="2">😰</div>
+            <div class="stress-face" data-lvl="3">😱</div>
+            <div class="stress-face" data-lvl="4">💀</div>
+          </div>
+        </div>
+        <div class="hero-symptom-card" id="heroCard">
+          <span class="card-status" id="heroCardStatus">📋 DIAGNOSIS</span>
+          <span class="card-diag" id="heroCardDiag">Status: Healthy</span>
+          <span class="severity-bar-label">AV Stress Level</span>
+          <div class="severity-bar" id="severityBar">
+            <div class="severity-fill" id="severityFill"></div>
+          </div>
+          <div class="hero-answer-card" id="heroAnswer">
+            <span class="hero-answer-label" id="heroAnswerLabel">Awaiting diagnosis...</span>
+            <span class="hero-answer-text" id="heroAnswerText">Tick the boxes that apply to your school.</span>
+          </div>
+        </div>
+        <div class="hero-treatment-card" id="treatCard">
+          <span class="treat-label">Recommended Treatment</span>
+          <span class="treat-plan" id="treatPlan">Select your symptoms</span>
+          <span class="treat-desc" id="treatDesc">Tick the boxes to get your recommended response plan.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============ SYMPTOMS ============ -->
 <section class="symptoms" id="symptoms">
