@@ -2237,6 +2237,9 @@ body{ overflow-x: hidden; max-width: 100%; }
   .form-card .btn{ margin-top: 0; }
   /* Hide coffee button in contact section on mobile */
   .contact-coffee-mobile-hide{ display:none !important; }
+  /* Who you'd be working with: show heading above card, hide inside card */
+  .who-working-mobile-heading{ display:inline-block !important; margin-bottom:12px; }
+  .who-working-desktop-bubble{ display:none !important; }
   /* Show make an enquiry heading above form on mobile */
   .contact-form-heading-mobile{ display:block; }
   /* Mobile: plan steps */
@@ -2751,8 +2754,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       </div>
 
       <!-- WHO YOU'D BE WORKING WITH card -->
+      <span class="who-working-mobile-heading" style="display:none;background:var(--orange);color:var(--ink);border:2px solid var(--ink);border-radius:100px;padding:8px 18px;font-family:var(--mono);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;box-shadow:3px 3px 0 var(--ink);">Who you'd be working with</span>
       <div style="background:var(--indigo);border-radius:24px;border:2.5px solid var(--ink);padding:32px 28px;box-shadow:5px 5px 0 var(--ink);">
-        <span style="display:inline-block;background:var(--orange);color:var(--ink);border:2px solid var(--ink);border-radius:100px;padding:8px 18px;font-family:var(--mono);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:18px;box-shadow:3px 3px 0 var(--ink);">Who you'd be working with</span>
+        <span class="who-working-desktop-bubble" style="display:inline-block;background:var(--orange);color:var(--ink);border:2px solid var(--ink);border-radius:100px;padding:8px 18px;font-family:var(--mono);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:18px;box-shadow:3px 3px 0 var(--ink);">Who you'd be working with</span>
         <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
           <div style="width:56px;height:56px;border-radius:50%;overflow:hidden;border:2.5px solid rgba(255,252,245,0.3);flex-shrink:0;"><img src="mitchel.jpg" alt="Mitchel Tinsley" style="width:100%;height:100%;object-fit:cover;object-position:center top;"></div>
           <div>
