@@ -2235,6 +2235,10 @@ body{ overflow-x: hidden; max-width: 100%; }
   .section-head{ margin-bottom: 42px; }
   /* Contact form: reduce space above submit button on mobile */
   .form-card .btn{ margin-top: 0; }
+  /* Hide coffee button in contact section on mobile */
+  .contact-coffee-mobile-hide{ display:none !important; }
+  /* Show make an enquiry heading above form on mobile */
+  .contact-form-heading-mobile{ display:block; }
   /* Mobile: plan steps */
   .plan-step{ padding: 20px 18px 18px; }
   .plan-step .step-num{
@@ -3333,7 +3337,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a>
         </div>
         <a href="urban-echo-emergency.vcf" class="btn btn-blue" style="margin-bottom:12px;background:#fff;color:var(--ink);" download>📱 Save Our Number</a>
-        <a href="#meet" class="btn btn-coffee" style="margin-bottom:18px;">☕ Get a Coffee With Us</a>
+        <a href="#meet" class="btn btn-coffee contact-coffee-mobile-hide" style="margin-bottom:18px;">☕ Get a Coffee With Us</a>
         <div class="contact-detail contact-social">
           <a href="https://www.facebook.com/urbanecho.perth" target="_blank" rel="noopener" class="social-btn" style="background:#C8D8F8;border-color:var(--ink);color:var(--ink);" aria-label="Facebook">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
@@ -3351,6 +3355,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
       </div>
 
+      <h3 class="contact-form-heading-mobile" style="display:none;font-size:24px;font-weight:800;margin-bottom:20px;">Make an Enquiry</h3>
       <div class="form-card" data-reveal>
         <form id="contactForm" novalidate>
           <div class="form-row">
