@@ -96,14 +96,14 @@ a{ color:inherit; }
 .btn-ink{ background:var(--ink); color:var(--paper); }
 
 /* TICKER */
-.ticker-wrap{ background:var(--sunshine); border-bottom:2px solid var(--ink); overflow:hidden; padding:10px 0; }
+.ticker-wrap{ background:var(--sunshine); border-top:3px solid var(--ink); border-bottom:3px solid var(--ink); overflow:hidden; padding:10px 0; }
 .ticker-track{ display:flex; gap:0; animation:ticker 22s linear infinite; white-space:nowrap; }
 .ticker-item{ font-family:var(--mono); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); padding:0 32px; flex-shrink:0; }
 .ticker-sep{ opacity:0.4; padding:0 6px; }
 @keyframes ticker{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 /* HERO */
-.eq-hero{ background:var(--orange); padding:52px 0 48px; position:relative; overflow:hidden; }
+.eq-hero{ background:var(--orange); padding:52px 0 48px; position:relative; overflow:hidden; border-bottom:3px solid var(--ink); }
 .eq-hero-inner{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
 .eq-hero-eyebrow{ display:inline-block; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
 .eq-hero h1{ font-size:clamp(36px,5vw,60px); color:var(--ink); margin-bottom:20px; line-height:1.05; }
@@ -201,7 +201,7 @@ a{ color:inherit; }
 @media(max-width:860px){ .contact-grid{ grid-template-columns:1fr; } .form-row{ grid-template-columns:1fr; } }
 
 /* FOOTER */
-.eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:28px 20px; font-family:var(--mono); font-size:12px; }
+.eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:28px 20px; font-family:var(--mono); font-size:12px; border-top:3px solid var(--ink); }
 .eq-footer a{ color:var(--sunshine); text-decoration:none; }
 </style>
 </head>
@@ -240,7 +240,7 @@ a{ color:inherit; }
       <a href="#what-we-do" class="mobile-menu-link nav-bubble" style="display:inline-flex;white-space:nowrap;">🎤 What We Do</a>
       <a href="#reviews" class="mobile-menu-link nav-bubble" style="display:inline-flex;white-space:nowrap;">💬 Reviews</a>
     </div>
-    <a href="/" class="mobile-menu-link" style="background:var(--indigo);color:#fff !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-align:center;white-space:nowrap;">🏫 Urban Echo for Schools</a>
+    <a href="/" class="mobile-menu-link" style="background:#C8D8F8;color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-align:center;white-space:nowrap;">🏫 Urban Echo for Schools</a>
     <a href="problems.html" class="nav-troubleshoot mobile-menu-link" style="text-align:center;box-sizing:border-box;white-space:nowrap;">🔧 Troubleshooting Tool <span style="font-size:10px;font-weight:800;font-family:inherit;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;vertical-align:middle;">BETA</span></a>
     <div style="display:flex;gap:8px;">
       <a href="urban-echo-emergency.vcf" download class="mobile-menu-link" style="flex:1;background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);text-align:center;white-space:nowrap;">📱 Save Number</a>
