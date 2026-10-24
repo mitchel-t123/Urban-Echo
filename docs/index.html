@@ -663,6 +663,8 @@ h2,h3{
 /* ---- HERO FIGURE: TWO CHARACTERS SIDE BY SIDE ---- */
 /* Hero figure: absolute on the right of the hero, feet at the bottom */
 .hero-offer-chip{ display:inline-flex; align-items:center; gap:5px; background:#fff; border:2px solid var(--ink); border-radius:100px; padding:5px 14px; font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; box-shadow:2px 2px 0 var(--ink); white-space:nowrap; }
+.hero-wave-mobile{ display:none; width:100%; overflow:hidden; line-height:0; margin-top:20px; }
+.hero-wave-mobile svg{ display:block; width:100%; }
 .hero-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1984,8 +1986,10 @@ body{ overflow-x: hidden; }
   .mini-reviews-with-arrows{ align-items: stretch; }
   /* Mobile: nav scrolls with page (not sticky) */
   .nav{ position: sticky; top: 0; }
-  /* Mobile: hide Sound Emergency h1 box so stress meter is above the fold */
-  .hero-h1-box{ display: none; }
+  /* Mobile: h1 box — show but compact */
+  .hero-h1-box{ display: block; padding: 16px 18px 14px; margin-bottom: 16px; }
+  .hero h1{ font-size: clamp(22px, 6vw, 30px); }
+  .hero-wave-mobile{ display: block; }
   /* Mobile: hide back-to-top FAB */
   .fab-menu{ display: none !important; }
   /* Mobile: Now Treating bubble full width with larger font, no gap below */
@@ -2351,6 +2355,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             <span class="hero-offer-chip">🔧 AV Maintenance</span>
           </div>
         </div>
+        <div class="hero-wave-mobile" aria-hidden="true"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,30 Q45,54 90,30 Q135,6 180,30 Q225,54 270,30 Q315,6 360,30 Q405,54 450,30 Q495,6 540,30 Q585,54 630,30 Q675,6 720,30 Q765,54 810,30 Q855,6 900,30 Q945,54 990,30 Q1035,6 1080,30 Q1125,54 1170,30 Q1215,6 1260,30 Q1305,54 1350,30 Q1395,6 1440,30" fill="none" stroke="rgba(22,21,39,0.55)" stroke-width="5" stroke-linecap="round"/></svg></div>
       </div>
       <div class="hero-body">
         <div class="hero-checklist" id="heroChecklist">
