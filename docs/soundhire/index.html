@@ -100,7 +100,7 @@ a{ color:inherit; }
 @keyframes ticker{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 /* HERO */
-.eq-hero{ background:var(--orange); border-bottom:3px solid var(--ink); padding:52px 0 48px; position:relative; overflow:hidden; }
+.eq-hero{ background:var(--orange); padding:52px 0 48px; position:relative; overflow:hidden; }
 .eq-hero-inner{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
 .eq-hero-eyebrow{ display:inline-block; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
 .eq-hero h1{ font-size:clamp(36px,5vw,60px); color:var(--ink); margin-bottom:20px; line-height:1.05; }
@@ -121,8 +121,8 @@ a{ color:inherit; }
 .wave-divider svg{ display:block; width:100%; }
 
 /* MIDDLE SECTIONS all cream, no border between them, waves between */
-.mid-section{ background:#ffffff; padding:56px 0; }
-.mid-section h2{ font-size:clamp(28px,4vw,44px); margin-bottom:12px; }
+.mid-section{ background:#ffffff; padding:64px 0 72px; }
+.mid-section h2{ font-size:clamp(28px,4vw,44px); margin-bottom:12px; margin-top:8px; }
 .mid-section .lede{ font-size:17px; color:rgba(22,21,39,0.68); max-width:520px; margin-bottom:36px; line-height:1.6; }
 
 /* HOW IT WORKS */
@@ -312,6 +312,9 @@ a{ color:inherit; }
     </div>
   </div>
 </section>
+
+<!-- WAVE -->
+<div class="wave-divider" aria-hidden="true"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 Q45,72 90,40 Q135,8 180,40 Q225,72 270,40 Q315,8 360,40 Q405,72 450,40 Q495,8 540,40 Q585,72 630,40 Q675,8 720,40 Q765,72 810,40 Q855,8 900,40 Q945,72 990,40 Q1035,8 1080,40 Q1125,72 1170,40 Q1215,8 1260,40 Q1305,72 1350,40 Q1395,8 1440,40" fill="none" stroke="rgba(22,21,39,0.2)" stroke-width="3.5" stroke-linecap="round"/></svg></div>
 
 <!-- WHAT WE DO -->
 <section class="mid-section" id="what-we-do">

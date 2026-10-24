@@ -111,6 +111,7 @@ a{ color:inherit; }
 .field textarea{ resize:vertical; min-height:100px; font-family:var(--body); }
 .frow{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 @media(max-width:560px){ .frow{ grid-template-columns:1fr; } }
+@media(max-width:700px){ .about-grid{ grid-template-columns:1fr !important; } }
 
 /* Checkbox group */
 .check-group{ display:flex; flex-wrap:wrap; gap:10px; }
@@ -177,7 +178,7 @@ a{ color:inherit; }
 <!-- ABOUT -->
 <section class="perks-section" style="padding-bottom:0;border-top:2px solid var(--ink);">
   <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;padding-bottom:64px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;padding-bottom:64px;" class="about-grid">
 
       <div>
         <span class="section-eyebrow">What we do</span>
