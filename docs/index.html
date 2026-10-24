@@ -1965,11 +1965,18 @@ body{ overflow-x: hidden; }
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns: 1fr; }
   /* Reset explicit grid placement so all sections stack in a single column */
-  .hero-head{ grid-column: 1; grid-row: auto; border-right: none; border-bottom: 4px solid var(--ink); padding-right: 0; }
+  .hero-head{ grid-column: 1; grid-row: auto; border-right: none; border-bottom: 4px solid var(--ink); padding-right: 0; padding-bottom: 32px; }
   .hero-body{ grid-column: 1; grid-row: auto; border-right: none; padding-right: 0; }
-  /* Mobile: full hero blue, figure breaks out to orange with bleed */
-  .hero{ background: var(--indigo); }
-  .hero-figure{ grid-column: 1; grid-row: auto; margin-top: 0; padding-top: 28px; padding-bottom: 32px; padding-left: 0; box-sizing: border-box; background: var(--orange); }
+  /* Mobile: full hero blue, figure breaks out of wrap to orange full-width */
+  .hero{ background: var(--indigo); padding-bottom: 0; }
+  .hero-figure{
+    grid-column: 1; grid-row: auto;
+    background: var(--orange);
+    /* bleed out of the 24px wrap padding to full viewport width */
+    margin-left: -24px; margin-right: -24px;
+    padding: 32px 24px 40px;
+    box-sizing: border-box;
+  }
   .hero-body{ display: none; }
   .hero-symptom-card{ margin: 0; width: 100%; box-sizing: border-box; }
   .hero-treatment-card{ width: 100%; box-sizing: border-box; }
@@ -2090,6 +2097,8 @@ body{ overflow-x: hidden; }
   .symptom-grid{ grid-template-columns:1fr; }
   .wrap{ padding: 0 20px; }
   .hero{ padding-top:20px; }
+  /* Re-bleed hero-figure with 20px wrap padding at this breakpoint */
+  .hero-figure{ margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
   .hero-tag-row{ margin-bottom: 0; }
   .hero-head{ margin-bottom: 6px; }
   .hero-h1-box{ margin-bottom: 8px; padding: 14px 18px 12px; }
