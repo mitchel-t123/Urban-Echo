@@ -2188,8 +2188,8 @@ body{ overflow-x: hidden; max-width: 100%; }
   /* Mobile: swap stress meter label */
   .stress-label-desktop{ display: none; }
   .stress-label-mobile{ display: inline; }
-  /* Reset hero-figure explicit grid placement so it stacks in 1-col layout */
-  .checker-grid .hero-figure{ grid-column: 1; grid-row: auto; padding-left: 0; padding-top: 0; padding-bottom: 0; }
+  /* Reset hero-figure explicit grid placement so it stacks below checklist */
+  .checker-grid .hero-figure{ grid-column: 1; grid-row: auto; order: 1; padding-left: 0; padding-top: 0; padding-bottom: 0; }
   /* Mobile: show checklist (visible in the checker section on mobile) */
   .hero-checklist{ display: flex; }
   /* Mobile: hide non-essential symptom items */
