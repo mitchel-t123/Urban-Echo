@@ -2401,12 +2401,12 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </header>
 
 <!-- ============ INTERACTIVE SYMPTOM CHECKER ============ -->
-<section style="background:#ffffff; padding:72px 0;" id="symptom-checker">
+<section style="background:#ffffff; padding:72px 0; border-bottom:3px solid var(--ink);" id="symptom-checker">
   <div class="wrap">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;" class="checker-grid">
       <!-- Left: checklist -->
       <div>
-        <h2 style="font-size:clamp(28px,3.5vw,44px);margin-bottom:10px;">Tick what applies to your school.</h2>
+        <div class="hero-tag" style="margin-bottom:20px;"><span class="dot"></span> Now Treating Perth Schools</div>
         <p style="font-size:16px;margin-bottom:28px;max-width:460px;line-height:1.6;opacity:0.8;">The more you tick, the more we can help. Check the boxes to get your instant diagnosis.</p>
         <div class="hero-checklist" id="heroChecklist">
           <div class="hero-check" data-symptom="3">
@@ -2472,13 +2472,12 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div aria-hidden="true" style="line-height:0;display:block;overflow:hidden;"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:60px;"><path d="M0,30 C80,58 160,2 240,30 C320,58 400,2 480,30 C560,58 640,2 720,30 C800,58 880,2 960,30 C1040,58 1120,2 1200,30 C1280,58 1360,2 1440,30" fill="none" stroke="#161527" stroke-width="4.5"/></svg></div>
-
 <!-- ============ SYMPTOMS ============ -->
 <section class="symptoms" id="symptoms">
   <div class="wrap">
     <div class="section-head" data-reveal>
-      <div class="hero-tag" style="margin-bottom:20px;"><span class="dot"></span> Now Treating Perth Schools</div>
+      <span class="eyebrow">Symptom Check</span>
+      <h2>Sound familiar?</h2>
       <p>If you ticked yes to more than one of these, you're not alone, it's the most common diagnosis we see across Perth schools.</p>
     </div>
 
