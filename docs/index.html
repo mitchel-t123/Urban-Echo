@@ -447,7 +447,7 @@ h2,h3{
 
 /* ============ HERO ============ */
 .hero{
-  background: var(--orange);
+  background: linear-gradient(to right, var(--indigo) 50%, var(--orange) 50%);
   color: var(--ink);
   position: relative;
   overflow: hidden;
@@ -663,24 +663,27 @@ h2,h3{
 /* ---- HERO FIGURE: TWO CHARACTERS SIDE BY SIDE ---- */
 /* Hero figure: absolute on the right of the hero, feet at the bottom */
 .hero-offer-chip{ display:inline-flex; align-items:center; gap:5px; background:#fff; border:2px solid var(--ink); border-radius:100px; padding:5px 14px; font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; box-shadow:2px 2px 0 var(--ink); white-space:nowrap; }
-.hero-wave-mobile{ display:none; width:100%; overflow:hidden; line-height:0; margin-top:20px; }
-.hero-wave-mobile svg{ display:block; width:100%; }
 .hero-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto 1fr;
-  column-gap: 40px;
+  column-gap: 0;
   row-gap: 0;
 }
 
 .hero-head{
   grid-column: 1;
   grid-row: 1;
+  border-right: 4px solid var(--ink);
+  padding-right: 40px;
 }
 
 .hero-body{
   grid-column: 1;
   grid-row: 2;
+  border-right: 4px solid var(--ink);
+  padding-right: 40px;
+  padding-bottom: 52px;
 }
 
 /* Right-side cards span both rows, top offset matches tag height so cards line up with h1 box */
@@ -692,6 +695,7 @@ h2,h3{
   gap: 20px;
   padding-bottom: 60px;
   padding-top: 57px;
+  padding-left: 40px;
   align-self: start;
 }
 
@@ -1953,9 +1957,11 @@ body{ overflow-x: hidden; }
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns: 1fr; }
   /* Reset explicit grid placement so all sections stack in a single column */
-  .hero-head{ grid-column: 1; grid-row: auto; }
-  .hero-body{ grid-column: 1; grid-row: auto; }
-  .hero-figure{ grid-column: 1; grid-row: auto; margin-top: 8px; padding-top: 0; padding-bottom: 32px; width: 100%; box-sizing: border-box; }
+  .hero-head{ grid-column: 1; grid-row: auto; border-right: none; border-bottom: 4px solid var(--ink); padding-right: 0; }
+  .hero-body{ grid-column: 1; grid-row: auto; border-right: none; padding-right: 0; }
+  /* Mobile: full hero blue, figure breaks out to orange with bleed */
+  .hero{ background: var(--indigo); }
+  .hero-figure{ grid-column: 1; grid-row: auto; margin-top: 0; padding-top: 28px; padding-bottom: 32px; padding-left: 0; box-sizing: border-box; background: var(--orange); }
   .hero-body{ display: none; }
   .hero-symptom-card{ margin: 0; width: 100%; box-sizing: border-box; }
   .hero-treatment-card{ width: 100%; box-sizing: border-box; }
@@ -1989,7 +1995,6 @@ body{ overflow-x: hidden; }
   /* Mobile: h1 box — show but compact */
   .hero-h1-box{ display: block; padding: 16px 18px 14px; margin-bottom: 16px; }
   .hero h1{ font-size: clamp(22px, 6vw, 30px); }
-  .hero-wave-mobile{ display: block; }
   /* Mobile: hide back-to-top FAB */
   .fab-menu{ display: none !important; }
   /* Mobile: Now Treating bubble full width with larger font, no gap below */
@@ -2343,7 +2348,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <h1>We provide sound, AV and setup teams to schools across Perth</h1>
         </div>
         <div style="margin-top:24px;">
-          <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.55);margin-bottom:12px;">What We Offer</div>
+          <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.75);margin-bottom:12px;">What We Offer</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;">
             <span class="hero-offer-chip">🎚️ Sound Technician</span>
             <span class="hero-offer-chip">💡 Lighting Operator</span>
@@ -2358,7 +2363,6 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             <span class="hero-offer-chip">🔧 AV Maintenance</span>
           </div>
         </div>
-        <div class="hero-wave-mobile" aria-hidden="true"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,30 Q45,54 90,30 Q135,6 180,30 Q225,54 270,30 Q315,6 360,30 Q405,54 450,30 Q495,6 540,30 Q585,54 630,30 Q675,6 720,30 Q765,54 810,30 Q855,6 900,30 Q945,54 990,30 Q1035,6 1080,30 Q1125,54 1170,30 Q1215,6 1260,30 Q1305,54 1350,30 Q1395,6 1440,30" fill="none" stroke="rgba(22,21,39,0.55)" stroke-width="5" stroke-linecap="round"/></svg></div>
       </div>
       <div class="hero-body">
         <div class="hero-checklist" id="heroChecklist">
