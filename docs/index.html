@@ -1395,8 +1395,13 @@ h2,h3{
   .school-service-card p{ max-height:0; overflow:hidden; opacity:0; transition:max-height 0.3s ease, opacity 0.25s ease; }
   .school-service-card:hover p{ max-height:140px; opacity:1; }
 }
+@media(hover:none){
+  .school-service-card{ cursor:pointer; }
+  .school-service-card p{ max-height:0; overflow:hidden; opacity:0; transition:max-height 0.35s ease, opacity 0.3s ease; }
+  .school-service-card.expanded p{ max-height:200px; opacity:1; }
+}
 @media(max-width:860px){ .school-services-grid{ grid-template-columns:repeat(2,1fr); } }
-@media(max-width:500px){ .school-services-grid{ grid-template-columns:1fr 1fr; gap:10px; } .school-service-card{ padding:18px 14px; } .school-service-card .icon{ font-size:26px; } .school-service-card h3{ font-size:15px; } .school-service-card p{ font-size:12px; } }
+@media(max-width:500px){ .school-services-grid{ grid-template-columns:1fr; gap:10px; } .school-service-card{ padding:18px 14px; } .school-service-card .icon{ font-size:26px; } .school-service-card h3{ font-size:15px; } .school-service-card p{ font-size:12px; } }
 .plan-steps{
   display:grid;
   grid-template-columns: repeat(3,1fr);
@@ -4309,6 +4314,12 @@ document.addEventListener('click', function(e){
   } else if(href && href.endsWith('.html')){
     gtag('event', 'page_link_click', { event_category: 'navigation', destination: href });
   }
+});
+// Mobile accordion for school service cards (touch devices)
+document.querySelectorAll('.school-service-card').forEach(function(card){
+  card.addEventListener('click', function(){
+    card.classList.toggle('expanded');
+  });
 });
 </script>
 
