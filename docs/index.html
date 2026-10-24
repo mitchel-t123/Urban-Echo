@@ -418,6 +418,17 @@ h2,h3{
 @media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
 @media(max-width:860px){ .nav-hide-sm{ display:none !important; } }
 @media(max-width:680px){ .nav-hide-xs{ display:none !important; } }
+.nav-contact-btn{
+  display:flex; align-items:center; gap:5px;
+  text-decoration:none; font-weight:700; font-size:14px; color:var(--ink);
+  padding:6px 13px; border-radius:100px;
+  border:2px solid var(--ink); box-shadow:2px 2px 0 var(--ink);
+  background:#fff; transition:background 0.12s, box-shadow 0.12s, transform 0.1s;
+}
+.nav-contact-btn:hover{ background:var(--cream); box-shadow:3px 3px 0 var(--ink); transform:translateY(-1px); }
+.nav-contact-btn--email{ background:var(--indigo); color:#fff !important; }
+.nav-contact-btn--email:hover{ background:#2d6ab8; }
+@media(max-width:860px){ .nav-contact-btn{ display:none; } }
 .nav-login-btn{
   display:flex; align-items:center; justify-content:center;
   height:38px; width:38px; border-radius:50%;
@@ -2323,7 +2334,8 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   <div class="nav-inner">
     <a href="/"><img src="logo.png" alt="Urban Echo" class="nav-logo" width="2272" height="376"></a>
     <div style="display:flex;align-items:center;gap:10px;">
-      <a href="#contact" class="btn btn-blue" style="font-weight:800;white-space:nowrap;">Contact Us</a>
+      <a href="sms:0429660186" class="nav-contact-btn" style="white-space:nowrap;">💬 Text Us</a>
+      <a href="#contact" class="nav-contact-btn nav-contact-btn--email" style="white-space:nowrap;">✉️ Email Us</a>
       <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--ink)" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
       <button class="desktop-menu-btn" id="desktopMenuBtn" aria-label="Open navigation menu" aria-expanded="false">
         <div class="menu-bars"><span></span><span></span><span></span></div>
@@ -2351,8 +2363,8 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       <div>
         <div class="dd-col-label">Other pages</div>
         <a href="soundhire" class="dd-link"><span class="dd-icon">🎉</span><span class="dd-text"><strong>Private &amp; Corporate Events</strong><small>Not a school? We do that too</small></span></a>
-        <a href="problems.html" class="dd-link"><span class="dd-icon">🔧</span><span class="dd-text"><strong>Troubleshooting Tool</strong><small>Diagnose your AV issues — BETA</small></span></a>
         <a href="careers" class="dd-link"><span class="dd-icon">🎛️</span><span class="dd-text"><strong>Join the Team</strong><small>Work with Urban Echo</small></span></a>
+        <a href="problems.html" class="dd-link" style="background:var(--forest);border-color:var(--ink);box-shadow:2px 2px 0 var(--ink);margin-top:4px;"><span class="dd-icon">🔧</span><span class="dd-text" style="color:#fff;"><strong style="color:#fff;">Troubleshooting Tool</strong> <span style="font-size:10px;font-weight:800;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;">BETA</span><small style="color:rgba(255,255,255,0.7);">Diagnose your AV issues</small></span></a>
       </div>
       <!-- Col 3: Actions -->
       <div>
