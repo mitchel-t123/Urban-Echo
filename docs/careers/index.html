@@ -63,6 +63,7 @@ a{ color:inherit; }
 .wrap{ max-width:1180px; margin:0 auto; padding:0 40px; }
 @media(max-width:600px){ .wrap{ padding:0 20px; } }
 
+@media(min-width:601px){ .nav-back-desktop{ display:inline !important; } }
 /* HERO */
 .hero{ background:var(--sunshine); padding:80px 0 72px; border-bottom:3px solid var(--ink); }
 .hero-eyebrow{ display:inline-block; background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
@@ -146,7 +147,7 @@ a{ color:inherit; }
   <div class="nav-inner">
     <a href="/"><img src="../logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div style="display:flex;align-items:center;gap:12px;">
-      <a href="/" style="font-family:var(--mono);font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);">← Back to main site</a>
+      <a href="/" style="font-family:var(--mono);font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);display:none;" class="nav-back-desktop">← Back to main site</a>
       <a href="#apply" class="btn btn-orange" style="font-size:14px;padding:10px 22px;">Apply Now</a>
     </div>
   </div>
