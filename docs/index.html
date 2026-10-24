@@ -1381,19 +1381,13 @@ h2,h3{
   background: #ffffff;
   padding: 96px 0;
 }
-.school-services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:16px; align-items:start; }
-.school-service-card{ background:#ffffff; border:2.5px solid var(--ink); border-radius:20px; padding:28px 24px; box-shadow:5px 5px 0 var(--ink); text-align:center; cursor:default; transition:box-shadow 0.15s, transform 0.15s; }
-.school-service-card-head{ display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:8px; }
-.school-service-card .icon{ font-size:28px; display:block; flex-shrink:0; }
-.school-service-card h3{ font-size:17px; font-weight:800; margin-bottom:0; line-height:1.2; }
+.school-services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:16px; }
+.school-service-card{ background:#ffffff; border:2.5px solid var(--ink); border-radius:20px; padding:28px 24px; box-shadow:5px 5px 0 var(--ink); }
+.school-service-card .icon{ font-size:34px; display:block; margin-bottom:14px; }
+.school-service-card h3{ font-size:17px; font-weight:800; margin-bottom:8px; }
 .school-service-card p{ font-size:13.5px; color:rgba(22,21,39,0.65); line-height:1.6; margin:0; }
-@media(hover:hover){
-  .school-service-card:hover{ box-shadow:7px 7px 0 var(--ink); transform:translateY(-2px); }
-  .school-service-card p{ max-height:0; overflow:hidden; opacity:0; transition:max-height 0.3s ease, opacity 0.25s ease; }
-  .school-service-card:hover p{ max-height:140px; opacity:1; }
-}
 @media(max-width:860px){ .school-services-grid{ grid-template-columns:repeat(2,1fr); } }
-@media(max-width:500px){ .school-services-grid{ grid-template-columns:1fr 1fr; gap:10px; } .school-service-card{ padding:18px 14px; } .school-service-card .icon{ font-size:26px; } .school-service-card h3{ font-size:15px; } .school-service-card p{ font-size:12px; } }
+@media(max-width:500px){ .school-services-grid{ grid-template-columns:1fr 1fr; gap:10px; } .school-service-card{ padding:18px 14px; text-align:center; } .school-service-card .icon{ font-size:30px; margin-bottom:10px; } .school-service-card h3{ font-size:15px; } .school-service-card p{ font-size:12px; } }
 .plan-steps{
   display:grid;
   grid-template-columns: repeat(3,1fr);
@@ -2986,47 +2980,58 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
     <div class="school-services-grid">
       <div class="school-service-card" style="background:var(--cream);">
-        <div class="school-service-card-head"><span class="icon">🎚️</span><h3>Sound Technician</h3></div>
+        <span class="icon">🎚️</span>
+        <h3>Sound Technician</h3>
         <p>A calm, trained operator who arrives early, sets up the PA, rings out the room and runs the desk from go to whoa — no drama, no feedback, no guessing.</p>
       </div>
       <div class="school-service-card" style="background:var(--pink);">
-        <div class="school-service-card-head"><span class="icon">💡</span><h3>Lighting Operator</h3></div>
+        <span class="icon">💡</span>
+        <h3>Lighting Operator</h3>
         <p>Stage washes, follow spots and theatrical lighting run by someone who's done it a hundred times. Your production will look as good as it sounds.</p>
       </div>
       <div class="school-service-card" style="background:#C8D8F8;">
-        <div class="school-service-card-head"><span class="icon">🖥️</span><h3>Slides & AV Operator</h3></div>
+        <span class="icon">🖥️</span>
+        <h3>Slides & AV Operator</h3>
         <p>We run your PowerPoints, tribute videos, live feeds and award graphics on cue every time — no fumbling, no wrong slides, no awkward pauses.</p>
       </div>
       <div class="school-service-card" style="background:var(--sunshine);">
-        <div class="school-service-card-head"><span class="icon">🏗️</span><h3>Setup & Pack-Down Crew</h3></div>
+        <span class="icon">🏗️</span>
+        <h3>Setup & Pack-Down Crew</h3>
         <p>Chairs, staging, AV positioning and cable runs handled by our crew. Your staff show up to a room that's ready, and leave a room that's clean.</p>
       </div>
       <div class="school-service-card" style="background:var(--forest);">
-        <div class="school-service-card-head"><span class="icon">🎧</span><h3>DJs</h3></div>
+        <span class="icon">🎧</span>
+        <h3>DJs</h3>
         <p>Professional DJs for school formals, balls, socials and end-of-year events. Someone who reads a school-age crowd and keeps the energy right.</p>
       </div>
       <div class="school-service-card" style="background:var(--paper);">
-        <div class="school-service-card-head"><span class="icon">🎵</span><h3>Musicians</h3></div>
+        <span class="icon">🎵</span>
+        <h3>Musicians</h3>
         <p>Live musicians for graduation ceremonies, school productions and formal dinners. We connect you with the right talent and take care of the sound.</p>
       </div>
       <div class="school-service-card" style="background:var(--cream);">
-        <div class="school-service-card-head"><span class="icon">📷</span><h3>Event Photography</h3></div>
+        <span class="icon">📷</span>
+        <h3>Event Photography</h3>
         <p>Photographers experienced in school environments — assemblies, concerts, formals and graduations. Captures the moments your school community will want to keep.</p>
       </div>
       <div class="school-service-card" style="background:var(--pink);">
-        <div class="school-service-card-head"><span class="icon">🎥</span><h3>Videography</h3></div>
+        <span class="icon">🎥</span>
+        <h3>Videography</h3>
         <p>Filming and highlight reels for productions, graduations and major school events. Professional footage with audio synced to your PA so it actually sounds right.</p>
       </div>
       <div class="school-service-card" style="background:#C8D8F8;">
-        <div class="school-service-card-head"><span class="icon">🏛️</span><h3>Venue Management</h3></div>
+        <span class="icon">🏛️</span>
+        <h3>Venue Management</h3>
         <p>Got an auditorium sitting empty on weekends? We manage external hire bookings and the AV tech team so you earn venue revenue without the admin headache.</p>
       </div>
       <div class="school-service-card" style="background:var(--sunshine);">
-        <div class="school-service-card-head"><span class="icon">🔒</span><h3>Event Security</h3></div>
+        <span class="icon">🔒</span>
+        <h3>Event Security</h3>
         <p>Licensed, school-environment-aware security for productions, formals and open evenings. Discreet, professional and there if you need them.</p>
       </div>
       <div class="school-service-card" style="background:var(--forest);">
-        <div class="school-service-card-head"><span class="icon">🔧</span><h3>AV Maintenance</h3></div>
+        <span class="icon">🔧</span>
+        <h3>AV Maintenance</h3>
         <p>We keep your school's installed AV in working order between events — so the next assembly doesn't start with a dead mic and a trip to the storeroom.</p>
       </div>
     </div>
