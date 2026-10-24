@@ -628,6 +628,8 @@ h2,h3{
   margin-bottom: 34px;
 }
 
+/* ---- INTERACTIVE SYMPTOM CHECKER LAYOUT ---- */
+.checker-grid{ grid-template-columns: 1fr 1fr; }
 /* ---- INTERACTIVE SYMPTOM CHECKLIST ---- */
 .hero-checklist{
   display: flex;
@@ -2178,7 +2180,7 @@ body{ overflow-x: hidden; max-width: 100%; }
   .stress-label-desktop{ display: none; }
   .stress-label-mobile{ display: inline; }
   /* Mobile: stack checker grid */
-  .checker-grid{ grid-template-columns: 1fr !important; }
+  .checker-grid{ grid-template-columns: 1fr; }
   /* Mobile: show checklist (visible in the checker section on mobile) */
   .hero-checklist{ display: flex; }
   /* Mobile: hide non-essential symptom items */
@@ -2565,7 +2567,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <!-- ============ INTERACTIVE SYMPTOM CHECKER ============ -->
 <section style="background:#ffffff; padding:72px 0; border-bottom:3px solid var(--ink);" id="symptom-checker">
   <div class="wrap">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;" class="checker-grid">
+    <div style="display:grid;gap:48px;align-items:start;" class="checker-grid">
       <!-- Left: checklist -->
       <div>
         <div class="hero-tag" style="margin-bottom:20px;"><span class="dot"></span> Now Treating Perth Schools</div>
