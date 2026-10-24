@@ -633,12 +633,17 @@ h2,h3{
 @media(min-width:921px){ .checker-grid{ grid-template-columns: 1fr 1fr; gap:48px; } }
 /* Mobile: step-through — button shown, result panel hidden until revealed */
 .checker-reveal-btn{ display:none; }
+.checker-ctas-after{ display:none; }
 @media(max-width:920px){
   .checker-reveal-btn{ display:block; width:100%; margin-top:20px; margin-bottom:0; padding:14px 24px; background:var(--ink); color:var(--paper); border:2.5px solid var(--ink); border-radius:100px; font-family:var(--mono); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; transition:background 0.15s, transform 0.1s; }
   .checker-reveal-btn.active{ background:var(--orange); border-color:var(--orange); }
   .checker-reveal-btn:active{ transform:scale(0.97); }
   .checker-result-panel{ display:none !important; }
   .checker-result-panel.visible{ display:flex !important; }
+  .checker-stress-hide{ display:none !important; }
+  .checker-ctas{ display:none !important; }
+  .checker-ctas-after{ display:none; flex-direction:column; gap:12px; margin-top:20px; }
+  .checker-ctas-after.visible{ display:flex; }
 }
 /* ---- INTERACTIVE SYMPTOM CHECKLIST ---- */
 .hero-checklist{
@@ -2613,18 +2618,18 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           </div>
         </div>
         <button class="checker-reveal-btn" id="checkerRevealBtn" aria-expanded="false">See My Diagnosis →</button>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;">
+        <div class="checker-ctas" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;">
           <a href="#contact" class="btn btn-orange" style="font-weight:800;">Get Our Help →</a>
           <a href="tel:0429660186" class="btn" style="background:var(--paper);color:var(--ink);">📞 Call Us</a>
         </div>
       </div>
       <!-- Right: diagnosis + treatment cards -->
       <div class="hero-figure checker-result-panel" style="padding-top:0;padding-bottom:0;gap:16px;">
-        <div class="stress-label-row">
+        <div class="stress-label-row checker-stress-hide">
           <span class="stress-meter-label">Or drag to rate your AV stress</span>
           <div class="stress-arrow" aria-hidden="true">↓</div>
         </div>
-        <div class="stress-meter">
+        <div class="stress-meter checker-stress-hide">
           <div class="stress-track" id="stressMeter" role="slider" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" tabindex="0">
             <div class="stress-face active" data-lvl="0">😌</div>
             <div class="stress-face" data-lvl="1">🙁</div>
@@ -2649,6 +2654,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <span class="treat-label">Recommended Treatment</span>
           <span class="treat-plan" id="treatPlan">Select your symptoms</span>
           <span class="treat-desc" id="treatDesc">Tick the boxes to get your recommended response plan.</span>
+        </div>
+        <div class="checker-ctas-after">
+          <a href="#contact" class="btn btn-orange" style="font-weight:800;width:100%;justify-content:center;">Get Our Help →</a>
+          <a href="tel:0429660186" class="btn" style="background:var(--paper);color:var(--ink);width:100%;justify-content:center;">📞 Call Us</a>
         </div>
       </div>
     </div>
@@ -4343,6 +4352,8 @@ var checkerResultPanel = document.querySelector('.checker-result-panel');
 if(checkerRevealBtn && checkerResultPanel){
   checkerRevealBtn.addEventListener('click', function(){
     checkerResultPanel.classList.add('visible');
+    var ctasAfter = document.querySelector('.checker-ctas-after');
+    if(ctasAfter) ctasAfter.classList.add('visible');
     checkerRevealBtn.textContent = 'Your Diagnosis ↓';
     checkerRevealBtn.setAttribute('aria-expanded','true');
     checkerRevealBtn.disabled = true;
