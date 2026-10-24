@@ -148,9 +148,9 @@ a{ color:inherit; }
   .service-card p{ max-height:0; overflow:hidden; opacity:0; margin-bottom:0; transition:max-height 0.3s ease, opacity 0.25s ease, margin-bottom 0.3s ease; }
   .service-card:hover p{ max-height:120px; opacity:1; margin-bottom:0; }
 }
-.service-card .icon{ font-size:34px; display:block; margin-bottom:14px; transition:margin-bottom 0.2s ease; }
-@media(hover:hover){ .service-card:hover .icon{ margin-bottom:10px; } }
-.service-card h3{ font-size:17px; font-weight:800; margin-bottom:8px; }
+.service-card-head{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.service-card .icon{ font-size:28px; display:block; flex-shrink:0; }
+.service-card h3{ font-size:17px; font-weight:800; margin-bottom:0; line-height:1.2; }
 .service-card p{ font-size:13.5px; color:rgba(22,21,39,0.65); line-height:1.6; }
 @media(max-width:860px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
 @media(max-width:500px){ .services-grid{ grid-template-columns:1fr 1fr; gap:10px; } .service-card{ padding:18px 14px; text-align:center; } .service-card .icon{ font-size:30px; margin-bottom:10px; } .service-card h3{ font-size:15px; } .service-card p{ font-size:12px; } }
@@ -409,33 +409,27 @@ a{ color:inherit; }
     <p class="lede">From a 20-person boardroom presentation to a gig at Optus Stadium, if it needs sound, we've got it.</p>
     <div class="services-grid">
       <div class="service-card" style="background:var(--pink);">
-        <span class="icon">🏢</span>
-        <h3>Corporate Events</h3>
+        <div class="service-card-head"><span class="icon">🏢</span><h3>Corporate Events</h3></div>
         <p>Conferences, AGMs, product launches, team days and awards nights. Professional AV run by someone who knows what they're doing.</p>
       </div>
       <div class="service-card" style="background:#C8D8F8;">
-        <span class="icon">🎉</span>
-        <h3>Private Functions</h3>
+        <div class="service-card-head"><span class="icon">🎉</span><h3>Private Functions</h3></div>
         <p>Weddings, engagements, milestone birthdays and celebrations. Great sound so you can focus on enjoying the moment.</p>
       </div>
       <div class="service-card" style="background:var(--forest);">
-        <span class="icon">🎭</span>
-        <h3>Performing Arts</h3>
+        <div class="service-card-head"><span class="icon">🎭</span><h3>Performing Arts</h3></div>
         <p>Theatre productions, dance shows, live music and recitals. We know how to make talent sound exactly as it should.</p>
       </div>
       <div class="service-card" style="background:var(--sunshine);">
-        <span class="icon">🎪</span>
-        <h3>Community Events</h3>
+        <div class="service-card-head"><span class="icon">🎪</span><h3>Community Events</h3></div>
         <p>Markets, festivals, fundraisers and outdoor events. Full sound setup and operation from bump-in to bump-out.</p>
       </div>
       <div class="service-card" style="background:var(--cream);">
-        <span class="icon">🏛️</span>
-        <h3>Venue AV Management</h3>
+        <div class="service-card-head"><span class="icon">🏛️</span><h3>Venue AV Management</h3></div>
         <p>Got a venue or auditorium? We manage bookings and operate the AV for hirers so you don't have to lift a finger.</p>
       </div>
       <div class="service-card" style="background:var(--paper);">
-        <span class="icon">🔊</span>
-        <h3>Equipment Hire</h3>
+        <div class="service-card-head"><span class="icon">🔊</span><h3>Equipment Hire</h3></div>
         <p>Need gear without the operator? We hire out speakers, microphones, mixers and more. Just let us know what you need.</p>
       </div>
     </div>
