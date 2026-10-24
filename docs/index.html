@@ -1402,8 +1402,16 @@ h2,h3{
   .school-service-card p{ max-height:0; overflow:hidden; opacity:0; transition:max-height 0.35s ease, opacity 0.3s ease; }
   .school-service-card.expanded p{ max-height:200px; opacity:1; }
 }
+.school-cards-more-wrap{ display:none; text-align:center; margin-top:14px; }
+.school-cards-more-btn{ background:var(--ink); color:var(--paper); border:2.5px solid var(--ink); border-radius:100px; padding:10px 28px; font-family:var(--mono); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; transition:opacity 0.15s; }
+.school-cards-more-btn:active{ opacity:0.7; }
 @media(max-width:860px){ .school-services-grid{ grid-template-columns:repeat(2,1fr); } }
-@media(max-width:640px){ .school-services-grid{ grid-template-columns:1fr; gap:10px; } .school-service-card{ padding:18px 14px; } .school-service-card .icon{ font-size:26px; } .school-service-card h3{ font-size:15px; } .school-service-card p{ font-size:12px; } }
+@media(max-width:640px){ .school-services-grid{ grid-template-columns:1fr; gap:10px; } .school-service-card{ padding:18px 14px; } .school-service-card .icon{ font-size:26px; } .school-service-card h3{ font-size:15px; } .school-service-card p{ font-size:12px; }
+  .school-card-extra{ display:none; }
+  .school-card-extra.visible{ display:block; }
+  .school-cards-more-wrap{ display:block; }
+  .school-cards-more-wrap.hidden{ display:none; }
+}
 .plan-steps{
   display:grid;
   grid-template-columns: repeat(3,1fr);
@@ -2998,19 +3006,19 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <div class="school-service-card-head"><span class="icon">🏗️</span><h3>Setup & Pack-Down Crew</h3></div>
         <p>Chairs, staging, AV positioning and cable runs handled by our crew. Your staff show up to a room that's ready, and leave a room that's clean.</p>
       </div>
-      <div class="school-service-card" style="background:var(--cream);">
+      <div class="school-service-card school-card-extra" style="background:var(--cream);">
         <div class="school-service-card-head"><span class="icon">🎧</span><h3>DJs</h3></div>
         <p>Professional DJs for school formals, balls, socials and end-of-year events. Someone who reads a school-age crowd and keeps the energy right.</p>
       </div>
-      <div class="school-service-card" style="background:var(--paper);">
+      <div class="school-service-card school-card-extra" style="background:var(--paper);">
         <div class="school-service-card-head"><span class="icon">🎵</span><h3>Musicians</h3></div>
         <p>Live musicians for graduation ceremonies, school productions and formal dinners. We connect you with the right talent and take care of the sound.</p>
       </div>
-      <div class="school-service-card" style="background:var(--pink);">
+      <div class="school-service-card school-card-extra" style="background:var(--pink);">
         <div class="school-service-card-head"><span class="icon">📷</span><h3>Event Photography</h3></div>
         <p>Photographers experienced in school environments — assemblies, concerts, formals and graduations. Captures the moments your school community will want to keep.</p>
       </div>
-      <div class="school-service-card" style="background:#C8D8F8;">
+      <div class="school-service-card school-card-extra" style="background:#C8D8F8;">
         <div class="school-service-card-head"><span class="icon">🎥</span><h3>Videography</h3></div>
         <p>Filming and highlight reels for productions, graduations and major school events. Professional footage with audio synced to your PA so it actually sounds right.</p>
       </div>
@@ -3022,10 +3030,13 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <div class="school-service-card-head"><span class="icon">🔒</span><h3>Event Security</h3></div>
         <p>Licensed, school-environment-aware security for productions, formals and open evenings. Discreet, professional and there if you need them.</p>
       </div>
-      <div class="school-service-card" style="background:var(--cream);">
+      <div class="school-service-card school-card-extra" style="background:var(--cream);">
         <div class="school-service-card-head"><span class="icon">🔧</span><h3>AV Maintenance</h3></div>
         <p>We keep your school's installed AV in working order between events — so the next assembly doesn't start with a dead mic and a trip to the storeroom.</p>
       </div>
+    </div>
+    <div class="school-cards-more-wrap">
+      <button class="school-cards-more-btn" id="schoolCardsMoreBtn" aria-expanded="false">+ More services</button>
     </div>
     <div style="text-align:center;margin-top:40px;" data-reveal>
       <a href="#contact" class="btn btn-blue">Talk to us about your next event →</a>
@@ -4322,6 +4333,14 @@ document.querySelectorAll('.school-service-card').forEach(function(card){
     card.classList.toggle('expanded');
   });
 });
+// Mobile "more services" button
+var moreBtn = document.getElementById('schoolCardsMoreBtn');
+if(moreBtn){
+  moreBtn.addEventListener('click', function(){
+    document.querySelectorAll('.school-card-extra').forEach(function(c){ c.classList.add('visible'); });
+    document.querySelector('.school-cards-more-wrap').classList.add('hidden');
+  });
+}
 </script>
 
 
