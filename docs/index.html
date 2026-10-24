@@ -456,10 +456,9 @@ h2,h3{
   background: #C8D8F8;
   color: var(--ink);
   position: relative;
-  overflow: hidden;
   padding: 52px 0 48px;
 }
-.hero-inner{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+.hero-inner{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; max-width:100%; }
 .hero-eyebrow{ display:inline-block; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
 .hero-stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 .hero-stat{ background:#fff; border:2.5px solid var(--ink); border-radius:18px; padding:22px 24px; box-shadow:5px 5px 0 var(--ink); }
@@ -1818,7 +1817,7 @@ section[id], div[id].packages {
   position: relative;
   z-index: 1;
 }
-html{ overflow-y: auto; }
+html{ overflow-y: auto; overflow-x: hidden; }
 body::after{ content: none; }
 .footer{ margin-bottom: 0; padding-bottom: 0; }
 body{ padding-bottom: 0; margin-bottom: 0; }
@@ -1961,7 +1960,7 @@ body{ padding-bottom: 0; margin-bottom: 0; }
 }
 
 /* ============ RESPONSIVE ============ */
-body{ overflow-x: hidden; }
+body{ overflow-x: hidden; max-width: 100%; }
 
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns: 1fr; }
