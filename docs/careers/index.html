@@ -53,6 +53,22 @@ a{ color:inherit; }
 .nav{ position:sticky; top:0; z-index:100; background:#ffffff; border-bottom:2px solid var(--ink); }
 .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1180px; margin:0 auto; }
 .nav-logo{ height:30px; width:auto; }
+.nav-hamburger{ display:none; background:none; border:2px solid var(--ink); border-radius:8px; padding:7px 10px; cursor:pointer; flex-direction:column; gap:5px; align-items:center; justify-content:center; }
+.nav-hamburger span{ display:block; width:20px; height:2px; background:var(--ink); border-radius:2px; transition:transform 0.2s, opacity 0.2s; }
+.nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2){ opacity:0; }
+.nav-hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+@media(max-width:920px){ .nav-hamburger{ display:flex; } }
+.mobile-menu{ display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(22,21,39,0.55); z-index:101; }
+.mobile-menu.open{ display:block; backdrop-filter:blur(2px); }
+.mobile-menu-panel{ position:absolute; top:62px; left:0; right:0; background:#fff; padding:16px 20px 24px; border-bottom:3px solid var(--ink); display:flex; flex-direction:column; gap:10px; }
+.mobile-menu-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+.mobile-menu-close{ width:38px; height:38px; border-radius:50%; border:2.5px solid var(--ink); background:var(--cream); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; cursor:pointer; box-shadow:3px 3px 0 var(--ink); flex-shrink:0; }
+.mobile-menu-bubbles{ display:flex; flex-wrap:wrap; gap:8px; }
+.mobile-menu-panel a{ display:block; font-weight:700; font-size:16px; text-decoration:none; color:var(--ink); padding:11px 16px; border-radius:10px; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); transition:background 0.15s, box-shadow 0.1s, transform 0.1s; }
+.mobile-menu-panel a:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.mobile-menu-panel a:hover{ background:var(--cream); }
+.mobile-menu-panel .nav-bubble{ font-size:15px !important; padding:8px 18px !important; border-radius:100px !important; }
 .btn{ display:inline-flex; align-items:center; gap:8px; font-family:var(--body); font-weight:700; font-size:16px; padding:13px 26px; border-radius:100px; border:2.5px solid var(--ink); text-decoration:none; cursor:pointer; box-shadow:4px 4px 0 var(--ink); transition:box-shadow 0.1s, transform 0.1s; }
 .btn:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-2px); }
 .btn:active{ box-shadow:2px 2px 0 var(--ink); transform:translate(2px,2px); }
@@ -149,9 +165,30 @@ a{ color:inherit; }
     <div style="display:flex;align-items:center;gap:12px;">
       <a href="/" style="font-family:var(--mono);font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);display:none;" class="nav-back-desktop">← Back to main site</a>
       <a href="#apply" class="btn btn-orange" style="font-size:14px;padding:10px 22px;">Apply Now</a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-panel">
+    <div class="mobile-menu-header">
+      <img src="../logo.png" alt="Urban Echo" style="height:26px;">
+      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+    </div>
+    <div class="mobile-menu-bubbles">
+      <a href="#apply" class="mobile-menu-link nav-bubble" style="display:inline-flex;white-space:nowrap;">📝 Apply Now</a>
+      <a href="#perks" class="mobile-menu-link nav-bubble" style="display:inline-flex;white-space:nowrap;">⭐ Perks</a>
+      <a href="#faq" class="mobile-menu-link nav-bubble" style="display:inline-flex;white-space:nowrap;">❓ FAQ</a>
+    </div>
+    <a href="/" class="mobile-menu-link" style="background:var(--indigo);color:#fff !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-align:center;white-space:nowrap;">🏫 Back to Main Site</a>
+    <a href="/soundhire" class="mobile-menu-link" style="background:var(--sunshine);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-align:center;white-space:nowrap;">🎉 Private &amp; Corporate Events</a>
+    <a href="#apply" class="mobile-menu-link" style="background:var(--orange);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-align:center;white-space:nowrap;font-size:15px;">Apply to Work Here</a>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -215,7 +252,7 @@ a{ color:inherit; }
 </section>
 
 <!-- PERKS -->
-<section class="perks-section" style="border-top:2px solid var(--ink);">
+<section class="perks-section" id="perks" style="border-top:2px solid var(--ink);">
   <div class="wrap">
     <span class="section-eyebrow">Why Urban Echo</span>
     <h2>What it's like working with us.</h2>
@@ -410,7 +447,7 @@ a{ color:inherit; }
 </section>
 
 <!-- FAQ -->
-<section style="background:var(--paper);border-top:2px solid var(--ink);padding:72px 0;">
+<section id="faq" style="background:var(--paper);border-top:2px solid var(--ink);padding:72px 0;">
   <div class="wrap">
     <span class="section-eyebrow">FAQ</span>
     <h2 style="font-size:clamp(26px,3.5vw,40px);margin-bottom:10px;">Frequently asked questions.</h2>
@@ -540,6 +577,20 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
   document.getElementById('appForm').style.display = 'none';
   document.getElementById('appSuccess').style.display = 'block';
 });
+</script>
+<script>
+(function(){
+  var btn = document.getElementById('navHamburger');
+  var menu = document.getElementById('mobileMenu');
+  if(!btn || !menu) return;
+  function openMenu(){ btn.classList.add('open'); menu.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMenu(){ btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }
+  btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  var closeBtn = document.getElementById('mobileMenuClose');
+  if(closeBtn) closeBtn.addEventListener('click', closeMenu);
+  menu.addEventListener('click', function(e){ if(e.target===menu) closeMenu(); });
+  menu.querySelectorAll('.mobile-menu-link').forEach(function(a){ a.addEventListener('click', closeMenu); });
+})();
 </script>
 
 </body>
