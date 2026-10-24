@@ -140,7 +140,7 @@ a{ color:inherit; }
 @media(max-width:760px){ .how-grid{ grid-template-columns:1fr; } }
 
 /* SERVICES */
-.services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; align-items:start; }
 .service-card{ background:#ffffff; border:2.5px solid var(--ink); border-radius:20px; padding:28px 24px; box-shadow:5px 5px 0 var(--ink); cursor:default; transition:box-shadow 0.15s, transform 0.15s; text-align:center; }
 @media(hover:hover){
   .service-card{ cursor:default; }
@@ -447,63 +447,51 @@ a{ color:inherit; }
     <p class="lede">Whether you need a full production crew or just a piece of gear, we've got it covered.</p>
     <div class="services-grid">
       <div class="service-card" style="background:var(--cream);">
-        <span class="icon">🎚️</span>
-        <h3>Sound Operator</h3>
+        <div class="service-card-head"><span class="icon">🎚️</span><h3>Sound Operator</h3></div>
         <p>A trained sound technician who sets up, rings out the room, operates the desk and packs down. From background music to full live production we handle it so you don't have to think about it.</p>
       </div>
       <div class="service-card" style="background:var(--pink);">
-        <span class="icon">💡</span>
-        <h3>Lighting Operator</h3>
+        <div class="service-card-head"><span class="icon">💡</span><h3>Lighting Operator</h3></div>
         <p>Stage washes, moving heads, follow spots, dimmers and ambient lighting all operated by someone who knows how to make your event look as good as it sounds.</p>
       </div>
       <div class="service-card" style="background:#C8D8F8;">
-        <span class="icon">🖥️</span>
-        <h3>Slides & Multimedia Operator</h3>
+        <div class="service-card-head"><span class="icon">🖥️</span><h3>Slides & Multimedia Operator</h3></div>
         <p>Presentations, videos, live feeds and custom graphics — we run your slides so nothing goes wrong on the day. Seamless transitions, on cue, every time.</p>
       </div>
       <div class="service-card" style="background:var(--sunshine);">
-        <span class="icon">🔊</span>
-        <h3>Sound & Lighting Gear</h3>
+        <div class="service-card-head"><span class="icon">🔊</span><h3>Sound & Lighting Gear</h3></div>
         <p>Premium speakers, microphones, mixers, lighting rigs and cables — hire the gear you need, with or without an operator. We'll make sure everything is the right fit for your venue and event size.</p>
       </div>
       <div class="service-card" style="background:var(--forest);">
-        <span class="icon">🏗️</span>
-        <h3>Setup Teams</h3>
+        <div class="service-card-head"><span class="icon">🏗️</span><h3>Setup Teams</h3></div>
         <p>Need hands on the ground? Our setup crews handle bump-in and bump-out, chairs, staging, AV positioning and cable runs so your staff can focus on the program, not the logistics.</p>
       </div>
       <div class="service-card" style="background:var(--paper);">
-        <span class="icon">🎧</span>
-        <h3>DJs</h3>
+        <div class="service-card-head"><span class="icon">🎧</span><h3>DJs</h3></div>
         <p>Professional DJs for weddings, corporate events, school formals and private functions. We match you with someone who reads the room and keeps the energy exactly where you need it.</p>
       </div>
       <div class="service-card" style="background:var(--paper);">
-        <span class="icon">🎵</span>
-        <h3>Musicians</h3>
+        <div class="service-card-head"><span class="icon">🎵</span><h3>Musicians</h3></div>
         <p>Live acoustic acts, bands, soloists and ensembles available for ceremonies, cocktail hours and receptions. We connect you with the right talent and handle the sound, all in one booking.</p>
       </div>
       <div class="service-card" style="background:var(--pink);">
-        <span class="icon">📷</span>
-        <h3>Photography</h3>
+        <div class="service-card-head"><span class="icon">📷</span><h3>Photography</h3></div>
         <p>Professional event photographers who know how to work around AV and stage lighting to capture your event at its best — without getting in the way.</p>
       </div>
       <div class="service-card" style="background:#C8D8F8;">
-        <span class="icon">🎥</span>
-        <h3>Videography</h3>
+        <div class="service-card-head"><span class="icon">🎥</span><h3>Videography</h3></div>
         <p>Event filming and highlight reels for corporate functions, product launches and private events. We handle camera, audio sync and delivery so you have footage worth sharing.</p>
       </div>
       <div class="service-card" style="background:var(--cream);">
-        <span class="icon">🏛️</span>
-        <h3>Venue Management</h3>
+        <div class="service-card-head"><span class="icon">🏛️</span><h3>Venue Management</h3></div>
         <p>Need someone to manage your event space on the day? We coordinate logistics, bump-in schedules, and AV across multiple hirers so your venue runs without a hitch.</p>
       </div>
       <div class="service-card" style="background:var(--sunshine);">
-        <span class="icon">🔒</span>
-        <h3>Security</h3>
+        <div class="service-card-head"><span class="icon">🔒</span><h3>Security</h3></div>
         <p>Licensed security personnel for private functions, corporate events and ticketed shows. Friendly, professional and experienced in live event environments.</p>
       </div>
       <div class="service-card" style="background:var(--forest);">
-        <span class="icon">🔧</span>
-        <h3>AV Maintenance</h3>
+        <div class="service-card-head"><span class="icon">🔧</span><h3>AV Maintenance</h3></div>
         <p>Ongoing maintenance and fault-finding for installed AV systems. We keep your gear working between events so there are no nasty surprises when it counts.</p>
       </div>
     </div>
