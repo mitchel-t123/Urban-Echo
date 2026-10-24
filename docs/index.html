@@ -631,6 +631,15 @@ h2,h3{
 /* ---- INTERACTIVE SYMPTOM CHECKER LAYOUT ---- */
 .checker-grid{ display:grid; grid-template-columns: 1fr; gap:32px; align-items:start; }
 @media(min-width:921px){ .checker-grid{ grid-template-columns: 1fr 1fr; gap:48px; } }
+/* Mobile: step-through — button shown, result panel hidden until revealed */
+.checker-reveal-btn{ display:none; }
+@media(max-width:920px){
+  .checker-reveal-btn{ display:block; width:100%; margin-top:20px; margin-bottom:0; padding:14px 24px; background:var(--ink); color:var(--paper); border:2.5px solid var(--ink); border-radius:100px; font-family:var(--mono); font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; transition:background 0.15s, transform 0.1s; }
+  .checker-reveal-btn.active{ background:var(--orange); border-color:var(--orange); }
+  .checker-reveal-btn:active{ transform:scale(0.97); }
+  .checker-result-panel{ display:none; }
+  .checker-result-panel.visible{ display:flex; }
+}
 /* ---- INTERACTIVE SYMPTOM CHECKLIST ---- */
 .hero-checklist{
   display: flex;
@@ -2603,13 +2612,14 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             Tired of Feedback Screeching?
           </div>
         </div>
+        <button class="checker-reveal-btn" id="checkerRevealBtn" aria-expanded="false">See My Diagnosis →</button>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;">
           <a href="#contact" class="btn btn-orange" style="font-weight:800;">Get Our Help →</a>
           <a href="tel:0429660186" class="btn" style="background:var(--paper);color:var(--ink);">📞 Call Us</a>
         </div>
       </div>
       <!-- Right: diagnosis + treatment cards -->
-      <div class="hero-figure" style="padding-top:0;padding-bottom:0;gap:16px;">
+      <div class="hero-figure checker-result-panel" style="padding-top:0;padding-bottom:0;gap:16px;">
         <div class="stress-label-row">
           <span class="stress-meter-label">Or drag to rate your AV stress</span>
           <div class="stress-arrow" aria-hidden="true">↓</div>
@@ -4327,6 +4337,25 @@ document.addEventListener('click', function(e){
     gtag('event', 'page_link_click', { event_category: 'navigation', destination: href });
   }
 });
+// Mobile symptom checker: step-through reveal
+var checkerRevealBtn = document.getElementById('checkerRevealBtn');
+var checkerResultPanel = document.querySelector('.checker-result-panel');
+if(checkerRevealBtn && checkerResultPanel){
+  checkerRevealBtn.addEventListener('click', function(){
+    checkerResultPanel.classList.add('visible');
+    checkerRevealBtn.textContent = 'Your Diagnosis ↓';
+    checkerRevealBtn.setAttribute('aria-expanded','true');
+    checkerRevealBtn.disabled = true;
+    checkerRevealBtn.style.opacity = '0.5';
+    checkerResultPanel.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+  // Highlight button orange when any symptom is ticked
+  document.getElementById('heroChecklist').addEventListener('click', function(){
+    var anyChecked = document.querySelector('.hero-check.checked');
+    if(anyChecked) checkerRevealBtn.classList.add('active');
+    else checkerRevealBtn.classList.remove('active');
+  });
+}
 // Mobile accordion for school service cards (touch devices)
 document.querySelectorAll('.school-service-card').forEach(function(card){
   card.addEventListener('click', function(){
