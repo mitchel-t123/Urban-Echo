@@ -362,6 +362,58 @@ h2,h3{
 .nav-bubble-pink{ background: #ffffff !important; }
 .nav-bubble-green{ background: #ffffff !important; }
 .nav-troubleshoot:focus, .nav-troubleshoot.clicked{ outline: none; }
+/* Desktop menu button + dropdown */
+.desktop-menu-btn{
+  display:flex; align-items:center; gap:8px;
+  background:none; border:2px solid var(--ink); border-radius:8px;
+  padding:7px 14px; cursor:pointer; font-weight:700; font-size:15px;
+  color:var(--ink); font-family:inherit;
+  transition:background 0.15s, box-shadow 0.15s;
+  box-shadow:3px 3px 0 var(--ink);
+  white-space:nowrap;
+}
+.desktop-menu-btn:hover{ background:var(--cream); box-shadow:5px 5px 0 var(--ink); }
+.desktop-menu-btn .menu-bars{ display:flex; flex-direction:column; gap:4px; }
+.desktop-menu-btn .menu-bars span{ display:block; width:16px; height:2px; background:var(--ink); border-radius:2px; transition:transform 0.2s, opacity 0.2s; }
+.desktop-menu-btn.open .menu-bars span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.desktop-menu-btn.open .menu-bars span:nth-child(2){ opacity:0; }
+.desktop-menu-btn.open .menu-bars span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+@media(max-width:920px){ .desktop-menu-btn{ display:none; } }
+.desktop-dropdown{
+  display:none; position:absolute; top:100%; left:0; right:0; z-index:99;
+  background:#fff; border-bottom:3px solid var(--ink);
+  box-shadow:0 8px 32px rgba(22,21,39,0.12);
+}
+.desktop-dropdown.open{ display:block; }
+.desktop-dropdown-inner{
+  max-width:1180px; margin:0 auto;
+  padding:28px 32px 32px;
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:32px;
+}
+.dd-col-label{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.1em;
+  text-transform:uppercase; color:var(--ink); opacity:0.45; margin-bottom:12px;
+}
+.dd-link{
+  display:flex; align-items:center; gap:10px;
+  text-decoration:none; color:var(--ink); font-weight:700; font-size:15px;
+  padding:9px 12px; border-radius:8px; border:2px solid transparent;
+  transition:background 0.12s, border-color 0.12s, box-shadow 0.12s;
+}
+.dd-link:hover{ background:var(--cream); border-color:var(--ink); box-shadow:2px 2px 0 var(--ink); }
+.dd-link .dd-icon{ font-size:18px; flex-shrink:0; }
+.dd-link .dd-text{ display:flex; flex-direction:column; }
+.dd-link .dd-text strong{ font-size:15px; line-height:1.2; }
+.dd-link .dd-text small{ font-size:12px; font-weight:500; opacity:0.55; margin-top:1px; }
+.dd-cta{
+  display:block; text-align:center; text-decoration:none; font-weight:800; font-size:15px;
+  padding:11px 16px; border-radius:10px; border:2px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink); color:var(--ink);
+  transition:box-shadow 0.1s, transform 0.1s, background 0.12s;
+  margin-bottom:10px;
+}
+.dd-cta:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-1px); }
+.dd-cta:last-child{ margin-bottom:0; }
 /* Responsive nav hiding */
 @media(max-width:1050px){ .nav-hide-md{ display:none !important; } }
 @media(max-width:860px){ .nav-hide-sm{ display:none !important; } }
@@ -2280,12 +2332,48 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
       <a href="problems.html" class="nav-troubleshoot nav-hide-md" id="navTroubleshoot">Troubleshooting Tool <span style="font-size:10px;font-weight:800;font-family:inherit;letter-spacing:0.08em;background:rgba(255,255,255,0.25);border-radius:4px;padding:1px 5px;vertical-align:middle;">BETA</span></a>
       <a href="#contact" class="btn btn-blue nav-hide-xs" style="font-weight:800;">Contact Us</a>
       <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--ink)" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      <button class="desktop-menu-btn" id="desktopMenuBtn" aria-label="Open navigation menu" aria-expanded="false">
+        <div class="menu-bars"><span></span><span></span><span></span></div>
+        Menu
+      </button>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 </nav>
+
+<!-- Desktop dropdown menu -->
+<div class="desktop-dropdown" id="desktopDropdown" aria-hidden="true">
+  <div class="desktop-dropdown-inner">
+    <!-- Col 1: On this page -->
+    <div>
+      <div class="dd-col-label">On this page</div>
+      <a href="#symptom-checker" class="dd-link desktop-dd-link"><span class="dd-icon">✅</span><span class="dd-text"><strong>Symptom Checker</strong><small>See if we can help your school</small></span></a>
+      <a href="#what-we-offer" class="dd-link desktop-dd-link"><span class="dd-icon">🎚️</span><span class="dd-text"><strong>Our Services</strong><small>What we bring to every event</small></span></a>
+      <a href="#packages" class="dd-link desktop-dd-link"><span class="dd-icon">📦</span><span class="dd-text"><strong>Packages</strong><small>Pricing &amp; plans</small></span></a>
+      <a href="#plan" class="dd-link desktop-dd-link"><span class="dd-icon">📋</span><span class="dd-text"><strong>Treatment Plan</strong><small>How we fix your AV headaches</small></span></a>
+      <a href="#schools" class="dd-link desktop-dd-link"><span class="dd-icon">🏫</span><span class="dd-text"><strong>Schools We Help</strong><small>Trusted across Perth</small></span></a>
+    </div>
+    <!-- Col 2: More -->
+    <div>
+      <div class="dd-col-label">More</div>
+      <a href="#reviews" class="dd-link desktop-dd-link"><span class="dd-icon">💬</span><span class="dd-text"><strong>Reviews</strong><small>What schools say about us</small></span></a>
+      <a href="#meet" class="dd-link desktop-dd-link"><span class="dd-icon">☕</span><span class="dd-text"><strong>Free Coffee Meeting</strong><small>No pressure, just a chat</small></span></a>
+      <a href="soundhire" class="dd-link"><span class="dd-icon">🎉</span><span class="dd-text"><strong>Private &amp; Corporate Events</strong><small>Not a school? We do that too</small></span></a>
+      <a href="problems.html" class="dd-link"><span class="dd-icon">🔧</span><span class="dd-text"><strong>Troubleshooting Tool</strong><small>Diagnose your AV issues — BETA</small></span></a>
+      <a href="careers" class="dd-link"><span class="dd-icon">🎛️</span><span class="dd-text"><strong>Join the Team</strong><small>Work with Urban Echo</small></span></a>
+    </div>
+    <!-- Col 3: Get in touch -->
+    <div>
+      <div class="dd-col-label">Get started</div>
+      <a href="#contact" class="dd-cta desktop-dd-link" style="background:var(--indigo);color:#fff;border-color:var(--ink);">Contact Us →</a>
+      <a href="tel:0429660186" class="dd-cta" style="background:#fff;">📞 Call Us</a>
+      <a href="urban-echo-emergency.vcf" download class="dd-cta" style="background:var(--cream);">📱 Save Our Number</a>
+      <a href="login.html" class="dd-cta" style="background:var(--pink);">👤 Team Login</a>
+    </div>
+  </div>
+</div>
 
 <!-- Not a school floating pill (desktop only) -->
 <a href="soundhire" id="notSchoolPill" aria-label="Not a school? Click here">🎉 Not a school?</a>
@@ -2614,7 +2702,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div aria-hidden="true" style="height:60px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 60'%3E%3Cpath d='M0,30 C60,2 180,58 240,30' fill='none' stroke='%23161527' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/240px 60px;"></div>
+<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
 
 <!-- ============ OUR CLIENTS ============ -->
 <section class="diagnosis" id="schools-panel" style="padding:64px 0;">
@@ -2643,7 +2731,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div aria-hidden="true" style="height:60px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 60'%3E%3Cpath d='M0,30 C60,2 180,58 240,30' fill='none' stroke='%23161527' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/240px 60px;"></div>
+<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
 
 <!-- ============ PLAN ============ -->
 <section class="plan" id="plan">
@@ -2674,7 +2762,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </section>
 
-<div aria-hidden="true" style="height:60px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 60'%3E%3Cpath d='M0,30 C60,2 180,58 240,30' fill='none' stroke='%23161527' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/240px 60px;"></div>
+<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
 
 <!-- ============ PACKAGES ============ -->
 <section class="packages" id="packages">
@@ -2928,7 +3016,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </section>
 
 
-<div aria-hidden="true" style="height:60px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 60'%3E%3Cpath d='M0,30 C60,2 180,58 240,30' fill='none' stroke='%23161527' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/240px 60px;"></div>
+<div aria-hidden="true" style="height:50px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'%3E%3Cpath d='M0,25 C25,5 75,45 100,25' fill='none' stroke='%23161527' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/100px 50px;"></div>
 
 <!-- ============ MEET ============ -->
 <section class="meet-section" id="meet">
@@ -4112,6 +4200,19 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
       fab.classList.toggle('visible', navBottom < 0);
     }, { passive: true });
   }
+})();
+
+// Desktop dropdown menu
+(function(){
+  var dBtn = document.getElementById('desktopMenuBtn');
+  var dDrop = document.getElementById('desktopDropdown');
+  if(!dBtn || !dDrop) return;
+  function openDD(){ dBtn.classList.add('open'); dDrop.classList.add('open'); dBtn.setAttribute('aria-expanded','true'); dDrop.setAttribute('aria-hidden','false'); }
+  function closeDD(){ dBtn.classList.remove('open'); dDrop.classList.remove('open'); dBtn.setAttribute('aria-expanded','false'); dDrop.setAttribute('aria-hidden','true'); }
+  dBtn.addEventListener('click', function(e){ e.stopPropagation(); dDrop.classList.contains('open') ? closeDD() : openDD(); });
+  document.addEventListener('click', function(e){ if(!dDrop.contains(e.target) && e.target !== dBtn) closeDD(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDD(); });
+  dDrop.querySelectorAll('.desktop-dd-link').forEach(function(a){ a.addEventListener('click', closeDD); });
 })();
 
 // Troubleshooting Tool nav show black outline on click
