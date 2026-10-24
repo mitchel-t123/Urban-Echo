@@ -1966,13 +1966,14 @@ body{ overflow-x: hidden; }
 @media (max-width: 920px){
   .hero-grid{ grid-template-columns: 1fr; }
   /* Reset explicit grid placement so all sections stack in a single column */
-  .hero-head{ grid-column: 1; grid-row: auto; border-right: none; border-bottom: 4px solid var(--ink); padding-right: 0; padding-bottom: 32px; }
+  .hero-head{ grid-column: 1; grid-row: auto; border-right: none; border-bottom: none; padding-right: 0; padding-bottom: 32px; }
   .hero-body{ grid-column: 1; grid-row: auto; border-right: none; padding-right: 0; }
   /* Mobile: full hero blue, figure breaks out of wrap to orange full-width */
   .hero{ background: var(--indigo); padding-bottom: 0; }
   .hero-figure{
     grid-column: 1; grid-row: auto;
     background: var(--orange);
+    border-top: 4px solid var(--ink);
     /* bleed out of the 24px wrap padding to full viewport width */
     margin-left: -24px; margin-right: -24px;
     padding: 32px 24px 40px;
@@ -2370,7 +2371,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <h1>We provide sound, AV and setup teams to schools across Perth</h1>
         </div>
         <div style="margin-top:24px;">
-          <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.75);margin-bottom:12px;">What We Offer</div>
+          <div style="font-family:var(--mono);font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#ffffff;margin-bottom:14px;">What We Offer</div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;">
             <span class="hero-offer-chip">🎚️ Sound Technician</span>
             <span class="hero-offer-chip">💡 Lighting Operator</span>
