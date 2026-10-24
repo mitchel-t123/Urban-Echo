@@ -103,7 +103,7 @@ a{ color:inherit; }
 @keyframes ticker{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 /* HERO */
-.eq-hero{ background:#C8D8F8; padding:52px 0 48px; position:relative; overflow:hidden; }
+.eq-hero{ background:#C8D8F8; padding:52px 0 48px; position:relative; overflow:hidden; border-bottom:3px solid var(--ink); }
 .eq-hero-inner{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
 .eq-hero-eyebrow{ display:inline-block; background:var(--paper); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; }
 .eq-hero h1{ font-size:clamp(36px,5vw,60px); color:var(--ink); margin-bottom:20px; line-height:1.05; }
@@ -168,7 +168,7 @@ a{ color:inherit; }
 @media(max-width:860px){ .pkg-grid{ grid-template-columns:1fr; gap:32px; } }
 
 /* CONTACT */
-.contact{ background:var(--indigo); color:var(--paper); border-top:3px solid var(--ink); padding:100px 0; }
+.contact{ background:var(--indigo); color:var(--paper); border-bottom:3px solid var(--ink); padding:100px 0; }
 .contact-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; align-items:start; }
 .contact .eyebrow{ display:inline-block; background:var(--forest); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:6px 18px; font-size:13px; letter-spacing:0.08em; margin-bottom:18px; font-weight:700; text-transform:uppercase; font-family:var(--mono); }
 .contact h2{ font-size:clamp(28px,4vw,42px); margin-bottom:18px; color:var(--paper); }
@@ -333,9 +333,6 @@ a{ color:inherit; }
     </div>
   </div>
 </section>
-
-<!-- WAVE -->
-<div aria-hidden="true" style="line-height:0;display:block;overflow:hidden;"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:60px;"><path d="M0,30 C180,58 360,2 540,30 C720,58 900,2 1080,30 C1260,58 1440,2 1440,30" fill="none" stroke="#161527" stroke-width="4.5"/></svg></div>
 
 <!-- WHAT WE DO -->
 <section class="mid-section" id="what-we-do">
@@ -540,6 +537,8 @@ a{ color:inherit; }
     </div>
   </div>
 </section>
+
+<div aria-hidden="true" style="line-height:0;display:block;overflow:hidden;"><svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:60px;"><path d="M0,30 C180,58 360,2 540,30 C720,58 900,2 1080,30 C1260,58 1440,2 1440,30" fill="none" stroke="#161527" stroke-width="4.5"/></svg></div>
 
 <!-- CONTACT -->
 <section class="contact" id="enquire">
