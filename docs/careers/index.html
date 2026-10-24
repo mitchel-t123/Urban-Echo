@@ -58,7 +58,7 @@ a{ color:inherit; }
 .nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
 .nav-hamburger.open span:nth-child(2){ opacity:0; }
 .nav-hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
-@media(max-width:920px){ .nav-hamburger{ display:flex; } }
+@media(max-width:920px){ .nav-hamburger{ display:flex; } .nav-apply-desktop{ display:none; } }
 .mobile-menu{ display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(22,21,39,0.55); z-index:101; }
 .mobile-menu.open{ display:block; backdrop-filter:blur(2px); }
 .mobile-menu-panel{ position:absolute; top:62px; left:0; right:0; background:#fff; padding:16px 20px 24px; border-bottom:3px solid var(--ink); display:flex; flex-direction:column; gap:10px; }
@@ -164,7 +164,7 @@ a{ color:inherit; }
     <a href="/"><img src="../logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div style="display:flex;align-items:center;gap:12px;">
       <a href="/" style="font-family:var(--mono);font-size:13px;font-weight:700;text-decoration:none;color:var(--ink);display:none;" class="nav-back-desktop">← Back to main site</a>
-      <a href="#apply" class="btn btn-orange" style="font-size:14px;padding:10px 22px;">Apply Now</a>
+      <a href="#apply" class="btn btn-orange nav-apply-desktop" style="font-size:14px;padding:10px 22px;">Apply Now</a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
