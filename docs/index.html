@@ -202,6 +202,7 @@
 html{
   scroll-behavior:auto; /* JS handles smooth scroll with custom duration */
   background: var(--ink); /* footer colour shows on overscroll, no blank space */
+  overflow-x:hidden; position:relative;
 }
 
 body{
@@ -214,7 +215,7 @@ body{
   color: var(--ink);
   line-height:1.5;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  overflow-x:hidden; position:relative;
 }
 
 img{ max-width:100%; display:block; }
