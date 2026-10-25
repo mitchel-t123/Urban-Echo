@@ -25,8 +25,7 @@
 
     /* NAV */
     .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 2.5px solid var(--ink); background: var(--paper); position: sticky; top: 0; z-index: 100; }
-    .nav-logo { display: flex; align-items: center; gap: 8px; font-family: var(--body); font-weight: 800; font-size: 17px; letter-spacing: -0.02em; text-decoration: none; color: var(--ink); }
-    .nav-logo svg { width: 28px; height: 28px; }
+    .nav-logo { display: block; height: 28px; width: auto; }
     .nav-badge { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: var(--forest); color: var(--ink); border: 2px solid var(--ink); border-radius: 100px; padding: 4px 12px; }
 
     .wrap { max-width: 560px; margin: 0 auto; padding: 0 18px; }
@@ -44,7 +43,6 @@
     .screen.visible { display: block; }
 
     /* START SCREEN */
-    .start-eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--indigo); margin-bottom: 10px; }
     .start-h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; line-height: 1.15; }
     .start-sub { font-size: 15px; color: rgba(22,21,39,0.65); line-height: 1.6; margin-bottom: 28px; }
 
@@ -125,14 +123,7 @@
 <body>
 
 <nav class="nav">
-  <a class="nav-logo" href="/">
-    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="40" height="40" rx="8" fill="#161527"/>
-      <path d="M8 20 L16 12 L24 20 L32 12" stroke="#3D7FD5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M8 28 L16 20 L24 28 L32 20" stroke="#35B06A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <span>URBAN<strong>ECHO</strong></span>
-  </a>
+  <a href="/"><img src="../logo.png" alt="Urban Echo" class="nav-logo" width="2272" height="376"></a>
   <span class="nav-badge">Crew Portal</span>
 </nav>
 
@@ -145,10 +136,19 @@
 <!-- ============ START SCREEN ============ -->
 <div class="screen visible" id="screen-start">
   <div class="wrap">
-    <p class="start-eyebrow" style="margin-top:28px;">Sound Technician</p>
-    <h1 class="start-h1">Event Sign-Off</h1>
+    <h1 class="start-h1" style="margin-top:28px;">Event Sign-Off</h1>
     <p class="start-sub">Complete setup, operate and pack-down sign-offs for each event. Each phase submits separately so your record is saved as you go.</p>
 
+    <div class="field">
+      <label for="role-select">Role</label>
+      <select id="role-select">
+        <option value="">Select your role...</option>
+        <option value="sound-tech">Sound Technician</option>
+        <option value="lighting-tech">Lighting Technician</option>
+        <option value="av-tech">AV Technician</option>
+        <option value="stage-manager">Stage Manager</option>
+      </select>
+    </div>
     <div class="field">
       <label for="tech-name">Your Name</label>
       <input type="text" id="tech-name" placeholder="Jane Smith" autocomplete="name">
@@ -413,8 +413,15 @@ var VENUES = {
 // ============================================================
 // STATE
 // ============================================================
+var ROLE_LABELS = {
+  'sound-tech': 'Sound Technician',
+  'lighting-tech': 'Lighting Technician',
+  'av-tech': 'AV Technician',
+  'stage-manager': 'Stage Manager',
+};
+
 var state = {
-  name: '', event: '', venue: '', date: '',
+  name: '', role: '', event: '', venue: '', date: '',
   submissions: { setup: null, operate: null, packdown: null },
   amended: { setup: false, operate: false, packdown: false },
 };
@@ -422,14 +429,15 @@ var state = {
 // ============================================================
 // START FLOW
 // ============================================================
-var startFields = ['tech-name', 'event-name', 'venue-select', 'event-date'];
+var startFields = ['role-select', 'tech-name', 'event-name', 'venue-select', 'event-date'];
 startFields.forEach(function(id) {
   document.getElementById(id).addEventListener('input', checkStartReady);
   document.getElementById(id).addEventListener('change', checkStartReady);
 });
 
 function checkStartReady() {
-  var ready = document.getElementById('tech-name').value.trim() &&
+  var ready = document.getElementById('role-select').value &&
+              document.getElementById('tech-name').value.trim() &&
               document.getElementById('event-name').value.trim() &&
               document.getElementById('venue-select').value &&
               document.getElementById('event-date').value;
@@ -437,6 +445,7 @@ function checkStartReady() {
 }
 
 function startFlow() {
+  state.role = document.getElementById('role-select').value;
   state.name = document.getElementById('tech-name').value.trim();
   state.event = document.getElementById('event-name').value.trim();
   state.venue = document.getElementById('venue-select').value;
@@ -558,8 +567,9 @@ function submitPhase(phase) {
   if (FORMSPREE_ID && FORMSPREE_ID !== 'YOUR_FORM_ID') {
     var phaseLabel = { setup: 'Setup', operate: 'Operate', packdown: 'Pack Down' }[phase];
     var payload = {
-      _subject: (isAmend ? '[AMENDED] ' : '') + 'Urban Echo Sign-Off: ' + phaseLabel + ' — ' + state.name + ' / ' + venue.name + ' / ' + formatDate(state.date),
+      _subject: (isAmend ? '[AMENDED] ' : '') + 'Urban Echo Sign-Off: ' + phaseLabel + ' — ' + state.name + ' (' + (ROLE_LABELS[state.role] || state.role) + ') / ' + venue.name + ' / ' + formatDate(state.date),
       technician: state.name,
+      role: ROLE_LABELS[state.role] || state.role,
       event: state.event,
       venue: venue.name,
       date: state.date,
@@ -582,7 +592,7 @@ function submitPhase(phase) {
     // Move packdown card to done screen
     showScreen('done');
     document.getElementById('done-summary-text').textContent =
-      'All three phases submitted for ' + venue.name + '. Great work, ' + state.name.split(' ')[0] + '.';
+      (ROLE_LABELS[state.role] || state.role) + ' · ' + venue.name + '. Great work, ' + state.name.split(' ')[0] + '.';
   } else {
     showScreen(phase + '-done');
   }
@@ -608,7 +618,8 @@ function formatDate(d) {
 }
 
 function resetAll() {
-  state = { name: '', event: '', venue: '', date: '', submissions: { setup: null, operate: null, packdown: null }, amended: { setup: false, operate: false, packdown: false } };
+  state = { name: '', role: '', event: '', venue: '', date: '', submissions: { setup: null, operate: null, packdown: null }, amended: { setup: false, operate: false, packdown: false } };
+  document.getElementById('role-select').value = '';
   document.getElementById('tech-name').value = '';
   document.getElementById('event-name').value = '';
   document.getElementById('venue-select').value = '';
