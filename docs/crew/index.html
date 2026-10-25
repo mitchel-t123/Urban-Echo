@@ -27,8 +27,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html {
       font-size: 16px;
-      overflow-x: clip;
-      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
     }
 
     body {
@@ -37,9 +37,9 @@
       color: var(--ink);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      overflow-x: clip;
-      max-width: 100%;
+      overflow-x: hidden;
       position: relative;
+      min-height: 100%;
     }
 
     img { max-width: 100%; display: block; }
@@ -74,7 +74,7 @@
       font-family: var(--body); font-size: 11px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.1em;
       color: rgba(255,252,245,0.35); border-right: 1px solid rgba(255,252,245,0.1);
-      transition: background 0.15s, color 0.15s; white-space: nowrap; overflow: hidden;
+      transition: background 0.15s, color 0.15s; overflow: hidden; word-break: break-word;
     }
     .step-tab:last-child { border-right: none; }
     #tab-setup.active   { background: var(--indigo); color: #fff; }
@@ -86,11 +86,19 @@
     .step-tab.done::after { content: ' ✓'; }
 
     /* LAYOUT */
-    .wrap { max-width: 600px; margin: 0 auto; padding: 0 22px; }
+    .wrap {
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 22px;
+      padding-right: 22px;
+      box-sizing: border-box;
+    }
 
-    /* Screens must never exceed viewport */
-    .screen, .stepper, .nav { max-width: 100%; }
-    .field input, .field select, .field textarea { max-width: 100%; }
+    /* Hard cap block/inline elements; flex/grid children manage their own sizing */
+    img, input, select, textarea, button, canvas { max-width: 100%; }
+    .field input, .field select, .field textarea { width: 100%; }
 
     /* SCREENS */
     .screen { display: none; padding: 28px 0 100px; }
