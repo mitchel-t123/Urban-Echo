@@ -70,15 +70,19 @@
       width: 100%;
     }
     .step-tab {
-      flex: 1; padding: 10px 4px; text-align: center;
-      font-family: var(--body); font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.07em;
+      flex: 1; padding: 11px 4px; text-align: center;
+      font-family: var(--body); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
       color: rgba(255,252,245,0.35); border-right: 1px solid rgba(255,252,245,0.1);
       transition: background 0.15s, color 0.15s; white-space: nowrap; overflow: hidden;
     }
     .step-tab:last-child { border-right: none; }
-    .step-tab.active { background: var(--forest); color: var(--ink); }
-    .step-tab.done { color: rgba(255,252,245,0.6); }
+    #tab-setup.active   { background: var(--indigo); color: #fff; }
+    #tab-operate.active { background: var(--orange);  color: var(--ink); }
+    #tab-packdown.active{ background: var(--forest);  color: var(--ink); }
+    #tab-setup.done     { background: rgba(61,127,213,0.35); color: rgba(255,252,245,0.85); }
+    #tab-operate.done   { background: rgba(244,97,46,0.35);  color: rgba(255,252,245,0.85); }
+    #tab-packdown.done  { background: rgba(53,176,106,0.35); color: rgba(255,252,245,0.85); }
     .step-tab.done::after { content: ' ✓'; }
 
     /* LAYOUT */
@@ -303,16 +307,6 @@
     <p class="screen-sub">Complete setup, operate and pack-down sign-offs for each event. Each phase is submitted separately so your record is saved as you go.</p>
 
     <div class="field">
-      <label for="role-select">Role</label>
-      <select id="role-select">
-        <option value="">Select your role...</option>
-        <option value="sound-tech">Sound Technician</option>
-        <option value="lighting-tech">Lighting Technician</option>
-        <option value="av-tech">AV Technician</option>
-        <option value="stage-manager">Stage Manager</option>
-      </select>
-    </div>
-    <div class="field">
       <label for="tech-name">Your Name</label>
       <input type="text" id="tech-name" placeholder="Jane Smith" autocomplete="name">
     </div>
@@ -327,6 +321,16 @@
         <option value="wesley">Wesley College</option>
         <option value="carey">Carey Baptist College</option>
         <option value="mlc">Methodist Ladies College (MLC)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="role-select">Role</label>
+      <select id="role-select">
+        <option value="">Select your role...</option>
+        <option value="sound-tech">Sound Technician</option>
+        <option value="lighting-tech">Lighting Technician</option>
+        <option value="av-tech">AV Technician</option>
+        <option value="stage-manager">Stage Manager</option>
       </select>
     </div>
     <div class="field">
