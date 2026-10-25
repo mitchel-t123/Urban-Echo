@@ -67,34 +67,24 @@
     /* STEPPER */
     .stepper {
       display: flex; align-items: center; justify-content: center;
-      gap: 10px; padding: 12px 16px;
+      gap: 6px; padding: 10px 16px;
       background: var(--paper); border-bottom: 2px solid var(--ink);
       width: 100%;
     }
     .step-tab {
-      display: flex; align-items: center; gap: 7px;
-      padding: 7px 14px; border-radius: 999px;
-      border: 2px solid rgba(22,21,39,0.15);
-      font-family: var(--body); font-size: 11px; font-weight: 700;
+      padding: 6px 16px; border-radius: 100px;
+      border: none; background: transparent;
+      font-family: var(--body); font-size: 12px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.08em;
-      color: rgba(22,21,39,0.35); background: transparent;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      color: rgba(22,21,39,0.35);
+      transition: background 0.15s, color 0.15s, border 0.15s, box-shadow 0.15s;
       white-space: nowrap;
     }
-    .step-tab::before {
-      content: ''; display: inline-block; width: 8px; height: 8px;
-      border-radius: 50%; background: currentColor; flex-shrink: 0;
-      opacity: 0.4; transition: opacity 0.15s, background 0.15s;
-    }
-    #tab-setup.active   { background: var(--indigo); color: #fff; border-color: var(--indigo); }
-    #tab-operate.active { background: var(--orange);  color: var(--ink); border-color: var(--orange); }
-    #tab-packdown.active{ background: var(--forest);  color: #fff; border-color: var(--forest); }
-    .step-tab.active::before { opacity: 1; background: currentColor; }
-    #tab-setup.done     { background: rgba(61,127,213,0.12); color: var(--indigo); border-color: rgba(61,127,213,0.4); }
-    #tab-operate.done   { background: rgba(244,97,46,0.12);  color: var(--orange); border-color: rgba(244,97,46,0.4); }
-    #tab-packdown.done  { background: rgba(53,176,106,0.12); color: var(--forest-deep); border-color: rgba(53,176,106,0.4); }
-    .step-tab.done::before { opacity: 1; }
-    .step-tab.done::after { content: ' ✓'; font-size: 10px; }
+    #tab-setup.active   { background: var(--indigo); color: #fff; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+    #tab-operate.active { background: var(--orange);  color: var(--ink); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+    #tab-packdown.active{ background: var(--forest);  color: #fff; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+    .step-tab.done      { color: rgba(22,21,39,0.5); }
+    .step-tab.done::after { content: ' ✓'; }
 
     /* LAYOUT */
     .wrap {
