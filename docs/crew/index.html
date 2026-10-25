@@ -49,7 +49,7 @@
     .nav {
       position: sticky; top: 0; z-index: 100;
       background: #ffffff; border-bottom: 2px solid var(--ink);
-      width: 100%;
+      width: 100%; overflow: hidden;
     }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
@@ -69,20 +69,20 @@
       display: flex; align-items: center; justify-content: center;
       gap: 6px; padding: 10px 16px;
       background: var(--paper); border-bottom: 2px solid var(--ink);
-      width: 100%;
+      width: 100%; overflow: hidden;
     }
     .step-tab {
       padding: 6px 16px; border-radius: 100px;
-      border: none; background: transparent;
+      border: 2px solid transparent; background: transparent;
       font-family: var(--body); font-size: 12px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.08em;
       color: rgba(22,21,39,0.35);
-      transition: background 0.15s, color 0.15s, border 0.15s, box-shadow 0.15s;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
       white-space: nowrap;
     }
-    #tab-setup.active   { background: var(--indigo); color: #fff; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
-    #tab-operate.active { background: var(--orange);  color: var(--ink); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
-    #tab-packdown.active{ background: var(--forest);  color: #fff; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+    #tab-setup.active   { background: var(--indigo); color: #fff; border-color: var(--ink); }
+    #tab-operate.active { background: var(--orange);  color: var(--ink); border-color: var(--ink); }
+    #tab-packdown.active{ background: var(--forest);  color: #fff; border-color: var(--ink); }
     .step-tab.done      { color: rgba(22,21,39,0.5); }
     .step-tab.done::after { content: ' ✓'; }
 
@@ -102,7 +102,7 @@
     .field input, .field select, .field textarea { width: 100%; }
 
     /* SCREENS */
-    .screen { display: none; padding: 28px 0 100px; }
+    .screen { display: none; padding: 28px 0 100px; width: 100%; overflow-x: hidden; }
     .screen.visible { display: block; }
 
     /* Per-screen background colours */
