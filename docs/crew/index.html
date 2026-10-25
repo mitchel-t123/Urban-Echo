@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crew Sign-Off | Urban Echo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=DM+Mono:wght@500;700&display=swap">
+  <style>
+    :root {
+      --ink: #161527;
+      --paper: #FFFCF5;
+      --orange: #F4612E;
+      --forest: #35B06A;
+      --indigo: #3D7FD5;
+      --sunshine: #F5C518;
+      --pink: #F5A8BC;
+      --cream: #F5E8D0;
+      --body: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body { font-family: var(--body); background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+    /* NAV */
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 2.5px solid var(--ink); background: var(--paper); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-family: var(--body); font-weight: 800; font-size: 17px; letter-spacing: -0.02em; text-decoration: none; color: var(--ink); }
+    .nav-logo svg { width: 28px; height: 28px; }
+    .nav-badge { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: var(--forest); color: var(--ink); border: 2px solid var(--ink); border-radius: 100px; padding: 4px 12px; }
+
+    .wrap { max-width: 560px; margin: 0 auto; padding: 0 18px; }
+
+    /* PHASE STEPPER */
+    .stepper { display: flex; gap: 0; border-bottom: 2.5px solid var(--ink); background: var(--ink); }
+    .step-tab { flex: 1; padding: 10px 6px; text-align: center; font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,252,245,0.4); border-right: 1.5px solid rgba(255,252,245,0.12); transition: background 0.15s, color 0.15s; }
+    .step-tab:last-child { border-right: none; }
+    .step-tab.active { background: var(--forest); color: var(--ink); }
+    .step-tab.done { color: rgba(255,252,245,0.7); }
+    .step-tab.done::after { content: ' ✓'; }
+
+    /* SCREENS */
+    .screen { display: none; padding: 28px 0 60px; }
+    .screen.visible { display: block; }
+
+    /* START SCREEN */
+    .start-eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--indigo); margin-bottom: 10px; }
+    .start-h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; line-height: 1.15; }
+    .start-sub { font-size: 15px; color: rgba(22,21,39,0.65); line-height: 1.6; margin-bottom: 28px; }
+
+    /* FORM ELEMENTS */
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 7px; color: var(--ink); }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 12px 14px; border: 2.5px solid var(--ink); border-radius: 12px;
+      font-family: var(--body); font-size: 15px; background: #fff; color: var(--ink);
+      appearance: none; outline: none; transition: box-shadow 0.15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { box-shadow: 3px 3px 0 var(--ink); }
+    .field textarea { min-height: 90px; resize: vertical; }
+    .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23161527' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+    /* CHECKLIST */
+    .phase-label { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .phase-label.setup { color: var(--indigo); }
+    .phase-label.operate { color: var(--orange); }
+    .phase-label.packdown { color: var(--forest); }
+    .phase-h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .phase-venue { font-family: var(--mono); font-size: 12px; font-weight: 700; color: rgba(22,21,39,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 22px; }
+    .checklist { display: flex; flex-direction: column; gap: 2px; margin-bottom: 22px; }
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 13px 14px; border: 2px solid var(--ink); border-radius: 12px; background: #fff; cursor: pointer; transition: background 0.12s; user-select: none; }
+    .check-item:active { background: var(--cream); }
+    .check-item.checked { background: var(--forest); border-color: var(--ink); }
+    .check-item input[type="checkbox"] { display: none; }
+    .check-box { width: 22px; height: 22px; border: 2.5px solid var(--ink); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #fff; margin-top: 1px; transition: background 0.12s; }
+    .check-item.checked .check-box { background: var(--ink); }
+    .check-box-tick { display: none; }
+    .check-item.checked .check-box-tick { display: block; }
+    .check-text { font-size: 15px; line-height: 1.5; color: var(--ink); font-weight: 600; }
+    .check-item.checked .check-text { text-decoration: line-through; opacity: 0.65; }
+
+    /* PROGRESS BAR */
+    .progress-wrap { margin-bottom: 20px; }
+    .progress-bar-bg { height: 6px; background: rgba(22,21,39,0.1); border-radius: 100px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: var(--forest); border-radius: 100px; transition: width 0.3s ease; }
+    .progress-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: rgba(22,21,39,0.5); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 100px; font-family: var(--body); font-size: 15px; font-weight: 700; border: 2.5px solid var(--ink); cursor: pointer; text-decoration: none; transition: box-shadow 0.1s, transform 0.1s, opacity 0.15s; box-shadow: 4px 4px 0 var(--ink); }
+    .btn:active { transform: scale(0.97); }
+    .btn-ink { background: var(--ink); color: var(--paper); }
+    .btn-green { background: var(--forest); color: var(--ink); }
+    .btn-orange { background: var(--orange); color: #fff; }
+    .btn-ghost { background: #fff; color: var(--ink); }
+    .btn-full { width: 100%; }
+    .btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* DIVIDER */
+    .divider { height: 1px; background: rgba(22,21,39,0.1); margin: 20px 0; }
+
+    /* SUCCESS CARD */
+    .success-card { background: var(--forest); border: 2.5px solid var(--ink); border-radius: 18px; padding: 22px 20px; box-shadow: 5px 5px 0 var(--ink); margin-bottom: 20px; }
+    .success-card .tick { font-size: 28px; margin-bottom: 8px; }
+    .success-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .success-card .meta { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(22,21,39,0.6); margin-bottom: 14px; }
+    .success-items { font-size: 13px; color: rgba(22,21,39,0.75); line-height: 1.8; margin-bottom: 14px; }
+
+    /* AMENDED BADGE */
+    .amended-badge { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: var(--sunshine); color: var(--ink); border: 1.5px solid var(--ink); border-radius: 100px; padding: 2px 10px; margin-left: 8px; vertical-align: middle; }
+
+    /* FINAL CARD */
+    .final-card { background: var(--ink); color: var(--paper); border-radius: 18px; border: 2.5px solid var(--ink); padding: 28px 22px; box-shadow: 5px 5px 0 rgba(22,21,39,0.3); text-align: center; margin-bottom: 24px; }
+    .final-card .big-tick { font-size: 48px; margin-bottom: 12px; }
+    .final-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .final-card p { font-size: 14px; color: rgba(255,252,245,0.65); line-height: 1.6; }
+
+    @media(max-width:480px) {
+      .start-h1 { font-size: 24px; }
+      .phase-h2 { font-size: 21px; }
+      .check-text { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="/">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="40" height="40" rx="8" fill="#161527"/>
+      <path d="M8 20 L16 12 L24 20 L32 12" stroke="#3D7FD5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8 28 L16 20 L24 28 L32 20" stroke="#35B06A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>URBAN<strong>ECHO</strong></span>
+  </a>
+  <span class="nav-badge">Crew Portal</span>
+</nav>
+
+<div class="stepper" id="stepper">
+  <div class="step-tab" id="tab-setup">Setup</div>
+  <div class="step-tab" id="tab-operate">Operate</div>
+  <div class="step-tab" id="tab-packdown">Pack Down</div>
+</div>
+
+<!-- ============ START SCREEN ============ -->
+<div class="screen visible" id="screen-start">
+  <div class="wrap">
+    <p class="start-eyebrow" style="margin-top:28px;">Sound Technician</p>
+    <h1 class="start-h1">Event Sign-Off</h1>
+    <p class="start-sub">Complete setup, operate and pack-down sign-offs for each event. Each phase submits separately so your record is saved as you go.</p>
+
+    <div class="field">
+      <label for="tech-name">Your Name</label>
+      <input type="text" id="tech-name" placeholder="Jane Smith" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="event-name">Event Name</label>
+      <input type="text" id="event-name" placeholder="Year 12 Graduation">
+    </div>
+    <div class="field">
+      <label for="venue-select">Venue</label>
+      <select id="venue-select">
+        <option value="">Select a venue...</option>
+        <option value="wesley">Wesley College</option>
+        <option value="carey">Carey Baptist College</option>
+        <option value="mlc">Methodist Ladies College (MLC)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="event-date">Event Date</label>
+      <input type="date" id="event-date">
+    </div>
+
+    <button class="btn btn-ink btn-full" id="start-btn" disabled onclick="startFlow()">Begin Setup Checklist →</button>
+  </div>
+</div>
+
+<!-- ============ SETUP SCREEN ============ -->
+<div class="screen" id="screen-setup">
+  <div class="wrap">
+    <p class="phase-label setup" style="margin-top:28px;">Phase 1 of 3</p>
+    <h2 class="phase-h2">Setup</h2>
+    <p class="phase-venue" id="setup-venue-label"></p>
+
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="setup-progress" style="width:0%"></div></div>
+      <p class="progress-label" id="setup-progress-label">0 of 0 items</p>
+    </div>
+
+    <div class="checklist" id="setup-checklist"></div>
+
+    <div class="field">
+      <label for="setup-notes">Issues / Notes</label>
+      <textarea id="setup-notes" placeholder="Any issues during setup? Leave blank if none."></textarea>
+    </div>
+
+    <button class="btn btn-green btn-full" id="setup-submit-btn" onclick="submitPhase('setup')">Submit Setup Sign-Off ✓</button>
+  </div>
+</div>
+
+<!-- ============ SETUP DONE SCREEN ============ -->
+<div class="screen" id="screen-setup-done">
+  <div class="wrap" style="padding-top:28px;">
+    <div class="success-card" id="setup-success-card">
+      <div class="tick">✅</div>
+      <h3>Setup Complete <span class="amended-badge" id="setup-amended" style="display:none;">Amended</span></h3>
+      <p class="meta" id="setup-meta"></p>
+      <div class="success-items" id="setup-summary"></div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" style="font-size:13px;padding:10px 18px;box-shadow:3px 3px 0 var(--ink);" onclick="editPhase('setup')">✏️ Edit Submission</button>
+      </div>
+    </div>
+    <button class="btn btn-ink btn-full" onclick="goToPhase('operate')">Begin Operate Checklist →</button>
+  </div>
+</div>
+
+<!-- ============ OPERATE SCREEN ============ -->
+<div class="screen" id="screen-operate">
+  <div class="wrap">
+    <p class="phase-label operate" style="margin-top:28px;">Phase 2 of 3</p>
+    <h2 class="phase-h2">Operate</h2>
+    <p class="phase-venue" id="operate-venue-label"></p>
+
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="operate-progress" style="width:0%"></div></div>
+      <p class="progress-label" id="operate-progress-label">0 of 0 items</p>
+    </div>
+
+    <div class="checklist" id="operate-checklist"></div>
+
+    <div class="field">
+      <label for="operate-notes">Issues / Notes</label>
+      <textarea id="operate-notes" placeholder="Any issues during the event? Leave blank if none."></textarea>
+    </div>
+
+    <button class="btn btn-orange btn-full" id="operate-submit-btn" onclick="submitPhase('operate')">Submit Operate Sign-Off ✓</button>
+  </div>
+</div>
+
+<!-- ============ OPERATE DONE SCREEN ============ -->
+<div class="screen" id="screen-operate-done">
+  <div class="wrap" style="padding-top:28px;">
+    <div class="success-card" id="operate-success-card" style="background:var(--sunshine);">
+      <div class="tick">✅</div>
+      <h3>Operate Complete <span class="amended-badge" id="operate-amended" style="display:none;">Amended</span></h3>
+      <p class="meta" id="operate-meta"></p>
+      <div class="success-items" id="operate-summary"></div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" style="font-size:13px;padding:10px 18px;box-shadow:3px 3px 0 var(--ink);" onclick="editPhase('operate')">✏️ Edit Submission</button>
+      </div>
+    </div>
+    <button class="btn btn-ink btn-full" onclick="goToPhase('packdown')">Begin Pack Down Checklist →</button>
+  </div>
+</div>
+
+<!-- ============ PACK DOWN SCREEN ============ -->
+<div class="screen" id="screen-packdown">
+  <div class="wrap">
+    <p class="phase-label packdown" style="margin-top:28px;">Phase 3 of 3</p>
+    <h2 class="phase-h2">Pack Down</h2>
+    <p class="phase-venue" id="packdown-venue-label"></p>
+
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="packdown-progress" style="width:0%"></div></div>
+      <p class="progress-label" id="packdown-progress-label">0 of 0 items</p>
+    </div>
+
+    <div class="checklist" id="packdown-checklist"></div>
+
+    <div class="field">
+      <label for="packdown-notes">Issues / Notes</label>
+      <textarea id="packdown-notes" placeholder="Any issues during pack down? Leave blank if none."></textarea>
+    </div>
+
+    <button class="btn btn-ink btn-full" id="packdown-submit-btn" onclick="submitPhase('packdown')">Submit Pack Down Sign-Off ✓</button>
+  </div>
+</div>
+
+<!-- ============ ALL DONE SCREEN ============ -->
+<div class="screen" id="screen-done">
+  <div class="wrap" style="padding-top:28px;">
+    <div class="final-card">
+      <div class="big-tick">🎚️</div>
+      <h2>Event Complete</h2>
+      <p id="done-summary-text">All three phases submitted. Great work tonight.</p>
+    </div>
+
+    <div class="success-card" id="packdown-success-card" style="background:var(--cream);">
+      <div class="tick">✅</div>
+      <h3>Pack Down Complete <span class="amended-badge" id="packdown-amended" style="display:none;">Amended</span></h3>
+      <p class="meta" id="packdown-meta"></p>
+      <div class="success-items" id="packdown-summary"></div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" style="font-size:13px;padding:10px 18px;box-shadow:3px 3px 0 var(--ink);" onclick="editPhase('packdown')">✏️ Edit Submission</button>
+      </div>
+    </div>
+
+    <button class="btn btn-green btn-full" onclick="resetAll()">Start New Event</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+var FORMSPREE_ID = 'YOUR_FORM_ID'; // Replace with your Formspree form ID
+
+// ============================================================
+// VENUE CHECKLISTS
+// ============================================================
+var VENUES = {
+  wesley: {
+    name: 'Wesley College',
+    setup: [
+      'Collect PA rack key from stage manager',
+      'Retrieve PA rack from storeroom behind stage',
+      'Power on main L/R speakers in correct sequence',
+      'Connect and power on mixing desk (Yamaha CL series)',
+      'Patch all inputs and label channels per runsheet',
+      'Place and connect all microphones per event brief',
+      'Ring out the room and eliminate feedback',
+      'Test hearing loop system is active and working',
+      'Tape down all cables across walkways backstage',
+      'Conduct full sound check with coordinator',
+      'Review runsheet and confirm cue points with event MC',
+    ],
+    operate: [
+      'Confirmed levels set before doors open',
+      'Monitored main mix levels throughout event',
+      'Microphone handoffs coordinated with floor manager',
+      'No unmanaged feedback events occurred',
+      'Hearing loop remained active throughout',
+      'All AV cues hit on time per runsheet',
+      'Any technical issues logged below',
+    ],
+    packdown: [
+      'All microphones returned to cases and accounted for',
+      'All cables coiled and stored correctly',
+      'Mixing desk powered down in correct sequence',
+      'PA rack powered down and returned to storeroom',
+      'Storeroom locked and key returned to stage manager',
+      'Stage area cleared and left tidy',
+      'Any damaged or faulty gear noted below',
+    ],
+  },
+  carey: {
+    name: 'Carey Baptist College',
+    setup: [
+      'Collected AV closet key from front office',
+      'Portable PA assembled and positioned correctly',
+      'PA powered on and output levels set',
+      'Projector connection tested and image confirmed',
+      'All 4 wireless microphones charged and tested',
+      'Wireless mic channels set and labelled on desk',
+      'Stage monitors positioned and level-checked',
+      'Conducted full runthrough with coordinator',
+      'Reviewed runsheet and confirmed order of service',
+    ],
+    operate: [
+      'Confirmed levels set before event started',
+      'Wireless mic battery levels checked mid-event',
+      'Microphone handoffs coordinated with teaching staff',
+      'Projector feed managed for all presentations',
+      'Monitored for feedback in the hall throughout',
+      'All AV cues followed per order of service',
+      'Any issues logged below',
+    ],
+    packdown: [
+      'All 4 wireless mics returned to charging station in AV closet',
+      'All cables coiled and stored',
+      'Portable PA disassembled and stored',
+      'Projector remote returned to front office',
+      'AV closet locked and key returned to front office',
+      'Hall left clean and tidy',
+      'Any damaged or faulty gear noted below',
+    ],
+  },
+  mlc: {
+    name: 'Methodist Ladies College',
+    setup: [
+      'Installed PA system powered on in correct zone sequence',
+      'Mixing desk connected and all channels patched',
+      'Main hall zone tested and levels set',
+      'Overflow zone activated and tested if required',
+      'Wireless microphones collected from AV room',
+      'All wireless mics charged and channels confirmed',
+      'Contacted IT coordinator re: any laptop/video feeds',
+      'Room rung out across all active zones',
+      'Confirmed with event staff which zones are live',
+      'Full sound check completed with MC or coordinator',
+    ],
+    operate: [
+      'Confirmed all zones active and set before doors open',
+      'Overflow zone managed if activated during event',
+      'Monitored reverberant space for feedback throughout',
+      'Event MC and staff briefed on correct mic handling',
+      'All video/laptop feeds managed without interruption',
+      'All cues followed per programme',
+      'Any issues logged below',
+    ],
+    packdown: [
+      'All zones powered down in correct sequence',
+      'Wireless microphones returned to AV room',
+      'Mics placed on charge in AV room',
+      'AV room locked after mics returned',
+      'All cables coiled and stored correctly',
+      'Signed out with office staff on departure',
+      'Any damaged or faulty gear noted below',
+    ],
+  },
+};
+
+// ============================================================
+// STATE
+// ============================================================
+var state = {
+  name: '', event: '', venue: '', date: '',
+  submissions: { setup: null, operate: null, packdown: null },
+  amended: { setup: false, operate: false, packdown: false },
+};
+
+// ============================================================
+// START FLOW
+// ============================================================
+var startFields = ['tech-name', 'event-name', 'venue-select', 'event-date'];
+startFields.forEach(function(id) {
+  document.getElementById(id).addEventListener('input', checkStartReady);
+  document.getElementById(id).addEventListener('change', checkStartReady);
+});
+
+function checkStartReady() {
+  var ready = document.getElementById('tech-name').value.trim() &&
+              document.getElementById('event-name').value.trim() &&
+              document.getElementById('venue-select').value &&
+              document.getElementById('event-date').value;
+  document.getElementById('start-btn').disabled = !ready;
+}
+
+function startFlow() {
+  state.name = document.getElementById('tech-name').value.trim();
+  state.event = document.getElementById('event-name').value.trim();
+  state.venue = document.getElementById('venue-select').value;
+  state.date = document.getElementById('event-date').value;
+  goToPhase('setup');
+}
+
+// ============================================================
+// PHASE NAVIGATION
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('visible'); });
+  document.getElementById('screen-' + id).classList.add('visible');
+}
+
+function updateStepper(phase) {
+  var phases = ['setup', 'operate', 'packdown'];
+  var idx = phases.indexOf(phase);
+  phases.forEach(function(p, i) {
+    var tab = document.getElementById('tab-' + p);
+    tab.classList.remove('active', 'done');
+    if (i < idx || state.submissions[p]) tab.classList.add('done');
+    if (p === phase) tab.classList.add('active');
+  });
+}
+
+function goToPhase(phase) {
+  var venue = VENUES[state.venue];
+  var items = venue[phase];
+
+  // Populate checklist
+  var list = document.getElementById(phase + '-checklist');
+  list.innerHTML = '';
+  items.forEach(function(text, i) {
+    var el = document.createElement('label');
+    el.className = 'check-item';
+    el.innerHTML =
+      '<input type="checkbox" class="phase-check" data-phase="' + phase + '">' +
+      '<span class="check-box"><svg class="check-box-tick" width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="#FFFCF5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+      '<span class="check-text">' + text + '</span>';
+    el.addEventListener('click', function() {
+      el.classList.toggle('checked');
+      updateProgress(phase);
+    });
+    list.appendChild(el);
+  });
+
+  // Restore if editing
+  if (state.submissions[phase]) {
+    var saved = state.submissions[phase];
+    var checks = list.querySelectorAll('.check-item');
+    checks.forEach(function(c, i) {
+      if (saved.checked[i]) c.classList.add('checked');
+    });
+    document.getElementById(phase + '-notes').value = saved.notes || '';
+  }
+
+  // Labels
+  document.getElementById(phase + '-venue-label').textContent = venue.name + '  ·  ' + formatDate(state.date);
+
+  updateProgress(phase);
+  updateStepper(phase);
+  showScreen(phase);
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(phase) {
+  var list = document.getElementById(phase + '-checklist');
+  var all = list.querySelectorAll('.check-item');
+  var checked = list.querySelectorAll('.check-item.checked');
+  var pct = all.length ? Math.round((checked.length / all.length) * 100) : 0;
+  document.getElementById(phase + '-progress').style.width = pct + '%';
+  document.getElementById(phase + '-progress-label').textContent = checked.length + ' of ' + all.length + ' items checked';
+}
+
+// ============================================================
+// SUBMIT PHASE
+// ============================================================
+function submitPhase(phase) {
+  var venue = VENUES[state.venue];
+  var list = document.getElementById(phase + '-checklist');
+  var items = venue[phase];
+  var checks = list.querySelectorAll('.check-item');
+  var checkedStates = [];
+  var checkedLabels = [];
+  var uncheckedLabels = [];
+
+  checks.forEach(function(c, i) {
+    var done = c.classList.contains('checked');
+    checkedStates.push(done);
+    if (done) checkedLabels.push(items[i]);
+    else uncheckedLabels.push(items[i]);
+  });
+
+  var notes = document.getElementById(phase + '-notes').value.trim();
+  var isAmend = !!state.submissions[phase];
+  var time = new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' });
+
+  state.submissions[phase] = { checked: checkedStates, notes: notes, time: time };
+  if (isAmend) state.amended[phase] = true;
+
+  // Build success card
+  var meta = document.getElementById(phase + '-meta');
+  meta.textContent = state.name + '  ·  ' + venue.name + '  ·  ' + formatDate(state.date) + '  ·  ' + time;
+
+  var summary = document.getElementById(phase + '-summary');
+  var html = '<strong>' + checkedLabels.length + ' of ' + items.length + ' items completed</strong>';
+  if (uncheckedLabels.length) {
+    html += '<br><span style="color:rgba(22,21,39,0.6);">Not checked: ' + uncheckedLabels.join(', ') + '</span>';
+  }
+  if (notes) html += '<br><em>Notes: ' + notes + '</em>';
+  summary.innerHTML = html;
+
+  if (state.amended[phase]) {
+    document.getElementById(phase + '-amended').style.display = 'inline-block';
+  }
+
+  // Send to Formspree
+  if (FORMSPREE_ID && FORMSPREE_ID !== 'YOUR_FORM_ID') {
+    var phaseLabel = { setup: 'Setup', operate: 'Operate', packdown: 'Pack Down' }[phase];
+    var payload = {
+      _subject: (isAmend ? '[AMENDED] ' : '') + 'Urban Echo Sign-Off: ' + phaseLabel + ' — ' + state.name + ' / ' + venue.name + ' / ' + formatDate(state.date),
+      technician: state.name,
+      event: state.event,
+      venue: venue.name,
+      date: state.date,
+      phase: phaseLabel,
+      amended: isAmend ? 'Yes' : 'No',
+      submitted_at: time,
+      items_completed: checkedLabels.join('; ') || 'None',
+      items_not_completed: uncheckedLabels.join('; ') || 'None',
+      notes: notes || 'None',
+    };
+    fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+    }).catch(function(){});
+  }
+
+  // Navigate to done state
+  if (phase === 'packdown') {
+    // Move packdown card to done screen
+    showScreen('done');
+    document.getElementById('done-summary-text').textContent =
+      'All three phases submitted for ' + venue.name + '. Great work, ' + state.name.split(' ')[0] + '.';
+  } else {
+    showScreen(phase + '-done');
+  }
+  updateStepper(phase);
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+// EDIT PHASE
+// ============================================================
+function editPhase(phase) {
+  state.amended[phase] = true;
+  goToPhase(phase);
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function formatDate(d) {
+  if (!d) return '';
+  var parts = d.split('-');
+  return parts[2] + '/' + parts[1] + '/' + parts[0];
+}
+
+function resetAll() {
+  state = { name: '', event: '', venue: '', date: '', submissions: { setup: null, operate: null, packdown: null }, amended: { setup: false, operate: false, packdown: false } };
+  document.getElementById('tech-name').value = '';
+  document.getElementById('event-name').value = '';
+  document.getElementById('venue-select').value = '';
+  document.getElementById('event-date').value = '';
+  document.getElementById('start-btn').disabled = true;
+  ['setup-notes', 'operate-notes', 'packdown-notes'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  ['setup-amended', 'operate-amended', 'packdown-amended'].forEach(function(id) {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.querySelectorAll('.step-tab').forEach(function(t) { t.classList.remove('active', 'done'); });
+  showScreen('start');
+  window.scrollTo(0, 0);
+}
+
+// Set today's date as default
+document.getElementById('event-date').value = new Date().toISOString().split('T')[0];
+checkStartReady();
+</script>
+</body>
+</html>
