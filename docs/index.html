@@ -2193,9 +2193,10 @@ body{ overflow-x: hidden; max-width: 100%; }
   .footer-tagline-full{ display: none; }
   .footer-tagline-short{ display: inline; }
   /* Mobile: thicker wave divider lines */
-  /* Mobile: hide mini-reviews and read-more, show full carousel in slot */
+  /* Mobile: hide mini-reviews, show standalone reviews band */
   .mini-reviews{ display: none !important; }
-  #mobileReviewsSlot{ display: block !important; margin-top: 40px; }
+  #mobile-reviews-band{ display: block; }
+  #mobileReviewsSlot{ display: block !important; }
   /* Mobile: hide the original full reviews section */
   .reviews{ display: none !important; }
   /* Mobile: hide troubleshoot button from top nav bar only (kept in dropdown) */
@@ -2325,18 +2326,18 @@ body{ overflow-x: hidden; max-width: 100%; }
   /* Hero stays right below ticker */
   .hero         { order:-8; }
   /* Pull Our Clients, Reviews and What We Offer up after the hero */
-  #schools-panel{ order:-7; }
-  #reviews      { order:-6; }
-  #what-we-offer{ order:-5; }
+  #schools-panel      { order:-7; }
+  #mobile-reviews-band{ order:-6; }
+  #what-we-offer      { order:-5; }
+  /* #reviews is hidden on mobile — its order doesn't matter */
   /* Everything else (symptom-checker, symptoms, about, plan, packages,
      meet, faq, contact, hiring bar, footer) keeps order:0 and
      sorts in its original DOM sequence */
   /* Hide the wavy divider that sat between schools-panel and plan —
      schools-panel moved up via flex so this divider now doubles up */
   .wave-sep-plan{ display:none; }
-  /* Tighten the reviews slot spacing inside the about section */
+  /* Tighten the about section spacing now that reviews moved out */
   .school-strip{ margin-top:20px !important; }
-  #mobileReviewsSlot{ margin-top:16px !important; }
   .diagnosis{ padding-top:52px; padding-bottom:52px; }
 }
 /* Desktop: hide the mobile-only CTA duplicate */
@@ -2828,10 +2829,6 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
     <!-- Mini reviews below the two-column layout -->
     <div class="school-strip" style="margin-top:40px;">
-      <!-- Mobile-only: full reviews carousel relocated here -->
-      <h2 class="mobile-reviews-heading" style="margin-bottom:16px;font-size:32px;">Our Reviews</h2>
-      <div id="mobileReviewsSlot" style="display:none;"></div>
-
       <!-- Mini review carousel -->
       <div class="mini-reviews">
             <div class="mini-reviews-with-arrows">
@@ -2916,6 +2913,14 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
   </div>
 </section>
+
+<!-- ============ MOBILE REVIEWS BAND ============ -->
+<div id="mobile-reviews-band" style="display:none; padding:52px 0; background:var(--paper); border-bottom:3px solid var(--ink);">
+  <div class="wrap">
+    <h2 style="font-size:32px; margin-bottom:20px;">Our Reviews</h2>
+    <div id="mobileReviewsSlot" style="display:none;"></div>
+  </div>
+</div>
 
 <div aria-hidden="true" class="wave-sep-plan" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
