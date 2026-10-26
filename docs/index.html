@@ -2196,6 +2196,7 @@ body{ overflow-x: hidden; max-width: 100%; }
   /* Mobile: hide mini-reviews, show standalone reviews band */
   .mini-reviews{ display: none !important; }
   #mobile-reviews-band{ display: block !important; }
+  .mobile-wave-sep{ display: block !important; }
   #mobileReviewsSlot{ display: block !important; }
   /* Mobile: hide the original full reviews section */
   .reviews{ display: none !important; }
@@ -2327,6 +2328,7 @@ body{ overflow-x: hidden; max-width: 100%; }
   .hero         { order:-8; }
   /* Pull Our Clients, Reviews and What We Offer up after the hero */
   #schools-panel      { order:-7; }
+  .mobile-wave-sep    { order:-6; }
   #mobile-reviews-band{ order:-6; }
   #what-we-offer      { order:-5; }
   /* #reviews is hidden on mobile — its order doesn't matter */
@@ -2915,12 +2917,14 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </section>
 
 <!-- ============ MOBILE REVIEWS BAND ============ -->
-<div id="mobile-reviews-band" style="display:none; padding:52px 0; background:var(--paper); border-bottom:3px solid var(--ink);">
+<div aria-hidden="true" class="mobile-wave-sep" style="display:none;height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
+<div id="mobile-reviews-band" style="display:none; padding:52px 0; background:#ffffff;">
   <div class="wrap">
     <h2 style="font-size:32px; margin-bottom:20px;">Our Reviews</h2>
     <div id="mobileReviewsSlot" style="display:none;"></div>
   </div>
 </div>
+<div aria-hidden="true" class="mobile-wave-sep" style="display:none;height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
 <div aria-hidden="true" class="wave-sep-plan" style="height:20px;background:#fff url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'%3E%3Cpath d='M0,10 C15,2 45,18 60,10' fill='none' stroke='%23161527' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) repeat-x center/60px 20px;"></div>
 
