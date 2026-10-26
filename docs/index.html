@@ -44,9 +44,10 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["LocalBusiness", "ProfessionalService"],
   "name": "Urban Echo",
-  "description": "On-demand Sound and AV operators for Perth schools. Professional technicians for school events, graduations and presentations.",
+  "description": "On-demand sound and AV technicians for Perth schools. Professional audio visual operators for school graduations, assemblies, presentation nights, performing arts productions and formals.",
+  "slogan": "Sound and AV for Perth schools — one contact, zero headaches.",
   "url": "https://urbanecho.com.au",
   "email": "mitchel@urbanecho.com.au",
   "telephone": "+61429660186",
@@ -57,28 +58,55 @@
     "postalCode": "6000",
     "addressCountry": "AU"
   },
-  "areaServed": {
-    "@type": "City",
-    "name": "Perth"
-  },
+  "areaServed": [
+    { "@type": "City", "name": "Perth", "sameAs": "https://www.wikidata.org/wiki/Q3183" },
+    { "@type": "State", "name": "Western Australia" },
+    "Claremont", "Subiaco", "Nedlands", "Applecross", "South Perth", "Fremantle",
+    "Cottesloe", "Mosman Park", "Wembley", "Mount Lawley", "Leederville",
+    "Floreat", "City Beach", "Dalkeith", "Peppermint Grove", "East Perth",
+    "West Perth", "North Perth", "Scarborough", "Karrinyup", "Stirling",
+    "Balcatta", "Joondalup", "Canning Vale", "Willetton", "Booragoon",
+    "Murdoch", "Bentley", "Belmont", "Midland", "Armadale"
+  ],
+  "knowsAbout": [
+    "AV technician for schools",
+    "sound technician Perth schools",
+    "school event AV Perth",
+    "graduation ceremony sound Perth",
+    "school assembly PA system",
+    "presentation night sound",
+    "school performing arts production AV",
+    "school formal sound and lighting",
+    "audio visual hire Perth schools",
+    "school AV management Perth",
+    "microphone hire Perth schools",
+    "lighting operator Perth schools"
+  ],
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
       "opens": "08:00",
       "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Saturday","Sunday"],
+      "opens": "08:00",
+      "closes": "20:00"
     }
   ],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
-    "name": "Urban Echo Services",
+    "name": "Urban Echo School AV Services",
     "itemListElement": [
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Single Event",
-          "description": "On-demand sound and AV technician for a single school event."
+          "name": "Single Event AV",
+          "description": "On-demand sound and AV technician for a single school event — graduations, assemblies, speech nights and more.",
+          "areaServed": "Perth, WA"
         },
         "priceSpecification": {
           "@type": "PriceSpecification",
@@ -91,24 +119,49 @@
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Events Package",
-          "description": "Bundled sound and AV coverage for multiple school events throughout the year."
+          "name": "School Events Package",
+          "description": "Bundled AV coverage for multiple school events throughout the year. One contact handles everything.",
+          "areaServed": "Perth, WA"
         }
       },
       {
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": "Annual Plan",
-          "description": "Full-year AV support with priority scheduling and a dedicated Urban Echo contact."
+          "name": "Annual School AV Plan",
+          "description": "Full-year AV support for Perth schools with priority scheduling and a dedicated Urban Echo technician.",
+          "areaServed": "Perth, WA"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Sound and Lighting Hire",
+          "description": "PA systems, microphones, mixing desks and stage lighting supplied and operated by trained technicians.",
+          "areaServed": "Perth, WA"
         }
       }
     ]
   },
-  "serviceType": ["Sound Technician", "AV Operator", "School Events AV", "Audio Visual Services"],
+  "serviceType": [
+    "AV Technician for Schools",
+    "Sound Technician Perth",
+    "School Event AV Operator",
+    "Audio Visual Services Perth",
+    "Graduation Ceremony AV",
+    "School Assembly Sound",
+    "Presentation Night AV",
+    "Performing Arts Production AV",
+    "Lighting Operator",
+    "Equipment Hire Perth"
+  ],
   "priceRange": "$$",
   "image": "https://urbanecho.com.au/og-image.png",
-  "sameAs": []
+  "sameAs": [
+    "https://www.facebook.com/urbanechoau",
+    "https://www.instagram.com/urbanechoau"
+  ]
 }
 </script>
 <script type="application/ld+json">
