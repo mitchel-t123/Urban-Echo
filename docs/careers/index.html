@@ -131,9 +131,12 @@ a{ color:inherit; }
 @media(max-width:700px){ .about-grid{ grid-template-columns:1fr !important; } }
 
 @media(max-width:600px){
-  /* Mobile readable body text */
+  /* Mobile readable body text — 15px minimum */
   .perk-card p{ font-size:15px; }
   #appSuccess p{ font-size:16px; }
+  .check-opt, .radio-opt{ font-size:15px; }
+  .form-field label, .form-hint{ font-size:15px; }
+  .dd-link .dd-text small{ font-size:15px; }
 }
 
 /* Checkbox group */

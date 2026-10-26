@@ -2292,8 +2292,7 @@ body{ overflow-x: hidden; max-width: 100%; }
   /* Reviews: reduce gap below CTA button */
   .reviews{ padding-bottom: 48px; }
 
-  /* ── Mobile readable body text ── */
-  /* Bump any paragraph/description text below 16px up to 16px */
+  /* ── Mobile readable body text — 15px minimum ── */
   .package-card .desc{ font-size: 17px; }
   .package-list li{ font-size: 17px; }
   .plan-step p{ font-size: 16px !important; }
@@ -2306,6 +2305,16 @@ body{ overflow-x: hidden; max-width: 100%; }
   .diagnosis-copy-box p{ font-size: 16px; }
   .recovery-copy p, .recovery p{ font-size: 16px; }
   .review-card p, .review-text{ font-size: 16px; }
+  /* Remaining body text bumped to 15px minimum */
+  .dd-link .dd-text small{ font-size:15px; }
+  .check-opt, .radio-opt{ font-size:15px; }
+  .form-field label{ font-size:15px; }
+  .form-hint, .form-note{ font-size:15px; }
+  .popup-choice .popup-hint{ font-size:15px; }
+  .time-field label, .time-range-sep{ font-size:15px; }
+  .person-remove-btn{ font-size:15px; }
+  .form-success-contact span{ font-size:15px; }
+  .diagnose-step p, .diagnose-body p{ font-size:15px; }
 }
 /* Desktop: hide the mobile-only CTA duplicate */
 @media (min-width: 921px){
