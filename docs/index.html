@@ -2264,6 +2264,8 @@ body{ overflow-x: hidden; max-width: 100%; }
   .section-head .eyebrow, footer, .ticker-item{ font-size: 13px !important; line-height: 1.5; }
   .hero-tag{ font-size: 22px !important; font-family: var(--body) !important; text-transform: none !important; letter-spacing: -0.02em !important; font-weight: 800 !important; }
   .hero-tag .dot{ width: 14px !important; height: 14px !important; }
+  #symptom-checker .hero-tag{ font-size: 15px !important; font-weight: 700 !important; padding: 8px 14px !important; }
+  #symptom-checker .hero-tag .dot{ width: 8px !important; height: 8px !important; }
   /* Hero h1: two-line box "In the case of a" + "Sound Emergency" on one line */
   .hero h1 .big{ font-size: clamp(26px, 7.5vw, 36px) !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .hero h1 .small{ font-size: 13px !important; }
@@ -2653,7 +2655,8 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     <div class="checker-grid">
       <!-- Left: checklist -->
       <div>
-        <div class="hero-tag" style="margin-bottom:20px;"><span class="dot"></span> Now Treating Perth Schools</div>
+        <h2 style="font-size:clamp(28px,5vw,42px); font-weight:800; letter-spacing:-0.03em; margin-bottom:16px;">Symptom Checker</h2>
+        <div class="hero-tag" style="margin-bottom:20px; font-size:16px;"><span class="dot"></span> Now Treating Perth Schools</div>
         <p style="font-size:16px;margin-bottom:28px;max-width:460px;line-height:1.6;opacity:0.8;">The more you tick, the more we can help. Check the boxes to get your instant diagnosis.</p>
         <div class="hero-checklist" id="heroChecklist">
           <div class="hero-check" data-symptom="3">
