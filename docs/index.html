@@ -2290,6 +2290,19 @@ body{ overflow-x: hidden; max-width: 100%; }
   .credential-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px; }
   /* Reviews: reduce gap below CTA button */
   .reviews{ padding-bottom: 48px; }
+
+  /* ── Mobile readable body text ── */
+  /* Bump any paragraph/description text below 16px up to 16px */
+  .package-card .desc{ font-size: 17px; }
+  .package-list li{ font-size: 17px; }
+  .plan-step p{ font-size: 16px !important; }
+  .symptom-card p{ font-size: 16px; }
+  .school-service-card p{ font-size: 14px !important; }
+  .who-bio{ font-size: 16px; }
+  .section-head p{ font-size: 17px; }
+  .diagnosis-copy-box p{ font-size: 16px; }
+  .recovery-copy p, .recovery p{ font-size: 16px; }
+  .review-card p, .review-text{ font-size: 16px; }
 }
 /* Desktop: hide the mobile-only CTA duplicate */
 @media (min-width: 921px){

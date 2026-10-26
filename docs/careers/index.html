@@ -118,7 +118,7 @@ a{ color:inherit; }
 .field label{ font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; font-family:var(--body); color:var(--ink); }
 .field label .opt{ font-weight:400; opacity:0.5; text-transform:none; letter-spacing:0; }
 .field input,.field select,.field textarea{
-  font-family:var(--body); font-size:15px; padding:13px 14px;
+  font-family:var(--body); font-size:16px; padding:13px 14px;
   border-radius:10px; border:2px solid var(--line);
   background:var(--cream); color:var(--ink); outline:none;
   transition:border-color 0.15s; -webkit-appearance:none; appearance:none;
@@ -129,6 +129,12 @@ a{ color:inherit; }
 .frow{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 @media(max-width:560px){ .frow{ grid-template-columns:1fr; } }
 @media(max-width:700px){ .about-grid{ grid-template-columns:1fr !important; } }
+
+@media(max-width:600px){
+  /* Mobile readable body text */
+  .perk-card p{ font-size:15px; }
+  #appSuccess p{ font-size:16px; }
+}
 
 /* Checkbox group */
 .check-group{ display:flex; flex-wrap:wrap; gap:10px; }
