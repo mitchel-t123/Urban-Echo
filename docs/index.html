@@ -2316,6 +2316,22 @@ body{ overflow-x: hidden; max-width: 100%; }
   .form-success-contact span{ font-size:15px; }
   .diagnose-step p, .diagnose-body p{ font-size:15px; }
 }
+/* ── Mobile section order ── */
+@media(max-width:600px){
+  body{ display:flex; flex-direction:column; }
+  /* Anchor nav and ticker at the very top */
+  .nav          { order:-10; }
+  .ticker-wrap  { order:-9; }
+  /* Hero stays right below ticker */
+  .hero         { order:-8; }
+  /* Pull Our Clients, Reviews and What We Offer up after the hero */
+  #schools-panel{ order:-7; }
+  #reviews      { order:-6; }
+  #what-we-offer{ order:-5; }
+  /* Everything else (symptom-checker, symptoms, about, plan, packages,
+     meet, faq, contact, hiring bar, footer) keeps order:0 and
+     sorts in its original DOM sequence */
+}
 /* Desktop: hide the mobile-only CTA duplicate */
 @media (min-width: 921px){
   .hero-ctas-mobile{ display: none; }
