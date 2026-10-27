@@ -3624,8 +3624,6 @@ const success = document.getElementById('formSuccess');
 const submitBtn = form.querySelector('button[type=submit]');
 
 async function sendToClickUp(data){
-  console.log('[ClickUp] Sending to worker:', CLICKUP_WORKER);
-  console.log('[ClickUp] Payload:', JSON.stringify(data));
   const description =
     `**School:** ${data.school}\n` +
     `**Email:** ${data.email}\n` +
@@ -3673,7 +3671,7 @@ form.addEventListener('submit', async function(e){
     });
     if(res.ok){
       // Fire ClickUp in background — don't block success on it
-      sendToClickUp(fields).then(function(r){ console.log('[ClickUp] Response:', r && r.status); }).catch(function(e){ console.error('[ClickUp] Error:', e); });
+      sendToClickUp(fields).catch(function(){});
       // Personalise success state
       const firstName = nameVal.split(' ')[0];
       document.getElementById('successName').textContent = firstName || '';
