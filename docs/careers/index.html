@@ -693,6 +693,12 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
   fd.set('availability', availability.join(', ') || 'None selected');
   fd.set('_subject', 'New Job Application for Urban Echo');
 
+  // Build plain data object for ClickUp (strings only)
+  var data = {};
+  fd.forEach(function(v, k){ if(typeof v === 'string') data[k] = v; });
+  data.roles = fd.get('roles');
+  data.availability = fd.get('availability');
+
   if(FORMSPREE_ID && FORMSPREE_ID !== 'xxxxxxxxxxx'){
     try {
       var res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
@@ -701,6 +707,36 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
         body: fd
       });
       if(res.ok){
+        fetch('https://small-waterfall-7b7f.cass-tinsley1.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            first_name: data.first_name || '',
+            last_name: data.last_name || '',
+            email: data.email || '',
+            phone: data.phone || '',
+            suburb: data.suburb || '',
+            dob: data.dob || '',
+            gender: data.gender || '',
+            tshirt_size: data.tshirt_size || '',
+            roles: data.roles || '',
+            experience_level: data.experience_level || '',
+            experience_detail: data.experience_detail || '',
+            school_experience: data.school_experience || '',
+            availability: data.availability || '',
+            wwc: data.wwc || '',
+            police: data.police || '',
+            employment_status: data.employment_status || '',
+            ref1_name: data.ref1_name || '',
+            ref1_phone: data.ref1_phone || '',
+            ref1_relationship: data.ref1_relationship || '',
+            ref2_name: data.ref2_name || '',
+            ref2_phone: data.ref2_phone || '',
+            ref2_relationship: data.ref2_relationship || '',
+            notes: data.notes || '',
+            how_heard: data.how_heard || ''
+          })
+        }).catch(function(){});
         document.getElementById('appForm').style.display = 'none';
         document.getElementById('appSuccess').style.display = 'block';
         return;
@@ -709,8 +745,6 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
   }
 
   // Mailto fallback
-  var data = {};
-  fd.forEach(function(v, k){ if(typeof v === 'string') data[k] = v; });
   var lines = [
     'Name: ' + (data.first_name || '') + ' ' + (data.last_name || ''),
     'Email: ' + (data.email || ''),
