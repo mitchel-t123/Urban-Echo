@@ -396,6 +396,8 @@ a{ color:inherit; }
             <label class="check-opt"><input type="checkbox" name="role_video" value="Videography"> 🎥 Videography</label>
             <label class="check-opt"><input type="checkbox" name="role_design" value="Graphic Design"> 🎨 Graphic Design</label>
             <label class="check-opt"><input type="checkbox" name="role_maintenance" value="Maintenance"> 🔧 Maintenance</label>
+            <label class="check-opt"><input type="checkbox" name="role_admin" value="Admin"> 🗂️ Admin</label>
+            <label class="check-opt"><input type="checkbox" name="role_social" value="Social Media"> 📱 Social Media</label>
             <label class="check-opt"><input type="checkbox" name="role_other" value="Other"> Other</label>
           </div>
           <div class="upload-field" id="role-other-field" style="margin-top:12px;">
@@ -653,7 +655,7 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
   var fd = new FormData(this);
 
   var roles = [];
-  ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','other'].forEach(function(r){
+  ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','admin','social','other'].forEach(function(r){
     var cb = document.querySelector('input[name="role_' + r + '"]');
     if(cb && cb.checked) roles.push(cb.value);
   });
