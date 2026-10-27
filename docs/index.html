@@ -3638,7 +3638,6 @@ async function sendToClickUp(data){
     body: JSON.stringify({
       name: `New Enquiry: ${data.school} (${data.name})`,
       description,
-      status: 'TO DO',
       priority: 2,
       tags: ['enquiry', 'website']
     })
