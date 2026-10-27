@@ -379,6 +379,30 @@ a{ color:inherit; }
             <input type="date" id="app-dob" name="dob">
           </div>
         </div>
+        <div class="frow">
+          <div class="field">
+            <label for="app-gender">Gender</label>
+            <select id="app-gender" name="gender">
+              <option value="">Select…</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="app-tshirt">T-Shirt Size</label>
+            <select id="app-tshirt" name="tshirt_size">
+              <option value="">Select…</option>
+              <option>XS</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option>2XL</option>
+              <option>3XL</option>
+            </select>
+          </div>
+        </div>
 
         <span class="form-section-label">🎭 Roles you're interested in</span>
         <div class="field">
@@ -693,6 +717,8 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
     'Phone: ' + (data.phone || ''),
     'Suburb: ' + (data.suburb || ''),
     'Date of birth: ' + (data.dob || ''),
+    'Gender: ' + (data.gender || ''),
+    'T-shirt size: ' + (data.tshirt_size || ''),
     '',
     'Roles: ' + (data.roles || ''),
     'Experience level: ' + (data.experience_level || ''),
