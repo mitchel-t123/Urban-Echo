@@ -3618,8 +3618,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersecti
 
 // Contact form submits to Formspree, shows custom success card
 const FORMSPREE_ID = 'mlgyjyej';
-const CLICKUP_LIST  = '90168883083';
-const CLICKUP_TOKEN = 'pk_276710451_SZB9ZABC59UUX0OTTYPAS1OTW274LPDK';
+const CLICKUP_WORKER = 'https://yellow-term-8de3.cass-tinsley1.workers.dev';
 const form = document.getElementById('contactForm');
 const success = document.getElementById('formSuccess');
 const submitBtn = form.querySelector('button[type=submit]');
@@ -3633,9 +3632,9 @@ async function sendToClickUp(data){
     `**Preferred contact:** ${data.contact_method}\n` +
     `**How they heard:** ${data.hear_about_us || 'Not specified'}\n\n` +
     `**Message:**\n${data.message || 'No message provided'}`;
-  await fetch(`https://api.clickup.com/api/v2/list/${CLICKUP_LIST}/task`, {
+  await fetch(CLICKUP_WORKER, {
     method: 'POST',
-    headers: { 'Authorization': CLICKUP_TOKEN, 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: `New Enquiry: ${data.school} (${data.name})`,
       description,
