@@ -3639,7 +3639,13 @@ async function sendToClickUp(data){
       name: `New Enquiry: ${data.school} (${data.name})`,
       description,
       priority: 2,
-      tags: ['enquiry', 'website']
+      tags: ['enquiry', 'website'],
+      school: data.school,
+      email: data.email,
+      phone: data.phone,
+      package: data.package,
+      contact_method: data.contact_method,
+      hear_about_us: data.hear_about_us
     })
   });
 }
