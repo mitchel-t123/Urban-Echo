@@ -155,6 +155,14 @@ a{ color:inherit; }
 .submit-btn:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-2px); }
 .submit-btn:disabled{ opacity:0.55; cursor:default; transform:none; box-shadow:4px 4px 0 var(--ink); }
 
+.upload-field{ display:none; margin-top:12px; padding:14px 16px; background:var(--cream); border:2px dashed rgba(22,21,39,0.3); border-radius:10px; }
+.upload-field.visible{ display:block; }
+.upload-field p{ font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink); margin-bottom:8px; }
+.upload-field input[type="file"]{ font-family:var(--body); font-size:14px; color:var(--ink); width:100%; }
+
+.ref-block{ border:2px solid var(--line); border-radius:14px; padding:20px; margin-bottom:16px; background:var(--paper); }
+.ref-block-label{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.45); font-family:var(--mono); display:block; margin-bottom:14px; }
+
 #appSuccess{ display:none; text-align:center; padding:48px 24px; }
 #appSuccess .tick{ font-size:56px; display:block; margin-bottom:16px; }
 #appSuccess h3{ font-size:24px; font-weight:800; margin-bottom:10px; }
@@ -403,6 +411,10 @@ a{ color:inherit; }
             <label class="radio-opt"><input type="radio" name="wwc" value="No, willing to get one"> No, willing to get one</label>
             <label class="radio-opt"><input type="radio" name="wwc" value="No, not willing"> No</label>
           </div>
+          <div class="upload-field" id="wwc-upload-field">
+            <p>Upload a photo of your WWC card</p>
+            <input type="file" id="wwc-card" name="wwc_card" accept="image/*,.pdf">
+          </div>
         </div>
         <div class="field">
           <label>Do you hold a current National Police Clearance?</label>
@@ -410,6 +422,10 @@ a{ color:inherit; }
             <label class="radio-opt"><input type="radio" name="police" value="Yes, current"> Yes, current</label>
             <label class="radio-opt"><input type="radio" name="police" value="No, willing to get one"> No, willing to get one</label>
             <label class="radio-opt"><input type="radio" name="police" value="No, not willing"> No</label>
+          </div>
+          <div class="upload-field" id="police-upload-field">
+            <p>Upload a copy of your Police Clearance</p>
+            <input type="file" id="police-card" name="police_card" accept="image/*,.pdf">
           </div>
         </div>
         <span class="form-section-label">Current situation</span>
@@ -425,6 +441,43 @@ a{ color:inherit; }
             <option>Self-employed / freelance</option>
             <option>Prefer not to say</option>
           </select>
+        </div>
+
+        <span class="form-section-label">References</span>
+        <p style="font-size:13.5px;color:rgba(22,21,39,0.6);line-height:1.6;margin-bottom:20px;">Please provide two references who can speak to your character or work. <strong>At least one must be from a previous employer, work placement, or internship.</strong></p>
+        <div class="ref-block">
+          <span class="ref-block-label">Reference 1</span>
+          <div class="frow">
+            <div class="field">
+              <label for="ref1-name">Full Name</label>
+              <input type="text" id="ref1-name" name="ref1_name" placeholder="John Smith">
+            </div>
+            <div class="field">
+              <label for="ref1-email">Email</label>
+              <input type="email" id="ref1-email" name="ref1_email" placeholder="john@example.com">
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="ref1-rel">Relationship <span class="opt">e.g. Manager, Teacher, Supervisor</span></label>
+            <input type="text" id="ref1-rel" name="ref1_relationship" placeholder="e.g. Manager at XYZ Company">
+          </div>
+        </div>
+        <div class="ref-block">
+          <span class="ref-block-label">Reference 2</span>
+          <div class="frow">
+            <div class="field">
+              <label for="ref2-name">Full Name</label>
+              <input type="text" id="ref2-name" name="ref2_name" placeholder="Jane Doe">
+            </div>
+            <div class="field">
+              <label for="ref2-email">Email</label>
+              <input type="email" id="ref2-email" name="ref2_email" placeholder="jane@example.com">
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="ref2-rel">Relationship <span class="opt">e.g. Teacher, Coach, Previous employer</span></label>
+            <input type="text" id="ref2-rel" name="ref2_relationship" placeholder="e.g. Drama Teacher, Churchlands SHS">
+          </div>
         </div>
 
         <span class="form-section-label">Anything else</span>
@@ -522,8 +575,21 @@ a{ color:inherit; }
 </footer>
 
 <script>
-// Replace this with your Formspree form ID when ready (e.g. 'xabcdefg')
 var FORMSPREE_ID = 'xvkkzolq';
+
+// Show/hide compliance upload fields
+document.querySelectorAll('input[name="wwc"]').forEach(function(r){
+  r.addEventListener('change', function(){
+    var f = document.getElementById('wwc-upload-field');
+    if(f) f.classList.toggle('visible', this.value === 'Yes, current');
+  });
+});
+document.querySelectorAll('input[name="police"]').forEach(function(r){
+  r.addEventListener('change', function(){
+    var f = document.getElementById('police-upload-field');
+    if(f) f.classList.toggle('visible', this.value === 'Yes, current');
+  });
+});
 
 document.getElementById('appForm').addEventListener('submit', async function(e){
   e.preventDefault();
@@ -532,32 +598,29 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
   btn.disabled = true;
   label.textContent = 'Sending…';
 
-  var data = {};
-  new FormData(this).forEach(function(v, k){ data[k] = v; });
+  var fd = new FormData(this);
 
   var roles = [];
   ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','other'].forEach(function(r){
     var cb = document.querySelector('input[name="role_' + r + '"]');
     if(cb && cb.checked) roles.push(cb.value);
   });
-  data.roles = roles.join(', ') || 'None selected';
+  fd.set('roles', roles.join(', ') || 'None selected');
 
   var availability = [];
   ['weekday_day','weekday_eve','weekend','school_term'].forEach(function(a){
     var cb = document.querySelector('input[name="avail_' + a + '"]');
     if(cb && cb.checked) availability.push(cb.value);
   });
-  data.availability = availability.join(', ') || 'None selected';
+  fd.set('availability', availability.join(', ') || 'None selected');
+  fd.set('_subject', 'New Job Application for Urban Echo');
 
-  data._subject = 'New Job Application for Urban Echo';
-
-  // Use Formspree if ID is set, otherwise fall back to mailto
   if(FORMSPREE_ID && FORMSPREE_ID !== 'xxxxxxxxxxx'){
     try {
       var res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(data)
+        headers: { 'Accept': 'application/json' },
+        body: fd
       });
       if(res.ok){
         document.getElementById('appForm').style.display = 'none';
@@ -567,22 +630,27 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
     } catch(err){}
   }
 
-  // Mailto fallback, builds a pre-filled email to mitchel@urbanecho.com.au
+  // Mailto fallback
+  var data = {};
+  fd.forEach(function(v, k){ if(typeof v === 'string') data[k] = v; });
   var lines = [
     'Name: ' + (data.first_name || '') + ' ' + (data.last_name || ''),
     'Email: ' + (data.email || ''),
     'Phone: ' + (data.phone || ''),
     'Suburb: ' + (data.suburb || ''),
     '',
-    'Roles: ' + data.roles,
+    'Roles: ' + (data.roles || ''),
     'Experience level: ' + (data.experience_level || ''),
     'Experience detail: ' + (data.experience_detail || ''),
     'School experience: ' + (data.school_experience || ''),
     '',
-    'Availability: ' + data.availability,
+    'Availability: ' + (data.availability || ''),
     'WWC Check: ' + (data.wwc || ''),
     'Police Clearance: ' + (data.police || ''),
     'Employment status: ' + (data.employment_status || ''),
+    '',
+    'Reference 1: ' + (data.ref1_name || '') + ' | ' + (data.ref1_email || '') + ' | ' + (data.ref1_relationship || ''),
+    'Reference 2: ' + (data.ref2_name || '') + ' | ' + (data.ref2_email || '') + ' | ' + (data.ref2_relationship || ''),
     '',
     'Notes: ' + (data.notes || ''),
     'How heard: ' + (data.how_heard || '')
