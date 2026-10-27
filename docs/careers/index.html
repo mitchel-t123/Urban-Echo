@@ -487,8 +487,8 @@ a{ color:inherit; }
               <input type="text" id="ref1-name" name="ref1_name" placeholder="John Smith">
             </div>
             <div class="field">
-              <label for="ref1-email">Email</label>
-              <input type="email" id="ref1-email" name="ref1_email" placeholder="john@example.com">
+              <label for="ref1-phone">Phone</label>
+              <input type="tel" id="ref1-phone" name="ref1_phone" placeholder="04xx xxx xxx">
             </div>
           </div>
           <div class="field" style="margin-bottom:0;">
@@ -504,8 +504,8 @@ a{ color:inherit; }
               <input type="text" id="ref2-name" name="ref2_name" placeholder="Jane Doe">
             </div>
             <div class="field">
-              <label for="ref2-email">Email</label>
-              <input type="email" id="ref2-email" name="ref2_email" placeholder="jane@example.com">
+              <label for="ref2-phone">Phone</label>
+              <input type="tel" id="ref2-phone" name="ref2_phone" placeholder="04xx xxx xxx">
             </div>
           </div>
           <div class="field" style="margin-bottom:0;">
@@ -693,8 +693,8 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
     'Police Clearance: ' + (data.police || ''),
     'Employment status: ' + (data.employment_status || ''),
     '',
-    'Reference 1: ' + (data.ref1_name || '') + ' | ' + (data.ref1_email || '') + ' | ' + (data.ref1_relationship || ''),
-    'Reference 2: ' + (data.ref2_name || '') + ' | ' + (data.ref2_email || '') + ' | ' + (data.ref2_relationship || ''),
+    'Reference 1: ' + (data.ref1_name || '') + ' | ' + (data.ref1_phone || '') + ' | ' + (data.ref1_relationship || ''),
+    'Reference 2: ' + (data.ref2_name || '') + ' | ' + (data.ref2_phone || '') + ' | ' + (data.ref2_relationship || ''),
     '',
     'Notes: ' + (data.notes || ''),
     'How heard: ' + (data.how_heard || '')
