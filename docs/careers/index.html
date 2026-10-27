@@ -398,6 +398,10 @@ a{ color:inherit; }
             <label class="check-opt"><input type="checkbox" name="role_maintenance" value="Maintenance"> 🔧 Maintenance</label>
             <label class="check-opt"><input type="checkbox" name="role_other" value="Other"> Other</label>
           </div>
+          <div class="upload-field" id="role-other-field" style="margin-top:12px;">
+            <p>What else can you do?</p>
+            <input type="text" name="role_other_detail" placeholder="e.g. Stage management, pyrotechnics, rigging…" style="font-family:var(--body);font-size:15px;padding:10px 12px;border-radius:8px;border:2px solid rgba(22,21,39,0.2);background:var(--paper);color:var(--ink);width:100%;outline:none;">
+          </div>
         </div>
 
         <span class="form-section-label">Experience</span>
@@ -606,6 +610,15 @@ a{ color:inherit; }
 
 <script>
 var FORMSPREE_ID = 'xvkkzolq';
+
+// Show/hide "Other" role text field
+var roleOtherCb = document.querySelector('input[name="role_other"]');
+if(roleOtherCb){
+  roleOtherCb.addEventListener('change', function(){
+    var f = document.getElementById('role-other-field');
+    if(f) f.classList.toggle('visible', this.checked);
+  });
+}
 
 // Show/hide compliance upload fields
 document.querySelectorAll('input[name="wwc"]').forEach(function(r){
