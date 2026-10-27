@@ -678,35 +678,31 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
   btn.disabled = true;
   label.textContent = 'Sending…';
 
-  var fd = new FormData(this);
+  // Collect all text fields into data object
+  var data = {};
+  new FormData(this).forEach(function(v, k){ if(typeof v === 'string') data[k] = v; });
 
   var roles = [];
   ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','admin','social','other'].forEach(function(r){
     var cb = document.querySelector('input[name="role_' + r + '"]');
     if(cb && cb.checked) roles.push(cb.value);
   });
-  fd.set('roles', roles.join(', ') || 'None selected');
+  data.roles = roles.join(', ') || 'None selected';
 
   var availability = [];
   ['weekday_day','weekday_eve','weekend','school_term'].forEach(function(a){
     var cb = document.querySelector('input[name="avail_' + a + '"]');
     if(cb && cb.checked) availability.push(cb.value);
   });
-  fd.set('availability', availability.join(', ') || 'None selected');
-  fd.set('_subject', 'New Job Application for Urban Echo');
-
-  // Build plain data object for ClickUp (strings only)
-  var data = {};
-  fd.forEach(function(v, k){ if(typeof v === 'string') data[k] = v; });
-  data.roles = fd.get('roles');
-  data.availability = fd.get('availability');
+  data.availability = availability.join(', ') || 'None selected';
+  data._subject = 'New Job Application for Urban Echo';
 
   if(FORMSPREE_ID && FORMSPREE_ID !== 'xxxxxxxxxxx'){
     try {
       var res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
         method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: fd
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
       });
       if(res.ok){
         fetch('https://small-waterfall-7b7f.cass-tinsley1.workers.dev', {
@@ -738,7 +734,7 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
             notes: data.notes || '',
             how_heard: data.how_heard || ''
           })
-        }).catch(function(){});
+        }).then(function(r){ return r.json(); }).then(function(d){ console.log('[ClickUp careers]', d); }).catch(function(err){ console.error('[ClickUp careers error]', err); });
         document.getElementById('appForm').style.display = 'none';
         document.getElementById('appSuccess').style.display = 'block';
         return;
