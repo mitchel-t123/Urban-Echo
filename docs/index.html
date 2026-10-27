@@ -3624,6 +3624,8 @@ const success = document.getElementById('formSuccess');
 const submitBtn = form.querySelector('button[type=submit]');
 
 async function sendToClickUp(data){
+  console.log('[ClickUp] Sending to worker:', CLICKUP_WORKER);
+  console.log('[ClickUp] Payload:', JSON.stringify(data));
   const description =
     `**School:** ${data.school}\n` +
     `**Email:** ${data.email}\n` +
@@ -3632,7 +3634,7 @@ async function sendToClickUp(data){
     `**Preferred contact:** ${data.contact_method}\n` +
     `**How they heard:** ${data.hear_about_us || 'Not specified'}\n\n` +
     `**Message:**\n${data.message || 'No message provided'}`;
-  await fetch(CLICKUP_WORKER, {
+  return await fetch(CLICKUP_WORKER, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -3671,7 +3673,7 @@ form.addEventListener('submit', async function(e){
     });
     if(res.ok){
       // Fire ClickUp in background — don't block success on it
-      sendToClickUp(fields).catch(function(){});
+      sendToClickUp(fields).then(function(r){ console.log('[ClickUp] Response:', r && r.status); }).catch(function(e){ console.error('[ClickUp] Error:', e); });
       // Personalise success state
       const firstName = nameVal.split(' ')[0];
       document.getElementById('successName').textContent = firstName || '';
