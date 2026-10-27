@@ -762,6 +762,22 @@ document.getElementById('eqForm').addEventListener('submit', async function(e){
       body: JSON.stringify(data)
     });
     if(res.ok){
+      fetch('https://wispy-wave-9605.cass-tinsley1.workers.dev/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: `New Enquiry: ${data.name}${data.organisation ? ' ('+data.organisation+')' : ''}`,
+          description: `**Client:** ${data.name}\n**Organisation:** ${data.organisation || 'Not provided'}\n**Email:** ${data.email}\n**Phone:** ${data.phone || 'Not provided'}\n**Service:** ${data.service}\n**Preferred contact:** ${data.contact_method}\n\n**Notes:**\n${data.notes || 'No notes provided'}`,
+          priority: 2,
+          tags: ['enquiry', 'website'],
+          client_name: data.name,
+          organisation: data.organisation || '',
+          email: data.email,
+          phone: data.phone || '',
+          service: data.service,
+          contact_method: data.contact_method
+        })
+      }).catch(function(){});
       document.getElementById('eqForm').style.display='none';
       document.getElementById('eqSuccess').style.display='block';
     } else {
