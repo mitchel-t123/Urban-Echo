@@ -348,7 +348,7 @@ a{ color:inherit; }
     <div class="app-form">
       <form id="appForm" novalidate>
 
-        <span class="form-section-label">About you</span>
+        <span class="form-section-label">👤 About you</span>
         <div class="frow">
           <div class="field">
             <label for="app-first">First Name</label>
@@ -380,7 +380,7 @@ a{ color:inherit; }
           </div>
         </div>
 
-        <span class="form-section-label">Roles you're interested in</span>
+        <span class="form-section-label">🎭 Roles you're interested in</span>
         <div class="field">
           <label>What can you do? <span class="opt">Select all that apply</span></label>
           <div class="check-group">
@@ -404,7 +404,7 @@ a{ color:inherit; }
           </div>
         </div>
 
-        <span class="form-section-label">Experience</span>
+        <span class="form-section-label">💪 Experience</span>
         <div class="field">
           <label for="app-exp-level">Experience level</label>
           <select id="app-exp-level" name="experience_level" required>
@@ -428,7 +428,7 @@ a{ color:inherit; }
           </div>
         </div>
 
-        <span class="form-section-label">Availability &amp; compliance</span>
+        <span class="form-section-label">📅 Availability &amp; compliance</span>
         <div class="field">
           <label>When are you generally available? <span class="opt">Select all that apply</span></label>
           <div class="check-group">
@@ -462,7 +462,7 @@ a{ color:inherit; }
             <input type="file" id="police-card" name="police_card" accept="image/*,.pdf">
           </div>
         </div>
-        <span class="form-section-label">Current situation</span>
+        <span class="form-section-label">💼 Current situation</span>
         <div class="field">
           <label for="app-employment">Current employment status</label>
           <select id="app-employment" name="employment_status">
@@ -477,7 +477,7 @@ a{ color:inherit; }
           </select>
         </div>
 
-        <span class="form-section-label">References</span>
+        <span class="form-section-label">👥 References</span>
         <p style="font-size:13.5px;color:rgba(22,21,39,0.6);line-height:1.6;margin-bottom:20px;">Please provide two character/work references. <strong>At least one must be from a previous employer, work placement, or internship.</strong></p>
         <div class="ref-block">
           <span class="ref-block-label">Reference 1</span>
@@ -514,7 +514,7 @@ a{ color:inherit; }
           </div>
         </div>
 
-        <span class="form-section-label">Anything else</span>
+        <span class="form-section-label">✨ Anything else</span>
         <div class="field">
           <label for="app-notes">Anything else you want us to know? <span class="opt">Optional</span></label>
           <textarea id="app-notes" name="notes" placeholder="Links to work, social media, questions for us, anything at all."></textarea>
@@ -530,6 +530,15 @@ a{ color:inherit; }
             <option>A school I work at</option>
             <option>Other</option>
           </select>
+        </div>
+
+        <span class="form-section-label">📄 Resume</span>
+        <div class="field">
+          <label for="app-resume">Attach your resume <span class="opt">Optional</span></label>
+          <div style="padding:16px 18px;background:var(--cream);border:2px dashed rgba(22,21,39,0.25);border-radius:10px;">
+            <input type="file" id="app-resume" name="resume" accept=".pdf,.doc,.docx" style="font-family:var(--body);font-size:14px;color:var(--ink);width:100%;">
+            <p style="font-size:12.5px;color:rgba(22,21,39,0.5);margin-top:10px;line-height:1.5;">Not required to apply — but it does give you some extra brownie points 🍫<br>PDF or Word document accepted.</p>
+          </div>
         </div>
 
         <button type="submit" class="submit-btn" id="appSubmit">
