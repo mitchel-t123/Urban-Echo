@@ -1487,12 +1487,6 @@ function doLogout(){
 
     if(!user){ window.location.replace('login.html'); return; }
 
-    // Show admin button immediately after confirming user identity
-    if(user.id === 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV'){
-      document.getElementById('adminLink').style.display = 'inline';
-      document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
-    }
-
     // ── Get Supabase JWT from Clerk ──
     var supabaseToken = await clerkInstance.session.getToken({ template: 'supabase' });
 
@@ -1515,6 +1509,12 @@ function doLogout(){
 
     // ── Load Rentman roster for this user ──
     var userEmail = user.emailAddresses[0].emailAddress;
+
+    // Show admin button for admin users
+    if(userEmail === 'mitchel@urbanecho.com.au'){
+      document.getElementById('adminLink').style.display = 'inline';
+      document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
+    }
     loadRentmanRoster(userEmail);
 
     if(profile){
