@@ -758,9 +758,74 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Step-by-step process for approving and onboarding new crew members from application to first event.</p>
           <span class="portal-card-tag">Open guide →</span>
         </div>
+        <button id="openWelcomeEmailPortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
+          <span class="portal-card-icon">✉️</span>
+          <h3>Welcome Email</h3>
+          <p>Ready-to-copy welcome email template for newly approved crew members.</p>
+          <span class="portal-card-tag">View &amp; copy →</span>
+        </button>
       </div>
     </div>
   </section>
+
+  <!-- WELCOME EMAIL MODAL (admin only) -->
+  <div class="modal-overlay" id="welcomeEmailPortalModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Welcome Email Template</span>
+        <button id="copyWelcomeEmailPortal" style="background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Copy Email</button>
+        <button id="welcomeEmailPortalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <div style="padding:16px 24px 0;flex-shrink:0;">
+        <div style="background:rgba(63,63,240,0.07);border:1px solid rgba(63,63,240,0.18);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(22,21,39,0.7);line-height:1.5;">
+          <strong style="color:var(--ink);">Subject:</strong> Welcome to Urban Echo — You're In! 🎉 &nbsp;·&nbsp; <strong style="color:var(--ink);">Attach:</strong> Contractor Agreement (Sole Trader)
+        </div>
+      </div>
+      <div style="padding:24px;" id="welcomeEmailPortalHTML">
+        <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;background:#FFFCF5;border:2px solid #161527;border-radius:16px;overflow:hidden;">
+          <div style="background:#161527;padding:28px 36px 24px;">
+            <div style="font-family:Arial,sans-serif;font-weight:900;font-size:22px;color:#FBF5E7;letter-spacing:-0.02em;">URBAN ECHO</div>
+            <div style="font-size:12px;color:rgba(251,245,231,0.55);margin-top:4px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">Production &amp; Events</div>
+          </div>
+          <div style="padding:36px;">
+            <h1 style="font-family:Arial,sans-serif;font-weight:900;font-size:28px;color:#161527;margin:0 0 8px;letter-spacing:-0.02em;">You're in! 🎉</h1>
+            <p style="font-size:16px;color:rgba(22,21,39,0.7);margin:0 0 24px;line-height:1.6;">Hey [First Name],</p>
+            <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 24px;">We've reviewed your application and we're stoked to welcome you to the <strong>Urban Echo crew</strong>. You're now officially part of the team — let's get you set up.</p>
+            <div style="background:#F4F0FF;border-left:4px solid #3F3FF0;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:16px;">
+              <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#3F3FF0;margin-bottom:8px;">Step 1 — Join our Slack</div>
+              <p style="font-size:14px;color:#161527;margin:0 0 14px;line-height:1.6;">All crew comms happen on Slack — shift updates, event briefs, and team chat. Click below to join the workspace:</p>
+              <a href="https://join.slack.com/t/urbanechoworkspace/shared_invite/zt-4ek7pbyr7-yDUq4rOCeRZcYVztb952cA" style="display:inline-block;background:#4A154B;color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:12px 24px;border-radius:8px;">Join Urban Echo on Slack →</a>
+            </div>
+            <div style="background:#FFF8F0;border-left:4px solid #F4612E;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:16px;">
+              <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#F4612E;margin-bottom:8px;">Step 2 — Sign the contractor agreement</div>
+              <p style="font-size:14px;color:#161527;margin:0;line-height:1.6;">We've attached a contractor agreement to this email. Please read through and sign it — takes about 2 minutes. You can sign digitally on our website or scan and return it.</p>
+            </div>
+            <div style="background:#F0FFF6;border-left:4px solid #4AAE74;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:24px;">
+              <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#4AAE74;margin-bottom:8px;">Step 3 — Compliance checks</div>
+              <p style="font-size:14px;color:#161527;margin:0;line-height:1.6;">Before your first event we'll need your <strong>Working With Children Check</strong> and <strong>National Police Certificate</strong> on file. If you don't have these yet, no stress — just get them sorted before your first gig and send us a copy.</p>
+            </div>
+            <h2 style="font-family:Arial,sans-serif;font-weight:900;font-size:17px;color:#161527;margin:0 0 12px;letter-spacing:-0.01em;">What to expect next</h2>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 8px;">We'll be in touch via Slack to arrange a quick coffee catch-up with Mitchel before your first event. From there, your first shift will be a shadow — you come along, watch the show, and get a feel for how we run things. No pressure, just vibes.</p>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 24px;">After that you'll be added to the crew pool and we'll start rostering you in for events that suit your availability.</p>
+            <div style="background:#F7F7FF;border:1.5px solid rgba(63,63,240,0.15);border-radius:12px;padding:20px 22px;margin-bottom:28px;">
+              <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#3F3FF0;margin-bottom:12px;">Good to know</div>
+              <ul style="margin:0;padding:0 0 0 18px;font-size:14px;color:#161527;line-height:1.9;">
+                <li>Events are posted in Slack — keep an eye on <strong>#urban-echo-team-chat</strong></li>
+                <li>Dress code is always <strong>all black</strong> unless told otherwise</li>
+                <li>Arrive <strong>15–30 mins before</strong> the crew call time</li>
+                <li>Any questions? Just message us in Slack — we're always around</li>
+              </ul>
+            </div>
+            <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 6px;">Pumped to have you on board 🙌</p>
+            <p style="font-size:15px;color:#161527;margin:0;font-weight:700;">— Mitchel &amp; the Urban Echo team</p>
+          </div>
+          <div style="background:#161527;padding:20px 36px;text-align:center;">
+            <p style="font-size:11px;color:rgba(251,245,231,0.45);margin:0;line-height:1.6;">Urban Echo · Perth, WA · <a href="https://urbanecho.com.au" style="color:rgba(251,245,231,0.45);">urbanecho.com.au</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ONBOARDING GUIDE MODAL -->
   <div class="modal-overlay" id="onboardingModal" style="padding:16px;">
@@ -1425,6 +1490,7 @@ function doLogout(){
     // Show admin button immediately after confirming user identity
     if(user.id === 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV'){
       document.getElementById('adminLink').style.display = 'inline';
+      document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
     }
 
     // ── Get Supabase JWT from Clerk ──
@@ -1992,6 +2058,32 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
   openBtn.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+})();
+
+// ── Welcome Email modal (admin only) ─────────────────────────
+(function(){
+  var btn   = document.getElementById('openWelcomeEmailPortal');
+  var modal = document.getElementById('welcomeEmailPortalModal');
+  var close = document.getElementById('welcomeEmailPortalClose');
+  var copyBtn = document.getElementById('copyWelcomeEmailPortal');
+  if(!btn||!modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  btn.addEventListener('click', openM);
+  close.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+  copyBtn.addEventListener('click', async function(){
+    var html = document.getElementById('welcomeEmailPortalHTML').innerHTML;
+    try {
+      await navigator.clipboard.write([new ClipboardItem({'text/html': new Blob([html], {type:'text/html'}), 'text/plain': new Blob([document.getElementById('welcomeEmailPortalHTML').innerText], {type:'text/plain'})})]);
+      copyBtn.textContent = '✓ Copied!';
+    } catch(e) {
+      var ta = document.createElement('textarea'); ta.value = document.getElementById('welcomeEmailPortalHTML').innerText;
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      copyBtn.textContent = '✓ Copied (plain text)';
+    }
+    setTimeout(function(){ copyBtn.textContent = 'Copy Email'; }, 2500);
+  });
 })();
 
 // ── Portal Help modal ────────────────────────────────────────
