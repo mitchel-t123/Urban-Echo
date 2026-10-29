@@ -716,6 +716,126 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     </div>
   </section>
 
+  <!-- SOPs -->
+  <section class="portal-section">
+    <div class="wrap">
+      <h2>SOPs</h2>
+      <div class="portal-cards" style="margin-bottom:0;">
+        <div class="portal-card" id="openOnboardingGuide">
+          <span class="portal-card-icon">🎛️</span>
+          <h3>Crew Onboarding Guide</h3>
+          <p>Step-by-step process for approving and onboarding new crew members from application to first event.</p>
+          <span class="portal-card-tag">Open guide →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONBOARDING GUIDE MODAL -->
+  <div class="modal-overlay" id="onboardingModal" style="padding:16px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:720px;max-height:92vh;overflow-y:auto;position:relative;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Crew Onboarding Guide</span>
+        <button id="onboardingModalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <div style="padding:32px 28px 40px;">
+
+        <!-- Phase 1 -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(22,21,39,0.45);white-space:nowrap;">Phase 1 — Review the Application</span>
+          <div style="flex:1;height:1px;background:rgba(22,21,39,0.12);"></div>
+        </div>
+        <div style="background:rgba(63,63,240,0.07);border:1px solid rgba(63,63,240,0.18);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.5;color:rgba(22,21,39,0.7);margin-bottom:16px;display:flex;gap:10px;">
+          <span style="font-size:16px;flex-shrink:0;">⚡</span>
+          <span><strong style="color:var(--ink);">Automated:</strong> When someone submits an application, ClickUp auto-creates a task with their details, a pre-filled welcome email comment, and a 10-step onboarding checklist.</span>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">1</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Open the ClickUp task</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Go to the <strong>Applications</strong> list in ClickUp. The new task is named "Application — [Full Name]". Check roles, experience, availability, WWC/police status, and suburb.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:24px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">2</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Decide: Approve or decline</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Make the call and move the task to <strong>Approved</strong> or <strong>Declined</strong> in ClickUp. If declining, add a brief note in comments for your records.</div>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(22,21,39,0.45);white-space:nowrap;">Phase 2 — Welcome &amp; Admin</span>
+          <div style="flex:1;height:1px;background:rgba(22,21,39,0.12);"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">3</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Send welcome email + contractor agreement</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Open the ClickUp task → comments — the welcome email is pre-drafted. Click <strong>Copy Email</strong> on the template page, paste into Gmail, and <strong>attach the contractor agreement</strong> before sending. Subject: <strong>Welcome to Urban Echo — You're In! 🎉</strong></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">4</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Confirm compliance checks</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Both <strong>WWC</strong> and <strong>National Police Certificate</strong> must be on file before any event.<br><br>
+            If not yet obtained:<br>
+            • <strong>WWC:</strong> <a href="https://www.workingwithchildren.wa.gov.au" target="_blank" style="color:var(--indigo);font-weight:600;">workingwithchildren.wa.gov.au</a> — free for volunteers, ~$11 for paid workers<br>
+            • <strong>Police Check:</strong> <a href="https://www.police.wa.gov.au/Police-Direct/National-Police-Certificate" target="_blank" style="color:var(--indigo);font-weight:600;">police.wa.gov.au</a> (~$42)</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">5</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Check they're in Slack</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Confirm they've joined via the invite link in the welcome email and can see messages in <strong>#urban-echo-team-chat</strong>. Say hello and introduce them to the group.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:24px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">6</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Arrange a coffee catch-up</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Book a quick coffee with Mitchel before their first event — 20–30 mins. Great chance to get to know them, answer questions, and make them feel genuinely welcomed.</div>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(22,21,39,0.45);white-space:nowrap;">Phase 3 — Their First Event</span>
+          <div style="flex:1;height:1px;background:rgba(22,21,39,0.12);"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--forest);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">7</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Complete a site induction</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Mitchel walks them through gear, setup, and a typical event. About an hour — book before their first job.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--forest);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">8</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Shadow their first event</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">First job is always a shadow — they observe the full show with no pressure. Confirm date/time/venue via Slack, brief them on all-black attire and arrival time.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:20px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--forest);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">9</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Add to the crew pool</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Add to the crew roster, collect bank details/ABN, post a welcome in <strong>#urban-echo-team-chat</strong>, mark all checklist items complete, and move the ClickUp task to <strong>Complete</strong>.</div>
+          </div>
+        </div>
+        <div style="background:rgba(212,134,10,0.08);border:1px solid rgba(212,134,10,0.25);border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.5;color:rgba(22,21,39,0.7);display:flex;gap:10px;">
+          <span style="font-size:16px;flex-shrink:0;">⚠️</span>
+          <span><strong style="color:var(--ink);">Never send someone to an event solo</strong> until they have completed the site induction, a shadow event, and both compliance checks are confirmed on file.</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- WWC + COMPLIANCE -->
   <section class="portal-section">
     <div class="wrap">
@@ -1788,6 +1908,19 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo
   openBtn.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+})();
+
+// ── Onboarding Guide modal ───────────────────────────────────
+(function(){
+  var openBtn  = document.getElementById('openOnboardingGuide');
+  var modal    = document.getElementById('onboardingModal');
+  var closeBtn = document.getElementById('onboardingModalClose');
+  if(!openBtn || !modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  openBtn.addEventListener('click', openM);
+  closeBtn.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
 })();
 </script>
 </body>
