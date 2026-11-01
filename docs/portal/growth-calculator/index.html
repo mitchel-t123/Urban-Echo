@@ -237,6 +237,37 @@ input:focus, select:focus{ border-color:var(--indigo); }
   gap:16px;
 }
 
+/* ── ADMIN ROLES ── */
+.ar-rows{ display:flex; flex-direction:column; gap:12px; }
+.ar-row{
+  display:grid;
+  grid-template-columns:1fr 140px 38px;
+  gap:10px; align-items:end;
+}
+@media(max-width:640px){
+  .ar-row{ grid-template-columns:1fr 110px 38px; }
+}
+.ar-total{
+  display:flex; justify-content:space-between; align-items:center;
+  padding-top:16px; margin-top:16px;
+  border-top:2px solid var(--line);
+}
+.ar-total-lbl{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:rgba(22,21,39,0.5);
+}
+.ar-total-val{
+  font-family:var(--mono); font-size:24px; font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── TWO-COL CONFIG ── */
+.config-row{
+  display:grid; grid-template-columns:1fr 1fr; gap:20px;
+}
+@media(max-width:600px){ .config-row{ grid-template-columns:1fr; } }
+
 /* ── BREAKDOWN ── */
 .bd-grid{
   display:grid; grid-template-columns:1fr 1fr; gap:24px;
@@ -431,24 +462,44 @@ footer{
   </div>
 </div>
 
-<!-- ── STEP 3: Volume ── -->
+<!-- ── STEP 3a: Admin Roles ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 3 — Weekly Volume</h2>
+    <h2>Step 3 — Admin &amp; Support Costs</h2>
     <div class="portal-card-base">
-      <div class="job-grid">
+      <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:20px;line-height:1.6;">Track every admin and support function that costs money each week. These are included in your profit calculations alongside business overheads.</p>
+      <div class="ar-rows" id="ar-rows"></div>
+      <div style="margin-top:16px;">
+        <button class="btn btn-ghost btn-sm" onclick="addAdminRole()">+ Add Role / Function</button>
+      </div>
+      <div class="ar-total">
+        <span class="ar-total-lbl">Total Admin Cost / Week</span>
+        <span class="ar-total-val" id="ar-total">$0.00</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── STEP 3b: Jobs & Target ── -->
+<div class="portal-section">
+  <div class="wrap">
+    <h2>Step 3b — Volume &amp; Target</h2>
+    <div class="config-row">
+      <div class="portal-card-base">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.45);margin-bottom:14px;">Weekly Jobs</div>
         <div class="field">
           <label>Jobs Per Week</label>
           <input type="number" id="jobs-wk" value="3" min="0" step="1" oninput="recalc()">
         </div>
-        <div class="field">
-          <label>Admin Pay ($/week)</label>
-          <input type="number" id="admin-wk" value="800" min="0" step="50" oninput="recalc()">
-        </div>
+        <p style="font-size:12px;color:rgba(22,21,39,0.4);margin-top:10px;line-height:1.55;">How many paid gigs you run in a typical week. This scales all revenue and cost figures.</p>
+      </div>
+      <div class="portal-card-base">
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.45);margin-bottom:14px;">Profit Target</div>
         <div class="field">
           <label>Target Net Margin (%)</label>
           <input type="number" id="tgt-margin" value="40" min="1" max="99" step="1" oninput="recalc()">
         </div>
+        <p style="font-size:12px;color:rgba(22,21,39,0.4);margin-top:10px;line-height:1.55;">Your goal. All growth targets and gap calculations work backwards from this percentage.</p>
       </div>
     </div>
   </div>
@@ -498,6 +549,7 @@ footer{
 <script>
 /* ── State ─────────────────────────────────────── */
 var overheads = [];
+var adminRoles = [];
 
 function loadState(){
   try{
@@ -512,10 +564,25 @@ function loadState(){
       { name:'Insurance',           amount:2000, freq:'yearly' },
     ];
   }
+  try{
+    var r = localStorage.getItem('ue-gc-adminroles');
+    if(r) adminRoles = JSON.parse(r);
+  }catch(e){}
+  if(!adminRoles.length){
+    adminRoles = [
+      { name:'Quoting / Invoicing', amount:0 },
+      { name:'Client Follow Up',    amount:0 },
+      { name:'Tours',               amount:0 },
+      { name:'Social Media',        amount:0 },
+      { name:'HR',                  amount:0 },
+      { name:'Crewing',             amount:0 },
+    ];
+  }
 }
 
 function saveState(){
   try{ localStorage.setItem('ue-gc-overheads', JSON.stringify(overheads)); }catch(e){}
+  try{ localStorage.setItem('ue-gc-adminroles', JSON.stringify(adminRoles)); }catch(e){}
 }
 
 /* ── Overhead helpers ──────────────────────────── */
@@ -563,6 +630,44 @@ function renderOverheads(){
   }).join('');
 }
 
+/* ── Admin role helpers ────────────────────────── */
+function addAdminRole(){
+  adminRoles.push({ name:'', amount:0 });
+  saveState(); renderAdminRoles(); recalc();
+}
+function removeAdminRole(i){
+  adminRoles.splice(i,1);
+  saveState(); renderAdminRoles(); recalc();
+}
+function updateAr(i,field,val){
+  adminRoles[i][field] = field==='amount' ? (parseFloat(val)||0) : val;
+  saveState(); recalc();
+}
+
+function renderAdminRoles(){
+  var el = document.getElementById('ar-rows');
+  if(!adminRoles.length){
+    el.innerHTML = '<p style="font-size:13px;color:rgba(22,21,39,0.4);padding:4px 0;">No admin functions yet — click Add Role to get started.</p>';
+    document.getElementById('ar-total').textContent = '$0.00';
+    return;
+  }
+  el.innerHTML = adminRoles.map(function(r,i){
+    return '<div class="ar-row">' +
+      '<div class="field"><label>Function / Role</label>' +
+        '<input type="text" value="'+esc(r.name)+'" placeholder="e.g. Bookkeeping" oninput="updateAr('+i+',\'name\',this.value)">' +
+      '</div>' +
+      '<div class="field"><label>Cost ($/week)</label>' +
+        '<input type="number" value="'+r.amount+'" min="0" step="10" placeholder="0" oninput="updateAr('+i+',\'amount\',this.value)">' +
+      '</div>' +
+      '<div style="display:flex;align-items:flex-end;">' +
+        '<button class="btn btn-danger btn-sm" onclick="removeAdminRole('+i+')" style="width:38px;height:38px;padding:0;display:flex;align-items:center;justify-content:center;font-size:14px;border-radius:10px;">✕</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  var total = adminRoles.reduce(function(s,r){ return s + (parseFloat(r.amount)||0); }, 0);
+  document.getElementById('ar-total').textContent = '$'+f2(total);
+}
+
 /* ── Tier helper ───────────────────────────────── */
 function getTier(n){
   var base   = pf('t'+n+'-base');
@@ -598,7 +703,7 @@ function renderTierSum(n,t){
 function recalc(){
   var t1 = getTier(1), t2 = getTier(2), t3 = getTier(3);
   var jobsWk  = pf('jobs-wk');
-  var adminWk = pf('admin-wk');
+  var adminWk = adminRoles.reduce(function(s,r){ return s + (parseFloat(r.amount)||0); }, 0);
   var tgtMgn  = pf('tgt-margin');
 
   var revJob  = t1.revJob  + t2.revJob  + t3.revJob;
@@ -752,7 +857,7 @@ var FIELD_IDS = [
   't1-name','t1-base','t1-super','t1-oncost','t1-charge','t1-count','t1-hours',
   't2-name','t2-base','t2-super','t2-oncost','t2-charge','t2-count','t2-hours',
   't3-name','t3-base','t3-super','t3-oncost','t3-charge','t3-count','t3-hours',
-  'jobs-wk','admin-wk','tgt-margin'
+  'jobs-wk','tgt-margin'
 ];
 
 function saveFields(){
@@ -794,6 +899,7 @@ function setMet(id,text,cls){
 loadState();
 loadFields();
 renderOverheads();
+renderAdminRoles();
 recalc();
 
 // Wire up save on every field change
