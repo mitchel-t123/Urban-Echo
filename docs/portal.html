@@ -1609,7 +1609,7 @@ function renderQuickLinks(role){
   grid.innerHTML = keys.map(function(key){
     var l = QUICK_LINKS[key];
     return '<a class="ql-card" href="'+l.href+'" target="_blank" rel="noopener">'+
-      '<div class="ql-action">'+l.action+'</div>'+
+      '<h3 class="ql-action">'+l.action+'</h3>'+
       '<div class="ql-desc">'+l.desc+'</div>'+
       '<div class="ql-app-bubble">'+
         '<img src="'+l.favicon+'" alt="" width="16" height="16">'+
