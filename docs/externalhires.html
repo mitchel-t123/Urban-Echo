@@ -159,8 +159,8 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 
 /* Equipment grid */
 .eq-heading {
-  font-size:0.72rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:0.13em; color:rgba(22,21,39,0.4); margin-bottom:14px;
+  font-family:var(--body); font-size:1.1rem; font-weight:800;
+  letter-spacing:-0.02em; color:var(--ink); margin-bottom:16px;
 }
 .eq-grid {
   display:grid; grid-template-columns:repeat(4,1fr);
@@ -206,7 +206,16 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 }
 .eq-card.checked .eq-price-input { border-color:rgba(22,21,39,0.35); background:#fff; }
 .eq-price-input:focus { border-color:var(--ink); box-shadow:2px 2px 0 var(--ink); }
-.eq-tap-hint { font-size:0.68rem; color:rgba(22,21,39,0.35); margin-top:8px; font-weight:500; }
+.eq-tap-hint { display:none; }
+.eq-add-badge {
+  position:absolute; top:10px; right:10px;
+  width:22px; height:22px; border-radius:50%;
+  background:var(--cream); border:2px solid rgba(22,21,39,0.2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; color:rgba(22,21,39,0.45);
+  line-height:1; pointer-events:none; transition:all 0.15s;
+}
+.eq-card.checked .eq-add-badge { display:none; }
 
 /* Custom "Add other" card */
 .eq-add-card {
@@ -258,8 +267,8 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:32px;
 }
 .services-panel h3 {
-  font-family:var(--display); font-size:1.25rem; letter-spacing:-0.01em;
-  font-weight:900; color:var(--ink); margin-bottom:24px;
+  font-family:var(--body); font-size:1.25rem; letter-spacing:-0.02em;
+  font-weight:800; color:var(--ink); margin-bottom:24px;
   padding-bottom:16px; border-bottom:2.5px solid var(--ink);
 }
 
@@ -464,7 +473,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .meet-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 @media(max-width:600px){ .meet-row { grid-template-columns:1fr; } }
 .meet-card .field { margin-bottom:0; }
-.meet-card .field label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; font-family:var(--mono); color:rgba(22,21,39,0.5); display:block; margin-bottom:7px; }
+.meet-card .field label { font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; font-family:var(--body); color:var(--ink); display:block; margin-bottom:7px; }
 .meet-card .field input, .meet-card .field textarea, .meet-card .field select { width:100%; padding:11px 14px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:16px; font-family:var(--body); background:#fff; color:var(--ink); outline:none; transition:border-color 0.18s; box-sizing:border-box; -webkit-appearance:none; appearance:none; }
 .meet-card .field input:focus, .meet-card .field textarea:focus, .meet-card .field select:focus { border-color:var(--indigo); }
 .meet-card .field textarea { min-height:90px; resize:vertical; }
@@ -510,7 +519,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .enq-form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 @media(max-width:500px){ .enq-form-row { grid-template-columns:1fr; } }
 .enq-field { margin-bottom:16px; }
-.enq-field label { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(22,21,39,0.45); margin-bottom:6px; font-family:var(--mono); }
+.enq-field label { display:block; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink); margin-bottom:6px; font-family:var(--body); }
 .enq-input { width:100%; box-sizing:border-box; padding:12px 14px; font-family:var(--body); font-size:15px; border:2px solid rgba(22,21,39,0.12); border-radius:10px; background:var(--cream); color:var(--ink); outline:none; transition:border-color 0.18s; -webkit-appearance:none; }
 .enq-input:focus { border-color:var(--indigo); background:#fff; }
 .enq-textarea { min-height:110px; resize:vertical; }
@@ -724,9 +733,10 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
     </div>
 
     <!-- Equipment -->
-    <div class="eq-heading">Tick anything you'd like to upgrade (optional)</div>
+    <h3 class="eq-heading">Tick anything you'd like to upgrade <span style="font-weight:600;color:rgba(22,21,39,0.4);font-size:0.85em;">(optional)</span></h3>
     <div class="eq-grid">
       <div class="eq-card" id="eq0" onclick="toggleEquipment('eq0')">
+        <div class="eq-add-badge">+</div>
         <div class="eq-icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="16" height="10" rx="2"/><path d="M6 14v2M12 14v2M4 16h10"/></svg>
         </div>
@@ -735,9 +745,9 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
           <span class="eq-price-sym">$</span>
           <input class="eq-price-input" id="eq0_price" type="number" value="3500" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
-        <div class="eq-tap-hint">Tap to include</div>
       </div>
       <div class="eq-card" id="eq1" onclick="toggleEquipment('eq1')">
+        <div class="eq-add-badge">+</div>
         <div class="eq-icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="5" width="14" height="8" rx="2"/><path d="M5 9h2M9 9h4M5 11.5h2"/><circle cx="14" cy="9" r="1"/></svg>
         </div>
@@ -746,9 +756,9 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
           <span class="eq-price-sym">$</span>
           <input class="eq-price-input" id="eq1_price" type="number" value="2500" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
-        <div class="eq-tap-hint">Tap to include</div>
       </div>
       <div class="eq-card" id="eq2" onclick="toggleEquipment('eq2')">
+        <div class="eq-add-badge">+</div>
         <div class="eq-icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="7" r="3"/><path d="M9 10v4M7 14h4"/><path d="M4 4l2 2M14 4l-2 2"/></svg>
         </div>
@@ -757,9 +767,9 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
           <span class="eq-price-sym">$</span>
           <input class="eq-price-input" id="eq2_price" type="number" value="1800" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
-        <div class="eq-tap-hint">Tap to include</div>
       </div>
       <div class="eq-card" id="eq3" onclick="toggleEquipment('eq3')">
+        <div class="eq-add-badge">+</div>
         <div class="eq-icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="5" width="12" height="8" rx="2"/><path d="M13 7l4-2v6l-4-2"/></svg>
         </div>
@@ -768,9 +778,9 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
           <span class="eq-price-sym">$</span>
           <input class="eq-price-input" id="eq3_price" type="number" value="2000" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
-        <div class="eq-tap-hint">Tap to include</div>
       </div>
       <div class="eq-card" id="eq4" onclick="toggleEquipment('eq4')">
+        <div class="eq-add-badge">+</div>
         <div class="eq-icon">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="12" width="16" height="4" rx="1"/><path d="M3 12V6a6 6 0 0 1 12 0v6"/></svg>
         </div>
@@ -779,7 +789,6 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
           <span class="eq-price-sym">$</span>
           <input class="eq-price-input" id="eq4_price" type="number" value="4000" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
-        <div class="eq-tap-hint">Tap to include</div>
       </div>
       <!-- Custom "Add other" card -->
       <div class="eq-card eq-add-card" id="eqAddCard">
