@@ -2703,20 +2703,10 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </header>
 
 <!-- ============ SYMPTOM CHECKER CTA ============ -->
-<div id="symptomCheckerCta" style="background:#ffffff;border-bottom:3px solid var(--ink);">
-  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;padding-bottom:18px;flex-wrap:wrap;">
-    <span style="font-family:var(--display,sans-serif);font-size:17px;font-weight:800;letter-spacing:-0.01em;text-transform:uppercase;white-space:nowrap;">Schools Symptom Checker</span>
-    <button onclick="openSymptomChecker()" style="
-      display:inline-flex;align-items:center;gap:10px;flex-shrink:0;
-      font-family:var(--mono,monospace);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;
-      background:var(--ink,#161527);color:#fff;
-      border:2px solid var(--ink,#161527);border-radius:100px;
-      padding:11px 22px;cursor:pointer;
-      transition:opacity 0.15s;
-    " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-      Assess My AV Stress
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
+<div id="symptomCheckerCta" style="background:var(--cream);border-bottom:3px solid var(--ink);">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:16px;padding-bottom:16px;flex-wrap:wrap;">
+    <span class="hero-tag"><span class="dot"></span>Schools Symptom Checker</span>
+    <button onclick="openSymptomChecker()" class="btn btn-blue" style="flex-shrink:0;">Assess My AV Stress &rarr;</button>
   </div>
 </div>
 
