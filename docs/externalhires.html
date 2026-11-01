@@ -530,7 +530,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 /* ─── Receipt heading ─── */
 .receipt-h3 { font-family:var(--display); font-size:1.25rem; letter-spacing:-0.01em; font-weight:900; color:var(--ink); margin-bottom:24px; padding-bottom:16px; border-bottom:2.5px solid var(--ink); }
 /* ─── Hires answer (under cost breakdown receipt) ─── */
-.hires-answer { margin-top:16px; }
+.hires-answer { margin:16px 16px 16px; }
 .hires-answer .receipt-result { margin:0; border-radius:12px; }
 .hires-answer .result-term { font-size:0.88rem; font-weight:700; color:rgba(255,255,255,0.75); display:block; margin-top:4px; letter-spacing:0.02em; }
 </style>
@@ -808,10 +808,10 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <div class="hires-answer">
           <div class="receipt-result">
             <div>
-              <span class="result-n" id="rHiresOngoing">5</span>
-              <span class="result-term" id="rHiresPerTerm">≈ 2 per term</span>
+              <span class="result-n" id="rHiresOngoing">2</span>
+              <span class="result-lbl">hires per term</span>
             </div>
-            <span class="result-lbl">hires per year to cover your ongoing costs</span>
+            <span class="result-term" id="rHiresPerTerm">≈ 6 hires per year</span>
           </div>
           <div class="receipt-year1" id="rYear1Box" style="margin-top:14px;margin:14px 0 0;">
             <span class="y1-n" id="rHiresYear1">5</span>
@@ -872,18 +872,6 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <h4>A self-funding cycle</h4>
         <p>A well-run venue gets booked again. Hirers leave good reviews. Your calendar fills. The revenue grows without touching your budget.</p>
       </div>
-    </div>
-    <h3 class="cycle-heading">Create a circular revenue stream</h3>
-    <div class="cycle-row">
-      <span class="cycle-chip c-orange">Hire out your space</span>
-      <span class="cycle-arr">→</span>
-      <span class="cycle-chip c-indigo">Revenue funds Urban Echo</span>
-      <span class="cycle-arr">→</span>
-      <span class="cycle-chip c-forest">Better internal events</span>
-      <span class="cycle-arr">→</span>
-      <span class="cycle-chip c-cream">Stronger venue reputation</span>
-      <span class="cycle-arr">→</span>
-      <span class="cycle-chip c-orange">More external bookings</span>
     </div>
   </div>
 </section>
@@ -1185,16 +1173,14 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
     }
 
     /* Animate key numbers */
-    animN(document.getElementById('rHiresOngoing'), hiresOngoing);
+    var hiresPerTerm = Math.ceil(hiresOngoing / 4);
+    animN(document.getElementById('rHiresOngoing'), hiresPerTerm);
     animN(document.getElementById('rHiresYear1'),   hiresYear1);
     animN(document.getElementById('heroHires'),     hiresYear1);
 
     /* Per-term label */
-    var perTerm = (hiresOngoing / 4);
-    var perTermTxt = perTerm <= 1 ? '≈ 1 per term' :
-                     perTerm % 1 === 0 ? '= ' + perTerm + ' per term' :
-                     '≈ ' + Math.ceil(perTerm * 2) / 2 + ' per term';
-    document.getElementById('rHiresPerTerm').textContent = perTermTxt;
+    var perYearTxt = hiresOngoing === 1 ? '1 hire per year' : hiresOngoing + ' hires per year';
+    document.getElementById('rHiresPerTerm').textContent = perYearTxt;
 
     /* Benefit card unlocking */
     BENEFITS.forEach(function(b) {
