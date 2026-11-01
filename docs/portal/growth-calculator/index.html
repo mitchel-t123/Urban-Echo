@@ -62,33 +62,28 @@ body{
   border-bottom: 4px solid var(--indigo);
   padding: 36px 0 40px;
 }
-.stats-eyebrow{
-  font-family: var(--mono); font-size:11px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.16em;
-  color:rgba(255,252,245,0.3);
-  display:flex; align-items:center; gap:14px;
-  margin-bottom:28px;
-}
-.stats-eyebrow::after{
-  content:''; flex:1; height:1px;
-  background:rgba(255,252,245,0.08);
-}
 .stats-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:0;
+  display:flex; align-items:center; gap:0; flex-wrap:wrap;
 }
-@media(max-width:780px){
-  .stats-grid{ grid-template-columns:repeat(3,1fr); gap:28px 0; }
-}
-@media(max-width:480px){
-  .stats-grid{ grid-template-columns:repeat(2,1fr); gap:28px 0; }
+.stats-pill{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:8px 18px; border-radius:100px;
+  background:var(--forest); color:#fff;
+  border:2px solid var(--forest-deep);
+  white-space:nowrap; flex-shrink:0;
+  margin-right:32px;
 }
 .met{
   padding:0 32px 0 0;
   border-right:1px solid rgba(255,252,245,0.08);
+  flex-shrink:0;
 }
 .met:last-child{ border-right:none; padding-right:0; }
+@media(max-width:780px){
+  .stats-pill{ margin-bottom:24px; margin-right:0; flex-basis:100%; }
+  .met{ padding:0 24px 0 0; }
+}
 .met-lbl{
   font-family:var(--mono); font-size:10px; font-weight:700;
   text-transform:uppercase; letter-spacing:0.12em;
@@ -473,8 +468,8 @@ footer{
 <!-- Stats panel -->
 <div class="stats-panel">
   <div class="wrap">
-    <div class="stats-eyebrow">Our Current Stats</div>
     <div class="stats-grid">
+      <span class="stats-pill">Our Current Stats</span>
       <div class="met"><div class="met-lbl">Weekly Revenue</div><div class="met-val" id="m-rev">$0</div></div>
       <div class="met"><div class="met-lbl">Weekly Net Profit</div><div class="met-val" id="m-net">$0</div></div>
       <div class="met"><div class="met-lbl">Net Margin</div><div class="met-val" id="m-margin">0%</div></div>
