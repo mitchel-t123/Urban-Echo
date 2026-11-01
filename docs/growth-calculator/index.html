@@ -342,6 +342,15 @@ footer{
   </div>
 </nav>
 
+<!-- Page header -->
+<div class="portal-header">
+  <div class="wrap">
+    <span class="portal-eyebrow">Super Admin · Financial Tools</span>
+    <h1>Growth Calculator</h1>
+    <p>Model overheads, crew pricing, and job margins. Build toward 40% net profit with a value-based pricing framework.</p>
+  </div>
+</div>
+
 <!-- Metric bar -->
 <div class="metric-bar">
   <div class="metric-inner">
@@ -350,15 +359,6 @@ footer{
     <div class="met"><div class="met-lbl">Net Margin</div><div class="met-val" id="m-margin">0%</div></div>
     <div class="met"><div class="met-lbl">Admin Covered</div><div class="met-val" id="m-admin">No</div></div>
     <div class="met"><div class="met-lbl">Gap to Target</div><div class="met-val" id="m-gap">—</div></div>
-  </div>
-</div>
-
-<!-- Page header -->
-<div class="portal-header">
-  <div class="wrap">
-    <span class="portal-eyebrow">Super Admin · Financial Tools</span>
-    <h1>Growth Calculator</h1>
-    <p>Model overheads, crew pricing, and job margins. Build toward 40% net profit using Hormozi's value-based pricing framework.</p>
   </div>
 </div>
 
@@ -479,7 +479,7 @@ footer{
   <div class="wrap">
     <h2>Pricing Intelligence</h2>
     <div class="hz-card">
-      <div class="hz-eye">Alex Hormozi · $100M Offers Framework</div>
+      <div class="hz-eye">Value-Based Pricing Framework</div>
       <div class="hz-hed">Price on value delivered —<br>not time spent.</div>
       <div class="hz-principles" id="hz-list"></div>
     </div>
@@ -714,11 +714,11 @@ function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, jobsWk, t1, t2,
     {
       n:'1',
       eye:'Know Your Floor',
-      body:'Your labor cost is <strong>$'+f2(costJob)+'/job</strong>. Add overheads and admin and your survival floor is <strong>$'+f2(floorJob)+'/job</strong>. This is Hormozi\'s "absolute minimum" — the price below which you\'re subsidising the client, not running a business. Never discount past it, regardless of relationship or slow season.'
+      body:'Your labor cost is <strong>$'+f2(costJob)+'/job</strong>. Add overheads and admin and your survival floor is <strong>$'+f2(floorJob)+'/job</strong>. This is the absolute minimum — the price below which you\'re subsidising the client, not running a business. Never discount past it, regardless of relationship or slow season.'
     },{
       n:'2',
       eye:'Price on Outcome, Not Hours',
-      body:'Schools aren\'t buying '+totalHrs.toFixed(0)+' hours of AV crew — they\'re buying a <strong>flawless school concert, a seamless presentation night, a memory that lasts</strong>. That outcome is worth thousands to a school and its community. Your <strong>$'+f2(revJob)+'/job</strong> is a fraction of that delivered value. Hormozi: "If you deliver $X of value, charge $X ÷ 10."'
+      body:'Schools aren\'t buying '+totalHrs.toFixed(0)+' hours of AV crew — they\'re buying a <strong>flawless school concert, a seamless presentation night, a memory that lasts</strong>. That outcome is worth thousands to a school and its community. Your <strong>$'+f2(revJob)+'/job</strong> is a fraction of that delivered value. If you deliver $X of value, charge $X ÷ 10.'
     },{
       n:'3',
       eye:'Stack the Offer Until the Price Feels Small',
@@ -727,12 +727,12 @@ function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, jobsWk, t1, t2,
       n:'4',
       eye: gap>5?'Raise Prices Before Adding Volume':'Protect Your Margin as You Scale',
       body: gap>5
-        ?'You\'re at <strong>'+mgn.toFixed(1)+'%</strong> against your <strong>'+tgt+'% target</strong>. Hormozi\'s fastest path: higher prices on existing volume is always faster and less risky than sourcing more jobs at the same margin. A <strong>$'+f2(gap/100*revJob)+'/job price increase</strong> closes the gap immediately without a single extra booking.'
+        ?'You\'re at <strong>'+mgn.toFixed(1)+'%</strong> against your <strong>'+tgt+'% target</strong>. Raising prices on existing volume is always faster and less risky than sourcing more jobs at the same margin. A <strong>$'+f2(gap/100*revJob)+'/job price increase</strong> closes the gap immediately without a single extra booking.'
         :'You\'re near or above your <strong>'+tgt+'% target</strong>. Now scale volume — each extra job at this margin adds directly to the bottom line. Guard your pricing; discounting to fill slow periods is a race to the bottom.'
     },{
       n:'5',
       eye:'Build the $800 Admin Into Every Job',
-      body:'$'+Math.round(adminWk)+'/wk admin ÷ '+(jobsWk||1)+' jobs = <strong>$'+admPJ+'/job</strong>. The fix isn\'t cutting admin hours — it\'s pricing it in as a non-negotiable line item, the same way your labor and equipment are. Hormozi: "Overhead is a cost of business. It belongs in the price, not the profit column."'
+      body:'$'+Math.round(adminWk)+'/wk admin ÷ '+(jobsWk||1)+' jobs = <strong>$'+admPJ+'/job</strong>. The fix isn\'t cutting admin hours — it\'s pricing it in as a non-negotiable line item, the same way your labor and equipment are. Overhead is a cost of business. It belongs in the price, not the profit column.'
     }
   ];
 
@@ -740,6 +740,37 @@ function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, jobsWk, t1, t2,
     return '<div class="hz-p"><div class="hz-n">'+p.n+'</div>' +
       '<div class="hz-body"><span class="hz-title">'+p.eye+'</span>'+p.body+'</div></div>';
   }).join('');
+}
+
+/* ── Field auto-save ───────────────────────────── */
+var FIELD_IDS = [
+  't1-name','t1-base','t1-super','t1-oncost','t1-charge','t1-count','t1-hours',
+  't2-name','t2-base','t2-super','t2-oncost','t2-charge','t2-count','t2-hours',
+  't3-name','t3-base','t3-super','t3-oncost','t3-charge','t3-count','t3-hours',
+  'jobs-wk','admin-wk','tgt-margin'
+];
+
+function saveFields(){
+  try{
+    var data = {};
+    FIELD_IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) data[id] = el.value;
+    });
+    localStorage.setItem('ue-gc-fields', JSON.stringify(data));
+  }catch(e){}
+}
+
+function loadFields(){
+  try{
+    var s = localStorage.getItem('ue-gc-fields');
+    if(!s) return;
+    var data = JSON.parse(s);
+    FIELD_IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el && data[id] !== undefined) el.value = data[id];
+    });
+  }catch(e){}
 }
 
 /* ── Utils ─────────────────────────────────────── */
@@ -756,8 +787,15 @@ function setMet(id,text,cls){
 
 /* ── Boot ──────────────────────────────────────── */
 loadState();
+loadFields();
 renderOverheads();
 recalc();
+
+// Wire up save on every field change
+FIELD_IDS.forEach(function(id){
+  var el = document.getElementById(id);
+  if(el) el.addEventListener('input', saveFields);
+});
 </script>
 </body>
 </html>
