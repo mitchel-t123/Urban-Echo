@@ -782,8 +782,14 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
         </div>
         <button id="openWelcomeEmailPortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
           <span class="portal-card-icon">✉️</span>
-          <h3>Welcome Email</h3>
-          <p>Ready-to-copy welcome email template for newly approved crew members.</p>
+          <h3>Welcome Email — Stage 1</h3>
+          <p>First email sent to newly approved crew members to begin onboarding.</p>
+          <span class="portal-card-tag">View &amp; copy →</span>
+        </button>
+        <button id="openWelcomeEmail2Portal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
+          <span class="portal-card-icon">✉️</span>
+          <h3>Welcome Email — Stage 2</h3>
+          <p>Official welcome sent after compliance and HR is complete. Crew member is fully onboarded.</p>
           <span class="portal-card-tag">View &amp; copy →</span>
         </button>
       </div>
@@ -842,6 +848,90 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
             </div>
             <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 6px;">Pumped to have you on board 🙌</p>
             <p style="font-size:15px;color:#161527;margin:0;font-weight:700;">— Mitchel &amp; the Urban Echo team</p>
+          </div>
+          <div style="background:#161527;padding:20px 36px;text-align:center;">
+            <p style="font-size:11px;color:rgba(251,245,231,0.45);margin:0;line-height:1.6;">Urban Echo · Perth, WA · <a href="https://urbanecho.com.au" style="color:rgba(251,245,231,0.45);">urbanecho.com.au</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WELCOME EMAIL STAGE 2 MODAL (team_manager + super_admin) -->
+  <div class="modal-overlay" id="welcomeEmail2PortalModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Welcome Email — Stage 2</span>
+        <button id="copyWelcomeEmail2Portal" style="background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Copy Email</button>
+        <button id="welcomeEmail2PortalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <div style="padding:16px 20px 8px;background:var(--cream);border-bottom:1px solid rgba(22,21,39,0.1);">
+        <span style="font-size:12px;color:rgba(22,21,39,0.55);"><strong style="color:var(--ink);">Subject:</strong> Welcome to the Urban Echo Crew! 🎉 &nbsp;·&nbsp; <strong style="color:var(--ink);">Send:</strong> After compliance &amp; HR complete</span>
+      </div>
+      <div style="padding:24px;" id="welcomeEmail2PortalHTML">
+        <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;background:#FFFCF5;border:2px solid #161527;border-radius:16px;overflow:hidden;">
+          <div style="background:#161527;padding:28px 36px 24px;">
+            <div style="font-family:Arial,sans-serif;font-weight:900;font-size:22px;color:#FBF5E7;letter-spacing:-0.02em;">URBAN ECHO</div>
+            <div style="font-size:12px;color:rgba(251,245,231,0.55);margin-top:4px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">Production &amp; Events</div>
+          </div>
+          <div style="padding:36px;">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(22,21,39,0.45);margin-bottom:6px;">Welcome to the</div>
+            <h1 style="font-family:Arial,sans-serif;font-weight:900;font-size:28px;color:#161527;margin:0 0 20px;letter-spacing:-0.02em;">URBAN ECHO CREW.</h1>
+            <p style="font-size:16px;color:rgba(22,21,39,0.7);margin:0 0 16px;line-height:1.6;">Hey [First Name]! 👋</p>
+            <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 12px;">We're so excited to welcome you to the Urban Echo team. After reviewing your application, we'd love to have you on board as part of our crew. We work with some incredible schools across Perth and we can't wait to have you alongside us.</p>
+            <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 28px;">This email covers everything you need to know before your first event — what happens next, what we expect from our crew, and a link to the full handbook. Give it a read when you get a chance; it won't take long.</p>
+
+            <!-- What happens next -->
+            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#161527;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #161527;">What Happens Next</div>
+            <div style="display:grid;grid-template-columns:36px 1fr;gap:12px 14px;margin-bottom:28px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:#161527;color:#FBF5E7;font-family:Arial,sans-serif;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+              <div style="padding-top:8px;"><strong style="font-size:14px;color:#161527;">Join the WhatsApp Crew Group</strong><br><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">We'll add you to our crew WhatsApp group — this is where jobs get posted, updates go out, and the team stays connected. Keep notifications on!</span></div>
+              <div style="width:36px;height:36px;border-radius:50%;background:#161527;color:#FBF5E7;font-family:Arial,sans-serif;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+              <div style="padding-top:8px;"><strong style="font-size:14px;color:#161527;">Sign Your Contractor Agreement</strong><br><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">We'll send you a short contractor agreement to sign before your first job. This covers your role, pay, and how we work together. Takes 5 minutes.</span></div>
+              <div style="width:36px;height:36px;border-radius:50%;background:#161527;color:#FBF5E7;font-family:Arial,sans-serif;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+              <div style="padding-top:8px;"><strong style="font-size:14px;color:#161527;">Confirm Your Compliance Checks</strong><br><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">Working with Children Check (WWC) and a National Police Clearance are mandatory for all crew. If you don't have them yet, we can point you to where to apply — they're straightforward to get.</span></div>
+              <div style="width:36px;height:36px;border-radius:50%;background:#161527;color:#FBF5E7;font-family:Arial,sans-serif;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
+              <div style="padding-top:8px;"><strong style="font-size:14px;color:#161527;">Read the Employee Handbook</strong><br><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">The handbook covers everything from what to wear to how we handle emergencies. It's a short read and everything you need to know is in there. Link at the bottom of this email.</span></div>
+              <div style="width:36px;height:36px;border-radius:50%;background:#161527;color:#FBF5E7;font-family:Arial,sans-serif;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div>
+              <div style="padding-top:8px;"><strong style="font-size:14px;color:#161527;">Complete a Site Induction</strong><br><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">Before going solo, Mitchel will walk you through gear, setup, and what a typical event looks like. Usually takes about an hour at a school or our storage space.</span></div>
+              <div style="width:36px;height:36px;border-radius:50%;background:#161527;color:#FBF5E7;font-family:Arial,sans-serif;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">6</div>
+              <div style="padding-top:8px;"><strong style="font-size:14px;color:#161527;">Shadow Your First Event</strong><br><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">Your first job will be a shadow — you'll come along, watch the show run, and learn the ropes without the pressure. After that you're ready to go.</span></div>
+            </div>
+
+            <!-- What we expect -->
+            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#161527;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #161527;">What We Expect From You</div>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
+              <div style="background:#F7F7FF;border-radius:10px;padding:14px 16px;font-size:13px;color:#161527;line-height:1.6;"><strong>🛡️ Child Safety — Always First</strong><br>All our events are in schools. Child safety is non-negotiable. Always maintain professional boundaries, never be alone with students, and report anything concerning immediately.</div>
+              <div style="background:#F7F7FF;border-radius:10px;padding:14px 16px;font-size:13px;color:#161527;line-height:1.6;"><strong>🤝 Code of Conduct</strong><br>Represent Urban Echo with pride. Be respectful, punctual, and switched on. Treat everyone — students, staff, and clients — with professionalism and warmth.</div>
+              <div style="background:#F7F7FF;border-radius:10px;padding:14px 16px;font-size:13px;color:#161527;line-height:1.6;"><strong>⚠️ Work Health &amp; Safety</strong><br>You're responsible for your own safety and those around you. Report hazards, use gear safely, and let Mitchel know immediately if something's not right on the job.</div>
+              <div style="background:#F7F7FF;border-radius:10px;padding:14px 16px;font-size:13px;color:#161527;line-height:1.6;"><strong>📱 Social Media</strong><br>Never post photos of students or school events without explicit permission. Our reputation with schools depends on discretion — when in doubt, don't post.</div>
+              <div style="background:#F7F7FF;border-radius:10px;padding:14px 16px;font-size:13px;color:#161527;line-height:1.6;"><strong>🔒 Privacy &amp; Confidentiality</strong><br>School contacts, client details, and job information are confidential. Don't share venue codes, contact names, or school details outside the crew group.</div>
+              <div style="background:#F7F7FF;border-radius:10px;padding:14px 16px;font-size:13px;color:#161527;line-height:1.6;"><strong>🚨 Emergencies</strong><br>Know the school's evacuation plan before every show. In an emergency: stop the show, call 000 if needed, follow school staff instructions, and contact Mitchel straight after.</div>
+            </div>
+
+            <!-- Good to know -->
+            <div style="background:#F4F0FF;border-left:4px solid #3F3FF0;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:24px;">
+              <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#3F3FF0;margin-bottom:12px;">Good to Know</div>
+              <p style="font-size:13px;color:#161527;line-height:1.7;margin:0 0 8px;"><strong>What to wear:</strong> All black, smart casual, for every event. Collared shirt preferred for formal evenings. We want to look professional and blend into the background.</p>
+              <p style="font-size:13px;color:#161527;line-height:1.7;margin:0 0 8px;"><strong>Availability:</strong> Jobs come through on WhatsApp — reply ASAP so we can confirm crew. If you can't make it, give as much notice as possible. We respect that life happens, just keep us in the loop.</p>
+              <p style="font-size:13px;color:#161527;line-height:1.7;margin:0 0 8px;"><strong>Pay:</strong> We pay per event, direct to your bank account. If you're a sole trader/ABN contractor you'll invoice us after the job — we'll share the details when you're onboarded.</p>
+              <p style="font-size:13px;color:#161527;line-height:1.7;margin:0;"><strong>Questions?</strong> Reach out any time. Mitchel is always happy to chat — call, text, or WhatsApp.</p>
+            </div>
+
+            <!-- Handbook -->
+            <div style="background:#F0FFF6;border-left:4px solid #4AAE74;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:28px;">
+              <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#4AAE74;margin-bottom:8px;">Employee Handbook</div>
+              <p style="font-size:13px;color:#161527;line-height:1.6;margin:0 0 14px;">Everything in full detail — policies, procedures, gear guides, and more. Required reading before your first event.</p>
+              <a href="https://www.urbanecho.com.au/employee-handbook-2026.pdf" style="display:inline-block;background:#4AAE74;color:#fff;text-decoration:none;font-weight:800;font-size:13px;padding:10px 20px;border-radius:8px;">Read Handbook →</a>
+            </div>
+
+            <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 24px;">We're genuinely stoked to have you on the team. Urban Echo is about more than just running sound — it's about showing up for schools, creating experiences students will remember, and doing it with care and excellence.</p>
+            <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 24px;">We'll be in touch shortly with next steps. In the meantime, feel free to reach out if you have any questions at all.</p>
+            <div style="border-top:1.5px solid rgba(22,21,39,0.12);padding-top:20px;">
+              <p style="font-size:14px;color:#161527;font-weight:800;margin:0 0 4px;letter-spacing:-0.01em;">MITCHEL TINSLEY</p>
+              <p style="font-size:12px;color:rgba(22,21,39,0.55);margin:0 0 12px;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;">Founder &amp; Director, Urban Echo</p>
+              <p style="font-size:13px;color:#161527;line-height:1.9;margin:0;">📞 <a href="tel:0429660186" style="color:#3F3FF0;text-decoration:none;">0429 660 186</a><br>📧 <a href="mailto:mitchel@urbanecho.com.au" style="color:#3F3FF0;text-decoration:none;">mitchel@urbanecho.com.au</a><br>🌐 <a href="https://www.urbanecho.com.au" style="color:#3F3FF0;text-decoration:none;">www.urbanecho.com.au</a></p>
+            </div>
           </div>
           <div style="background:#161527;padding:20px 36px;text-align:center;">
             <p style="font-size:11px;color:rgba(251,245,231,0.45);margin:0;line-height:1.6;">Urban Echo · Perth, WA · <a href="https://urbanecho.com.au" style="color:rgba(251,245,231,0.45);">urbanecho.com.au</a></p>
@@ -1551,9 +1641,10 @@ function doLogout(){
       roleBadge.style.display = 'inline-block';
     }
 
-    // Welcome email template only visible to super_admin
-    if(role === 'super_admin'){
+    // Welcome email templates visible to super_admin and team_manager
+    if(role === 'super_admin' || role === 'team_manager'){
       document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
+      document.getElementById('openWelcomeEmail2Portal').style.display = 'flex';
     }
 
     loadRentmanRoster(userEmail);
@@ -2153,6 +2244,32 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback, Urban Echo Po
       copyBtn.textContent = '✓ Copied!';
     } catch(e) {
       var ta = document.createElement('textarea'); ta.value = document.getElementById('welcomeEmailPortalHTML').innerText;
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      copyBtn.textContent = '✓ Copied (plain text)';
+    }
+    setTimeout(function(){ copyBtn.textContent = 'Copy Email'; }, 2500);
+  });
+})();
+
+// ── Welcome Email Stage 2 modal ──────────────────────────────
+(function(){
+  var btn   = document.getElementById('openWelcomeEmail2Portal');
+  var modal = document.getElementById('welcomeEmail2PortalModal');
+  var close = document.getElementById('welcomeEmail2PortalClose');
+  var copyBtn = document.getElementById('copyWelcomeEmail2Portal');
+  if(!btn||!modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  btn.addEventListener('click', openM);
+  close.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+  copyBtn.addEventListener('click', async function(){
+    var html = document.getElementById('welcomeEmail2PortalHTML').innerHTML;
+    try {
+      await navigator.clipboard.write([new ClipboardItem({'text/html': new Blob([html], {type:'text/html'}), 'text/plain': new Blob([document.getElementById('welcomeEmail2PortalHTML').innerText], {type:'text/plain'})})]);
+      copyBtn.textContent = '✓ Copied!';
+    } catch(e) {
+      var ta = document.createElement('textarea'); ta.value = document.getElementById('welcomeEmail2PortalHTML').innerText;
       document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
       copyBtn.textContent = '✓ Copied (plain text)';
     }
