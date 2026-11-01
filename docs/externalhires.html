@@ -59,6 +59,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .btn:hover { transform:translateY(-3px); box-shadow:5px 5px 0 var(--ink); }
 .btn-orange { background:var(--orange); color:var(--ink); }
 .btn-outline { background:transparent; color:var(--ink); }
+.btn-forest { background:var(--forest); color:#fff; }
 
 .section-label {
   display:inline-block; background:var(--cream);
@@ -77,9 +78,10 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 @media(max-width:860px){.hero-inner{grid-template-columns:1fr;gap:40px;}}
 .hero-eyebrow {
   display:inline-flex; align-items:center; gap:8px;
-  background:var(--ink); color:var(--cream); padding:6px 14px;
-  border-radius:100px; font-size:11px; font-weight:700;
+  background:var(--forest); color:var(--ink); padding:8px 22px;
+  border-radius:100px; font-size:12px; font-weight:700;
   letter-spacing:0.12em; text-transform:uppercase; margin-bottom:24px;
+  border:2.5px solid var(--ink); box-shadow:3px 3px 0 var(--ink);
 }
 .hero h1 { font-size:clamp(2.2rem,5vw,3.6rem); margin-bottom:20px; }
 .hero h1 span { color:var(--orange); }
@@ -449,30 +451,71 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .cta-sub { font-size:1rem; color:rgba(22,21,39,0.55); margin:0 auto 40px; max-width:500px; }
 .cta-btn-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
 
-/* ── Coffee booking + enquiry sections ── */
-.coffee-section { background:var(--paper); border-bottom:3px solid var(--ink); padding:80px 0; }
-.coffee-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; margin-top:40px; }
-@media(max-width:720px){ .coffee-grid { grid-template-columns:1fr; gap:32px; } }
-.coffee-blurb h2 { font-family:var(--display); font-size:clamp(1.8rem,4vw,2.8rem); color:var(--ink); line-height:1.1; margin-bottom:16px; }
-.coffee-blurb p { color:rgba(22,21,39,0.6); font-size:1rem; line-height:1.6; max-width:420px; }
-.coffee-form-card { background:var(--cream); border:3px solid var(--ink); border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:32px; }
-.cf-label { display:block; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); margin-bottom:6px; margin-top:18px; }
-.cf-label:first-child { margin-top:0; }
-.cf-input { width:100%; box-sizing:border-box; padding:12px 14px; font-family:var(--body); font-size:0.95rem; border:2.5px solid var(--ink); border-radius:8px; background:var(--paper); color:var(--ink); outline:none; }
-.cf-input:focus { border-color:var(--orange); }
-.cf-readonly { background:var(--cream-deep); color:rgba(22,21,39,0.45); }
-.cf-submit { margin-top:22px; width:100%; padding:14px; font-family:var(--display); font-size:1rem; font-weight:900; background:var(--orange); color:var(--ink); border:2.5px solid var(--ink); border-radius:100px; box-shadow:4px 4px 0 var(--ink); cursor:pointer; letter-spacing:0.02em; transition:transform 0.1s,box-shadow 0.1s; }
-.cf-submit:hover { transform:translate(-1px,-1px); box-shadow:5px 5px 0 var(--ink); }
-.cf-submit:active { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--ink); }
-.cf-success { display:none; text-align:center; padding:24px 0; }
-.cf-success-icon { font-size:2.4rem; display:block; margin-bottom:10px; }
-.cf-success p { font-family:var(--display); font-size:1.1rem; color:var(--forest-deep); }
-.enquiry-section { background:var(--ink); padding:72px 0; }
-.enquiry-inner { display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap; }
-.enquiry-text h2 { font-family:var(--display); font-size:clamp(1.6rem,3.5vw,2.4rem); color:var(--paper); line-height:1.1; }
-.enquiry-text p { color:rgba(255,252,245,0.55); font-size:0.95rem; margin-top:10px; max-width:480px; line-height:1.6; }
-.btn-paper { background:var(--paper); color:var(--ink); border-color:var(--paper); }
-.btn-paper:hover { background:var(--cream); }
+/* ── Meet / coffee section ── */
+.meet-section { background:#fff; padding:96px 0; border-bottom:3px solid var(--ink); }
+.meet-section .meet-eyebrow { display:inline-flex; align-items:center; gap:8px; background:var(--forest); color:var(--ink); padding:7px 18px; border-radius:100px; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; border:2px solid var(--ink); margin-bottom:16px; }
+.meet-section > .wrap > h2 { font-family:var(--display); font-size:clamp(1.8rem,4vw,2.8rem); color:var(--ink); margin-bottom:14px; }
+.meet-section > .wrap > p { font-size:1rem; color:rgba(22,21,39,0.65); margin-bottom:40px; max-width:560px; line-height:1.6; }
+.meet-card { background:var(--paper); border:2.5px solid var(--ink); border-bottom:10px solid var(--ink); border-radius:22px; box-shadow:5px 5px 0 var(--ink); padding:36px; }
+.meet-block { margin-bottom:28px; }
+.meet-block:last-child { margin-bottom:0; }
+.meet-block-label { display:block; font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.5); margin-bottom:14px; }
+.meet-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media(max-width:600px){ .meet-row { grid-template-columns:1fr; } }
+.meet-card .field { margin-bottom:0; }
+.meet-card .field label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; font-family:var(--mono); color:rgba(22,21,39,0.5); display:block; margin-bottom:7px; }
+.meet-card .field input, .meet-card .field textarea, .meet-card .field select { width:100%; padding:11px 14px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; font-size:16px; font-family:var(--body); background:#fff; color:var(--ink); outline:none; transition:border-color 0.18s; box-sizing:border-box; -webkit-appearance:none; appearance:none; }
+.meet-card .field input:focus, .meet-card .field textarea:focus, .meet-card .field select:focus { border-color:var(--indigo); }
+.meet-card .field textarea { min-height:90px; resize:vertical; }
+.meet-card .field input[readonly] { background:var(--cream-deep); color:rgba(22,21,39,0.45); cursor:default; }
+.drink-picker { display:flex; gap:14px; flex-wrap:wrap; }
+.drink-card-label { flex:1; min-width:100px; cursor:pointer; position:relative; }
+.drink-radio { position:absolute; opacity:0; pointer-events:none; }
+.drink-card-inner { border:2px solid rgba(22,21,39,0.15); border-radius:12px; padding:14px 10px; text-align:center; transition:border-color 0.15s,background 0.15s; }
+.drink-card-label:hover .drink-card-inner { border-color:var(--indigo); }
+.drink-radio:checked + .drink-card-inner { border-color:var(--indigo); background:rgba(61,127,213,0.06); box-shadow:3px 3px 0 var(--ink); }
+.drink-icon { font-size:1.6rem; margin-bottom:6px; width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; }
+.drink-name { font-size:13px; font-weight:700; color:var(--ink); }
+.location-opts { display:flex; gap:10px; flex-wrap:wrap; }
+.location-opt-label { cursor:pointer; }
+.location-opt-label input { position:absolute; opacity:0; pointer-events:none; }
+.location-pill { display:inline-block; padding:9px 18px; border:2px solid rgba(22,21,39,0.18); border-radius:100px; font-size:14px; font-weight:600; color:var(--ink); transition:border-color 0.15s,background 0.15s; }
+.location-opt-label input:checked + .location-pill { border-color:var(--indigo); background:rgba(61,127,213,0.07); color:var(--indigo); }
+.date-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+@media(max-width:600px){ .date-grid { grid-template-columns:1fr; } }
+.date-option { border:2px solid rgba(22,21,39,0.12); border-radius:12px; padding:14px; }
+.date-option-num { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(22,21,39,0.4); margin-bottom:10px; display:block; }
+.date-option .field { margin-bottom:8px; }
+.date-option .field:last-child { margin-bottom:0; }
+.meet-success { display:none; padding:48px 32px; text-align:center; max-width:480px; margin:0 auto; }
+.meet-success-icon { width:56px; height:56px; border-radius:50%; background:var(--forest); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
+.meet-success-icon svg { display:block; }
+.meet-success-eyebrow { font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--forest); margin-bottom:8px; display:block; }
+.meet-success h3 { font-family:var(--display); font-size:24px; font-weight:700; margin-bottom:12px; color:var(--ink); }
+.meet-success-body { font-size:16px; color:rgba(22,21,39,0.65); margin-bottom:0; }
+.meet-success-divider { height:1.5px; background:rgba(22,21,39,0.1); margin:24px auto; width:60px; border-radius:2px; }
+.meet-success-footer { font-size:14px; color:rgba(22,21,39,0.5); }
+/* ── General enquiry section ── */
+.enquiry-section { background:var(--paper); border-bottom:3px solid var(--ink); padding:80px 0; }
+.enquiry-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+@media(max-width:720px){ .enquiry-grid { grid-template-columns:1fr; } }
+.enquiry-copy h2 { font-family:var(--display); font-size:clamp(1.6rem,3.5vw,2.4rem); color:var(--ink); margin-bottom:14px; }
+.enquiry-copy p { color:rgba(22,21,39,0.65); font-size:1rem; line-height:1.6; margin-bottom:20px; }
+.enquiry-detail { display:flex; align-items:center; gap:12px; margin-bottom:14px; font-size:0.95rem; color:var(--ink); font-weight:600; }
+.enquiry-detail a { color:var(--ink); text-decoration:none; }
+.enquiry-ic { width:36px; height:36px; border-radius:8px; border:2px solid var(--ink); background:var(--forest); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.enq-form-card { background:var(--cream); border:3px solid var(--ink); border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:32px; }
+.enq-field { margin-bottom:16px; }
+.enq-field label { display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(22,21,39,0.5); margin-bottom:6px; }
+.enq-input { width:100%; box-sizing:border-box; padding:11px 14px; font-family:var(--body); font-size:15px; border:2px solid rgba(22,21,39,0.18); border-radius:10px; background:#fff; color:var(--ink); outline:none; transition:border-color 0.18s; -webkit-appearance:none; }
+.enq-input:focus { border-color:var(--indigo); }
+.enq-textarea { min-height:100px; resize:vertical; }
+.enq-submit { width:100%; padding:14px; font-family:var(--display); font-size:1rem; font-weight:900; background:var(--orange); color:var(--ink); border:2.5px solid var(--ink); border-radius:100px; box-shadow:4px 4px 0 var(--ink); cursor:pointer; letter-spacing:0.02em; transition:transform 0.1s,box-shadow 0.1s; margin-top:6px; }
+.enq-submit:hover { transform:translate(-1px,-1px); box-shadow:5px 5px 0 var(--ink); }
+.enq-submit:active { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--ink); }
+.enq-success { display:none; text-align:center; padding:32px 0; }
+.enq-success-icon { font-size:2.4rem; display:block; margin-bottom:10px; }
+.enq-success p { font-family:var(--display); font-size:1.1rem; color:var(--forest-deep); }
 
 /* FOOTER */
 .page-footer { background:var(--cream); border-top:3px solid var(--ink); padding:24px 0; }
@@ -877,37 +920,109 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 </section>
 
 <!-- ═══ COFFEE BOOKING ═══ -->
-<section class="coffee-section" id="book-coffee">
+<section class="meet-section" id="book-coffee">
   <div class="wrap">
-    <span class="section-label orange">Let's talk</span>
-    <div class="coffee-grid">
-      <div class="coffee-blurb">
-        <h2>Book a coffee.<br>No pitch, just numbers.</h2>
-        <p>We'll sit down, look at your venue calendar, and work out exactly how many external hires would cover your AV support — for free. Bring your questions.</p>
-        <p style="margin-top:16px;">30 minutes. Your venue or a coffee shop nearby. No obligation.</p>
-      </div>
-      <div class="coffee-form-card">
-        <div id="coffeeFormWrap">
-          <form id="coffeeForm" action="https://formspree.io/f/mgaanywv" method="POST">
-            <label class="cf-label" for="cf-name">Your name</label>
-            <input class="cf-input" type="text" id="cf-name" name="name" placeholder="Jane Smith" required>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;">
+      <span class="meet-eyebrow">☕ Free coffee on us</span>
+      <span class="meet-eyebrow" style="background:var(--cream);">Let's Catch Up</span>
+    </div>
+    <h2>Book a coffee meeting</h2>
+    <p>Let's talk through your venue, your calendar, and how external hires could fund your AV support. Pick your drink, tell us when and where you'd like to meet, and we'll lock in a time.</p>
 
-            <label class="cf-label" for="cf-email">Email</label>
-            <input class="cf-input" type="email" id="cf-email" name="email" placeholder="jane@school.edu.au" required>
+    <div class="meet-card">
+      <form id="meetForm" novalidate>
 
-            <label class="cf-label" for="cf-school">School / organisation</label>
-            <input class="cf-input" type="text" id="cf-school" name="school" placeholder="Springfield Primary School">
-
-            <label class="cf-label" for="cf-reason">Reason for meeting</label>
-            <input class="cf-input cf-readonly" type="text" id="cf-reason" name="reason" value="External Hires — Venue Revenue Calculator" readonly>
-
-            <button type="submit" class="cf-submit">Book a coffee →</button>
-          </form>
+        <!-- Drink -->
+        <div class="meet-block">
+          <span class="meet-block-label">What are you having?</span>
+          <div class="drink-picker">
+            <label class="drink-card-label">
+              <input type="radio" name="drink" value="Coffee" class="drink-radio">
+              <div class="drink-card-inner">
+                <div class="drink-icon" style="background:#F5E6C8;">☕</div>
+                <span class="drink-name">Coffee</span>
+              </div>
+            </label>
+            <label class="drink-card-label">
+              <input type="radio" name="drink" value="Hot Chocolate" class="drink-radio">
+              <div class="drink-card-inner">
+                <div class="drink-icon" style="background:#EDD5BE;">🍫</div>
+                <span class="drink-name">Hot Chocolate</span>
+              </div>
+            </label>
+            <label class="drink-card-label">
+              <input type="radio" name="drink" value="Tea" class="drink-radio">
+              <div class="drink-card-inner">
+                <div class="drink-icon" style="background:#D9EDD9;">🫖</div>
+                <span class="drink-name">Tea</span>
+              </div>
+            </label>
+          </div>
         </div>
-        <div class="cf-success" id="coffeeSuccess">
-          <span class="cf-success-icon">☕</span>
-          <p>We'll be in touch shortly to lock in a time.</p>
+
+        <!-- Location -->
+        <div class="meet-block">
+          <span class="meet-block-label">Where would you like to meet?</span>
+          <div class="location-opts">
+            <label class="location-opt-label">
+              <input type="radio" name="location_type" value="school" id="locSchool">
+              <span class="location-pill">🏫 Meet at my venue</span>
+            </label>
+            <label class="location-opt-label">
+              <input type="radio" name="location_type" value="custom" id="locCustom">
+              <span class="location-pill">📍 Suggest a café</span>
+            </label>
+          </div>
+          <div id="meetCustomLocation" style="display:none;margin-top:14px;">
+            <div class="meet-card field" style="border:none;padding:0;box-shadow:none;background:none;border-bottom:none;">
+              <label>Café or address</label>
+              <input type="text" name="location" placeholder="e.g. Sayers Sister, Northbridge">
+            </div>
+          </div>
         </div>
+
+        <!-- Details -->
+        <div class="meet-block meet-row">
+          <div class="field"><label for="meetName">Your Name</label><input type="text" id="meetName" name="name" required placeholder="Jane Smith"></div>
+          <div class="field"><label for="meetRole">Your Role</label><input type="text" id="meetRole" name="role" placeholder="e.g. Business Manager"></div>
+        </div>
+        <div class="meet-block meet-row">
+          <div class="field"><label for="meetSchool">School / Venue</label><input type="text" id="meetSchool" name="school" placeholder="e.g. Churchlands SHS"></div>
+          <div class="field"><label for="meetPhone">Phone</label><input type="tel" id="meetPhone" name="phone" placeholder="04xx xxx xxx"></div>
+        </div>
+        <div class="meet-block meet-row">
+          <div class="field"><label for="meetEmail">Email</label><input type="email" id="meetEmail" name="email" required placeholder="jane@school.wa.edu.au"></div>
+          <div class="field"><label>Topic</label><input type="text" name="reason" value="External Hires — Venue Revenue" readonly></div>
+        </div>
+
+        <!-- Dates -->
+        <div class="meet-block">
+          <span class="meet-block-label">Suggest a few dates &amp; times <span style="font-weight:400;opacity:0.55;">(we'll confirm one)</span></span>
+          <div class="date-grid">
+            <div class="date-option"><span class="date-option-num">Option 1</span><div class="field"><label>Date</label><input type="date" name="date_1"></div><div class="field"><label>From</label><input type="time" name="time_1_start"></div><div class="field"><label>Until</label><input type="time" name="time_1_end"></div></div>
+            <div class="date-option"><span class="date-option-num">Option 2</span><div class="field"><label>Date</label><input type="date" name="date_2"></div><div class="field"><label>From</label><input type="time" name="time_2_start"></div><div class="field"><label>Until</label><input type="time" name="time_2_end"></div></div>
+            <div class="date-option"><span class="date-option-num">Option 3</span><div class="field"><label>Date</label><input type="date" name="date_3"></div><div class="field"><label>From</label><input type="time" name="time_3_start"></div><div class="field"><label>Until</label><input type="time" name="time_3_end"></div></div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="meet-block">
+          <div class="field"><label for="meetNotes">Anything else? <span style="font-weight:400;opacity:0.55;">Optional</span></label><textarea id="meetNotes" name="notes" placeholder="Your venue's current AV setup, questions you have…"></textarea></div>
+        </div>
+
+        <input type="hidden" name="_subject" value="☕ Coffee Meeting — External Hires">
+        <button type="submit" class="btn btn-forest" id="meetSubmitBtn" style="width:100%;justify-content:center;padding:16px;font-size:1rem;">Request a Catch-Up →</button>
+      </form>
+
+      <div class="meet-success" id="meetSuccess">
+        <div class="meet-success-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <p class="meet-success-eyebrow">☕ Coffee booking received</p>
+        <h3>Thanks <span id="meetSuccessName"></span>, the coffee's on us!</h3>
+        <p class="meet-success-body">Mitchel will look over your availability and confirm a time within one business day. Keep an eye on <strong id="meetSuccessEmail"></strong>.</p>
+        <div class="meet-success-divider"></div>
+        <p class="meet-success-footer">Can't wait? Call or text us on <a href="tel:0429660186" style="font-weight:700;color:var(--indigo);">0429 660 186</a></p>
       </div>
     </div>
   </div>
@@ -916,12 +1031,29 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 <!-- ═══ GENERAL ENQUIRY ═══ -->
 <section class="enquiry-section" id="enquire">
   <div class="wrap">
-    <div class="enquiry-inner">
-      <div class="enquiry-text">
+    <div class="enquiry-grid">
+      <div class="enquiry-copy">
+        <span class="section-label green" style="margin-bottom:20px;">Contact Us</span>
         <h2>Have a different question?</h2>
-        <p>Whether it's about pricing, what's included in a hire, or how to get started — send us a message and we'll get back to you within one business day.</p>
+        <p>Tell us about your venue, your events calendar, or just say hello. We'll get back to you within one business day.</p>
+        <div class="enquiry-detail"><span class="enquiry-ic">📞</span><a href="tel:0429660186">0429 660 186 (Mitchel, Owner)</a></div>
+        <div class="enquiry-detail"><span class="enquiry-ic">✉️</span><a href="mailto:mitchel@urbanecho.com.au">mitchel@urbanecho.com.au</a></div>
       </div>
-      <a href="https://formspree.io/f/xoeekwaq" target="_blank" rel="noopener" class="btn btn-paper" style="white-space:nowrap;">Send an enquiry →</a>
+      <div class="enq-form-card">
+        <div id="enqFormWrap">
+          <form id="enqForm" novalidate>
+            <div class="enq-field"><label>Your Name</label><input class="enq-input" type="text" name="name" placeholder="Jane Smith" required></div>
+            <div class="enq-field"><label>Email</label><input class="enq-input" type="email" name="email" placeholder="jane@school.wa.edu.au" required></div>
+            <div class="enq-field"><label>School / Organisation</label><input class="enq-input" type="text" name="school" placeholder="Churchlands SHS"></div>
+            <div class="enq-field"><label>Message</label><textarea class="enq-input enq-textarea" name="message" placeholder="What would you like to know?" required></textarea></div>
+            <button type="submit" class="enq-submit" id="enqSubmitBtn">Send Enquiry →</button>
+          </form>
+        </div>
+        <div class="enq-success" id="enqSuccess">
+          <span class="enq-success-icon">✅</span>
+          <p>Message received — we'll be in touch within one business day.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1230,30 +1362,74 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   dDrop.querySelectorAll('.desktop-dd-link').forEach(function(a){ a.addEventListener('click', closeDD); });
 })();
 
-// Coffee booking form — AJAX submit
+// Meet (coffee booking) form
 (function(){
-  var form = document.getElementById('coffeeForm');
-  if(!form) return;
-  form.addEventListener('submit', function(e){
+  var meetForm = document.getElementById('meetForm');
+  if(!meetForm) return;
+  var meetSuccess = document.getElementById('meetSuccess');
+  var meetSubmit  = document.getElementById('meetSubmitBtn');
+
+  // Location toggle
+  document.querySelectorAll('input[name="location_type"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      var custom = document.getElementById('meetCustomLocation');
+      if(custom) custom.style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+  });
+
+  meetForm.addEventListener('submit', function(e){
     e.preventDefault();
-    var btn = form.querySelector('.cf-submit');
-    btn.textContent = 'Sending…';
-    btn.disabled = true;
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
+    var name  = (document.getElementById('meetName')  || {}).value || '';
+    var email = (document.getElementById('meetEmail') || {}).value || '';
+    if(!name.trim())  { alert('Please enter your name.');  return; }
+    if(!email.trim()) { alert('Please enter your email.'); return; }
+    meetSubmit.disabled = true;
+    meetSubmit.textContent = 'Sending…';
+
+    var data = new FormData(meetForm);
+    fetch('https://formspree.io/f/mgaanywv', {
+      method:'POST', body: data, headers:{ 'Accept':'application/json' }
     }).then(function(r){
       if(r.ok){
-        document.getElementById('coffeeFormWrap').style.display = 'none';
-        document.getElementById('coffeeSuccess').style.display = 'block';
+        meetForm.style.display = 'none';
+        document.getElementById('meetSuccessName').textContent  = name.split(' ')[0] + ' ';
+        document.getElementById('meetSuccessEmail').textContent = email;
+        meetSuccess.style.display = 'block';
       } else {
-        btn.textContent = 'Try again';
-        btn.disabled = false;
+        meetSubmit.disabled = false;
+        meetSubmit.textContent = 'Request a Catch-Up →';
+        alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
       }
     }).catch(function(){
-      btn.textContent = 'Try again';
+      meetSubmit.disabled = false;
+      meetSubmit.textContent = 'Request a Catch-Up →';
+      alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
+    });
+  });
+})();
+
+// General enquiry form
+(function(){
+  var form = document.getElementById('enqForm');
+  if(!form) return;
+  var btn = document.getElementById('enqSubmitBtn');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    fetch('https://formspree.io/f/xoeekwaq', {
+      method:'POST', body: new FormData(form), headers:{ 'Accept':'application/json' }
+    }).then(function(r){
+      if(r.ok){
+        document.getElementById('enqFormWrap').style.display = 'none';
+        document.getElementById('enqSuccess').style.display  = 'block';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Send Enquiry →';
+      }
+    }).catch(function(){
       btn.disabled = false;
+      btn.textContent = 'Send Enquiry →';
     });
   });
 })();
