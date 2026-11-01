@@ -1,0 +1,1060 @@
+<title>Hire Maths</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap">
+
+<style>
+:root {
+  --cream:      #F5E8D0;
+  --cream-deep: #EDD8B8;
+  --indigo:     #3D7FD5;
+  --indigo-deep:#2B65B8;
+  --orange:     #F4612E;
+  --forest:     #35B06A;
+  --forest-deep:#1E9256;
+  --ink:        #161527;
+  --paper:      #FFFCF5;
+  --line:       rgba(22,21,39,0.12);
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body:    'Inter', -apple-system, sans-serif;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { background: var(--cream); }
+body {
+  font-family: var(--body);
+  background-color: #fff;
+  background-image:
+    repeating-linear-gradient(rgba(22,21,39,0.05) 1px,transparent 1px),
+    repeating-linear-gradient(90deg,rgba(22,21,39,0.05) 1px,transparent 1px);
+  background-size: 28px 28px;
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color:inherit; text-decoration:none; }
+.wrap {
+  max-width: 1180px; margin: 0 auto;
+  padding-left: max(32px,env(safe-area-inset-left,0px));
+  padding-right: max(32px,env(safe-area-inset-right,0px));
+}
+@media(max-width:600px){
+  .wrap{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));}
+}
+h1 { font-family:var(--display); font-weight:400; line-height:1.02; letter-spacing:-0.01em; text-transform:uppercase; }
+h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacing:-0.02em; }
+
+.btn {
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--body); font-weight:700; font-size:16px;
+  padding:16px 30px; border-radius:100px;
+  border:2.5px solid var(--ink); background:var(--ink); color:var(--paper);
+  cursor:pointer; text-decoration:none;
+  transition:transform 0.18s,box-shadow 0.18s;
+}
+.btn:hover { transform:translateY(-3px); box-shadow:5px 5px 0 var(--ink); }
+.btn-orange { background:var(--orange); color:var(--ink); }
+.btn-outline { background:transparent; color:var(--ink); }
+
+.section-label {
+  display:inline-block; background:var(--cream);
+  border:2px solid var(--ink); border-radius:100px;
+  padding:5px 14px; font-size:11px; font-weight:700;
+  letter-spacing:0.12em; text-transform:uppercase;
+  margin-bottom:16px; box-shadow:2px 2px 0 var(--ink);
+}
+.section-label.green  { background:#e6f7ee; }
+.section-label.indigo { background:#e6eef9; }
+.section-label.orange { background:#fef0ea; }
+
+/* HERO */
+.hero { background:var(--cream); border-bottom:3px solid var(--ink); padding:72px 0 64px; }
+.hero-inner { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+@media(max-width:860px){.hero-inner{grid-template-columns:1fr;gap:40px;}}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--ink); color:var(--cream); padding:6px 14px;
+  border-radius:100px; font-size:11px; font-weight:700;
+  letter-spacing:0.12em; text-transform:uppercase; margin-bottom:24px;
+}
+.hero h1 { font-size:clamp(2.2rem,5vw,3.6rem); margin-bottom:20px; }
+.hero h1 span { color:var(--orange); }
+.hero-sub { font-size:1.05rem; color:rgba(22,21,39,0.65); max-width:480px; margin-bottom:36px; line-height:1.7; }
+.hero-btn-row { display:flex; gap:12px; flex-wrap:wrap; }
+.hero-stat-box {
+  background:var(--paper); border:3px solid var(--ink);
+  border-radius:16px; box-shadow:6px 6px 0 var(--ink);
+  padding:32px; display:flex; flex-direction:column; gap:14px;
+}
+.hero-stat-box-label { font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.38); }
+.stat-row {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; padding:16px; background:var(--cream);
+  border:2px solid var(--ink); border-radius:10px;
+}
+.stat-row.green     { background:#e6f7ee; }
+.stat-row.orange-bg { background:#fef0ea; }
+.stat-num { font-family:var(--display); font-size:2rem; line-height:1; font-variant-numeric:tabular-nums; }
+.stat-row.green .stat-num    { color:var(--forest-deep); }
+.stat-row.orange-bg .stat-num{ color:var(--orange); }
+.stat-lbl { font-size:0.73rem; font-weight:600; text-transform:uppercase; letter-spacing:0.09em; color:rgba(22,21,39,0.48); text-align:right; max-width:140px; line-height:1.35; }
+.hero-note { font-size:0.78rem; color:rgba(22,21,39,0.4); text-align:center; font-style:italic; }
+
+/* Hero "what schools are doing" box */
+.hero-what-schools {
+  font-size:0.78rem; font-weight:800; text-transform:uppercase;
+  letter-spacing:0.12em; color:var(--ink); margin-bottom:14px;
+  padding-bottom:12px; border-bottom:2px solid var(--ink);
+}
+.hero-checklist { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+.hc-item {
+  display:flex; align-items:flex-start; gap:12px;
+  font-size:0.85rem; font-weight:500; line-height:1.4;
+}
+.hc-item span { padding-top:6px; }
+/* Colored number badge */
+.hc-badge {
+  flex-shrink:0; width:36px; height:36px; border-radius:8px;
+  border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink);
+  font-family:var(--display); font-size:1.1rem;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--ink);
+}
+.hc-badge.c-orange { background:var(--orange); }
+.hc-badge.c-indigo { background:var(--indigo); color:#fff; }
+/* Tick badge */
+.hc-tick {
+  flex-shrink:0; width:36px; height:36px; border-radius:8px;
+  border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink);
+  background:var(--forest); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; font-weight:700;
+}
+.hero-hires-result {
+  display:flex; align-items:center; gap:14px;
+  padding:16px 20px; background:var(--orange);
+  border:2.5px solid var(--ink); border-radius:12px;
+  box-shadow:5px 5px 0 var(--ink); margin-bottom:12px;
+}
+.hero-hires-n {
+  font-family:var(--display); font-size:2.8rem; line-height:1;
+  color:var(--ink); flex-shrink:0; font-variant-numeric:tabular-nums;
+}
+.hero-hires-lbl {
+  font-size:0.78rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.09em; color:rgba(22,21,39,0.65); line-height:1.4;
+}
+
+/* CALCULATOR */
+.calc-section { background:#fff; border-bottom:3px solid var(--ink); padding:80px 0; }
+.calc-intro { max-width:620px; margin-bottom:40px; }
+.calc-intro p { margin-top:10px; color:rgba(22,21,39,0.55); font-size:1rem; line-height:1.7; }
+
+/* Equipment grid */
+.eq-heading {
+  font-size:0.72rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.13em; color:rgba(22,21,39,0.4); margin-bottom:14px;
+}
+.eq-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:12px; margin-bottom:36px;
+}
+@media(max-width:720px){.eq-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.eq-grid{grid-template-columns:1fr;}}
+
+.eq-card {
+  background:var(--paper); border:2.5px solid rgba(22,21,39,0.18);
+  border-radius:12px; padding:18px; cursor:pointer;
+  transition:all 0.2s ease; position:relative; user-select:none;
+}
+.eq-card.checked {
+  border-color:var(--ink); box-shadow:3px 3px 0 var(--ink);
+  background:#fff;
+}
+.eq-card.checked::after {
+  content:'✓'; position:absolute; top:12px; right:14px;
+  width:20px; height:20px; border-radius:50%;
+  background:var(--forest); color:#fff; font-size:11px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  line-height:20px; text-align:center;
+}
+.eq-icon {
+  width:36px; height:36px; border-radius:8px;
+  border:2px solid var(--line); display:flex; align-items:center;
+  justify-content:center; margin-bottom:12px; background:#fff;
+}
+.eq-card.checked .eq-icon { border-color:var(--ink); background:var(--cream); }
+.eq-name { font-size:0.88rem; font-weight:700; margin-bottom:10px; line-height:1.3; }
+.eq-price-wrap { position:relative; }
+.eq-price-sym {
+  position:absolute; left:9px; top:50%; transform:translateY(-50%);
+  font-size:0.8rem; font-weight:700; color:rgba(22,21,39,0.4); pointer-events:none;
+}
+.eq-price-input {
+  width:100%; padding:8px 8px 8px 22px;
+  font-family:var(--body); font-size:0.88rem; font-weight:700;
+  border:1.5px solid rgba(22,21,39,0.2); border-radius:6px;
+  background:var(--cream); color:var(--ink); outline:none;
+  font-variant-numeric:tabular-nums; transition:border-color 0.15s;
+}
+.eq-card.checked .eq-price-input { border-color:rgba(22,21,39,0.35); background:#fff; }
+.eq-price-input:focus { border-color:var(--ink); box-shadow:2px 2px 0 var(--ink); }
+.eq-tap-hint { font-size:0.68rem; color:rgba(22,21,39,0.35); margin-top:8px; font-weight:500; }
+
+/* Custom "Add other" card */
+.eq-add-card {
+  cursor:default; padding:18px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.eq-add-card:hover { transform:none; box-shadow:3px 3px 0 var(--ink); border-color:var(--ink); }
+.eq-add-card.has-items { border-color:var(--forest); box-shadow:3px 3px 0 var(--forest); }
+.eq-add-title { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.45); margin-bottom:2px; }
+.eq-add-name-input {
+  width:100%; padding:6px 8px; border:1.5px solid rgba(22,21,39,0.2);
+  border-radius:6px; font-size:0.82rem; font-family:var(--body);
+  background:#fff; color:var(--ink);
+}
+.eq-add-name-input:focus { outline:none; border-color:var(--ink); }
+.eq-add-row { display:flex; gap:6px; align-items:center; }
+.eq-add-sym { font-size:0.85rem; font-weight:700; color:rgba(22,21,39,0.5); }
+.eq-add-price-input {
+  flex:1; min-width:0; padding:6px 8px; border:1.5px solid rgba(22,21,39,0.2);
+  border-radius:6px; font-size:0.82rem; font-family:var(--body);
+  background:#fff; color:var(--ink);
+}
+.eq-add-price-input:focus { outline:none; border-color:var(--ink); }
+.eq-add-btn {
+  padding:6px 12px; background:var(--ink); color:#fff; border:none;
+  border-radius:6px; font-size:0.78rem; font-weight:700; cursor:pointer;
+  font-family:var(--body); white-space:nowrap;
+}
+.eq-add-btn:hover { background:var(--indigo-deep); }
+.eq-custom-list { display:flex; flex-direction:column; gap:4px; margin-top:2px; }
+.eq-custom-item {
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:0.78rem; padding:4px 6px; background:#f0faf4;
+  border-radius:5px; border:1px solid rgba(53,176,106,0.3);
+}
+.eq-custom-item-name { font-weight:500; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.eq-custom-item-val { font-weight:700; font-variant-numeric:tabular-nums; margin:0 8px; white-space:nowrap; }
+.eq-custom-remove { background:none; border:none; cursor:pointer; font-size:0.9rem; color:rgba(22,21,39,0.4); padding:0 2px; line-height:1; }
+.eq-custom-remove:hover { color:var(--orange); }
+
+/* Services + receipt grid */
+.calc-lower {
+  display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;
+}
+@media(max-width:720px){.calc-lower{grid-template-columns:1fr;}}
+
+.services-panel {
+  background:var(--paper); border:3px solid var(--ink);
+  border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:32px;
+}
+.services-panel h3 {
+  font-family:var(--display); font-size:1.25rem; letter-spacing:-0.01em;
+  font-weight:900; color:var(--ink); margin-bottom:24px;
+  padding-bottom:16px; border-bottom:2.5px solid var(--ink);
+}
+
+.svc-grp { margin-bottom:32px; }
+.svc-grp:last-child { margin-bottom:0; }
+.svc-label { font-size:0.9rem; font-weight:700; margin-bottom:4px; }
+.svc-sublabel { font-size:0.8rem; color:rgba(22,21,39,0.45); margin-bottom:14px; line-height:1.4; }
+
+/* Stepper */
+.stepper {
+  display:flex; align-items:center; gap:0;
+  border:2px solid var(--ink); border-radius:10px;
+  overflow:hidden; width:fit-content; margin-bottom:10px;
+}
+.step-btn {
+  width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+  background:var(--cream); border:none; cursor:pointer;
+  font-size:1.4rem; font-weight:300; color:var(--ink);
+  transition:background 0.15s; flex-shrink:0;
+}
+.step-btn:hover { background:var(--cream-deep); }
+.step-btn:active { background:var(--ink); color:#fff; }
+.step-val {
+  min-width:52px; text-align:center;
+  font-family:var(--display); font-size:1.3rem; color:var(--ink);
+  border-left:2px solid var(--ink); border-right:2px solid var(--ink);
+  padding:0 6px; height:44px; display:flex; align-items:center; justify-content:center;
+  font-variant-numeric:tabular-nums;
+}
+.svc-calc-line {
+  font-size:0.82rem; color:rgba(22,21,39,0.5);
+  padding:8px 12px; background:var(--cream);
+  border:1.5px solid var(--line); border-radius:6px; line-height:1.5;
+}
+.svc-calc-line strong { color:var(--ink); font-weight:700; }
+
+/* Event breakdown mini-receipt */
+.event-breakdown {
+  margin-top:10px; padding:14px; background:#fff;
+  border:2px solid var(--ink); border-radius:10px;
+}
+.eb-title { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.4); margin-bottom:10px; }
+.eb-row { display:flex; justify-content:space-between; font-size:0.8rem; padding:3px 0; }
+.eb-row .eb-name { color:rgba(22,21,39,0.55); }
+.eb-row .eb-val  { font-weight:600; font-variant-numeric:tabular-nums; }
+.eb-total { display:flex; justify-content:space-between; font-size:0.85rem; font-weight:800; padding-top:8px; margin-top:6px; border-top:1.5px solid var(--ink); }
+
+/* Hire fee input in services panel */
+.hire-fee-row {
+  padding-top:24px; margin-top:24px; border-top:2px dashed rgba(22,21,39,0.14);
+}
+.fee-wrap { position:relative; }
+.fee-sym { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-weight:700; color:rgba(22,21,39,0.4); pointer-events:none; }
+.fee-input {
+  width:100%; padding:11px 12px 11px 28px;
+  font-family:var(--body); font-size:1rem; font-weight:700;
+  border:2px solid var(--ink); border-radius:8px;
+  background:#fff; color:var(--ink); outline:none;
+  transition:box-shadow 0.15s; font-variant-numeric:tabular-nums;
+}
+.fee-input:focus { box-shadow:3px 3px 0 var(--ink); }
+
+/* Receipt */
+.receipt {
+  background:var(--paper); border:3px solid var(--ink);
+  border-radius:16px; box-shadow:5px 5px 0 var(--ink); overflow:hidden;
+}
+.receipt-head {
+  background:var(--cream); border-bottom:2.5px solid var(--ink);
+  padding:14px 22px; display:flex; align-items:center; justify-content:space-between;
+}
+.receipt-head-lbl { font-family:var(--display); font-size:0.85rem; font-weight:900; letter-spacing:0.04em; color:var(--ink); }
+.rh-dots { display:flex; gap:5px; }
+.rh-dot { width:8px; height:8px; border-radius:50%; background:var(--ink); opacity:0.2; }
+.receipt-body { padding:20px 22px 0; font-size:0.82rem; font-weight:500; color:var(--ink); line-height:1; }
+.r-section-head {
+  font-family:var(--display); font-size:0.78rem; font-weight:900;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink); padding:10px 0 5px;
+}
+.r-section-head:first-child { padding-top:0; }
+.r-row { display:flex; align-items:flex-end; gap:6px; padding:3px 0; }
+.r-lbl  { flex-shrink:0; white-space:nowrap; }
+.r-fill { flex:1; min-width:0; border-bottom:1px dotted rgba(22,21,39,0.18); height:0.85em; margin-bottom:1px; }
+.r-val  { flex-shrink:0; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.r-row.muted  { color:rgba(22,21,39,0.4); }
+.r-row.accent { color:var(--orange); font-weight:700; }
+.r-row.bold   { font-weight:700; }
+.r-row.forest-col { color:var(--forest-deep); font-weight:700; }
+.r-div { border:none; border-top:1px dashed rgba(22,21,39,0.14); margin:8px 0; }
+
+/* Equipment section in receipt — hidden when nothing checked */
+.r-eq-section { display:none; }
+.r-eq-section.visible { display:block; }
+
+.receipt-result {
+  margin:10px 16px 0; padding:18px 20px;
+  text-align:center; background:var(--forest);
+  border:2.5px solid var(--ink); border-radius:12px;
+  box-shadow:5px 5px 0 var(--ink);
+}
+.result-n {
+  font-family:var(--display); font-size:3.6rem; line-height:1;
+  color:#fff; display:block; margin-bottom:2px;
+  font-variant-numeric:tabular-nums;
+}
+.result-lbl { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:rgba(255,255,255,0.75); }
+
+/* Year 1 box — only visible if equipment selected */
+.receipt-year1 {
+  margin:12px 16px 0; padding:14px 20px;
+  text-align:center; background:var(--indigo);
+  border:2.5px solid var(--ink); border-radius:12px;
+  box-shadow:5px 5px 0 var(--ink);
+  display:none;
+}
+.receipt-year1.visible { display:block; }
+.y1-n { font-family:var(--display); font-size:2rem; line-height:1; color:#fff; font-variant-numeric:tabular-nums; }
+.y1-lbl { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.7); margin-top:2px; display:block; }
+
+.receipt-zero { padding:14px 22px 20px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; }
+.zero-lbl { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.35); }
+.zero-val { font-family:var(--display); font-size:1.1rem; color:var(--ink); }
+
+/* BENEFITS */
+.benefits-section { background:var(--cream); border-bottom:3px solid var(--ink); padding:80px 0; }
+.benefits-top { display:flex; align-items:flex-start; justify-content:space-between; gap:32px; flex-wrap:wrap; margin-bottom:48px; }
+.shows-circle {
+  width:110px; height:110px; border-radius:50%;
+  background:var(--orange); border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; text-align:center; padding:8px; flex-shrink:0;
+  transition:background 0.3s;
+}
+.shows-circle-n { font-family:var(--display); font-size:2.2rem; color:#fff; line-height:1; font-variant-numeric:tabular-nums; }
+.shows-circle-lbl { font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.8); margin-top:3px; line-height:1.2; }
+.benefits-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; }
+.b-card {
+  background:var(--paper); border:2.5px solid rgba(22,21,39,0.18);
+  border-radius:12px; padding:22px;
+  transition:all 0.35s ease; filter:grayscale(0.8); opacity:0.42; position:relative;
+}
+.b-card::before {
+  content:''; position:absolute;
+  top:-2.5px; left:-2.5px; right:-2.5px; height:4px;
+  background:var(--forest); border-radius:12px 12px 0 0;
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.b-card.on { filter:none; opacity:1; border-color:var(--ink); box-shadow:4px 4px 0 var(--ink); }
+.b-card.on::before { transform:scaleX(1); }
+.b-card.pop { animation:bpop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+@keyframes bpop{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.b-tag { display:inline-flex; align-items:center; background:#fff; border:1.5px solid var(--line); border-radius:100px; padding:4px 10px; font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; }
+.b-card.on .b-tag { background:#e6f7ee; border-color:rgba(53,176,106,0.3); color:var(--forest-deep); }
+.b-title { font-size:1rem; font-weight:800; margin-bottom:6px; letter-spacing:-0.01em; }
+.b-desc  { font-size:0.85rem; color:rgba(22,21,39,0.55); line-height:1.55; margin-bottom:12px; }
+.b-calc  { font-size:0.75rem; font-weight:600; color:rgba(22,21,39,0.35); background:var(--cream); border:1.5px solid var(--line); border-radius:6px; padding:6px 10px; line-height:1.4; }
+.b-card.on .b-calc { background:#e6f7ee; border-color:rgba(53,176,106,0.25); color:var(--forest-deep); }
+.b-calc strong { font-weight:800; }
+.b-lock { position:absolute; top:16px; right:16px; font-size:0.7rem; font-weight:700; color:rgba(22,21,39,0.28); text-transform:uppercase; letter-spacing:0.08em; }
+.b-card.on .b-lock { display:none; }
+
+/* ROI */
+.roi-section { background:#fff; border-bottom:3px solid var(--ink); padding:80px 0; }
+.roi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px; margin-top:48px; }
+.roi-card { background:var(--paper); border:2.5px solid var(--ink); border-radius:12px; padding:24px; box-shadow:4px 4px 0 var(--ink); transition:transform 0.18s,box-shadow 0.18s; }
+.roi-card:hover { transform:translateY(-3px); box-shadow:7px 7px 0 var(--ink); }
+.roi-icon { width:40px; height:40px; border-radius:8px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+.roi-card h4 { font-size:1rem; font-weight:800; margin-bottom:6px; letter-spacing:-0.01em; }
+.roi-card p  { font-size:0.85rem; color:rgba(22,21,39,0.55); line-height:1.55; }
+.cycle-heading {
+  font-family:var(--display); font-size:1.3rem; letter-spacing:-0.01em;
+  margin-top:48px; margin-bottom:14px; color:var(--ink);
+}
+.cycle-row { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:0; padding:24px 28px; background:var(--cream); border:2.5px solid var(--ink); border-radius:12px; box-shadow:4px 4px 0 var(--ink); }
+.cycle-chip { padding:8px 18px; border-radius:100px; font-size:0.82rem; font-weight:700; white-space:nowrap; border:2px solid var(--ink); }
+.cycle-chip.c-orange { background:var(--orange); color:var(--ink); }
+.cycle-chip.c-indigo { background:var(--indigo); color:#fff; }
+.cycle-chip.c-forest { background:var(--forest); color:#fff; }
+.cycle-chip.c-cream  { background:var(--paper);  color:var(--ink); }
+.cycle-arr { color:rgba(22,21,39,0.4); font-size:1.1rem; flex-shrink:0; }
+
+/* CTA */
+.cta-section { background:var(--cream); border-bottom:3px solid var(--ink); padding:80px 0; }
+.cta-inner { text-align:center; }
+.cta-inner h2 { font-family:var(--display); font-size:clamp(2rem,5vw,3.5rem); color:var(--ink); text-transform:uppercase; margin-bottom:16px; line-height:1.05; }
+.cta-inner h2 span { color:var(--orange); }
+.cta-sub { font-size:1rem; color:rgba(22,21,39,0.55); margin:0 auto 40px; max-width:500px; }
+.cta-btn-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+/* FOOTER */
+.page-footer { background:var(--cream); border-top:3px solid var(--ink); padding:24px 0; }
+.footer-inner { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+.footer-logo { font-family:var(--display); font-size:1rem; color:var(--ink); text-transform:uppercase; }
+.footer-copy { font-size:0.78rem; color:rgba(22,21,39,0.4); }
+</style>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Urban Echo — The Maths</div>
+        <h1>Your space could be<br><span>making you money.</span></h1>
+        <p class="hero-sub">Most venues with an auditorium are sitting on untapped income. A handful of external hires a year generates enough to fund professional AV and event support for every internal event — at no extra cost to your budget.</p>
+        <div class="hero-btn-row">
+          <button class="btn btn-orange" onclick="document.getElementById('calc').scrollIntoView({behavior:'smooth'})">Run my numbers</button>
+          <button class="btn btn-outline" onclick="document.getElementById('benefits').scrollIntoView({behavior:'smooth'})">See what's included</button>
+        </div>
+      </div>
+      <div>
+        <div class="hero-stat-box">
+          <div class="hero-what-schools">What other schools are doing</div>
+          <div class="hero-checklist">
+            <div class="hc-item">
+              <div class="hc-badge c-orange">4</div>
+              <span>assemblies per term — sound tech covered</span>
+            </div>
+            <div class="hc-item">
+              <div class="hc-badge c-indigo">2</div>
+              <span>major events per term — sound tech, lighting tech, setup &amp; packdown crew, venue manager</span>
+            </div>
+            <div class="hc-item">
+              <div class="hc-tick">✓</div>
+              <span>Upgraded projector</span>
+            </div>
+            <div class="hc-item">
+              <div class="hc-tick">✓</div>
+              <span>Upgraded sound desk</span>
+            </div>
+            <div class="hc-item">
+              <div class="hc-tick">✓</div>
+              <span>Upgraded lighting desk</span>
+            </div>
+            <div class="hc-item">
+              <div class="hc-tick">✓</div>
+              <span>New carpets</span>
+            </div>
+          </div>
+          <div class="hero-hires-result">
+            <span class="hero-hires-n" id="heroHires">5</span>
+            <span class="hero-hires-lbl">hires / yr covers<br>your support &amp; equipment</span>
+          </div>
+          <p class="hero-note">Customise the calculator below for your school's needs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CALCULATOR ═══ -->
+<section class="calc-section" id="calc">
+  <div class="wrap">
+    <div class="calc-intro">
+      <span class="section-label">The calculator</span>
+      <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);">What does your school need?</h2>
+      <p>We manage the bookings, the venue tours with the client — so the extra time doesn't come out of your pocket. Calculate below how many times you would have to hire out your space to cover the upgrades and our services to support your venue.</p>
+    </div>
+
+    <!-- Equipment -->
+    <div class="eq-heading">Tick anything you'd like to upgrade (optional)</div>
+    <div class="eq-grid">
+      <div class="eq-card" id="eq0" onclick="toggleEquipment('eq0')">
+        <div class="eq-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="16" height="10" rx="2"/><path d="M6 14v2M12 14v2M4 16h10"/></svg>
+        </div>
+        <div class="eq-name">New projector</div>
+        <div class="eq-price-wrap">
+          <span class="eq-price-sym">$</span>
+          <input class="eq-price-input" id="eq0_price" type="number" value="3500" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+        </div>
+        <div class="eq-tap-hint">Tap to include</div>
+      </div>
+      <div class="eq-card" id="eq1" onclick="toggleEquipment('eq1')">
+        <div class="eq-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="5" width="14" height="8" rx="2"/><path d="M5 9h2M9 9h4M5 11.5h2"/><circle cx="14" cy="9" r="1"/></svg>
+        </div>
+        <div class="eq-name">Sound desk upgrade</div>
+        <div class="eq-price-wrap">
+          <span class="eq-price-sym">$</span>
+          <input class="eq-price-input" id="eq1_price" type="number" value="2500" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+        </div>
+        <div class="eq-tap-hint">Tap to include</div>
+      </div>
+      <div class="eq-card" id="eq2" onclick="toggleEquipment('eq2')">
+        <div class="eq-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="7" r="3"/><path d="M9 10v4M7 14h4"/><path d="M4 4l2 2M14 4l-2 2"/></svg>
+        </div>
+        <div class="eq-name">New lighting desk</div>
+        <div class="eq-price-wrap">
+          <span class="eq-price-sym">$</span>
+          <input class="eq-price-input" id="eq2_price" type="number" value="1800" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+        </div>
+        <div class="eq-tap-hint">Tap to include</div>
+      </div>
+      <div class="eq-card" id="eq3" onclick="toggleEquipment('eq3')">
+        <div class="eq-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="5" width="12" height="8" rx="2"/><path d="M13 7l4-2v6l-4-2"/></svg>
+        </div>
+        <div class="eq-name">Camera setup upgrade</div>
+        <div class="eq-price-wrap">
+          <span class="eq-price-sym">$</span>
+          <input class="eq-price-input" id="eq3_price" type="number" value="2000" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+        </div>
+        <div class="eq-tap-hint">Tap to include</div>
+      </div>
+      <div class="eq-card" id="eq4" onclick="toggleEquipment('eq4')">
+        <div class="eq-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="12" width="16" height="4" rx="1"/><path d="M3 12V6a6 6 0 0 1 12 0v6"/></svg>
+        </div>
+        <div class="eq-name">New carpets</div>
+        <div class="eq-price-wrap">
+          <span class="eq-price-sym">$</span>
+          <input class="eq-price-input" id="eq4_price" type="number" value="4000" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+        </div>
+        <div class="eq-tap-hint">Tap to include</div>
+      </div>
+      <!-- Custom "Add other" card -->
+      <div class="eq-card eq-add-card" id="eqAddCard">
+        <div class="eq-add-title">Add other item</div>
+        <input class="eq-add-name-input" id="eqAddName" type="text" placeholder="e.g. New stage curtains" onclick="event.stopPropagation()">
+        <div class="eq-add-row">
+          <span class="eq-add-sym">$</span>
+          <input class="eq-add-price-input" id="eqAddPrice" type="number" placeholder="0" min="0" max="500000" step="100" onclick="event.stopPropagation()">
+          <button class="eq-add-btn" onclick="event.stopPropagation(); addCustomItem()">+ Add</button>
+        </div>
+        <div class="eq-custom-list" id="eqCustomList"></div>
+      </div>
+    </div>
+
+    <!-- Services + receipt -->
+    <div class="calc-lower">
+      <div class="services-panel">
+        <h3>Your annual support needs</h3>
+
+        <!-- Assemblies -->
+        <div class="svc-grp">
+          <div class="svc-label">Assemblies per term</div>
+          <div class="svc-sublabel">How many all-school assemblies does your school run each term?</div>
+          <div class="stepper">
+            <button class="step-btn" onclick="step('assemblies',-1)">−</button>
+            <span class="step-val" id="assembliesVal">4</span>
+            <button class="step-btn" onclick="step('assemblies',1)">+</button>
+          </div>
+          <div class="svc-calc-line" id="assembliesCalc">
+            <span id="assembliesPerYearLbl">4 per term × 4 terms = <strong>16 assemblies / yr</strong></span><br>
+            AV operator, 3 hrs each &nbsp;×&nbsp; $240 = <strong id="assembliesCostLbl">$3,840 / yr</strong>
+          </div>
+        </div>
+
+        <!-- Major events -->
+        <div class="svc-grp">
+          <div class="svc-label">Major events per year</div>
+          <div class="svc-sublabel">School productions, speech nights, community events — how many would you like full crew support for?</div>
+          <div class="stepper">
+            <button class="step-btn" onclick="step('major',-1)">−</button>
+            <span class="step-val" id="majorVal">4</span>
+            <button class="step-btn" onclick="step('major',1)">+</button>
+          </div>
+          <div class="svc-calc-line" id="majorCalc">
+            <strong id="majorCostLbl">4 events × $1,300 = $5,200 / yr</strong>
+          </div>
+          <div class="event-breakdown">
+            <div class="eb-title">Auto-included per major event (4 hrs)</div>
+            <div class="eb-row"><span class="eb-name">AV Operator ×1</span><span class="eb-val">$400</span></div>
+            <div class="eb-row"><span class="eb-name">Lighting Operator ×1</span><span class="eb-val">$400</span></div>
+            <div class="eb-row"><span class="eb-name">Setup Crew ×2</span><span class="eb-val">$640</span></div>
+            <div class="eb-row"><span class="eb-name">Event Manager ×1</span><span class="eb-val">$320</span></div>
+            <div class="eb-total"><span>Per event (4 hrs)</span><span>$1,760</span></div>
+          </div>
+        </div>
+
+        <!-- Hire fee -->
+        <div class="hire-fee-row">
+          <div class="svc-label" style="margin-bottom:8px;">Average hire fee per booking</div>
+          <div class="fee-wrap">
+            <span class="fee-sym">$</span>
+            <input type="number" class="fee-input" id="hireFeeInput" value="2000" min="100" max="20000" step="50">
+          </div>
+        </div>
+      </div>
+
+      <!-- Receipt -->
+      <div class="receipt">
+        <div class="receipt-head">
+          <span class="receipt-head-lbl">Urban Echo — Cost Breakdown</span>
+          <div class="rh-dots"><div class="rh-dot"></div><div class="rh-dot"></div><div class="rh-dot"></div></div>
+        </div>
+        <div class="receipt-body">
+
+          <div class="r-section-head">Assemblies</div>
+          <div class="r-row muted"><span class="r-lbl" id="rAsmCount">16 assemblies / yr</span><span class="r-fill"></span></div>
+          <div class="r-row bold forest-col"><span class="r-lbl">TOTAL</span><span class="r-fill"></span><span class="r-val" id="rAsmCost">$3,120</span></div>
+
+          <hr class="r-div">
+          <div class="r-section-head">Major Events</div>
+          <div class="r-row muted"><span class="r-lbl" id="rMajCount">4 events / yr @ $1,300</span><span class="r-fill"></span></div>
+          <div class="r-row bold forest-col"><span class="r-lbl">TOTAL</span><span class="r-fill"></span><span class="r-val" id="rMajCost">$5,200</span></div>
+
+          <div class="r-eq-section" id="rEqSection">
+            <hr class="r-div">
+            <div class="r-section-head">Equipment (one-time)</div>
+            <div id="rEqLines"></div>
+            <div class="r-row bold"><span class="r-lbl">EQUIPMENT TOTAL</span><span class="r-fill"></span><span class="r-val" id="rEqTotal">$0</span></div>
+          </div>
+
+          <hr class="r-div">
+          <div class="r-row bold"><span class="r-lbl">ANNUAL SERVICES</span><span class="r-fill"></span><span class="r-val" id="rAnnual">$8,320</span></div>
+          <div class="r-row muted" id="rYear1Row"><span class="r-lbl">YEAR 1 TOTAL</span><span class="r-fill"></span><span class="r-val" id="rYear1">$8,320</span></div>
+          <hr class="r-div">
+          <div class="r-row muted"><span class="r-lbl">÷ HIRE FEE</span><span class="r-fill"></span><span class="r-val" id="rFeeDisplay">$2,000</span></div>
+        </div>
+
+        <!-- Ongoing hires — primary result -->
+        <div class="receipt-result">
+          <span class="result-n" id="rHiresOngoing">5</span>
+          <span class="result-lbl">hires / year covers your support</span>
+        </div>
+
+        <!-- Year 1 hires — only shows when equipment selected -->
+        <div class="receipt-year1" id="rYear1Box">
+          <span class="y1-n" id="rHiresYear1">5</span>
+          <span class="y1-lbl">hires in year 1 (includes equipment)</span>
+        </div>
+
+        <div class="receipt-zero">
+          <span class="zero-lbl">From your core budget</span>
+          <span class="zero-val">$0.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BENEFITS ═══ -->
+<section class="benefits-section" id="benefits">
+  <div class="wrap">
+    <div class="benefits-top">
+      <div>
+        <span class="section-label green">Your package</span>
+        <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);margin-top:12px;">Everything included in your hires.</h2>
+        <p style="margin-top:10px;color:rgba(22,21,39,0.55);font-size:1rem;max-width:500px;">Add assemblies and events above to see what you're building into your package.</p>
+      </div>
+    </div>
+    <div class="benefits-grid" id="benefitsGrid"></div>
+  </div>
+</section>
+
+<!-- ═══ ROI ═══ -->
+<section class="roi-section">
+  <div class="wrap">
+    <span class="section-label indigo">The bigger picture</span>
+    <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);margin-top:12px;">What great events do for your school.</h2>
+    <p style="margin-top:10px;color:rgba(22,21,39,0.55);font-size:1rem;max-width:560px;">The AV is just the start. A venue that runs well attracts more hires — and every hire funds more support for your community.</p>
+    <div class="roi-grid">
+      <div class="roi-card">
+        <div class="roi-icon" style="background:#e6eef9;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#2B65B8" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="6" r="3.5"/><path d="M2 16c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg>
+        </div>
+        <h4>Parents notice</h4>
+        <p>Parents remember the night they could actually hear. Speech nights and performances that look and sound polished become part of your school's reputation.</p>
+      </div>
+      <div class="roi-card">
+        <div class="roi-icon" style="background:#fef0ea;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#D8491B" stroke-width="1.6" stroke-linecap="round"><path d="M9 2l2 5h5l-4 3 1.5 5L9 12l-4.5 3L6 10 2 7h5z"/></svg>
+        </div>
+        <h4>Brand reputation</h4>
+        <p>Consistent, polished events signal investment and care. The right support makes your school look like you spent twice the budget.</p>
+      </div>
+      <div class="roi-card">
+        <div class="roi-icon" style="background:#e6f7ee;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#1E9256" stroke-width="1.6" stroke-linecap="round"><path d="M2 14h14M5 14V8m4 6V4m4 10V10"/></svg>
+        </div>
+        <h4>Reinvest in your venue</h4>
+        <p>Every dollar your hires cover is a dollar freed up — for new carpets, upgraded AV infrastructure, refreshed furniture, or better seating.</p>
+      </div>
+      <div class="roi-card">
+        <div class="roi-icon" style="background:#fffbe6;">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#c49a00" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="9" r="7"/><path d="M9 6v3l2 2"/></svg>
+        </div>
+        <h4>A self-funding cycle</h4>
+        <p>A well-run venue gets booked again. Hirers leave good reviews. Your calendar fills. The revenue grows without touching your budget.</p>
+      </div>
+    </div>
+    <h3 class="cycle-heading">Create a circular revenue stream</h3>
+    <div class="cycle-row">
+      <span class="cycle-chip c-orange">Hire out your space</span>
+      <span class="cycle-arr">→</span>
+      <span class="cycle-chip c-indigo">Revenue funds Urban Echo</span>
+      <span class="cycle-arr">→</span>
+      <span class="cycle-chip c-forest">Better internal events</span>
+      <span class="cycle-arr">→</span>
+      <span class="cycle-chip c-cream">Stronger venue reputation</span>
+      <span class="cycle-arr">→</span>
+      <span class="cycle-chip c-orange">More external bookings</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+  <div class="wrap">
+    <div class="cta-inner">
+      <span class="section-label orange" style="margin-bottom:20px;">Let's talk</span>
+      <h2>Your hall.<br><span>Zero extra budget.</span></h2>
+      <p class="cta-sub">Talk to us about how many hires would work for your venue and what that covers.</p>
+      <div class="cta-btn-row">
+        <a href="enquire.html" class="btn btn-orange">Get in touch →</a>
+        <a href="index.html" class="btn btn-outline">See how we work</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="page-footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <span class="footer-logo">Urban Echo</span>
+      <span class="footer-copy">Perth, WA · urbanecho.com.au</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var ASM_RATE   = 300;  /* $100/hr × 3hrs — 1 AV tech */
+  var MAJOR_RATE = 1760; /* AV $400 + Lighting $400 + Setup×2 $640 + Manager $320 */
+
+  var EQ_ITEMS = [
+    { id:'eq0', name:'New projector',        price:3500 },
+    { id:'eq1', name:'Sound desk upgrade',   price:2500 },
+    { id:'eq2', name:'New lighting desk',    price:1800 },
+    { id:'eq3', name:'Camera setup upgrade', price:2000 },
+    { id:'eq4', name:'New carpets',          price:4000 }
+  ];
+
+  /* Custom items */
+  var customItems = [];
+  var customIdSeq = 0;
+
+  window.addCustomItem = function() {
+    var nameEl  = document.getElementById('eqAddName');
+    var priceEl = document.getElementById('eqAddPrice');
+    var name  = nameEl.value.trim();
+    var price = parseFloat(priceEl.value) || 0;
+    if (!name || price <= 0) return;
+    var id = 'custom_' + (++customIdSeq);
+    customItems.push({ id: id, name: name, price: price });
+    nameEl.value  = '';
+    priceEl.value = '';
+    renderCustomItems();
+    calc();
+  };
+
+  window.removeCustomItem = function(id) {
+    customItems = customItems.filter(function(i){ return i.id !== id; });
+    renderCustomItems();
+    calc();
+  };
+
+  function renderCustomItems() {
+    var list = document.getElementById('eqCustomList');
+    var card = document.getElementById('eqAddCard');
+    if (!customItems.length) {
+      list.innerHTML = '';
+      card.classList.remove('has-items');
+      return;
+    }
+    card.classList.add('has-items');
+    list.innerHTML = customItems.map(function(i){
+      return '<div class="eq-custom-item">' +
+        '<span class="eq-custom-item-name">' + i.name + '</span>' +
+        '<span class="eq-custom-item-val">$' + i.price.toLocaleString() + '</span>' +
+        '<button class="eq-custom-remove" onclick="event.stopPropagation();removeCustomItem(\'' + i.id + '\')">✕</button>' +
+        '</div>';
+    }).join('');
+  }
+
+  /* Allow pressing Enter in custom inputs to add */
+  document.addEventListener('DOMContentLoaded', function(){
+    ['eqAddName','eqAddPrice'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); addCustomItem(); } });
+    });
+  });
+
+  /* State */
+  var state = {
+    assembliesPerTerm: 4,
+    majorEvents:       4,
+    hireFee:           2000
+  };
+
+  /* Stepper */
+  window.step = function(field, delta) {
+    if (field === 'assemblies') {
+      state.assembliesPerTerm = Math.max(0, Math.min(12, state.assembliesPerTerm + delta));
+      document.getElementById('assembliesVal').textContent = state.assembliesPerTerm;
+    } else {
+      state.majorEvents = Math.max(0, Math.min(40, state.majorEvents + delta));
+      document.getElementById('majorVal').textContent = state.majorEvents;
+    }
+    calc();
+  };
+
+  /* Equipment toggle */
+  window.toggleEquipment = function(id) {
+    var card = document.getElementById(id);
+    card.classList.toggle('checked');
+    var hint = card.querySelector('.eq-tap-hint');
+    hint.textContent = card.classList.contains('checked') ? 'Tap to remove' : 'Tap to include';
+    calc();
+  };
+
+  /* Price input changes */
+  EQ_ITEMS.forEach(function(eq) {
+    document.getElementById(eq.id + '_price').addEventListener('input', calc);
+  });
+  document.getElementById('eq4_price').addEventListener('input', calc);
+  document.getElementById('hireFeeInput').addEventListener('input', function(){
+    state.hireFee = parseFloat(this.value) || 2000;
+    calc();
+  });
+
+  /* Animate number */
+  function animN(el, to, prefix) {
+    prefix = prefix || '';
+    var from = parseFloat(el.dataset.n || '0');
+    el.dataset.n = to;
+    var start = null, dur = 400;
+    (function step(ts){
+      if (!start) start = ts;
+      var p = Math.min((ts - start)/dur, 1);
+      var ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + Math.round(from + (to - from) * ease);
+      if (p < 1) requestAnimationFrame(step);
+    })(performance.now());
+  }
+
+  function fmtM(n) { return '$' + n.toLocaleString('en-AU'); }
+
+  /* Benefits config — unlocks based on selections */
+  var BENEFITS = [
+    {
+      id: 'b0',
+      title: 'AV Setup for Every Assembly',
+      desc:  'Every all-school assembly — mixed and managed by a professional operator from setup to packdown.',
+      calc:  '4 assemblies per term × 4 terms = <strong>16 assemblies / yr</strong>',
+      tag:   'Assemblies',
+      check: function(s,eq){ return s.assembliesPerTerm > 0; }
+    },
+    {
+      id: 'b1',
+      title: 'Full Crew at Major Productions',
+      desc:  'Your school musical, graduation ceremony, or community night — a full professional crew from bump-in to bump-out.',
+      calc:  '2 major events per term × 4 terms = <strong>8 events / yr</strong>',
+      tag:   'Productions',
+      check: function(s){ return s.majorEvents > 0; }
+    },
+    {
+      id: 'b2',
+      title: 'Live Streaming for Parents',
+      desc:  'Concerts and performances streamed live so every parent can watch from anywhere.',
+      calc:  'Available across all <strong>major events</strong>',
+      tag:   'Streaming',
+      check: function(s){ return s.majorEvents > 0; }
+    },
+    {
+      id: 'b3',
+      title: 'Priority Booking + Dedicated Contact',
+      desc:  'A dedicated person who knows your venue, your calendar, and your preferences. No last-minute scrambles.',
+      calc:  '<strong>Year-round</strong> dedicated support',
+      tag:   'Priority',
+      check: function(s){ return s.majorEvents > 1 || s.assembliesPerTerm > 2; }
+    },
+    {
+      id: 'b4',
+      title: 'Venue & Systems Review',
+      desc:  'A full audit of your AV infrastructure with a clear upgrade roadmap — what to fix first, and why.',
+      calc:  '<strong>1 annual review</strong> + written report',
+      tag:   'Infrastructure',
+      check: function(s,eq){ return eq > 0; }
+    },
+    {
+      id: 'b5',
+      title: 'Branded Event Content',
+      desc:  'Coordinated photography and documentation for your newsletter, social media, and school website.',
+      calc:  'Across all <strong>major events</strong> each year',
+      tag:   'Content',
+      check: function(s){ return s.majorEvents > 2; }
+    }
+  ];
+
+  /* Build benefit cards */
+  var grid = document.getElementById('benefitsGrid');
+  BENEFITS.forEach(function(b) {
+    var card = document.createElement('div');
+    card.className = 'b-card'; card.id = b.id;
+    card.innerHTML =
+      '<span class="b-lock">Add to your package above</span>' +
+      '<div class="b-tag">' + b.tag + '</div>' +
+      '<div class="b-title">' + b.title + '</div>' +
+      '<div class="b-desc">' + b.desc + '</div>' +
+      '<div class="b-calc">' + b.calc + '</div>';
+    grid.appendChild(card);
+  });
+
+  function calc() {
+    state.hireFee = parseFloat(document.getElementById('hireFeeInput').value) || 2000;
+
+    var assembliesPerYear = state.assembliesPerTerm * 4;
+    var asmCost   = assembliesPerYear * ASM_RATE;
+    var majCost   = state.majorEvents * MAJOR_RATE;
+    var annualSvc = asmCost + majCost;
+
+    /* Equipment */
+    var eqCost = 0;
+    var eqLines = '';
+    var anyEq = false;
+    EQ_ITEMS.forEach(function(eq) {
+      var card = document.getElementById(eq.id);
+      if (card && card.classList.contains('checked')) {
+        anyEq = true;
+        var price = parseFloat(document.getElementById(eq.id + '_price').value) || eq.price;
+        eqCost += price;
+        eqLines +=
+          '<div class="r-row muted"><span class="r-lbl">' + eq.name + '</span>' +
+          '<span class="r-fill"></span><span class="r-val">' + fmtM(price) + '</span></div>';
+      }
+    });
+    customItems.forEach(function(item) {
+      anyEq = true;
+      eqCost += item.price;
+      eqLines +=
+        '<div class="r-row muted"><span class="r-lbl">' + item.name + '</span>' +
+        '<span class="r-fill"></span><span class="r-val">' + fmtM(item.price) + '</span></div>';
+    });
+
+    var year1Total  = annualSvc + eqCost;
+    var hiresOngoing = Math.ceil(annualSvc / state.hireFee);
+    var hiresYear1   = Math.ceil(year1Total / state.hireFee);
+
+    /* Update assembly calcs */
+    document.getElementById('assembliesPerYearLbl').innerHTML =
+      state.assembliesPerTerm + ' per term × 4 terms = <strong>' + assembliesPerYear + ' assemblies / yr</strong>';
+    document.getElementById('assembliesCostLbl').textContent =
+      fmtM(asmCost) + ' / yr';
+    document.getElementById('majorCostLbl').textContent =
+      state.majorEvents + ' events × $1,760 = ' + fmtM(majCost) + ' / yr';
+
+    /* Update receipt */
+    document.getElementById('rAsmCount').textContent  = assembliesPerYear + ' assemblies / yr × $300';
+    document.getElementById('rAsmCost').textContent   = fmtM(asmCost);
+    document.getElementById('rMajCount').textContent  = state.majorEvents + ' events / yr @ $1,760';
+    document.getElementById('rMajCost').textContent   = fmtM(majCost);
+    document.getElementById('rAnnual').textContent    = fmtM(annualSvc);
+    document.getElementById('rYear1').textContent     = fmtM(year1Total);
+    document.getElementById('rFeeDisplay').textContent = fmtM(state.hireFee);
+
+    /* Equipment section in receipt */
+    var eqSection = document.getElementById('rEqSection');
+    var year1Row  = document.getElementById('rYear1Row');
+    var year1Box  = document.getElementById('rYear1Box');
+    if (anyEq) {
+      eqSection.classList.add('visible');
+      year1Row.style.display = '';
+      year1Box.classList.add('visible');
+      document.getElementById('rEqLines').innerHTML = eqLines;
+      document.getElementById('rEqTotal').textContent = fmtM(eqCost);
+    } else {
+      eqSection.classList.remove('visible');
+      year1Row.style.display = 'none';
+      year1Box.classList.remove('visible');
+    }
+
+    /* Animate key numbers */
+    animN(document.getElementById('rHiresOngoing'), hiresOngoing);
+    animN(document.getElementById('rHiresYear1'),   hiresYear1);
+    animN(document.getElementById('heroHires'),     hiresYear1);
+
+    /* Benefit card unlocking */
+    BENEFITS.forEach(function(b) {
+      var card = document.getElementById(b.id);
+      var was  = card.classList.contains('on');
+      var on   = b.check(state, eqCost);
+      if (on && !was) {
+        card.classList.add('on');
+        card.classList.remove('pop'); void card.offsetWidth;
+        card.classList.add('pop');
+      } else if (!on && was) {
+        card.classList.remove('on','pop');
+      }
+    });
+  }
+
+  /* Hide year1 row initially */
+  document.getElementById('rYear1Row').style.display = 'none';
+
+  calc();
+})();
+</script>
