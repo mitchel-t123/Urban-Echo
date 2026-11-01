@@ -18,6 +18,9 @@
   --line:       rgba(22,21,39,0.12);
   --display: 'Archivo Black', 'Arial Black', sans-serif;
   --body:    'Inter', -apple-system, sans-serif;
+  --mono:    'Inter', -apple-system, sans-serif;
+  --sunshine:#F5C518;
+  --pink:    #F5A8BC;
 }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { background: var(--cream); }
@@ -449,9 +452,116 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 /* FOOTER */
 .page-footer { background:var(--cream); border-top:3px solid var(--ink); padding:24px 0; }
 .footer-inner { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
-.footer-logo { font-family:var(--display); font-size:1rem; color:var(--ink); text-transform:uppercase; }
-.footer-copy { font-size:0.78rem; color:rgba(22,21,39,0.4); }
+/* ─── NAV (matches main site) ─── */
+.nav{ position:sticky; top:0; z-index:100; background:#ffffff; border-bottom:2px solid var(--ink); }
+.nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 32px; max-width:1180px; margin:0 auto; }
+.nav-logo{ height:30px; width:auto; }
+.desktop-menu-btn{ display:flex; align-items:center; gap:8px; background:none; border:2px solid var(--ink); border-radius:8px; padding:7px 14px; cursor:pointer; font-weight:700; font-size:15px; color:var(--ink); font-family:inherit; transition:background 0.15s,box-shadow 0.15s; box-shadow:3px 3px 0 var(--ink); white-space:nowrap; }
+.desktop-menu-btn:hover{ background:var(--cream); box-shadow:5px 5px 0 var(--ink); }
+.desktop-menu-btn .menu-bars{ display:flex; flex-direction:column; gap:4px; }
+.desktop-menu-btn .menu-bars span{ display:block; width:16px; height:2px; background:var(--ink); border-radius:2px; transition:transform 0.2s,opacity 0.2s; }
+.desktop-menu-btn.open .menu-bars span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.desktop-menu-btn.open .menu-bars span:nth-child(2){ opacity:0; }
+.desktop-menu-btn.open .menu-bars span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+@media(max-width:920px){ .desktop-menu-btn{ display:none; } }
+.desktop-dropdown{ display:none; position:absolute; top:100%; left:0; right:0; z-index:99; background:#fff; border-bottom:3px solid var(--ink); box-shadow:0 8px 32px rgba(22,21,39,0.12); }
+.desktop-dropdown.open{ display:block; }
+.desktop-dropdown-inner{ max-width:1180px; margin:0 auto; padding:28px 32px 32px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:32px; }
+.dd-col-label{ display:inline-block; background:var(--forest); color:var(--ink); border:2px solid var(--ink); border-radius:100px; padding:4px 14px; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:12px; }
+.dd-link{ display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); font-weight:700; font-size:15px; padding:9px 12px; border-radius:8px; border:2px solid transparent; transition:background 0.12s,border-color 0.12s,box-shadow 0.12s; }
+.dd-link:hover{ background:var(--cream); border-color:var(--ink); box-shadow:2px 2px 0 var(--ink); }
+.dd-link .dd-icon{ font-size:18px; flex-shrink:0; }
+.dd-link .dd-text{ display:flex; flex-direction:column; }
+.dd-link .dd-text strong{ font-size:15px; line-height:1.2; }
+.dd-link .dd-text small{ font-size:12px; font-weight:500; opacity:0.55; margin-top:1px; }
+.dd-cta{ display:block; text-align:center; text-decoration:none; font-weight:800; font-size:15px; padding:11px 16px; border-radius:10px; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); color:var(--ink); transition:box-shadow 0.1s,transform 0.1s,background 0.12s; margin-bottom:10px; }
+.dd-cta:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-1px); }
+.dd-cta:last-child{ margin-bottom:0; }
+.nav-login-btn{ display:flex; align-items:center; justify-content:center; height:38px; width:38px; border-radius:50%; background:var(--ink); border:2.5px solid var(--ink); text-decoration:none; transition:opacity 0.15s; flex-shrink:0; }
+.nav-login-btn:hover{ opacity:0.75; }
+@media(max-width:920px){ .nav-login-btn{ display:none; } }
+.nav-hamburger{ display:none; background:none; border:2px solid var(--ink); border-radius:8px; padding:7px 10px; cursor:pointer; flex-direction:column; gap:5px; align-items:center; justify-content:center; }
+.nav-hamburger span{ display:block; width:20px; height:2px; background:var(--ink); border-radius:2px; transition:transform 0.2s,opacity 0.2s; }
+.nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2){ opacity:0; }
+.nav-hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+@media(max-width:920px){ .nav-hamburger{ display:flex; } }
+.mobile-menu{ display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(22,21,39,0.55); z-index:101; }
+.mobile-menu.open{ display:block; backdrop-filter:blur(2px); }
+.mobile-menu-panel{ position:absolute; top:62px; left:0; right:0; background:#fff; padding:16px 20px 24px; border-bottom:3px solid var(--ink); display:flex; flex-direction:column; gap:10px; }
+.mobile-menu-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+.mobile-menu-close{ width:38px; height:38px; border-radius:50%; border:2.5px solid var(--ink); background:var(--cream); display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; cursor:pointer; box-shadow:3px 3px 0 var(--ink); flex-shrink:0; }
+.mobile-menu-bubbles{ display:flex; flex-wrap:wrap; gap:8px; }
+.mobile-menu-panel a{ display:block; font-weight:700; font-size:16px; text-decoration:none; color:var(--ink); padding:11px 16px; border-radius:10px; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); transition:background 0.15s,box-shadow 0.1s,transform 0.1s; }
+.mobile-menu-panel a:hover{ background:var(--cream); }
+.nav-bubble{ border:2px solid var(--ink) !important; border-radius:100px !important; padding:5px 14px !important; font-weight:700 !important; color:var(--ink) !important; box-shadow:3px 3px 0 var(--ink) !important; }
+/* ─── FOOTER (matches main site) ─── */
+.footer{ background:var(--ink); color:rgba(255,252,245,0.5); padding:10px 0; display:flex; align-items:center; font-size:13.5px; }
+.footer-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+.footer a{ text-decoration:none; color:rgba(255,252,245,0.7); }
+.footer-tagline-short{ display:none; }
+.footer-logo-img{ height:18px; opacity:0.85; }
+@media(max-width:600px){ .footer-inner{ flex-wrap:nowrap; gap:6px; } .footer-tagline-full{ display:none; } .footer-tagline-short{ display:inline; } }
+/* ─── Receipt heading ─── */
+.receipt-h3 { font-family:var(--display); font-size:1.25rem; letter-spacing:-0.01em; font-weight:900; color:var(--ink); margin-bottom:24px; padding-bottom:16px; border-bottom:2.5px solid var(--ink); }
+/* ─── Hires answer (below calc grid) ─── */
+.hires-answer { margin-top:32px; }
+.hires-answer .receipt-result { margin:0; border-radius:16px; display:flex; align-items:center; justify-content:center; gap:20px; padding:24px 32px; }
+.hires-answer .result-term { font-size:0.88rem; font-weight:700; color:rgba(255,255,255,0.75); display:block; margin-top:4px; letter-spacing:0.02em; }
 </style>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav" style="position:relative;">
+  <div class="nav-inner">
+    <a href="/"><img src="logo.png" alt="Urban Echo" class="nav-logo" width="2272" height="376"></a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="/" class="btn btn-outline" style="font-weight:800;white-space:nowrap;font-size:15px;padding:9px 18px;">← Main Site</a>
+      <a href="login.html" class="nav-login-btn" title="Team login" aria-label="Employee portal login"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      <button class="desktop-menu-btn" id="desktopMenuBtn" aria-label="Open navigation menu" aria-expanded="false">
+        <div class="menu-bars"><span></span><span></span><span></span></div>
+        Menu
+      </button>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="desktop-dropdown" id="desktopDropdown" aria-hidden="true">
+    <div class="desktop-dropdown-inner">
+      <div>
+        <div class="dd-col-label">Jump to</div>
+        <a href="#calc" class="dd-link desktop-dd-link"><span class="dd-icon">🧮</span><span class="dd-text"><strong>The Calculator</strong><small>Run your numbers</small></span></a>
+        <a href="#benefits" class="dd-link desktop-dd-link"><span class="dd-icon">📦</span><span class="dd-text"><strong>What's Included</strong><small>Your package breakdown</small></span></a>
+      </div>
+      <div>
+        <div class="dd-col-label">Main site</div>
+        <a href="/" class="dd-link"><span class="dd-icon">🏫</span><span class="dd-text"><strong>Schools Page</strong><small>Urban Echo for schools</small></span></a>
+        <a href="login.html" class="dd-link" style="background:var(--ink);border-color:var(--ink);box-shadow:none;margin-top:4px;"><span class="dd-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span><span class="dd-text" style="color:#fff;"><strong style="color:#fff;">Team Login</strong><small style="color:rgba(255,255,255,0.6);">Employee portal</small></span></a>
+      </div>
+      <div>
+        <div class="dd-col-label">Get in touch</div>
+        <a href="tel:0429660186" class="dd-cta" style="background:#fff;">📞 Call Us</a>
+        <a href="/#contact" class="dd-cta desktop-dd-link" style="background:var(--indigo);color:#fff;">✉️ Make an Enquiry</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-panel">
+    <div class="mobile-menu-header">
+      <img src="logo.png" alt="Urban Echo" style="height:26px;">
+      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+    </div>
+    <div class="mobile-menu-bubbles">
+      <a href="#calc" class="mobile-menu-link nav-bubble" style="display:inline-flex;white-space:nowrap;">🧮 Calculator</a>
+      <a href="#benefits" class="mobile-menu-link nav-bubble" style="display:inline-flex;white-space:nowrap;">📦 Package</a>
+    </div>
+    <a href="/" class="mobile-menu-link" style="background:var(--cream);color:var(--ink) !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-align:center;">← Back to Main Site</a>
+    <a href="/#contact" class="mobile-menu-link" style="background:var(--indigo);color:#fff !important;font-weight:800;border-radius:10px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-align:center;">Contact Us</a>
+  </div>
+</div>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
@@ -640,11 +750,8 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 
       <!-- Receipt -->
       <div class="receipt">
-        <div class="receipt-head">
-          <span class="receipt-head-lbl">Urban Echo — Cost Breakdown</span>
-          <div class="rh-dots"><div class="rh-dot"></div><div class="rh-dot"></div><div class="rh-dot"></div></div>
-        </div>
-        <div class="receipt-body">
+        <div class="receipt-body" style="padding-top:28px;">
+        <h3 class="receipt-h3">Urban Echo — Cost Breakdown</h3>
 
           <div class="r-section-head">Assemblies</div>
           <div class="r-row muted"><span class="r-lbl" id="rAsmCount">16 assemblies / yr</span><span class="r-fill"></span></div>
@@ -669,22 +776,25 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
           <div class="r-row muted"><span class="r-lbl">÷ HIRE FEE</span><span class="r-fill"></span><span class="r-val" id="rFeeDisplay">$2,000</span></div>
         </div>
 
-        <!-- Ongoing hires — primary result -->
-        <div class="receipt-result">
-          <span class="result-n" id="rHiresOngoing">5</span>
-          <span class="result-lbl">hires / year covers your support</span>
-        </div>
-
-        <!-- Year 1 hires — only shows when equipment selected -->
-        <div class="receipt-year1" id="rYear1Box">
-          <span class="y1-n" id="rHiresYear1">5</span>
-          <span class="y1-lbl">hires in year 1 (includes equipment)</span>
-        </div>
-
         <div class="receipt-zero">
           <span class="zero-lbl">From your core budget</span>
           <span class="zero-val">$0.00</span>
         </div>
+      </div>
+    </div>
+
+    <!-- Hires answer — full-width below both columns -->
+    <div class="hires-answer">
+      <div class="receipt-result">
+        <div>
+          <span class="result-n" id="rHiresOngoing">5</span>
+          <span class="result-term" id="rHiresPerTerm">≈ 2 per term</span>
+        </div>
+        <span class="result-lbl">hires per year to cover your ongoing costs</span>
+      </div>
+      <div class="receipt-year1" id="rYear1Box" style="margin-top:14px;margin:14px 0 0;">
+        <span class="y1-n" id="rHiresYear1">5</span>
+        <span class="y1-lbl">hires in year 1 (includes equipment)</span>
       </div>
     </div>
   </div>
@@ -771,12 +881,11 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 </section>
 
 <!-- ═══ FOOTER ═══ -->
-<footer class="page-footer">
-  <div class="wrap">
-    <div class="footer-inner">
-      <span class="footer-logo">Urban Echo</span>
-      <span class="footer-copy">Perth, WA · urbanecho.com.au</span>
-    </div>
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Urban Echo. All rights reserved.</span>
+    <span class="footer-tagline-full">Sound &amp; AV for Perth Schools.</span>
+    <span class="footer-tagline-short">Perth Schools.</span>
   </div>
 </footer>
 
@@ -1037,6 +1146,13 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
     animN(document.getElementById('rHiresYear1'),   hiresYear1);
     animN(document.getElementById('heroHires'),     hiresYear1);
 
+    /* Per-term label */
+    var perTerm = (hiresOngoing / 4);
+    var perTermTxt = perTerm <= 1 ? '≈ 1 per term' :
+                     perTerm % 1 === 0 ? '= ' + perTerm + ' per term' :
+                     '≈ ' + Math.ceil(perTerm * 2) / 2 + ' per term';
+    document.getElementById('rHiresPerTerm').textContent = perTermTxt;
+
     /* Benefit card unlocking */
     BENEFITS.forEach(function(b) {
       var card = document.getElementById(b.id);
@@ -1056,5 +1172,32 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   document.getElementById('rYear1Row').style.display = 'none';
 
   calc();
+})();
+
+// Nav — hamburger
+(function(){
+  var btn  = document.getElementById('navHamburger');
+  var menu = document.getElementById('mobileMenu');
+  if(!menu) return;
+  function openMenu(){ if(btn) btn.classList.add('open'); menu.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeMenu(){ if(btn) btn.classList.remove('open'); menu.classList.remove('open'); document.body.style.overflow=''; }
+  if(btn) btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  var closeBtn = document.getElementById('mobileMenuClose');
+  if(closeBtn) closeBtn.addEventListener('click', closeMenu);
+  menu.addEventListener('click', function(e){ if(e.target === menu) closeMenu(); });
+  menu.querySelectorAll('.mobile-menu-link').forEach(function(a){ a.addEventListener('click', closeMenu); });
+})();
+
+// Nav — desktop dropdown
+(function(){
+  var dBtn  = document.getElementById('desktopMenuBtn');
+  var dDrop = document.getElementById('desktopDropdown');
+  if(!dBtn || !dDrop) return;
+  function openDD(){ dBtn.classList.add('open'); dDrop.classList.add('open'); dBtn.setAttribute('aria-expanded','true'); dDrop.setAttribute('aria-hidden','false'); }
+  function closeDD(){ dBtn.classList.remove('open'); dDrop.classList.remove('open'); dBtn.setAttribute('aria-expanded','false'); dDrop.setAttribute('aria-hidden','true'); }
+  dBtn.addEventListener('click', function(e){ e.stopPropagation(); dDrop.classList.contains('open') ? closeDD() : openDD(); });
+  document.addEventListener('click', function(e){ if(!dDrop.contains(e.target) && e.target !== dBtn) closeDD(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDD(); });
+  dDrop.querySelectorAll('.desktop-dd-link').forEach(function(a){ a.addEventListener('click', closeDD); });
 })();
 </script>
