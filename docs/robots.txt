@@ -1,4 +1,19 @@
 User-agent: *
 Allow: /
+Disallow: /portal
+Disallow: /portal/
+Disallow: /crew
+Disallow: /crew/
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /login
+Disallow: /login/
+Disallow: /login.html
+Disallow: /externalhires
+Disallow: /externalhires.html
+Disallow: /instagram
+Disallow: /instagram.html
+Disallow: /email-signature
+Disallow: /email-signature.html
 
 Sitemap: https://urbanecho.com.au/sitemap.xml
