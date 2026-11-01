@@ -588,8 +588,8 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .receipt-col { display:flex; flex-direction:column; gap:20px; }
 .hb-wrap { }
 .hb-eyebrow {
-  font-family:var(--body); font-size:1.1rem; font-weight:800;
-  letter-spacing:-0.02em; color:var(--ink); margin:0 0 16px;
+  font-family:var(--body); font-size:clamp(1.4rem,3vw,2rem); font-weight:800;
+  letter-spacing:-0.02em; color:var(--ink); margin:0 0 20px; line-height:1.1;
 }
 .hb-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 @media(max-width:600px){ .hb-grid { grid-template-columns:1fr; } }
@@ -891,7 +891,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 
         <!-- Hires tiles -->
         <div class="hb-wrap">
-          <h3 class="hb-eyebrow">To cover your costs, you need</h3>
+          <h2 class="hb-eyebrow">To cover your events and venue upgrades, you only need</h2>
           <div class="hb-grid">
             <div class="hb-tile hb-green">
               <span class="hb-n" id="rHiresOngoing">2</span>
