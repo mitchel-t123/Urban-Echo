@@ -481,6 +481,20 @@ footer{
 
 <main>
 
+<!-- ── HIRES COVER CARD ── -->
+<div style="background:var(--indigo);padding:40px 0;border-bottom:4px solid var(--ink);">
+  <div class="wrap" style="display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
+    <div style="flex-shrink:0;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:rgba(255,252,245,0.5);margin-bottom:8px;">Hires / yr to cover all costs</div>
+      <div style="font-family:var(--display);font-size:clamp(52px,8vw,88px);color:#fff;line-height:1;letter-spacing:-0.02em;" id="cover-num">—</div>
+    </div>
+    <div style="flex:1;min-width:220px;border-left:1px solid rgba(255,252,245,0.15);padding-left:40px;">
+      <div style="font-family:var(--display);font-size:16px;text-transform:uppercase;letter-spacing:-0.01em;color:#fff;margin-bottom:8px;">Your support &amp; equipment — for free</div>
+      <div style="font-size:13px;color:rgba(255,252,245,0.6);line-height:1.7;" id="cover-desc">Book this many shows in a year and every dollar of overheads and admin is covered by your gross profit — before you count a cent of net profit.</div>
+    </div>
+  </div>
+</div>
+
 <!-- ── STEP 1: Overheads ── -->
 <div class="portal-section">
   <div class="wrap">
@@ -887,6 +901,20 @@ function recalc(){
   var mgn   = revWk > 0 ? netWk/revWk*100 : 0;
 
   document.getElementById('oh-total').textContent = '$'+f2(ohWk);
+
+  /* Hires to cover all fixed costs */
+  var annualFixed = (ohWk + adminWk) * 52;
+  var coverNum = document.getElementById('cover-num');
+  var coverDesc = document.getElementById('cover-desc');
+  if(gpWk > 0 && totalShows > 0){
+    var gpPerShowAvg = gpWk / totalShows;
+    var hiresYr = Math.ceil(annualFixed / gpPerShowAvg);
+    coverNum.textContent = hiresYr.toLocaleString('en-AU');
+    coverDesc.textContent = 'Book '+hiresYr+' shows this year and every dollar of your $'+Math.round(annualFixed).toLocaleString('en-AU')+' in annual overheads and admin is covered by gross profit — before you count a cent of net profit. That\'s roughly '+Math.ceil(hiresYr/12)+' shows a month.';
+  } else {
+    coverNum.textContent = '—';
+    coverDesc.textContent = 'Enter your show mix above to see how many annual bookings cover all your overheads and admin costs.';
+  }
 
   /* Metric bar */
   setMet('m-rev',    '$'+fK(revWk),  '');
