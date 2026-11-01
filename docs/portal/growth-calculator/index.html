@@ -438,36 +438,33 @@ input:focus, select:focus{ border-color:var(--indigo); }
 }
 
 /* ── MONTHLY HISTORY ── */
-.mh-table{ width:100%; border-collapse:collapse; font-size:13px; }
-.mh-table th{
-  font-family:var(--mono); font-size:10px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.1em;
-  color:rgba(22,21,39,0.4); padding:0 12px 10px 0;
-  border-bottom:2px solid var(--ink); text-align:left;
+.mh-card{
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  padding:22px 20px 18px;
+  box-shadow:5px 5px 0 var(--ink);
+  position:relative;
 }
-.mh-table td{
-  padding:12px 12px 12px 0; border-bottom:1px solid rgba(22,21,39,0.07);
-  vertical-align:middle;
-}
-.mh-table tr:last-child td{ border-bottom:none; }
-.mh-table .mh-del{
-  background:none; border:none; cursor:pointer; padding:4px 6px;
-  font-size:16px; color:rgba(22,21,39,0.25); line-height:1;
-}
-.mh-table .mh-del:hover{ color:var(--red); }
-.mh-tier-pair{ display:flex; flex-direction:column; gap:4px; min-width:90px; }
-.mh-tier-pair .field-label{ margin-bottom:0; }
-.mh-tier-sub{ display:flex; gap:8px; }
-.mh-tier-sub input{ width:72px; }
-.btn-ghost{
-  background:none; border:2px solid rgba(22,21,39,0.15); border-radius:100px;
+.mh-card-month{
   font-family:var(--mono); font-size:11px; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.08em;
-  color:rgba(22,21,39,0.5); padding:6px 16px; cursor:pointer;
-  transition:all 0.15s;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:rgba(22,21,39,0.4); margin-bottom:10px;
 }
-.btn-ghost:hover{ border-color:var(--ink); color:var(--ink); }
-.btn-ghost.active{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+.mh-card-rev{
+  font-family:var(--display); font-size:26px;
+  letter-spacing:-0.01em; line-height:1; margin-bottom:4px;
+}
+.mh-card-net{
+  font-size:13px; color:rgba(22,21,39,0.5); margin-bottom:12px;
+}
+.mh-card-net strong{ color:var(--forest); }
+.mh-card-del{
+  position:absolute; top:14px; right:14px;
+  background:none; border:none; cursor:pointer;
+  font-size:16px; color:rgba(22,21,39,0.2); line-height:1; padding:2px 4px;
+}
+.mh-card-del:hover{ color:var(--red); }
 
 /* ── FOOTER ── */
 footer{
@@ -701,57 +698,39 @@ footer{
 <!-- ── STEP 8: Monthly History ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 8 — Monthly Booking History</h2>
-    <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:24px;line-height:1.6;max-width:680px;">Log each month's actual bookings by tech tier and hours to track growth over time. Revenue and GP are calculated using your current tier rates.</p>
+    <h2>Step 8 — Monthly Revenue History</h2>
+    <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:28px;line-height:1.6;max-width:680px;">Log each month's gross revenue to track growth over time. Estimated net is calculated by subtracting your current monthly fixed costs (overheads + admin) from each entry.</p>
 
     <!-- Add month form -->
-    <div class="card" style="margin-bottom:28px;">
-      <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.4);margin-bottom:18px;">Add / Update Month</div>
+    <div class="portal-card-base" style="margin-bottom:28px;">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.4);margin-bottom:20px;">Add / Update Month</div>
       <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;">
-        <div>
-          <div class="field-label">Month</div>
-          <input type="month" id="mh-month" class="field-input" style="width:160px;">
+        <div class="field" style="flex:0 0 160px;">
+          <label for="mh-month">Month</label>
+          <input type="month" id="mh-month">
         </div>
-        <div>
-          <div class="field-label">Total Jobs</div>
-          <input type="number" id="mh-jobs" class="field-input" placeholder="0" min="0" step="1" style="width:100px;">
+        <div class="field" style="flex:0 0 160px;">
+          <label for="mh-rev">Gross Revenue ($)</label>
+          <input type="number" id="mh-rev" placeholder="0" min="0" step="1">
         </div>
-        <div style="border-left:1px solid rgba(22,21,39,0.08);padding-left:16px;display:flex;flex-wrap:wrap;gap:12px;">
-          <div id="mh-tier-inputs" style="display:flex;flex-wrap:wrap;gap:12px;"></div>
-        </div>
-        <button class="btn" onclick="mhAdd()" style="height:42px;align-self:flex-end;">Add Month</button>
+        <button class="btn btn-sm" onclick="mhAdd()" style="margin-bottom:2px;">Add Month</button>
       </div>
     </div>
 
     <!-- Chart -->
     <div id="mh-chart-wrap" style="display:none;margin-bottom:28px;">
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
-        <button class="btn-ghost mh-view-btn active" data-view="revenue" onclick="mhSetView('revenue')">Revenue</button>
-        <button class="btn-ghost mh-view-btn" data-view="gp" onclick="mhSetView('gp')">Gross Profit</button>
-        <button class="btn-ghost mh-view-btn" data-view="jobs" onclick="mhSetView('jobs')">Jobs</button>
-        <button class="btn-ghost mh-view-btn" data-view="hours" onclick="mhSetView('hours')">Hours</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+        <button class="btn btn-sm mh-view-btn active" data-view="revenue" onclick="mhSetView('revenue')">Revenue</button>
+        <button class="btn btn-sm btn-ghost mh-view-btn" data-view="net" onclick="mhSetView('net')">Est. Net</button>
       </div>
-      <div style="position:relative;height:220px;background:var(--paper);border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;padding:20px 20px 36px;">
-        <canvas id="mh-canvas" style="width:100%;height:100%;"></canvas>
+      <div class="portal-card-base" style="padding:20px 20px 40px;height:240px;box-sizing:border-box;overflow:hidden;">
+        <canvas id="mh-canvas" style="width:100%;height:100%;display:block;"></canvas>
       </div>
     </div>
 
-    <!-- History table -->
-    <div id="mh-table-wrap" style="display:none;">
-      <table class="mh-table">
-        <thead>
-          <tr>
-            <th>Month</th>
-            <th>Jobs</th>
-            <th>Hours</th>
-            <th style="text-align:right;">Revenue</th>
-            <th style="text-align:right;">GP</th>
-            <th style="text-align:right;">Margin</th>
-            <th style="width:32px;"></th>
-          </tr>
-        </thead>
-        <tbody id="mh-tbody"></tbody>
-      </table>
+    <!-- History cards -->
+    <div id="mh-cards" style="display:none;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;" id="mh-card-grid"></div>
     </div>
     <div id="mh-empty" style="color:rgba(22,21,39,0.35);font-size:13px;padding:8px 0;">No months logged yet — add your first entry above.</div>
   </div>
@@ -1242,71 +1221,31 @@ function mhSave(){
   try{ localStorage.setItem('ue-gc-monthly', JSON.stringify(monthlyHistory)); }catch(e){}
 }
 
-function mhGetTiers(){
-  return [
-    { t:1, name: (document.getElementById('t1-name')||{value:'Basic'}).value||'Basic' },
-    { t:2, name: (document.getElementById('t2-name')||{value:'Expert'}).value||'Expert' },
-    { t:3, name: (document.getElementById('t3-name')||{value:'Lead'}).value||'Lead' }
-  ];
-}
-
-function mhRenderInputs(){
-  var tiers = mhGetTiers();
-  var wrap = document.getElementById('mh-tier-inputs');
-  if(!wrap) return;
-  wrap.innerHTML = tiers.map(function(tier){
-    return '<div class="mh-tier-pair">'+
-      '<div class="field-label">'+esc(tier.name)+'</div>'+
-      '<div class="mh-tier-sub">'+
-        '<input type="number" id="mh-t'+tier.t+'-count" class="field-input" placeholder="Techs" min="0" step="1" style="width:72px;">'+
-        '<input type="number" id="mh-t'+tier.t+'-hours" class="field-input" placeholder="Hrs" min="0" step="0.5" style="width:72px;">'+
-      '</div>'+
-    '</div>';
-  }).join('');
-}
-
-function mhCalcEntry(entry){
-  var tiers = [
-    { base:pf('t1-base'), super_:pf('t1-super'), oncost:pf('t1-oncost'), charge:pf('t1-charge') },
-    { base:pf('t2-base'), super_:pf('t2-super'), oncost:pf('t2-oncost'), charge:pf('t2-charge') },
-    { base:pf('t3-base'), super_:pf('t3-super'), oncost:pf('t3-oncost'), charge:pf('t3-charge') }
-  ];
-  var rev = 0, cost = 0, totalHours = 0;
-  (entry.tierData||[]).forEach(function(td){
-    var t = tiers[td.t-1];
-    var trueCost = (t.base + t.super_ + t.oncost) / 52 / 40 * (t.oncost>0?1:1); /* hourly true cost */
-    var trueCostHr = (t.base*(1+(t.super_/100||0))*(1+(t.oncost/100||0)))/52/38;
-    rev  += t.charge  * td.techs * td.hours;
-    cost += trueCostHr * td.techs * td.hours;
-    totalHours += td.techs * td.hours;
-  });
-  return { rev:rev, cost:cost, gp:rev-cost, margin: rev>0?(rev-cost)/rev*100:0, hours:totalHours };
+function mhMonthlyFixed(){
+  /* Current overheads + admin per month */
+  var ohWk = overheads.reduce(function(s,o){
+    var amt = parseFloat(o.amount)||0;
+    var wk  = o.freq==='weekly'?amt : o.freq==='monthly'?amt/(52/12) : amt/52;
+    return s+wk;
+  }, 0);
+  var adminRate = pf('admin-rate');
+  var adminWk   = adminRoles.reduce(function(s,r){ return s+(parseFloat(r.hours)||0); },0)*adminRate;
+  return (ohWk + adminWk) * (52/12);
 }
 
 function mhAdd(){
   var month = (document.getElementById('mh-month')||{}).value;
   if(!month){ alert('Please select a month.'); return; }
-  var jobs = parseInt((document.getElementById('mh-jobs')||{}).value)||0;
-  var tierData = [];
-  [1,2,3].forEach(function(t){
-    var count = parseInt((document.getElementById('mh-t'+t+'-count')||{}).value)||0;
-    var hours = parseFloat((document.getElementById('mh-t'+t+'-hours')||{}).value)||0;
-    if(count>0||hours>0) tierData.push({t:t, techs:count, hours:hours});
-  });
-  /* Upsert */
+  var rev = parseFloat((document.getElementById('mh-rev')||{}).value)||0;
   var idx = monthlyHistory.findIndex(function(e){ return e.month===month; });
-  var entry = { month:month, jobs:jobs, tierData:tierData };
+  var entry = { month:month, rev:rev };
   if(idx>=0) monthlyHistory[idx] = entry;
   else monthlyHistory.push(entry);
   monthlyHistory.sort(function(a,b){ return a.month.localeCompare(b.month); });
   mhSave();
   mhRender();
-  /* Clear form */
-  document.getElementById('mh-jobs').value='';
-  [1,2,3].forEach(function(t){
-    var c=document.getElementById('mh-t'+t+'-count'); if(c) c.value='';
-    var h=document.getElementById('mh-t'+t+'-hours'); if(h) h.value='';
-  });
+  document.getElementById('mh-rev').value='';
+  document.getElementById('mh-month').value='';
 }
 
 function mhDelete(month){
@@ -1323,32 +1262,34 @@ function mhSetView(view){
   mhDrawChart();
 }
 
+function mhFmtMonth(m){
+  var parts = m.split('-');
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[parseInt(parts[1],10)-1]+' '+parts[0];
+}
+
 function mhRender(){
-  var empty = document.getElementById('mh-empty');
-  var tableWrap = document.getElementById('mh-table-wrap');
-  var chartWrap = document.getElementById('mh-chart-wrap');
+  var empty    = document.getElementById('mh-empty');
+  var cards    = document.getElementById('mh-cards');
+  var chartWrap= document.getElementById('mh-chart-wrap');
   if(monthlyHistory.length===0){
-    empty.style.display=''; tableWrap.style.display='none'; chartWrap.style.display='none'; return;
+    empty.style.display=''; cards.style.display='none'; chartWrap.style.display='none'; return;
   }
-  empty.style.display='none'; tableWrap.style.display=''; chartWrap.style.display='';
-  var tbody = document.getElementById('mh-tbody');
-  var tiers = mhGetTiers();
-  tbody.innerHTML = monthlyHistory.slice().reverse().map(function(entry){
-    var c = mhCalcEntry(entry);
-    var tierCols = tiers.map(function(tier){
-      var td = (entry.tierData||[]).find(function(d){ return d.t===tier.t; });
-      return td ? td.techs+'t × '+td.hours+'h' : '—';
-    }).join(' / ');
-    var mCls = c.margin>=35?'good':c.margin>=20?'warn':'bad';
-    return '<tr>'+
-      '<td style="font-family:var(--mono);font-size:12px;font-weight:700;">'+entry.month+'</td>'+
-      '<td>'+entry.jobs+'</td>'+
-      '<td>'+Math.round(c.hours)+'h</td>'+
-      '<td style="text-align:right;font-variant-numeric:tabular-nums;">$'+fK(c.rev)+'</td>'+
-      '<td style="text-align:right;font-variant-numeric:tabular-nums;">$'+fK(c.gp)+'</td>'+
-      '<td style="text-align:right;"><span class="met-val '+mCls+'" style="font-size:13px;">'+c.margin.toFixed(1)+'%</span></td>'+
-      '<td><button class="mh-del" onclick="mhDelete(\''+esc(entry.month)+'\')" title="Delete">×</button></td>'+
-    '</tr>';
+  empty.style.display='none'; cards.style.display=''; chartWrap.style.display='';
+
+  var fixedMo = mhMonthlyFixed();
+  var grid = document.getElementById('mh-card-grid');
+  grid.innerHTML = monthlyHistory.slice().reverse().map(function(entry){
+    var net = entry.rev - fixedMo;
+    var netCls = net>=0 ? 'good' : 'bad';
+    var netSign = net>=0 ? '+' : '';
+    return '<div class="mh-card">'+
+      '<button class="mh-card-del" onclick="mhDelete(\''+esc(entry.month)+'\')" title="Remove">×</button>'+
+      '<div class="mh-card-month">'+mhFmtMonth(entry.month)+'</div>'+
+      '<div class="mh-card-rev">$'+fK(entry.rev)+'</div>'+
+      '<div class="mh-card-net">Est. net: <strong class="'+netCls+'">'+netSign+'$'+fK(Math.abs(net))+'</strong></div>'+
+      '<div style="font-size:11px;font-family:var(--mono);color:rgba(22,21,39,0.3);text-transform:uppercase;letter-spacing:0.08em;">−$'+fK(fixedMo)+' fixed</div>'+
+    '</div>';
   }).join('');
   mhDrawChart();
 }
@@ -1357,61 +1298,57 @@ function mhDrawChart(){
   var canvas = document.getElementById('mh-canvas');
   if(!canvas||!canvas.getContext) return;
   var wrap = canvas.parentElement;
+  var dpr = window.devicePixelRatio||1;
   var W = wrap.clientWidth - 40;
   var H = wrap.clientHeight - 56;
-  canvas.width  = W * (window.devicePixelRatio||1);
-  canvas.height = H * (window.devicePixelRatio||1);
-  canvas.style.width  = W+'px';
-  canvas.style.height = H+'px';
+  if(W<=0||H<=0) return;
+  canvas.width  = W*dpr; canvas.height = H*dpr;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
   var ctx = canvas.getContext('2d');
-  ctx.scale(window.devicePixelRatio||1, window.devicePixelRatio||1);
+  ctx.scale(dpr,dpr);
 
-  var data = monthlyHistory.map(function(entry){
-    var c = mhCalcEntry(entry);
-    return {
-      label: entry.month.slice(0,7),
-      revenue: c.rev, gp: c.gp, jobs: entry.jobs, hours: c.hours
-    };
+  var fixedMo = mhMonthlyFixed();
+  var data = monthlyHistory.map(function(e){
+    return { label:e.month.slice(5), revenue:e.rev, net:Math.max(0, e.rev-fixedMo) };
   });
 
   var vals = data.map(function(d){ return d[mhView]; });
-  var maxV = Math.max.apply(null, vals) || 1;
+  var maxV = Math.max.apply(null, vals.concat([1]));
   var n = data.length;
-  var padL = 0, padR = 0, barW = n>0 ? (W - padL - padR) / n * 0.55 : 0;
-  var gap  = n>1 ? (W - padL - padR - barW*n) / (n-1) : 0;
+  var barW = n>0 ? Math.min(60, (W/n)*0.6) : 40;
+  var totalBarW = barW*n;
+  var totalGap  = W - totalBarW;
+  var gap = n>1 ? totalGap/(n-1) : 0;
+  var startX = n===1 ? (W-barW)/2 : 0;
 
-  var isRevOrGp = mhView==='revenue'||mhView==='gp';
-  var inkColor  = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim()||'#161527';
-  var gpColor   = getComputedStyle(document.documentElement).getPropertyValue('--forest').trim()||'#4AAE74';
-  var barColor  = mhView==='gp' ? gpColor : (mhView==='revenue' ? '#5B6AF0' : '#F0A830');
+  var inkColor   = '#161527';
+  var forestColor= '#4AAE74';
+  var barColor   = mhView==='net' ? forestColor : inkColor;
 
-  data.forEach(function(d, i){
-    var v   = d[mhView];
-    var bH  = H * (v / maxV);
-    var x   = padL + i*(barW+gap);
-    var y   = H - bH;
+  data.forEach(function(d,i){
+    var v  = d[mhView];
+    var bH = Math.max(4, H*(v/maxV));
+    var x  = startX + i*(barW+gap);
+    var y  = H-bH;
+    var r  = Math.min(8, barW/2, bH);
 
-    /* bar */
     ctx.fillStyle = barColor;
     ctx.beginPath();
-    var r = Math.min(6, barW/2, bH/2);
-    ctx.moveTo(x+r, y); ctx.lineTo(x+barW-r, y);
-    ctx.quadraticCurveTo(x+barW, y, x+barW, y+r);
-    ctx.lineTo(x+barW, y+bH); ctx.lineTo(x, y+bH); ctx.lineTo(x, y+r);
-    ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.moveTo(x+r,y); ctx.lineTo(x+barW-r,y);
+    ctx.quadraticCurveTo(x+barW,y,x+barW,y+r);
+    ctx.lineTo(x+barW,y+bH); ctx.lineTo(x,y+bH); ctx.lineTo(x,y+r);
+    ctx.quadraticCurveTo(x,y,x+r,y);
     ctx.fill();
 
-    /* label */
-    ctx.fillStyle = 'rgba(22,21,39,0.35)';
-    ctx.font = '700 9px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText(d.label.slice(5), x + barW/2, H+16);
+    ctx.fillStyle='rgba(22,21,39,0.3)';
+    ctx.font='700 9px monospace';
+    ctx.textAlign='center';
+    ctx.fillText(d.label, x+barW/2, H+14);
 
-    /* value */
-    if(bH > 24){
-      ctx.fillStyle = '#fff';
-      ctx.font = '700 10px monospace';
-      ctx.fillText(isRevOrGp ? '$'+fK(v) : Math.round(v), x+barW/2, y+15);
+    if(bH>20){
+      ctx.fillStyle='#fff';
+      ctx.font='700 10px monospace';
+      ctx.fillText('$'+fK(v), x+barW/2, y+14);
     }
   });
 }
@@ -1423,7 +1360,6 @@ renderOverheads();
 renderAdminRoles();
 mhLoad();
 recalc();
-mhRenderInputs();
 mhRender();
 
 FIELD_IDS.forEach(function(id){
