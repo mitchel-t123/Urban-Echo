@@ -151,6 +151,7 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button{ -webkit-appearance:none; margin:0; }
 input:focus, select:focus{ border-color:var(--indigo); }
 .input-charge{ border-color:var(--indigo) !important; border-width:2px !important; }
+.input-rate{ border-color:var(--orange) !important; border-width:2px !important; }
 
 /* ── BUTTONS ── */
 .btn{
@@ -230,14 +231,16 @@ input:focus, select:focus{ border-color:var(--indigo); }
 }
 .ts-val{ font-family:var(--mono); font-size:12px; font-variant-numeric:tabular-nums; }
 
-/* ── JOB CONFIG ── */
-.job-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:16px;
-}
-
 /* ── ADMIN ROLES ── */
+.ar-rate-bar{
+  display:grid; grid-template-columns:280px 1fr; gap:16px;
+  align-items:end; margin-bottom:24px; padding-bottom:20px;
+  border-bottom:2px solid var(--line);
+}
+@media(max-width:640px){ .ar-rate-bar{ grid-template-columns:1fr; } }
+.ar-rate-note{
+  font-size:13px; color:rgba(22,21,39,0.5); line-height:1.6;
+}
 .ar-rows{ display:flex; flex-direction:column; gap:12px; }
 .ar-row{
   display:grid;
@@ -262,7 +265,31 @@ input:focus, select:focus{ border-color:var(--indigo); }
   font-variant-numeric:tabular-nums;
 }
 
-/* ── TWO-COL CONFIG ── */
+/* ── SHOW TYPES ── */
+.show-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  margin-bottom:20px;
+}
+@media(max-width:860px){ .show-grid{ grid-template-columns:1fr; } }
+.show-card{
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:20px; padding:24px;
+  box-shadow:5px 5px 0 var(--ink);
+  display:flex; flex-direction:column; gap:14px;
+}
+.show-crew{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:rgba(22,21,39,0.42); line-height:1.6;
+}
+.show-sum{
+  background:var(--cream); border-radius:12px;
+  padding:12px 14px; display:flex; flex-direction:column; gap:6px;
+  margin-top:auto;
+}
+
+/* ── MARGIN CARD ── */
 .config-row{
   display:grid; grid-template-columns:1fr 1fr; gap:20px;
 }
@@ -318,6 +345,54 @@ input:focus, select:focus{ border-color:var(--indigo); }
   letter-spacing:-0.01em; margin-bottom:8px; line-height:1.1;
 }
 .ins-desc{ font-size:13px; color:rgba(22,21,39,0.6); line-height:1.65; }
+
+/* ── ANNUAL GOALS ── */
+.goals-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+}
+@media(max-width:860px){ .goals-grid{ grid-template-columns:1fr; } }
+.goal-card{
+  background:var(--ink); color:var(--paper);
+  border-radius:20px; padding:28px;
+  box-shadow:5px 5px 0 rgba(22,21,39,0.35);
+}
+.goal-card.reached{
+  background:var(--forest-deep);
+  box-shadow:5px 5px 0 rgba(55,146,96,0.35);
+}
+.goal-target{
+  font-family:var(--display); font-size:clamp(24px,3.5vw,34px);
+  text-transform:uppercase; letter-spacing:-0.01em;
+  margin-bottom:4px;
+}
+.goal-yr{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.12em;
+  color:rgba(255,252,245,0.4); margin-bottom:20px;
+}
+.goal-rows{ display:flex; flex-direction:column; gap:10px; }
+.goal-row{
+  display:flex; justify-content:space-between; align-items:flex-start;
+  gap:8px; padding-bottom:10px;
+  border-bottom:1px solid rgba(255,252,245,0.1);
+  font-size:13px; line-height:1.4;
+}
+.goal-row:last-child{ border-bottom:none; padding-bottom:0; }
+.goal-row-lbl{ color:rgba(255,252,245,0.55); }
+.goal-row-val{
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  font-variant-numeric:tabular-nums; white-space:nowrap;
+  color:var(--paper);
+}
+.goal-row-val.hi{ color:var(--sunshine); }
+.goal-status{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  margin-top:16px; padding-top:14px;
+  border-top:1px solid rgba(255,252,245,0.15);
+}
+.goal-status.ok{ color:var(--forest); }
+.goal-status.no{ color:var(--orange); }
 
 /* ── HORMOZI ── */
 .hz-card{
@@ -424,50 +499,52 @@ footer{
     <div class="tier-grid">
       <!-- Tier 1 -->
       <div class="tier-card">
-        <div><span class="tier-badge"><span class="tier-dot" style="background:#4AAE74;"></span>Tier 1</span></div>
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#4AAE74;"></span>Tier 1 — Basic</span></div>
         <div class="field"><label>Tier Name</label><input type="text" id="t1-name" value="Junior Crew" oninput="recalc()"></div>
         <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t1-base" value="25" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Superannuation (%)</label><input type="number" id="t1-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>On-costs &amp; Leave Loading (%)</label><input type="number" id="t1-oncost" value="5" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Charge-out Rate ($/hr)</label><input type="number" id="t1-charge" value="65" min="0" step="1" oninput="recalc()" class="input-charge"></div>
-        <div class="field"><label>Crew per Job</label><input type="number" id="t1-count" value="2" min="0" step="1" oninput="recalc()"></div>
-        <div class="field"><label>Hours per Job</label><input type="number" id="t1-hours" value="4" min="0" step="0.5" oninput="recalc()"></div>
         <div class="tier-summary" id="t1-sum"></div>
       </div>
       <!-- Tier 2 -->
       <div class="tier-card">
-        <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Tier 2</span></div>
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Tier 2 — Expert</span></div>
         <div class="field"><label>Tier Name</label><input type="text" id="t2-name" value="Senior Crew" oninput="recalc()"></div>
         <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t2-base" value="35" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Superannuation (%)</label><input type="number" id="t2-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>On-costs &amp; Leave Loading (%)</label><input type="number" id="t2-oncost" value="5" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Charge-out Rate ($/hr)</label><input type="number" id="t2-charge" value="85" min="0" step="1" oninput="recalc()" class="input-charge"></div>
-        <div class="field"><label>Crew per Job</label><input type="number" id="t2-count" value="1" min="0" step="1" oninput="recalc()"></div>
-        <div class="field"><label>Hours per Job</label><input type="number" id="t2-hours" value="4" min="0" step="0.5" oninput="recalc()"></div>
         <div class="tier-summary" id="t2-sum"></div>
       </div>
       <!-- Tier 3 -->
       <div class="tier-card">
-        <div><span class="tier-badge"><span class="tier-dot" style="background:#F4612E;"></span>Tier 3</span></div>
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#F4612E;"></span>Tier 3 — Lead</span></div>
         <div class="field"><label>Tier Name</label><input type="text" id="t3-name" value="Lead / Mitchel" oninput="recalc()"></div>
         <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t3-base" value="55" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Superannuation (%)</label><input type="number" id="t3-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>On-costs &amp; Leave Loading (%)</label><input type="number" id="t3-oncost" value="5" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Charge-out Rate ($/hr)</label><input type="number" id="t3-charge" value="120" min="0" step="1" oninput="recalc()" class="input-charge"></div>
-        <div class="field"><label>Crew per Job</label><input type="number" id="t3-count" value="1" min="0" step="1" oninput="recalc()"></div>
-        <div class="field"><label>Hours per Job</label><input type="number" id="t3-hours" value="4" min="0" step="0.5" oninput="recalc()"></div>
         <div class="tier-summary" id="t3-sum"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── STEP 3a: Admin Roles ── -->
+<!-- ── STEP 3: Admin & Support Costs ── -->
 <div class="portal-section">
   <div class="wrap">
     <h2>Step 3 — Admin &amp; Support Costs</h2>
     <div class="portal-card-base">
-      <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:20px;line-height:1.6;">Track every admin and support function that costs money each week. These are included in your profit calculations alongside business overheads.</p>
+      <!-- Admin hourly rate -->
+      <div class="ar-rate-bar">
+        <div class="field">
+          <label>Admin Pay Rate ($/hr)</label>
+          <input type="number" id="admin-rate" value="35" min="0" step="0.5" oninput="recalc()" class="input-rate">
+        </div>
+        <p class="ar-rate-note">Set the hourly rate paid across all admin functions. Each role below uses hours per week — the calculator multiplies them automatically to find the total weekly admin cost.</p>
+      </div>
+      <!-- Role rows -->
       <div class="ar-rows" id="ar-rows"></div>
       <div style="margin-top:16px;">
         <button class="btn btn-ghost btn-sm" onclick="addAdminRole()">+ Add Role / Function</button>
@@ -480,38 +557,81 @@ footer{
   </div>
 </div>
 
-<!-- ── STEP 3b: Jobs & Target ── -->
+<!-- ── STEP 4: Show Mix ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 3b — Volume &amp; Target</h2>
-    <div class="config-row">
-      <div class="portal-card-base">
-        <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.45);margin-bottom:14px;">Weekly Jobs</div>
+    <h2>Step 4 — Show Mix &amp; Volume</h2>
+    <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:20px;line-height:1.6;max-width:680px;">Set how many shows of each type you run per week and the typical hours per show. Revenue and labor costs are calculated from your tier charge-out and cost rates above.</p>
+    <div class="show-grid">
+
+      <!-- Solo Operator -->
+      <div class="show-card">
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Solo Operator</span></div>
+        <div class="show-crew">1 × Expert (Tier 2)</div>
         <div class="field">
-          <label>Jobs Per Week</label>
-          <input type="number" id="jobs-wk" value="3" min="0" step="1" oninput="recalc()">
+          <label>Shows Per Week</label>
+          <input type="number" id="st-solo-shows" value="0" min="0" step="1" oninput="recalc()">
         </div>
-        <p style="font-size:12px;color:rgba(22,21,39,0.4);margin-top:10px;line-height:1.55;">How many paid gigs you run in a typical week. This scales all revenue and cost figures.</p>
+        <div class="field">
+          <label>Est. Hours Per Show</label>
+          <input type="number" id="st-solo-hours" value="4" min="0" step="0.5" oninput="recalc()">
+        </div>
+        <div class="show-sum" id="st-solo-sum"></div>
       </div>
-      <div class="portal-card-base">
-        <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.45);margin-bottom:14px;">Profit Target</div>
+
+      <!-- Two Operator -->
+      <div class="show-card">
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Two Operator</span></div>
+        <div class="show-crew">2 × Expert (Tier 2)</div>
+        <div class="field">
+          <label>Shows Per Week</label>
+          <input type="number" id="st-duo-shows" value="0" min="0" step="1" oninput="recalc()">
+        </div>
+        <div class="field">
+          <label>Est. Hours Per Show</label>
+          <input type="number" id="st-duo-hours" value="6" min="0" step="0.5" oninput="recalc()">
+        </div>
+        <div class="show-sum" id="st-duo-sum"></div>
+      </div>
+
+      <!-- Big Event -->
+      <div class="show-card">
+        <div><span class="tier-badge" style="background:var(--orange);border-color:var(--orange);"><span class="tier-dot" style="background:#fff;"></span>Big Event</span></div>
+        <div class="show-crew">3 × Basic · 2 × Expert · 1 × Lead</div>
+        <div class="field">
+          <label>Shows Per Week</label>
+          <input type="number" id="st-big-shows" value="0" min="0" step="1" oninput="recalc()">
+        </div>
+        <div class="field">
+          <label>Est. Hours Per Show</label>
+          <input type="number" id="st-big-hours" value="12" min="0" step="0.5" oninput="recalc()">
+        </div>
+        <div class="show-sum" id="st-big-sum"></div>
+      </div>
+
+    </div>
+
+    <!-- Margin target -->
+    <div class="portal-card-base">
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.45);margin-bottom:14px;">Profit Target</div>
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:center;">
         <div class="field">
           <label>Target Net Margin (%)</label>
           <input type="number" id="tgt-margin" value="40" min="1" max="99" step="1" oninput="recalc()">
         </div>
-        <p style="font-size:12px;color:rgba(22,21,39,0.4);margin-top:10px;line-height:1.55;">Your goal. All growth targets and gap calculations work backwards from this percentage.</p>
+        <p style="font-size:13px;color:rgba(22,21,39,0.45);line-height:1.6;">All growth targets, annual goals, and gap calculations work backwards from this number.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── STEP 4: Breakdown ── -->
+<!-- ── STEP 5: Breakdown ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 4 — Profit &amp; Margin Breakdown</h2>
+    <h2>Step 5 — Profit &amp; Margin Breakdown</h2>
     <div class="bd-grid">
       <div>
-        <div class="bd-heading">Per Job</div>
+        <div class="bd-heading">Per Show (avg)</div>
         <div class="portal-card-base" style="padding:20px 24px;"><div class="bd-rows" id="bd-job"></div></div>
       </div>
       <div>
@@ -522,15 +642,24 @@ footer{
   </div>
 </div>
 
-<!-- ── STEP 5: Growth Targets ── -->
+<!-- ── STEP 6: Growth Targets ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 5 — Growth Targets</h2>
+    <h2>Step 6 — Growth Targets</h2>
     <div class="insight-grid" id="ins-grid"></div>
   </div>
 </div>
 
-<!-- ── Hormozi ── -->
+<!-- ── STEP 7: Annual Revenue Goals ── -->
+<div class="portal-section">
+  <div class="wrap">
+    <h2>Step 7 — Annual Revenue Goals</h2>
+    <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:24px;line-height:1.6;max-width:680px;">Based on your current show mix and pricing, here's what it takes to hit each revenue milestone. Figures assume your current show type proportions and account for all overheads and admin costs.</p>
+    <div class="goals-grid" id="goals-grid"></div>
+  </div>
+</div>
+
+<!-- ── Pricing Intelligence ── -->
 <div class="portal-section">
   <div class="wrap">
     <h2>Pricing Intelligence</h2>
@@ -548,8 +677,15 @@ footer{
 
 <script>
 /* ── State ─────────────────────────────────────── */
-var overheads = [];
+var overheads  = [];
 var adminRoles = [];
+
+/* Show type definitions — crew composition is fixed */
+var SHOW_DEFS = [
+  { id:'solo', name:'Solo Operator', crew:[{t:2,c:1}] },
+  { id:'duo',  name:'Two Operator',  crew:[{t:2,c:2}] },
+  { id:'big',  name:'Big Event',     crew:[{t:1,c:3},{t:2,c:2},{t:3,c:1}] }
+];
 
 function loadState(){
   try{
@@ -570,12 +706,12 @@ function loadState(){
   }catch(e){}
   if(!adminRoles.length){
     adminRoles = [
-      { name:'Quoting / Invoicing', amount:0 },
-      { name:'Client Follow Up',    amount:0 },
-      { name:'Tours',               amount:0 },
-      { name:'Social Media',        amount:0 },
-      { name:'HR',                  amount:0 },
-      { name:'Crewing',             amount:0 },
+      { name:'Quoting / Invoicing', hours:0 },
+      { name:'Client Follow Up',    hours:0 },
+      { name:'Tours',               hours:0 },
+      { name:'Social Media',        hours:0 },
+      { name:'HR',                  hours:0 },
+      { name:'Crewing',             hours:0 },
     ];
   }
 }
@@ -632,7 +768,7 @@ function renderOverheads(){
 
 /* ── Admin role helpers ────────────────────────── */
 function addAdminRole(){
-  adminRoles.push({ name:'', amount:0 });
+  adminRoles.push({ name:'', hours:0 });
   saveState(); renderAdminRoles(); recalc();
 }
 function removeAdminRole(i){
@@ -640,7 +776,7 @@ function removeAdminRole(i){
   saveState(); renderAdminRoles(); recalc();
 }
 function updateAr(i,field,val){
-  adminRoles[i][field] = field==='amount' ? (parseFloat(val)||0) : val;
+  adminRoles[i][field] = field==='hours' ? (parseFloat(val)||0) : val;
   saveState(); recalc();
 }
 
@@ -651,21 +787,24 @@ function renderAdminRoles(){
     document.getElementById('ar-total').textContent = '$0.00';
     return;
   }
+  var rate = parseFloat(document.getElementById('admin-rate') ? document.getElementById('admin-rate').value : 35) || 35;
   el.innerHTML = adminRoles.map(function(r,i){
+    var cost = (parseFloat(r.hours)||0) * rate;
     return '<div class="ar-row">' +
       '<div class="field"><label>Function / Role</label>' +
         '<input type="text" value="'+esc(r.name)+'" placeholder="e.g. Bookkeeping" oninput="updateAr('+i+',\'name\',this.value)">' +
       '</div>' +
-      '<div class="field"><label>Cost ($/week)</label>' +
-        '<input type="number" value="'+r.amount+'" min="0" step="10" placeholder="0" oninput="updateAr('+i+',\'amount\',this.value)">' +
+      '<div class="field"><label>Hours / Week</label>' +
+        '<input type="number" value="'+r.hours+'" min="0" step="0.5" placeholder="0" oninput="updateAr('+i+',\'hours\',this.value)">' +
       '</div>' +
       '<div style="display:flex;align-items:flex-end;">' +
         '<button class="btn btn-danger btn-sm" onclick="removeAdminRole('+i+')" style="width:38px;height:38px;padding:0;display:flex;align-items:center;justify-content:center;font-size:14px;border-radius:10px;">✕</button>' +
       '</div>' +
     '</div>';
   }).join('');
-  var total = adminRoles.reduce(function(s,r){ return s + (parseFloat(r.amount)||0); }, 0);
-  document.getElementById('ar-total').textContent = '$'+f2(total);
+  var totalHrs  = adminRoles.reduce(function(s,r){ return s + (parseFloat(r.hours)||0); }, 0);
+  var totalCost = totalHrs * rate;
+  document.getElementById('ar-total').textContent = '$'+f2(totalCost)+' ('+f2(totalHrs)+' hrs × $'+f2(rate)+'/hr)';
 }
 
 /* ── Tier helper ───────────────────────────────── */
@@ -674,81 +813,111 @@ function getTier(n){
   var sup    = pf('t'+n+'-super');
   var oncost = pf('t'+n+'-oncost');
   var charge = pf('t'+n+'-charge');
-  var count  = pf('t'+n+'-count');
-  var hours  = pf('t'+n+'-hours');
   var trueCost = base * (1 + sup/100 + oncost/100);
-  return { base:base, sup:sup, oncost:oncost, charge:charge, count:count, hours:hours,
-    trueCost:trueCost,
-    revJob:  charge * count * hours,
-    costJob: trueCost * count * hours };
+  return { base:base, sup:sup, oncost:oncost, charge:charge, trueCost:trueCost };
 }
 
 function renderTierSum(n,t){
   var gpHr = t.charge - t.trueCost;
-  var gpPct = t.revJob > 0 ? (t.revJob - t.costJob) / t.revJob * 100 : 0;
   var el = document.getElementById('t'+n+'-sum');
   el.innerHTML = [
     ['True cost/hr', '$'+f2(t.trueCost)+'/hr'],
     ['Super ('+t.sup+'%)', '+$'+f2(t.base*t.sup/100)+'/hr'],
     ['On-costs ('+t.oncost+'%)', '+$'+f2(t.base*t.oncost/100)+'/hr'],
-    ['Margin/hr', t.revJob ? (gpHr>=0?'+':'') + '$'+f2(gpHr)+'/hr' : '—'],
+    ['Margin/hr', (gpHr>=0?'+':'') + '$'+f2(gpHr)+'/hr'],
   ].map(function(r){
     return '<div class="ts-row"><span>'+r[0]+'</span><span class="ts-val">'+r[1]+'</span></div>';
-  }).join('') +
-  '<div class="ts-row ts-total"><span>Revenue/job</span><span class="ts-val">$'+f2(t.revJob)+'</span></div>' +
-  '<div class="ts-row" style="font-size:12px;color:rgba(22,21,39,0.5);"><span>Gross margin</span><span class="ts-val">'+(t.revJob ? gpPct.toFixed(1)+'%' : '—')+'</span></div>';
+  }).join('');
+}
+
+/* ── Show type helpers ─────────────────────────── */
+function calcShow(def, hours, tiers){
+  var rev = 0, cost = 0;
+  def.crew.forEach(function(c){
+    var t = tiers[c.t-1];
+    rev  += t.charge   * c.c * hours;
+    cost += t.trueCost * c.c * hours;
+  });
+  return { rev:rev, cost:cost, gp:rev-cost, gpPct: rev>0?(rev-cost)/rev*100:0 };
+}
+
+function renderShowSum(id, s, showsWk){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.innerHTML =
+    '<div class="ts-row"><span style="font-size:12px;color:rgba(22,21,39,0.5);">Rev / show</span><span class="ts-val">$'+f2(s.rev)+'</span></div>' +
+    '<div class="ts-row"><span style="font-size:12px;color:rgba(22,21,39,0.5);">Gross margin</span><span class="ts-val">'+(s.rev?s.gpPct.toFixed(1)+'%':'—')+'</span></div>' +
+    (showsWk>0 ? '<div class="ts-row ts-total"><span>Revenue / week</span><span class="ts-val">$'+f2(s.rev*showsWk)+'</span></div>' : '');
 }
 
 /* ── Main recalc ───────────────────────────────── */
 function recalc(){
-  var t1 = getTier(1), t2 = getTier(2), t3 = getTier(3);
-  var jobsWk  = pf('jobs-wk');
-  var adminWk = adminRoles.reduce(function(s,r){ return s + (parseFloat(r.amount)||0); }, 0);
-  var tgtMgn  = pf('tgt-margin');
+  var tiers = [getTier(1), getTier(2), getTier(3)];
+  renderTierSum(1,tiers[0]); renderTierSum(2,tiers[1]); renderTierSum(3,tiers[2]);
 
-  var revJob  = t1.revJob  + t2.revJob  + t3.revJob;
-  var costJob = t1.costJob + t2.costJob + t3.costJob;
-  var gpJob   = revJob - costJob;
-  var revWk   = revJob  * jobsWk;
-  var costWk  = costJob * jobsWk;
-  var gpWk    = gpJob   * jobsWk;
-  var ohWk    = overheads.reduce(function(s,o){ return s + toWeekly(o.amount, o.freq); }, 0);
-  var netWk   = gpWk - ohWk - adminWk;
-  var mgn     = revWk > 0 ? netWk/revWk*100 : 0;
+  var adminRate = pf('admin-rate');
+  var adminWk   = adminRoles.reduce(function(s,r){ return s + (parseFloat(r.hours)||0); }, 0) * adminRate;
+  var tgtMgn    = pf('tgt-margin');
 
-  renderTierSum(1,t1); renderTierSum(2,t2); renderTierSum(3,t3);
+  renderAdminRoles();
+
+  /* Show type calcs */
+  var showIds = ['solo','duo','big'];
+  var totalShows = 0, revWk = 0, costWk = 0;
+  showIds.forEach(function(id, idx){
+    var showsWk = pf('st-'+id+'-shows');
+    var hours   = pf('st-'+id+'-hours');
+    var s = calcShow(SHOW_DEFS[idx], hours, tiers);
+    renderShowSum('st-'+id+'-sum', s, showsWk);
+    totalShows += showsWk;
+    revWk  += s.rev  * showsWk;
+    costWk += s.cost * showsWk;
+  });
+
+  var gpWk  = revWk - costWk;
+  var ohWk  = overheads.reduce(function(s,o){ return s + toWeekly(o.amount, o.freq); }, 0);
+  var netWk = gpWk - ohWk - adminWk;
+  var mgn   = revWk > 0 ? netWk/revWk*100 : 0;
+
   document.getElementById('oh-total').textContent = '$'+f2(ohWk);
 
-  // Metric bar
+  /* Metric bar */
   setMet('m-rev',    '$'+fK(revWk),  '');
-  setMet('m-net',    (netWk<0?'-':'')+' $'+fK(Math.abs(netWk)), netWk>=0?'good':'bad');
+  setMet('m-net',    (netWk<0?'-$':'$')+fK(Math.abs(netWk)), netWk>=0?'good':'bad');
   setMet('m-margin', mgn.toFixed(1)+'%', mgn>=tgtMgn?'good':mgn>=25?'warn':'bad');
   setMet('m-admin',  gpWk>=adminWk?'Yes ✓':'No ✗', gpWk>=adminWk?'good':'bad');
   var gap = tgtMgn/100*revWk - netWk;
   setMet('m-gap', gap<=0?'On target ✓':'+$'+fK(gap)+'/wk', gap<=0?'good':'warn');
 
-  // Breakdowns
-  var ohPJ = ohWk/(jobsWk||1), adPJ = adminWk/(jobsWk||1);
+  /* Avg per show */
+  var n = totalShows || 1;
+  var revJob  = revWk  / n;
+  var costJob = costWk / n;
+  var gpJob   = gpWk   / n;
+  var ohPJ    = ohWk   / n;
+  var adPJ    = adminWk / n;
+
   renderBd('bd-job',[
-    {l:'Revenue',                v:revJob},
-    {l:'Labor cost (all tiers)', v:-costJob, neg:true},
-    {l:'Gross Profit',           v:gpJob, sub:true},
-    {l:'Overheads share ÷'+(jobsWk||1)+' jobs', v:-ohPJ, neg:true},
-    {l:'Admin share ÷'+(jobsWk||1)+' jobs',     v:-adPJ, neg:true},
-    {l:'Net Profit / Job',       v:gpJob-ohPJ-adPJ, tot:true},
+    {l:'Revenue (avg/show)',         v:revJob},
+    {l:'Labor cost',                 v:-costJob, neg:true},
+    {l:'Gross Profit',               v:gpJob, sub:true},
+    {l:'Overheads share ÷'+n+' shows', v:-ohPJ, neg:true},
+    {l:'Admin share ÷'+n+' shows',    v:-adPJ, neg:true},
+    {l:'Net Profit / Show',          v:gpJob-ohPJ-adPJ, tot:true},
   ]);
   renderBd('bd-week',[
-    {l:'Revenue ('+jobsWk+' jobs)', v:revWk},
-    {l:'Labor cost',                v:-costWk, neg:true},
-    {l:'Gross Profit',              v:gpWk, sub:true},
-    {l:'Overheads',                 v:-ohWk, neg:true},
-    {l:'Admin pay ($'+Math.round(adminWk)+'/wk)', v:-adminWk, neg:true},
-    {l:'Net Profit / Week',         v:netWk, tot:true},
-    {l:'Net Margin',                v:mgn, pct:true, tot:true},
+    {l:'Revenue ('+totalShows+' shows)', v:revWk},
+    {l:'Labor cost',                     v:-costWk, neg:true},
+    {l:'Gross Profit',                   v:gpWk, sub:true},
+    {l:'Overheads',                      v:-ohWk, neg:true},
+    {l:'Admin cost ($'+fK(adminWk)+'/wk)', v:-adminWk, neg:true},
+    {l:'Net Profit / Week',              v:netWk, tot:true},
+    {l:'Net Margin',                     v:mgn, pct:true, tot:true},
   ]);
 
-  renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgtMgn, jobsWk, revJob, costJob, t1, t2, t3);
-  renderHormozi(revJob, costJob, mgn, tgtMgn, ohWk, adminWk, jobsWk, t1, t2, t3);
+  renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgtMgn, totalShows, revJob, costJob, tiers);
+  renderGoals(revWk, costWk, ohWk, adminWk, netWk, mgn, tgtMgn, totalShows, tiers);
+  renderHormozi(revJob, costJob, mgn, tgtMgn, ohWk, adminWk, totalShows);
 }
 
 function renderBd(id,rows){
@@ -766,41 +935,48 @@ function renderBd(id,rows){
   }).join('');
 }
 
-function renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgt, jobsWk, revJob, costJob, t1, t2, t3){
-  var fixedWk = ohWk + adminWk;
-  var beRevWk  = costWk + fixedWk;
-  var beRevJob = jobsWk ? beRevWk/jobsWk : 0;
-  var tgtRevWk  = jobsWk && tgt<100 ? (costWk+fixedWk)/(1-tgt/100) : 0;
-  var tgtRevJob = jobsWk ? tgtRevWk/jobsWk : 0;
+function renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgt, totalShows, revJob, costJob, tiers){
+  var fixedWk   = ohWk + adminWk;
+  var beRevWk   = costWk + fixedWk;
+  var beRevJob  = totalShows ? beRevWk/totalShows : 0;
+  var tgtRevWk  = totalShows && tgt<100 ? (costWk+fixedWk)/(1-tgt/100) : 0;
+  var tgtRevJob = totalShows ? tgtRevWk/totalShows : 0;
   var revGapJob = tgtRevJob - revJob;
-  var totalHrs  = (t1.count*t1.hours)+(t2.count*t2.hours)+(t3.count*t3.hours);
-  var liftPerHr = totalHrs>0 ? revGapJob/totalHrs : 0;
   var gpPerJob  = revJob - costJob;
   var adminBE   = gpPerJob>0 ? Math.ceil(adminWk/gpPerJob) : null;
 
+  /* Avg billable hrs/show across mix */
+  var showIds = ['solo','duo','big'];
+  var totalBillHrs = 0;
+  showIds.forEach(function(sid){
+    totalBillHrs += pf('st-'+sid+'-shows') * pf('st-'+sid+'-hours');
+  });
+  var avgHrsPerShow = totalShows > 0 ? totalBillHrs / totalShows : 0;
+  var liftPerHr = avgHrsPerShow > 0 ? revGapJob / avgHrsPerShow : 0;
+
   var items = [
     {
-      eye:'Break-even Revenue / Job',
+      eye:'Break-even Revenue / Show',
       num:'$'+f2(beRevJob),
-      desc:'Minimum per-job revenue to cover all labor, overheads and admin at '+jobsWk+' jobs/week with zero profit.',
+      desc:'Minimum avg per-show revenue to cover all labor, overheads and admin at '+totalShows+' shows/week with zero profit.',
       col: revJob>=beRevJob?'#4AAE74':'#D93636'
     },{
-      eye:tgt+'% Target Revenue / Job',
+      eye:tgt+'% Target Revenue / Show',
       num:'$'+f2(tgtRevJob),
-      desc:'Per-job revenue required to hit your '+tgt+'% net margin target at '+jobsWk+' jobs/week.',
+      desc:'Avg per-show revenue required to hit your '+tgt+'% net margin target at '+totalShows+' shows/week.',
       col: mgn>=tgt?'#4AAE74':'var(--orange)'
     },{
       eye:'Avg Charge-out Lift Needed',
       num: revGapJob<=0?'On target ✓':'+$'+f2(liftPerHr)+'/hr',
       desc: revGapJob<=0
         ?'Your current pricing already hits the '+tgt+'% net margin target.'
-        :'Average charge-out increase per billable hour across '+totalHrs.toFixed(1)+' hrs/job to reach '+tgt+'% margin.',
+        :'Average charge-out increase per billable hour to reach '+tgt+'% margin at current show mix.',
       col: revGapJob<=0?'#4AAE74':'var(--orange)'
     },{
-      eye:'Jobs to Cover Admin ($'+Math.round(adminWk)+'/wk)',
-      num: adminBE!==null?adminBE+(adminBE===1?' job':' jobs'):'∞',
-      desc:'Minimum jobs per week where gross profit alone covers the $'+Math.round(adminWk)+'/wk admin pay.',
-      col: adminBE!==null&&jobsWk>=adminBE?'#4AAE74':'#D93636'
+      eye:'Shows to Cover Admin ($'+fK(adminWk)+'/wk)',
+      num: adminBE!==null?adminBE+(adminBE===1?' show':' shows'):'∞',
+      desc:'Minimum shows per week where gross profit alone covers the $'+fK(adminWk)+'/wk admin cost.',
+      col: adminBE!==null&&totalShows>=adminBE?'#4AAE74':'#D93636'
     }
   ];
 
@@ -813,36 +989,88 @@ function renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgt, job
   }).join('');
 }
 
-function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, jobsWk, t1, t2, t3){
-  var totalHrs  = (t1.count*t1.hours)+(t2.count*t2.hours)+(t3.count*t3.hours);
-  var fixedPJ   = (ohWk+adminWk)/(jobsWk||1);
-  var floorJob  = costJob + fixedPJ;
-  var gap = tgt - mgn;
-  var admPJ = Math.round(adminWk/(jobsWk||1));
+/* ── Annual Goals ──────────────────────────────── */
+function renderGoals(revWk, costWk, ohWk, adminWk, netWk, mgn, tgt, totalShows, tiers){
+  var targets = [100000, 500000, 1000000];
+  var netMarginFrac = tgt / 100;
+
+  /* Avg rev/show and net/show at current pricing */
+  var avgRevShow  = totalShows > 0 ? revWk / totalShows : 0;
+  var avgNetShow  = totalShows > 0 ? netWk / totalShows : 0;
+  var annualNetWk = netWk * 52;
+  var annualRevWk = revWk * 52;
+
+  var html = targets.map(function(target){
+    var targetNet = target * netMarginFrac;
+    var targetRev = target;
+
+    /* Shows/week needed to hit that revenue */
+    var showsNeeded = avgRevShow > 0 ? targetRev / (avgRevShow * 52) : null;
+    /* Shows/week needed to hit target NET at current margin */
+    var showsForNet = avgNetShow > 0 ? targetNet / (avgNetShow * 52) : null;
+    /* Revenue per week needed */
+    var revWkNeeded = targetRev / 52;
+    /* Net profit that implies */
+    var netAtTarget = revWkNeeded * (mgn / 100);
+    /* Already reached? */
+    var reached = annualRevWk >= targetRev;
+
+    var rows = [
+      { l:'Revenue / week needed',    v:'$'+fK(revWkNeeded) },
+      { l:'Shows / week needed',      v: showsNeeded !== null ? showsNeeded.toFixed(1)+' shows' : '—', hi: showsNeeded !== null && showsNeeded > totalShows*1.5 },
+      { l:'Net profit / week @ '+mgn.toFixed(0)+'%', v: '$'+fK(netAtTarget) },
+      { l:'Annual net @ '+mgn.toFixed(0)+'% margin', v: '$'+fK(target * netMarginFrac) },
+      { l:'Extra shows / week vs now', v: showsNeeded !== null ? (showsNeeded - totalShows > 0 ? '+'+((showsNeeded-totalShows).toFixed(1)) : 'Already there') : '—', hi: false },
+    ];
+
+    var cls = reached ? 'goal-card reached' : 'goal-card';
+    return '<div class="'+cls+'">' +
+      '<div class="goal-target">$'+fK(target)+'</div>' +
+      '<div class="goal-yr">Annual Revenue Target</div>' +
+      '<div class="goal-rows">' +
+        rows.map(function(r){
+          return '<div class="goal-row">' +
+            '<span class="goal-row-lbl">'+r.l+'</span>' +
+            '<span class="goal-row-val'+(r.hi?' hi':'')+'">'+r.v+'</span>' +
+          '</div>';
+        }).join('') +
+      '</div>' +
+      '<div class="goal-status '+(reached?'ok':'no')+'">'+(reached?'✓ Currently on track':'↑ Gap to close')+'</div>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('goals-grid').innerHTML = html;
+}
+
+function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, totalShows){
+  var fixedPJ  = (ohWk+adminWk)/(totalShows||1);
+  var floorJob = costJob + fixedPJ;
+  var gap      = tgt - mgn;
+  var admPJ    = Math.round(adminWk/(totalShows||1));
 
   var ps = [
     {
       n:'1',
       eye:'Know Your Floor',
-      body:'Your labor cost is <strong>$'+f2(costJob)+'/job</strong>. Add overheads and admin and your survival floor is <strong>$'+f2(floorJob)+'/job</strong>. This is the absolute minimum — the price below which you\'re subsidising the client, not running a business. Never discount past it, regardless of relationship or slow season.'
+      body:'Your avg labor cost is <strong>$'+f2(costJob)+'/show</strong>. Add overheads and admin and your survival floor is <strong>$'+f2(floorJob)+'/show</strong>. This is the absolute minimum — never discount past it, regardless of relationship or slow season.'
     },{
       n:'2',
       eye:'Price on Outcome, Not Hours',
-      body:'Schools aren\'t buying '+totalHrs.toFixed(0)+' hours of AV crew — they\'re buying a <strong>flawless school concert, a seamless presentation night, a memory that lasts</strong>. That outcome is worth thousands to a school and its community. Your <strong>$'+f2(revJob)+'/job</strong> is a fraction of that delivered value. If you deliver $X of value, charge $X ÷ 10.'
+      body:'Schools aren\'t buying hours of AV crew — they\'re buying a <strong>flawless school concert, a seamless presentation night, a memory that lasts</strong>. That outcome is worth thousands to a school and its community. Your <strong>$'+f2(revJob)+'/show</strong> average is a fraction of that delivered value.'
     },{
       n:'3',
       eye:'Stack the Offer Until the Price Feels Small',
-      body:'List everything included: professional sound, AV operation, load-in, pack-down, backup gear, experienced crew, reliability. When a client sees the full stack priced at <strong>$'+f2(revJob)+'</strong> versus sourcing it independently, you\'re the obvious choice. That\'s the Grand Slam Offer — value so high the price becomes trivial.'
+      body:'List everything included: professional sound, AV operation, load-in, pack-down, backup gear, experienced crew, reliability. When a client sees the full stack priced at <strong>$'+f2(revJob)+'</strong> versus sourcing it independently, you\'re the obvious choice.'
     },{
       n:'4',
       eye: gap>5?'Raise Prices Before Adding Volume':'Protect Your Margin as You Scale',
       body: gap>5
-        ?'You\'re at <strong>'+mgn.toFixed(1)+'%</strong> against your <strong>'+tgt+'% target</strong>. Raising prices on existing volume is always faster and less risky than sourcing more jobs at the same margin. A <strong>$'+f2(gap/100*revJob)+'/job price increase</strong> closes the gap immediately without a single extra booking.'
-        :'You\'re near or above your <strong>'+tgt+'% target</strong>. Now scale volume — each extra job at this margin adds directly to the bottom line. Guard your pricing; discounting to fill slow periods is a race to the bottom.'
+        ?'You\'re at <strong>'+mgn.toFixed(1)+'%</strong> against your <strong>'+tgt+'% target</strong>. Raising prices on existing volume is always faster and less risky than sourcing more shows at the same margin. A <strong>$'+f2(gap/100*revJob)+'/show price increase</strong> closes the gap immediately without a single extra booking.'
+        :'You\'re near or above your <strong>'+tgt+'% target</strong>. Now scale volume — each extra show at this margin adds directly to the bottom line. Guard your pricing; discounting to fill slow periods is a race to the bottom.'
     },{
       n:'5',
-      eye:'Build the $800 Admin Into Every Job',
-      body:'$'+Math.round(adminWk)+'/wk admin ÷ '+(jobsWk||1)+' jobs = <strong>$'+admPJ+'/job</strong>. The fix isn\'t cutting admin hours — it\'s pricing it in as a non-negotiable line item, the same way your labor and equipment are. Overhead is a cost of business. It belongs in the price, not the profit column.'
+      eye:'Build Admin Cost Into Every Show',
+      body:'$'+fK(adminWk)+'/wk admin ÷ '+(totalShows||1)+' shows = <strong>$'+admPJ+'/show</strong>. Price it in as a non-negotiable line item, the same way your labor and equipment are. Overhead is a cost of business — it belongs in the price, not the profit column.'
     }
   ];
 
@@ -854,10 +1082,14 @@ function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, jobsWk, t1, t2,
 
 /* ── Field auto-save ───────────────────────────── */
 var FIELD_IDS = [
-  't1-name','t1-base','t1-super','t1-oncost','t1-charge','t1-count','t1-hours',
-  't2-name','t2-base','t2-super','t2-oncost','t2-charge','t2-count','t2-hours',
-  't3-name','t3-base','t3-super','t3-oncost','t3-charge','t3-count','t3-hours',
-  'jobs-wk','tgt-margin'
+  't1-name','t1-base','t1-super','t1-oncost','t1-charge',
+  't2-name','t2-base','t2-super','t2-oncost','t2-charge',
+  't3-name','t3-base','t3-super','t3-oncost','t3-charge',
+  'admin-rate',
+  'st-solo-shows','st-solo-hours',
+  'st-duo-shows','st-duo-hours',
+  'st-big-shows','st-big-hours',
+  'tgt-margin'
 ];
 
 function saveFields(){
@@ -884,7 +1116,7 @@ function loadFields(){
 }
 
 /* ── Utils ─────────────────────────────────────── */
-function pf(id){ return parseFloat(document.getElementById(id).value)||0; }
+function pf(id){ var el=document.getElementById(id); return el?parseFloat(el.value)||0:0; }
 function f2(n){ return Math.abs(n).toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fK(n){ return Math.abs(n).toLocaleString('en-AU',{minimumFractionDigits:0,maximumFractionDigits:0}); }
 function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
@@ -902,7 +1134,6 @@ renderOverheads();
 renderAdminRoles();
 recalc();
 
-// Wire up save on every field change
 FIELD_IDS.forEach(function(id){
   var el = document.getElementById(id);
   if(el) el.addEventListener('input', saveFields);
