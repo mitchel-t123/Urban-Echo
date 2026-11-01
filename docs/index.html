@@ -2702,8 +2702,29 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </header>
 
+<!-- ============ SYMPTOM CHECKER CTA ============ -->
+<div id="symptomCheckerCta" style="background:#ffffff;padding:64px 0;border-bottom:3px solid var(--ink);">
+  <div class="wrap">
+    <h2 style="font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-0.03em;margin-bottom:12px;">Symptom Checker</h2>
+    <h3 class="hero-tag" style="margin-bottom:20px;font-size:16px;"><span class="dot"></span> Now Treating Perth Schools</h3>
+    <p style="font-size:16px;margin-bottom:32px;max-width:460px;line-height:1.6;opacity:0.8;">The more you tick, the more we can help. Check the boxes to get your instant diagnosis.</p>
+    <button onclick="openSymptomChecker()" style="
+      display:inline-flex;align-items:center;gap:12px;
+      font-family:var(--mono,monospace);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;
+      background:var(--ink,#161527);color:#fff;
+      border:2.5px solid var(--ink,#161527);border-radius:100px;
+      padding:16px 32px;cursor:pointer;
+      box-shadow:5px 5px 0 rgba(22,21,39,0.15);
+      transition:transform 0.15s,box-shadow 0.15s;
+    " onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='5px 7px 0 rgba(22,21,39,0.15)'" onmouseout="this.style.transform='';this.style.boxShadow='5px 5px 0 rgba(22,21,39,0.15)'">
+      Assess My AV Stress
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
 <!-- ============ INTERACTIVE SYMPTOM CHECKER ============ -->
-<section style="background:#ffffff; padding:72px 0; border-bottom:3px solid var(--ink);" id="symptom-checker">
+<section style="background:#ffffff; padding:72px 0; border-bottom:3px solid var(--ink);display:none;" id="symptom-checker">
   <div class="wrap">
     <div class="checker-grid">
       <!-- Left: checklist -->
@@ -3584,6 +3605,15 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </footer>
 
+<script>
+function openSymptomChecker(){
+  var cta     = document.getElementById('symptomCheckerCta');
+  var section = document.getElementById('symptom-checker');
+  cta.style.display     = 'none';
+  section.style.display = '';
+  section.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+</script>
 <script>
 // Scroll reveal
 if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window){
