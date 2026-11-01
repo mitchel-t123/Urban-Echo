@@ -441,8 +441,8 @@ var supabase       = null;
 var editingId      = null;
 
 function doLogout(){
-  if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('login.html'); }); }
-  else { window.location.replace('login.html'); }
+  if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('/login'); }); }
+  else { window.location.replace('/login'); }
 }
 
 (async function init(){
@@ -475,7 +475,7 @@ function doLogout(){
       user = clerkInstance.user;
     }
 
-    if(!user){ window.location.replace('login.html'); return; }
+    if(!user){ window.location.replace('/login'); return; }
     if(user.id !== ADMIN_ID){ window.location.replace('portal.html'); return; }
 
     var token = await clerkInstance.session.getToken({ template: 'supabase' });
@@ -490,7 +490,7 @@ function doLogout(){
     loadTeam();
   } catch(err){
     console.error(err);
-    window.location.replace('login.html');
+    window.location.replace('/login');
   }
 })();
 

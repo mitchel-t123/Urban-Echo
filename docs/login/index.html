@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Login — Urban Echo</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: #FBF5E7;
+  --indigo: #3F3FF0;
+  --ink: #161527;
+  --paper: #FFFCF5;
+  --orange: #F4612E;
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'Inter', -apple-system, sans-serif;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ background: var(--ink); min-height: 100%; overflow-x:hidden; position:relative; }
+body{
+  font-family: var(--body);
+  background: var(--ink);
+  color: var(--paper);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  -webkit-font-smoothing: antialiased;
+  overflow-y: auto;
+}
+.login-box{
+  width: 100%;
+  max-width: 420px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 24px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 8px 8px 0 rgba(255,252,245,0.15);
+  padding: 40px 36px 36px;
+}
+.login-logo{ display:block; height:28px; margin-bottom:28px; }
+.login-eyebrow{
+  font-family: var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.12em;
+  color: var(--orange); display:block; margin-bottom:8px;
+}
+.login-box h1{
+  font-family: var(--display); font-size:28px; font-weight:700;
+  line-height:1.05; text-transform:uppercase; letter-spacing:-0.01em;
+  margin-bottom:28px;
+}
+.login-field{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+.login-field label{
+  font-family: var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color: rgba(22,21,39,0.55);
+}
+.login-field input{
+  width:100%; padding:13px 16px;
+  border:2px solid rgba(22,21,39,0.2); border-radius:10px;
+  font-family: var(--body); font-size:15px;
+  background: var(--cream); color: var(--ink);
+  outline:none; transition:border-color 0.15s;
+}
+.login-field input:focus{ border-color: var(--indigo); }
+.login-btn{
+  width:100%; margin-top:8px; padding:14px;
+  background: var(--ink); color: var(--paper);
+  border:none; border-radius:10px;
+  font-family: var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  cursor:pointer; transition:opacity 0.15s;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+}
+.login-btn:hover:not(:disabled){ opacity:0.82; }
+.login-btn:disabled{ opacity:0.55; cursor:default; }
+.spinner{
+  display:none; width:15px; height:15px;
+  border:2px solid rgba(255,252,245,0.3);
+  border-top-color:#fff; border-radius:50%;
+  animation:spin 0.7s linear infinite; flex-shrink:0;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.login-error{
+  display:none; margin-top:14px; padding:12px 16px;
+  background:rgba(244,97,46,0.1); border:1.5px solid var(--orange);
+  border-radius:8px; font-size:13.5px; color:var(--orange);
+  font-weight:600; text-align:center; line-height:1.5;
+}
+.login-note{
+  margin-top:20px; font-family:var(--mono); font-size:11.5px;
+  color:rgba(22,21,39,0.45); text-align:center; line-height:1.6;
+}
+.back-link{
+  display:block; margin-top:28px; text-align:center;
+  font-family:var(--mono); font-size:12px;
+  color:rgba(255,252,245,0.5); text-decoration:none;
+}
+.back-link:hover{ color:var(--paper); }
+</style>
+</head>
+<body>
+
+<div class="login-box">
+  <img src="logo.png" alt="Urban Echo" class="login-logo">
+  <span class="login-eyebrow">Employee Access</span>
+  <h1>Team Portal</h1>
+
+  <a href="https://accounts.urbanecho.com.au/sign-in?redirect_url=https://urbanecho.com.au/portal.html" class="login-btn" style="text-decoration:none;">
+    <span>Log in →</span>
+  </a>
+
+  <button onclick="adminLogin()" class="login-btn" style="margin-top:10px;background:var(--orange);border:none;cursor:pointer;">
+    <span>Admin Login →</span>
+  </button>
+
+  <p class="login-note">Access is by invitation only.<br>Contact Mitchel if you need an account.</p>
+</div>
+
+<a href="/" class="back-link">← Back to main site</a>
+
+<script>
+function adminLogin(){
+  window.location.href = 'https://accounts.urbanecho.com.au/sign-in';
+}
+</script>
+</body>
+</html>

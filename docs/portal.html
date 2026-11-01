@@ -1467,8 +1467,8 @@ var clerkInstance    = null;
 var supabaseClient   = null;
 
 function doLogout(){
-  if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('login.html'); }); }
-  else { window.location.replace('login.html'); }
+  if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('/login'); }); }
+  else { window.location.replace('/login'); }
 }
 
 (async function initPortal(){
@@ -1506,7 +1506,7 @@ function doLogout(){
       user = clerkInstance.user;
     }
 
-    if(!user){ window.location.replace('login.html'); return; }
+    if(!user){ window.location.replace('/login'); return; }
 
     // ── Get Supabase JWT from Clerk ──
     var supabaseToken = await clerkInstance.session.getToken({ template: 'supabase' });
@@ -1582,7 +1582,7 @@ function doLogout(){
 
   } catch(err) {
     console.error('Portal init error:', err);
-    window.location.replace('login.html');
+    window.location.replace('/login');
   }
 })();
 
