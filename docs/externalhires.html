@@ -576,40 +576,34 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 @media(max-width:600px){ .footer-inner{ flex-wrap:nowrap; gap:6px; } .footer-tagline-full{ display:none; } .footer-tagline-short{ display:inline; } }
 /* ─── Receipt heading ─── */
 .receipt-h3 { font-family:var(--display); font-size:1.25rem; letter-spacing:-0.01em; font-weight:900; color:var(--ink); margin-bottom:24px; padding-bottom:16px; border-bottom:2.5px solid var(--ink); }
-/* ─── Hires breakout strip ─── */
-.hires-breakout {
-  background:var(--ink); border-bottom:3px solid var(--ink); padding:64px 0 72px;
+/* ─── Hires tiles (below receipt) ─── */
+.receipt-col { display:flex; flex-direction:column; gap:20px; }
+.hb-wrap { }
+.hb-eyebrow {
+  font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em;
+  color:rgba(22,21,39,0.4); margin:0 0 12px;
 }
-.hires-breakout-eyebrow {
-  font-family:var(--body); font-size:clamp(1rem,2vw,1.2rem); font-weight:600;
-  color:rgba(255,255,255,0.55); text-transform:uppercase; letter-spacing:0.12em;
-  text-align:center; margin:0 0 40px;
-}
-.hires-breakout-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:760px; margin:0 auto;
-}
-@media(max-width:600px){ .hires-breakout-grid { grid-template-columns:1fr; max-width:400px; margin:0 auto; } }
+.hb-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media(max-width:600px){ .hb-grid { grid-template-columns:1fr; } }
 .hb-tile {
-  border-radius:20px; border:3px solid rgba(255,255,255,0.15);
-  padding:40px 32px 36px; text-align:center;
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  transition:transform 0.15s;
+  border-radius:16px; border:2.5px solid var(--ink);
+  padding:24px 20px 22px; text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  box-shadow:4px 4px 0 var(--ink);
 }
-.hb-tile:hover { transform:translateY(-2px); }
-.hb-green  { background:var(--forest); border-color:var(--forest-deep); }
-.hb-indigo { background:var(--indigo); border-color:rgba(61,127,213,0.6); }
+.hb-green  { background:var(--forest); }
+.hb-indigo { background:var(--indigo); }
 .hb-n {
-  font-family:var(--display); font-size:clamp(5rem,12vw,8rem); line-height:0.9;
+  font-family:var(--display); font-size:clamp(3rem,7vw,4.5rem); line-height:0.9;
   color:#fff; font-variant-numeric:tabular-nums; display:block;
-  text-shadow:0 4px 24px rgba(0,0,0,0.18);
 }
 .hb-label {
-  font-size:0.75rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:0.16em; color:rgba(255,255,255,0.7); margin-top:10px;
+  font-size:0.65rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.14em; color:rgba(255,255,255,0.65); margin-top:8px;
 }
 .hb-sub {
-  font-family:var(--body); font-size:clamp(1rem,2vw,1.25rem); font-weight:700;
-  color:#fff; margin-top:4px;
+  font-family:var(--body); font-size:0.95rem; font-weight:700;
+  color:#fff; margin-top:3px;
 }
 .hires-answer .result-term { font-size:0.88rem; font-weight:700; color:rgba(255,255,255,0.75); display:block; margin-top:4px; letter-spacing:0.02em; }
 </style>
@@ -852,57 +846,57 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         </div>
       </div>
 
-      <!-- Receipt -->
-      <div class="receipt">
-        <div class="receipt-body" style="padding-top:28px;">
-        <h3 class="receipt-h3">Urban Echo — Cost Breakdown</h3>
+      <!-- Receipt column: breakdown + hires tiles -->
+      <div class="receipt-col">
+        <div class="receipt">
+          <div class="receipt-body" style="padding-top:28px;">
+          <h3 class="receipt-h3">Urban Echo — Cost Breakdown</h3>
 
-          <div class="r-section-head">Assemblies</div>
-          <div class="r-row muted"><span class="r-lbl" id="rAsmCount">16 assemblies / yr</span><span class="r-fill"></span></div>
-          <div class="r-row bold forest-col"><span class="r-lbl">TOTAL</span><span class="r-fill"></span><span class="r-val" id="rAsmCost">$3,120</span></div>
+            <div class="r-section-head">Assemblies</div>
+            <div class="r-row muted"><span class="r-lbl" id="rAsmCount">16 assemblies / yr</span><span class="r-fill"></span></div>
+            <div class="r-row bold forest-col"><span class="r-lbl">TOTAL</span><span class="r-fill"></span><span class="r-val" id="rAsmCost">$3,120</span></div>
 
-          <hr class="r-div">
-          <div class="r-section-head">Major Events</div>
-          <div class="r-row muted"><span class="r-lbl" id="rMajCount">4 events / yr @ $1,300</span><span class="r-fill"></span></div>
-          <div class="r-row bold forest-col"><span class="r-lbl">TOTAL</span><span class="r-fill"></span><span class="r-val" id="rMajCost">$5,200</span></div>
-
-          <div class="r-eq-section" id="rEqSection">
             <hr class="r-div">
-            <div class="r-section-head">Equipment (one-time)</div>
-            <div id="rEqLines"></div>
-            <div class="r-row bold"><span class="r-lbl">EQUIPMENT TOTAL</span><span class="r-fill"></span><span class="r-val" id="rEqTotal">$0</span></div>
+            <div class="r-section-head">Major Events</div>
+            <div class="r-row muted"><span class="r-lbl" id="rMajCount">4 events / yr @ $1,300</span><span class="r-fill"></span></div>
+            <div class="r-row bold forest-col"><span class="r-lbl">TOTAL</span><span class="r-fill"></span><span class="r-val" id="rMajCost">$5,200</span></div>
+
+            <div class="r-eq-section" id="rEqSection">
+              <hr class="r-div">
+              <div class="r-section-head">Equipment (one-time)</div>
+              <div id="rEqLines"></div>
+              <div class="r-row bold"><span class="r-lbl">EQUIPMENT TOTAL</span><span class="r-fill"></span><span class="r-val" id="rEqTotal">$0</span></div>
+            </div>
+
+            <hr class="r-div">
+            <div class="r-row bold"><span class="r-lbl">ANNUAL SERVICES</span><span class="r-fill"></span><span class="r-val" id="rAnnual">$8,320</span></div>
+            <div class="r-row muted" id="rYear1Row"><span class="r-lbl">YEAR 1 TOTAL</span><span class="r-fill"></span><span class="r-val" id="rYear1">$8,320</span></div>
+            <hr class="r-div">
+            <div class="r-row muted"><span class="r-lbl">÷ HIRE FEE</span><span class="r-fill"></span><span class="r-val" id="rFeeDisplay">$2,000</span></div>
           </div>
 
-          <hr class="r-div">
-          <div class="r-row bold"><span class="r-lbl">ANNUAL SERVICES</span><span class="r-fill"></span><span class="r-val" id="rAnnual">$8,320</span></div>
-          <div class="r-row muted" id="rYear1Row"><span class="r-lbl">YEAR 1 TOTAL</span><span class="r-fill"></span><span class="r-val" id="rYear1">$8,320</span></div>
-          <hr class="r-div">
-          <div class="r-row muted"><span class="r-lbl">÷ HIRE FEE</span><span class="r-fill"></span><span class="r-val" id="rFeeDisplay">$2,000</span></div>
+          <div class="receipt-zero">
+            <span class="zero-lbl">From your core budget</span>
+            <span class="zero-val">$0.00</span>
+          </div>
         </div>
 
-        <div class="receipt-zero">
-          <span class="zero-lbl">From your core budget</span>
-          <span class="zero-val">$0.00</span>
+        <!-- Hires tiles -->
+        <div class="hb-wrap">
+          <p class="hb-eyebrow">To cover your costs, you need</p>
+          <div class="hb-grid">
+            <div class="hb-tile hb-green">
+              <span class="hb-n" id="rHiresOngoing">2</span>
+              <span class="hb-label">hires per term</span>
+              <span class="hb-sub" id="rHiresPerTerm">8 hires per year</span>
+            </div>
+            <div class="hb-tile hb-indigo" id="rYear1Box">
+              <span class="hb-n" id="rHiresYear1">5</span>
+              <span class="hb-label">hires in year 1</span>
+              <span class="hb-sub">includes equipment</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ HIRES BREAKOUT ═══ -->
-<section class="hires-breakout">
-  <div class="wrap">
-    <p class="hires-breakout-eyebrow">To cover your costs, you need</p>
-    <div class="hires-breakout-grid">
-      <div class="hb-tile hb-green">
-        <span class="hb-n" id="rHiresOngoing">2</span>
-        <span class="hb-label">hires per term</span>
-        <span class="hb-sub" id="rHiresPerTerm">8 hires per year</span>
-      </div>
-      <div class="hb-tile hb-indigo" id="rYear1Box">
-        <span class="hb-n" id="rHiresYear1">5</span>
-        <span class="hb-label">hires in year 1</span>
-        <span class="hb-sub">includes one-off equipment costs</span>
       </div>
     </div>
   </div>
