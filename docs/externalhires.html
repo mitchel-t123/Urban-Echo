@@ -504,9 +504,9 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 @media(max-width:600px){ .footer-inner{ flex-wrap:nowrap; gap:6px; } .footer-tagline-full{ display:none; } .footer-tagline-short{ display:inline; } }
 /* ─── Receipt heading ─── */
 .receipt-h3 { font-family:var(--display); font-size:1.25rem; letter-spacing:-0.01em; font-weight:900; color:var(--ink); margin-bottom:24px; padding-bottom:16px; border-bottom:2.5px solid var(--ink); }
-/* ─── Hires answer (below calc grid) ─── */
-.hires-answer { margin-top:32px; }
-.hires-answer .receipt-result { margin:0; border-radius:16px; display:flex; align-items:center; justify-content:center; gap:20px; padding:24px 32px; }
+/* ─── Hires answer (under cost breakdown receipt) ─── */
+.hires-answer { margin-top:16px; }
+.hires-answer .receipt-result { margin:0; border-radius:12px; }
 .hires-answer .result-term { font-size:0.88rem; font-weight:700; color:rgba(255,255,255,0.75); display:block; margin-top:4px; letter-spacing:0.02em; }
 </style>
 
@@ -780,21 +780,19 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
           <span class="zero-lbl">From your core budget</span>
           <span class="zero-val">$0.00</span>
         </div>
-      </div>
-    </div>
-
-    <!-- Hires answer — full-width below both columns -->
-    <div class="hires-answer">
-      <div class="receipt-result">
-        <div>
-          <span class="result-n" id="rHiresOngoing">5</span>
-          <span class="result-term" id="rHiresPerTerm">≈ 2 per term</span>
+        <div class="hires-answer">
+          <div class="receipt-result">
+            <div>
+              <span class="result-n" id="rHiresOngoing">5</span>
+              <span class="result-term" id="rHiresPerTerm">≈ 2 per term</span>
+            </div>
+            <span class="result-lbl">hires per year to cover your ongoing costs</span>
+          </div>
+          <div class="receipt-year1" id="rYear1Box" style="margin-top:14px;margin:14px 0 0;">
+            <span class="y1-n" id="rHiresYear1">5</span>
+            <span class="y1-lbl">hires in year 1 (includes equipment)</span>
+          </div>
         </div>
-        <span class="result-lbl">hires per year to cover your ongoing costs</span>
-      </div>
-      <div class="receipt-year1" id="rYear1Box" style="margin-top:14px;margin:14px 0 0;">
-        <span class="y1-n" id="rHiresYear1">5</span>
-        <span class="y1-lbl">hires in year 1 (includes equipment)</span>
       </div>
     </div>
   </div>
@@ -1027,11 +1025,11 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
     },
     {
       id: 'b2',
-      title: 'Live Streaming for Parents',
-      desc:  'Concerts and performances streamed live so every parent can watch from anywhere.',
-      calc:  'Available across all <strong>major events</strong>',
-      tag:   'Streaming',
-      check: function(s){ return s.majorEvents > 0; }
+      title: 'External Hire Admin, Bookings & Venue Tours',
+      desc:  'We handle all the enquiries, contracts, venue walkthroughs, and booking admin so your staff don\'t have to.',
+      calc:  'Covers <strong>all external hire enquiries</strong> year-round',
+      tag:   'Admin',
+      check: function(s){ return true; }
     },
     {
       id: 'b3',
@@ -1040,22 +1038,6 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
       calc:  '<strong>Year-round</strong> dedicated support',
       tag:   'Priority',
       check: function(s){ return s.majorEvents > 1 || s.assembliesPerTerm > 2; }
-    },
-    {
-      id: 'b4',
-      title: 'Venue & Systems Review',
-      desc:  'A full audit of your AV infrastructure with a clear upgrade roadmap — what to fix first, and why.',
-      calc:  '<strong>1 annual review</strong> + written report',
-      tag:   'Infrastructure',
-      check: function(s,eq){ return eq > 0; }
-    },
-    {
-      id: 'b5',
-      title: 'Branded Event Content',
-      desc:  'Coordinated photography and documentation for your newsletter, social media, and school website.',
-      calc:  'Across all <strong>major events</strong> each year',
-      tag:   'Content',
-      check: function(s){ return s.majorEvents > 2; }
     }
   ];
 
