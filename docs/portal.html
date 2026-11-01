@@ -499,6 +499,41 @@ body.auth-pending{ visibility: hidden; }
 }
 .wa-fab:hover{ transform:translateY(-3px); box-shadow:5px 6px 0 var(--ink); }
 
+/* ── EVENTS ── */
+.event-item{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius:14px;
+  padding:16px 20px;
+  display:grid;
+  grid-template-columns: 100px 1fr auto;
+  align-items:center;
+  gap:16px;
+  box-shadow:4px 4px 0 var(--ink);
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.event-item:hover{ box-shadow:4px 4px 0 var(--indigo); border-color:var(--indigo); }
+@media(max-width:620px){
+  .event-item{ grid-template-columns:1fr; gap:8px; }
+  .event-item .roster-date{ display:flex; align-items:baseline; gap:8px; }
+  .event-item .roster-date span{ font-size:16px; }
+}
+.event-fb-btn{
+  background: #1877F2; color:#fff;
+  border-color: #1877F2;
+  text-decoration:none;
+  display:inline-block;
+  text-align:center;
+}
+.event-fb-btn:hover{ opacity:0.85; }
+.event-training-badge{
+  background: var(--sunshine); color:var(--ink);
+  border:2px solid var(--ink);
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:10px 20px; border-radius:100px; white-space:nowrap;
+}
+
 .portal-card-tag{
   margin-top:auto; font-family:var(--mono);
   font-size:12px; font-weight:700; text-transform:uppercase;
@@ -766,6 +801,47 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
       <div class="portal-cards" id="quickLinksGrid">
         <!-- Cards injected by renderQuickLinks() after auth -->
       </div>
+    </div>
+  </section>
+
+  <!-- UPCOMING EVENTS -->
+  <section class="portal-section" id="eventsSection">
+    <div class="wrap">
+      <h2>Upcoming Events</h2>
+      <div class="roster-list" id="eventsList">
+
+        <!-- ─ EVENT: Christmas Party ─ -->
+        <div class="event-item">
+          <div class="roster-date">
+            <span>20</span>
+            DEC
+          </div>
+          <div class="roster-detail">
+            <h4>Urban Echo Christmas Party 🎄</h4>
+            <p>Annual crew celebration — location TBC. Bring your good vibes.</p>
+          </div>
+          <a href="https://www.facebook.com" target="_blank" rel="noopener" class="roster-badge confirmed event-fb-btn">
+            View on Facebook →
+          </a>
+        </div>
+
+        <!-- ─ EVENT: Training Day ─ -->
+        <div class="event-item">
+          <div class="roster-date">
+            <span>08</span>
+            FEB
+          </div>
+          <div class="roster-detail">
+            <h4>Crew Training Day — Sound & AV</h4>
+            <p>Full-day hands-on training session for all crew. Attendance expected for active members.</p>
+          </div>
+          <div class="roster-badge event-training-badge">
+            Training Day
+          </div>
+        </div>
+
+      </div>
+      <p id="eventsEmpty" style="display:none;font-size:13px;color:rgba(22,21,39,0.4);padding:8px 0;">No upcoming events scheduled. Check back soon.</p>
     </div>
   </section>
 
