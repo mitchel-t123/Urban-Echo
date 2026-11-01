@@ -521,8 +521,8 @@ footer{
       <div style="font-family:var(--display);font-size:clamp(52px,8vw,88px);color:#fff;line-height:1;letter-spacing:-0.02em;" id="cover-num">—</div>
     </div>
     <div style="flex:1;min-width:220px;border-left:1px solid rgba(255,252,245,0.15);padding-left:40px;">
-      <div style="font-family:var(--display);font-size:16px;text-transform:uppercase;letter-spacing:-0.01em;color:#fff;margin-bottom:8px;">Your support &amp; equipment — for free</div>
-      <div style="font-size:13px;color:rgba(255,252,245,0.6);line-height:1.7;" id="cover-desc">Book this many shows in a year and every dollar of overheads and admin is covered by your gross profit — before you count a cent of net profit.</div>
+      <div style="font-family:var(--display);font-size:16px;text-transform:uppercase;letter-spacing:-0.01em;color:#fff;margin-bottom:8px;">Annual shows to break even on fixed costs</div>
+      <div style="font-size:13px;color:rgba(255,252,245,0.6);line-height:1.7;" id="cover-desc">Enter your show mix above to see how many annual bookings cover all your overheads and admin costs.</div>
     </div>
   </div>
 </div>
@@ -1001,7 +1001,7 @@ function recalc(){
     var gpPerShowAvg = gpWk / totalShows;
     var hiresYr = Math.ceil(annualFixed / gpPerShowAvg);
     coverNum.textContent = hiresYr.toLocaleString('en-AU');
-    coverDesc.textContent = 'Book '+hiresYr+' shows this year and every dollar of your $'+Math.round(annualFixed).toLocaleString('en-AU')+' in annual overheads and admin is covered by gross profit — before you count a cent of net profit. That\'s roughly '+Math.ceil(hiresYr/12)+' shows a month.';
+    coverDesc.textContent = 'At your current show mix, you need '+hiresYr+' shows per year (≈'+Math.ceil(hiresYr/12)+'/mo) to cover $'+Math.round(annualFixed).toLocaleString('en-AU')+' in annual fixed costs. Every show beyond this adds directly to net profit.';
   } else {
     coverNum.textContent = '—';
     coverDesc.textContent = 'Enter your show mix above to see how many annual bookings cover all your overheads and admin costs.';
