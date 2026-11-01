@@ -1195,8 +1195,6 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   window.toggleEquipment = function(id) {
     var card = document.getElementById(id);
     card.classList.toggle('checked');
-    var hint = card.querySelector('.eq-tap-hint');
-    hint.textContent = card.classList.contains('checked') ? 'Tap to remove' : 'Tap to include';
     calc();
   };
 
