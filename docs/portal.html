@@ -792,6 +792,12 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Official welcome sent after compliance and HR is complete. Crew member is fully onboarded.</p>
           <span class="portal-card-tag">View &amp; copy →</span>
         </button>
+        <button id="openSlackWelcomePortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
+          <span class="portal-card-icon">💬</span>
+          <h3>Team Welcome Message</h3>
+          <p>All-team Slack welcome message. Copy and paste into the crew group chat.</p>
+          <span class="portal-card-tag">View &amp; copy →</span>
+        </button>
       </div>
     </div>
   </section>
@@ -985,6 +991,39 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
             <a href="https://www.urbanecho.com.au/portal" style="font-size:11px;color:rgba(251,245,231,0.4);text-decoration:none;">Team Portal</a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLACK WELCOME MESSAGE MODAL (team_manager + super_admin) -->
+  <div class="modal-overlay" id="slackWelcomePortalModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Team Welcome Message</span>
+        <button id="copySlackWelcomePortal" style="background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Copy Message</button>
+        <button id="slackWelcomePortalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <div style="padding:16px 20px 8px;background:var(--cream);border-bottom:1px solid rgba(22,21,39,0.1);">
+        <span style="font-size:12px;color:rgba(22,21,39,0.55);"><strong style="color:var(--ink);">Post in:</strong> #urban-echo-team-chat &nbsp;·&nbsp; <strong style="color:var(--ink);">Plain text, paste as-is</strong></span>
+      </div>
+      <div style="padding:28px 24px;">
+        <pre id="slackWelcomePortalText" style="font-family:var(--body);font-size:14px;color:var(--ink);line-height:1.8;white-space:pre-wrap;word-break:break-word;margin:0;">🎉 Hey Team, welcome to the Urban Echo crew chat!
+
+This is our official space for everyone who's part of the Urban Echo family, and we're so glad you're here.
+
+First things first, we want you to know that we don't just onboard anyone. 🌟 We're incredibly selective about who joins this team, and the fact that you're here means we think you're one of the best. So welcome, you've earned your spot.
+
+This chat is your go-to for everything team-wide:
+
+🎄 Christmas parties &amp; crew socials
+🤝 Team building events
+📋 HR &amp; admin updates
+🎓 Invites to free training sessions
+📢 Anything else worth sharing with the whole crew
+
+We're building something special here at Urban Echo, and it's the people in this chat that make it what it is. Thanks for being part of it. 🙌
+
+Mitchel &amp; the Urban Echo team</pre>
       </div>
     </div>
   </div>
@@ -1693,6 +1732,7 @@ function doLogout(){
     if(role === 'super_admin' || role === 'team_manager'){
       document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
       document.getElementById('openWelcomeEmail2Portal').style.display = 'flex';
+      document.getElementById('openSlackWelcomePortal').style.display = 'flex';
     }
 
     loadRentmanRoster(userEmail);
@@ -2322,6 +2362,32 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback, Urban Echo Po
       copyBtn.textContent = '✓ Copied (plain text)';
     }
     setTimeout(function(){ copyBtn.textContent = 'Copy Email'; }, 2500);
+  });
+})();
+
+// ── Slack Welcome Message modal ───────────────────────────────
+(function(){
+  var btn     = document.getElementById('openSlackWelcomePortal');
+  var modal   = document.getElementById('slackWelcomePortalModal');
+  var close   = document.getElementById('slackWelcomePortalClose');
+  var copyBtn = document.getElementById('copySlackWelcomePortal');
+  if(!btn||!modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  btn.addEventListener('click', openM);
+  close.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+  copyBtn.addEventListener('click', function(){
+    var text = document.getElementById('slackWelcomePortalText').innerText;
+    try {
+      navigator.clipboard.writeText(text);
+      copyBtn.textContent = '✓ Copied!';
+    } catch(e) {
+      var ta = document.createElement('textarea'); ta.value = text;
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      copyBtn.textContent = '✓ Copied!';
+    }
+    setTimeout(function(){ copyBtn.textContent = 'Copy Message'; }, 2500);
   });
 })();
 
