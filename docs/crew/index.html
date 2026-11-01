@@ -829,7 +829,7 @@ function submitPhase(phase) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        _subject: (isAmend ? '[AMENDED] ' : '') + 'Sign-Off: ' + phaseLabel + ' — ' + state.name + ' / ' + venue.name + ' / ' + formatDate(state.date),
+        _subject: (isAmend ? '[AMENDED] ' : '') + 'Sign-Off: ' + phaseLabel + ', ' + state.name + ' / ' + venue.name + ' / ' + formatDate(state.date),
         technician: state.name,
         role: ROLE_LABELS[state.role] || state.role,
         event: state.event,
@@ -924,7 +924,7 @@ function sendMessage() {
     : 'https://formspree.io/f/' + FORMSPREE_ID;
 
   if (!FORMSPREE_ID || FORMSPREE_ID === 'YOUR_FORM_ID') {
-    // No ID yet — show confirmation anyway
+    // No ID yet, show confirmation anyway
     setTimeout(function() {
       document.getElementById('msg-status').classList.add('visible');
       btn.textContent = 'Sent ✓';

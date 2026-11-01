@@ -47,7 +47,7 @@
   "@type": ["LocalBusiness", "ProfessionalService"],
   "name": "Urban Echo",
   "description": "On-demand sound and AV technicians for Perth schools. Professional audio visual operators for school graduations, assemblies, presentation nights, performing arts productions and formals.",
-  "slogan": "Sound and AV for Perth schools — one contact, zero headaches.",
+  "slogan": "Sound and AV for Perth schools, one contact, zero headaches.",
   "url": "https://urbanecho.com.au",
   "email": "mitchel@urbanecho.com.au",
   "telephone": "+61429660186",
@@ -105,7 +105,7 @@
         "itemOffered": {
           "@type": "Service",
           "name": "Single Event AV",
-          "description": "On-demand sound and AV technician for a single school event — graduations, assemblies, speech nights and more.",
+          "description": "On-demand sound and AV technician for a single school event, graduations, assemblies, speech nights and more.",
           "areaServed": "Perth, WA"
         },
         "priceSpecification": {
@@ -685,7 +685,7 @@ h2,h3{
 /* ---- INTERACTIVE SYMPTOM CHECKER LAYOUT ---- */
 .checker-grid{ display:grid; grid-template-columns: 1fr; gap:32px; align-items:start; }
 @media(min-width:921px){ .checker-grid{ grid-template-columns: 1fr 1fr; gap:48px; } }
-/* Mobile: step-through — button shown, result panel hidden until revealed */
+/* Mobile: step-through, button shown, result panel hidden until revealed */
 .checker-reveal-btn{ display:none; }
 .checker-ctas-after{ display:none; }
 @media(max-width:920px){
@@ -2228,7 +2228,7 @@ body{ overflow-x: hidden; max-width: 100%; }
   .mini-reviews-with-arrows{ align-items: stretch; }
   /* Mobile: nav scrolls with page (not sticky) */
   .nav{ position: sticky; top: 0; }
-  /* Mobile: h1 box — show but compact */
+  /* Mobile: h1 box, show but compact */
   .hero-h1-box{ display: block; padding: 16px 18px 14px; margin-bottom: 16px; }
   .hero h1{ font-size: clamp(22px, 6vw, 30px); }
   /* Mobile: hide back-to-top FAB */
@@ -2349,7 +2349,7 @@ body{ overflow-x: hidden; max-width: 100%; }
   /* Reviews: reduce gap below CTA button */
   .reviews{ padding-bottom: 48px; }
 
-  /* ── Mobile readable body text — 15px minimum ── */
+  /* ── Mobile readable body text, 15px minimum ── */
   .package-card .desc{ font-size: 17px; }
   .package-list li{ font-size: 17px; }
   .plan-step p{ font-size: 16px !important; }
@@ -2386,7 +2386,7 @@ body{ overflow-x: hidden; max-width: 100%; }
   .mobile-wave-sep    { order:-6; }
   #mobile-reviews-band{ order:-6; }
   #what-we-offer      { order:-5; }
-  /* #reviews is hidden on mobile — its order doesn't matter */
+  /* #reviews is hidden on mobile, its order doesn't matter */
   /* Everything else (symptom-checker, symptoms, about, plan, packages,
      meet, faq, contact, hiring bar, footer) keeps order:0 and
      sorts in its original DOM sequence */
@@ -3676,7 +3676,7 @@ form.addEventListener('submit', async function(e){
       headers: { 'Accept': 'application/json' }
     });
     if(res.ok){
-      // Fire ClickUp in background — don't block success on it
+      // Fire ClickUp in background, don't block success on it
       sendToClickUp(fields).catch(function(){});
       // Personalise success state
       const firstName = nameVal.split(' ')[0];
