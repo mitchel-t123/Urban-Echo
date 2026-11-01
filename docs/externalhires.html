@@ -449,6 +449,31 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .cta-sub { font-size:1rem; color:rgba(22,21,39,0.55); margin:0 auto 40px; max-width:500px; }
 .cta-btn-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
 
+/* ── Coffee booking + enquiry sections ── */
+.coffee-section { background:var(--paper); border-bottom:3px solid var(--ink); padding:80px 0; }
+.coffee-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; margin-top:40px; }
+@media(max-width:720px){ .coffee-grid { grid-template-columns:1fr; gap:32px; } }
+.coffee-blurb h2 { font-family:var(--display); font-size:clamp(1.8rem,4vw,2.8rem); color:var(--ink); line-height:1.1; margin-bottom:16px; }
+.coffee-blurb p { color:rgba(22,21,39,0.6); font-size:1rem; line-height:1.6; max-width:420px; }
+.coffee-form-card { background:var(--cream); border:3px solid var(--ink); border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:32px; }
+.cf-label { display:block; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink); margin-bottom:6px; margin-top:18px; }
+.cf-label:first-child { margin-top:0; }
+.cf-input { width:100%; box-sizing:border-box; padding:12px 14px; font-family:var(--body); font-size:0.95rem; border:2.5px solid var(--ink); border-radius:8px; background:var(--paper); color:var(--ink); outline:none; }
+.cf-input:focus { border-color:var(--orange); }
+.cf-readonly { background:var(--cream-deep); color:rgba(22,21,39,0.45); }
+.cf-submit { margin-top:22px; width:100%; padding:14px; font-family:var(--display); font-size:1rem; font-weight:900; background:var(--orange); color:var(--ink); border:2.5px solid var(--ink); border-radius:100px; box-shadow:4px 4px 0 var(--ink); cursor:pointer; letter-spacing:0.02em; transition:transform 0.1s,box-shadow 0.1s; }
+.cf-submit:hover { transform:translate(-1px,-1px); box-shadow:5px 5px 0 var(--ink); }
+.cf-submit:active { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--ink); }
+.cf-success { display:none; text-align:center; padding:24px 0; }
+.cf-success-icon { font-size:2.4rem; display:block; margin-bottom:10px; }
+.cf-success p { font-family:var(--display); font-size:1.1rem; color:var(--forest-deep); }
+.enquiry-section { background:var(--ink); padding:72px 0; }
+.enquiry-inner { display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap; }
+.enquiry-text h2 { font-family:var(--display); font-size:clamp(1.6rem,3.5vw,2.4rem); color:var(--paper); line-height:1.1; }
+.enquiry-text p { color:rgba(255,252,245,0.55); font-size:0.95rem; margin-top:10px; max-width:480px; line-height:1.6; }
+.btn-paper { background:var(--paper); color:var(--ink); border-color:var(--paper); }
+.btn-paper:hover { background:var(--cream); }
+
 /* FOOTER */
 .page-footer { background:var(--cream); border-top:3px solid var(--ink); padding:24px 0; }
 .footer-inner { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
@@ -863,17 +888,52 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   </div>
 </section>
 
-<!-- ═══ CTA ═══ -->
-<section class="cta-section">
+<!-- ═══ COFFEE BOOKING ═══ -->
+<section class="coffee-section" id="book-coffee">
   <div class="wrap">
-    <div class="cta-inner">
-      <span class="section-label orange" style="margin-bottom:20px;">Let's talk</span>
-      <h2>Your hall.<br><span>Zero extra budget.</span></h2>
-      <p class="cta-sub">Talk to us about how many hires would work for your venue and what that covers.</p>
-      <div class="cta-btn-row">
-        <a href="enquire.html" class="btn btn-orange">Get in touch →</a>
-        <a href="index.html" class="btn btn-outline">See how we work</a>
+    <span class="section-label orange">Let's talk</span>
+    <div class="coffee-grid">
+      <div class="coffee-blurb">
+        <h2>Book a coffee.<br>No pitch, just numbers.</h2>
+        <p>We'll sit down, look at your venue calendar, and work out exactly how many external hires would cover your AV support — for free. Bring your questions.</p>
+        <p style="margin-top:16px;">30 minutes. Your venue or a coffee shop nearby. No obligation.</p>
       </div>
+      <div class="coffee-form-card">
+        <div id="coffeeFormWrap">
+          <form id="coffeeForm" action="https://formspree.io/f/mgaanywv" method="POST">
+            <label class="cf-label" for="cf-name">Your name</label>
+            <input class="cf-input" type="text" id="cf-name" name="name" placeholder="Jane Smith" required>
+
+            <label class="cf-label" for="cf-email">Email</label>
+            <input class="cf-input" type="email" id="cf-email" name="email" placeholder="jane@school.edu.au" required>
+
+            <label class="cf-label" for="cf-school">School / organisation</label>
+            <input class="cf-input" type="text" id="cf-school" name="school" placeholder="Springfield Primary School">
+
+            <label class="cf-label" for="cf-reason">Reason for meeting</label>
+            <input class="cf-input cf-readonly" type="text" id="cf-reason" name="reason" value="External Hires — Venue Revenue Calculator" readonly>
+
+            <button type="submit" class="cf-submit">Book a coffee →</button>
+          </form>
+        </div>
+        <div class="cf-success" id="coffeeSuccess">
+          <span class="cf-success-icon">☕</span>
+          <p>We'll be in touch shortly to lock in a time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GENERAL ENQUIRY ═══ -->
+<section class="enquiry-section" id="enquire">
+  <div class="wrap">
+    <div class="enquiry-inner">
+      <div class="enquiry-text">
+        <h2>Have a different question?</h2>
+        <p>Whether it's about pricing, what's included in a hire, or how to get started — send us a message and we'll get back to you within one business day.</p>
+      </div>
+      <a href="https://formspree.io/f/xoeekwaq" target="_blank" rel="noopener" class="btn btn-paper" style="white-space:nowrap;">Send an enquiry →</a>
     </div>
   </div>
 </section>
@@ -1182,5 +1242,33 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   document.addEventListener('click', function(e){ if(!dDrop.contains(e.target) && e.target !== dBtn) closeDD(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDD(); });
   dDrop.querySelectorAll('.desktop-dd-link').forEach(function(a){ a.addEventListener('click', closeDD); });
+})();
+
+// Coffee booking form — AJAX submit
+(function(){
+  var form = document.getElementById('coffeeForm');
+  if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = form.querySelector('.cf-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(r){
+      if(r.ok){
+        document.getElementById('coffeeFormWrap').style.display = 'none';
+        document.getElementById('coffeeSuccess').style.display = 'block';
+      } else {
+        btn.textContent = 'Try again';
+        btn.disabled = false;
+      }
+    }).catch(function(){
+      btn.textContent = 'Try again';
+      btn.disabled = false;
+    });
+  });
 })();
 </script>
