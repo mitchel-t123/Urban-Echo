@@ -588,7 +588,6 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .hires-breakout-grid {
   display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:760px; margin:0 auto;
 }
-.hires-breakout-grid:has(.hb-indigo[style*="display:none"]) { grid-template-columns:1fr; max-width:400px; }
 @media(max-width:600px){ .hires-breakout-grid { grid-template-columns:1fr; max-width:400px; margin:0 auto; } }
 .hb-tile {
   border-radius:20px; border:3px solid rgba(255,255,255,0.15);
@@ -900,7 +899,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <span class="hb-label">hires per term</span>
         <span class="hb-sub" id="rHiresPerTerm">8 hires per year</span>
       </div>
-      <div class="hb-tile hb-indigo" id="rYear1Box" style="display:none;">
+      <div class="hb-tile hb-indigo" id="rYear1Box">
         <span class="hb-n" id="rHiresYear1">5</span>
         <span class="hb-label">hires in year 1</span>
         <span class="hb-sub">includes one-off equipment costs</span>
@@ -1338,13 +1337,11 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
     if (anyEq) {
       eqSection.classList.add('visible');
       year1Row.style.display = '';
-      year1Box.style.display = '';
       document.getElementById('rEqLines').innerHTML = eqLines;
       document.getElementById('rEqTotal').textContent = fmtM(eqCost);
     } else {
       eqSection.classList.remove('visible');
       year1Row.style.display = 'none';
-      year1Box.style.display = 'none';
     }
 
     /* Animate key numbers */
@@ -1372,9 +1369,8 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
     });
   }
 
-  /* Hide year1 row + breakout tile initially */
+  /* Hide year1 receipt row initially */
   document.getElementById('rYear1Row').style.display = 'none';
-  document.getElementById('rYear1Box').style.display = 'none';
 
   calc();
 })();
