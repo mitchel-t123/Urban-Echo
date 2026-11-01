@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Calculator — Urban Echo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── Tokens ─────────────────────────────────────── */
+:root {
+  --ink:    #161527;
+  --paper:  #FFFCF5;
+  --cream:  #FBF5E7;
+  --indigo: #3F3FF0;
+  --orange: #F4612E;
+  --forest: #4AAE74;
+  --red:    #E63946;
+  --amber:  #E8902A;
+  --body:   'Inter', system-ui, sans-serif;
+  --mono:   'Space Mono', monospace;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body { font-family: var(--body); background: var(--cream); color: var(--ink); line-height: 1.5; }
+
+/* ── Header ─────────────────────────────────────── */
+.site-hdr {
+  background: var(--ink);
+  padding: 0 max(20px, env(safe-area-inset-left, 0px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.logo {
+  font-family: var(--body);
+  font-weight: 800;
+  font-size: 15px;
+  color: #FFFCF5;
+  letter-spacing: -0.01em;
+}
+.logo span { color: var(--indigo); }
+.back-btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,252,245,0.45);
+  text-decoration: none;
+  border: 1.5px solid rgba(255,252,245,0.15);
+  padding: 6px 14px;
+  border-radius: 100px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.back-btn:hover { color: #FFFCF5; border-color: rgba(255,252,245,0.4); }
+
+/* ── Metric bar ─────────────────────────────────── */
+.metric-bar {
+  background: var(--ink);
+  border-bottom: 2.5px solid var(--indigo);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.metric-bar::-webkit-scrollbar { display: none; }
+.metric-inner {
+  display: flex;
+  min-width: max-content;
+  padding: 0 max(20px, env(safe-area-inset-left, 0px));
+}
+.met {
+  padding: 12px 28px 12px 0;
+  margin-right: 28px;
+  border-right: 1px solid rgba(255,252,245,0.08);
+  flex-shrink: 0;
+}
+.met:first-child { padding-left: 0; }
+.met:last-child { border-right: none; margin-right: 0; }
+.met-lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,252,245,0.4);
+  margin-bottom: 3px;
+}
+.met-val {
+  font-family: var(--mono);
+  font-size: 19px;
+  font-weight: 700;
+  color: #FFFCF5;
+  font-variant-numeric: tabular-nums;
+}
+.met-val.good { color: var(--forest); }
+.met-val.warn { color: var(--amber); }
+.met-val.bad  { color: var(--red); }
+
+/* ── Layout ─────────────────────────────────────── */
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left:  max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+section { padding-block: 40px; }
+section + section { border-top: 1.5px solid rgba(22,21,39,0.1); }
+
+.sec-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--indigo);
+  margin-bottom: 6px;
+}
+.sec-title {
+  font-family: var(--body);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin-bottom: 24px;
+}
+
+/* ── Card ───────────────────────────────────────── */
+.card {
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+/* ── Form controls ──────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 5px; }
+label {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(22,21,39,0.5);
+}
+input[type=text], input[type=number], select {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--cream);
+  border: 2px solid rgba(22,21,39,0.18);
+  border-radius: 8px;
+  padding: 9px 12px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+  -moz-appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input:focus, select:focus { border-color: var(--indigo); }
+.input-charge { border-color: var(--indigo) !important; border-width: 2.5px !important; }
+
+/* ── Buttons ────────────────────────────────────── */
+.btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(22,21,39,0.18); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-danger { background: var(--red); border-color: var(--red); color: #fff; padding: 8px 11px; }
+.btn-sm { padding: 6px 14px; font-size: 9px; }
+
+/* ── Overheads ──────────────────────────────────── */
+.oh-row {
+  display: grid;
+  grid-template-columns: 1fr 110px 140px 36px;
+  gap: 10px;
+  align-items: end;
+}
+@media (max-width: 600px) {
+  .oh-row {
+    grid-template-columns: 1fr 90px;
+    grid-template-rows: auto auto;
+  }
+  .oh-row > :nth-child(3) { grid-column: 1; }
+  .oh-row > :nth-child(4) { grid-column: 2; grid-row: 2; align-self: end; }
+}
+.oh-rows { display: flex; flex-direction: column; gap: 12px; }
+.oh-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 2px solid rgba(22,21,39,0.1);
+}
+.oh-total-lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(22,21,39,0.5);
+}
+.oh-total-val {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Tier grid ──────────────────────────────────── */
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 820px) { .tier-grid { grid-template-columns: 1fr; } }
+
+.tier-card {
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 5px 5px 0 var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 5px 13px;
+  border-radius: 100px;
+  margin-bottom: 4px;
+}
+.tier-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tier-summary {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 13px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 4px;
+}
+.ts-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+}
+.ts-row.ts-total {
+  font-weight: 700;
+  font-size: 13px;
+  padding-top: 8px;
+  border-top: 1.5px solid rgba(22,21,39,0.13);
+  margin-top: 3px;
+}
+.ts-val { font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+/* ── Job config ─────────────────────────────────── */
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+/* ── Breakdown ──────────────────────────────────── */
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 680px) { .breakdown-grid { grid-template-columns: 1fr; } }
+.bd-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+.bd-rows { display: flex; flex-direction: column; }
+.bd-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(22,21,39,0.07);
+  font-size: 13.5px;
+  gap: 8px;
+}
+.bd-row:last-child { border-bottom: none; }
+.bd-row.bd-sub {
+  background: var(--cream);
+  border-radius: 8px;
+  padding: 9px 13px;
+  margin: 3px 0;
+  font-weight: 700;
+  border-bottom: none;
+}
+.bd-row.bd-tot {
+  font-weight: 800;
+  font-size: 15px;
+  padding-top: 12px;
+  border-top: 2px solid rgba(22,21,39,0.12);
+  border-bottom: none;
+}
+.bd-val { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.c-neg { color: var(--red); }
+.c-pos { color: var(--forest); }
+
+/* ── Insight grid ───────────────────────────────── */
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (max-width: 600px) { .insight-grid { grid-template-columns: 1fr; } }
+.ins-card {
+  background: var(--paper);
+  border: 2px solid rgba(22,21,39,0.12);
+  border-radius: 16px;
+  padding: 20px;
+}
+.ins-eye {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--indigo);
+  margin-bottom: 7px;
+}
+.ins-num {
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 7px;
+  line-height: 1.2;
+}
+.ins-desc { font-size: 12.5px; color: rgba(22,21,39,0.6); line-height: 1.65; }
+
+/* ── Hormozi ────────────────────────────────────── */
+.hz-card {
+  background: var(--ink);
+  border-radius: 20px;
+  padding: 32px;
+  color: var(--paper);
+}
+.hz-eye {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--indigo);
+  margin-bottom: 6px;
+}
+.hz-hed {
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin-bottom: 26px;
+}
+.hz-principles { display: flex; flex-direction: column; gap: 18px; }
+.hz-p { display: flex; gap: 16px; align-items: flex-start; }
+.hz-n {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--indigo); color: #fff;
+  font-family: var(--mono); font-weight: 700; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.hz-body {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(255,252,245,0.75);
+  min-width: 0;
+}
+.hz-body strong { color: var(--paper); }
+
+/* ── Footer ─────────────────────────────────────── */
+footer {
+  background: var(--ink);
+  color: rgba(255,252,245,0.35);
+  text-align: center;
+  padding: 20px max(20px, env(safe-area-inset-left, 0px));
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-hdr">
+  <div class="logo">URBAN<span>ECHO</span> · Growth Calculator</div>
+  <a href="/portal" class="back-btn">← Portal</a>
+</header>
+
+<!-- Metric bar -->
+<div class="metric-bar">
+  <div class="metric-inner">
+    <div class="met"><div class="met-lbl">Weekly Revenue</div><div class="met-val" id="m-rev">$0</div></div>
+    <div class="met"><div class="met-lbl">Weekly Net Profit</div><div class="met-val" id="m-net">$0</div></div>
+    <div class="met"><div class="met-lbl">Net Margin</div><div class="met-val" id="m-margin">0%</div></div>
+    <div class="met"><div class="met-lbl">Admin ($800) Covered</div><div class="met-val" id="m-admin">No</div></div>
+    <div class="met"><div class="met-lbl">Gap to Target</div><div class="met-val" id="m-gap">—</div></div>
+  </div>
+</div>
+
+<main>
+
+<!-- ── SECTION 1: Overheads ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-eyebrow">Step 1</div>
+    <div class="sec-title">Business Overheads</div>
+    <div class="card">
+      <div class="oh-rows" id="oh-rows"></div>
+      <div style="margin-top:14px;">
+        <button class="btn btn-ghost btn-sm" onclick="addOverhead()">+ Add Overhead</button>
+      </div>
+      <div class="oh-total">
+        <span class="oh-total-lbl">Total Weekly Overheads</span>
+        <span class="oh-total-val" id="oh-total">$0.00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 2: Crew Tiers ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-eyebrow">Step 2</div>
+    <div class="sec-title">Crew Pricing Tiers</div>
+    <div class="tier-grid">
+      <!-- Tier 1 -->
+      <div class="tier-card">
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#4AAE74;"></span>Tier 1</span></div>
+        <div class="field"><label>Tier Name</label><input type="text" id="t1-name" value="Junior Crew" oninput="recalc()"></div>
+        <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t1-base" value="25" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>Superannuation (%)</label><input type="number" id="t1-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>On-costs / Leave Loading (%)</label><input type="number" id="t1-oncost" value="5" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>Charge-out Rate ($/hr) — adjust to hit target</label><input type="number" id="t1-charge" value="65" min="0" step="1" oninput="recalc()" class="input-charge"></div>
+        <div class="field"><label>Crew per Job (this tier)</label><input type="number" id="t1-count" value="2" min="0" step="1" oninput="recalc()"></div>
+        <div class="field"><label>Hours per Job</label><input type="number" id="t1-hours" value="4" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="tier-summary" id="t1-sum"></div>
+      </div>
+      <!-- Tier 2 -->
+      <div class="tier-card">
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Tier 2</span></div>
+        <div class="field"><label>Tier Name</label><input type="text" id="t2-name" value="Senior Crew" oninput="recalc()"></div>
+        <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t2-base" value="35" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>Superannuation (%)</label><input type="number" id="t2-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>On-costs / Leave Loading (%)</label><input type="number" id="t2-oncost" value="5" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>Charge-out Rate ($/hr) — adjust to hit target</label><input type="number" id="t2-charge" value="85" min="0" step="1" oninput="recalc()" class="input-charge"></div>
+        <div class="field"><label>Crew per Job (this tier)</label><input type="number" id="t2-count" value="1" min="0" step="1" oninput="recalc()"></div>
+        <div class="field"><label>Hours per Job</label><input type="number" id="t2-hours" value="4" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="tier-summary" id="t2-sum"></div>
+      </div>
+      <!-- Tier 3 -->
+      <div class="tier-card">
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#F4612E;"></span>Tier 3</span></div>
+        <div class="field"><label>Tier Name</label><input type="text" id="t3-name" value="Lead / Mitchel" oninput="recalc()"></div>
+        <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t3-base" value="55" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>Superannuation (%)</label><input type="number" id="t3-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>On-costs / Leave Loading (%)</label><input type="number" id="t3-oncost" value="5" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="field"><label>Charge-out Rate ($/hr) — adjust to hit target</label><input type="number" id="t3-charge" value="120" min="0" step="1" oninput="recalc()" class="input-charge"></div>
+        <div class="field"><label>Crew per Job (this tier)</label><input type="number" id="t3-count" value="1" min="0" step="1" oninput="recalc()"></div>
+        <div class="field"><label>Hours per Job</label><input type="number" id="t3-hours" value="4" min="0" step="0.5" oninput="recalc()"></div>
+        <div class="tier-summary" id="t3-sum"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 3: Job Config ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-eyebrow">Step 3</div>
+    <div class="sec-title">Weekly Volume</div>
+    <div class="card">
+      <div class="job-grid">
+        <div class="field">
+          <label>Jobs Per Week</label>
+          <input type="number" id="jobs-wk" value="3" min="0" step="1" oninput="recalc()">
+        </div>
+        <div class="field">
+          <label>Admin Pay ($/week)</label>
+          <input type="number" id="admin-wk" value="800" min="0" step="50" oninput="recalc()">
+        </div>
+        <div class="field">
+          <label>Target Margin (%)</label>
+          <input type="number" id="tgt-margin" value="40" min="1" max="99" step="1" oninput="recalc()">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 4: Breakdown ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-eyebrow">Step 4</div>
+    <div class="sec-title">Profit &amp; Margin Breakdown</div>
+    <div class="breakdown-grid">
+      <div>
+        <div class="bd-title">Per Job</div>
+        <div class="card" style="padding:18px 22px;"><div class="bd-rows" id="bd-job"></div></div>
+      </div>
+      <div>
+        <div class="bd-title">Per Week</div>
+        <div class="card" style="padding:18px 22px;"><div class="bd-rows" id="bd-week"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 5: Growth Targets ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-eyebrow">Step 5</div>
+    <div class="sec-title">Growth Targets</div>
+    <div class="insight-grid" id="ins-grid"></div>
+  </div>
+</section>
+
+<!-- ── SECTION 6: Hormozi ── -->
+<section style="padding-bottom:60px;">
+  <div class="wrap">
+    <div class="sec-eyebrow">Pricing Intelligence</div>
+    <div class="sec-title">Hormozi Pricing Principles</div>
+    <div class="hz-card">
+      <div class="hz-eye">Based on Alex Hormozi's $100M Offers framework</div>
+      <div class="hz-hed">Price on value delivered — not time spent.</div>
+      <div class="hz-principles" id="hz-list"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>© 2026 Urban Echo · Internal use only</footer>
+
+<script>
+/* ── State ─────────────────────────────────────── */
+var overheads = [];
+
+function loadState() {
+  try {
+    var s = localStorage.getItem('ue-gc-overheads');
+    if (s) overheads = JSON.parse(s);
+  } catch(e) {}
+  if (!overheads.length) {
+    overheads = [
+      { name: 'Vehicle / Fuel',       amount: 80,   freq: 'weekly' },
+      { name: 'Storage / Warehouse',  amount: 300,  freq: 'monthly' },
+      { name: 'Software & Tools',     amount: 150,  freq: 'monthly' },
+      { name: 'Insurance',            amount: 2000, freq: 'yearly' },
+    ];
+  }
+}
+
+function saveState() {
+  try { localStorage.setItem('ue-gc-overheads', JSON.stringify(overheads)); } catch(e) {}
+}
+
+/* ── Overhead helpers ──────────────────────────── */
+var FREQ_TO_WK = { daily: 5, weekly: 1, fortnightly: 0.5, monthly: 12/52, yearly: 1/52 };
+
+function toWeekly(amount, freq) { return amount * (FREQ_TO_WK[freq] || 1); }
+
+function addOverhead() {
+  overheads.push({ name: '', amount: 0, freq: 'weekly' });
+  saveState();
+  renderOverheads();
+  recalc();
+}
+function removeOverhead(i) {
+  overheads.splice(i, 1);
+  saveState();
+  renderOverheads();
+  recalc();
+}
+function updateOh(i, field, val) {
+  overheads[i][field] = field === 'amount' ? (parseFloat(val) || 0) : val;
+  saveState();
+  recalc();
+}
+
+function renderOverheads() {
+  var el = document.getElementById('oh-rows');
+  if (!overheads.length) {
+    el.innerHTML = '<p style="font-size:13px;color:rgba(22,21,39,0.45);padding:8px 0;">No overheads added yet.</p>';
+    return;
+  }
+  el.innerHTML = overheads.map(function(o, i) {
+    return '<div class="oh-row">' +
+      '<div class="field"><label>Overhead Name</label>' +
+        '<input type="text" value="' + esc(o.name) + '" placeholder="e.g. Van insurance" oninput="updateOh(' + i + ',\'name\',this.value)">' +
+      '</div>' +
+      '<div class="field"><label>Amount ($)</label>' +
+        '<input type="number" value="' + o.amount + '" min="0" step="1" oninput="updateOh(' + i + ',\'amount\',this.value)">' +
+      '</div>' +
+      '<div class="field"><label>Frequency</label>' +
+        '<select onchange="updateOh(' + i + ',\'freq\',this.value)">' +
+          ['daily','weekly','fortnightly','monthly','yearly'].map(function(f) {
+            return '<option value="' + f + '"' + (o.freq === f ? ' selected' : '') + '>' + cap(f) + '</option>';
+          }).join('') +
+        '</select>' +
+      '</div>' +
+      '<div style="display:flex;align-items:flex-end;">' +
+        '<button class="btn btn-danger btn-sm" onclick="removeOverhead(' + i + ')" style="width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;font-size:13px;">✕</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── Tier helper ───────────────────────────────── */
+function getTier(n) {
+  var base   = pf('t'+n+'-base');
+  var sup    = pf('t'+n+'-super');
+  var oncost = pf('t'+n+'-oncost');
+  var charge = pf('t'+n+'-charge');
+  var count  = pf('t'+n+'-count');
+  var hours  = pf('t'+n+'-hours');
+  var trueCost = base * (1 + sup/100 + oncost/100);
+  return { base, sup, oncost, charge, count, hours, trueCost,
+    revJob:  charge * count * hours,
+    costJob: trueCost * count * hours };
+}
+
+function renderTierSum(n, t) {
+  var gpJob = t.revJob - t.costJob;
+  var gp_pct = t.revJob > 0 ? gpJob/t.revJob*100 : 0;
+  var el = document.getElementById('t'+n+'-sum');
+  el.innerHTML = [
+    ['True cost/hr', '$'+fmt2(t.trueCost)+'/hr'],
+    ['Super (' + t.sup + '%)', '+$'+fmt2(t.base*t.sup/100)+'/hr'],
+    ['On-costs (' + t.oncost + '%)', '+$'+fmt2(t.base*t.oncost/100)+'/hr'],
+    ['Margin/hr', t.revJob ? (gpJob >= 0 ? '+' : '') + '$'+fmt2(t.charge - t.trueCost)+'/hr' : '—'],
+  ].map(function(r) {
+    return '<div class="ts-row"><span>' + r[0] + '</span><span class="ts-val">' + r[1] + '</span></div>';
+  }).join('') +
+  '<div class="ts-row ts-total"><span>Revenue/job</span><span class="ts-val">$' + fmt2(t.revJob) + '</span></div>' +
+  '<div class="ts-row" style="font-size:11.5px;color:rgba(22,21,39,0.5);"><span>Gross margin</span><span class="ts-val">' + (t.revJob ? gp_pct.toFixed(1) + '%' : '—') + '</span></div>';
+}
+
+/* ── Main recalc ───────────────────────────────── */
+function recalc() {
+  var t1 = getTier(1), t2 = getTier(2), t3 = getTier(3);
+  var jobsWk  = pf('jobs-wk');
+  var adminWk = pf('admin-wk');
+  var tgtMgn  = pf('tgt-margin');
+
+  var revJob  = t1.revJob  + t2.revJob  + t3.revJob;
+  var costJob = t1.costJob + t2.costJob + t3.costJob;
+  var gpJob   = revJob - costJob;
+
+  var revWk   = revJob  * jobsWk;
+  var costWk  = costJob * jobsWk;
+  var gpWk    = gpJob   * jobsWk;
+
+  var ohWk  = overheads.reduce(function(s,o){ return s + toWeekly(o.amount, o.freq); }, 0);
+  var netWk = gpWk - ohWk - adminWk;
+  var mgn   = revWk > 0 ? netWk/revWk*100 : 0;
+
+  renderTierSum(1, t1);
+  renderTierSum(2, t2);
+  renderTierSum(3, t3);
+
+  // Overhead total
+  document.getElementById('oh-total').textContent = '$' + fmt2(ohWk);
+
+  // Metric bar
+  setMet('m-rev', '$'+fmtK(revWk), '');
+  setMet('m-net', (netWk < 0 ? '-$' : '$') + fmtK(Math.abs(netWk)), netWk >= 0 ? 'good' : 'bad');
+  setMet('m-margin', mgn.toFixed(1)+'%', mgn >= tgtMgn ? 'good' : mgn >= 25 ? 'warn' : 'bad');
+  setMet('m-admin', gpWk >= adminWk ? 'Yes ✓' : 'No ✗', gpWk >= adminWk ? 'good' : 'bad');
+  var gap = tgtMgn/100*revWk - netWk;
+  setMet('m-gap', gap <= 0 ? 'On target ✓' : '+$'+fmtK(gap)+'/wk', gap <= 0 ? 'good' : 'warn');
+
+  // Per-job breakdown
+  var ohPerJob  = ohWk  / (jobsWk || 1);
+  var admPerJob = adminWk / (jobsWk || 1);
+  var netPerJob = gpJob - ohPerJob - admPerJob;
+  renderBd('bd-job', [
+    { l: 'Revenue', v: revJob },
+    { l: 'Labor cost (all tiers)', v: -costJob, neg: true },
+    { l: 'Gross Profit', v: gpJob, sub: true },
+    { l: 'Overheads share (' + (jobsWk||1) + ' jobs)', v: -ohPerJob, neg: true },
+    { l: 'Admin share (' + (jobsWk||1) + ' jobs)', v: -admPerJob, neg: true },
+    { l: 'Net Profit / Job', v: netPerJob, tot: true },
+  ]);
+
+  // Per-week breakdown
+  renderBd('bd-week', [
+    { l: 'Revenue ('+jobsWk+' jobs)', v: revWk },
+    { l: 'Labor cost', v: -costWk, neg: true },
+    { l: 'Gross Profit', v: gpWk, sub: true },
+    { l: 'Overheads', v: -ohWk, neg: true },
+    { l: 'Admin pay', v: -adminWk, neg: true },
+    { l: 'Net Profit / Week', v: netWk, tot: true },
+    { l: 'Net Margin', pct: true, v: mgn, tot: true },
+  ]);
+
+  renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgtMgn, jobsWk, revJob, costJob, gpJob, t1, t2, t3);
+  renderHormozi(revJob, costJob, mgn, tgtMgn, ohWk, adminWk, jobsWk, t1, t2, t3);
+}
+
+function renderBd(id, rows) {
+  document.getElementById(id).innerHTML = rows.map(function(r) {
+    var cls = 'bd-row' + (r.sub ? ' bd-sub' : '') + (r.tot ? ' bd-tot' : '');
+    var valHtml;
+    if (r.pct) {
+      var col = r.v >= 40 ? '#4AAE74' : r.v >= 25 ? '#E8902A' : '#E63946';
+      valHtml = '<span class="bd-val" style="color:' + col + ';">' + r.v.toFixed(1) + '%</span>';
+    } else {
+      var col2 = r.neg ? '#E63946' : (r.sub||r.tot) ? (r.v >= 0 ? '#4AAE74' : '#E63946') : 'var(--ink)';
+      valHtml = '<span class="bd-val" style="color:' + col2 + ';">' + (r.v < 0 ? '-$' : '$') + fmt2(Math.abs(r.v)) + '</span>';
+    }
+    return '<div class="' + cls + '"><span>' + r.l + '</span>' + valHtml + '</div>';
+  }).join('');
+}
+
+function renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgt, jobsWk, revJob, costJob, gpJob, t1, t2, t3) {
+  var fixedWk = ohWk + adminWk;
+  var breakEvenRevWk = costWk + fixedWk;
+  var breakEvenJob   = jobsWk ? breakEvenRevWk / jobsWk : 0;
+
+  // Rev/job needed to hit target margin (net margin = tgt%)
+  // netWk/revWk = tgt/100  =>  revWk - costWk - fixedWk = tgt/100 * revWk
+  // revWk*(1 - tgt/100) = costWk + fixedWk  =>  revWk = (costWk+fixedWk)/(1-tgt/100)
+  var revWkNeeded  = jobsWk && tgt < 100 ? (costWk + fixedWk) / (1 - tgt/100) : 0;
+  var revJobNeeded = jobsWk ? revWkNeeded / jobsWk : 0;
+  var revGapJob    = revJobNeeded - revJob;
+
+  var totalHrs = (t1.count*t1.hours) + (t2.count*t2.hours) + (t3.count*t3.hours);
+  var hrsLiftNeeded = totalHrs > 0 ? revGapJob / totalHrs : 0;
+
+  var adminBreakeven = gpJob > 0 ? Math.ceil(adminWk / gpJob) : null;
+
+  var items = [
+    {
+      eye: 'Break-even Revenue / Job',
+      num: '$' + fmt2(breakEvenJob),
+      desc: 'Minimum per-job revenue to cover all labor, overheads and admin at ' + (jobsWk||0) + ' jobs/week with zero profit.',
+      col: revJob >= breakEvenJob ? '#4AAE74' : '#E63946'
+    },
+    {
+      eye: tgt + '% Target Revenue / Job',
+      num: '$' + fmt2(revJobNeeded),
+      desc: 'Per-job revenue required to hit your ' + tgt + '% net margin target at ' + (jobsWk||0) + ' jobs/week.',
+      col: mgn >= tgt ? '#4AAE74' : '#F4612E'
+    },
+    {
+      eye: 'Avg Charge-out Lift Needed',
+      num: revGapJob <= 0 ? 'On target ✓' : '+$' + fmt2(hrsLiftNeeded) + '/hr',
+      desc: revGapJob <= 0
+        ? 'Your current pricing already achieves the ' + tgt + '% net margin target.'
+        : 'Average charge-out increase per hour across all ' + totalHrs.toFixed(1) + ' billable hrs/job needed to hit ' + tgt + '% margin.',
+      col: revGapJob <= 0 ? '#4AAE74' : '#F4612E'
+    },
+    {
+      eye: 'Jobs to Cover Admin ($' + Math.round(adminWk) + '/wk)',
+      num: adminBreakeven !== null ? adminBreakeven + (adminBreakeven === 1 ? ' job' : ' jobs') : '∞',
+      desc: 'Minimum jobs per week where gross profit alone covers the $' + Math.round(adminWk) + '/wk admin pay, before overheads.',
+      col: adminBreakeven !== null && jobsWk >= adminBreakeven ? '#4AAE74' : '#E63946'
+    }
+  ];
+
+  document.getElementById('ins-grid').innerHTML = items.map(function(ins) {
+    return '<div class="ins-card">' +
+      '<div class="ins-eye">' + ins.eye + '</div>' +
+      '<div class="ins-num" style="color:' + ins.col + ';">' + ins.num + '</div>' +
+      '<div class="ins-desc">' + ins.desc + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, jobsWk, t1, t2, t3) {
+  var totalHrs  = (t1.count*t1.hours) + (t2.count*t2.hours) + (t3.count*t3.hours);
+  var fixedPerJob = (ohWk + adminWk) / (jobsWk || 1);
+  var floorJob  = costJob + fixedPerJob;
+  var gap = tgt - mgn;
+
+  var principles = [
+    {
+      n: '1',
+      head: 'Know Your Floor',
+      body: 'Your cost of fulfillment is <strong>$' + fmt2(costJob) + '/job</strong> in labor alone. Add your share of overheads and admin and your survival floor is <strong>$' + fmt2(floorJob) + '/job</strong>. Hormozi calls this the "absolute minimum." Never go below it, regardless of relationship or slow season — you\'re just subsidising the client.'
+    },
+    {
+      n: '2',
+      head: 'Price on Outcome, Not Hours',
+      body: 'Schools aren\'t buying ' + totalHrs.toFixed(0) + ' hours of AV crew — they\'re buying a <strong>flawless school concert, a seamless presentation night, a memory that lasts</strong>. That outcome is worth thousands to the school and its community. Your <strong>$' + fmt2(revJob) + '/job</strong> is a fraction of that value. Hormozi\'s rule: if you deliver $X of value, charge $X ÷ 10.'
+    },
+    {
+      n: '3',
+      head: 'Stack the Offer Until the Price Feels Small',
+      body: 'List every element: sound, lighting, AV operation, load-in, pack-down, equipment, backup gear, experienced crew, reliability guarantee, no-hassle coordinator. When a school sees that full stack priced at <strong>$' + fmt2(revJob) + '</strong> versus sourcing it independently, you\'re the obvious choice. That is the Grand Slam Offer — value so high the price becomes trivial.'
+    },
+    {
+      n: '4',
+      head: gap > 5 ? 'Raise Prices Before Adding Volume' : 'Protect Your Margin as You Scale',
+      body: gap > 5
+        ? 'You\'re at <strong>' + mgn.toFixed(1) + '%</strong> vs your <strong>' + tgt + '% target</strong>. Hormozi\'s fastest path to margin is never more volume at the same price — it\'s higher prices on existing volume. A <strong>$' + fmt2((tgt-mgn)/100 * revJob) + '/job price increase</strong> closes that gap immediately without a single extra booking.'
+        : 'You\'re near or above your <strong>' + tgt + '% target</strong>. Now focus on volume — each extra job at this margin drops directly to the bottom line. Protect your pricing; discounting to fill slow periods is a race to the bottom.'
+    },
+    {
+      n: '5',
+      head: 'Build the $800 Admin Into Every Job',
+      body: '$800/wk admin at ' + (jobsWk||1) + ' jobs/week = <strong>$' + fmt2(800/(jobsWk||1)) + '/job</strong>. The fastest fix isn\'t cutting admin hours — it\'s pricing it in as a non-negotiable line item, the same way your labor and equipment are. Hormozi: "Overhead is a cost of business. It belongs in the price, not the profit column."'
+    }
+  ];
+
+  document.getElementById('hz-list').innerHTML = principles.map(function(p) {
+    return '<div class="hz-p"><div class="hz-n">' + p.n + '</div>' +
+      '<div class="hz-body"><strong>' + p.head + '</strong><br>' + p.body + '</div></div>';
+  }).join('');
+}
+
+/* ── Utilities ─────────────────────────────────── */
+function pf(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function fmt2(n) { return Math.abs(n).toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function fmtK(n) { return Math.abs(n).toLocaleString('en-AU', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function setMet(id, text, cls) {
+  var el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'met-val' + (cls ? ' ' + cls : '');
+}
+
+/* ── Boot ──────────────────────────────────────── */
+loadState();
+renderOverheads();
+recalc();
+</script>
+
+</body>
+</html>

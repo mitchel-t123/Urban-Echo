@@ -798,6 +798,12 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>All-team Slack welcome message. Copy and paste into the crew group chat.</p>
           <span class="portal-card-tag">View &amp; copy →</span>
         </button>
+        <a id="growthCalcLink" href="/growth-calculator/" style="display:none;text-decoration:none;" class="portal-card">
+          <span class="portal-card-icon">📈</span>
+          <h3>Growth Calculator</h3>
+          <p>Model overhead, crew pricing tiers, and job margins. Hit your 40% target with Hormozi pricing principles.</p>
+          <span class="portal-card-tag">Open tool →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -1733,6 +1739,10 @@ function doLogout(){
       document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
       document.getElementById('openWelcomeEmail2Portal').style.display = 'flex';
       document.getElementById('openSlackWelcomePortal').style.display = 'flex';
+    }
+    // Growth calculator — super_admin only
+    if(role === 'super_admin'){
+      document.getElementById('growthCalcLink').style.display = 'flex';
     }
 
     loadRentmanRoster(userEmail);
