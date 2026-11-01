@@ -513,19 +513,6 @@ footer{
 
 <main>
 
-<!-- ── HIRES COVER CARD ── -->
-<div style="background:var(--indigo);padding:40px 0;border-bottom:4px solid var(--ink);">
-  <div class="wrap" style="display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
-    <div style="flex-shrink:0;">
-      <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:rgba(255,252,245,0.5);margin-bottom:8px;">Hires / yr to cover all costs</div>
-      <div style="font-family:var(--display);font-size:clamp(52px,8vw,88px);color:#fff;line-height:1;letter-spacing:-0.02em;" id="cover-num">—</div>
-    </div>
-    <div style="flex:1;min-width:220px;border-left:1px solid rgba(255,252,245,0.15);padding-left:40px;">
-      <div style="font-family:var(--display);font-size:16px;text-transform:uppercase;letter-spacing:-0.01em;color:#fff;margin-bottom:8px;">Annual shows to break even on fixed costs</div>
-      <div style="font-size:13px;color:rgba(255,252,245,0.6);line-height:1.7;" id="cover-desc">Enter your show mix above to see how many annual bookings cover all your overheads and admin costs.</div>
-    </div>
-  </div>
-</div>
 
 <!-- ── STEP 1: Overheads ── -->
 <div class="portal-section">
@@ -993,21 +980,7 @@ function recalc(){
 
   document.getElementById('oh-total').textContent = '$'+f2(ohWk);
 
-  /* Hires to cover all fixed costs */
-  var annualFixed = (ohWk + adminWk) * 52;
-  var coverNum = document.getElementById('cover-num');
-  var coverDesc = document.getElementById('cover-desc');
-  if(gpWk > 0 && totalShows > 0){
-    var gpPerShowAvg = gpWk / totalShows;
-    var hiresYr = Math.ceil(annualFixed / gpPerShowAvg);
-    coverNum.textContent = hiresYr.toLocaleString('en-AU');
-    coverDesc.textContent = 'At your current show mix, you need '+hiresYr+' shows per year (≈'+Math.ceil(hiresYr/12)+'/mo) to cover $'+Math.round(annualFixed).toLocaleString('en-AU')+' in annual fixed costs. Every show beyond this adds directly to net profit.';
-  } else {
-    coverNum.textContent = '—';
-    coverDesc.textContent = 'Enter your show mix above to see how many annual bookings cover all your overheads and admin costs.';
-  }
-
-  /* Metric bar */
+/* Metric bar */
   setMet('m-rev',    '$'+fK(revWk),  '');
   setMet('m-net',    (netWk<0?'-$':'$')+fK(Math.abs(netWk)), netWk>=0?'good':'bad');
   setMet('m-margin', mgn.toFixed(1)+'%', mgn>=tgtMgn?'good':mgn>=25?'warn':'bad');
