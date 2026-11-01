@@ -346,7 +346,6 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .receipt-body { padding:20px 22px 0; font-size:0.82rem; font-weight:500; color:var(--ink); line-height:1; }
 .r-section-head {
   font-family:var(--body); font-size:0.8rem; font-weight:700;
-  text-transform:uppercase; letter-spacing:0.08em;
   color:var(--ink); padding:10px 0 5px;
 }
 .r-section-head:first-child { padding-top:0; }
@@ -589,8 +588,8 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .receipt-col { display:flex; flex-direction:column; gap:20px; }
 .hb-wrap { }
 .hb-eyebrow {
-  font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em;
-  color:rgba(22,21,39,0.4); margin:0 0 12px;
+  font-family:var(--body); font-size:1.1rem; font-weight:800;
+  letter-spacing:-0.02em; color:var(--ink); margin:0 0 16px;
 }
 .hb-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
 @media(max-width:600px){ .hb-grid { grid-template-columns:1fr; } }
@@ -863,25 +862,25 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 
             <div class="r-section-head">Assemblies</div>
             <div class="r-row muted"><span class="r-lbl" id="rAsmCount">16 assemblies / yr</span><span class="r-fill"></span></div>
-            <div class="r-row bold forest-col"><span class="r-lbl">TOTAL</span><span class="r-fill"></span><span class="r-val" id="rAsmCost">$3,120</span></div>
+            <div class="r-row bold forest-col"><span class="r-lbl">Total</span><span class="r-fill"></span><span class="r-val" id="rAsmCost">$3,120</span></div>
 
             <hr class="r-div">
             <div class="r-section-head">Major Events</div>
             <div class="r-row muted"><span class="r-lbl" id="rMajCount">4 events / yr @ $1,300</span><span class="r-fill"></span></div>
-            <div class="r-row bold forest-col"><span class="r-lbl">TOTAL</span><span class="r-fill"></span><span class="r-val" id="rMajCost">$5,200</span></div>
+            <div class="r-row bold forest-col"><span class="r-lbl">Total</span><span class="r-fill"></span><span class="r-val" id="rMajCost">$5,200</span></div>
 
             <div class="r-eq-section" id="rEqSection">
               <hr class="r-div">
               <div class="r-section-head">Equipment (one-time)</div>
               <div id="rEqLines"></div>
-              <div class="r-row bold"><span class="r-lbl">EQUIPMENT TOTAL</span><span class="r-fill"></span><span class="r-val" id="rEqTotal">$0</span></div>
+              <div class="r-row bold"><span class="r-lbl">Equipment total</span><span class="r-fill"></span><span class="r-val" id="rEqTotal">$0</span></div>
             </div>
 
             <hr class="r-div">
-            <div class="r-row bold"><span class="r-lbl">ANNUAL SERVICES</span><span class="r-fill"></span><span class="r-val" id="rAnnual">$8,320</span></div>
-            <div class="r-row muted" id="rYear1Row"><span class="r-lbl">YEAR 1 TOTAL</span><span class="r-fill"></span><span class="r-val" id="rYear1">$8,320</span></div>
+            <div class="r-row bold"><span class="r-lbl">Annual services</span><span class="r-fill"></span><span class="r-val" id="rAnnual">$8,320</span></div>
+            <div class="r-row muted" id="rYear1Row"><span class="r-lbl">Year 1 total</span><span class="r-fill"></span><span class="r-val" id="rYear1">$8,320</span></div>
             <hr class="r-div">
-            <div class="r-row muted"><span class="r-lbl">÷ HIRE FEE</span><span class="r-fill"></span><span class="r-val" id="rFeeDisplay">$2,000</span></div>
+            <div class="r-row muted"><span class="r-lbl">÷ Hire fee</span><span class="r-fill"></span><span class="r-val" id="rFeeDisplay">$2,000</span></div>
           </div>
 
           <div class="receipt-zero">
@@ -892,7 +891,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 
         <!-- Hires tiles -->
         <div class="hb-wrap">
-          <p class="hb-eyebrow">To cover your costs, you need</p>
+          <h3 class="hb-eyebrow">To cover your costs, you need</h3>
           <div class="hb-grid">
             <div class="hb-tile hb-green">
               <span class="hb-n" id="rHiresOngoing">2</span>
