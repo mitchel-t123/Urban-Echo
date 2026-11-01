@@ -569,7 +569,7 @@ footer{
         <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Solo Operator</span></div>
         <div class="show-crew">1 × Expert (Tier 2)</div>
         <div class="field">
-          <label>Shows Per Week</label>
+          <label>Shows Per Month</label>
           <input type="number" id="st-solo-shows" value="0" min="0" step="1" oninput="recalc()">
         </div>
         <div class="field">
@@ -584,7 +584,7 @@ footer{
         <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Two Operator</span></div>
         <div class="show-crew">2 × Expert (Tier 2)</div>
         <div class="field">
-          <label>Shows Per Week</label>
+          <label>Shows Per Month</label>
           <input type="number" id="st-duo-shows" value="0" min="0" step="1" oninput="recalc()">
         </div>
         <div class="field">
@@ -599,7 +599,7 @@ footer{
         <div><span class="tier-badge" style="background:var(--orange);border-color:var(--orange);"><span class="tier-dot" style="background:#fff;"></span>Big Event</span></div>
         <div class="show-crew">3 × Basic · 2 × Expert · 1 × Lead</div>
         <div class="field">
-          <label>Shows Per Week</label>
+          <label>Shows Per Month</label>
           <input type="number" id="st-big-shows" value="0" min="0" step="1" oninput="recalc()">
         </div>
         <div class="field">
@@ -861,11 +861,12 @@ function recalc(){
 
   renderAdminRoles();
 
-  /* Show type calcs */
+  /* Show type calcs — inputs are per month, converted to per week */
   var showIds = ['solo','duo','big'];
   var totalShows = 0, revWk = 0, costWk = 0;
   showIds.forEach(function(id, idx){
-    var showsWk = pf('st-'+id+'-shows');
+    var showsMo = pf('st-'+id+'-shows');
+    var showsWk = showsMo / (52/12);
     var hours   = pf('st-'+id+'-hours');
     var s = calcShow(SHOW_DEFS[idx], hours, tiers);
     renderShowSum('st-'+id+'-sum', s, showsWk);
@@ -945,11 +946,11 @@ function renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgt, tot
   var gpPerJob  = revJob - costJob;
   var adminBE   = gpPerJob>0 ? Math.ceil(adminWk/gpPerJob) : null;
 
-  /* Avg billable hrs/show across mix */
+  /* Avg billable hrs/show across mix (shows inputs are per month) */
   var showIds = ['solo','duo','big'];
   var totalBillHrs = 0;
   showIds.forEach(function(sid){
-    totalBillHrs += pf('st-'+sid+'-shows') * pf('st-'+sid+'-hours');
+    totalBillHrs += (pf('st-'+sid+'-shows') / (52/12)) * pf('st-'+sid+'-hours');
   });
   var avgHrsPerShow = totalShows > 0 ? totalBillHrs / totalShows : 0;
   var liftPerHr = avgHrsPerShow > 0 ? revGapJob / avgHrsPerShow : 0;
