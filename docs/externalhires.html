@@ -896,12 +896,12 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
             <div class="hb-tile hb-green">
               <span class="hb-n" id="rHiresOngoing">2</span>
               <span class="hb-label">hires per term</span>
-              <span class="hb-sub" id="rHiresPerTerm">8 hires per year</span>
+              <span class="hb-sub" id="rHiresPerTerm">8 hires in year 1</span>
             </div>
             <div class="hb-tile hb-indigo" id="rYear1Box">
-              <span class="hb-n" id="rHiresYear1">5</span>
-              <span class="hb-label">hires in year 1</span>
-              <span class="hb-sub">includes equipment</span>
+              <span class="hb-n" id="rHiresYear1">8</span>
+              <span class="hb-label">hires per year</span>
+              <span class="hb-sub">from year 2 onwards</span>
             </div>
           </div>
         </div>
@@ -1347,13 +1347,13 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
     }
 
     /* Animate key numbers */
-    var hiresPerTerm = Math.ceil(hiresOngoing / 4);
+    var hiresPerTerm = Math.ceil(hiresYear1 / 4);
     animN(document.getElementById('rHiresOngoing'), hiresPerTerm);
-    animN(document.getElementById('rHiresYear1'),   hiresYear1);
+    animN(document.getElementById('rHiresYear1'),   hiresOngoing);
     animN(document.getElementById('heroHires'),     hiresYear1);
 
-    /* Per-year / per-term labels */
-    var perYearTxt = hiresOngoing === 1 ? '1 hire per year' : hiresOngoing + ' hires per year';
+    /* Labels */
+    var perYearTxt = hiresYear1 === 1 ? '1 hire in year 1' : hiresYear1 + ' hires in year 1';
     document.getElementById('rHiresPerTerm').textContent = perYearTxt;
 
     /* Benefit card unlocking */
