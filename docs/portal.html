@@ -505,6 +505,51 @@ body.auth-pending{ visibility: hidden; }
   letter-spacing:0.08em; color:var(--orange);
 }
 
+/* ── QUICK LINK CARDS ── */
+.ql-card{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 20px;
+  padding: 28px 24px 22px;
+  box-shadow: 5px 5px 0 var(--ink);
+  display: flex; flex-direction: column; gap: 10px;
+  text-decoration: none; color: var(--ink);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.ql-card:hover{ transform: translateY(-3px); box-shadow: 5px 8px 0 var(--ink); }
+.ql-action{
+  font-family: var(--display);
+  font-size: clamp(18px, 2.5vw, 24px);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.ql-desc{
+  font-size: 12px;
+  color: rgba(22,21,39,0.55);
+  line-height: 1.55;
+  flex: 1;
+}
+.ql-app-bubble{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--cream);
+  border: 1.5px solid rgba(22,21,39,0.15);
+  border-radius: 100px;
+  padding: 5px 10px 5px 6px;
+  align-self: flex-start;
+  margin-top: 6px;
+}
+.ql-app-bubble img{
+  width: 16px; height: 16px;
+  border-radius: 4px; flex-shrink: 0;
+}
+.ql-app-bubble span{
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  color: rgba(22,21,39,0.6); text-transform: uppercase; letter-spacing: 0.06em;
+}
+
 /* ── MODAL ── */
 .modal-overlay{
   display:none; position:fixed; inset:0;
@@ -632,7 +677,6 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <a href="/"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
     <div class="nav-user">
       <span class="nav-user-name" id="portalUserName">Loading…</span>
-      <a href="admin.html" id="adminLink" style="display:none;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--paper);background:var(--orange);padding:7px 16px;border-radius:100px;text-decoration:none;">Admin</a>
       <button class="btn-logout" id="logoutBtn">Log out</button>
     </div>
   </div>
@@ -714,35 +758,12 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     </div>
   </section>
 
-  <!-- TOOLS / SHORTCUTS -->
+  <!-- QUICK LINKS — role-based, populated by JS -->
   <section class="portal-section">
     <div class="wrap">
-      <h2>Tools</h2>
-      <div class="portal-cards">
-        <a class="portal-card" href="https://rentmanapp.com/" target="_blank" rel="noopener" style="text-decoration:none;color:var(--ink);">
-          <span class="portal-card-icon"><img src="https://www.google.com/s2/favicons?domain=rentmanapp.com&sz=32" width="28" height="28" alt="" style="border-radius:6px;display:block;"></span>
-          <h3>Rentman</h3>
-          <p>Crew scheduling, job management and gear tracking.</p>
-          <span class="portal-card-tag">Open app →</span>
-        </a>
-        <a class="portal-card" href="https://app.clickup.com/" target="_blank" rel="noopener" style="text-decoration:none;color:var(--ink);">
-          <span class="portal-card-icon"><img src="https://www.google.com/s2/favicons?domain=clickup.com&sz=32" width="28" height="28" alt="" style="border-radius:6px;display:block;"></span>
-          <h3>ClickUp</h3>
-          <p>Tasks, applications, checklists and project tracking.</p>
-          <span class="portal-card-tag">Open app →</span>
-        </a>
-        <a class="portal-card" href="https://slack.com/intl/en-au" target="_blank" rel="noopener" style="text-decoration:none;color:var(--ink);">
-          <span class="portal-card-icon"><img src="https://www.google.com/s2/favicons?domain=slack.com&sz=32" width="28" height="28" alt="" style="border-radius:6px;display:block;"></span>
-          <h3>Slack</h3>
-          <p>Team chat, event comms and crew announcements.</p>
-          <span class="portal-card-tag">Open app →</span>
-        </a>
-        <a class="portal-card" href="https://mail.google.com/" target="_blank" rel="noopener" style="text-decoration:none;color:var(--ink);">
-          <span class="portal-card-icon"><img src="https://www.google.com/s2/favicons?domain=mail.google.com&sz=32" width="28" height="28" alt="" style="border-radius:6px;display:block;"></span>
-          <h3>Gmail</h3>
-          <p>Email — welcome emails, client correspondence and enquiries.</p>
-          <span class="portal-card-tag">Open app →</span>
-        </a>
+      <h2>Quick Links</h2>
+      <div class="portal-cards" id="quickLinksGrid">
+        <!-- Cards injected by renderQuickLinks() after auth -->
       </div>
     </div>
   </section>
@@ -1510,11 +1531,18 @@ function doLogout(){
     // ── Load Rentman roster for this user ──
     var userEmail = user.emailAddresses[0].emailAddress;
 
-    // Show admin button for admin users
-    if(userEmail === 'mitchel@urbanecho.com.au'){
-      document.getElementById('adminLink').style.display = 'inline';
+    // Determine role from profile, fallback to email check for mitchel
+    var role = (profile && profile.role) ? profile.role : 'team';
+    if(userEmail === 'mitchel@urbanecho.com.au') role = 'super_admin';
+
+    // Render role-based quick links
+    renderQuickLinks(role);
+
+    // Welcome email template only visible to super_admin
+    if(role === 'super_admin'){
       document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
     }
+
     loadRentmanRoster(userEmail);
 
     if(profile){
@@ -1557,6 +1585,39 @@ function doLogout(){
     window.location.replace('login.html');
   }
 })();
+
+// ── Quick Links — role-based ─────────────────────────────────
+var QUICK_LINKS = {
+  team_chat:    { action:'Team Chat',        desc:'Stay in the loop — crew announcements, event updates and team comms.',     app:'Slack',      favicon:'https://www.google.com/s2/favicons?domain=slack.com&sz=32',              href:'https://app.slack.com/' },
+  view_shifts:  { action:'View Shifts',      desc:'See your upcoming events and confirmed job schedule.',                    app:'Rentman',    favicon:'https://www.google.com/s2/favicons?domain=rentmanapp.com&sz=32',         href:'https://rentmanapp.com/' },
+  apply_leave:  { action:'Apply for Leave',  desc:'Request time off or update your availability for upcoming events.',      app:'Rentman',    favicon:'https://www.google.com/s2/favicons?domain=rentmanapp.com&sz=32',         href:'https://rentmanapp.com/' },
+  task_mgmt:    { action:'Task Management',  desc:'Track tasks, projects, checklists and applications.',                    app:'ClickUp',    favicon:'https://www.google.com/s2/favicons?domain=clickup.com&sz=32',            href:'https://app.clickup.com/' },
+  finances:     { action:'Manage Finances',  desc:'Invoices, expenses, payroll and financial reporting.',                   app:'QuickBooks', favicon:'https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=32',  href:'https://app.qbo.intuit.com/' },
+  email:        { action:'Email',            desc:'Client correspondence, welcome emails and enquiries.',                   app:'Gmail',      favicon:'https://www.google.com/s2/favicons?domain=mail.google.com&sz=32',        href:'https://mail.google.com/' }
+};
+
+var ROLE_LINKS = {
+  team:         ['team_chat','view_shifts','apply_leave'],
+  team_manager: ['team_chat','view_shifts','apply_leave','task_mgmt'],
+  super_admin:  ['team_chat','view_shifts','apply_leave','task_mgmt','finances','email']
+};
+
+function renderQuickLinks(role){
+  var grid = document.getElementById('quickLinksGrid');
+  if(!grid) return;
+  var keys = ROLE_LINKS[role] || ROLE_LINKS.team;
+  grid.innerHTML = keys.map(function(key){
+    var l = QUICK_LINKS[key];
+    return '<a class="ql-card" href="'+l.href+'" target="_blank" rel="noopener">'+
+      '<div class="ql-action">'+l.action+'</div>'+
+      '<div class="ql-desc">'+l.desc+'</div>'+
+      '<div class="ql-app-bubble">'+
+        '<img src="'+l.favicon+'" alt="" width="16" height="16">'+
+        '<span>'+l.app+'</span>'+
+      '</div>'+
+    '</a>';
+  }).join('');
+}
 
 function formatDate(dateStr){
   if(!dateStr) return '—';
