@@ -954,8 +954,9 @@ function renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgt, tot
   var tgtRevWk  = totalShows && tgt<100 ? (costWk+fixedWk)/(1-tgt/100) : 0;
   var tgtRevJob = totalShows ? tgtRevWk/totalShows : 0;
   var revGapJob = tgtRevJob - revJob;
-  var gpPerJob  = revJob - costJob;
-  var adminBE   = gpPerJob>0 ? Math.ceil(adminWk/gpPerJob) : null;
+  var gpPerJob     = revJob - costJob;
+  var fixedWkTotal = ohWk + adminWk;
+  var breakEvenShows = gpPerJob>0 ? Math.ceil(fixedWkTotal/gpPerJob) : null;
 
   /* Avg billable hrs/show across mix (shows inputs are per month) */
   var showIds = ['solo','duo','big'];
@@ -985,10 +986,10 @@ function renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgt, tot
         :'Average charge-out increase per billable hour to reach '+tgt+'% margin at current show mix.',
       col: revGapJob<=0?'#4AAE74':'var(--orange)'
     },{
-      eye:'Shows to Cover Admin ($'+fK(adminWk)+'/wk)',
-      num: adminBE!==null?adminBE+(adminBE===1?' show':' shows'):'∞',
-      desc:'Minimum shows per week where gross profit alone covers the $'+fK(adminWk)+'/wk admin cost.',
-      col: adminBE!==null&&totalShows>=adminBE?'#4AAE74':'#D93636'
+      eye:'Shows to Break Even (all fixed costs)',
+      num: breakEvenShows!==null?breakEvenShows+(breakEvenShows===1?' show':' shows'):'∞',
+      desc:'Shows per week needed for gross profit to cover both overheads ($'+fK(ohWk)+'/wk) and admin ($'+fK(adminWk)+'/wk) — the point where net profit hits zero.',
+      col: breakEvenShows!==null&&totalShows>=breakEvenShows?'#4AAE74':'#D93636'
     }
   ];
 
