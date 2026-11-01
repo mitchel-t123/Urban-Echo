@@ -718,11 +718,11 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 
         <!-- Major events -->
         <div class="svc-grp">
-          <div class="svc-label">Major events per year</div>
+          <div class="svc-label">Major events per term</div>
           <div class="svc-sublabel">School productions, speech nights, community events — how many would you like full crew support for?</div>
           <div class="stepper">
             <button class="step-btn" onclick="step('major',-1)">−</button>
-            <span class="step-val" id="majorVal">4</span>
+            <span class="step-val" id="majorVal">1</span>
             <button class="step-btn" onclick="step('major',1)">+</button>
           </div>
           <div class="svc-calc-line" id="majorCalc">
@@ -889,7 +889,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 
 <script>
 (function(){
-  var ASM_RATE   = 300;  /* $100/hr × 3hrs — 1 AV tech */
+  var ASM_RATE   = 500;  /* assembly rate */
   var MAJOR_RATE = 1760; /* AV $400 + Lighting $400 + Setup×2 $640 + Manager $320 */
 
   var EQ_ITEMS = [
@@ -953,7 +953,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   /* State */
   var state = {
     assembliesPerTerm: 4,
-    majorEvents:       4,
+    majorEvents:       1,
     hireFee:           2000
   };
 
@@ -1019,7 +1019,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
       id: 'b1',
       title: 'Full Crew at Major Productions',
       desc:  'Your school musical, graduation ceremony, or community night — a full professional crew from bump-in to bump-out.',
-      calc:  '2 major events per term × 4 terms = <strong>8 events / yr</strong>',
+      calc:  '1 major event per term × 4 terms = <strong>4 events / yr</strong>',
       tag:   'Productions',
       check: function(s){ return s.majorEvents > 0; }
     },
@@ -1060,7 +1060,8 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 
     var assembliesPerYear = state.assembliesPerTerm * 4;
     var asmCost   = assembliesPerYear * ASM_RATE;
-    var majCost   = state.majorEvents * MAJOR_RATE;
+    var majorEventsPerYear = state.majorEvents * 4;
+    var majCost   = majorEventsPerYear * MAJOR_RATE;
     var annualSvc = asmCost + majCost;
 
     /* Equipment */
@@ -1096,12 +1097,12 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
     document.getElementById('assembliesCostLbl').textContent =
       fmtM(asmCost) + ' / yr';
     document.getElementById('majorCostLbl').textContent =
-      state.majorEvents + ' events × $1,760 = ' + fmtM(majCost) + ' / yr';
+      state.majorEvents + ' per term × 4 terms = ' + majorEventsPerYear + ' events × $1,760 = ' + fmtM(majCost) + ' / yr';
 
     /* Update receipt */
-    document.getElementById('rAsmCount').textContent  = assembliesPerYear + ' assemblies / yr × $300';
+    document.getElementById('rAsmCount').textContent  = assembliesPerYear + ' assemblies / yr × $500';
     document.getElementById('rAsmCost').textContent   = fmtM(asmCost);
-    document.getElementById('rMajCount').textContent  = state.majorEvents + ' events / yr @ $1,760';
+    document.getElementById('rMajCount').textContent  = majorEventsPerYear + ' events / yr @ $1,760';
     document.getElementById('rMajCost').textContent   = fmtM(majCost);
     document.getElementById('rAnnual').textContent    = fmtM(annualSvc);
     document.getElementById('rYear1').textContent     = fmtM(year1Total);
