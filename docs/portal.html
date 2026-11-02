@@ -2766,15 +2766,9 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback, Urban Echo Po
 
 // ── Email Signature modal ────────────────────────────────────
 (function(){
-  var openBtn  = document.getElementById('emailSignatureCard');
-  var modal    = document.getElementById('emailSigModal');
-  var closeBtn = document.getElementById('emailSigModalClose');
-  if(!openBtn || !modal) return;
-  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
-  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
-  openBtn.addEventListener('click', openM);
-  closeBtn.addEventListener('click', closeM);
-  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+  var openBtn = document.getElementById('emailSignatureCard');
+  if(!openBtn) return;
+  openBtn.addEventListener('click', function(){ window.open('/portal/email-signature/', '_blank'); });
 })();
 
 // ── Onboarding Guide modal ───────────────────────────────────
