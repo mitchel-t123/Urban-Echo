@@ -1,8 +1,2762 @@
 <!DOCTYPE html>
-<html><head>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=/portal.html">
-<link rel="canonical" href="https://urbanecho.com.au/portal">
-<meta name="robots" content="noindex, nofollow">
-<title>Employee Portal — Urban Echo</title>
-</head><body><script>window.location.replace('/portal.html');</script></body></html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Portal, Urban Echo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: #FBF5E7;
+  --cream-deep: #F4ECD8;
+  --indigo: #3F3FF0;
+  --forest: #4AAE74;
+  --forest-deep: #379260;
+  --ink: #161527;
+  --paper: #FFFCF5;
+  --orange: #F4612E;
+  --sunshine: #F9C328;
+  --red: #D93636;
+  --line: rgba(22,21,39,0.12);
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'Inter', -apple-system, sans-serif;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{
+  background: var(--ink);
+}
+body{
+  font-family: var(--body);
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+body.auth-pending{ visibility: hidden; }
+
+/* ── AUTH LOADING SCREEN ── */
+#authLoader{
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:var(--ink); align-items:center; justify-content:center;
+  flex-direction:column; gap:16px;
+}
+#authLoader.show{ display:flex; }
+#authLoader p{
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:rgba(255,252,245,0.45);
+}
+#authLoader .loader-dot{
+  width:10px; height:10px; border-radius:50%; background:var(--indigo);
+  animation:pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse{ 0%,100%{ opacity:0.2; transform:scale(0.8); } 50%{ opacity:1; transform:scale(1.2); } }
+
+/* ── NAV ── */
+.nav{
+  position: sticky; top:0; z-index:100;
+  background: #fff; border-bottom: 1px solid var(--line);
+}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 14px 32px; max-width:1180px; margin:0 auto;
+}
+.nav-logo{ height:28px; }
+.nav-user{
+  display:flex; align-items:center; gap:14px;
+  font-family: var(--mono); font-size:13px;
+}
+.nav-user-name{ font-weight:700; }
+.session-timer{
+  font-family: var(--mono); font-size:12px;
+  color: rgba(22,21,39,0.45);
+}
+.session-timer.warn{ color: var(--red); font-weight:700; }
+.btn-logout{
+  background:none; border:2px solid var(--ink); border-radius:100px;
+  padding:7px 16px; font-family:var(--mono); font-size:12px;
+  font-weight:700; cursor:pointer; color:var(--ink);
+  transition: background 0.15s;
+}
+.btn-logout:hover{ background: var(--ink); color: var(--paper); }
+
+/* ── WRAP ── */
+.wrap{ max-width:1180px; margin:0 auto; padding:0 48px; }
+@media(max-width:600px){ .wrap{ padding:0 20px; } }
+
+/* ── HEADER ── */
+.portal-header{
+  background: var(--ink);
+  color: var(--paper);
+  padding: 48px 0 40px;
+  border-bottom: 6px solid var(--ink);
+}
+.portal-eyebrow{
+  font-family: var(--mono);
+  font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.14em;
+  color: var(--orange);
+  display:block; margin-bottom:12px;
+}
+.portal-header h1{
+  font-family: var(--display);
+  font-size: clamp(28px,5vw,52px);
+  text-transform:uppercase;
+  letter-spacing:-0.01em;
+  line-height:1.05;
+}
+.portal-header p{
+  margin-top:12px;
+  font-size:15px;
+  color: rgba(255,252,245,0.6);
+  max-width:480px;
+}
+
+/* ── SECTION ── */
+.portal-section{ padding:48px 0 0; }
+.portal-section:last-of-type{ padding-bottom:56px; }
+.portal-section h2{
+  font-family: var(--display);
+  font-size:20px; text-transform:uppercase;
+  letter-spacing:-0.01em; margin-bottom:20px;
+  padding-bottom:12px; border-bottom:2.5px solid var(--ink);
+}
+
+/* ── INVITE FORM FIELDS ── */
+.invite-field{ display:flex; flex-direction:column; gap:6px; }
+.invite-field label{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:rgba(22,21,39,0.5);
+}
+.invite-field input,
+.invite-field select{
+  font-family:var(--body); font-size:14px; color:var(--ink);
+  background:var(--cream); border:2px solid var(--line);
+  border-radius:100px; padding:11px 18px; width:100%; outline:none;
+  transition:border-color 0.15s;
+  -moz-appearance:textfield;
+  appearance:none; -webkit-appearance:none;
+}
+.invite-field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23161527' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 16px center;
+  padding-right:40px;
+}
+.invite-field input:focus,
+.invite-field select:focus{ border-color:var(--indigo); }
+
+/* ── CARD BASE ── */
+.portal-card-base{
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  padding:26px 24px;
+  box-shadow:5px 5px 0 var(--ink);
+}
+
+/* ── CREW USER LIST ── */
+.crew-user-row{
+  background:var(--paper); border:2.5px solid var(--ink);
+  border-radius:14px; padding:14px 18px; box-shadow:4px 4px 0 var(--ink);
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.crew-user-name{ font-size:14px; font-weight:700; }
+.crew-user-email{ font-size:12px; color:rgba(22,21,39,0.5); margin-top:2px; }
+.crew-role-badge{
+  font-family:var(--mono); font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  padding:4px 10px; border-radius:100px; flex-shrink:0;
+  border:1.5px solid currentColor;
+}
+@media(max-width:780px){
+  #addCrewSection .portal-card-base { grid-column:1/-1; }
+  #addCrewSection > .wrap > div { grid-template-columns:1fr; }
+}
+
+/* ── ROSTER ── */
+.roster-list{
+  display:flex; flex-direction:column; gap:10px;
+}
+.roster-item{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius:14px;
+  padding:16px 20px;
+  display:grid;
+  grid-template-columns: 100px 1fr auto;
+  align-items:center;
+  gap:16px;
+  box-shadow:4px 4px 0 var(--ink);
+}
+.roster-date{
+  font-family: var(--mono);
+  font-size:12px; font-weight:700;
+  color: #fff;
+  line-height:1.4;
+  background: var(--indigo);
+  border-radius: 12px;
+  padding: 10px 14px;
+  min-width: 64px;
+  text-align: center;
+  align-self: center;
+}
+.roster-date span{
+  display:block; font-size:24px; font-weight:700;
+  font-family: var(--display); letter-spacing:-0.01em;
+  color: #fff;
+}
+.roster-detail h4{
+  font-size:15px; font-weight:800; margin-bottom:3px;
+}
+.roster-detail p{
+  font-size:13px; color:rgba(22,21,39,0.6);
+}
+.roster-badge{
+  font-family: var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:10px 20px; border-radius:100px;
+  border:2px solid var(--ink); white-space:nowrap;
+}
+.roster-badge.confirmed{ background:var(--forest); color:#fff; border-color:var(--forest-deep); }
+.roster-badge.pending{ background:var(--sunshine); color:var(--ink); }
+.roster-item:hover{ box-shadow:4px 4px 0 var(--indigo); border-color:var(--indigo); }
+.roster-source{
+  margin-top:12px;
+  font-family:var(--mono); font-size:12px;
+  color:rgba(22,21,39,0.4);
+  display:flex; align-items:center; gap:6px;
+}
+.roster-source::before{ content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--forest); }
+@media(max-width:620px){
+  .roster-item{ grid-template-columns:1fr; gap:8px; }
+  .roster-date{ display:flex; align-items:baseline; gap:8px; }
+  .roster-date span{ font-size:16px; }
+}
+
+/* ── COMPLIANCE GRID ── */
+.compliance-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:24px;
+}
+@media(max-width:860px){
+  .compliance-grid{ grid-template-columns:1fr 1fr; }
+}
+@media(max-width:560px){
+  .compliance-grid{ grid-template-columns:1fr; }
+}
+/* ── HANDBOOK FULLSCREEN MODAL ── */
+.hb-modal{
+  display:none; position:fixed; inset:0; z-index:900;
+  background:rgba(22,21,39,0.92); align-items:center; justify-content:center;
+  padding:20px;
+}
+.hb-modal.open{ display:flex; }
+.hb-modal-inner{
+  position:relative; max-width:820px; width:100%;
+  background:var(--paper); border-radius:20px; border:2.5px solid var(--ink);
+  box-shadow:8px 8px 0 rgba(255,252,245,0.15); overflow:hidden;
+  display:flex; flex-direction:column; max-height:90vh;
+}
+.hb-modal-toolbar{
+  display:flex; align-items:center; gap:10px; padding:14px 18px;
+  border-bottom:2px solid rgba(22,21,39,0.1); flex-shrink:0; background:var(--cream);
+}
+.hb-modal-body{
+  overflow-y:auto; flex:1;
+}
+.hb-modal-body img{ width:100%; height:auto; display:block; }
+.hb-modal-close{
+  margin-left:auto; background:var(--ink); color:var(--paper);
+  border:none; border-radius:8px; padding:8px 16px;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em; cursor:pointer;
+}
+.hb-modal-close:hover{ opacity:0.8; }
+.handbook-embed-wrap img{ cursor:zoom-in; }
+
+.action-card{
+  background: var(--paper); border: 2.5px solid var(--red);
+  border-radius:20px; padding:28px; box-shadow:5px 5px 0 var(--red);
+  display:flex; flex-direction:column;
+}
+.action-card-label{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em; color:var(--red);
+  margin-bottom:10px; display:flex; align-items:center; gap:6px;
+}
+.action-card-title{
+  font-family:var(--display); font-size:17px; font-weight:700;
+  color:var(--ink); margin-bottom:6px; line-height:1.2;
+}
+.action-card-meta{
+  font-size:13px; color:rgba(22,21,39,0.55); margin-bottom:16px; line-height:1.5;
+}
+.action-card-btn{
+  margin-top:auto; display:inline-block; padding:11px 18px;
+  background:var(--red); color:#fff; border:2px solid var(--ink);
+  border-radius:100px; font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em; cursor:pointer;
+  text-decoration:none; box-shadow:3px 3px 0 var(--ink); transition:opacity 0.15s;
+  align-self:flex-start;
+}
+.action-card-btn:hover{ opacity:0.82; }
+
+/* ── WWC CARD ── */
+.wwc-card{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius:20px;
+  padding:28px;
+  box-shadow:5px 5px 0 var(--ink);
+  display:flex;
+  flex-direction:column;
+}
+.wwc-card.urgent{ border-color:var(--red); box-shadow:5px 5px 0 var(--red); }
+.wwc-card.urgent .wwc-label{ color:var(--red); }
+.wwc-card.urgent .wwc-renew-btn{ background:var(--red); }
+.wwc-label{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.12em;
+  color:var(--forest); margin-bottom:6px; display:block;
+}
+.wwc-name{
+  font-weight:800; font-size:18px; margin-bottom:4px;
+}
+.wwc-meta{
+  font-family:var(--mono); font-size:12px;
+  color:rgba(22,21,39,0.55); margin-bottom:14px;
+}
+.wwc-countdown{
+  font-family:var(--mono);
+  font-size:13px; font-weight:700;
+  margin-bottom:16px; padding:10px 14px;
+  border-radius:10px;
+  background:var(--cream);
+  border:1.5px solid var(--line);
+  display:inline-block;
+}
+.wwc-countdown.urgent{ background:rgba(217,54,54,0.08); border-color:var(--red); color:var(--red); }
+.wwc-renew-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--ink); color:var(--paper);
+  border:none; border-radius:10px;
+  padding:12px 20px;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  text-decoration:none;
+  transition:opacity 0.15s;
+}
+.wwc-renew-btn:hover{ opacity:0.8; }
+.wwc-shield{
+  font-size:52px; line-height:1;
+  flex-shrink:0;
+}
+
+/* ── PORTAL CARDS ── */
+.portal-cards{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:20px;
+}
+@media(max-width:900px){ .portal-cards{ grid-template-columns:1fr 1fr; } }
+@media(max-width:560px){ .portal-cards{ grid-template-columns:1fr; } }
+
+.portal-card{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius:20px;
+  padding:26px 24px;
+  box-shadow:5px 5px 0 var(--ink);
+  display:flex; flex-direction:column; gap:10px;
+  text-decoration:none; color:var(--ink); text-align:left;
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor:pointer;
+}
+.portal-card:hover{ transform:translateY(-3px); box-shadow:5px 8px 0 var(--ink); }
+.portal-card-icon{ font-size:28px; line-height:1; }
+.portal-card h3{
+  font-family:var(--body); font-weight:800;
+  font-size:17px; text-transform:none; letter-spacing:0;
+}
+.portal-card p{
+  font-size:12px; color:rgba(22,21,39,0.62); line-height:1.5;
+}
+/* ── HANDBOOK LAYOUT ── */
+.handbook-layout{
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+  gap: 28px;
+  align-items: start;
+  margin-bottom: 56px;
+}
+@media(max-width:780px){
+  .handbook-layout{ grid-template-columns: 1fr; margin-bottom: 40px; }
+}
+
+/* PDF viewer column */
+.handbook-viewer{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.handbook-toolbar{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--ink);
+  background: var(--cream);
+  flex-wrap: wrap;
+}
+.hb-btn{
+  font-family: var(--mono);
+  font-size:12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  padding: 6px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 100px;
+  background: var(--ink); color: var(--paper);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.hb-btn:hover{ opacity: 0.75; }
+.hb-btn:disabled{ opacity: 0.3; cursor: default; }
+.hb-download{ background: var(--forest); }
+.hb-page-label{
+  font-family: var(--mono); font-size:12px; font-weight: 700;
+  flex: 1; text-align: center; white-space: nowrap;
+}
+.handbook-embed-wrap{
+  width: 100%;
+  aspect-ratio: 2482 / 1755;
+  background: #525659;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+.handbook-embed-wrap img{
+  height: 100%;
+  width: 50%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  flex-shrink: 0;
+}
+/* Left page: shadow falls toward spine */
+.handbook-embed-wrap img:first-child{
+  box-shadow: inset -8px 0 18px rgba(0,0,0,0.35);
+}
+/* Right page: shadow falls toward spine */
+.handbook-embed-wrap img:last-child{
+  box-shadow: inset 8px 0 18px rgba(0,0,0,0.35);
+}
+/* Spine line */
+.handbook-embed-wrap::after{
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, rgba(0,0,0,0.45), rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.45));
+  pointer-events: none;
+}
+
+/* Policy links column */
+.policy-panel{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.policy-panel-title{
+  font-family: var(--mono); font-size:12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: rgba(22,21,39,0.45);
+  margin-bottom: 4px;
+}
+.policy-link{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: 3px 3px 0 var(--ink);
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.policy-link:hover{ transform: translateY(-2px); box-shadow: 4px 5px 0 var(--ink); }
+.policy-link-icon{ font-size: 22px; flex-shrink: 0; }
+.policy-link-meta{
+  display: flex; flex-direction: column; gap: 2px;
+}
+.policy-link-sub{
+  font-family: var(--mono); font-size:12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--orange);
+}
+
+/* ── SCRIPTURE ── */
+.portal-scripture{
+  background: var(--indigo);
+  color: #fff;
+  padding: 48px 0;
+  text-align: center;
+}
+.portal-scripture p{
+  font-size: 17px;
+  line-height: 1.85;
+  max-width: 720px;
+  margin: 0 auto 16px;
+  color: rgba(255,255,255,0.92);
+}
+.portal-scripture span{
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.55);
+}
+
+/* ── SLACK FAB ── */
+.wa-fab{
+  position:fixed; bottom:28px; right:24px; z-index:200;
+  display:flex; align-items:center; gap:10px;
+  background:#4A154B; color:#fff;
+  border:2.5px solid var(--ink);
+  border-radius:100px;
+  padding:12px 20px 12px 16px;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-decoration:none; text-transform:uppercase; letter-spacing:0.06em;
+  box-shadow:4px 4px 0 var(--ink);
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.wa-fab:hover{ transform:translateY(-3px); box-shadow:5px 6px 0 var(--ink); }
+
+/* ── EVENTS ── */
+.event-item{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius:14px;
+  padding:16px 20px;
+  display:grid;
+  grid-template-columns: 100px 1fr auto;
+  align-items:center;
+  gap:16px;
+  box-shadow:4px 4px 0 var(--ink);
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.event-item:hover{ box-shadow:4px 4px 0 var(--indigo); border-color:var(--indigo); }
+@media(max-width:620px){
+  .event-item{ grid-template-columns:1fr; gap:8px; }
+  .event-item .roster-date{ display:flex; align-items:baseline; gap:8px; }
+  .event-item .roster-date span{ font-size:16px; }
+}
+.event-fb-btn{
+  background: #1877F2; color:#fff;
+  border-color: #1877F2;
+  text-decoration:none;
+  display:inline-block;
+  text-align:center;
+}
+.event-fb-btn:hover{ opacity:0.85; }
+.event-training-badge{
+  background: var(--sunshine); color:var(--ink);
+  border:2px solid var(--ink);
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:10px 20px; border-radius:100px; white-space:nowrap;
+}
+
+.portal-card-tag{
+  margin-top:auto; font-family:var(--mono);
+  font-size:12px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.08em; color:var(--orange);
+}
+
+/* ── QUICK LINK CARDS ── */
+.ql-card{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 20px;
+  padding: 28px 24px 22px;
+  box-shadow: 5px 5px 0 var(--ink);
+  display: flex; flex-direction: column; gap: 10px;
+  text-decoration: none; color: var(--ink);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.ql-card:hover{ transform: translateY(-3px); box-shadow: 5px 8px 0 var(--ink); }
+.ql-action{
+  font-family: var(--body);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.ql-desc{
+  font-size: 12px;
+  color: rgba(22,21,39,0.55);
+  line-height: 1.55;
+  flex: 1;
+}
+.ql-app-bubble{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--cream);
+  border: 1.5px solid rgba(22,21,39,0.15);
+  border-radius: 100px;
+  padding: 5px 10px 5px 6px;
+  align-self: flex-start;
+  margin-top: 6px;
+}
+.ql-app-bubble img{
+  width: 16px; height: 16px;
+  border-radius: 4px; flex-shrink: 0;
+}
+.ql-app-bubble span{
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  color: rgba(22,21,39,0.6); text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* ── MODAL ── */
+.modal-overlay{
+  display:none; position:fixed; inset:0;
+  background:rgba(22,21,39,0.6);
+  z-index:500; backdrop-filter:blur(2px);
+  align-items:center; justify-content:center;
+  padding:20px;
+}
+.modal-overlay.open{ display:flex; }
+.modal-box{
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:24px;
+  box-shadow:8px 8px 0 var(--ink);
+  width:100%; max-width:620px;
+  max-height:90vh; overflow-y:auto;
+  padding:36px;
+  position:relative;
+}
+.modal-close{
+  position:absolute; top:16px; right:16px;
+  background:none; border:2px solid var(--ink);
+  border-radius:50%; width:34px; height:34px;
+  font-size:16px; cursor:pointer; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.15s;
+}
+.modal-close:hover{ background:var(--ink); color:var(--paper); }
+.modal-eyebrow{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.12em;
+  color:var(--orange); display:block; margin-bottom:8px;
+}
+.modal-box h2{
+  font-family:var(--display); font-size:22px;
+  text-transform:uppercase; letter-spacing:-0.01em;
+  margin-bottom:24px;
+}
+.mfield{ display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
+.mfield label{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:rgba(22,21,39,0.55);
+}
+.mfield input, .mfield select, .mfield textarea{
+  width:100%; padding:11px 14px;
+  border:2px solid rgba(22,21,39,0.18);
+  border-radius:10px;
+  font-family:var(--body); font-size:12px;
+  background:var(--cream); color:var(--ink); outline:none;
+  transition:border-color 0.15s;
+}
+.mfield input:focus, .mfield select:focus, .mfield textarea:focus{ border-color:var(--indigo); }
+.mfield textarea{ resize:vertical; min-height:80px; }
+.mrow{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:480px){ .mrow{ grid-template-columns:1fr; } }
+.modal-submit{
+  width:100%; margin-top:8px; padding:14px;
+  background:var(--ink); color:var(--paper);
+  border:none; border-radius:10px;
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  cursor:pointer; transition:opacity 0.15s;
+}
+.modal-submit:hover{ opacity:0.82; }
+.modal-success{
+  display:none; text-align:center; padding:20px 0;
+}
+.modal-success .tick{ font-size:48px; display:block; margin-bottom:12px; }
+.modal-success p{ font-size:15px; color:rgba(22,21,39,0.7); line-height:1.6; }
+.risk-row{
+  display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;
+}
+.risk-chip{
+  padding:8px 16px; border:2px solid var(--ink);
+  border-radius:100px; font-size:13px; font-weight:700; color:#000;
+  cursor:pointer; transition:all 0.15s; opacity:0.45;
+}
+.risk-chip.low{ background:var(--forest); }
+.risk-chip.med{ background:var(--sunshine); }
+.risk-chip.high{ background:var(--red); color:#fff; }
+.risk-chip.sel{ opacity:1; outline:3px solid var(--ink); outline-offset:2px; }
+
+/* ── NOTICE ── */
+.portal-notice{
+  background:var(--sunshine);
+  border:2.5px solid var(--ink);
+  border-radius:16px;
+  padding:18px 22px;
+  font-size:12px; line-height:1.6;
+  display:flex; gap:14px; align-items:flex-start;
+  margin-bottom:28px;
+}
+.portal-notice-icon{ font-size:20px; flex-shrink:0; }
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink); color:rgba(255,252,245,0.5);
+  padding:0; height:72px;
+  display:flex; align-items:center;
+  font-size:13px; font-family:var(--mono);
+  border-top:1px solid rgba(255,252,245,0.12);
+  margin-bottom:0;
+}
+html, body{ overflow-x:hidden; overflow-y: auto; }
+.footer-inner{
+  display:flex; justify-content:space-between;
+  align-items:center; flex-wrap:wrap; gap:12px;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="auth-pending">
+
+<!-- ── AUTH LOADER ── -->
+<div id="authLoader" class="show">
+  <div class="loader-dot"></div>
+  <p>Checking access…</p>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/"><img src="logo.png" alt="Urban Echo" class="nav-logo"></a>
+    <div class="nav-user">
+      <span class="nav-user-name" id="portalUserName">Loading…</span>
+      <span id="portalRoleBadge" style="display:none;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:4px 10px;border-radius:100px;border:1.5px solid currentColor;"></span>
+      <button class="btn-logout" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HEADER ── -->
+<div class="portal-header">
+  <div class="wrap">
+    <h1>Team Portal</h1>
+    <p>Welcome back. Everything you need for upcoming events and admin.</p>
+  </div>
+</div>
+
+<!-- ── CONTENT ── -->
+<main>
+
+  <!-- UPCOMING ROSTER, hidden until Rentman integration is ready -->
+  <section class="portal-section" style="display:none;">
+    <div class="wrap">
+      <h2>Upcoming Roster</h2>
+      <div class="roster-list">
+
+        <div class="roster-item" data-event="0" style="cursor:pointer;">
+          <div class="roster-date"><span>28</span>Jun 2026</div>
+          <div class="roster-detail">
+            <h4>Perth Modern School, Year 12 Valedictory Assembly</h4>
+            <p>Winthrop Hall · 09:00–13:00 · PA + Lapel Wireless × 2</p>
+          </div>
+          <span class="roster-badge confirmed">Confirmed</span>
+        </div>
+
+        <div class="roster-item" data-event="1" style="cursor:pointer;">
+          <div class="roster-date"><span>02</span>Jul 2026</div>
+          <div class="roster-detail">
+            <h4>Shenton College, Winter Arts Concert</h4>
+            <p>School Hall · 17:30–21:30 · Full PA + Stage Lighting</p>
+          </div>
+          <span class="roster-badge confirmed">Confirmed</span>
+        </div>
+
+        <div class="roster-item" data-event="2" style="cursor:pointer;">
+          <div class="roster-date"><span>08</span>Jul 2026</div>
+          <div class="roster-detail">
+            <h4>Willetton Senior High School, ATAR Results Ceremony</h4>
+            <p>Gymnasium · 10:00–12:30 · PA + Projector + Livestream</p>
+          </div>
+          <span class="roster-badge confirmed">Confirmed</span>
+        </div>
+
+        <div class="roster-item" data-event="3" style="cursor:pointer;">
+          <div class="roster-date"><span>15</span>Jul 2026</div>
+          <div class="roster-detail">
+            <h4>Canning Vale College, Sports Presentation Evening</h4>
+            <p>Main Hall · 18:00–21:00 · PA + Background Music</p>
+          </div>
+          <span class="roster-badge pending">Pending</span>
+        </div>
+
+        <div class="roster-item" data-event="4" style="cursor:pointer;">
+          <div class="roster-date"><span>22</span>Jul 2026</div>
+          <div class="roster-detail">
+            <h4>Applecross Senior High School, Music Night</h4>
+            <p>PAC · 19:00–22:00 · Full Band PA + IEM Monitoring</p>
+          </div>
+          <span class="roster-badge confirmed">Confirmed</span>
+        </div>
+
+        <div class="roster-item" data-event="5" style="cursor:pointer;">
+          <div class="roster-date"><span>05</span>Aug 2026</div>
+          <div class="roster-detail">
+            <h4>John Curtin College of the Arts, Drama Production (Night 1)</h4>
+            <p>Theatre · 19:00–22:30 · FOH + Stage Comms + Recording</p>
+          </div>
+          <span class="roster-badge pending">Pending</span>
+        </div>
+
+      </div>
+      <p class="roster-source">Sample data, live sync with Rentman coming soon</p>
+    </div>
+  </section>
+
+  <!-- QUICK LINKS, role-based, populated by JS -->
+  <section class="portal-section">
+    <div class="wrap">
+      <h2>Quick Links</h2>
+      <div class="portal-cards" id="quickLinksGrid">
+        <!-- Cards injected by renderQuickLinks() after auth -->
+      </div>
+    </div>
+  </section>
+
+  <!-- UPCOMING EVENTS -->
+  <section class="portal-section" id="eventsSection">
+    <div class="wrap">
+      <h2>Upcoming Events</h2>
+      <div class="roster-list" id="eventsList">
+
+        <!-- ─ EVENT: Christmas Party ─ -->
+        <div class="event-item">
+          <div class="roster-date">
+            <span>19</span>
+            DEC
+          </div>
+          <div class="roster-detail">
+            <h4>Urban Echo Christmas Party 🎄🎅✨</h4>
+            <p>Christmas BBQ at the Tinsleys, Oakford — 6 PM. Spouses, partners and kids welcome! Food, soft drinks, outdoor movie, pool table, ping pong, lawn games and the Ugly T-Shirt Swap 👕 (bring the ugliest op-shop tee you can find — winner takes a $50 gift card 🏆).</p>
+          </div>
+          <a href="https://www.facebook.com/events/1102600715902887/" target="_blank" rel="noopener" class="roster-badge confirmed event-fb-btn">
+            View on Facebook →
+          </a>
+        </div>
+
+
+      </div>
+      <p id="eventsEmpty" style="display:none;font-size:13px;color:rgba(22,21,39,0.4);padding:8px 0;">No upcoming events scheduled. Check back soon.</p>
+    </div>
+  </section>
+
+  <!-- SOPs -->
+  <section class="portal-section">
+    <div class="wrap">
+      <h2>Onboarding Resources and SOPs</h2>
+      <div class="portal-cards" style="margin-bottom:0;">
+        <div class="portal-card" id="openOnboardingGuide">
+          <span class="portal-card-icon">🎛️</span>
+          <h3>Crew Onboarding Guide</h3>
+          <p>Step-by-step process for approving and onboarding new crew members from application to first event.</p>
+          <span class="portal-card-tag">Open guide →</span>
+        </div>
+        <div id="emailSignatureCard" style="display:none;cursor:pointer;" class="portal-card">
+          <span class="portal-card-icon">✍️</span>
+          <h3>Email Signature Generator</h3>
+          <p>Build a Gmail-ready branded email signature with photo, contact details and social links.</p>
+          <span class="portal-card-tag">Open tool →</span>
+        </div>
+        <button id="openWelcomeEmailPortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
+          <span class="portal-card-icon">✉️</span>
+          <h3>Welcome Email — Approved</h3>
+          <p>First email sent to newly approved crew members to begin onboarding.</p>
+          <span class="portal-card-tag">View &amp; copy →</span>
+        </button>
+        <button id="openWelcomeEmail2Portal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
+          <span class="portal-card-icon">✉️</span>
+          <h3>Welcome Email — Onboarding Complete</h3>
+          <p>Official welcome sent after compliance and HR is complete. Crew member is fully onboarded.</p>
+          <span class="portal-card-tag">View &amp; copy →</span>
+        </button>
+        <button id="openSlackWelcomePortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
+          <span class="portal-card-icon">💬</span>
+          <h3>Team Welcome Message</h3>
+          <p>All-team Slack welcome message. Copy and paste into the crew group chat.</p>
+          <span class="portal-card-tag">View &amp; copy →</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- VENUE RESOURCES -->
+  <section class="portal-section">
+    <div class="wrap">
+      <h2>Venue Resources</h2>
+      <div class="portal-cards" style="margin-bottom:0;">
+        <a href="/portal/sops" style="text-decoration:none;" class="portal-card">
+          <span class="portal-card-icon">✅</span>
+          <h3>General Venue Checklist</h3>
+          <p>Interactive pre-event checklist covering bump-in, sound, lighting, pack-down and more.</p>
+          <span class="portal-card-tag">Open checklist →</span>
+        </a>
+
+        <div class="portal-card" id="openRiskBtn">
+          <span class="portal-card-icon">⚠️</span>
+          <h3>Risk Assessment Form</h3>
+          <p>Log and assess hazards before or during an event.</p>
+          <span class="portal-card-tag">Fill out →</span>
+        </div>
+
+        <div class="portal-card" id="openIncidentBtn">
+          <span class="portal-card-icon">🚨</span>
+          <h3>Incident Response Form</h3>
+          <p>Report an incident or near-miss that occurred on the job.</p>
+          <span class="portal-card-tag">Fill out →</span>
+        </div>
+
+        <div class="portal-card" id="openContactsBtn">
+          <span class="portal-card-icon">📞</span>
+          <h3>Key Contacts</h3>
+          <p>School contacts, venue details, and emergency numbers.</p>
+          <span class="portal-card-tag">View →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIG VISION — super_admin only -->
+  <section class="portal-section" id="bigVisionSection" style="display:none;">
+    <div class="wrap">
+      <h2>Big Vision</h2>
+      <div class="portal-cards" style="margin-bottom:0;">
+        <a id="growthCalcLink" href="/portal/growth-calculator/" style="text-decoration:none;" class="portal-card">
+          <span class="portal-card-icon">📈</span>
+          <h3>Growth Calculator</h3>
+          <p>Model overhead, crew pricing tiers, and job margins. Hit your 40% target with value-based pricing principles.</p>
+          <span class="portal-card-tag">Open tool →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADD CREW TO PORTAL — super_admin only -->
+  <section class="portal-section" id="addCrewSection" style="display:none;">
+    <div class="wrap">
+      <h2>Add Crew to Portal</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+
+        <!-- Invite form -->
+        <div class="portal-card-base" style="padding:32px 28px;">
+          <span class="portal-eyebrow" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);display:block;margin-bottom:20px;">Invite New Crew Member</span>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div class="invite-field">
+              <label for="inviteEmail">Email Address</label>
+              <input type="email" id="inviteEmail" placeholder="crew@example.com" style="width:100%;">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="invite-field">
+                <label for="inviteFirst">First Name</label>
+                <input type="text" id="inviteFirst" placeholder="Jane">
+              </div>
+              <div class="invite-field">
+                <label for="inviteLast">Last Name</label>
+                <input type="text" id="inviteLast" placeholder="Smith">
+              </div>
+            </div>
+            <div class="invite-field">
+              <label for="inviteRole">Access Level</label>
+              <select id="inviteRole">
+                <option value="team">Team / General Crew</option>
+                <option value="team_manager">Team Manager</option>
+                <option value="super_admin">Super Admin</option>
+              </select>
+            </div>
+            <div style="padding-top:4px;">
+              <button class="btn" id="inviteBtn" onclick="sendInvite()" style="width:100%;justify-content:center;padding:13px 20px;font-size:13px;">Send Invite →</button>
+            </div>
+            <div id="inviteMsg" style="display:none;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;line-height:1.5;"></div>
+          </div>
+        </div>
+
+        <!-- Current crew list -->
+        <div class="portal-card-base" style="padding:32px 28px;">
+          <span style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);display:block;margin-bottom:20px;">Current Portal Users</span>
+          <div id="crewUserList" style="display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:13px;color:rgba(22,21,39,0.4);">Loading…</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WELCOME EMAIL MODAL (admin only) -->
+  <div class="modal-overlay" id="welcomeEmailPortalModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Welcome Email Template</span>
+        <button id="copyWelcomeEmailPortal" style="background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Copy Email</button>
+        <button id="welcomeEmailPortalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <div style="padding:16px 24px 0;flex-shrink:0;">
+        <div style="background:rgba(63,63,240,0.07);border:1px solid rgba(63,63,240,0.18);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(22,21,39,0.7);line-height:1.5;">
+          <strong style="color:var(--ink);">Subject:</strong> Welcome to Urban Echo, You're In! 🎉 &nbsp;·&nbsp; <strong style="color:var(--ink);">Attach:</strong> Contractor Agreement (Sole Trader)
+        </div>
+      </div>
+      <div style="padding:24px;" id="welcomeEmailPortalHTML">
+        <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;background:#F5F2EB;border-radius:16px;overflow:hidden;">
+          <!-- Header -->
+          <div style="background:#161527;padding:24px 32px 20px;display:flex;align-items:center;gap:12px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6L11 2L19 6M3 11L11 7L19 11M3 16L11 12L19 16" stroke="#3F3FF0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="font-family:Arial,sans-serif;font-weight:900;font-size:18px;color:#FFFCF5;letter-spacing:-0.01em;">URBAN<span style="color:#3F3FF0;">ECHO</span></span>
+            </div>
+          </div>
+          <!-- Body -->
+          <div style="background:#F5F2EB;padding:40px 32px 20px;">
+            <div style="font-family:Arial,sans-serif;font-weight:900;font-size:34px;color:#161527;line-height:1.1;letter-spacing:-0.02em;margin-bottom:20px;">YOU'RE ONE<br>STEP CLOSER! 🎉</div>
+            <p style="font-size:15px;color:#161527;margin:0 0 16px;line-height:1.6;">Hey [First Name]! 👋</p>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 12px;">We're so excited to welcome you to the Urban Echo team. After reviewing your application, we'd love to have you on board as part of our crew. We work with some incredible schools across Perth and we can't wait to have you alongside us.</p>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 32px;">We've got a few steps before you're fully onboarded. Once you've done the below, you'll get your official welcome email and you'll be an official part of the team.</p>
+            <hr style="border:none;border-top:1.5px solid rgba(22,21,39,0.15);margin:0 0 32px;">
+
+            <!-- Steps -->
+            <div style="margin-bottom:20px;"><span style="display:inline-block;background:#161527;color:#fff;font-family:Arial,sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.1em;padding:7px 18px;border-radius:100px;">Get Started</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;">
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">1</div>
+                <div>
+                  <strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Join our Slack</strong>
+                  <span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">All crew comms happen on Slack, shift updates, event briefs, and team chat. Click below to join the workspace:</span>
+                  <div style="margin-top:10px;"><a href="https://join.slack.com/t/urbanechoworkspace/shared_invite/zt-4ek7pbyr7-yDUq4rOCeRZcYVztb952cA" style="display:inline-block;background:#4A154B;color:#fff;text-decoration:none;font-weight:800;font-size:13px;padding:9px 18px;border-radius:8px;">Join Urban Echo on Slack →</a></div>
+                </div>
+              </div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">2</div>
+                <div><strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Sign the contractor agreement</strong><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">We've attached a contractor agreement to this email. Please read through and sign it, takes about 2 minutes. You can sign digitally on our website or scan and return it.</span></div>
+              </div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">3</div>
+                <div>
+                  <strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Compliance checks</strong>
+                  <span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">Before your first event we'll need your <strong style="color:#161527;">Working With Children Check</strong> and <strong style="color:#161527;">National Police Certificate</strong> on file. If you don't have these yet, no stress, just get them sorted before your first gig and send us a copy.</span>
+                  <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <a href="https://www.workingwithchildren.wa.gov.au/apply" target="_blank" style="display:inline-block;background:#161527;color:#FFFCF5;text-decoration:none;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;padding:8px 16px;border-radius:100px;">Apply for WWCC →</a>
+                    <a href="https://www.police.wa.gov.au/Police-Direct/National-Police-Certificate" target="_blank" style="display:inline-block;background:#161527;color:#FFFCF5;text-decoration:none;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;padding:8px 16px;border-radius:100px;">Police Clearance →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- What to expect -->
+            <div style="margin-bottom:20px;"><span style="display:inline-block;background:#161527;color:#fff;font-family:Arial,sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.1em;padding:7px 18px;border-radius:100px;">What to Expect Next</span></div>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 10px;">We'll be in touch via Slack to arrange a call or coffee catch-up with Mitchel. He'll let you know what's next, whether you're jumping straight into an upcoming gig or if we'll have you shadow him for an upcoming gig.</p>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 32px;">After that you'll be added to the crew pool and we'll start rostering you in for events that suit your availability.</p>
+
+            <!-- Good to know -->
+            <div style="margin-bottom:20px;"><span style="display:inline-block;background:#161527;color:#fff;font-family:Arial,sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.1em;padding:7px 18px;border-radius:100px;">Good to Know</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;">
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(22,21,39,0.75);line-height:1.6;">Keep an eye on Slack for any job offers</div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(22,21,39,0.75);line-height:1.6;">Dress code is always <strong style="color:#161527;">all black</strong> unless told otherwise</div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(22,21,39,0.75);line-height:1.6;">Any questions? Just message us in Slack, we're always around</div>
+            </div>
+
+            <!-- Sig card -->
+            <div style="background:#161527;border-radius:12px;padding:22px 24px;">
+              <p style="font-size:14px;color:#FFFCF5;line-height:1.7;margin:0 0 16px;">Pumped to have you on board 🙌</p>
+              <p style="font-family:Arial,sans-serif;font-weight:900;font-size:15px;color:#FFFCF5;margin:0 0 2px;letter-spacing:-0.01em;">MITCHEL TINSLEY</p>
+              <p style="font-size:11px;color:rgba(255,252,245,0.5);margin:0;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Founder &amp; Director, Urban Echo</p>
+            </div>
+          </div>
+          <!-- Footer -->
+          <div style="background:#161527;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;">
+            <p style="font-size:11px;color:rgba(251,245,231,0.4);margin:0;">© 2026 Urban Echo. Sound &amp; AV for Perth Schools.</p>
+            <a href="https://www.urbanecho.com.au/portal" style="font-size:11px;color:rgba(251,245,231,0.4);text-decoration:none;">Team Portal</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WELCOME EMAIL STAGE 2 MODAL (team_manager + super_admin) -->
+  <div class="modal-overlay" id="welcomeEmail2PortalModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Welcome Email — Onboarding Complete</span>
+        <button id="copyWelcomeEmail2Portal" style="background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Copy Email</button>
+        <button id="welcomeEmail2PortalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <div style="padding:16px 20px 8px;background:var(--cream);border-bottom:1px solid rgba(22,21,39,0.1);">
+        <span style="font-size:12px;color:rgba(22,21,39,0.55);"><strong style="color:var(--ink);">Subject:</strong> Welcome to the Urban Echo Crew! 🎉 &nbsp;·&nbsp; <strong style="color:var(--ink);">Send:</strong> After compliance &amp; HR complete</span>
+      </div>
+      <div style="padding:24px;" id="welcomeEmail2PortalHTML">
+        <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;background:#F5F2EB;border-radius:16px;overflow:hidden;">
+          <!-- Header -->
+          <div style="background:#161527;padding:24px 32px 20px;display:flex;align-items:center;gap:12px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6L11 2L19 6M3 11L11 7L19 11M3 16L11 12L19 16" stroke="#3F3FF0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="font-family:Arial,sans-serif;font-weight:900;font-size:18px;color:#FFFCF5;letter-spacing:-0.01em;">URBAN<span style="color:#3F3FF0;">ECHO</span></span>
+            </div>
+          </div>
+          <!-- Hero -->
+          <div style="background:#F5F2EB;padding:40px 32px 20px;">
+            <div style="font-family:Arial,sans-serif;font-weight:900;font-size:34px;color:#161527;line-height:1.1;letter-spacing:-0.02em;margin-bottom:20px;">WELCOME TO THE<br><span style="color:#3F3FF0;">URBAN ECHO</span> CREW.</div>
+            <p style="font-size:15px;color:#161527;margin:0 0 16px;line-height:1.6;">Hey [First Name]! 👋</p>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 12px;">We're so excited to welcome you to the Urban Echo team. After reviewing your application, we'd love to have you on board as part of our crew. We work with some incredible schools across Perth and we can't wait to have you alongside us.</p>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 32px;">This email covers everything you need to know before your first event, what happens next, what we expect from our crew, and a link to the full handbook. Give it a read when you get a chance; it won't take long.</p>
+            <hr style="border:none;border-top:1.5px solid rgba(22,21,39,0.15);margin:0 0 32px;">
+
+            <!-- What happens next -->
+            <div style="margin-bottom:20px;"><span style="display:inline-block;background:#161527;color:#fff;font-family:Arial,sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.1em;padding:7px 18px;border-radius:100px;">What Happens Next</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;">
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">1</div>
+                <div><strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Join Our Slack</strong><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">All crew comms happen on Slack — shift updates, event briefs, and team chat. Check your inbox for the invite link and join the workspace. Keep notifications on!</span></div>
+              </div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">2</div>
+                <div><strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Sign Your Contractor Agreement</strong><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">We'll send you a short contractor agreement to sign before your first job. This covers your role, pay, and how we work together. Takes 5 minutes.</span></div>
+              </div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">3</div>
+                <div><strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Confirm Your Compliance Checks</strong><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">Working with Children Check (WWC) and a National Police Clearance are mandatory for all crew. If you don't have them yet, we can point you to where to apply, they're straightforward to get.</span></div>
+              </div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">4</div>
+                <div><strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Read the Employee Handbook</strong><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">The handbook covers everything from what to wear to how we handle emergencies. It's a short read and everything you need to know is in there. Link at the bottom of this email.</span></div>
+              </div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">5</div>
+                <div><strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Complete a Site Induction</strong><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">Before going solo, Mitchel will walk you through gear, setup, and what a typical event looks like. Usually takes about an hour at a school or our storage space.</span></div>
+              </div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#161527;color:#FFFCF5;font-family:Arial,sans-serif;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">6</div>
+                <div><strong style="font-size:14px;color:#161527;display:block;margin-bottom:4px;">Shadow Your First Event</strong><span style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.6;">Your first job will be a shadow, you'll come along, watch the show run, and learn the ropes without the pressure. After that you're ready to go.</span></div>
+              </div>
+            </div>
+
+            <!-- What we expect -->
+            <div style="margin-bottom:20px;"><span style="display:inline-block;background:#161527;color:#fff;font-family:Arial,sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.1em;padding:7px 18px;border-radius:100px;">What We Expect From You</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px;">
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 16px;"><div style="font-size:20px;margin-bottom:6px;">🛡️</div><strong style="font-size:13px;color:#161527;display:block;margin-bottom:6px;">Child Safety — Always First</strong><span style="font-size:12px;color:rgba(22,21,39,0.65);line-height:1.6;">All our events are in schools. Child safety is non-negotiable. Always maintain professional boundaries, never be alone with students, and report anything concerning immediately.</span></div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 16px;"><div style="font-size:20px;margin-bottom:6px;">🤝</div><strong style="font-size:13px;color:#161527;display:block;margin-bottom:6px;">Code of Conduct</strong><span style="font-size:12px;color:rgba(22,21,39,0.65);line-height:1.6;">Represent Urban Echo with pride. Be respectful, punctual, and switched on. Treat everyone, students, staff, and clients, with professionalism and warmth.</span></div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 16px;"><div style="font-size:20px;margin-bottom:6px;">⚠️</div><strong style="font-size:13px;color:#161527;display:block;margin-bottom:6px;">Work Health &amp; Safety</strong><span style="font-size:12px;color:rgba(22,21,39,0.65);line-height:1.6;">You're responsible for your own safety and those around you. Report hazards, use gear safely, and let Mitchel know immediately if something's not right on the job.</span></div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 16px;"><div style="font-size:20px;margin-bottom:6px;">📱</div><strong style="font-size:13px;color:#161527;display:block;margin-bottom:6px;">Social Media</strong><span style="font-size:12px;color:rgba(22,21,39,0.65);line-height:1.6;">Never post photos of students or school events without explicit permission. Our reputation with schools depends on discretion, when in doubt, don't post.</span></div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 16px;"><div style="font-size:20px;margin-bottom:6px;">🔒</div><strong style="font-size:13px;color:#161527;display:block;margin-bottom:6px;">Privacy &amp; Confidentiality</strong><span style="font-size:12px;color:rgba(22,21,39,0.65);line-height:1.6;">School contacts, client details, and job information are confidential. Don't share venue codes, contact names, or school details outside the crew group.</span></div>
+              <div style="background:#FFFCF5;border:1.5px solid rgba(22,21,39,0.12);border-radius:12px;padding:16px 16px;"><div style="font-size:20px;margin-bottom:6px;">🚨</div><strong style="font-size:13px;color:#161527;display:block;margin-bottom:6px;">Emergencies</strong><span style="font-size:12px;color:rgba(22,21,39,0.65);line-height:1.6;">Know the school's evacuation plan before every show. In an emergency: stop the show, call 000 if needed, follow school staff instructions, and contact Mitchel straight after.</span></div>
+            </div>
+
+            <!-- Good to know -->
+            <div style="margin-bottom:20px;"><span style="display:inline-block;background:#161527;color:#fff;font-family:Arial,sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.1em;padding:7px 18px;border-radius:100px;">Good to Know</span></div>
+            <div style="margin-bottom:32px;">
+              <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 12px;"><strong>What to wear:</strong> All black, smart casual, for every event. Collared shirt preferred for formal evenings. We want to look professional and blend into the background.</p>
+              <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 12px;"><strong>Availability:</strong> Jobs come through on Slack, reply ASAP so we can confirm crew. If you can't make it, give as much notice as possible. We respect that life happens, just keep us in the loop.</p>
+              <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 12px;"><strong>Pay:</strong> We pay per event, direct to your bank account. If you're a sole trader/ABN contractor you'll invoice us after the job, we'll share the details when you're onboarded.</p>
+              <p style="font-size:14px;color:#161527;line-height:1.7;margin:0;"><strong>Questions?</strong> Reach out any time on Slack, or call or text Mitchel directly.</p>
+            </div>
+
+            <!-- Handbook -->
+            <div style="background:#3F3FF0;border-radius:14px;padding:28px 28px 24px;margin-bottom:32px;">
+              <div style="font-family:Arial,sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.7);margin-bottom:6px;">Employee Handbook</div>
+              <p style="font-size:14px;color:#fff;line-height:1.6;margin:0 0 18px;">Everything in full detail, policies, procedures, gear guides, and more. Required reading before your first event.</p>
+              <a href="https://www.urbanecho.com.au/employee-handbook-2026.pdf" style="display:inline-block;background:transparent;color:#fff;text-decoration:none;font-family:Arial,sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.08em;padding:10px 22px;border-radius:100px;border:2px solid rgba(255,255,255,0.6);">READ HANDBOOK →</a>
+            </div>
+
+            <!-- Closing -->
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 12px;">We're genuinely stoked to have you on the team. Urban Echo is about more than just running sound, it's about showing up for schools, creating experiences students will remember, and doing it with care and excellence.</p>
+            <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 28px;">We'll be in touch shortly with next steps. In the meantime, feel free to reach out if you have any questions at all.</p>
+
+            <!-- Sig card -->
+            <div style="background:#161527;border-radius:12px;padding:22px 24px;">
+              <p style="font-family:Arial,sans-serif;font-weight:900;font-size:15px;color:#FFFCF5;margin:0 0 2px;letter-spacing:-0.01em;">MITCHEL TINSLEY</p>
+              <p style="font-size:11px;color:rgba(255,252,245,0.5);margin:0 0 16px;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Founder &amp; Director, Urban Echo</p>
+              <p style="font-size:13px;color:#FFFCF5;line-height:2;margin:0;">📞 <a href="tel:0429660186" style="color:#FFFCF5;text-decoration:none;">0429 660 186</a><br>📧 <a href="mailto:mitchel@urbanecho.com.au" style="color:#FFFCF5;text-decoration:none;">mitchel@urbanecho.com.au</a><br>🌐 <a href="https://www.urbanecho.com.au" style="color:#FFFCF5;text-decoration:none;">www.urbanecho.com.au</a></p>
+            </div>
+          </div>
+          <!-- Footer -->
+          <div style="background:#161527;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;">
+            <p style="font-size:11px;color:rgba(251,245,231,0.4);margin:0;">© 2026 Urban Echo. Sound &amp; AV for Perth Schools.</p>
+            <a href="https://www.urbanecho.com.au/portal" style="font-size:11px;color:rgba(251,245,231,0.4);text-decoration:none;">Team Portal</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLACK WELCOME MESSAGE MODAL (team_manager + super_admin) -->
+  <div class="modal-overlay" id="slackWelcomePortalModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Team Welcome Message</span>
+        <button id="copySlackWelcomePortal" style="background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Copy Message</button>
+        <button id="slackWelcomePortalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <div style="padding:16px 20px 8px;background:var(--cream);border-bottom:1px solid rgba(22,21,39,0.1);">
+        <span style="font-size:12px;color:rgba(22,21,39,0.55);"><strong style="color:var(--ink);">Post in:</strong> #urban-echo-team-chat &nbsp;·&nbsp; <strong style="color:var(--ink);">Plain text, paste as-is</strong></span>
+      </div>
+      <div style="padding:28px 24px;">
+        <pre id="slackWelcomePortalText" style="font-family:var(--body);font-size:14px;color:var(--ink);line-height:1.8;white-space:pre-wrap;word-break:break-word;margin:0;">🎉 Hey Team, welcome to the Urban Echo crew chat!
+
+This is our official space for everyone who's part of the Urban Echo family, and we're so glad you're here.
+
+First things first, we want you to know that we don't just onboard anyone. 🌟 We're incredibly selective about who joins this team, and the fact that you're here means we think you're one of the best. So welcome, you've earned your spot.
+
+This chat is your go-to for everything team-wide:
+
+🎄 Christmas parties &amp; crew socials
+🤝 Team building events
+📋 HR &amp; admin updates
+🎓 Invites to free training sessions
+📢 Anything else worth sharing with the whole crew
+
+We're building something special here at Urban Echo, and it's the people in this chat that make it what it is. Thanks for being part of it. 🙌
+
+Mitchel &amp; the Urban Echo team</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL SIGNATURE MODAL -->
+  <div class="modal-overlay" id="emailSigModal" style="padding:16px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:900px;max-height:92vh;position:relative;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Email Signature Generator</span>
+        <button id="emailSigModalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <iframe src="/portal/email-signature/" style="flex:1;border:none;width:100%;min-height:600px;" title="Email Signature Generator"></iframe>
+    </div>
+  </div>
+
+  <!-- ONBOARDING GUIDE MODAL -->
+  <div class="modal-overlay" id="onboardingModal" style="padding:16px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:720px;max-height:92vh;overflow-y:auto;position:relative;display:flex;flex-direction:column;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Crew Onboarding Guide</span>
+        <button id="onboardingModalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <div style="padding:32px 28px 40px;">
+
+        <!-- Phase 1 -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(22,21,39,0.45);white-space:nowrap;">Phase 1, Review the Application</span>
+          <div style="flex:1;height:1px;background:rgba(22,21,39,0.12);"></div>
+        </div>
+        <div style="background:rgba(63,63,240,0.07);border:1px solid rgba(63,63,240,0.18);border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.5;color:rgba(22,21,39,0.7);margin-bottom:16px;display:flex;gap:10px;">
+          <span style="font-size:16px;flex-shrink:0;">⚡</span>
+          <span><strong style="color:var(--ink);">Automated:</strong> When someone submits an application, ClickUp auto-creates a task with their details, a pre-filled welcome email comment, and a 10-step onboarding checklist.</span>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">1</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Open the ClickUp task</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Go to the <strong>Applications</strong> list in ClickUp. The new task is named "Application, [Full Name]". Check roles, experience, availability, WWC/police status, and suburb.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:24px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">2</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Decide: Approve or decline</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Make the call and move the task to <strong>Approved</strong> or <strong>Declined</strong> in ClickUp. If declining, add a brief note in comments for your records.</div>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(22,21,39,0.45);white-space:nowrap;">Phase 2, Welcome &amp; Admin</span>
+          <div style="flex:1;height:1px;background:rgba(22,21,39,0.12);"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">3</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Send welcome email + contractor agreement</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Open the ClickUp task → comments, the welcome email is pre-drafted. Click <strong>Copy Email</strong> on the template page, paste into Gmail, and <strong>attach the contractor agreement</strong> before sending. Subject: <strong>Welcome to Urban Echo, You're In! 🎉</strong></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">4</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Confirm compliance checks</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Both <strong>WWC</strong> and <strong>National Police Certificate</strong> must be on file before any event.<br><br>
+            If not yet obtained:<br>
+            • <strong>WWC:</strong> <a href="https://www.workingwithchildren.wa.gov.au" target="_blank" style="color:var(--indigo);font-weight:600;">workingwithchildren.wa.gov.au</a>, free for volunteers, ~$11 for paid workers<br>
+            • <strong>Police Check:</strong> <a href="https://www.police.wa.gov.au/Police-Direct/National-Police-Certificate" target="_blank" style="color:var(--indigo);font-weight:600;">police.wa.gov.au</a> (~$42)</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">5</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Check they're in Slack</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Confirm they've joined via the invite link in the welcome email and can see messages in <strong>#urban-echo-team-chat</strong>. Say hello and introduce them to the group.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:24px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--indigo);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">6</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Arrange a coffee catch-up</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Book a quick coffee with Mitchel before their first event, 20–30 mins. Great chance to get to know them, answer questions, and make them feel genuinely welcomed.</div>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(22,21,39,0.45);white-space:nowrap;">Phase 3, Their First Event</span>
+          <div style="flex:1;height:1px;background:rgba(22,21,39,0.12);"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--forest);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">7</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Complete a site induction</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Mitchel walks them through gear, setup, and a typical event. About an hour, book before their first job.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--forest);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">8</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Shadow their first event</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">First job is always a shadow, they observe the full show with no pressure. Confirm date/time/venue via Slack, brief them on all-black attire and arrival time.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:36px 1fr;gap:0 16px;background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:20px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--forest);color:#fff;font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">9</div>
+          <div>
+            <div style="font-family:var(--display);font-size:14px;margin-bottom:6px;">Add to the crew pool</div>
+            <div style="font-size:13px;color:rgba(22,21,39,0.65);line-height:1.5;">Tick off everything below, then mark all ClickUp checklist items complete and move the task to <strong>Complete</strong>.<br><br>
+            • Add to the crew roster and collect bank details/ABN<br>
+            • Add them to <strong>Rentman</strong> (crew management)<br>
+            • Send a <strong>portal invite</strong> from the Admin section of the crew portal<br>
+            • Add to <strong>payroll</strong><br>
+            • Post a welcome in <strong>#urban-echo-team-chat</strong></div>
+          </div>
+        </div>
+        <div style="background:rgba(212,134,10,0.08);border:1px solid rgba(212,134,10,0.25);border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.5;color:rgba(22,21,39,0.7);display:flex;gap:10px;">
+          <span style="font-size:16px;flex-shrink:0;">⚠️</span>
+          <span><strong style="color:var(--ink);">Never send someone to an event solo</strong> until they have completed the site induction, a shadow event, and both compliance checks are confirmed on file.</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- WWC + COMPLIANCE -->
+  <section class="portal-section">
+    <div class="wrap">
+      <h2>Compliance</h2>
+      <div class="compliance-grid">
+
+        <!-- ACTION: Policy re-sign (most urgent, left) -->
+        <div class="action-card">
+          <div class="action-card-label">⚠ Action Required</div>
+          <div class="action-card-title">Contractor Policy Needs Signing</div>
+          <div class="action-card-meta">
+            Contract Agreement (Sole Trader), June 2026 &nbsp;·&nbsp; Please review and sign before your next engagement.
+          </div>
+          <a href="#" id="openContractSign" class="action-card-btn">Review &amp; Sign →</a>
+        </div>
+
+        <!-- WWC, expiring soon (middle) -->
+        <div class="wwc-card" id="wwcCard">
+          <span class="wwc-label" id="wwcLabel">✔ Working With Children Check</span>
+          <div class="wwc-name">Mitchel Tinsley</div>
+          <div class="wwc-meta">Card No. WWC0123456E &nbsp;·&nbsp; Issued: 07 Jul 2021 &nbsp;·&nbsp; Expires: 07 Jul 2026</div>
+          <div class="wwc-countdown" id="wwcCountdown">Calculating…</div>
+          <a href="https://www.wa.gov.au/organisation/department-of-communities/working-children-check-application-and-renewal-process"
+             target="_blank" rel="noopener" class="wwc-renew-btn">
+            🔄 Renew Now
+          </a>
+        </div>
+
+        <!-- Police clearance, all good (right) -->
+        <div class="wwc-card" id="policeCard">
+          <span class="wwc-label" id="policeLabel">✔ National Police Clearance</span>
+          <div class="wwc-name">Mitchel Tinsley</div>
+          <div class="wwc-meta">Ref No. NPC20240001 &nbsp;·&nbsp; Issued: 03 Apr 2026 &nbsp;·&nbsp; Expires: 03 Apr 2029</div>
+          <div class="wwc-countdown" id="policeCountdown">Calculating…</div>
+          <a href="https://www.wa.gov.au/service/justice/criminal-law/apply-national-police-certificate"
+             target="_blank" rel="noopener" class="wwc-renew-btn">
+            🔄 Renew Now
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK ACCESS -->
+  <section class="portal-section">
+    <div class="wrap">
+      <h2>Quick Access</h2>
+      <div class="portal-cards">
+
+        <a href="problems.html" class="portal-card">
+          <span class="portal-card-icon">🛠️</span>
+          <h3>Troubleshooting Tool</h3>
+          <p>Step-by-step sound diagnostic guide for on-the-day issues.</p>
+          <span class="portal-card-tag">Open tool →</span>
+        </a>
+
+        <button class="portal-card" id="openFeedback" style="background:var(--cream);border:2px solid var(--ink);border-radius:20px;cursor:pointer;text-align:left;padding:24px;display:flex;flex-direction:column;gap:10px;font-family:inherit;">
+          <span class="portal-card-icon">💬</span>
+          <h3>Team Feedback</h3>
+          <p>Share ideas, suggestions, or anything that would make your job easier.</p>
+          <span class="portal-card-tag">Open form →</span>
+        </button>
+
+        <div class="portal-card">
+          <span class="portal-card-icon">📋</span>
+          <h3>Run Sheets</h3>
+          <p>Event run sheets and technical riders for upcoming jobs. (Coming soon)</p>
+          <span class="portal-card-tag">In progress</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EMPLOYEE HANDBOOK ── -->
+  <section class="portal-section" id="handbookSection">
+    <div class="wrap">
+      <h2>Employee Handbook</h2>
+      <p style="font-size:12px;color:rgba(22,21,39,0.6);margin-bottom:20px;font-family:var(--mono);">2026 Edition, Urban Echo</p>
+      <div class="handbook-layout">
+
+        <!-- PDF viewer -->
+        <div class="handbook-viewer">
+          <div class="handbook-toolbar">
+            <button id="hbPrev" class="hb-btn" disabled>← Prev</button>
+            <span class="hb-page-label">Page <span id="hbPageNum">1</span> / <span id="hbPageTotal">18</span></span>
+            <button id="hbNext" class="hb-btn">Next →</button>
+            <a href="employee-handbook-2026.pdf" download class="hb-btn hb-download">⬇</a>
+          </div>
+          <div class="handbook-embed-wrap">
+            <img id="handbookImg" src="handbook-pages/page-01.jpg" alt="Handbook page 1">
+            <img id="handbookImg2" src="handbook-pages/page-02.jpg" alt="Handbook page 2">
+          </div>
+        </div>
+
+        <!-- Policy links -->
+        <div class="policy-panel">
+          <p class="policy-panel-title">Policies &amp; Documents</p>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">🛡️</span>
+            <span class="policy-link-meta">
+              <span>Child Safety Policy</span>
+              <span class="policy-link-sub">Mandatory · All Staff</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">🔒</span>
+            <span class="policy-link-meta">
+              <span>Privacy &amp; Confidentiality</span>
+              <span class="policy-link-sub">Policy · All Staff</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">⚠️</span>
+            <span class="policy-link-meta">
+              <span>Work Health &amp; Safety</span>
+              <span class="policy-link-sub">WHS Policy · 2026</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">🤝</span>
+            <span class="policy-link-meta">
+              <span>Code of Conduct</span>
+              <span class="policy-link-sub">Behaviour Standards</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">📱</span>
+            <span class="policy-link-meta">
+              <span>Social Media Policy</span>
+              <span class="policy-link-sub">External Communications</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">🚨</span>
+            <span class="policy-link-meta">
+              <span>Emergency Procedures</span>
+              <span class="policy-link-sub">Evacuation &amp; First Aid</span>
+            </span>
+          </a>
+
+          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+            <span class="policy-link-icon">💼</span>
+            <span class="policy-link-meta">
+              <span>Leave &amp; Availability</span>
+              <span class="policy-link-sub">Time Off · Rostering</span>
+            </span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCRIPTURE ── -->
+  <section class="portal-scripture">
+    <div class="wrap">
+      <p><em>"<sup>12</sup> Therefore, as God's chosen people, holy and dearly loved, clothe yourselves with compassion, kindness, humility, gentleness and patience. <sup>13</sup> Bear with each other and forgive one another if any of you has a grievance against someone. Forgive as the Lord forgave you. <sup>14</sup> And over all these virtues put on love, which binds them all together in perfect unity."</em></p>
+      <span>~ Colossians 3:12–14 (NIV)</span>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── CONTRACT SIGN MODAL ── -->
+<div class="hb-modal" id="contractSignModal" role="dialog" aria-modal="true" aria-label="Sign Contractor Agreement">
+  <div class="hb-modal-inner" style="max-width:680px;">
+    <div class="hb-modal-toolbar">
+      <button id="cPrev" class="hb-btn" disabled>← Prev</button>
+      <span class="hb-page-label">Page <span id="cPageNum">1</span> / 6</span>
+      <button id="cNext" class="hb-btn">Next →</button>
+      <a href="contractor-agreement-2026.pdf" download class="hb-btn hb-download">⬇</a>
+      <button class="hb-modal-close" id="contractSignClose">✕ Close</button>
+    </div>
+    <div class="hb-modal-body" id="contractPages">
+      <img id="contractImg" src="contract-pages/page-01.jpg" alt="Contract page 1" style="width:100%;height:auto;display:block;">
+      <!-- Signature section -->
+      <div style="padding:28px;border-top:2px solid rgba(22,21,39,0.1);background:var(--cream);">
+        <p style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:14px;">Signature</p>
+        <input id="sigName" type="text" placeholder="Full legal name" style="width:100%;padding:12px 16px;border:2px solid rgba(22,21,39,0.2);border-radius:10px;font-size:15px;font-family:var(--body);background:var(--paper);color:var(--ink);outline:none;margin-bottom:14px;">
+        <p style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.5);margin-bottom:8px;">Draw your signature below</p>
+        <canvas id="sigCanvas" style="width:100%;height:140px;border:2px solid rgba(22,21,39,0.2);border-radius:10px;background:#fff;cursor:crosshair;display:block;touch-action:none;"></canvas>
+        <button id="sigClear" style="margin-top:8px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;background:none;border:none;color:rgba(22,21,39,0.45);cursor:pointer;">Clear signature</button>
+      </div>
+    </div>
+    <div id="contractSuccess" style="display:none;padding:40px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;">✅</div>
+      <div style="font-family:var(--display);font-size:22px;font-weight:700;margin-bottom:8px;">Contract Signed</div>
+      <div style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:20px;">Your signature has been submitted to Mitchel.</div>
+      <button id="downloadSignedPdf" class="action-card-btn" style="display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 24px;">⬇ Download Signed Copy</button>
+    </div>
+    <div style="padding:16px 18px;border-top:2px solid rgba(22,21,39,0.1);background:var(--cream);flex-shrink:0;" id="contractSubmitRow">
+      <button id="contractSubmit" class="action-card-btn" style="width:100%;text-align:center;border-radius:10px;">Submit Signed Contract →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── HANDBOOK FULLSCREEN MODAL ── -->
+<div class="hb-modal" id="hbModal" role="dialog" aria-modal="true" aria-label="Employee Handbook">
+  <div class="hb-modal-inner">
+    <div class="hb-modal-toolbar">
+      <button id="hbMPrev" class="hb-btn" disabled>← Prev</button>
+      <span class="hb-page-label">Page <span id="hbMPageNum">1</span> / 18</span>
+      <button id="hbMNext" class="hb-btn">Next →</button>
+      <a href="employee-handbook-2026.pdf" download class="hb-btn hb-download">⬇</a>
+      <button class="hb-modal-close" id="hbModalClose">✕ Close</button>
+    </div>
+    <div class="hb-modal-body">
+      <img id="hbModalImg" src="handbook-pages/page-01.jpg" alt="Handbook page 1">
+    </div>
+  </div>
+</div>
+
+<!-- ── PORTAL HELP FAB ── -->
+<button id="openPortalHelp" aria-label="Get help with the portal" style="position:fixed;bottom:28px;right:24px;z-index:200;display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--paper);border:2.5px solid var(--ink);border-radius:100px;width:44px;height:44px;box-shadow:4px 4px 0 rgba(22,21,39,0.25);transition:transform 0.15s,box-shadow 0.15s;cursor:pointer;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='5px 6px 0 rgba(22,21,39,0.25)'" onmouseout="this.style.transform='';this.style.boxShadow='4px 4px 0 rgba(22,21,39,0.25)'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+</button>
+
+<!-- PORTAL HELP MODAL -->
+<div class="modal-overlay" id="portalHelpModal" style="padding:16px;">
+  <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:480px;display:flex;flex-direction:column;">
+    <div style="background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:16px 20px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:20px;">🛟</span>
+      <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Portal Help</span>
+      <button id="portalHelpClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+    </div>
+    <div style="padding:28px 24px 32px;">
+      <p style="font-size:14px;color:rgba(22,21,39,0.7);margin:0 0 20px;line-height:1.6;">Having trouble with something? Drop a message and Mitchel will get back to you.</p>
+      <form id="portalHelpForm" action="https://formspree.io/f/mkjjzgon" method="POST">
+        <input type="hidden" name="_subject" value="🛟 Portal Help Request, Urban Echo">
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.55);margin-bottom:6px;">Your name</label>
+          <input type="text" name="name" required placeholder="e.g. Sarah" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.2);border-radius:10px;font-size:14px;font-family:var(--body);background:var(--paper);color:var(--ink);outline:none;box-sizing:border-box;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.55);margin-bottom:6px;">What's the issue?</label>
+          <select name="issue_type" required style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.2);border-radius:10px;font-size:14px;font-family:var(--body);background:var(--paper);color:var(--ink);outline:none;box-sizing:border-box;">
+            <option value="" disabled selected>Select a category…</option>
+            <option>Can't log in</option>
+            <option>Page not loading</option>
+            <option>Something looks wrong</option>
+            <option>Missing information</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block;font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(22,21,39,0.55);margin-bottom:6px;">Tell me more</label>
+          <textarea name="message" required rows="4" placeholder="What were you trying to do? What happened?" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.2);border-radius:10px;font-size:14px;font-family:var(--body);background:var(--paper);color:var(--ink);outline:none;resize:vertical;box-sizing:border-box;"></textarea>
+        </div>
+        <button type="submit" style="width:100%;background:var(--ink);color:var(--paper);border:none;border-radius:12px;padding:14px;font-family:var(--mono);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Send to Mitchel</button>
+      </form>
+      <div id="portalHelpSuccess" style="display:none;text-align:center;padding:20px 0;">
+        <div style="font-size:36px;margin-bottom:12px;">✅</div>
+        <div style="font-family:var(--display);font-size:16px;margin-bottom:8px;">Got it!</div>
+        <div style="font-size:14px;color:rgba(22,21,39,0.65);line-height:1.6;">Mitchel will follow up with you soon, usually within a few hours.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLACK DM FAB ── -->
+<a href="https://app.slack.com/client/T08TSSZ4MMK" target="_blank" rel="noopener" class="wa-fab" aria-label="Message Mitchel on Slack">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
+  <span>Message Mitchel</span>
+</a>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© 2026 Urban Echo. All rights reserved.</span>
+    <span>Sound &amp; AV for Perth Schools.</span>
+  </div>
+</footer>
+
+<!-- ── KEY CONTACTS MODAL ── -->
+<div class="modal-overlay" id="contactsModal">
+  <div class="modal-box" style="max-width:560px;">
+    <button class="modal-close" id="closeContacts">✕</button>
+    <span class="modal-eyebrow">Urban Echo</span>
+    <h2>Key Contacts</h2>
+    <a href="tel:0429660186" style="display:flex;align-items:center;gap:14px;background:var(--ink);color:var(--paper);border-radius:14px;padding:16px 20px;text-decoration:none;font-weight:800;font-size:16px;margin-bottom:28px;">
+      <span style="font-size:28px;">📞</span>
+      <span>Call Mitchel Tinsley<br><span style="font-family:var(--mono);font-size:12px;font-weight:400;opacity:0.7;">0429 660 186, Owner</span></span>
+    </a>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Urban Echo</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Wes Carren</strong></span><span style="color:rgba(22,21,39,0.5);">Client Manager</span></div>
+          <div style="font-size:12px;color:rgba(22,21,39,0.5);">wes@urbanecho.com.au</div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Penrhos College</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong>, Ross</span><span style="color:rgba(22,21,39,0.5);">Events Coordinator</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Grounds</strong>, Rob</span><span style="color:rgba(22,21,39,0.5);">Facilities</span></div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Carey Baptist College</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong>, Tom</span><span style="color:rgba(22,21,39,0.5);">Events Manager</span></div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Methodist Ladies College</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong>, Doug</span><span style="color:rgba(22,21,39,0.5);">Performing Arts</span></div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Shenton College</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong>, Sarah</span><span style="color:rgba(22,21,39,0.5);">Music Department</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Caretaker</strong>, Dave</span><span style="color:rgba(22,21,39,0.5);">Access &amp; Facilities</span></div>
+        </div>
+      </div>
+
+      <div style="border:2px solid var(--line);border-radius:14px;padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:8px;">Willetton Senior High School</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span><strong>Main Contact</strong>, Karen</span><span style="color:rgba(22,21,39,0.5);">Deputy Principal</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── ROSTER EVENT DETAIL MODAL ── -->
+<div class="modal-overlay" id="rosterModal">
+  <div class="modal-box" style="max-width:520px;">
+    <button class="modal-close" id="closeRoster">✕</button>
+    <span class="modal-eyebrow" id="rosterModalDate">Urban Echo</span>
+    <h2 id="rosterModalTitle">Event Details</h2>
+    <div id="rosterModalBody"></div>
+  </div>
+</div>
+
+<!-- ── RISK ASSESSMENT MODAL ── -->
+<div class="modal-overlay" id="riskModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeRisk">✕</button>
+    <span class="modal-eyebrow">Urban Echo</span>
+    <h2>Risk Assessment</h2>
+    <form id="riskForm">
+      <div class="mfield">
+        <label>Date</label>
+        <input type="date" name="date" required>
+      </div>
+      <div class="mfield">
+        <label>Event / Job</label>
+        <input type="text" name="event" placeholder="e.g. Winter Concert" required>
+      </div>
+      <div class="mfield">
+        <label>School / Venue</label>
+        <input type="text" name="venue" placeholder="e.g. Shenton College, Main Hall" required>
+      </div>
+      <div class="mfield">
+        <label>Hazard Identified</label>
+        <textarea name="hazard" placeholder="Describe the hazard or potential risk…" required></textarea>
+      </div>
+      <div class="mfield">
+        <label>Risk Level</label>
+        <div class="risk-row" id="riskLevel">
+          <button type="button" class="risk-chip low" data-val="Low">Low</button>
+          <button type="button" class="risk-chip med" data-val="Medium">Medium</button>
+          <button type="button" class="risk-chip high" data-val="High">High</button>
+        </div>
+        <input type="hidden" name="risk_level" id="riskLevelVal">
+      </div>
+      <div class="mfield">
+        <label>Control Measures</label>
+        <textarea name="controls" placeholder="Steps taken or planned to reduce the risk…" required></textarea>
+      </div>
+      <div class="mfield">
+        <label>Submitted by</label>
+        <input type="text" name="submitted_by" placeholder="Your name" required>
+      </div>
+      <button type="submit" class="modal-submit">Submit Risk Assessment</button>
+    </form>
+    <div class="modal-success" id="riskSuccess">
+      <span class="tick">✅</span>
+      <p>Risk assessment submitted.<br>Mitchel has been notified.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── INCIDENT RESPONSE MODAL ── -->
+<div class="modal-overlay" id="incidentModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeIncident">✕</button>
+    <span class="modal-eyebrow">Urban Echo</span>
+    <h2>Incident Response</h2>
+    <form id="incidentForm">
+      <div class="mfield">
+        <label>Date &amp; Time</label>
+        <input type="datetime-local" name="datetime" required>
+      </div>
+      <div class="mfield">
+        <label>Event / Job</label>
+        <input type="text" name="event" placeholder="e.g. Sports Night" required>
+      </div>
+      <div class="mfield">
+        <label>School / Venue</label>
+        <input type="text" name="venue" placeholder="e.g. Willetton SHS, Gymnasium" required>
+      </div>
+      <div class="mfield">
+        <label>Person(s) Involved</label>
+        <input type="text" name="people" placeholder="Name(s) or 'Staff only'" required>
+      </div>
+      <div class="mfield">
+        <label>Nature of Incident</label>
+        <textarea name="nature" placeholder="Describe what happened…" required></textarea>
+      </div>
+      <div class="mfield">
+        <label>Immediate Action Taken</label>
+        <textarea name="action" placeholder="What was done at the time to address it…" required></textarea>
+      </div>
+      <div class="mfield">
+        <label>Follow-up Required?</label>
+        <select name="followup">
+          <option value="No">No, resolved on the day</option>
+          <option value="Yes - contact Mitchel">Yes, Mitchel to follow up</option>
+          <option value="Yes - escalate">Yes, escalate to school/authority</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>Submitted by</label>
+        <input type="text" name="submitted_by" placeholder="Your name" required>
+      </div>
+      <button type="submit" class="modal-submit">Submit Incident Report</button>
+    </form>
+    <div class="modal-success" id="incidentSuccess">
+      <span class="tick">✅</span>
+      <p>Incident report submitted.<br>Mitchel has been notified.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── TEAM FEEDBACK MODAL ── -->
+<div class="modal-overlay" id="feedbackModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeFeedback">✕</button>
+    <span class="modal-eyebrow">Urban Echo</span>
+    <h2>Team Feedback</h2>
+    <form id="feedbackForm">
+      <div class="mfield">
+        <label>Your Name</label>
+        <input type="text" name="submitted_by" placeholder="Your name" required>
+      </div>
+      <div class="mfield">
+        <label>Type of Feedback</label>
+        <select name="feedback_type">
+          <option value="Idea">New idea or suggestion</option>
+          <option value="Process">Process improvement</option>
+          <option value="Equipment">Equipment or gear</option>
+          <option value="General">General feedback</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>Your Feedback</label>
+        <textarea name="feedback" placeholder="Share your thoughts, ideas, or suggestions…" required style="min-height:120px;"></textarea>
+      </div>
+      <button type="submit" class="modal-submit">Submit Feedback</button>
+    </form>
+    <div class="modal-success" id="feedbackSuccess">
+      <span class="tick">✅</span>
+      <p>Thanks for the feedback!<br>Mitchel will review it shortly.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Config ───────────────────────────────────────────────────
+var PUBLISHABLE_KEY  = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
+var SUPABASE_URL     = 'https://wqmtdccrclhhtiwfgcgl.supabase.co';
+var SUPABASE_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxbXRkY2NyY2xoaHRpd2ZnY2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDk3OTEsImV4cCI6MjA5OTcyNTc5MX0.6FQZFzUJirFogCdJvzLYU-obG0RYFhtOpYZ1odlqP5M';
+var clerkInstance    = null;
+var supabaseClient   = null;
+
+function doLogout(){
+  if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('/login'); }); }
+  else { window.location.replace('/login'); }
+}
+
+(async function initPortal(){
+  var loader = document.getElementById('authLoader');
+  try {
+    // ── Load Clerk ──
+    await new Promise(function(resolve, reject){
+      var s = document.createElement('script');
+      s.setAttribute('data-clerk-publishable-key', PUBLISHABLE_KEY);
+      s.crossOrigin = 'anonymous';
+      s.src = 'https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+
+    await new Promise(function(resolve){
+      function check(){ if(window.Clerk){ resolve(); } else { setTimeout(check, 50); } }
+      check();
+    });
+
+    clerkInstance = window.Clerk;
+    await clerkInstance.load();
+
+    // Poll up to 5 seconds for a valid user session
+    var user = clerkInstance.user;
+    if(!user){
+      await new Promise(function(resolve){
+        var attempts = 0;
+        var t = setInterval(function(){
+          if(clerkInstance.user || attempts >= 10){ clearInterval(t); resolve(); }
+          attempts++;
+        }, 500);
+      });
+      user = clerkInstance.user;
+    }
+
+    if(!user){ window.location.replace('/login'); return; }
+
+    // ── Get Supabase JWT from Clerk (optional — falls back to anon key) ──
+    var supabaseToken = null;
+    try { supabaseToken = await clerkInstance.session.getToken({ template: 'supabase' }); } catch(e) {}
+
+    // ── Init Supabase ──
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON,
+      supabaseToken ? { global: { headers: { Authorization: 'Bearer ' + supabaseToken } } } : {}
+    );
+
+    var userEmail = user.emailAddresses[0].emailAddress;
+
+    // ── Fetch profile from Supabase ──
+    var { data: profile, error } = await supabaseClient
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+    // Fallback: look up by email (for users invited before they had a Clerk ID)
+    if(!profile && userEmail){
+      var { data: profileByEmail } = await supabaseClient
+        .from('profiles')
+        .select('*')
+        .eq('email', userEmail)
+        .single();
+      if(profileByEmail) profile = profileByEmail;
+    }
+
+    // ── Show portal ──
+    loader.classList.remove('show');
+    document.body.classList.remove('auth-pending');
+    document.getElementById('logoutBtn').addEventListener('click', doLogout);
+
+    // ── Load Rentman roster for this user ──
+
+    // Determine role from profile, fallback to email check for mitchel
+    var role = (profile && profile.role) ? profile.role : 'team';
+    if(userEmail === 'mitchel@urbanecho.com.au') role = 'super_admin';
+
+    // Render role-based quick links
+    renderQuickLinks(role);
+
+    // Show role badge in nav
+    var roleBadge = document.getElementById('portalRoleBadge');
+    if(roleBadge){
+      var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
+      var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
+      roleBadge.textContent = ROLE_LABELS[role] || role;
+      roleBadge.style.color = ROLE_COLORS[role] || 'var(--ink)';
+      roleBadge.style.display = 'inline-block';
+    }
+
+    // Welcome email templates visible to super_admin and team_manager
+    if(role === 'super_admin' || role === 'team_manager'){
+      document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
+      document.getElementById('openWelcomeEmail2Portal').style.display = 'flex';
+      document.getElementById('openSlackWelcomePortal').style.display = 'flex';
+    }
+    // Email Signature + Growth calculator + Add Crew — super_admin only
+    if(role === 'super_admin'){
+      document.getElementById('emailSignatureCard').style.display = 'flex';
+      document.getElementById('bigVisionSection').style.display = '';
+      document.getElementById('addCrewSection').style.display = 'block';
+      loadCrewUsers();
+    }
+
+    loadRentmanRoster(userEmail);
+
+    if(profile){
+      // Name
+      var fullName = [profile.first_name, profile.last_name].filter(Boolean).join(' ');
+      var displayName = fullName || user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
+      document.getElementById('portalUserName').textContent = displayName;
+
+      // WWC
+      document.querySelector('.wwc-card .wwc-name').textContent = fullName || profile.first_name;
+      document.querySelector('.wwc-card .wwc-meta').textContent =
+        'Card No. ' + profile.wwc_number +
+        '  ·  Issued: ' + formatDate(profile.wwc_issued) +
+        '  ·  Expires: ' + formatDate(profile.wwc_expiry);
+      updateCountdown('wwc', profile.wwc_expiry, 'Working With Children Check');
+
+      // Police
+      document.querySelector('#policeCard .wwc-name').textContent = fullName || profile.first_name;
+      document.querySelector('#policeCard .wwc-meta').textContent =
+        'Ref No. ' + profile.police_ref +
+        '  ·  Issued: ' + formatDate(profile.police_issued) +
+        '  ·  Expires: ' + formatDate(profile.police_expiry);
+      updateCountdown('police', profile.police_expiry, 'National Police Clearance');
+
+    } else {
+      // Fallback to Clerk name if no profile found
+      var displayName = user.firstName || user.emailAddresses[0].emailAddress.split('@')[0];
+      displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+      document.getElementById('portalUserName').textContent = displayName;
+      if(error) console.warn('Supabase profile error:', error.message);
+      // Clear hardcoded WWC data so it doesn't show another user's details
+      var wwcNameEls = document.querySelectorAll('.wwc-name');
+      var wwcMetaEls = document.querySelectorAll('.wwc-meta');
+      wwcNameEls.forEach(function(el){ el.textContent = displayName; });
+      wwcMetaEls.forEach(function(el){ el.textContent = 'No data — contact Mitchel to update your profile'; });
+      var wwcEl = document.getElementById('wwcCountdown');
+      var policeEl = document.getElementById('policeCountdown');
+      if(wwcEl) wwcEl.textContent = '';
+      if(policeEl) policeEl.textContent = '';
+    }
+
+  } catch(err) {
+    console.error('Portal init error:', err);
+    var loader = document.getElementById('authLoader');
+    if(loader) { loader.innerHTML = '<p style="color:var(--orange);font-family:var(--mono);font-size:14px;">Something went wrong loading the portal. <a href="/login">Try signing in again</a>.</p>'; loader.classList.add('show'); }
+  }
+})();
+
+// ── Quick Links, role-based ─────────────────────────────────
+var QUICK_LINKS = {
+  team_chat:    { action:'Team Chat',        desc:'Stay in the loop, crew announcements, event updates and team comms.',     app:'Slack',      favicon:'https://www.google.com/s2/favicons?domain=slack.com&sz=32',              href:'https://app.slack.com/' },
+  view_shifts:  { action:'View Shifts',      desc:'See your upcoming events and confirmed job schedule.',                    app:'Rentman',    favicon:'https://www.google.com/s2/favicons?domain=rentmanapp.com&sz=32',         href:'https://rentmanapp.com/' },
+  apply_leave:  { action:'Apply for Leave',  desc:'Request time off or update your availability for upcoming events.',      app:'Rentman',    favicon:'https://www.google.com/s2/favicons?domain=rentmanapp.com&sz=32',         href:'https://rentmanapp.com/' },
+  task_mgmt:    { action:'Task Management',  desc:'Track tasks, projects, checklists and applications.',                    app:'ClickUp',    favicon:'https://www.google.com/s2/favicons?domain=clickup.com&sz=32',            href:'https://app.clickup.com/' },
+  finances:     { action:'Manage Finances',  desc:'Invoices, expenses, payroll and financial reporting.',                   app:'QuickBooks', favicon:'https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=32',  href:'https://app.qbo.intuit.com/' },
+  email:        { action:'Email',            desc:'Client correspondence, welcome emails and enquiries.',                   app:'Gmail',      favicon:'https://www.google.com/s2/favicons?domain=mail.google.com&sz=32',        href:'https://mail.google.com/' },
+  supabase:     { action:'Database',          desc:'Database, edge functions, authentication and storage.',                   app:'Supabase',   favicon:'https://www.google.com/s2/favicons?domain=supabase.com&sz=32',            href:'https://supabase.com/dashboard' },
+  clerk:        { action:'User Management',  desc:'User accounts, sessions and authentication management.',                  app:'Clerk',      favicon:'https://www.google.com/s2/favicons?domain=clerk.com&sz=32',              href:'https://dashboard.clerk.com' }
+};
+
+var ROLE_LINKS = {
+  team:         ['team_chat','view_shifts','apply_leave'],
+  team_manager: ['team_chat','view_shifts','apply_leave','task_mgmt'],
+  super_admin:  ['team_chat','view_shifts','apply_leave','task_mgmt','finances','email','supabase','clerk']
+};
+
+function renderQuickLinks(role){
+  var grid = document.getElementById('quickLinksGrid');
+  if(!grid) return;
+  var keys = ROLE_LINKS[role] || ROLE_LINKS.team;
+  grid.innerHTML = keys.map(function(key){
+    var l = QUICK_LINKS[key];
+    return '<a class="ql-card" href="'+l.href+'" target="_blank" rel="noopener">'+
+      '<h3 class="ql-action">'+l.action+'</h3>'+
+      '<div class="ql-desc">'+l.desc+'</div>'+
+      '<div class="ql-app-bubble">'+
+        '<img src="'+l.favicon+'" alt="" width="16" height="16">'+
+        '<span>'+l.app+'</span>'+
+      '</div>'+
+    '</a>';
+  }).join('');
+}
+
+function formatDate(dateStr){
+  if(!dateStr) return '—';
+  var d = new Date(dateStr);
+  return d.toLocaleDateString('en-AU', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+function updateCountdown(type, expiryStr, label){
+  var expiry = new Date(expiryStr);
+  var today  = new Date(); today.setHours(0,0,0,0);
+  var days   = Math.round((expiry - today) / 86400000);
+  var el     = document.getElementById(type + 'Countdown');
+  var card   = document.getElementById(type + 'Card');
+  var labelEl = document.getElementById(type + 'Label');
+  if(!el) return;
+
+  if(days > 30){
+    el.textContent = days + ' days until renewal required';
+  } else if(days > 0){
+    el.textContent = days + ' day' + (days !== 1 ? 's' : '') + ' until expiry, renew soon';
+    el.classList.add('urgent'); card.classList.add('urgent');
+    labelEl.textContent = '⚠️ ' + label + ', Expiring Soon';
+  } else if(days === 0){
+    el.textContent = 'Expires today, renew immediately';
+    el.classList.add('urgent'); card.classList.add('urgent');
+    labelEl.textContent = '⚠️ ' + label + ', Expires Today';
+  } else {
+    el.textContent = 'Expired ' + Math.abs(days) + ' day' + (Math.abs(days) !== 1 ? 's' : '') + ' ago';
+    el.classList.add('urgent'); card.classList.add('urgent');
+    labelEl.textContent = '⚠️ ' + label + ', EXPIRED';
+  }
+}
+
+
+
+// ── Add Crew ─────────────────────────────────────────────────
+async function loadCrewUsers(){
+  var list = document.getElementById('crewUserList');
+  try {
+    var { data: profiles, error } = await supabaseClient
+      .from('profiles')
+      .select('id, first_name, last_name, role, email')
+      .order('first_name', { ascending: true });
+    if(error || !profiles || profiles.length === 0){
+      list.innerHTML = '<div style="font-size:13px;color:rgba(22,21,39,0.4);">No profiles found.</div>';
+      return;
+    }
+    var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
+    var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
+    list.innerHTML = profiles.map(function(p){
+      var name = [p.first_name, p.last_name].filter(Boolean).join(' ') || '—';
+      var effectiveRole = p.email === 'mitchel@urbanecho.com.au' ? 'super_admin' : p.role;
+      var roleLabel = ROLE_LABELS[effectiveRole] || 'Team / General Crew';
+      var roleColor = ROLE_COLORS[effectiveRole] || 'var(--forest)';
+      var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
+      return '<div class="crew-user-row">'+
+        '<div><div class="crew-user-name">'+name+'</div>'+emailStr+'</div>'+
+        '<span class="crew-role-badge" style="color:'+roleColor+'">'+roleLabel+'</span>'+
+      '</div>';
+    }).join('');
+  } catch(e){
+    list.innerHTML = '<div style="font-size:13px;color:rgba(22,21,39,0.4);">Could not load users.</div>';
+  }
+}
+
+async function sendInvite(){
+  var email = (document.getElementById('inviteEmail').value || '').trim();
+  var first = (document.getElementById('inviteFirst').value || '').trim();
+  var last  = (document.getElementById('inviteLast').value || '').trim();
+  var role  = document.getElementById('inviteRole').value;
+  var msg   = document.getElementById('inviteMsg');
+  var btn   = document.getElementById('inviteBtn');
+  if(!email){ showInviteMsg('Please enter an email address.', false); return; }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    var res = await fetch(SUPABASE_URL + '/functions/v1/invite-crew', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + SUPABASE_ANON
+      },
+      body: JSON.stringify({ email: email, first_name: first, last_name: last, role: role })
+    });
+    var json = await res.json().catch(function(){ return {}; });
+    if(res.ok){
+      showInviteMsg('Invite sent to ' + email + '!', true);
+      document.getElementById('inviteEmail').value = '';
+      document.getElementById('inviteFirst').value = '';
+      document.getElementById('inviteLast').value  = '';
+      loadCrewUsers();
+    } else {
+      showInviteMsg(json.error || 'Failed to send invite. Check Supabase edge function is deployed.', false);
+    }
+  } catch(e){
+    showInviteMsg('Network error — is the invite-crew edge function deployed?', false);
+  }
+  btn.disabled = false; btn.textContent = 'Send Invite →';
+}
+
+function showInviteMsg(text, ok){
+  var el = document.getElementById('inviteMsg');
+  el.style.display = 'block';
+  el.style.background = ok ? 'rgba(74,174,116,0.1)' : 'rgba(244,97,46,0.1)';
+  el.style.color = ok ? 'var(--forest)' : 'var(--orange)';
+  el.style.border = '1.5px solid ' + (ok ? 'var(--forest)' : 'var(--orange)');
+  el.textContent = text;
+}
+
+// ── Rentman roster ───────────────────────────────────────────
+var PROXY = SUPABASE_URL + '/functions/v1/rentman-proxy';
+
+async function rentmanGet(path){
+  var r = await fetch(PROXY + path, {
+    headers: { Authorization: 'Bearer ' + SUPABASE_ANON }
+  });
+  if(!r.ok) throw new Error('Rentman ' + path + ' ' + r.status);
+  return r.json();
+}
+
+async function loadRentmanRoster(userEmail){
+  var list = document.querySelector('.roster-list');
+  var source = document.querySelector('.roster-source');
+  try {
+    // 1. Find crew member whose email matches the logged-in user
+    var crewData = await rentmanGet('/crew?limit=100');
+    var members = crewData.data || [];
+    var me = members.find(function(m){
+      return (m.email || '').toLowerCase() === userEmail.toLowerCase();
+    });
+
+    if(!me){
+      if(source) source.textContent = 'No Rentman crew profile found for ' + userEmail;
+      return;
+    }
+
+    // 2. Fetch planning items assigned to this crew member (upcoming)
+    var today = new Date().toISOString().split('T')[0];
+    var planData = await rentmanGet('/planningitems?crew=' + encodeURIComponent(me.id) + '&usageperiod_from=' + today + '&limit=50&sort=usageperiod_from');
+    var items = planData.data || [];
+
+    if(items.length === 0){
+      list.innerHTML = '<p style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);padding:16px 0;">No upcoming jobs found.</p>';
+      if(source) source.textContent = 'Live data from Rentman';
+      return;
+    }
+
+    // 3. Fetch project details for each unique project
+    var projectIds = [...new Set(items.map(function(i){ return i.project_id; }).filter(Boolean))];
+    var projects = {};
+    await Promise.all(projectIds.map(async function(pid){
+      try {
+        var pData = await rentmanGet('/projects/' + pid);
+        if(pData.data) projects[pid] = pData.data;
+      } catch(e){}
+    }));
+
+    // 4. Render
+    list.innerHTML = items.map(function(item){
+      var proj = projects[item.project_id] || {};
+      var from = item.usageperiod_from ? new Date(item.usageperiod_from) : null;
+      var to   = item.usageperiod_to   ? new Date(item.usageperiod_to)   : null;
+      var day  = from ? from.getDate() : '?';
+      var mon  = from ? from.toLocaleDateString('en-AU', { month:'short', year:'numeric' }) : '';
+      var time = '';
+      if(from && to){
+        time = from.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false}) +
+               '–' + to.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false});
+      }
+      var name    = proj.name || item.remark || 'Unnamed Job';
+      var location = proj.location || proj.usageperiod_location || '';
+      var status   = (proj.status || '').toLowerCase();
+      var badge = status === 'confirmed' || status === 'in_progress'
+        ? '<span class="roster-badge confirmed">Confirmed</span>'
+        : '<span class="roster-badge pending">Pending</span>';
+      var sub = [location, time, item.function || ''].filter(Boolean).join(' · ');
+      return '<div class="roster-item">' +
+        '<div class="roster-date"><span>' + day + '</span>' + mon + '</div>' +
+        '<div class="roster-detail"><h4>' + escHtml(name) + '</h4>' +
+        (sub ? '<p>' + escHtml(sub) + '</p>' : '') + '</div>' +
+        badge + '</div>';
+    }).join('');
+
+    if(source) source.textContent = 'Live data from Rentman · Updated just now';
+
+  } catch(err){
+    console.warn('Rentman roster error:', err);
+    if(source) source.textContent = 'Could not load Rentman data, showing saved roster';
+  }
+}
+
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Risk level chips ─────────────────────────────────────────
+document.querySelectorAll('#riskLevel .risk-chip').forEach(function(chip){
+  chip.addEventListener('click', function(){
+    document.querySelectorAll('#riskLevel .risk-chip').forEach(function(c){ c.classList.remove('sel'); });
+    this.classList.add('sel');
+    document.getElementById('riskLevelVal').value = this.dataset.val;
+  });
+});
+
+// ── Modals ───────────────────────────────────────────────────
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+document.getElementById('openRiskBtn').addEventListener('click', function(){ openModal('riskModal'); });
+document.getElementById('openIncidentBtn').addEventListener('click', function(){ openModal('incidentModal'); });
+document.getElementById('openContactsBtn').addEventListener('click', function(){ openModal('contactsModal'); });
+document.getElementById('closeRisk').addEventListener('click', function(){ closeModal('riskModal'); });
+document.getElementById('closeIncident').addEventListener('click', function(){ closeModal('incidentModal'); });
+document.getElementById('closeContacts').addEventListener('click', function(){ closeModal('contactsModal'); });
+document.getElementById('closeRoster').addEventListener('click', function(){ closeModal('rosterModal'); });
+document.getElementById('openFeedback').addEventListener('click', function(){ openModal('feedbackModal'); });
+document.getElementById('closeFeedback').addEventListener('click', function(){ closeModal('feedbackModal'); });
+
+['riskModal','incidentModal','contactsModal','rosterModal'].forEach(function(id){
+  document.getElementById(id).addEventListener('click', function(e){
+    if(e.target === this) closeModal(id);
+  });
+});
+
+// ── Roster event detail popup ─────────────────────────────────
+var ROSTER_EVENTS = [
+  {
+    date: '28 Jun 2026', title: 'Perth Modern School, Year 12 Valedictory Assembly',
+    wear: 'All black (smart casual), collared shirt preferred.',
+    gear: 'Main PA (2× tops + sub), 2× Lapel wireless mics, DI box, Laptop playback, Projector HDMI.',
+    notes: 'Load-in from 07:30. Ceremony starts 09:00 sharp. Coordinate with Ross for parking. Stage left for desk position.'
+  },
+  {
+    date: '02 Jul 2026', title: 'Shenton College, Winter Arts Concert',
+    wear: 'All black (smart casual).',
+    gear: 'Full PA rig, Stage lighting (4-bar LED), 4× handheld wireless, 2× monitor wedges, USB playback.',
+    notes: 'Bump-in from 15:00. Sound check with bands at 16:30. Sarah is your contact for the evening. Stage door code: 4421.'
+  },
+  {
+    date: '08 Jul 2026', title: 'Willetton SHS, ATAR Results Ceremony',
+    wear: 'All black.',
+    gear: 'Main PA, 1× lapel wireless, Projector + screen, MacBook for livestream (check OBS settings beforehand).',
+    notes: 'Arrive 08:30 for setup. Livestream goes to school Facebook page. Karen (Deputy) runs the schedule.'
+  },
+  {
+    date: '15 Jul 2026', title: 'Canning Vale College, Sports Presentation Evening',
+    wear: 'Smart black, this is a formal evening.',
+    gear: 'Main PA, 2× handheld wireless, Background music playlist (request from school), Lectern mic.',
+    notes: 'TBC, pending confirmation. Call main office if no contact by 10 Jul. Parking at rear of main hall.'
+  },
+  {
+    date: '22 Jul 2026', title: 'Applecross SHS, Music Night',
+    wear: 'All black (smart).',
+    gear: 'Full band PA (FOH + monitors), IEM system (2× packs), Stage box + 30m snake, DI × 4, Drum kit mics.',
+    notes: 'Complex show, arrive 14:00 for full band soundcheck at 16:30. IEM mix for band director. Venue contact is the music HOD.'
+  },
+  {
+    date: '05 Aug 2026', title: 'John Curtin College, Drama Production (Night 1)',
+    wear: 'All black (theatre blacks).',
+    gear: 'Theatre PA (flown system already rigged), 6× body-pack wireless, Stage comms (2× belt packs), Zoom H6 for recording.',
+    notes: 'Night 1 of 3. Pre-show brief with director at 17:30. Recording output to USB, label "Night1_JCCA_Aug2026". Check comms batteries before every show.'
+  }
+];
+
+document.querySelectorAll('.roster-item[data-event]').forEach(function(item){
+  item.addEventListener('click', function(){
+    var ev = ROSTER_EVENTS[parseInt(this.dataset.event)];
+    if(!ev) return;
+    document.getElementById('rosterModalDate').textContent = ev.date;
+    document.getElementById('rosterModalTitle').textContent = ev.title;
+    document.getElementById('rosterModalBody').innerHTML =
+      '<div style="display:flex;flex-direction:column;gap:16px;margin-top:4px;">' +
+        detailBlock('👔', 'What to Wear', ev.wear) +
+        detailBlock('🎛️', 'Gear to Pack', ev.gear) +
+        detailBlock('📝', 'Extra Notes', ev.notes) +
+      '</div>';
+    openModal('rosterModal');
+  });
+});
+
+function detailBlock(icon, label, text){
+  return '<div style="background:var(--cream);border-radius:12px;padding:14px 16px;">' +
+    '<div style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:6px;">' + icon + ' ' + label + '</div>' +
+    '<div style="font-size:12px;line-height:1.6;color:rgba(22,21,39,0.85);">' + text + '</div>' +
+  '</div>';
+}
+
+// ── Form submissions via Formspree ───────────────────────────
+function submitForm(formId, successId, subject){
+  var form = document.getElementById(formId);
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var data = Object.fromEntries(new FormData(form));
+    data._subject = subject;
+    fetch('https://formspree.io/f/mlgyjyej', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function(r){
+      if(r.ok){
+        form.style.display = 'none';
+        document.getElementById(successId).style.display = 'block';
+      }
+    }).catch(function(){});
+  });
+}
+
+submitForm('riskForm', 'riskSuccess', '⚠️ Risk Assessment, Urban Echo Portal');
+submitForm('incidentForm', 'incidentSuccess', '🚨 Incident Report, Urban Echo Portal');
+submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback, Urban Echo Portal');
+
+// ── Employee Handbook page navigator (2-up spread) ──────────
+(function(){
+  var totalPages  = 18;
+  var currentPage = 1; // always odd: 1,3,5…
+
+  var img1    = document.getElementById('handbookImg');
+  var img2    = document.getElementById('handbookImg2');
+  var numEl   = document.getElementById('hbPageNum');
+  var prevBtn = document.getElementById('hbPrev');
+  var nextBtn = document.getElementById('hbNext');
+
+  // Modal
+  var modal    = document.getElementById('hbModal');
+  var mImg     = document.getElementById('hbModalImg');
+  var mNumEl   = document.getElementById('hbMPageNum');
+  var mPrevBtn = document.getElementById('hbMPrev');
+  var mNextBtn = document.getElementById('hbMNext');
+  var closeBtn = document.getElementById('hbModalClose');
+
+  function pageUrl(page){
+    var p = page < 10 ? '0' + page : '' + page;
+    return 'handbook-pages/page-' + p + '.jpg';
+  }
+
+  function goTo(page){
+    // snap to odd so spreads are always 1-2, 3-4, 5-6 …
+    currentPage = Math.max(1, Math.min(totalPages, page % 2 === 0 ? page - 1 : page));
+    var right = currentPage + 1;
+    img1.src = pageUrl(currentPage);
+    img1.alt = 'Handbook page ' + currentPage;
+    if(right <= totalPages){
+      img2.src = pageUrl(right);
+      img2.alt = 'Handbook page ' + right;
+      img2.style.display = '';
+    } else {
+      img2.style.display = 'none';
+    }
+    numEl.textContent = currentPage + (right <= totalPages ? '–' + right : '');
+    mNumEl.textContent = numEl.textContent;
+    prevBtn.disabled = mPrevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = mNextBtn.disabled = currentPage + 2 > totalPages;
+  }
+
+  // Prev/next move by 2 pages
+  prevBtn.addEventListener('click', function(){ goTo(currentPage - 2); });
+  nextBtn.addEventListener('click', function(){ goTo(currentPage + 2); });
+  mPrevBtn.addEventListener('click', function(){ goTo(currentPage - 2); });
+  mNextBtn.addEventListener('click', function(){ goTo(currentPage + 2); });
+
+  // Open modal on click, modal shows left page full-width
+  img1.addEventListener('click', openModal);
+  img2.addEventListener('click', openModal);
+  function openModal(){
+    mImg.src = pageUrl(currentPage);
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+
+  goTo(1);
+})();
+
+// ── Contractor Agreement signing modal ───────────────────────
+(function(){
+  var totalPages  = 6;
+  var currentPage = 1;
+  var signatureData = null;
+  var drawing = false;
+
+  var openBtn   = document.getElementById('openContractSign');
+  var modal     = document.getElementById('contractSignModal');
+  var closeBtn  = document.getElementById('contractSignClose');
+  var pages     = document.getElementById('contractPages');
+  var cPrev     = document.getElementById('cPrev');
+  var cNext     = document.getElementById('cNext');
+  var cPageNum  = document.getElementById('cPageNum');
+  var cImg      = document.getElementById('contractImg');
+  var canvas    = document.getElementById('sigCanvas');
+  var ctx       = canvas.getContext('2d');
+  var clearBtn  = document.getElementById('sigClear');
+  var submitBtn = document.getElementById('contractSubmit');
+  var successEl = document.getElementById('contractSuccess');
+
+  if(!openBtn) return;
+
+  function contractPageUrl(p){
+    var pp = p < 10 ? '0' + p : '' + p;
+    return 'contract-pages/page-' + pp + '.jpg';
+  }
+
+  function goTo(p){
+    currentPage = Math.max(1, Math.min(totalPages, p));
+    cImg.src = contractPageUrl(currentPage);
+    cPageNum.textContent = currentPage;
+    cPrev.disabled = currentPage <= 1;
+    cNext.disabled = currentPage >= totalPages;
+  }
+
+  cPrev.addEventListener('click', function(){ goTo(currentPage - 1); });
+  cNext.addEventListener('click', function(){ goTo(currentPage + 1); });
+
+  // Signature pad
+  function resizeCanvas(){
+    var rect = canvas.getBoundingClientRect();
+    canvas.width  = rect.width;
+    canvas.height = rect.height;
+    ctx.strokeStyle = '#161527';
+    ctx.lineWidth   = 2.5;
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+  }
+
+  function getPos(e){
+    var rect = canvas.getBoundingClientRect();
+    var src  = e.touches ? e.touches[0] : e;
+    return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+  }
+
+  canvas.addEventListener('mousedown',  function(e){ drawing=true; ctx.beginPath(); var p=getPos(e); ctx.moveTo(p.x,p.y); });
+  canvas.addEventListener('mousemove',  function(e){ if(!drawing)return; var p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); });
+  canvas.addEventListener('mouseup',    function(){ drawing=false; signatureData=canvas.toDataURL(); });
+  canvas.addEventListener('mouseleave', function(){ drawing=false; });
+  canvas.addEventListener('touchstart', function(e){ e.preventDefault(); drawing=true; ctx.beginPath(); var p=getPos(e); ctx.moveTo(p.x,p.y); },{passive:false});
+  canvas.addEventListener('touchmove',  function(e){ e.preventDefault(); if(!drawing)return; var p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); },{passive:false});
+  canvas.addEventListener('touchend',   function(){ drawing=false; signatureData=canvas.toDataURL(); });
+
+  clearBtn.addEventListener('click', function(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    signatureData = null;
+  });
+
+  var lastSignedName = '';
+  var lastSignedAt   = '';
+  var lastSignedData = null;
+
+  function generateSignedPDF(name, sigDataUrl, signedAt) {
+    var jsPDF = window.jspdf ? window.jspdf.jsPDF : null;
+    if(!jsPDF){ alert('PDF library not loaded. Please refresh and try again.'); return; }
+    var doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+    var pageW = doc.internal.pageSize.getWidth();
+    var pageH = doc.internal.pageSize.getHeight();
+
+    var contractImg = new Image();
+    contractImg.crossOrigin = 'anonymous';
+    contractImg.onload = function(){
+      // Contract last page, top 62% of the page
+      var margin = 10;
+      var contractAreaH = pageH * 0.62;
+      doc.addImage(contractImg, 'JPEG', margin, margin, pageW - margin * 2, contractAreaH);
+
+      // Divider
+      var y = contractAreaH + margin + 6;
+      doc.setDrawColor(200, 200, 200);
+      doc.line(margin, y, pageW - margin, y);
+      y += 7;
+
+      // "Digitally signed by" label
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.setTextColor(150, 150, 150);
+      doc.text('DIGITALLY SIGNED BY', margin, y);
+      y += 5;
+
+      // Name
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.setTextColor(22, 21, 39);
+      doc.text(name, margin, y);
+      y += 3;
+
+      // Signature image
+      var sigImg = new Image();
+      sigImg.onload = function(){
+        var sigW = 90, sigH = 22;
+        doc.addImage(sigImg, 'PNG', margin, y, sigW, sigH);
+        y += sigH + 4;
+
+        // Signature line
+        doc.setDrawColor(22, 21, 39);
+        doc.line(margin, y, margin + sigW, y);
+        y += 4;
+
+        // Date
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(100, 100, 100);
+        doc.text('Date signed: ' + signedAt, margin, y);
+
+        // Footer
+        doc.setFontSize(7);
+        doc.setTextColor(160, 160, 160);
+        doc.text('Contractor Agreement (Sole Trader), Urban Echo June 2026', margin, pageH - 6);
+
+        var safeName = name.replace(/[^a-zA-Z0-9]/g, '-');
+        doc.save('Urban-Echo-Signed-Contract-' + safeName + '.pdf');
+      };
+      sigImg.src = sigDataUrl;
+    };
+    contractImg.src = 'contract-pages/page-06.jpg';
+  }
+
+  submitBtn.addEventListener('click', function(){
+    if(!signatureData){ alert('Please sign before submitting.'); return; }
+    var name = document.getElementById('sigName').value.trim();
+    if(!name){ alert('Please enter your full name.'); return; }
+    var signedAt = new Date().toLocaleString('en-AU', { dateStyle:'long', timeStyle:'short' });
+    lastSignedName = name;
+    lastSignedAt   = signedAt;
+    lastSignedData = signatureData;
+
+    fetch('https://formspree.io/f/mlgyjyej', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        _subject: '✍️ Contract Signed, Urban Echo',
+        name: name,
+        document: 'Contractor Agreement (Sole Trader) June 2026',
+        signed_at: signedAt,
+        signature: signatureData
+      })
+    }).then(function(r){
+      if(r.ok){
+        pages.style.display = 'none';
+        submitBtn.style.display = 'none';
+        successEl.style.display = 'block';
+        generateSignedPDF(lastSignedName, lastSignedData, lastSignedAt);
+        // Update action card to show signed
+        var card = document.querySelector('.action-card');
+        if(card){
+          card.style.borderColor = 'var(--forest)';
+          card.style.boxShadow   = '5px 5px 0 var(--forest)';
+          card.querySelector('.action-card-label').textContent = '✔ Signed';
+          card.querySelector('.action-card-label').style.color = 'var(--forest)';
+          card.querySelector('.action-card-btn').style.display = 'none';
+        }
+      }
+    }).catch(function(){});
+  });
+
+  document.getElementById('downloadSignedPdf').addEventListener('click', function(){
+    if(lastSignedData) generateSignedPDF(lastSignedName, lastSignedData, lastSignedAt);
+  });
+
+  function openModal(){
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    goTo(1);
+    setTimeout(resizeCanvas, 50);
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+})();
+
+// ── Welcome Email modal (admin only) ─────────────────────────
+(function(){
+  var btn   = document.getElementById('openWelcomeEmailPortal');
+  var modal = document.getElementById('welcomeEmailPortalModal');
+  var close = document.getElementById('welcomeEmailPortalClose');
+  var copyBtn = document.getElementById('copyWelcomeEmailPortal');
+  if(!btn||!modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  btn.addEventListener('click', openM);
+  close.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+  copyBtn.addEventListener('click', async function(){
+    var html = document.getElementById('welcomeEmailPortalHTML').innerHTML;
+    try {
+      await navigator.clipboard.write([new ClipboardItem({'text/html': new Blob([html], {type:'text/html'}), 'text/plain': new Blob([document.getElementById('welcomeEmailPortalHTML').innerText], {type:'text/plain'})})]);
+      copyBtn.textContent = '✓ Copied!';
+    } catch(e) {
+      var ta = document.createElement('textarea'); ta.value = document.getElementById('welcomeEmailPortalHTML').innerText;
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      copyBtn.textContent = '✓ Copied (plain text)';
+    }
+    setTimeout(function(){ copyBtn.textContent = 'Copy Email'; }, 2500);
+  });
+})();
+
+// ── Welcome Email Stage 2 modal ──────────────────────────────
+(function(){
+  var btn   = document.getElementById('openWelcomeEmail2Portal');
+  var modal = document.getElementById('welcomeEmail2PortalModal');
+  var close = document.getElementById('welcomeEmail2PortalClose');
+  var copyBtn = document.getElementById('copyWelcomeEmail2Portal');
+  if(!btn||!modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  btn.addEventListener('click', openM);
+  close.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+  copyBtn.addEventListener('click', async function(){
+    var html = document.getElementById('welcomeEmail2PortalHTML').innerHTML;
+    try {
+      await navigator.clipboard.write([new ClipboardItem({'text/html': new Blob([html], {type:'text/html'}), 'text/plain': new Blob([document.getElementById('welcomeEmail2PortalHTML').innerText], {type:'text/plain'})})]);
+      copyBtn.textContent = '✓ Copied!';
+    } catch(e) {
+      var ta = document.createElement('textarea'); ta.value = document.getElementById('welcomeEmail2PortalHTML').innerText;
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      copyBtn.textContent = '✓ Copied (plain text)';
+    }
+    setTimeout(function(){ copyBtn.textContent = 'Copy Email'; }, 2500);
+  });
+})();
+
+// ── Slack Welcome Message modal ───────────────────────────────
+(function(){
+  var btn     = document.getElementById('openSlackWelcomePortal');
+  var modal   = document.getElementById('slackWelcomePortalModal');
+  var close   = document.getElementById('slackWelcomePortalClose');
+  var copyBtn = document.getElementById('copySlackWelcomePortal');
+  if(!btn||!modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  btn.addEventListener('click', openM);
+  close.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+  copyBtn.addEventListener('click', function(){
+    var text = document.getElementById('slackWelcomePortalText').innerText;
+    try {
+      navigator.clipboard.writeText(text);
+      copyBtn.textContent = '✓ Copied!';
+    } catch(e) {
+      var ta = document.createElement('textarea'); ta.value = text;
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      copyBtn.textContent = '✓ Copied!';
+    }
+    setTimeout(function(){ copyBtn.textContent = 'Copy Message'; }, 2500);
+  });
+})();
+
+// ── Portal Help modal ────────────────────────────────────────
+(function(){
+  var btn   = document.getElementById('openPortalHelp');
+  var modal = document.getElementById('portalHelpModal');
+  var close = document.getElementById('portalHelpClose');
+  var form  = document.getElementById('portalHelpForm');
+  var success = document.getElementById('portalHelpSuccess');
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; form.style.display=''; success.style.display='none'; form.reset(); }
+  btn.addEventListener('click', openM);
+  close.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    var submitBtn = form.querySelector('button[type=submit]');
+    submitBtn.textContent = 'Sending…'; submitBtn.disabled = true;
+    try {
+      var res = await fetch(form.action, { method:'POST', headers:{'Accept':'application/json'}, body: new FormData(form) });
+      if(res.ok){ form.style.display='none'; success.style.display='block'; }
+      else { submitBtn.textContent = 'Send to Mitchel'; submitBtn.disabled = false; alert('Something went wrong, please try again.'); }
+    } catch(err) { submitBtn.textContent = 'Send to Mitchel'; submitBtn.disabled = false; alert('Something went wrong, please try again.'); }
+  });
+})();
+
+// ── Email Signature modal ────────────────────────────────────
+(function(){
+  var openBtn  = document.getElementById('emailSignatureCard');
+  var modal    = document.getElementById('emailSigModal');
+  var closeBtn = document.getElementById('emailSigModalClose');
+  if(!openBtn || !modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  openBtn.addEventListener('click', openM);
+  closeBtn.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+})();
+
+// ── Onboarding Guide modal ───────────────────────────────────
+(function(){
+  var openBtn  = document.getElementById('openOnboardingGuide');
+  var modal    = document.getElementById('onboardingModal');
+  var closeBtn = document.getElementById('onboardingModalClose');
+  if(!openBtn || !modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  openBtn.addEventListener('click', openM);
+  closeBtn.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
+})();
+</script>
+</body>
+</html>
