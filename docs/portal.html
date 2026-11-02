@@ -126,6 +126,25 @@ body.auth-pending{ visibility: hidden; }
   padding-bottom:12px; border-bottom:2.5px solid var(--ink);
 }
 
+/* ── CREW USER LIST ── */
+.crew-user-row{
+  background:var(--paper); border:2.5px solid var(--ink);
+  border-radius:14px; padding:14px 18px; box-shadow:4px 4px 0 var(--ink);
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.crew-user-name{ font-size:14px; font-weight:700; }
+.crew-user-email{ font-size:12px; color:rgba(22,21,39,0.5); margin-top:2px; }
+.crew-role-badge{
+  font-family:var(--mono); font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  padding:4px 10px; border-radius:100px; flex-shrink:0;
+  border:1.5px solid currentColor;
+}
+@media(max-width:780px){
+  #addCrewSection .portal-card-base { grid-column:1/-1; }
+  #addCrewSection > .wrap > div { grid-template-columns:1fr; }
+}
+
 /* ── ROSTER ── */
 .roster-list{
   display:flex; flex-direction:column; gap:10px;
@@ -880,6 +899,55 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Model overhead, crew pricing tiers, and job margins. Hit your 40% target with value-based pricing principles.</p>
           <span class="portal-card-tag">Open tool →</span>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADD CREW TO PORTAL — super_admin only -->
+  <section class="portal-section" id="addCrewSection" style="display:none;">
+    <div class="wrap">
+      <h2>Add Crew to Portal</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+
+        <!-- Invite form -->
+        <div class="portal-card-base" style="padding:28px 26px;">
+          <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin-bottom:16px;">Invite New Crew Member</div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="field">
+              <label for="inviteEmail">Email Address</label>
+              <input type="email" id="inviteEmail" placeholder="crew@example.com">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="field">
+                <label for="inviteFirst">First Name</label>
+                <input type="text" id="inviteFirst" placeholder="Jane">
+              </div>
+              <div class="field">
+                <label for="inviteLast">Last Name</label>
+                <input type="text" id="inviteLast" placeholder="Smith">
+              </div>
+            </div>
+            <div class="field">
+              <label for="inviteRole">Role</label>
+              <select id="inviteRole">
+                <option value="team">Team (General Crew)</option>
+                <option value="team_manager">Team Manager</option>
+                <option value="super_admin">Super Admin</option>
+              </select>
+            </div>
+            <button class="btn" id="inviteBtn" onclick="sendInvite()">Send Invite →</button>
+            <div id="inviteMsg" style="display:none;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;"></div>
+          </div>
+        </div>
+
+        <!-- Current crew list -->
+        <div>
+          <div style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(22,21,39,0.4);margin-bottom:14px;">Current Portal Users</div>
+          <div id="crewUserList" style="display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:13px;color:rgba(22,21,39,0.4);">Loading…</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1816,9 +1884,11 @@ function doLogout(){
       document.getElementById('openWelcomeEmail2Portal').style.display = 'flex';
       document.getElementById('openSlackWelcomePortal').style.display = 'flex';
     }
-    // Growth calculator — super_admin only
+    // Growth calculator + Add Crew — super_admin only
     if(role === 'super_admin'){
       document.getElementById('growthCalcLink').style.display = 'flex';
+      document.getElementById('addCrewSection').style.display = 'block';
+      loadCrewUsers();
     }
 
     loadRentmanRoster(userEmail);
@@ -1931,6 +2001,78 @@ function updateCountdown(type, expiryStr, label){
 }
 
 
+
+// ── Add Crew ─────────────────────────────────────────────────
+async function loadCrewUsers(){
+  var list = document.getElementById('crewUserList');
+  try {
+    var { data: profiles, error } = await supabaseClient
+      .from('profiles')
+      .select('id, first_name, last_name, role, email')
+      .order('first_name', { ascending: true });
+    if(error || !profiles || profiles.length === 0){
+      list.innerHTML = '<div style="font-size:13px;color:rgba(22,21,39,0.4);">No profiles found.</div>';
+      return;
+    }
+    var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team' };
+    var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
+    list.innerHTML = profiles.map(function(p){
+      var name = [p.first_name, p.last_name].filter(Boolean).join(' ') || '—';
+      var roleLabel = ROLE_LABELS[p.role] || p.role || 'Team';
+      var roleColor = ROLE_COLORS[p.role] || 'var(--forest)';
+      var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
+      return '<div class="crew-user-row">'+
+        '<div><div class="crew-user-name">'+name+'</div>'+emailStr+'</div>'+
+        '<span class="crew-role-badge" style="color:'+roleColor+'">'+roleLabel+'</span>'+
+      '</div>';
+    }).join('');
+  } catch(e){
+    list.innerHTML = '<div style="font-size:13px;color:rgba(22,21,39,0.4);">Could not load users.</div>';
+  }
+}
+
+async function sendInvite(){
+  var email = (document.getElementById('inviteEmail').value || '').trim();
+  var first = (document.getElementById('inviteFirst').value || '').trim();
+  var last  = (document.getElementById('inviteLast').value || '').trim();
+  var role  = document.getElementById('inviteRole').value;
+  var msg   = document.getElementById('inviteMsg');
+  var btn   = document.getElementById('inviteBtn');
+  if(!email){ showInviteMsg('Please enter an email address.', false); return; }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    var res = await fetch(SUPABASE_URL + '/functions/v1/invite-crew', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + SUPABASE_ANON
+      },
+      body: JSON.stringify({ email: email, first_name: first, last_name: last, role: role })
+    });
+    var json = await res.json().catch(function(){ return {}; });
+    if(res.ok){
+      showInviteMsg('Invite sent to ' + email + '!', true);
+      document.getElementById('inviteEmail').value = '';
+      document.getElementById('inviteFirst').value = '';
+      document.getElementById('inviteLast').value  = '';
+      loadCrewUsers();
+    } else {
+      showInviteMsg(json.error || 'Failed to send invite. Check Supabase edge function is deployed.', false);
+    }
+  } catch(e){
+    showInviteMsg('Network error — is the invite-crew edge function deployed?', false);
+  }
+  btn.disabled = false; btn.textContent = 'Send Invite →';
+}
+
+function showInviteMsg(text, ok){
+  var el = document.getElementById('inviteMsg');
+  el.style.display = 'block';
+  el.style.background = ok ? 'rgba(74,174,116,0.1)' : 'rgba(244,97,46,0.1)';
+  el.style.color = ok ? 'var(--forest)' : 'var(--orange)';
+  el.style.border = '1.5px solid ' + (ok ? 'var(--forest)' : 'var(--orange)');
+  el.textContent = text;
+}
 
 // ── Rentman roster ───────────────────────────────────────────
 var PROXY = SUPABASE_URL + '/functions/v1/rentman-proxy';
