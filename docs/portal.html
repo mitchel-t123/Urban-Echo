@@ -900,8 +900,14 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   <!-- SOPs -->
   <section class="portal-section">
     <div class="wrap">
-      <h2>General Venue Checklist</h2>
+      <h2>Onboarding Resources and SOPs</h2>
       <div class="portal-cards" style="margin-bottom:0;">
+        <a href="/portal/sops" style="text-decoration:none;" class="portal-card">
+          <span class="portal-card-icon">✅</span>
+          <h3>General Venue Checklist</h3>
+          <p>Interactive pre-event checklist covering bump-in, sound, lighting, pack-down and more.</p>
+          <span class="portal-card-tag">Open checklist →</span>
+        </a>
         <div class="portal-card" id="openOnboardingGuide">
           <span class="portal-card-icon">🎛️</span>
           <h3>Crew Onboarding Guide</h3>
@@ -1993,15 +1999,14 @@ var QUICK_LINKS = {
   task_mgmt:    { action:'Task Management',  desc:'Track tasks, projects, checklists and applications.',                    app:'ClickUp',    favicon:'https://www.google.com/s2/favicons?domain=clickup.com&sz=32',            href:'https://app.clickup.com/' },
   finances:     { action:'Manage Finances',  desc:'Invoices, expenses, payroll and financial reporting.',                   app:'QuickBooks', favicon:'https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=32',  href:'https://app.qbo.intuit.com/' },
   email:        { action:'Email',            desc:'Client correspondence, welcome emails and enquiries.',                   app:'Gmail',      favicon:'https://www.google.com/s2/favicons?domain=mail.google.com&sz=32',        href:'https://mail.google.com/' },
-  sops:         { action:'SOPs',             desc:'Venue checklists and standard operating procedures for events.',          app:'Urban Echo', favicon:'/favicon.png',                                                            href:'/portal/sops' },
   supabase:     { action:'Supabase',         desc:'Database, edge functions, authentication and storage.',                   app:'Supabase',   favicon:'https://www.google.com/s2/favicons?domain=supabase.com&sz=32',            href:'https://supabase.com/dashboard' },
   clerk:        { action:'Clerk',            desc:'User accounts, sessions and authentication management.',                  app:'Clerk',      favicon:'https://www.google.com/s2/favicons?domain=clerk.com&sz=32',              href:'https://dashboard.clerk.com' }
 };
 
 var ROLE_LINKS = {
-  team:         ['team_chat','view_shifts','apply_leave','sops'],
-  team_manager: ['team_chat','view_shifts','apply_leave','task_mgmt','sops'],
-  super_admin:  ['team_chat','view_shifts','apply_leave','task_mgmt','finances','email','sops','supabase','clerk']
+  team:         ['team_chat','view_shifts','apply_leave'],
+  team_manager: ['team_chat','view_shifts','apply_leave','task_mgmt'],
+  super_admin:  ['team_chat','view_shifts','apply_leave','task_mgmt','finances','email','supabase','clerk']
 };
 
 function renderQuickLinks(role){
