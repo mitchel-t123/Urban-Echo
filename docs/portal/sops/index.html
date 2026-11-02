@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SOPs — Urban Echo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream: #FBF5E7;
+  --cream-deep: #F4ECD8;
+  --indigo: #3F3FF0;
+  --forest: #4AAE74;
+  --forest-deep: #379260;
+  --ink: #161527;
+  --paper: #FFFCF5;
+  --orange: #F4612E;
+  --sunshine: #F9C328;
+  --red: #D93636;
+  --line: rgba(22,21,39,0.12);
+  --display: 'Archivo Black', 'Arial Black', sans-serif;
+  --body: 'Inter', -apple-system, sans-serif;
+  --mono: 'Inter', -apple-system, sans-serif;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ background: var(--ink); }
+body{
+  font-family: var(--body);
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav{
+  position:sticky; top:0; z-index:100;
+  background:#fff; border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 32px; max-width:1180px; margin:0 auto;
+}
+.nav-logo{
+  font-family: var(--display);
+  font-size:16px; text-transform:uppercase; letter-spacing:-0.01em;
+  color: var(--ink); text-decoration:none;
+}
+.nav-logo span{ color: var(--indigo); }
+.nav-back{
+  background:none; border:2px solid var(--ink); border-radius:100px;
+  padding:7px 16px; font-family:var(--mono); font-size:12px;
+  font-weight:700; cursor:pointer; color:var(--ink);
+  text-decoration:none; transition:background 0.15s, color 0.15s;
+}
+.nav-back:hover{ background:var(--ink); color:var(--paper); }
+
+/* ── WRAP ── */
+.wrap{ max-width:900px; margin:0 auto; padding:0 48px; }
+@media(max-width:600px){ .wrap{ padding:0 20px; } }
+
+/* ── PAGE HEADER ── */
+.portal-header{
+  background: var(--ink); color: var(--paper);
+  padding:48px 0 40px; border-bottom:6px solid var(--ink);
+}
+.portal-eyebrow{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.14em;
+  color:var(--orange); display:block; margin-bottom:12px;
+}
+.portal-header h1{
+  font-family:var(--display);
+  font-size:clamp(28px,5vw,52px);
+  text-transform:uppercase; letter-spacing:-0.01em; line-height:1.05;
+}
+.portal-header p{
+  margin-top:12px; font-size:15px;
+  color:rgba(255,252,245,0.6); max-width:520px;
+}
+
+/* ── SOP LIST ── */
+.sop-list{
+  display:flex; flex-direction:column; gap:16px;
+  padding:40px 0 72px;
+}
+
+/* ── SOP CARD ── */
+.sop-card{
+  background:var(--paper);
+  border:2.5px solid var(--ink);
+  border-radius:20px;
+  box-shadow:5px 5px 0 var(--ink);
+  overflow:hidden;
+}
+.sop-card-header{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:18px 24px; cursor:pointer;
+  border-bottom:2.5px solid var(--ink);
+  user-select:none;
+}
+.sop-card-header:hover{ background:var(--cream-deep); }
+.sop-card-title{
+  font-family:var(--display); font-size:16px;
+  text-transform:uppercase; letter-spacing:-0.01em;
+}
+.sop-card-meta{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:rgba(22,21,39,0.4);
+}
+.sop-card-toggle{
+  font-size:18px; line-height:1; color:rgba(22,21,39,0.35);
+  transition:transform 0.2s; flex-shrink:0;
+}
+.sop-card.open .sop-card-toggle{ transform:rotate(180deg); }
+
+/* ── CHECKLIST ── */
+.checklist-body{ padding:0 24px 20px; }
+.checklist-section{ padding-top:28px; }
+.checklist-section-title{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.14em;
+  color:var(--orange); margin-bottom:14px;
+  padding-bottom:8px; border-bottom:1.5px solid var(--line);
+}
+.checklist-items{ display:flex; flex-direction:column; gap:6px; }
+.checklist-item{
+  display:flex; align-items:flex-start; gap:12px;
+  padding:10px 12px; border-radius:12px;
+  cursor:pointer; transition:background 0.1s;
+  border:1.5px solid transparent;
+}
+.checklist-item:hover{ background:var(--cream); }
+.checklist-item.checked{
+  background:rgba(74,174,116,0.08);
+  border-color:rgba(74,174,116,0.25);
+}
+.check-box{
+  width:20px; height:20px; border-radius:6px; flex-shrink:0;
+  border:2px solid var(--line);
+  background:var(--paper); margin-top:1px;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.15s, border-color 0.15s;
+}
+.checklist-item.checked .check-box{
+  background:var(--forest); border-color:var(--forest-deep);
+}
+.check-tick{
+  display:none; color:#fff; font-size:12px; font-weight:900; line-height:1;
+}
+.checklist-item.checked .check-tick{ display:block; }
+.check-label{
+  font-size:14px; line-height:1.5; color:var(--ink); flex:1;
+  transition:color 0.15s, text-decoration 0.15s;
+}
+.checklist-item.checked .check-label{
+  color:rgba(22,21,39,0.35);
+  text-decoration:line-through;
+  text-decoration-color:rgba(22,21,39,0.2);
+}
+
+/* ── PROGRESS BAR ── */
+.sop-progress{
+  padding:16px 24px 0; display:flex; align-items:center; gap:12px;
+}
+.progress-track{
+  flex:1; height:6px; background:var(--line); border-radius:100px; overflow:hidden;
+}
+.progress-fill{
+  height:100%; background:var(--forest); border-radius:100px;
+  transition:width 0.3s ease;
+}
+.progress-label{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:0.08em; color:rgba(22,21,39,0.45); white-space:nowrap;
+}
+
+/* ── RESET BTN ── */
+.sop-footer{
+  padding:16px 24px 24px; display:flex; justify-content:flex-end; gap:10px;
+}
+.btn{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em;
+  padding:9px 20px; border-radius:100px;
+  border:2px solid var(--ink); background:var(--ink); color:var(--paper);
+  cursor:pointer; transition:opacity 0.15s;
+}
+.btn:hover{ opacity:0.8; }
+.btn-ghost{ background:transparent; color:var(--ink); }
+.btn-ghost:hover{ background:var(--ink); color:var(--paper); opacity:1; }
+.btn-sm{ padding:6px 14px; font-size:11px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Urban <span>Echo</span></a>
+    <a href="/portal" class="nav-back">← Portal</a>
+  </div>
+</nav>
+
+<div class="portal-header">
+  <div class="wrap">
+    <span class="portal-eyebrow">Standard Operating Procedures</span>
+    <h1>SOPs</h1>
+    <p>Venue checklists and procedures for Urban Echo crew. Cross off items as you go — progress saves automatically.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="sop-list">
+
+    <!-- ── GENERAL VENUE CHECKLIST ── -->
+    <div class="sop-card open" id="sop-venue">
+      <div class="sop-card-header" onclick="toggleCard('sop-venue')">
+        <div>
+          <div class="sop-card-title">General Venue Checklist</div>
+          <div class="sop-card-meta">Updated 6 Dec 2025 &nbsp;·&nbsp; Cross off items as you do them</div>
+        </div>
+        <span class="sop-card-toggle">▾</span>
+      </div>
+
+      <div class="sop-progress">
+        <div class="progress-track"><div class="progress-fill" id="venue-fill" style="width:0%"></div></div>
+        <span class="progress-label" id="venue-label">0 / 0</span>
+      </div>
+
+      <div class="checklist-body" id="venue-body">
+
+        <div class="checklist-section">
+          <div class="checklist-section-title">Shift Start</div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Open carpark gates</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Open gate from carpark into school</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Unarm auditorium</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Unarm green rooms (S block, maybe R block)</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn on auditorium work lights and back stage lights</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn on lighting 3-phase</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Grab white key from lock box</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn on AV system</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Log into computers — Media: college / AwakeObligation22 &nbsp;·&nbsp; Lights: lighting</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Log into sound desk (admin / college)</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn on stage lights</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn on projectors — left projector with remote, right projector with terminal script on lighting computer desktop (keep triggering until it works)</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn on foldback TV with remote</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn on aircon/heating</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Take photos of auditorium and upload to Drive</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Open curtains on the front sides of the auditorium to reveal high back chairs to client and place chair trollies in an obvious place</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Place bins in accessible locations: 1 @ auditorium door, 1 @ production desk, 1 @ foyer</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Open green rooms and S block toilets</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Take photos of green rooms and upload to Drive</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Open venue doors for client</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Confirm show start time with client</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Confirm show finish time with client</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Confirm no setting up in Timber until 2pm</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Setup comms</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">At 2pm, close off Timber and place no entry sign (found at production desk)</span></div>
+          </div>
+        </div>
+
+        <div class="checklist-section">
+          <div class="checklist-section-title">Pre Show</div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Tidy auditorium curtains</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Tidy stage curtains</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off work lights</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Latch open auditorium doors for patron entry</span></div>
+          </div>
+        </div>
+
+        <div class="checklist-section">
+          <div class="checklist-section-title">During Show</div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Check bins and empty full bin bags — rubbish goes to big bins near basketball court</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Check toilet areas</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Check Timber and Jump for patrons — out of bounds area</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Check outside perimeter</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Check green rooms</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Fill out event summary</span></div>
+          </div>
+        </div>
+
+        <div class="checklist-section">
+          <div class="checklist-section-title">Packdown &amp; Reset</div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn on work lights</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Gather chair trollies and make sure chairs get stacked away properly by the client — stacks are 10 high. Tall back chairs behind front curtains, short backs behind rear curtain. Diagrams in each storage area.</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Make sure big litter is picked up — cleaners will clean the small stuff</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Reset green rooms</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Take photos of green rooms and upload to Drive</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Put bins in a central location for cleaners — cleaners will empty full bins</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off aircon/heating</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off foldback TV</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off projectors</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off stage lights</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Delete client media files on media computer</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off computers</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off AV system</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Gather lost property and give to client</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Pack away comms</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Put white key away in lockbox</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off back stage lights</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off lighting 3-phase</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Tidy curtains</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Lock and shake test all doors</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Turn off auditorium lights</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Arm auditorium</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Arm green rooms</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Arm Timber</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Fill out event summary</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Close and lock gate that leads from carpark into school</span></div>
+            <div class="checklist-item" onclick="toggle(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Close and lock both carpark gates next to the road</span></div>
+          </div>
+        </div>
+
+      </div><!-- /checklist-body -->
+
+      <div class="sop-footer">
+        <button class="btn btn-ghost btn-sm" onclick="resetChecklist('sop-venue')">Reset Checklist</button>
+      </div>
+
+    </div><!-- /sop-card -->
+
+  </div><!-- /sop-list -->
+</div><!-- /wrap -->
+
+<script>
+function toggle(el){
+  el.classList.toggle('checked');
+  updateProgress();
+  saveState();
+}
+
+function toggleCard(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
+function updateProgress(){
+  var items = document.querySelectorAll('#venue-body .checklist-item');
+  var done  = document.querySelectorAll('#venue-body .checklist-item.checked').length;
+  var total = items.length;
+  var pct   = total ? Math.round((done/total)*100) : 0;
+  document.getElementById('venue-fill').style.width  = pct+'%';
+  document.getElementById('venue-label').textContent = done+' / '+total;
+}
+
+function resetChecklist(id){
+  if(!confirm('Reset all checkboxes for this checklist?')) return;
+  document.querySelectorAll('#'+id+' .checklist-item').forEach(function(el){
+    el.classList.remove('checked');
+  });
+  updateProgress();
+  saveState();
+}
+
+function saveState(){
+  try{
+    var items = document.querySelectorAll('#venue-body .checklist-item');
+    var state = Array.from(items).map(function(el){ return el.classList.contains('checked'); });
+    localStorage.setItem('ue-sop-venue', JSON.stringify(state));
+  }catch(e){}
+}
+
+function loadState(){
+  try{
+    var raw = localStorage.getItem('ue-sop-venue');
+    if(!raw) return;
+    var state = JSON.parse(raw);
+    var items = document.querySelectorAll('#venue-body .checklist-item');
+    items.forEach(function(el, i){ if(state[i]) el.classList.add('checked'); });
+  }catch(e){}
+}
+
+loadState();
+updateProgress();
+</script>
+</body>
+</html>
