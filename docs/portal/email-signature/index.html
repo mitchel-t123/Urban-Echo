@@ -98,7 +98,7 @@ body{
 .sig-card{
   background:#fff; border:1px solid rgba(22,21,39,0.12);
   border-radius:16px; box-shadow:0 2px 12px rgba(22,21,39,0.08);
-  overflow:hidden; max-width:480px;
+  overflow:hidden; max-width:600px;
   font-family:Arial,Helvetica,sans-serif;
 }
 .sig-top{
@@ -178,7 +178,7 @@ body{
       <div class="fields">
         <div class="field"><label>Full Name</label><input type="text" id="inp-name" placeholder="Jane Smith"></div>
         <div class="field"><label>Role / Title</label><input type="text" id="inp-role" placeholder="Client Manager"></div>
-        <div class="field"><label>Phone Number</label><input type="text" id="inp-phone" placeholder="0400 000 000"></div>
+        <div class="field"><label>Phone Number <span style="font-weight:400;opacity:0.45;font-size:11px;">(optional)</span></label><input type="text" id="inp-phone" placeholder="0400 000 000"></div>
         <div class="field" style="grid-column:span 3"><label>Email Address</label><div style="display:flex;align-items:center;border:2.5px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;transition:border-color 0.15s,box-shadow 0.15s;" id="email-wrap"><input type="text" id="inp-email" placeholder="jane" style="flex:1;padding:9px 0 9px 13px;border:none;font-family:var(--body);font-size:14px;font-weight:500;color:var(--ink);background:transparent;outline:none;min-width:0;"><span style="padding:9px 13px 9px 2px;font-size:14px;font-weight:500;color:rgba(22,21,39,0.4);white-space:nowrap;user-select:none;">@urbanecho.com.au</span></div></div>
       </div>
       <label class="photo-row" for="photo-file">
@@ -232,6 +232,7 @@ body{
         <div class="step"><div class="step-num">3</div><div class="step-text">Click <strong>Create new</strong>, give it a name, then click inside the editor box</div></div>
         <div class="step"><div class="step-num">4</div><div class="step-text">Press <strong>Cmd+V</strong> (Mac) or <strong>Ctrl+V</strong> (Windows) to paste — it will appear styled</div></div>
         <div class="step"><div class="step-num">5</div><div class="step-text">Scroll down → click <strong>Save Changes</strong></div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-text">For consistency, update your <strong>Google profile photo</strong> to match — go to <a href="https://myaccount.google.com/personal-info" target="_blank" style="color:#2563EB;">myaccount.google.com/personal-info</a> and upload the same photo</div></div>
       </div>
       <details style="margin-top:16px;">
         <summary style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.4);cursor:pointer;user-select:none;">Advanced: raw HTML</summary>
@@ -295,7 +296,7 @@ function buildGmailHTML(){
       + '          <div style="width:72px;height:72px;border-radius:50%;border:3px solid #1a237e;background:#e8eaf6;display:inline-block;"></div>\n'
       + '        </td>\n';
 
-  return '<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#161527;border:1px solid rgba(22,21,39,0.12);border-radius:16px;overflow:hidden;max-width:480px;background:#ffffff;">\n'
+  return '<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#161527;border:1px solid rgba(22,21,39,0.12);border-radius:16px;overflow:hidden;max-width:600px;background:#ffffff;">\n'
     + '  <!-- Logo -->\n'
     + '  <tr>\n'
     + '    <td colspan="3" style="padding:16px 22px 16px;border-bottom:1px solid rgba(22,21,39,0.1);">\n'
