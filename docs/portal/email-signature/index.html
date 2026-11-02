@@ -224,7 +224,7 @@ body{
   <div class="card">
     <div class="card-head"><span class="card-tag">Add to Gmail</span></div>
     <div class="card-body">
-      <button id="copy-rendered-btn" onclick="copyRendered()" style="width:100%;padding:13px;background:var(--indigo);color:#fff;border:2.5px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:box-shadow 0.15s,transform 0.15s;letter-spacing:0.02em;">Copy Signature</button>
+      <button id="copy-rendered-btn" onclick="copyRendered()" style="width:100%;padding:13px;background:var(--indigo);color:#fff;border:2.5px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:background 0.2s,transform 0.15s,box-shadow 0.15s;letter-spacing:0.02em;">📋 Copy Signature</button>
       <div class="note" style="margin-top:12px;">📋 Click <strong>Copy Signature</strong> above, then paste directly into the Gmail signature editor. Gmail will render it correctly.</div>
       <div class="steps" style="margin-top:16px;">
         <div class="step"><div class="step-num">1</div><div class="step-text">Click <strong>Copy Signature</strong> above</div></div>
@@ -336,9 +336,20 @@ function update(){
 }
 
 function markCopied(btn){
-  btn.textContent='Copied ✓ — now paste into Gmail';
-  btn.style.background='var(--forest)';
-  setTimeout(function(){ btn.textContent='Copy Signature'; btn.style.background=''; },3000);
+  btn.textContent='✅ Copied! Now paste into Gmail';
+  btn.style.background='#35B06A';
+  btn.style.borderColor='#35B06A';
+  btn.style.boxShadow='4px 4px 0 #1a7a45';
+  btn.style.transform='scale(1.02)';
+  setTimeout(function(){
+    btn.style.transform='';
+  }, 150);
+  setTimeout(function(){
+    btn.textContent='📋 Copy Signature';
+    btn.style.background='';
+    btn.style.borderColor='';
+    btn.style.boxShadow='';
+  }, 3000);
 }
 function execCommandCopy(html, btn){
   var tmp = document.createElement('div');
