@@ -30,7 +30,11 @@
 html{ background: var(--ink); }
 body{
   font-family: var(--body);
-  background: var(--cream);
+  background-color: #ffffff;
+  background-image:
+    repeating-linear-gradient(rgba(22,21,39,0.05) 1px, transparent 1px),
+    repeating-linear-gradient(90deg, rgba(22,21,39,0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
@@ -358,6 +362,10 @@ body.auth-pending{ visibility:hidden; }
         </div>
         <span class="sop-card-toggle">▾</span>
       </div>
+      <div class="sop-progress">
+        <div class="progress-track"><div class="progress-fill" id="payroll-fill" style="width:0%"></div></div>
+        <span class="progress-label" id="payroll-label">0 / 0</span>
+      </div>
       <div class="checklist-body" id="payroll-body">
         <div class="checklist-section">
           <div class="checklist-section-title">QuickBooks — Set Up Pay Run</div>
@@ -414,12 +422,13 @@ body.auth-pending{ visibility:hidden; }
 <script>
 var CHECKLISTS = {
   venue:   { body:'venue-body',   fill:'venue-fill',   label:'venue-label',   key:'ue-sop-venue' },
-  payroll: { body:'payroll-body', fill:null,           label:null,            key:'ue-sop-payroll' }
+  payroll: { body:'payroll-body', fill:'payroll-fill', label:'payroll-label', key:'ue-sop-payroll' }
 };
 
 function toggle(el, listId){
   listId = listId || 'venue';
   el.classList.toggle('checked');
+  updateProgress(listId);
   saveState(listId);
 }
 
@@ -427,8 +436,10 @@ function toggleCard(id){
   document.getElementById(id).classList.toggle('open');
 }
 
-function updateProgress(){
-  var cfg = CHECKLISTS.venue;
+function updateProgress(listId){
+  listId = listId || 'venue';
+  var cfg = CHECKLISTS[listId];
+  if(!cfg || !cfg.fill) return;
   var items = document.querySelectorAll('#'+cfg.body+' .checklist-item');
   var done  = document.querySelectorAll('#'+cfg.body+' .checklist-item.checked').length;
   var total = items.length;
@@ -443,7 +454,7 @@ function resetChecklist(cardId){
   document.querySelectorAll('#'+cardId+' .checklist-item').forEach(function(el){
     el.classList.remove('checked');
   });
-  if(listId === 'venue') updateProgress();
+  updateProgress(listId);
   saveState(listId);
 }
 
@@ -470,8 +481,9 @@ function loadState(listId){
 }
 
 loadState('venue');
-updateProgress();
+updateProgress('venue');
 loadState('payroll');
+updateProgress('payroll');
 
 // ── Auth guard ──
 var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
