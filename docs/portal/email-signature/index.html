@@ -378,7 +378,7 @@ function execCommandCopy(html, btn){
 }
 function copyRendered(){
   var btn = document.getElementById('copy-rendered-btn');
-  var html = buildHTML();
+  var html = buildGmailHTML();
   try {
     var blob = new Blob([html], {type:'text/html'});
     navigator.clipboard.write([new ClipboardItem({'text/html': blob})]).then(function(){
