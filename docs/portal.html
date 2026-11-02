@@ -1873,13 +1873,14 @@ function doLogout(){
 
     if(!user){ window.location.replace('/login'); return; }
 
-    // ── Get Supabase JWT from Clerk ──
-    var supabaseToken = await clerkInstance.session.getToken({ template: 'supabase' });
+    // ── Get Supabase JWT from Clerk (optional — falls back to anon key) ──
+    var supabaseToken = null;
+    try { supabaseToken = await clerkInstance.session.getToken({ template: 'supabase' }); } catch(e) {}
 
-    // ── Init Supabase with Clerk JWT ──
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
-      global: { headers: { Authorization: 'Bearer ' + supabaseToken } }
-    });
+    // ── Init Supabase ──
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON,
+      supabaseToken ? { global: { headers: { Authorization: 'Bearer ' + supabaseToken } } } : {}
+    );
 
     // ── Fetch profile from Supabase ──
     var { data: profile, error } = await supabaseClient
@@ -1965,7 +1966,8 @@ function doLogout(){
 
   } catch(err) {
     console.error('Portal init error:', err);
-    window.location.replace('/login');
+    var loader = document.getElementById('authLoader');
+    if(loader) { loader.innerHTML = '<p style="color:var(--orange);font-family:var(--mono);font-size:14px;">Something went wrong loading the portal. <a href="/login">Try signing in again</a>.</p>'; loader.classList.add('show'); }
   }
 })();
 
