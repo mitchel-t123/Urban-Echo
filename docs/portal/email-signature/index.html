@@ -277,10 +277,10 @@ function updatePreview(){
 function buildGmailHTML(){
   var name  = val('inp-name')  || '[Your Name]';
   var role  = val('inp-role')  || '[Your Role]';
-  var email = fullEmail;
   var phone = val('inp-phone');
   var emailUser = val('inp-email');
   var fullEmail = emailUser ? emailUser + '@urbanecho.com.au' : '[your@urbanecho.com.au]';
+  var email = fullEmail;
   var photo = photoData;
 
   var phoneRow = phone
