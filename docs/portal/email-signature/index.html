@@ -226,26 +226,24 @@ body{
   </div>
 
   <div class="card">
-    <div class="card-head"><span class="card-tag">Gmail HTML</span></div>
+    <div class="card-head"><span class="card-tag">Add to Gmail</span></div>
     <div class="card-body">
-      <div class="code-wrap">
-        <pre class="code-block" id="code-out"></pre>
-        <button class="copy-btn" id="copy-btn" onclick="copyCode()">Copy</button>
-      </div>
-      <div class="note">📌 Gmail tip: After pasting, click Save — Gmail automatically uploads your photo to its own servers so it loads for every recipient.</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-head"><span class="card-tag">How to Add to Gmail</span></div>
-    <div class="card-body">
-      <div class="steps">
-        <div class="step"><div class="step-num">1</div><div class="step-text">Open Gmail → click <strong>Settings ⚙</strong> → <strong>See all settings</strong></div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-text">Under <strong>General</strong>, scroll to <strong>Signature</strong> → click <strong>Create new</strong></div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-text">In the editor click the <strong>&lt;/&gt;</strong> button (bottom right) to open HTML mode</div></div>
-        <div class="step"><div class="step-num">4</div><div class="step-text">Paste the copied HTML → click <strong>OK</strong></div></div>
+      <button id="copy-rendered-btn" onclick="copyRendered()" style="width:100%;padding:13px;background:var(--indigo);color:#fff;border:2.5px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:14px;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:box-shadow 0.15s,transform 0.15s;letter-spacing:0.02em;">Copy Signature</button>
+      <div class="note" style="margin-top:12px;">📋 Click <strong>Copy Signature</strong> above, then paste directly into the Gmail signature editor. Gmail will render it correctly.</div>
+      <div class="steps" style="margin-top:16px;">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Click <strong>Copy Signature</strong> above</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Open <strong>Gmail → Settings ⚙ → See all settings → General → Signature</strong></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Click <strong>Create new</strong>, give it a name, then click inside the editor box</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Press <strong>Cmd+V</strong> (Mac) or <strong>Ctrl+V</strong> (Windows) to paste — it will appear styled</div></div>
         <div class="step"><div class="step-num">5</div><div class="step-text">Scroll down → click <strong>Save Changes</strong></div></div>
       </div>
+      <details style="margin-top:16px;">
+        <summary style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(22,21,39,0.4);cursor:pointer;user-select:none;">Advanced: raw HTML</summary>
+        <div style="margin-top:10px;" class="code-wrap">
+          <pre class="code-block" id="code-out"></pre>
+          <button class="copy-btn" id="copy-btn" onclick="copyCode()">Copy</button>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -339,6 +337,29 @@ function updateCode(){
 function update(){
   updatePreview();
   updateCode();
+}
+
+function copyRendered(){
+  var btn = document.getElementById('copy-rendered-btn');
+  var html = buildHTML();
+  try {
+    var blob = new Blob([html], {type:'text/html'});
+    navigator.clipboard.write([new ClipboardItem({'text/html': blob})]).then(function(){
+      btn.textContent='Copied ✓ — now paste into Gmail';
+      btn.style.background='var(--forest)';
+      setTimeout(function(){ btn.textContent='Copy Signature'; btn.style.background=''; },3000);
+    }).catch(function(){ fallbackCopyRendered(html, btn); });
+  } catch(e){ fallbackCopyRendered(html, btn); }
+}
+function fallbackCopyRendered(html, btn){
+  var tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  tmp.style.cssText = 'position:fixed;left:-9999px;top:0;';
+  document.body.appendChild(tmp);
+  var r = document.createRange(); r.selectNodeContents(tmp);
+  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  try { document.execCommand('copy'); btn.textContent='Copied ✓ — now paste into Gmail'; btn.style.background='var(--forest)'; setTimeout(function(){ btn.textContent='Copy Signature'; btn.style.background=''; },3000); } catch(e){}
+  s.removeAllRanges(); document.body.removeChild(tmp);
 }
 
 function copyCode(){
