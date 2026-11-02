@@ -374,7 +374,7 @@ body.auth-pending{ visibility: hidden; }
   padding:26px 24px;
   box-shadow:5px 5px 0 var(--ink);
   display:flex; flex-direction:column; gap:10px;
-  text-decoration:none; color:var(--ink);
+  text-decoration:none; color:var(--ink); text-align:left;
   transition: transform 0.15s, box-shadow 0.15s;
   cursor:pointer;
 }
@@ -941,6 +941,27 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Interactive pre-event checklist covering bump-in, sound, lighting, pack-down and more.</p>
           <span class="portal-card-tag">Open checklist →</span>
         </a>
+
+        <div class="portal-card" id="openRiskBtn">
+          <span class="portal-card-icon">⚠️</span>
+          <h3>Risk Assessment Form</h3>
+          <p>Log and assess hazards before or during an event.</p>
+          <span class="portal-card-tag">Fill out →</span>
+        </div>
+
+        <div class="portal-card" id="openIncidentBtn">
+          <span class="portal-card-icon">🚨</span>
+          <h3>Incident Response Form</h3>
+          <p>Report an incident or near-miss that occurred on the job.</p>
+          <span class="portal-card-tag">Fill out →</span>
+        </div>
+
+        <div class="portal-card" id="openContactsBtn">
+          <span class="portal-card-icon">📞</span>
+          <h3>Key Contacts</h3>
+          <p>School contacts, venue details, and emergency numbers.</p>
+          <span class="portal-card-tag">View →</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1396,27 +1417,6 @@ Mitchel &amp; the Urban Echo team</pre>
     <div class="wrap">
       <h2>Quick Access</h2>
       <div class="portal-cards">
-
-        <div class="portal-card" id="openRiskBtn">
-          <span class="portal-card-icon">⚠️</span>
-          <h3>Risk Assessment Form</h3>
-          <p>Log and assess hazards before or during an event.</p>
-          <span class="portal-card-tag">Fill out →</span>
-        </div>
-
-        <div class="portal-card" id="openIncidentBtn">
-          <span class="portal-card-icon">🚨</span>
-          <h3>Incident Response Form</h3>
-          <p>Report an incident or near-miss that occurred on the job.</p>
-          <span class="portal-card-tag">Fill out →</span>
-        </div>
-
-        <div class="portal-card" id="openContactsBtn">
-          <span class="portal-card-icon">📞</span>
-          <h3>Key Contacts</h3>
-          <p>School contacts, venue details, and emergency numbers.</p>
-          <span class="portal-card-tag">View →</span>
-        </div>
 
         <a href="problems.html" class="portal-card">
           <span class="portal-card-icon">🛠️</span>
