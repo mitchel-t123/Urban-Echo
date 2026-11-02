@@ -296,7 +296,7 @@ function buildGmailHTML(){
       + '          <div style="width:72px;height:72px;border-radius:50%;border:3px solid #1a237e;background:#e8eaf6;display:inline-block;"></div>\n'
       + '        </td>\n';
 
-  return '<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#161527;border:1px solid rgba(22,21,39,0.12);border-radius:16px;overflow:hidden;max-width:600px;background:#ffffff;">\n'
+  return '<table cellpadding="0" cellspacing="0" border="0" width="600" style="font-family:Arial,Helvetica,sans-serif;color:#161527;border:1px solid rgba(22,21,39,0.12);border-radius:16px;overflow:hidden;width:600px;max-width:600px;background:#ffffff;">\n'
     + '  <!-- Logo -->\n'
     + '  <tr>\n'
     + '    <td colspan="3" style="padding:16px 22px 16px;border-bottom:1px solid rgba(22,21,39,0.1);">\n'
@@ -354,11 +354,10 @@ function markCopied(btn){
   }, 3000);
 }
 function execCommandCopy(html, btn){
-  // Use a contenteditable element — most reliable cross-browser rich-copy
   var tmp = document.createElement('div');
   tmp.contentEditable = 'true';
   tmp.innerHTML = html;
-  tmp.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;overflow:hidden;opacity:0.01;';
+  tmp.style.cssText = 'position:fixed;left:-9999px;top:0;width:800px;min-height:10px;';
   document.body.appendChild(tmp);
   tmp.focus();
   var r = document.createRange();
@@ -371,22 +370,22 @@ function execCommandCopy(html, btn){
   s.removeAllRanges();
   document.body.removeChild(tmp);
   if(ok){ markCopied(btn); }
-  else {
-    // Last resort: open in new tab so user can copy from there
-    var w = window.open('about:blank','_blank');
-    if(w){ w.document.write(html); w.document.close(); btn.textContent='Opened in new tab — select all & copy'; }
-    else { btn.textContent='Allow popups or use the raw HTML below'; }
-  }
+  else { btn.textContent='⚠️ Copy failed — use the HTML code below'; }
 }
 function copyRendered(){
   var btn = document.getElementById('copy-rendered-btn');
   var html = minifyHTML(buildGmailHTML());
-  try {
-    var blob = new Blob([html], {type:'text/html'});
-    navigator.clipboard.write([new ClipboardItem({'text/html': blob})]).then(function(){
-      markCopied(btn);
-    }).catch(function(){ execCommandCopy(html, btn); });
-  } catch(e){ execCommandCopy(html, btn); }
+  if(navigator.clipboard && window.ClipboardItem){
+    try {
+      var blob = new Blob([html], {type:'text/html'});
+      var plainBlob = new Blob([html], {type:'text/plain'});
+      navigator.clipboard.write([new ClipboardItem({'text/html': blob, 'text/plain': plainBlob})]).then(function(){
+        markCopied(btn);
+      }).catch(function(){ execCommandCopy(html, btn); });
+    } catch(e){ execCommandCopy(html, btn); }
+  } else {
+    execCommandCopy(html, btn);
+  }
 }
 
 function copyCode(){
