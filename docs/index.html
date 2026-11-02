@@ -254,7 +254,7 @@
 
 html{
   scroll-behavior:auto; /* JS handles smooth scroll with custom duration */
-  background: var(--ink); /* footer colour shows on overscroll, no blank space */
+  background: #fff;
   overflow-x:hidden; position:relative;
 }
 
@@ -2708,9 +2708,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 </header>
 
 <!-- ============ SYMPTOM CHECKER MODAL ============ -->
-<div id="symptomCheckerModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(22,21,39,0.6);backdrop-filter:blur(4px);overflow-y:auto;padding:24px 16px;">
-  <div style="background:#fff;border:3px solid var(--ink);border-radius:20px;max-width:900px;margin:0 auto;position:relative;">
-    <button id="symptomCheckerClose" onclick="closeSymptomChecker()" aria-label="Close" style="position:absolute;top:16px;right:16px;z-index:2;background:var(--ink);color:#fff;border:none;border-radius:100px;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
+<div id="symptomCheckerModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(22,21,39,0.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;">
+  <div style="background:var(--paper);border:3px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);max-width:900px;width:100%;margin:auto;position:relative;animation:popupSlideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);">
+    <button id="symptomCheckerClose" onclick="closeSymptomChecker()" aria-label="Close" style="position:absolute;top:16px;right:16px;z-index:2;background:var(--ink);color:#fff;border:none;border-radius:100px;width:36px;height:36px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;font-family:var(--mono);font-weight:700;">✕</button>
 <section style="background:#ffffff; padding:72px 0;" id="symptom-checker">
   <div class="wrap">
     <div class="checker-grid">
@@ -2794,9 +2794,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <section class="symptoms" id="symptoms">
   <div class="wrap">
     <div class="section-head" data-reveal>
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;">
-        <span class="eyebrow">Symptom Check</span>
-        <button onclick="openSymptomChecker()" style="font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:#fff;color:var(--ink);border:2.5px solid var(--ink);border-radius:100px;padding:6px 18px;cursor:pointer;white-space:nowrap;line-height:1.4;">Check My Symptoms →</button>
+      <div style="display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span class="eyebrow" style="margin-bottom:0;margin-top:0;">Symptom Check</span>
+        <button onclick="openSymptomChecker()" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:transparent;color:var(--ink);border:2px solid var(--ink);border-radius:100px;padding:5px 14px;cursor:pointer;white-space:nowrap;line-height:1.4;display:inline-flex;align-items:center;gap:6px;">Check My Symptoms →</button>
       </div>
       <h2>Sound familiar?</h2>
       <p>If you resonate with any of these, you're not alone, it's the most common diagnosis we see across Perth schools.</p>
@@ -3600,7 +3600,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 <script>
 function openSymptomChecker(){
   var modal = document.getElementById('symptomCheckerModal');
-  modal.style.display = 'block';
+  modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
   modal.scrollTop = 0;
 }
