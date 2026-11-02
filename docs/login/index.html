@@ -108,7 +108,7 @@ body{
 <body>
 
 <div class="login-box">
-  <img src="logo.png" alt="Urban Echo" class="login-logo">
+  <img src="/logo.png" alt="Urban Echo" class="login-logo">
   <span class="login-eyebrow">Employee Access</span>
   <h1>Team Portal</h1>
 
@@ -126,6 +126,24 @@ body{
 <a href="/" class="back-link">← Back to main site</a>
 
 <script>
+var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
+
+// Auto-redirect to portal if already signed in
+(async function(){
+  try {
+    var s = document.createElement('script');
+    s.setAttribute('data-clerk-publishable-key', PUBLISHABLE_KEY);
+    s.crossOrigin = 'anonymous';
+    s.src = 'https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+    await new Promise(function(res, rej){ s.onload = res; s.onerror = rej; document.head.appendChild(s); });
+    await new Promise(function(res){ function c(){ if(window.Clerk) res(); else setTimeout(c,50); } c(); });
+    await window.Clerk.load();
+    if(window.Clerk.user){
+      window.location.replace('/portal.html');
+    }
+  } catch(e) {}
+})();
+
 function adminLogin(){
   window.location.href = 'https://accounts.urbanecho.com.au/sign-in';
 }
