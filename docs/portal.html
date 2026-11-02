@@ -932,7 +932,16 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>All-team Slack welcome message. Copy and paste into the crew group chat.</p>
           <span class="portal-card-tag">View &amp; copy →</span>
         </button>
-        <a id="growthCalcLink" href="/portal/growth-calculator/" style="display:none;text-decoration:none;" class="portal-card">
+      </div>
+    </div>
+  </section>
+
+  <!-- BIG VISION — super_admin only -->
+  <section class="portal-section" id="bigVisionSection" style="display:none;">
+    <div class="wrap">
+      <h2>Big Vision</h2>
+      <div class="portal-cards" style="margin-bottom:0;">
+        <a id="growthCalcLink" href="/portal/growth-calculator/" style="text-decoration:none;" class="portal-card">
           <span class="portal-card-icon">📈</span>
           <h3>Growth Calculator</h3>
           <p>Model overhead, crew pricing tiers, and job margins. Hit your 40% target with value-based pricing principles.</p>
@@ -1938,7 +1947,7 @@ function doLogout(){
     }
     // Growth calculator + Add Crew — super_admin only
     if(role === 'super_admin'){
-      document.getElementById('growthCalcLink').style.display = 'flex';
+      document.getElementById('bigVisionSection').style.display = '';
       document.getElementById('addCrewSection').style.display = 'block';
       loadCrewUsers();
     }
@@ -1999,8 +2008,8 @@ var QUICK_LINKS = {
   task_mgmt:    { action:'Task Management',  desc:'Track tasks, projects, checklists and applications.',                    app:'ClickUp',    favicon:'https://www.google.com/s2/favicons?domain=clickup.com&sz=32',            href:'https://app.clickup.com/' },
   finances:     { action:'Manage Finances',  desc:'Invoices, expenses, payroll and financial reporting.',                   app:'QuickBooks', favicon:'https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=32',  href:'https://app.qbo.intuit.com/' },
   email:        { action:'Email',            desc:'Client correspondence, welcome emails and enquiries.',                   app:'Gmail',      favicon:'https://www.google.com/s2/favicons?domain=mail.google.com&sz=32',        href:'https://mail.google.com/' },
-  supabase:     { action:'Supabase',         desc:'Database, edge functions, authentication and storage.',                   app:'Supabase',   favicon:'https://www.google.com/s2/favicons?domain=supabase.com&sz=32',            href:'https://supabase.com/dashboard' },
-  clerk:        { action:'Clerk',            desc:'User accounts, sessions and authentication management.',                  app:'Clerk',      favicon:'https://www.google.com/s2/favicons?domain=clerk.com&sz=32',              href:'https://dashboard.clerk.com' }
+  supabase:     { action:'Database',          desc:'Database, edge functions, authentication and storage.',                   app:'Supabase',   favicon:'https://www.google.com/s2/favicons?domain=supabase.com&sz=32',            href:'https://supabase.com/dashboard' },
+  clerk:        { action:'User Management',  desc:'User accounts, sessions and authentication management.',                  app:'Clerk',      favicon:'https://www.google.com/s2/favicons?domain=clerk.com&sz=32',              href:'https://dashboard.clerk.com' }
 };
 
 var ROLE_LINKS = {
@@ -2076,7 +2085,7 @@ async function loadCrewUsers(){
     var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
     list.innerHTML = profiles.map(function(p){
       var name = [p.first_name, p.last_name].filter(Boolean).join(' ') || '—';
-      var roleLabel = ROLE_LABELS[p.role] || p.role || 'Team';
+      var roleLabel = ROLE_LABELS[p.role] || 'Team / General Crew';
       var roleColor = ROLE_COLORS[p.role] || 'var(--forest)';
       var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
       return '<div class="crew-user-row">'+
