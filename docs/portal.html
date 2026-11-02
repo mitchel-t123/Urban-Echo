@@ -894,6 +894,12 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Step-by-step process for approving and onboarding new crew members from application to first event.</p>
           <span class="portal-card-tag">Open guide →</span>
         </div>
+        <a id="emailSignatureCard" href="/portal/email-signature/" style="display:none;text-decoration:none;" class="portal-card">
+          <span class="portal-card-icon">✍️</span>
+          <h3>Email Signature Generator</h3>
+          <p>Build a Gmail-ready branded email signature with photo, contact details and social links.</p>
+          <span class="portal-card-tag">Open tool →</span>
+        </a>
         <button id="openWelcomeEmailPortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
           <span class="portal-card-icon">✉️</span>
           <h3>Welcome Email — Approved</h3>
@@ -1948,8 +1954,9 @@ function doLogout(){
       document.getElementById('openWelcomeEmail2Portal').style.display = 'flex';
       document.getElementById('openSlackWelcomePortal').style.display = 'flex';
     }
-    // Growth calculator + Add Crew — super_admin only
+    // Email Signature + Growth calculator + Add Crew — super_admin only
     if(role === 'super_admin'){
+      document.getElementById('emailSignatureCard').style.display = 'flex';
       document.getElementById('bigVisionSection').style.display = '';
       document.getElementById('addCrewSection').style.display = 'block';
       loadCrewUsers();
