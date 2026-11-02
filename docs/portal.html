@@ -894,12 +894,12 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Step-by-step process for approving and onboarding new crew members from application to first event.</p>
           <span class="portal-card-tag">Open guide →</span>
         </div>
-        <a id="emailSignatureCard" href="/portal/email-signature/" style="display:none;text-decoration:none;" class="portal-card">
+        <div id="emailSignatureCard" style="display:none;cursor:pointer;" class="portal-card">
           <span class="portal-card-icon">✍️</span>
           <h3>Email Signature Generator</h3>
           <p>Build a Gmail-ready branded email signature with photo, contact details and social links.</p>
           <span class="portal-card-tag">Open tool →</span>
-        </a>
+        </div>
         <button id="openWelcomeEmailPortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
           <span class="portal-card-icon">✉️</span>
           <h3>Welcome Email — Approved</h3>
@@ -1247,6 +1247,17 @@ We're building something special here at Urban Echo, and it's the people in this
 
 Mitchel &amp; the Urban Echo team</pre>
       </div>
+    </div>
+  </div>
+
+  <!-- EMAIL SIGNATURE MODAL -->
+  <div class="modal-overlay" id="emailSigModal" style="padding:16px;">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:900px;max-height:92vh;position:relative;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Email Signature Generator</span>
+        <button id="emailSigModalClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+      </div>
+      <iframe src="/portal/email-signature/" style="flex:1;border:none;width:100%;min-height:600px;" title="Email Signature Generator"></iframe>
     </div>
   </div>
 
@@ -2720,6 +2731,19 @@ submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback, Urban Echo Po
       else { submitBtn.textContent = 'Send to Mitchel'; submitBtn.disabled = false; alert('Something went wrong, please try again.'); }
     } catch(err) { submitBtn.textContent = 'Send to Mitchel'; submitBtn.disabled = false; alert('Something went wrong, please try again.'); }
   });
+})();
+
+// ── Email Signature modal ────────────────────────────────────
+(function(){
+  var openBtn  = document.getElementById('emailSignatureCard');
+  var modal    = document.getElementById('emailSigModal');
+  var closeBtn = document.getElementById('emailSigModalClose');
+  if(!openBtn || !modal) return;
+  function openM(){ modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  openBtn.addEventListener('click', openM);
+  closeBtn.addEventListener('click', closeM);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeM(); });
 })();
 
 // ── Onboarding Guide modal ───────────────────────────────────

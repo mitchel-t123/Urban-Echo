@@ -122,6 +122,7 @@ body{
 .sig-role{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--navy); margin-bottom:8px; }
 .sig-contact-row{ display:flex; align-items:center; gap:7px; font-size:13px; color:var(--ink); text-decoration:none; }
 .sig-contact-row + .sig-contact-row{ margin-top:4px; }
+#email-wrap:focus-within{ border-color:var(--ink); box-shadow:3px 3px 0 var(--ink); }
 .sig-icon{ font-size:14px; }
 .sig-link{ color:var(--navy); font-size:13px; }
 .sig-bottom{
@@ -182,7 +183,7 @@ body{
         <div class="field"><label>Full Name</label><input type="text" id="inp-name" placeholder="Jane Smith"></div>
         <div class="field"><label>Role / Title</label><input type="text" id="inp-role" placeholder="Client Manager"></div>
         <div class="field"><label>Phone Number</label><input type="text" id="inp-phone" placeholder="0400 000 000"></div>
-        <div class="field" style="grid-column:span 3"><label>Email Address</label><input type="text" id="inp-email" placeholder="jane@urbanecho.com.au"></div>
+        <div class="field" style="grid-column:span 3"><label>Email Address</label><div style="display:flex;align-items:center;border:2.5px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;transition:border-color 0.15s,box-shadow 0.15s;" id="email-wrap"><input type="text" id="inp-email" placeholder="jane" style="flex:1;padding:9px 0 9px 13px;border:none;font-family:var(--body);font-size:14px;font-weight:500;color:var(--ink);background:transparent;outline:none;min-width:0;"><span style="padding:9px 13px 9px 2px;font-size:14px;font-weight:500;color:rgba(22,21,39,0.4);white-space:nowrap;user-select:none;">@urbanecho.com.au</span></div></div>
       </div>
       <label class="photo-row" for="photo-file">
         <div class="photo-circle" id="thumb-wrap"><span>👤</span></div>
@@ -210,14 +211,14 @@ body{
             <div class="sig-info">
               <span class="sig-name" id="preview-name">Your Name</span>
               <span class="sig-role" id="preview-role">Your Role</span>
-              <span class="sig-contact-row"><span class="sig-link" id="preview-email">your@email.com</span></span>
+              <span class="sig-contact-row"><span class="sig-link" id="preview-email">your@urbanecho.com.au</span></span>
+              <span class="sig-contact-row" id="preview-phone-row" style="display:none"><span style="font-size:12px;">📞</span><span id="preview-phone-num" style="font-size:13px;color:var(--ink);"></span></span>
               <span class="sig-contact-row"><a href="https://urbanecho.com.au" class="sig-contact-row" style="color:var(--ink);text-decoration:none;">urbanecho.com.au</a></span>
             </div>
           </div>
           <div class="sig-bottom">
             <span class="sig-btn">Instagram</span>
             <span class="sig-btn">Facebook</span>
-            <span class="sig-btn" id="preview-call-btn" style="display:none">Call</span>
           </div>
         </div>
       </div>
@@ -260,13 +261,16 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function updatePreview(){
   var name  = val('inp-name')  || 'Your Name';
   var role  = val('inp-role')  || 'Your Role';
-  var email = val('inp-email') || 'your@email.com';
+  var email = (val('inp-email') || 'your') + '@urbanecho.com.au';
   var phone = val('inp-phone');
+  var emailUser = val('inp-email');
+  var fullEmail = emailUser ? emailUser + '@urbanecho.com.au' : 'your@urbanecho.com.au';
   document.getElementById('preview-name').textContent  = name;
   document.getElementById('preview-role').textContent  = role;
-  document.getElementById('preview-email').textContent = email;
-  var callbtn = document.getElementById('preview-call-btn');
-  callbtn.style.display = phone ? '' : 'none';
+  document.getElementById('preview-email').textContent = fullEmail;
+  var phoneRow = document.getElementById('preview-phone-row');
+  document.getElementById('preview-phone-num').textContent = phone;
+  phoneRow.style.display = phone ? '' : 'none';
   if(photoData){
     document.getElementById('preview-photo').innerHTML = '<img src="'+photoData+'" alt="">';
   }
@@ -275,12 +279,14 @@ function updatePreview(){
 function buildGmailHTML(){
   var name  = val('inp-name')  || '[Your Name]';
   var role  = val('inp-role')  || '[Your Role]';
-  var email = val('inp-email') || '[your@email.com]';
+  var email = fullEmail;
   var phone = val('inp-phone');
+  var emailUser = val('inp-email');
+  var fullEmail = emailUser ? emailUser + '@urbanecho.com.au' : '[your@urbanecho.com.au]';
   var photo = photoData;
 
-  var callLink = phone
-    ? '      <a href="tel:'+phone.replace(/\s/g,'')+'" style="display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#161527;text-decoration:none;border:1.5px solid rgba(22,21,39,0.25);border-radius:100px;padding:5px 12px;font-family:Arial,Helvetica,sans-serif;">Call</a>\n'
+  var phoneRow = phone
+    ? '            <tr><td style="font-size:13px;padding-top:4px;font-family:Arial,Helvetica,sans-serif;color:#161527;">&#128222; '+phone+'</td></tr>\n'
     : '';
 
   var photoCell = photo
@@ -306,7 +312,8 @@ function buildGmailHTML(){
     + '          <strong style="font-size:16px;font-weight:800;color:#161527;display:block;font-family:Arial,Helvetica,sans-serif;">'+esc(name)+'</strong>\n'
     + '          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1a237e;display:block;margin:3px 0 10px;font-family:Arial,Helvetica,sans-serif;">'+esc(role)+'</span>\n'
     + '          <table cellpadding="0" cellspacing="0" border="0">\n'
-    + '            <tr><td style="padding-bottom:4px;font-size:13px;"><a href="mailto:'+esc(email)+'" style="color:#1a237e;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">'+esc(email)+'</a></td></tr>\n'
+    + '            <tr><td style="padding-bottom:4px;font-size:13px;"><a href="mailto:'+esc(fullEmail)+'" style="color:#1a237e;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">'+esc(fullEmail)+'</a></td></tr>\n'
+    + phoneRow
     + '            <tr><td style="font-size:13px;"><a href="https://urbanecho.com.au" style="color:#161527;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">urbanecho.com.au</a></td></tr>\n'
     + '          </table>\n'
     + '        </td>\n'
@@ -316,7 +323,6 @@ function buildGmailHTML(){
     + '    <td colspan="3" style="padding:10px 22px 14px;border-top:1px solid rgba(22,21,39,0.1);">\n'
     + '      <a href="https://www.instagram.com/urban.echo" style="display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#161527;text-decoration:none;border:1.5px solid rgba(22,21,39,0.25);border-radius:100px;padding:5px 12px;margin-right:6px;font-family:Arial,Helvetica,sans-serif;">Instagram</a>\n'
     + '      <a href="https://www.facebook.com/urbanecho.perth" style="display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#161527;text-decoration:none;border:1.5px solid rgba(22,21,39,0.25);border-radius:100px;padding:5px 12px;margin-right:6px;font-family:Arial,Helvetica,sans-serif;">Facebook</a>\n'
-    + callLink
     + '    </td>\n'
     + '  </tr>\n'
     + '</table>';
