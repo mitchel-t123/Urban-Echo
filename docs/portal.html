@@ -126,6 +126,30 @@ body.auth-pending{ visibility: hidden; }
   padding-bottom:12px; border-bottom:2.5px solid var(--ink);
 }
 
+/* ── INVITE FORM FIELDS ── */
+.invite-field{ display:flex; flex-direction:column; gap:6px; }
+.invite-field label{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:rgba(22,21,39,0.5);
+}
+.invite-field input,
+.invite-field select{
+  font-family:var(--body); font-size:14px; color:var(--ink);
+  background:var(--cream); border:2px solid var(--line);
+  border-radius:100px; padding:11px 18px; width:100%; outline:none;
+  transition:border-color 0.15s;
+  -moz-appearance:textfield;
+  appearance:none; -webkit-appearance:none;
+}
+.invite-field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23161527' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 16px center;
+  padding-right:40px;
+}
+.invite-field input:focus,
+.invite-field select:focus{ border-color:var(--indigo); }
+
 /* ── CARD BASE ── */
 .portal-card-base{
   background:var(--paper);
@@ -922,21 +946,21 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
         <div class="portal-card-base" style="padding:32px 28px;">
           <span class="portal-eyebrow" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);display:block;margin-bottom:20px;">Invite New Crew Member</span>
           <div style="display:flex;flex-direction:column;gap:16px;">
-            <div class="field">
+            <div class="invite-field">
               <label for="inviteEmail">Email Address</label>
-              <input type="email" id="inviteEmail" placeholder="crew@example.com">
+              <input type="email" id="inviteEmail" placeholder="crew@example.com" style="width:100%;">
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div class="field">
+              <div class="invite-field">
                 <label for="inviteFirst">First Name</label>
                 <input type="text" id="inviteFirst" placeholder="Jane">
               </div>
-              <div class="field">
+              <div class="invite-field">
                 <label for="inviteLast">Last Name</label>
                 <input type="text" id="inviteLast" placeholder="Smith">
               </div>
             </div>
-            <div class="field">
+            <div class="invite-field">
               <label for="inviteRole">Role</label>
               <select id="inviteRole">
                 <option value="team">Team (General Crew)</option>
