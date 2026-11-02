@@ -961,9 +961,9 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
               </div>
             </div>
             <div class="invite-field">
-              <label for="inviteRole">Role</label>
+              <label for="inviteRole">Access Level</label>
               <select id="inviteRole">
-                <option value="team">Team (General Crew)</option>
+                <option value="team">Team / General Crew</option>
                 <option value="team_manager">Team Manager</option>
                 <option value="super_admin">Super Admin</option>
               </select>
@@ -1917,7 +1917,7 @@ function doLogout(){
     // Show role badge in nav
     var roleBadge = document.getElementById('portalRoleBadge');
     if(roleBadge){
-      var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team' };
+      var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
       var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
       roleBadge.textContent = ROLE_LABELS[role] || role;
       roleBadge.style.color = ROLE_COLORS[role] || 'var(--ink)';
@@ -2067,7 +2067,7 @@ async function loadCrewUsers(){
       list.innerHTML = '<div style="font-size:13px;color:rgba(22,21,39,0.4);">No profiles found.</div>';
       return;
     }
-    var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team' };
+    var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
     var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
     list.innerHTML = profiles.map(function(p){
       var name = [p.first_name, p.last_name].filter(Boolean).join(' ') || '—';
