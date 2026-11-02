@@ -1944,13 +1944,14 @@ var QUICK_LINKS = {
   task_mgmt:    { action:'Task Management',  desc:'Track tasks, projects, checklists and applications.',                    app:'ClickUp',    favicon:'https://www.google.com/s2/favicons?domain=clickup.com&sz=32',            href:'https://app.clickup.com/' },
   finances:     { action:'Manage Finances',  desc:'Invoices, expenses, payroll and financial reporting.',                   app:'QuickBooks', favicon:'https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=32',  href:'https://app.qbo.intuit.com/' },
   email:        { action:'Email',            desc:'Client correspondence, welcome emails and enquiries.',                   app:'Gmail',      favicon:'https://www.google.com/s2/favicons?domain=mail.google.com&sz=32',        href:'https://mail.google.com/' },
-  sops:         { action:'SOPs',             desc:'Venue checklists and standard operating procedures for events.',          app:'Urban Echo', favicon:'/favicon.png',                                                            href:'/portal/sops' }
+  sops:         { action:'SOPs',             desc:'Venue checklists and standard operating procedures for events.',          app:'Urban Echo', favicon:'/favicon.png',                                                            href:'/portal/sops' },
+  supabase:     { action:'Supabase',         desc:'Database, edge functions, authentication and storage.',                   app:'Supabase',   favicon:'https://www.google.com/s2/favicons?domain=supabase.com&sz=32',            href:'https://supabase.com/dashboard' }
 };
 
 var ROLE_LINKS = {
   team:         ['team_chat','view_shifts','apply_leave','sops'],
   team_manager: ['team_chat','view_shifts','apply_leave','task_mgmt','sops'],
-  super_admin:  ['team_chat','view_shifts','apply_leave','task_mgmt','finances','email','sops']
+  super_admin:  ['team_chat','view_shifts','apply_leave','task_mgmt','finances','email','sops','supabase']
 };
 
 function renderQuickLinks(role){
