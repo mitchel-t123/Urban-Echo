@@ -2526,14 +2526,13 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <span class="popup-hint">Personal or corporate events</span>
       </a>
     </div>
-    <div style="display:flex;gap:10px;margin-top:16px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-top:16px;">
       <a href="/careers" id="popupHiring" class="popup-choice" style="background:var(--ink);color:#fff;flex:1;flex-direction:row;padding:16px 24px;justify-content:center;gap:10px;margin-top:0;">
         <span style="font-size:22px;line-height:1;">🎚️</span>
         <span class="popup-hiring-label" style="font-family:var(--body);font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.01em;">We're Hiring - Apply to join the crew</span>
       </a>
-      <a href="/portal.html" class="popup-choice" style="background:transparent;border:2.5px solid var(--ink);color:var(--ink);flex-direction:column;padding:14px 18px;justify-content:center;align-items:center;gap:4px;margin-top:0;min-width:90px;flex-shrink:0;">
-        <span style="font-size:20px;line-height:1;">🔐</span>
-        <span style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink);">Team Login</span>
+      <a href="/portal.html" title="Team Login" aria-label="Team Login" style="display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:var(--ink);flex-shrink:0;text-decoration:none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="#fff"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
       </a>
     </div>
   </div>
