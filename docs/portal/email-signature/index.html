@@ -326,8 +326,9 @@ function buildGmailHTML(){
     + '</table>';
 }
 
+function minifyHTML(h){ return h.replace(/\n\s*/g,'').replace(/>\s+</g,'><'); }
 function updateCode(){
-  document.getElementById('code-out').textContent = buildGmailHTML();
+  document.getElementById('code-out').textContent = minifyHTML(buildGmailHTML());
 }
 
 function update(){
@@ -378,7 +379,7 @@ function execCommandCopy(html, btn){
 }
 function copyRendered(){
   var btn = document.getElementById('copy-rendered-btn');
-  var html = buildGmailHTML();
+  var html = minifyHTML(buildGmailHTML());
   try {
     var blob = new Blob([html], {type:'text/html'});
     navigator.clipboard.write([new ClipboardItem({'text/html': blob})]).then(function(){
@@ -403,9 +404,21 @@ document.getElementById('photo-file').addEventListener('change',function(e){
   var file=e.target.files[0]; if(!file) return;
   var reader=new FileReader();
   reader.onload=function(ev){
-    photoData=ev.target.result;
-    document.getElementById('thumb-wrap').innerHTML='<img src="'+photoData+'" alt="">';
-    update();
+    var img=new Image();
+    img.onload=function(){
+      // Resize to 144×144 (2x for retina) and compress to JPEG quality 0.7
+      var canvas=document.createElement('canvas');
+      canvas.width=144; canvas.height=144;
+      var ctx=canvas.getContext('2d');
+      // Crop to square from centre
+      var s=Math.min(img.width,img.height);
+      var ox=(img.width-s)/2, oy=(img.height-s)/2;
+      ctx.drawImage(img,ox,oy,s,s,0,0,144,144);
+      photoData=canvas.toDataURL('image/jpeg',0.7);
+      document.getElementById('thumb-wrap').innerHTML='<img src="'+photoData+'" alt="">';
+      update();
+    };
+    img.src=ev.target.result;
   };
   reader.readAsDataURL(file);
 });
