@@ -352,10 +352,13 @@ function markCopied(btn){
   }, 3000);
 }
 function execCommandCopy(html, btn){
+  // Use a contenteditable element — most reliable cross-browser rich-copy
   var tmp = document.createElement('div');
+  tmp.contentEditable = 'true';
   tmp.innerHTML = html;
-  tmp.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;pointer-events:none;';
+  tmp.style.cssText = 'position:fixed;left:0;top:0;width:1px;height:1px;overflow:hidden;opacity:0.01;';
   document.body.appendChild(tmp);
+  tmp.focus();
   var r = document.createRange();
   r.selectNodeContents(tmp);
   var s = window.getSelection();
@@ -366,17 +369,16 @@ function execCommandCopy(html, btn){
   s.removeAllRanges();
   document.body.removeChild(tmp);
   if(ok){ markCopied(btn); }
-  else { btn.textContent = 'Copy failed — try the raw HTML below'; }
+  else {
+    // Last resort: open in new tab so user can copy from there
+    var w = window.open('about:blank','_blank');
+    if(w){ w.document.write(html); w.document.close(); btn.textContent='Opened in new tab — select all & copy'; }
+    else { btn.textContent='Allow popups or use the raw HTML below'; }
+  }
 }
 function copyRendered(){
   var btn = document.getElementById('copy-rendered-btn');
   var html = buildHTML();
-  // Inside an iframe, clipboard.write is blocked — use execCommand directly
-  var inIframe = (window.self !== window.top);
-  if(inIframe){
-    execCommandCopy(html, btn);
-    return;
-  }
   try {
     var blob = new Blob([html], {type:'text/html'});
     navigator.clipboard.write([new ClipboardItem({'text/html': blob})]).then(function(){
