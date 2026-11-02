@@ -2526,10 +2526,16 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <span class="popup-hint">Personal or corporate events</span>
       </a>
     </div>
-    <a href="/careers" id="popupHiring" class="popup-choice" style="background:var(--ink);color:#fff;margin-top:16px;flex-direction:row;padding:16px 24px;justify-content:center;gap:10px;">
-      <span style="font-size:22px;line-height:1;">🎚️</span>
-      <span class="popup-hiring-label" style="font-family:var(--body);font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.01em;">We're Hiring - Apply to join the crew</span>
-    </a>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <a href="/careers" id="popupHiring" class="popup-choice" style="background:var(--ink);color:#fff;flex:1;flex-direction:row;padding:16px 24px;justify-content:center;gap:10px;margin-top:0;">
+        <span style="font-size:22px;line-height:1;">🎚️</span>
+        <span class="popup-hiring-label" style="font-family:var(--body);font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.01em;">We're Hiring - Apply to join the crew</span>
+      </a>
+      <a href="/portal.html" class="popup-choice" style="background:transparent;border:2.5px solid var(--ink);color:var(--ink);flex-direction:column;padding:14px 18px;justify-content:center;align-items:center;gap:4px;margin-top:0;min-width:90px;flex-shrink:0;">
+        <span style="font-size:20px;line-height:1;">🔐</span>
+        <span style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink);">Team Login</span>
+      </a>
+    </div>
   </div>
 </div>
 <script>
