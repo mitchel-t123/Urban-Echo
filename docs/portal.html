@@ -1882,12 +1882,23 @@ function doLogout(){
       supabaseToken ? { global: { headers: { Authorization: 'Bearer ' + supabaseToken } } } : {}
     );
 
+    var userEmail = user.emailAddresses[0].emailAddress;
+
     // ── Fetch profile from Supabase ──
     var { data: profile, error } = await supabaseClient
       .from('profiles')
       .select('*')
       .eq('id', user.id)
       .single();
+    // Fallback: look up by email (for users invited before they had a Clerk ID)
+    if(!profile && userEmail){
+      var { data: profileByEmail } = await supabaseClient
+        .from('profiles')
+        .select('*')
+        .eq('email', userEmail)
+        .single();
+      if(profileByEmail) profile = profileByEmail;
+    }
 
     // ── Show portal ──
     loader.classList.remove('show');
@@ -1895,7 +1906,6 @@ function doLogout(){
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
 
     // ── Load Rentman roster for this user ──
-    var userEmail = user.emailAddresses[0].emailAddress;
 
     // Determine role from profile, fallback to email check for mitchel
     var role = (profile && profile.role) ? profile.role : 'team';
@@ -1957,11 +1967,15 @@ function doLogout(){
       displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
       document.getElementById('portalUserName').textContent = displayName;
       if(error) console.warn('Supabase profile error:', error.message);
-      // Clear "Calculating…" so it doesn't look broken
+      // Clear hardcoded WWC data so it doesn't show another user's details
+      var wwcNameEls = document.querySelectorAll('.wwc-name');
+      var wwcMetaEls = document.querySelectorAll('.wwc-meta');
+      wwcNameEls.forEach(function(el){ el.textContent = displayName; });
+      wwcMetaEls.forEach(function(el){ el.textContent = 'No data — contact Mitchel to update your profile'; });
       var wwcEl = document.getElementById('wwcCountdown');
       var policeEl = document.getElementById('policeCountdown');
-      if(wwcEl) wwcEl.textContent = 'No data, contact Mitchel to update your profile';
-      if(policeEl) policeEl.textContent = 'No data, contact Mitchel to update your profile';
+      if(wwcEl) wwcEl.textContent = '';
+      if(policeEl) policeEl.textContent = '';
     }
 
   } catch(err) {
