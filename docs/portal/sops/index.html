@@ -349,14 +349,78 @@ body.auth-pending{ visibility:hidden; }
 
     </div><!-- /sop-card -->
 
+    <!-- ── HOW TO DO PAYROLL (super_admin only) ── -->
+    <div class="sop-card" id="sop-payroll" style="display:none;">
+      <div class="sop-card-header" onclick="toggleCard('sop-payroll')">
+        <div>
+          <div class="sop-card-title">How To Do Payroll</div>
+          <div class="sop-card-meta">Weekly payroll via QuickBooks, Rentman &amp; NAB &nbsp;·&nbsp; Admin only</div>
+        </div>
+        <span class="sop-card-toggle">▾</span>
+      </div>
+      <div class="checklist-body" id="payroll-body">
+        <div class="checklist-section">
+          <div class="checklist-section-title">QuickBooks — Set Up Pay Run</div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Open QuickBooks</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "All Apps" → "Payroll" → "Employees"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "New Pay Run"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Set pay schedule to "Weekly Employees"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Select "Manually add payees to this pay run", "Create Pay Run With Empty Pays" and "Include terminated employees" then press "Create"</span></div>
+          </div>
+        </div>
+        <div class="checklist-section">
+          <div class="checklist-section-title">Rentman — Check Hours</div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Open Rentman</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "Time Registration" → "Time Registration"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "Views" → "Grouped by crew member and type"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Set the time registration period to the previous week (Monday to Sunday)</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Make note of all employees who registered hours for that period</span></div>
+          </div>
+        </div>
+        <div class="checklist-section">
+          <div class="checklist-section-title">QuickBooks — Enter Hours &amp; Finalise</div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">In QuickBooks press "Pay Run Actions" → "Add Payees"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Add everyone who registered hours for the relevant period</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press the dropdown arrow next to a person's name → "Actions" → "Add Earnings"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Insert hours worked (total from "Registered Time" column in Rentman) then press "Save"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Collapse the person's row then repeat for every other payee</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "Finalise Pay Run" → "Finalise" in the popup</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "Lodge With ATO" → tick the box → "Lodge pay event" → "Close"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "Go to Pay Run" → "Create Super Payment" → "Submit" → "Submit" in the popup → "Go to Pay Run"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "Payment File" → "Download ABA File" and save locally</span></div>
+          </div>
+        </div>
+        <div class="checklist-section">
+          <div class="checklist-section-title">NAB — Transfer Funds</div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Open the NAB bank account</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "Transfer &amp; Pay" → "Multiple Funds Transfer"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Select "Choose File" next to "By importing a Direct Entry file"</span></div>
+            <div class="checklist-item" onclick="toggle(this,'payroll')"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-label">Press "Next" → "Submit" — pay run complete ✅</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sop-footer">
+        <button class="btn btn-ghost btn-sm" onclick="resetChecklist('sop-payroll')">Reset Checklist</button>
+      </div>
+    </div><!-- /sop-payroll -->
+
   </div><!-- /sop-list -->
 </div><!-- /wrap -->
 
 <script>
-function toggle(el){
+var CHECKLISTS = {
+  venue:   { body:'venue-body',   fill:'venue-fill',   label:'venue-label',   key:'ue-sop-venue' },
+  payroll: { body:'payroll-body', fill:null,           label:null,            key:'ue-sop-payroll' }
+};
+
+function toggle(el, listId){
+  listId = listId || 'venue';
   el.classList.toggle('checked');
-  updateProgress();
-  saveState();
+  saveState(listId);
 }
 
 function toggleCard(id){
@@ -364,43 +428,50 @@ function toggleCard(id){
 }
 
 function updateProgress(){
-  var items = document.querySelectorAll('#venue-body .checklist-item');
-  var done  = document.querySelectorAll('#venue-body .checklist-item.checked').length;
+  var cfg = CHECKLISTS.venue;
+  var items = document.querySelectorAll('#'+cfg.body+' .checklist-item');
+  var done  = document.querySelectorAll('#'+cfg.body+' .checklist-item.checked').length;
   var total = items.length;
   var pct   = total ? Math.round((done/total)*100) : 0;
-  document.getElementById('venue-fill').style.width  = pct+'%';
-  document.getElementById('venue-label').textContent = done+' / '+total;
+  document.getElementById(cfg.fill).style.width  = pct+'%';
+  document.getElementById(cfg.label).textContent = done+' / '+total;
 }
 
-function resetChecklist(id){
+function resetChecklist(cardId){
   if(!confirm('Reset all checkboxes for this checklist?')) return;
-  document.querySelectorAll('#'+id+' .checklist-item').forEach(function(el){
+  var listId = cardId.replace('sop-','');
+  document.querySelectorAll('#'+cardId+' .checklist-item').forEach(function(el){
     el.classList.remove('checked');
   });
-  updateProgress();
-  saveState();
+  if(listId === 'venue') updateProgress();
+  saveState(listId);
 }
 
-function saveState(){
+function saveState(listId){
   try{
-    var items = document.querySelectorAll('#venue-body .checklist-item');
+    var cfg = CHECKLISTS[listId];
+    if(!cfg) return;
+    var items = document.querySelectorAll('#'+cfg.body+' .checklist-item');
     var state = Array.from(items).map(function(el){ return el.classList.contains('checked'); });
-    localStorage.setItem('ue-sop-venue', JSON.stringify(state));
+    localStorage.setItem(cfg.key, JSON.stringify(state));
   }catch(e){}
 }
 
-function loadState(){
+function loadState(listId){
   try{
-    var raw = localStorage.getItem('ue-sop-venue');
+    var cfg = CHECKLISTS[listId];
+    if(!cfg) return;
+    var raw = localStorage.getItem(cfg.key);
     if(!raw) return;
     var state = JSON.parse(raw);
-    var items = document.querySelectorAll('#venue-body .checklist-item');
+    var items = document.querySelectorAll('#'+cfg.body+' .checklist-item');
     items.forEach(function(el, i){ if(state[i]) el.classList.add('checked'); });
   }catch(e){}
 }
 
-loadState();
+loadState('venue');
 updateProgress();
+loadState('payroll');
 
 // ── Auth guard ──
 var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
@@ -432,6 +503,13 @@ var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
       user = window.Clerk.user;
     }
     if(!user){ window.location.replace('/login'); return; }
+    // Check role — show payroll SOP for super_admin
+    var userEmail = user.emailAddresses && user.emailAddresses[0] && user.emailAddresses[0].emailAddress;
+    var role = (user.publicMetadata && user.publicMetadata.role) || 'team';
+    if(userEmail === 'mitchel@urbanecho.com.au') role = 'super_admin';
+    if(role === 'super_admin'){
+      document.getElementById('sop-payroll').style.display = '';
+    }
     loader.classList.remove('show');
     document.body.classList.remove('auth-pending');
   } catch(e){
