@@ -119,8 +119,8 @@ body{
 .sig-divider{ width:3px; background:var(--navy); border-radius:2px; flex-shrink:0; margin-right:18px; }
 .sig-info{ flex:1; display:flex; flex-direction:column; gap:3px; justify-content:center; }
 .sig-name{ font-size:16px; font-weight:800; color:var(--ink); line-height:1.2; }
-.sig-role{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--navy); margin-bottom:8px; }
-.sig-contact-row{ display:flex; align-items:center; gap:7px; font-size:13px; color:var(--ink); text-decoration:none; }
+.sig-role{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink); margin-bottom:8px; }
+.sig-contact-row{ display:flex; align-items:center; gap:7px; font-size:13px; color:var(--navy); text-decoration:none; }
 .sig-contact-row + .sig-contact-row{ margin-top:4px; }
 #email-wrap:focus-within{ border-color:var(--ink); box-shadow:3px 3px 0 var(--ink); }
 .sig-icon{ font-size:14px; }
@@ -137,7 +137,7 @@ body{
   padding:5px 12px; display:inline-block;
 }
 .sig-logo-row{
-  padding:18px 28px 4px;
+  padding:18px 28px 14px;
   border-bottom:1px solid var(--line);
 }
 .sig-logo-row img{ height:22px; width:auto; }
@@ -211,9 +211,9 @@ body{
             <div class="sig-info">
               <span class="sig-name" id="preview-name">Your Name</span>
               <span class="sig-role" id="preview-role">Your Role</span>
-              <span class="sig-contact-row"><span class="sig-link" id="preview-email">your@urbanecho.com.au</span></span>
-              <span class="sig-contact-row" id="preview-phone-row" style="display:none"><span style="font-size:12px;">📞</span><span id="preview-phone-num" style="font-size:13px;color:var(--ink);"></span></span>
-              <span class="sig-contact-row"><a href="https://urbanecho.com.au" class="sig-contact-row" style="color:var(--ink);text-decoration:none;">urbanecho.com.au</a></span>
+              <span class="sig-contact-row"><span style="font-size:12px;">✉️</span><a id="preview-email" href="mailto:your@urbanecho.com.au" style="color:var(--navy);text-decoration:none;font-size:13px;">your@urbanecho.com.au</a></span>
+              <span class="sig-contact-row" id="preview-phone-row" style="display:none"><span style="font-size:12px;">📞</span><a id="preview-phone-num" href="#" style="font-size:13px;color:var(--navy);text-decoration:none;"></a></span>
+              <span class="sig-contact-row"><span style="font-size:12px;">🌐</span><a href="https://urbanecho.com.au" style="color:var(--navy);text-decoration:none;font-size:13px;">urbanecho.com.au</a></span>
             </div>
           </div>
           <div class="sig-bottom">
@@ -267,9 +267,13 @@ function updatePreview(){
   var fullEmail = emailUser ? emailUser + '@urbanecho.com.au' : 'your@urbanecho.com.au';
   document.getElementById('preview-name').textContent  = name;
   document.getElementById('preview-role').textContent  = role;
-  document.getElementById('preview-email').textContent = fullEmail;
+  var emailEl = document.getElementById('preview-email');
+  emailEl.textContent = fullEmail;
+  emailEl.href = 'mailto:' + fullEmail;
   var phoneRow = document.getElementById('preview-phone-row');
-  document.getElementById('preview-phone-num').textContent = phone;
+  var phoneEl = document.getElementById('preview-phone-num');
+  phoneEl.textContent = phone;
+  phoneEl.href = phone ? 'tel:' + phone.replace(/\s/g,'') : '#';
   phoneRow.style.display = phone ? '' : 'none';
   if(photoData){
     document.getElementById('preview-photo').innerHTML = '<img src="'+photoData+'" alt="">';
@@ -286,7 +290,7 @@ function buildGmailHTML(){
   var photo = photoData;
 
   var phoneRow = phone
-    ? '            <tr><td style="font-size:13px;padding-top:4px;font-family:Arial,Helvetica,sans-serif;color:#161527;">&#128222; '+phone+'</td></tr>\n'
+    ? '            <tr><td style="font-size:13px;padding-top:0px;padding-bottom:4px;font-family:Arial,Helvetica,sans-serif;">&#128222; <a href="tel:'+phone.replace(/\s/g,'')+'" style="color:#2563EB;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">'+phone+'</a></td></tr>\n'
     : '';
 
   var photoCell = photo
@@ -300,21 +304,21 @@ function buildGmailHTML(){
   return '<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#161527;border:1px solid rgba(22,21,39,0.12);border-radius:16px;overflow:hidden;max-width:480px;background:#ffffff;">\n'
     + '  <!-- Logo -->\n'
     + '  <tr>\n'
-    + '    <td colspan="3" style="padding:12px 22px 10px;border-bottom:1px solid rgba(22,21,39,0.1);">\n'
+    + '    <td colspan="3" style="padding:16px 22px 16px;border-bottom:1px solid rgba(22,21,39,0.1);">\n'
     + '      <img src="'+LOGO_URL+'" height="22" alt="Urban Echo" style="height:22px;display:block;max-width:140px;">\n'
     + '    </td>\n'
     + '  </tr>\n'
     + '  <!-- Photo + info -->\n'
     + '  <tr>\n'
     + photoCell
-    + '        <td style="width:3px;background:#1a237e;border-radius:2px;padding:0;"></td>\n'
+    + '        <td style="width:3px;background:#2563EB;border-radius:2px;padding:0;"></td>\n'
     + '        <td style="padding:18px 22px 16px 18px;vertical-align:middle;">\n'
     + '          <strong style="font-size:16px;font-weight:800;color:#161527;display:block;font-family:Arial,Helvetica,sans-serif;">'+esc(name)+'</strong>\n'
-    + '          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1a237e;display:block;margin:3px 0 10px;font-family:Arial,Helvetica,sans-serif;">'+esc(role)+'</span>\n'
+    + '          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#161527;display:block;margin:3px 0 10px;font-family:Arial,Helvetica,sans-serif;">'+esc(role)+'</span>\n'
     + '          <table cellpadding="0" cellspacing="0" border="0">\n'
-    + '            <tr><td style="padding-bottom:4px;font-size:13px;"><a href="mailto:'+esc(fullEmail)+'" style="color:#1a237e;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">'+esc(fullEmail)+'</a></td></tr>\n'
+    + '            <tr><td style="padding-bottom:4px;font-size:13px;font-family:Arial,Helvetica,sans-serif;">&#9993; <a href="mailto:'+esc(fullEmail)+'" style="color:#2563EB;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">'+esc(fullEmail)+'</a></td></tr>\n'
     + phoneRow
-    + '            <tr><td style="font-size:13px;"><a href="https://urbanecho.com.au" style="color:#161527;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">urbanecho.com.au</a></td></tr>\n'
+    + '            <tr><td style="font-size:13px;font-family:Arial,Helvetica,sans-serif;">&#127760; <a href="https://urbanecho.com.au" style="color:#2563EB;text-decoration:none;font-family:Arial,Helvetica,sans-serif;">urbanecho.com.au</a></td></tr>\n'
     + '          </table>\n'
     + '        </td>\n'
     + '  </tr>\n'
