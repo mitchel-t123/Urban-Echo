@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --cream: #FBF5E7;
@@ -33,6 +34,23 @@ body{
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
+body.auth-pending{ visibility:hidden; }
+#authLoader{
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:var(--ink); align-items:center; justify-content:center;
+  flex-direction:column; gap:16px;
+}
+#authLoader.show{ display:flex; }
+#authLoader p{
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:rgba(255,252,245,0.45);
+}
+#authLoader .loader-dot{
+  width:10px; height:10px; border-radius:50%; background:var(--indigo);
+  animation:pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse{ 0%,100%{ opacity:0.2; transform:scale(0.8); } 50%{ opacity:1; transform:scale(1.2); } }
 
 /* ── NAV ── */
 .nav{
@@ -195,7 +213,12 @@ body{
 .btn-sm{ padding:6px 14px; font-size:11px; }
 </style>
 </head>
-<body>
+<body class="auth-pending">
+
+<div id="authLoader" class="show">
+  <div class="loader-dot"></div>
+  <p>Checking access…</p>
+</div>
 
 <nav class="nav">
   <div class="nav-inner">
@@ -378,6 +401,43 @@ function loadState(){
 
 loadState();
 updateProgress();
+
+// ── Auth guard ──
+var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
+(async function(){
+  var loader = document.getElementById('authLoader');
+  try {
+    await new Promise(function(resolve, reject){
+      var s = document.createElement('script');
+      s.setAttribute('data-clerk-publishable-key', PUBLISHABLE_KEY);
+      s.crossOrigin = 'anonymous';
+      s.src = 'https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+      s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    await new Promise(function(resolve){
+      function check(){ if(window.Clerk){ resolve(); } else { setTimeout(check, 50); } }
+      check();
+    });
+    await window.Clerk.load();
+    var user = window.Clerk.user;
+    if(!user){
+      await new Promise(function(resolve){
+        var attempts = 0;
+        var t = setInterval(function(){
+          if(window.Clerk.user || attempts >= 10){ clearInterval(t); resolve(); }
+          attempts++;
+        }, 500);
+      });
+      user = window.Clerk.user;
+    }
+    if(!user){ window.location.replace('/login'); return; }
+    loader.classList.remove('show');
+    document.body.classList.remove('auth-pending');
+  } catch(e){
+    window.location.replace('/login');
+  }
+})();
 </script>
 </body>
 </html>

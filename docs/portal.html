@@ -1871,13 +1871,14 @@ var QUICK_LINKS = {
   apply_leave:  { action:'Apply for Leave',  desc:'Request time off or update your availability for upcoming events.',      app:'Rentman',    favicon:'https://www.google.com/s2/favicons?domain=rentmanapp.com&sz=32',         href:'https://rentmanapp.com/' },
   task_mgmt:    { action:'Task Management',  desc:'Track tasks, projects, checklists and applications.',                    app:'ClickUp',    favicon:'https://www.google.com/s2/favicons?domain=clickup.com&sz=32',            href:'https://app.clickup.com/' },
   finances:     { action:'Manage Finances',  desc:'Invoices, expenses, payroll and financial reporting.',                   app:'QuickBooks', favicon:'https://www.google.com/s2/favicons?domain=quickbooks.intuit.com&sz=32',  href:'https://app.qbo.intuit.com/' },
-  email:        { action:'Email',            desc:'Client correspondence, welcome emails and enquiries.',                   app:'Gmail',      favicon:'https://www.google.com/s2/favicons?domain=mail.google.com&sz=32',        href:'https://mail.google.com/' }
+  email:        { action:'Email',            desc:'Client correspondence, welcome emails and enquiries.',                   app:'Gmail',      favicon:'https://www.google.com/s2/favicons?domain=mail.google.com&sz=32',        href:'https://mail.google.com/' },
+  sops:         { action:'SOPs',             desc:'Venue checklists and standard operating procedures for events.',          app:'Urban Echo', favicon:'/favicon.png',                                                            href:'/portal/sops' }
 };
 
 var ROLE_LINKS = {
-  team:         ['team_chat','view_shifts','apply_leave'],
-  team_manager: ['team_chat','view_shifts','apply_leave','task_mgmt'],
-  super_admin:  ['team_chat','view_shifts','apply_leave','task_mgmt','finances','email']
+  team:         ['team_chat','view_shifts','apply_leave','sops'],
+  team_manager: ['team_chat','view_shifts','apply_leave','task_mgmt','sops'],
+  super_admin:  ['team_chat','view_shifts','apply_leave','task_mgmt','finances','email','sops']
 };
 
 function renderQuickLinks(role){
