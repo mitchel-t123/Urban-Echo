@@ -335,27 +335,43 @@ function update(){
   updateCode();
 }
 
+function markCopied(btn){
+  btn.textContent='Copied ✓ — now paste into Gmail';
+  btn.style.background='var(--forest)';
+  setTimeout(function(){ btn.textContent='Copy Signature'; btn.style.background=''; },3000);
+}
+function execCommandCopy(html, btn){
+  var tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  tmp.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;pointer-events:none;';
+  document.body.appendChild(tmp);
+  var r = document.createRange();
+  r.selectNodeContents(tmp);
+  var s = window.getSelection();
+  s.removeAllRanges();
+  s.addRange(r);
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e){}
+  s.removeAllRanges();
+  document.body.removeChild(tmp);
+  if(ok){ markCopied(btn); }
+  else { btn.textContent = 'Copy failed — try the raw HTML below'; }
+}
 function copyRendered(){
   var btn = document.getElementById('copy-rendered-btn');
   var html = buildHTML();
+  // Inside an iframe, clipboard.write is blocked — use execCommand directly
+  var inIframe = (window.self !== window.top);
+  if(inIframe){
+    execCommandCopy(html, btn);
+    return;
+  }
   try {
     var blob = new Blob([html], {type:'text/html'});
     navigator.clipboard.write([new ClipboardItem({'text/html': blob})]).then(function(){
-      btn.textContent='Copied ✓ — now paste into Gmail';
-      btn.style.background='var(--forest)';
-      setTimeout(function(){ btn.textContent='Copy Signature'; btn.style.background=''; },3000);
-    }).catch(function(){ fallbackCopyRendered(html, btn); });
-  } catch(e){ fallbackCopyRendered(html, btn); }
-}
-function fallbackCopyRendered(html, btn){
-  var tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  tmp.style.cssText = 'position:fixed;left:-9999px;top:0;';
-  document.body.appendChild(tmp);
-  var r = document.createRange(); r.selectNodeContents(tmp);
-  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-  try { document.execCommand('copy'); btn.textContent='Copied ✓ — now paste into Gmail'; btn.style.background='var(--forest)'; setTimeout(function(){ btn.textContent='Copy Signature'; btn.style.background=''; },3000); } catch(e){}
-  s.removeAllRanges(); document.body.removeChild(tmp);
+      markCopied(btn);
+    }).catch(function(){ execCommandCopy(html, btn); });
+  } catch(e){ execCommandCopy(html, btn); }
 }
 
 function copyCode(){
