@@ -2708,16 +2708,11 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
   </div>
 </header>
 
-<!-- ============ SYMPTOM CHECKER CTA ============ -->
-<div id="symptomCheckerCta" style="background:var(--cream);border-bottom:3px solid var(--ink);">
-  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:16px;padding-bottom:16px;flex-wrap:wrap;">
-    <h2 style="font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin:0;">Symptom Checker</h2>
-    <button onclick="openSymptomChecker()" class="btn btn-blue" style="flex-shrink:0;">Assess My AV Stress &rarr;</button>
-  </div>
-</div>
-
-<!-- ============ INTERACTIVE SYMPTOM CHECKER ============ -->
-<section style="background:#ffffff; padding:72px 0; border-bottom:3px solid var(--ink);display:none;" id="symptom-checker">
+<!-- ============ SYMPTOM CHECKER MODAL ============ -->
+<div id="symptomCheckerModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(22,21,39,0.6);backdrop-filter:blur(4px);overflow-y:auto;padding:24px 16px;">
+  <div style="background:#fff;border:3px solid var(--ink);border-radius:20px;max-width:900px;margin:0 auto;position:relative;">
+    <button id="symptomCheckerClose" onclick="closeSymptomChecker()" aria-label="Close" style="position:absolute;top:16px;right:16px;z-index:2;background:var(--ink);color:#fff;border:none;border-radius:100px;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
+<section style="background:#ffffff; padding:72px 0;" id="symptom-checker">
   <div class="wrap">
     <div class="checker-grid">
       <!-- Left: checklist -->
@@ -2793,12 +2788,17 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
     </div>
   </div>
 </section>
+  </div>
+</div>
 
 <!-- ============ SYMPTOMS ============ -->
 <section class="symptoms" id="symptoms">
   <div class="wrap">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">Symptom Check</span>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;">
+        <span class="eyebrow">Symptom Check</span>
+        <button onclick="openSymptomChecker()" style="font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:#fff;color:var(--ink);border:2.5px solid var(--ink);border-radius:100px;padding:6px 18px;cursor:pointer;white-space:nowrap;line-height:1.4;">Check My Symptoms →</button>
+      </div>
       <h2>Sound familiar?</h2>
       <p>If you resonate with any of these, you're not alone, it's the most common diagnosis we see across Perth schools.</p>
     </div>
@@ -3600,12 +3600,26 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
 
 <script>
 function openSymptomChecker(){
-  var cta     = document.getElementById('symptomCheckerCta');
-  var section = document.getElementById('symptom-checker');
-  cta.style.display     = 'none';
-  section.style.display = '';
-  section.scrollIntoView({ behavior:'smooth', block:'start' });
+  var modal = document.getElementById('symptomCheckerModal');
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  modal.scrollTop = 0;
 }
+function closeSymptomChecker(){
+  var modal = document.getElementById('symptomCheckerModal');
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+// Close on backdrop click
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('symptomCheckerModal').addEventListener('click', function(e){
+    if(e.target === this) closeSymptomChecker();
+  });
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeSymptomChecker();
+  });
+});
 </script>
 <script>
 // Scroll reveal
