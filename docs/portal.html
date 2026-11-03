@@ -899,9 +899,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     <div class="wrap">
       <h2>Quick Links</h2>
       <div class="portal-cards" id="quickLinksGrid">
-        <!-- Cards injected by renderQuickLinks() after auth -->
-      </div>
-      <div class="portal-cards" style="margin-top:16px;">
+        <!-- role-based cards prepended by renderQuickLinks() after auth -->
         <a href="problems.html" class="portal-card">
           <span class="portal-card-icon">🛠️</span>
           <h3>Troubleshooting Tool</h3>
@@ -2642,7 +2640,7 @@ function renderQuickLinks(role){
   var grid = document.getElementById('quickLinksGrid');
   if(!grid) return;
   var keys = ROLE_LINKS[role] || ROLE_LINKS.team;
-  grid.innerHTML = keys.map(function(key){
+  var html = keys.map(function(key){
     var l = QUICK_LINKS[key];
     return '<a class="ql-card" href="'+l.href+'" target="_blank" rel="noopener">'+
       '<h3 class="ql-action">'+l.action+'</h3>'+
@@ -2653,6 +2651,7 @@ function renderQuickLinks(role){
       '</div>'+
     '</a>';
   }).join('');
+  grid.insertAdjacentHTML('afterbegin', html);
 }
 
 function formatDate(dateStr){
