@@ -1805,47 +1805,169 @@ Mitchel &amp; the Urban Echo team</pre>
 
 <!-- ── INCIDENT RESPONSE MODAL ── -->
 <div class="modal-overlay" id="incidentModal">
-  <div class="modal-box">
+  <div class="modal-box" style="max-width:640px;">
     <button class="modal-close" id="closeIncident">✕</button>
     <span class="modal-eyebrow">Urban Echo</span>
-    <h2>Incident Response</h2>
+    <h2>Incident Report Form</h2>
     <form id="incidentForm">
-      <div class="mfield">
-        <label>Date &amp; Time</label>
-        <input type="datetime-local" name="datetime" required>
+
+      <!-- REPORTER INFO -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:0 0 12px;">Reporter Information</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="mfield">
+          <label>Date Reported</label>
+          <input type="date" name="date_reported" required>
+        </div>
+        <div class="mfield">
+          <label>Reported By</label>
+          <input type="text" name="reported_by" placeholder="Full name" required>
+        </div>
       </div>
       <div class="mfield">
-        <label>Event / Job</label>
-        <input type="text" name="event" placeholder="e.g. Sports Night" required>
+        <label>Reporter Type</label>
+        <select name="reporter_type">
+          <option value="Employee">Employee</option>
+          <option value="Contractor">Contractor</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="mfield">
+          <label>Contact Number</label>
+          <input type="tel" name="contact_number" placeholder="04xx xxx xxx">
+        </div>
+        <div class="mfield">
+          <label>Email</label>
+          <input type="email" name="reporter_email" placeholder="you@example.com">
+        </div>
+      </div>
+
+      <!-- INCIDENT DETAILS -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Incident Details</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="mfield">
+          <label>Date of Incident</label>
+          <input type="date" name="incident_date" required>
+        </div>
+        <div class="mfield">
+          <label>Time of Incident</label>
+          <input type="time" name="incident_time">
+        </div>
       </div>
       <div class="mfield">
-        <label>School / Venue</label>
+        <label>Location / Venue</label>
         <input type="text" name="venue" placeholder="e.g. Willetton SHS, Gymnasium" required>
       </div>
       <div class="mfield">
-        <label>Person(s) Involved</label>
-        <input type="text" name="people" placeholder="Name(s) or 'Staff only'" required>
+        <label>Event Name</label>
+        <input type="text" name="event_name" placeholder="e.g. Year 12 Graduation">
+      </div>
+
+      <!-- INCIDENT TYPE -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Incident Type</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-bottom:12px;">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;"><input type="checkbox" name="type_injury" value="Injury"> Injury</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;"><input type="checkbox" name="type_near_miss" value="Near Miss"> Near Miss</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;"><input type="checkbox" name="type_property_damage" value="Property Damage"> Property Damage</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;"><input type="checkbox" name="type_equipment_damage" value="Equipment Damage"> Equipment Damage</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;"><input type="checkbox" name="type_electrical" value="Electrical Incident"> Electrical Incident</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;"><input type="checkbox" name="type_child_safety" value="Child Safety Concern"> Child Safety Concern</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;"><input type="checkbox" name="type_hazard" value="Hazard Identified"> Hazard Identified</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;cursor:pointer;"><input type="checkbox" name="type_vehicle" value="Vehicle Incident"> Vehicle Incident</label>
       </div>
       <div class="mfield">
-        <label>Nature of Incident</label>
-        <textarea name="nature" placeholder="Describe what happened…" required></textarea>
+        <label>Other (specify)</label>
+        <input type="text" name="type_other" placeholder="Describe other incident type">
       </div>
+
+      <!-- PERSONS INVOLVED -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Person(s) Involved</div>
       <div class="mfield">
-        <label>Immediate Action Taken</label>
-        <textarea name="action" placeholder="What was done at the time to address it…" required></textarea>
+        <label>Name(s)</label>
+        <textarea name="persons_involved" placeholder="List all persons involved" rows="2"></textarea>
       </div>
+
+      <!-- DESCRIPTION -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Description of Incident</div>
       <div class="mfield">
-        <label>Follow-up Required?</label>
-        <select name="followup">
-          <option value="No">No, resolved on the day</option>
-          <option value="Yes - contact Mitchel">Yes, Mitchel to follow up</option>
-          <option value="Yes - escalate">Yes, escalate to school/authority</option>
+        <label>Please provide a detailed description of what happened</label>
+        <textarea name="description" placeholder="Describe the incident in detail…" rows="5" required></textarea>
+      </div>
+
+      <!-- INJURY / DAMAGE -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Injury or Damage Details</div>
+      <div class="mfield">
+        <label>Was anyone injured?</label>
+        <select name="anyone_injured">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
         </select>
       </div>
       <div class="mfield">
-        <label>Submitted by</label>
-        <input type="text" name="submitted_by" placeholder="Your name" required>
+        <label>If yes, describe the injury</label>
+        <textarea name="injury_description" placeholder="Nature and location of injury" rows="2"></textarea>
       </div>
+      <div class="mfield">
+        <label>Was any property or equipment damaged?</label>
+        <select name="property_damaged">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>If yes, describe the damage</label>
+        <textarea name="damage_description" placeholder="What was damaged and how" rows="2"></textarea>
+      </div>
+
+      <!-- IMMEDIATE ACTION -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Immediate Action Taken</div>
+      <div class="mfield">
+        <label>What action was taken following the incident?</label>
+        <textarea name="immediate_action" placeholder="Describe steps taken immediately after…" rows="3" required></textarea>
+      </div>
+
+      <!-- WITNESSES -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Witnesses</div>
+      <div class="mfield">
+        <label>Name(s) and contact details of witnesses</label>
+        <textarea name="witnesses" placeholder="Name, phone or email" rows="2"></textarea>
+      </div>
+
+      <!-- EMERGENCY SERVICES -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Emergency Services</div>
+      <div class="mfield">
+        <label>Were emergency services called?</label>
+        <select name="emergency_services_called">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>If yes, which services and time of call</label>
+        <textarea name="emergency_services_detail" placeholder="e.g. Ambulance called at 2:34 PM" rows="2"></textarea>
+      </div>
+
+      <!-- PREVENTION -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Prevention / Follow-Up</div>
+      <div class="mfield">
+        <label>What could be done to prevent this from happening again?</label>
+        <textarea name="prevention" placeholder="Suggested improvements or follow-up actions…" rows="3"></textarea>
+      </div>
+
+      <!-- DECLARATION -->
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--orange);margin:20px 0 12px;">Reporter Declaration</div>
+      <p style="font-size:12.5px;color:rgba(22,21,39,0.6);line-height:1.6;margin-bottom:12px;">I confirm that the information provided in this report is accurate to the best of my knowledge.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="mfield">
+          <label>Full Name</label>
+          <input type="text" name="declaration_name" placeholder="Your full name" required>
+        </div>
+        <div class="mfield">
+          <label>Date</label>
+          <input type="date" name="declaration_date" required>
+        </div>
+      </div>
+
       <button type="submit" class="modal-submit">Submit Incident Report</button>
     </form>
     <div class="modal-success" id="incidentSuccess">
