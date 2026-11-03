@@ -884,6 +884,43 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     </div>
   </section>
 
+  <!-- WWC + COMPLIANCE -->
+  <section class="portal-section">
+    <div class="wrap">
+      <h2>Quick Links</h2>
+      <div class="portal-cards" id="quickLinksGrid">
+        <!-- Cards injected by renderQuickLinks() after auth -->
+      </div>
+    </div>
+  </section>
+
+  <!-- UPCOMING EVENTS -->
+  <section class="portal-section" id="eventsSection">
+    <div class="wrap">
+      <h2>Upcoming Events</h2>
+      <div class="roster-list" id="eventsList">
+
+        <!-- ─ EVENT: Christmas Party ─ -->
+        <div class="event-item">
+          <div class="roster-date">
+            <span>19</span>
+            DEC
+          </div>
+          <div class="roster-detail">
+            <h4>Urban Echo Christmas Party 🎄🎅✨</h4>
+            <p>Christmas BBQ at the Tinsleys, Oakford — 6 PM. Spouses, partners and kids welcome! Food, soft drinks, outdoor movie, pool table, ping pong, lawn games and the Ugly T-Shirt Swap 👕 (bring the ugliest op-shop tee you can find — winner takes a $50 gift card 🏆).</p>
+          </div>
+          <a href="https://www.facebook.com/events/1102600715902887/" target="_blank" rel="noopener" class="roster-badge confirmed event-fb-btn">
+            View on Facebook →
+          </a>
+        </div>
+
+
+      </div>
+      <p id="eventsEmpty" style="display:none;font-size:13px;color:rgba(22,21,39,0.4);padding:8px 0;">No upcoming events scheduled. Check back soon.</p>
+    </div>
+  </section>
+
   <!-- SOPs -->
   <section class="portal-section">
     <div class="wrap">
@@ -925,82 +962,6 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Complete your induction checklist before your first shift.</p>
           <span class="portal-card-tag">Start →</span>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WWC + COMPLIANCE -->
-  <section class="portal-section">
-    <div class="wrap">
-      <h2>Quick Links</h2>
-      <div class="portal-cards" id="quickLinksGrid">
-        <!-- Cards injected by renderQuickLinks() after auth -->
-      </div>
-    </div>
-  </section>
-
-  <!-- UPCOMING EVENTS -->
-  <section class="portal-section" id="eventsSection">
-    <div class="wrap">
-      <h2>Upcoming Events</h2>
-      <div class="roster-list" id="eventsList">
-
-        <!-- ─ EVENT: Christmas Party ─ -->
-        <div class="event-item">
-          <div class="roster-date">
-            <span>19</span>
-            DEC
-          </div>
-          <div class="roster-detail">
-            <h4>Urban Echo Christmas Party 🎄🎅✨</h4>
-            <p>Christmas BBQ at the Tinsleys, Oakford — 6 PM. Spouses, partners and kids welcome! Food, soft drinks, outdoor movie, pool table, ping pong, lawn games and the Ugly T-Shirt Swap 👕 (bring the ugliest op-shop tee you can find — winner takes a $50 gift card 🏆).</p>
-          </div>
-          <a href="https://www.facebook.com/events/1102600715902887/" target="_blank" rel="noopener" class="roster-badge confirmed event-fb-btn">
-            View on Facebook →
-          </a>
-        </div>
-
-
-      </div>
-      <p id="eventsEmpty" style="display:none;font-size:13px;color:rgba(22,21,39,0.4);padding:8px 0;">No upcoming events scheduled. Check back soon.</p>
-    </div>
-  </section>
-
-  <!-- SOPs -->
-  <section class="portal-section">
-    <div class="wrap">
-      <h2>Onboarding Resources and SOPs</h2>
-      <div class="portal-cards" style="margin-bottom:0;">
-        <div class="portal-card" id="openOnboardingGuide">
-          <span class="portal-card-icon">🎛️</span>
-          <h3>Crew Onboarding Guide</h3>
-          <p>Step-by-step process for approving and onboarding new crew members from application to first event.</p>
-          <span class="portal-card-tag">Open guide →</span>
-        </div>
-        <div id="emailSignatureCard" style="display:none;cursor:pointer;" class="portal-card">
-          <span class="portal-card-icon">✍️</span>
-          <h3>Email Signature Generator</h3>
-          <p>Build a Gmail-ready branded email signature with photo, contact details and social links.</p>
-          <span class="portal-card-tag">Open tool →</span>
-        </div>
-        <button id="openWelcomeEmailPortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
-          <span class="portal-card-icon">✉️</span>
-          <h3>Welcome Email — Approved</h3>
-          <p>First email sent to newly approved crew members to begin onboarding.</p>
-          <span class="portal-card-tag">View &amp; copy →</span>
-        </button>
-        <button id="openWelcomeEmail2Portal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
-          <span class="portal-card-icon">✉️</span>
-          <h3>Welcome Email — Onboarding Complete</h3>
-          <p>Official welcome sent after compliance and HR is complete. Crew member is fully onboarded.</p>
-          <span class="portal-card-tag">View &amp; copy →</span>
-        </button>
-        <button id="openSlackWelcomePortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
-          <span class="portal-card-icon">💬</span>
-          <h3>Team Welcome Message</h3>
-          <p>All-team Slack welcome message. Copy and paste into the crew group chat.</p>
-          <span class="portal-card-tag">View &amp; copy →</span>
-        </button>
       </div>
     </div>
   </section>
