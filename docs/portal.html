@@ -2029,12 +2029,8 @@ function doLogout(){
       updateCountdown('police', profile.police_expiry, 'National Police Clearance');
 
     } else {
-      // Fallback to Clerk name if no profile found
-      var emailLocal = user.emailAddresses[0].emailAddress.split('@')[0];
-      // Don't use the email prefix if it looks like a generic address (hello, info, admin, etc.)
-      var genericPrefixes = ['hello','info','admin','contact','support','team','mail','noreply'];
-      var safeLocal = genericPrefixes.includes(emailLocal.toLowerCase()) ? '' : emailLocal;
-      var displayName = user.firstName || safeLocal || 'Team Member';
+      // No profile found — use Clerk firstName only, never guess from email
+      var displayName = user.firstName || 'Team Member';
       displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
       document.getElementById('portalUserName').textContent = displayName;
       if(error) console.warn('Supabase profile error:', error.message);
