@@ -915,6 +915,12 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Step-by-step process for approving and onboarding new crew members from application to first event.</p>
           <span class="portal-card-tag">Open guide →</span>
         </div>
+        <div id="emailSignatureCard" style="display:none;cursor:pointer;" class="portal-card">
+          <span class="portal-card-icon">✍️</span>
+          <h3>Email Signature Generator</h3>
+          <p>Build a Gmail-ready branded email signature with photo, contact details and social links.</p>
+          <span class="portal-card-tag">Open tool →</span>
+        </div>
         <button id="openWelcomeEmailPortal" style="display:none;" class="portal-card" style="cursor:pointer;text-align:left;font-family:inherit;">
           <span class="portal-card-icon">✉️</span>
           <h3>Welcome Email — Approved</h3>
@@ -1717,6 +1723,24 @@ function doLogout(){
     // ── Load Rentman roster for this user ──
     var userEmail = user.emailAddresses[0].emailAddress;
     loadRentmanRoster(userEmail);
+
+    // ── Role-based card visibility ──
+    var role = profile ? profile.role : null;
+    // Welcome email templates visible to super_admin and team_manager
+    if(role === 'super_admin' || role === 'team_manager'){
+      document.getElementById('openWelcomeEmailPortal').style.display = 'flex';
+      document.getElementById('openWelcomeEmail2Portal').style.display = 'flex';
+      document.getElementById('openSlackWelcomePortal').style.display = 'flex';
+    }
+    // Email Signature + Growth calculator + Add Crew — super_admin only
+    if(role === 'super_admin'){
+      document.getElementById('emailSignatureCard').style.display = 'flex';
+      var bigVision = document.getElementById('bigVisionSection');
+      if(bigVision) bigVision.style.display = '';
+      var addCrew = document.getElementById('addCrewSection');
+      if(addCrew) addCrew.style.display = 'block';
+      loadCrewUsers();
+    }
 
     if(profile){
       // Name
