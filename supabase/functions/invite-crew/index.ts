@@ -83,7 +83,6 @@ serve(async (req) => {
         first_name: first_name || null,
         last_name:  last_name  || null,
         role,
-        pending_invite: true,
       })
     } else {
       // Update name/role on re-invite without touching the id

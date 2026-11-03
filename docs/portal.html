@@ -2141,11 +2141,8 @@ async function loadCrewUsers(){
       var roleLabel = ROLE_LABELS[effectiveRole] || 'Team / General Crew';
       var roleColor = ROLE_COLORS[effectiveRole] || 'var(--forest)';
       var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
-      var pendingBadge = p.pending_invite
-        ? '<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;background:rgba(22,21,39,0.07);color:rgba(22,21,39,0.45);border-radius:100px;padding:3px 10px;margin-left:8px;">Invite Pending</span>'
-        : '';
       return '<div class="crew-user-row">'+
-        '<div><div class="crew-user-name">'+name+pendingBadge+'</div>'+emailStr+'</div>'+
+        '<div><div class="crew-user-name">'+name+'</div>'+emailStr+'</div>'+
         '<span class="crew-role-badge" style="color:'+roleColor+'">'+roleLabel+'</span>'+
       '</div>';
     }).join('');
