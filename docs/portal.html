@@ -1533,13 +1533,13 @@ Mitchel &amp; the Urban Echo team</pre>
             </span>
           </a>
 
-          <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
+          <button id="openWhsModal" class="policy-link" style="width:100%;text-align:left;cursor:pointer;font-family:inherit;">
             <span class="policy-link-icon">⚠️</span>
             <span class="policy-link-meta">
               <span>Work Health &amp; Safety</span>
               <span class="policy-link-sub">WHS Policy · 2026</span>
             </span>
-          </a>
+          </button>
 
           <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
             <span class="policy-link-icon">📱</span>
@@ -2409,6 +2409,81 @@ Mitchel &amp; the Urban Echo team</pre>
   </div>
 </div>
 
+<!-- ── WHS MODAL ── -->
+<div class="modal-overlay" id="whsModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+  <div class="modal-box" style="max-width:720px;">
+    <button class="modal-close" id="closeWhsModal">✕</button>
+    <span class="modal-eyebrow">Urban Echo Pty Ltd · 2026</span>
+    <h2>Work Health &amp; Safety Policy</h2>
+
+    <p style="font-size:13px;color:rgba(22,21,39,0.6);line-height:1.6;margin-bottom:24px;">Urban Echo is committed to providing a safe working environment for all staff, contractors and volunteers. This policy applies to all events, venues and work activities.</p>
+
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">9.1 · Workplace Health &amp; Safety</p>
+        <p style="font-size:13px;color:rgba(22,21,39,0.7);margin-bottom:8px;">Urban Echo is committed to safe working practices. Urban Echo employees and contractors are expected to:</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Follow Safe Work Australia guidelines</li>
+          <li>Comply with venue WHS requirements</li>
+          <li>Use safe lifting and manual handling practices</li>
+          <li>Report hazards immediately</li>
+          <li>Keep cables safely secured to reduce trip hazards</li>
+        </ul>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">9.2 · Electrical &amp; Equipment Safety</p>
+        <p style="font-size:13px;color:rgba(22,21,39,0.7);margin-bottom:8px;">Urban Echo employees and contractors are expected to:</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Operate equipment within their level of competency</li>
+          <li>Report damaged equipment immediately</li>
+          <li>Never bypass electrical safety protections</li>
+          <li>Transport and store equipment safely</li>
+          <li>Use tagged and tested equipment where required</li>
+        </ul>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">9.3 · Drug &amp; Alcohol Policy</p>
+        <p style="font-size:13px;color:rgba(22,21,39,0.7);margin-bottom:8px;">Urban Echo employees and contractors must not:</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Attend shifts under the influence of drugs or alcohol</li>
+          <li>Consume alcohol during shifts unless specifically approved</li>
+          <li>Engage in unsafe behaviour caused by impairment</li>
+        </ul>
+        <p style="font-size:13px;color:rgba(22,21,39,0.7);margin-top:10px;margin-bottom:0;">Breaches may result in removal from site and termination of engagement.</p>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">9.4 · Incident Reporting</p>
+        <p style="font-size:13px;color:rgba(22,21,39,0.8);margin:0;">Any injuries, hazards, near misses, equipment damage, or safety concerns should be reported to management as soon as possible. Use the Incident Response Form or Risk Assessment Form on the portal.</p>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">9.5 · Ladders &amp; Working at Height</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Never use a ladder alone — always have a spotter present</li>
+          <li>Inspect ladders before use and do not use damaged equipment</li>
+          <li>Keep three points of contact when on a ladder</li>
+          <li>Do not overreach — reposition the ladder instead</li>
+        </ul>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">9.6 · Emergency Procedures</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Familiarise yourself with evacuation routes and assembly points at each venue</li>
+          <li>In an emergency, follow venue staff instructions and call 000 if required</li>
+          <li>Know the location of first aid kits at every event</li>
+          <li>Do not re-enter a building during an evacuation until the all-clear is given</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- ── CODE OF CONDUCT MODAL ── -->
 <div class="modal-overlay" id="conductModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
   <div class="modal-box" style="max-width:720px;">
@@ -2987,6 +3062,8 @@ document.getElementById('closeRisk').addEventListener('click', function(){ close
 document.getElementById('closeIncident').addEventListener('click', function(){ closeModal('incidentModal'); });
 document.getElementById('closeContacts').addEventListener('click', function(){ closeModal('contactsModal'); });
 document.getElementById('closeRoster').addEventListener('click', function(){ closeModal('rosterModal'); });
+document.getElementById('openWhsModal').addEventListener('click', function(){ openModal('whsModal'); });
+document.getElementById('closeWhsModal').addEventListener('click', function(){ closeModal('whsModal'); });
 document.getElementById('openConductModal').addEventListener('click', function(){ openModal('conductModal'); });
 document.getElementById('closeConductModal').addEventListener('click', function(){ closeModal('conductModal'); });
 document.getElementById('openFeedback').addEventListener('click', function(){ openModal('feedbackModal'); });
