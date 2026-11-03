@@ -1020,6 +1020,12 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>All-team Slack welcome message. Copy and paste into the crew group chat.</p>
           <span class="portal-card-tag">View &amp; copy →</span>
         </button>
+        <a href="Employee_Code_of_Conduct_Child_Safety_Policy_July_2026.docx" target="_blank" style="text-decoration:none;" class="portal-card">
+          <span class="portal-card-icon">🛡️</span>
+          <h3>Code of Conduct — Sign &amp; Return</h3>
+          <p>Download, sign and return the Code of Conduct &amp; Child Safety Policy declaration.</p>
+          <span class="portal-card-tag">Download form →</span>
+        </a>
         <div class="portal-card" id="openInductionBtn">
           <span class="portal-card-icon">📋</span>
           <h3>Employee Induction</h3>
@@ -1511,13 +1517,13 @@ Mitchel &amp; the Urban Echo team</pre>
         <div class="policy-panel">
           <p class="policy-panel-title">Policies &amp; Documents</p>
 
-          <a href="Employee_Code_of_Conduct_Child_Safety_Policy_July_2026.docx" target="_blank" class="policy-link">
+          <button id="openConductModal" class="policy-link" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;">
             <span class="policy-link-icon">🛡️</span>
             <span class="policy-link-meta">
               <span>Code of Conduct &amp; Child Safety Policy</span>
               <span class="policy-link-sub">Mandatory · All Staff · July 2026</span>
             </span>
-          </a>
+          </button>
 
           <a href="employee-handbook-2026.pdf#page=1" target="_blank" class="policy-link">
             <span class="policy-link-icon">🔒</span>
@@ -2403,6 +2409,90 @@ Mitchel &amp; the Urban Echo team</pre>
   </div>
 </div>
 
+<!-- ── CODE OF CONDUCT MODAL ── -->
+<div class="modal-overlay" id="conductModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+  <div class="modal-box" style="max-width:720px;">
+    <button class="modal-close" id="closeConductModal">✕</button>
+    <span class="modal-eyebrow">Urban Echo Pty Ltd · July 2026</span>
+    <h2>Code of Conduct &amp; Child Safety Policy</h2>
+
+    <p style="font-size:13px;color:rgba(22,21,39,0.6);line-height:1.6;margin-bottom:24px;">This policy applies to all Urban Echo staff, contractors and volunteers. It sets out the standards of behaviour expected at all times when representing Urban Echo.</p>
+
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">1 · Professional Conduct</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Represent Urban Echo with pride, professionalism and warmth at all times.</li>
+          <li>Be punctual. Arrive on time and ready for your role — contact your supervisor immediately if you are running late.</li>
+          <li>Dress appropriately for the event. Smart casual or as directed by your supervisor.</li>
+          <li>Be respectful to clients, venue staff, students and fellow crew members at all times.</li>
+          <li>Avoid discriminatory, offensive or harassing language or behaviour.</li>
+          <li>Use of personal devices during events should be minimal and discreet.</li>
+        </ul>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">2 · Child Safety</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>A valid Working With Children Check (WWCC) must be held before working at any school event.</li>
+          <li>Never be alone with a student. Maintain appropriate professional boundaries at all times.</li>
+          <li>Photography and recording of students is strictly prohibited unless explicitly authorised in writing.</li>
+          <li>Do not give students personal contact details, follow them on social media, or communicate with them outside of work channels.</li>
+          <li>Any child safety concern must be reported to your supervisor immediately and documented.</li>
+          <li>Comply with all school visitor requirements including sign-in procedures and lanyard/badge protocols.</li>
+        </ul>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">3 · Health &amp; Safety</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Follow all WHS procedures and site-specific safety requirements.</li>
+          <li>Report hazards, near-misses and incidents via the portal forms immediately.</li>
+          <li>Use correct manual handling techniques. Ask for assistance with heavy loads.</li>
+          <li>Only operate electrical equipment you are trained and authorised to use.</li>
+          <li>Use ladders and elevated equipment safely and never alone.</li>
+          <li>Know the location of first aid kits and emergency exits at each venue.</li>
+        </ul>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">4 · Drugs, Alcohol &amp; Smoking</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Zero tolerance for drugs or alcohol while working or on-call. Do not arrive impaired.</li>
+          <li>Smoking and vaping is prohibited at all school venues and during any Urban Echo event.</li>
+          <li>Any breach of this policy may result in immediate stand-down and termination.</li>
+        </ul>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">5 · Confidentiality &amp; Social Media</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Do not share client, event or pricing information outside the team.</li>
+          <li>Do not post photos or videos from events on personal social media without prior approval.</li>
+          <li>Do not make public statements on behalf of Urban Echo.</li>
+          <li>Treat all internal communications and documents as confidential.</li>
+        </ul>
+      </div>
+
+      <div style="border:1.5px solid rgba(22,21,39,0.12);border-radius:14px;padding:20px;">
+        <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin-bottom:10px;">6 · Communication &amp; Availability</p>
+        <ul style="font-size:13px;line-height:1.8;color:rgba(22,21,39,0.8);padding-left:18px;margin:0;">
+          <li>Respond to booking requests and team messages promptly via Slack.</li>
+          <li>Notify your supervisor as early as possible if you are unable to make a confirmed shift.</li>
+          <li>Keep your availability updated in Rentman.</li>
+          <li>Attend briefings when required and confirm all event details before the day.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div style="margin-top:24px;padding:16px;background:var(--cream);border-radius:10px;border:1.5px solid rgba(22,21,39,0.1);">
+      <p style="font-size:12px;color:rgba(22,21,39,0.55);line-height:1.6;margin:0;">To acknowledge and sign this policy, download the form from the <strong>Code of Conduct — Sign &amp; Return</strong> card in Onboarding Resources and SOPs.</p>
+    </div>
+  </div>
+</div>
+
 <!-- ── TEAM FEEDBACK MODAL ── -->
 <div class="modal-overlay" id="feedbackModal">
   <div class="modal-box">
@@ -2897,6 +2987,8 @@ document.getElementById('closeRisk').addEventListener('click', function(){ close
 document.getElementById('closeIncident').addEventListener('click', function(){ closeModal('incidentModal'); });
 document.getElementById('closeContacts').addEventListener('click', function(){ closeModal('contactsModal'); });
 document.getElementById('closeRoster').addEventListener('click', function(){ closeModal('rosterModal'); });
+document.getElementById('openConductModal').addEventListener('click', function(){ openModal('conductModal'); });
+document.getElementById('closeConductModal').addEventListener('click', function(){ closeModal('conductModal'); });
 document.getElementById('openFeedback').addEventListener('click', function(){ openModal('feedbackModal'); });
 document.getElementById('closeFeedback').addEventListener('click', function(){ closeModal('feedbackModal'); });
 document.getElementById('openInductionBtn').addEventListener('click', function(){ openModal('inductionModal'); });
