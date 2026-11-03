@@ -87,7 +87,7 @@ h1{
   <h1>Set Up Your Account</h1>
   <p class="desc">Welcome to the Urban Echo team portal. Click below to create your account — it only takes a minute. Once done you'll be taken straight to the portal.</p>
 
-  <a href="https://accounts.urbanecho.com.au/sign-up?redirect_url=https://urbanecho.com.au/portal.html" class="btn">
+  <a id="create-btn" href="https://accounts.urbanecho.com.au/sign-up?redirect_url=https://urbanecho.com.au/portal.html" class="btn">
     Create Account →
   </a>
 
@@ -99,6 +99,16 @@ h1{
 </div>
 
 <a href="/" class="back">← Back to main site</a>
+
+<script>
+(function(){
+  var ticket = new URLSearchParams(window.location.search).get('__clerk_ticket');
+  if(ticket){
+    var btn = document.getElementById('create-btn');
+    btn.href = 'https://accounts.urbanecho.com.au/sign-up?redirect_url=https://urbanecho.com.au/portal.html&__clerk_ticket=' + encodeURIComponent(ticket);
+  }
+})();
+</script>
 
 </body>
 </html>
