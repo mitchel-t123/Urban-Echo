@@ -2135,20 +2135,51 @@ async function loadCrewUsers(){
     }
     var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
     var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
+    var ROLE_CYCLE  = ['team', 'team_manager', 'super_admin'];
     list.innerHTML = profiles.map(function(p){
       var name = [p.first_name, p.last_name].filter(Boolean).join(' ') || '—';
-      var effectiveRole = p.email === 'mitchel@urbanecho.com.au' ? 'super_admin' : p.role;
+      var isFixed = p.email === 'mitchel@urbanecho.com.au';
+      var effectiveRole = isFixed ? 'super_admin' : (p.role || 'team');
       var roleLabel = ROLE_LABELS[effectiveRole] || 'Team / General Crew';
       var roleColor = ROLE_COLORS[effectiveRole] || 'var(--forest)';
       var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
+      var badgeAttrs = isFixed
+        ? 'style="color:'+roleColor+'"'
+        : 'style="color:'+roleColor+';cursor:pointer;" title="Click to change role" data-uid="'+p.id+'" data-role="'+effectiveRole+'" onclick="cycleRole(this)"';
       return '<div class="crew-user-row">'+
         '<div><div class="crew-user-name">'+name+'</div>'+emailStr+'</div>'+
-        '<span class="crew-role-badge" style="color:'+roleColor+'">'+roleLabel+'</span>'+
+        '<span class="crew-role-badge" '+badgeAttrs+'>'+roleLabel+'</span>'+
       '</div>';
     }).join('');
   } catch(e){
     list.innerHTML = '<div style="font-size:13px;color:rgba(22,21,39,0.4);">Could not load users.</div>';
   }
+}
+
+async function cycleRole(badge){
+  var ROLE_CYCLE  = ['team', 'team_manager', 'super_admin'];
+  var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
+  var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
+  var uid  = badge.dataset.uid;
+  var cur  = badge.dataset.role;
+  var next = ROLE_CYCLE[(ROLE_CYCLE.indexOf(cur) + 1) % ROLE_CYCLE.length];
+  badge.textContent = '…';
+  badge.style.opacity = '0.5';
+  badge.style.pointerEvents = 'none';
+  var { error } = await supabaseClient
+    .from('profiles')
+    .update({ role: next })
+    .eq('id', uid);
+  if(error){
+    badge.textContent = ROLE_LABELS[cur];
+    badge.style.color = ROLE_COLORS[cur];
+  } else {
+    badge.dataset.role = next;
+    badge.textContent = ROLE_LABELS[next];
+    badge.style.color = ROLE_COLORS[next];
+  }
+  badge.style.opacity = '';
+  badge.style.pointerEvents = '';
 }
 
 async function sendInvite(){
