@@ -620,6 +620,30 @@ body.auth-pending{ visibility: hidden; }
   text-align:center;
 }
 .event-fb-btn:hover{ opacity:0.85; }
+.event-item-banner{
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:4px 4px 0 var(--ink);
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.event-item-banner:hover{ box-shadow:4px 4px 0 var(--indigo); border-color:var(--indigo); }
+.event-item-banner img{
+  width:100%; display:block;
+  aspect-ratio:16/7; object-fit:cover;
+  border-bottom:2.5px solid var(--ink);
+}
+.event-item-banner-body{
+  padding:20px 24px;
+  display:grid;
+  grid-template-columns:90px 1fr auto;
+  align-items:center;
+  gap:20px;
+}
+@media(max-width:620px){
+  .event-item-banner-body{ grid-template-columns:1fr; gap:10px; }
+}
 .event-training-badge{
   background: var(--sunshine); color:var(--ink);
   border:2px solid var(--ink);
@@ -929,18 +953,21 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
       <div class="roster-list" id="eventsList">
 
         <!-- ─ EVENT: Christmas Party ─ -->
-        <div class="event-item">
-          <div class="roster-date">
-            <span>19</span>
-            DEC
+        <div class="event-item-banner">
+          <img src="christmas-party-2026.png" alt="Urban Echo Christmas Party — Who's the Uggliest of Them All">
+          <div class="event-item-banner-body">
+            <div class="roster-date">
+              <span>19</span>
+              DEC
+            </div>
+            <div class="roster-detail">
+              <h4>Urban Echo Christmas Party 🎄🎅✨</h4>
+              <p>Christmas BBQ at the Tinsleys, Oakford — 6 PM. Spouses, partners and kids welcome! Food, soft drinks, outdoor movie, pool table, ping pong, lawn games and the Ugly T-Shirt Swap 👕 (bring the ugliest op-shop tee you can find — winner takes a $50 gift card 🏆).</p>
+            </div>
+            <a href="https://www.facebook.com/events/1102600715902887/" target="_blank" rel="noopener" class="roster-badge confirmed event-fb-btn">
+              View on Facebook →
+            </a>
           </div>
-          <div class="roster-detail">
-            <h4>Urban Echo Christmas Party 🎄🎅✨</h4>
-            <p>Christmas BBQ at the Tinsleys, Oakford — 6 PM. Spouses, partners and kids welcome! Food, soft drinks, outdoor movie, pool table, ping pong, lawn games and the Ugly T-Shirt Swap 👕 (bring the ugliest op-shop tee you can find — winner takes a $50 gift card 🏆).</p>
-          </div>
-          <a href="https://www.facebook.com/events/1102600715902887/" target="_blank" rel="noopener" class="roster-badge confirmed event-fb-btn">
-            View on Facebook →
-          </a>
         </div>
 
 
