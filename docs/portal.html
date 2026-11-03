@@ -724,6 +724,12 @@ body.auth-pending{ visibility: hidden; }
 .mfield input:focus, .mfield select:focus, .mfield textarea:focus{ border-color:var(--indigo); }
 .mfield textarea{ resize:vertical; min-height:80px; }
 .mrow{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.check-group{ display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+.check-group-title{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--orange); margin:18px 0 8px; }
+.check-item{ display:flex; align-items:center; gap:12px; cursor:pointer; padding:10px 14px; border-radius:10px; border:2px solid rgba(22,21,39,0.12); background:var(--cream); transition:border-color 0.15s; }
+.check-item:hover{ border-color:var(--indigo); }
+.check-item input[type="checkbox"]{ flex-shrink:0; width:18px; height:18px; accent-color:var(--indigo); cursor:pointer; }
+.check-item span{ font-family:var(--mono); font-size:12.5px; color:var(--ink); line-height:1.4; }
 @media(max-width:480px){ .mrow{ grid-template-columns:1fr; } }
 .modal-submit{
   width:100%; margin-top:8px; padding:14px;
@@ -1984,119 +1990,125 @@ Mitchel &amp; the Urban Echo team</pre>
     <h2>Employee Induction Checklist</h2>
     <form id="inductionForm">
 
-      <div class="mfield">
-        <label>Employee Name</label>
-        <input type="text" name="employee_name" placeholder="Full name" required>
+      <div class="mrow">
+        <div class="mfield">
+          <label>Employee Name</label>
+          <input type="text" name="employee_name" placeholder="Full name" required>
+        </div>
+        <div class="mfield">
+          <label>Position</label>
+          <input type="text" name="position" placeholder="e.g. AV Technician" required>
+        </div>
       </div>
-      <div class="mfield">
-        <label>Position</label>
-        <input type="text" name="position" placeholder="e.g. AV Technician" required>
-      </div>
-      <div class="mfield">
-        <label>Start Date</label>
-        <input type="date" name="start_date" required>
-      </div>
-      <div class="mfield">
-        <label>Induction Completed By</label>
-        <input type="text" name="completed_by" placeholder="Manager / Supervisor name" required>
-      </div>
-
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Employee Documentation</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="doc_agreement"> Employee Agreement signed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="doc_handbook"> Employee Handbook received</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="doc_wwcc"> Working With Children Check verified</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="doc_licence"> Driver's Licence verified</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="doc_emergency"> Emergency contact details provided</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="doc_fwis"> Fair Work Information Statement (FWIS)</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="doc_ceis"> Casual Employment Information Statement (CEIS)</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="doc_quickbooks"> Quickbooks Sign-up Form</label>
+      <div class="mrow">
+        <div class="mfield">
+          <label>Start Date</label>
+          <input type="date" name="start_date" required>
+        </div>
+        <div class="mfield">
+          <label>Induction Completed By</label>
+          <input type="text" name="completed_by" placeholder="Manager / Supervisor" required>
+        </div>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Company Introduction</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="ci_intro"> Introduction to Urban Echo Pty Ltd</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="ci_services"> Overview of company services and clients</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="ci_contacts"> Introduction to key contacts and supervisors</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="ci_comms"> Communication and reporting expectations explained</label>
+      <p class="check-group-title">Employee Documentation</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="doc_agreement"><span>Employee Agreement signed</span></label>
+        <label class="check-item"><input type="checkbox" name="doc_handbook"><span>Employee Handbook received</span></label>
+        <label class="check-item"><input type="checkbox" name="doc_wwcc"><span>Working With Children Check verified</span></label>
+        <label class="check-item"><input type="checkbox" name="doc_licence"><span>Driver's Licence verified</span></label>
+        <label class="check-item"><input type="checkbox" name="doc_emergency"><span>Emergency contact details provided</span></label>
+        <label class="check-item"><input type="checkbox" name="doc_fwis"><span>Fair Work Information Statement (FWIS)</span></label>
+        <label class="check-item"><input type="checkbox" name="doc_ceis"><span>Casual Employment Information Statement (CEIS)</span></label>
+        <label class="check-item"><input type="checkbox" name="doc_quickbooks"><span>Quickbooks Sign-up Form</span></label>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Code of Conduct &amp; Child Safety</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="cs_policy"> Code of Conduct and Child Safety Policy reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="cs_wwcc"> Working With Children obligations explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="cs_interactions"> Appropriate interactions with students explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="cs_photography"> Photography and recording restrictions explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="cs_reporting"> Child safety reporting obligations explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="cs_visitor"> School visitor requirements explained</label>
+      <p class="check-group-title">Company Introduction</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="ci_intro"><span>Introduction to Urban Echo Pty Ltd</span></label>
+        <label class="check-item"><input type="checkbox" name="ci_services"><span>Overview of company services and clients</span></label>
+        <label class="check-item"><input type="checkbox" name="ci_contacts"><span>Introduction to key contacts and supervisors</span></label>
+        <label class="check-item"><input type="checkbox" name="ci_comms"><span>Communication and reporting expectations explained</span></label>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Health &amp; Safety</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="hs_whs"> Workplace Health &amp; Safety requirements reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="hs_hazard"> Hazard reporting procedure explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="hs_incident"> Incident reporting procedure explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="hs_emergency"> Emergency procedures explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="hs_manual"> Manual handling requirements reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="hs_electrical"> Electrical safety requirements reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="hs_ladders"> Safe use of ladders and equipment reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="hs_firstaid"> First aid procedures explained</label>
+      <p class="check-group-title">Code of Conduct &amp; Child Safety</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="cs_policy"><span>Code of Conduct and Child Safety Policy reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="cs_wwcc"><span>Working With Children obligations explained</span></label>
+        <label class="check-item"><input type="checkbox" name="cs_interactions"><span>Appropriate interactions with students explained</span></label>
+        <label class="check-item"><input type="checkbox" name="cs_photography"><span>Photography and recording restrictions explained</span></label>
+        <label class="check-item"><input type="checkbox" name="cs_reporting"><span>Child safety reporting obligations explained</span></label>
+        <label class="check-item"><input type="checkbox" name="cs_visitor"><span>School visitor requirements explained</span></label>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Event Operations</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eo_setup"> Event setup procedures explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eo_packdown"> Event pack-down procedures explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eo_handling"> Equipment handling requirements reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eo_cables"> Cable management and trip hazard prevention explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eo_audio"> Audio equipment operation procedures reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eo_storage"> Equipment storage and transport requirements reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eo_vehicle"> Vehicle loading and unloading procedures explained</label>
+      <p class="check-group-title">Health &amp; Safety</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="hs_whs"><span>Workplace Health &amp; Safety requirements reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="hs_hazard"><span>Hazard reporting procedure explained</span></label>
+        <label class="check-item"><input type="checkbox" name="hs_incident"><span>Incident reporting procedure explained</span></label>
+        <label class="check-item"><input type="checkbox" name="hs_emergency"><span>Emergency procedures explained</span></label>
+        <label class="check-item"><input type="checkbox" name="hs_manual"><span>Manual handling requirements reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="hs_electrical"><span>Electrical safety requirements reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="hs_ladders"><span>Safe use of ladders and equipment reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="hs_firstaid"><span>First aid procedures explained</span></label>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Professional Conduct</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="pc_presentation"> Professional presentation expectations explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="pc_client"> Client service expectations explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="pc_confidentiality"> Confidentiality obligations reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="pc_respect"> Respectful workplace behaviour requirements explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="pc_bullying"> Anti-bullying and harassment expectations reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="pc_social"> Social media expectations explained</label>
+      <p class="check-group-title">Event Operations</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="eo_setup"><span>Event setup procedures explained</span></label>
+        <label class="check-item"><input type="checkbox" name="eo_packdown"><span>Event pack-down procedures explained</span></label>
+        <label class="check-item"><input type="checkbox" name="eo_handling"><span>Equipment handling requirements reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="eo_cables"><span>Cable management and trip hazard prevention explained</span></label>
+        <label class="check-item"><input type="checkbox" name="eo_audio"><span>Audio equipment operation procedures reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="eo_storage"><span>Equipment storage and transport requirements reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="eo_vehicle"><span>Vehicle loading and unloading procedures explained</span></label>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Drugs, Alcohol &amp; Smoking</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="das_policy"> Drug and Alcohol Policy reviewed</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="das_zero"> Zero tolerance while working explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="das_smoking"> Smoking and vaping restrictions explained</label>
+      <p class="check-group-title">Professional Conduct</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="pc_presentation"><span>Professional presentation expectations explained</span></label>
+        <label class="check-item"><input type="checkbox" name="pc_client"><span>Client service expectations explained</span></label>
+        <label class="check-item"><input type="checkbox" name="pc_confidentiality"><span>Confidentiality obligations reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="pc_respect"><span>Respectful workplace behaviour requirements explained</span></label>
+        <label class="check-item"><input type="checkbox" name="pc_bullying"><span>Anti-bullying and harassment expectations reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="pc_social"><span>Social media expectations explained</span></label>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Communications</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="com_booking"> Booking and rostering process explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="com_availability"> Availability notification process explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="com_absence"> Absence notification requirements explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="com_briefing"> Event briefing process explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="com_supervisor"> Supervisor contact details provided</label>
+      <p class="check-group-title">Drugs, Alcohol &amp; Smoking</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="das_policy"><span>Drug and Alcohol Policy reviewed</span></label>
+        <label class="check-item"><input type="checkbox" name="das_zero"><span>Zero tolerance while working explained</span></label>
+        <label class="check-item"><input type="checkbox" name="das_smoking"><span>Smoking and vaping restrictions explained</span></label>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Equipment</p>
-      <div class="mfield" style="gap:8px;display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eq_issued"> Company equipment issued (if applicable)</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eq_care"> Equipment care requirements explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eq_fault"> Fault reporting procedure explained</label>
-        <label style="display:flex;align-items:center;gap:10px;font-weight:400;cursor:pointer;"><input type="checkbox" name="eq_return"> Equipment return requirements explained</label>
+      <p class="check-group-title">Communications</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="com_booking"><span>Booking and rostering process explained</span></label>
+        <label class="check-item"><input type="checkbox" name="com_availability"><span>Availability notification process explained</span></label>
+        <label class="check-item"><input type="checkbox" name="com_absence"><span>Absence notification requirements explained</span></label>
+        <label class="check-item"><input type="checkbox" name="com_briefing"><span>Event briefing process explained</span></label>
+        <label class="check-item"><input type="checkbox" name="com_supervisor"><span>Supervisor contact details provided</span></label>
       </div>
 
-      <p style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--orange);margin:20px 0 10px;">Employee Declaration</p>
-      <p style="font-size:12.5px;line-height:1.65;color:rgba(22,21,39,0.7);margin-bottom:14px;font-family:var(--mono);">I confirm that I have completed this induction and that I have been provided with the information, policies, procedures, and requirements listed above. I understand my obligations as an employee of Urban Echo Pty Ltd and agree to comply with all applicable policies, procedures, and safety requirements.</p>
-      <div class="mfield">
-        <label>Employee Full Name (Declaration)</label>
-        <input type="text" name="employee_declaration_name" placeholder="Type your full name to confirm" required>
+      <p class="check-group-title">Equipment</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="eq_issued"><span>Company equipment issued (if applicable)</span></label>
+        <label class="check-item"><input type="checkbox" name="eq_care"><span>Equipment care requirements explained</span></label>
+        <label class="check-item"><input type="checkbox" name="eq_fault"><span>Fault reporting procedure explained</span></label>
+        <label class="check-item"><input type="checkbox" name="eq_return"><span>Equipment return requirements explained</span></label>
       </div>
-      <div class="mfield">
-        <label>Date</label>
-        <input type="date" name="employee_declaration_date" required>
+
+      <p class="check-group-title">Employee Declaration</p>
+      <p style="font-size:12.5px;line-height:1.65;color:rgba(22,21,39,0.65);margin-bottom:14px;font-family:var(--mono);">I confirm that I have completed this induction and that I have been provided with the information, policies, procedures, and requirements listed above. I understand my obligations as an employee of Urban Echo Pty Ltd and agree to comply with all applicable policies, procedures, and safety requirements.</p>
+      <div class="mrow">
+        <div class="mfield">
+          <label>Full Name (Declaration)</label>
+          <input type="text" name="employee_declaration_name" placeholder="Type your full name" required>
+        </div>
+        <div class="mfield">
+          <label>Date</label>
+          <input type="date" name="employee_declaration_date" required>
+        </div>
       </div>
 
       <button type="submit" class="modal-submit">Submit Induction Checklist</button>
@@ -2659,13 +2671,14 @@ function detailBlock(icon, label, text){
 }
 
 // ── Form submissions via Formspree ───────────────────────────
-function submitForm(formId, successId, subject){
+function submitForm(formId, successId, subject, endpoint){
+  var url = endpoint || 'https://formspree.io/f/mlgyjyej';
   var form = document.getElementById(formId);
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var data = Object.fromEntries(new FormData(form));
     data._subject = subject;
-    fetch('https://formspree.io/f/mlgyjyej', {
+    fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(data)
@@ -2681,7 +2694,7 @@ function submitForm(formId, successId, subject){
 submitForm('riskForm', 'riskSuccess', '⚠️ Risk Assessment — Urban Echo Portal');
 submitForm('incidentForm', 'incidentSuccess', '🚨 Incident Report — Urban Echo Portal');
 submitForm('feedbackForm', 'feedbackSuccess', '💬 Team Feedback — Urban Echo Portal');
-submitForm('inductionForm', 'inductionSuccess', '📋 Employee Induction Checklist — Urban Echo Portal');
+submitForm('inductionForm', 'inductionSuccess', '📋 Employee Induction Checklist — Urban Echo Portal', 'https://formspree.io/f/mnpporyq');
 
 // ── Employee Handbook page navigator (2-up spread) ──────────
 (function(){
