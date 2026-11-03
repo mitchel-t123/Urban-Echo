@@ -205,6 +205,16 @@ body.auth-pending{ visibility: hidden; }
   padding:4px 10px; border-radius:100px; flex-shrink:0;
   border:1.5px solid currentColor;
 }
+.role-select{
+  font-family:var(--mono); font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.1em;
+  padding:4px 10px; border-radius:100px; flex-shrink:0;
+  border:1.5px solid currentColor; background:transparent;
+  cursor:pointer; appearance:none; -webkit-appearance:none;
+  padding-right:20px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 6px center;
+}
 @media(max-width:780px){
   #addCrewSection .portal-card-base { grid-column:1/-1; }
   #addCrewSection > .wrap > div { grid-template-columns:1fr; }
@@ -891,6 +901,26 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
       <div class="portal-cards" id="quickLinksGrid">
         <!-- Cards injected by renderQuickLinks() after auth -->
       </div>
+      <div class="portal-cards" style="margin-top:16px;">
+        <a href="problems.html" class="portal-card">
+          <span class="portal-card-icon">🛠️</span>
+          <h3>Troubleshooting Tool</h3>
+          <p>Step-by-step sound diagnostic guide for on-the-day issues.</p>
+          <span class="portal-card-tag">Open tool →</span>
+        </a>
+        <button class="portal-card" id="openFeedback" style="background:var(--cream);border:2px solid var(--ink);border-radius:20px;cursor:pointer;text-align:left;padding:24px;display:flex;flex-direction:column;gap:10px;font-family:inherit;">
+          <span class="portal-card-icon">💬</span>
+          <h3>Team Feedback</h3>
+          <p>Share ideas, suggestions, or anything that would make your job easier.</p>
+          <span class="portal-card-tag">Open form →</span>
+        </button>
+        <div class="portal-card">
+          <span class="portal-card-icon">📋</span>
+          <h3>Run Sheets</h3>
+          <p>Event run sheets and technical riders for upcoming jobs. (Coming soon)</p>
+          <span class="portal-card-tag">In progress</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1452,37 +1482,6 @@ Mitchel &amp; the Urban Echo team</pre>
              target="_blank" rel="noopener" class="wwc-renew-btn">
             🔄 Renew Now
           </a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- QUICK ACCESS -->
-  <section class="portal-section">
-    <div class="wrap">
-      <h2>Quick Access</h2>
-      <div class="portal-cards">
-
-        <a href="problems.html" class="portal-card">
-          <span class="portal-card-icon">🛠️</span>
-          <h3>Troubleshooting Tool</h3>
-          <p>Step-by-step sound diagnostic guide for on-the-day issues.</p>
-          <span class="portal-card-tag">Open tool →</span>
-        </a>
-
-        <button class="portal-card" id="openFeedback" style="background:var(--cream);border:2px solid var(--ink);border-radius:20px;cursor:pointer;text-align:left;padding:24px;display:flex;flex-direction:column;gap:10px;font-family:inherit;">
-          <span class="portal-card-icon">💬</span>
-          <h3>Team Feedback</h3>
-          <p>Share ideas, suggestions, or anything that would make your job easier.</p>
-          <span class="portal-card-tag">Open form →</span>
-        </button>
-
-        <div class="portal-card">
-          <span class="portal-card-icon">📋</span>
-          <h3>Run Sheets</h3>
-          <p>Event run sheets and technical riders for upcoming jobs. (Coming soon)</p>
-          <span class="portal-card-tag">In progress</span>
         </div>
 
       </div>
@@ -2712,12 +2711,16 @@ async function loadCrewUsers(){
       var roleLabel = ROLE_LABELS[effectiveRole] || 'Team / General Crew';
       var roleColor = ROLE_COLORS[effectiveRole] || 'var(--forest)';
       var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
-      var badgeAttrs = isFixed
-        ? 'style="color:'+roleColor+'"'
-        : 'style="color:'+roleColor+';cursor:pointer;" title="Click to change role" data-uid="'+p.id+'" data-role="'+effectiveRole+'" onclick="cycleRole(this)"';
+      var roleControl = isFixed
+        ? '<span class="crew-role-badge" style="color:'+roleColor+'">'+roleLabel+'</span>'
+        : '<select class="role-select" style="color:'+roleColor+'" data-uid="'+p.id+'" data-role="'+effectiveRole+'" onchange="changeRole(this)">'+
+            '<option value="team"'+(effectiveRole==='team'?' selected':'')+'>Team / General Crew</option>'+
+            '<option value="team_manager"'+(effectiveRole==='team_manager'?' selected':'')+'>Team Manager</option>'+
+            '<option value="super_admin"'+(effectiveRole==='super_admin'?' selected':'')+'>Super Admin</option>'+
+          '</select>';
       return '<div class="crew-user-row">'+
         '<div><div class="crew-user-name">'+name+'</div>'+emailStr+'</div>'+
-        '<span class="crew-role-badge" '+badgeAttrs+'>'+roleLabel+'</span>'+
+        roleControl+
       '</div>';
     }).join('');
   } catch(e){
@@ -2725,30 +2728,25 @@ async function loadCrewUsers(){
   }
 }
 
-async function cycleRole(badge){
-  var ROLE_CYCLE  = ['team', 'team_manager', 'super_admin'];
-  var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
+async function changeRole(sel){
   var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
-  var uid  = badge.dataset.uid;
-  var cur  = badge.dataset.role;
-  var next = ROLE_CYCLE[(ROLE_CYCLE.indexOf(cur) + 1) % ROLE_CYCLE.length];
-  badge.textContent = '…';
-  badge.style.opacity = '0.5';
-  badge.style.pointerEvents = 'none';
+  var uid  = sel.dataset.uid;
+  var prev = sel.dataset.role;
+  var next = sel.value;
+  sel.disabled = true;
+  sel.style.opacity = '0.5';
   var { error } = await supabaseClient
     .from('profiles')
     .update({ role: next })
     .eq('id', uid);
   if(error){
-    badge.textContent = ROLE_LABELS[cur];
-    badge.style.color = ROLE_COLORS[cur];
+    sel.value = prev;
   } else {
-    badge.dataset.role = next;
-    badge.textContent = ROLE_LABELS[next];
-    badge.style.color = ROLE_COLORS[next];
+    sel.dataset.role = next;
+    sel.style.color = ROLE_COLORS[next];
   }
-  badge.style.opacity = '';
-  badge.style.pointerEvents = '';
+  sel.disabled = false;
+  sel.style.opacity = '';
 }
 
 async function sendInvite(){
@@ -3422,12 +3420,16 @@ async function loadCrewUsers(){
       var roleLabel = ROLE_LABELS[effectiveRole] || 'Team / General Crew';
       var roleColor = ROLE_COLORS[effectiveRole] || 'var(--forest)';
       var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
-      var badgeAttrs = isFixed
-        ? 'style="color:'+roleColor+'"'
-        : 'style="color:'+roleColor+';cursor:pointer;" title="Click to change role" data-uid="'+p.id+'" data-role="'+effectiveRole+'" onclick="cycleRole(this)"';
+      var roleControl = isFixed
+        ? '<span class="crew-role-badge" style="color:'+roleColor+'">'+roleLabel+'</span>'
+        : '<select class="role-select" style="color:'+roleColor+'" data-uid="'+p.id+'" data-role="'+effectiveRole+'" onchange="changeRole(this)">'+
+            '<option value="team"'+(effectiveRole==='team'?' selected':'')+'>Team / General Crew</option>'+
+            '<option value="team_manager"'+(effectiveRole==='team_manager'?' selected':'')+'>Team Manager</option>'+
+            '<option value="super_admin"'+(effectiveRole==='super_admin'?' selected':'')+'>Super Admin</option>'+
+          '</select>';
       return '<div class="crew-user-row">'+
         '<div><div class="crew-user-name">'+name+'</div>'+emailStr+'</div>'+
-        '<span class="crew-role-badge" '+badgeAttrs+'>'+roleLabel+'</span>'+
+        roleControl+
       '</div>';
     }).join('');
   } catch(e){
@@ -3435,30 +3437,25 @@ async function loadCrewUsers(){
   }
 }
 
-async function cycleRole(badge){
-  var ROLE_CYCLE  = ['team', 'team_manager', 'super_admin'];
-  var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
+async function changeRole(sel){
   var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
-  var uid  = badge.dataset.uid;
-  var cur  = badge.dataset.role;
-  var next = ROLE_CYCLE[(ROLE_CYCLE.indexOf(cur) + 1) % ROLE_CYCLE.length];
-  badge.textContent = '…';
-  badge.style.opacity = '0.5';
-  badge.style.pointerEvents = 'none';
+  var uid  = sel.dataset.uid;
+  var prev = sel.dataset.role;
+  var next = sel.value;
+  sel.disabled = true;
+  sel.style.opacity = '0.5';
   var { error } = await supabaseClient
     .from('profiles')
     .update({ role: next })
     .eq('id', uid);
   if(error){
-    badge.textContent = ROLE_LABELS[cur];
-    badge.style.color = ROLE_COLORS[cur];
+    sel.value = prev;
   } else {
-    badge.dataset.role = next;
-    badge.textContent = ROLE_LABELS[next];
-    badge.style.color = ROLE_COLORS[next];
+    sel.dataset.role = next;
+    sel.style.color = ROLE_COLORS[next];
   }
-  badge.style.opacity = '';
-  badge.style.pointerEvents = '';
+  sel.disabled = false;
+  sel.style.opacity = '';
 }
 
 </script>
