@@ -64,16 +64,35 @@ serve(async (req) => {
   }
 
   // ── 2. Pre-create a Supabase profile row (pending) ───────────
-  // Uses the service role key so it can write without a user JWT
+  // Uses the service role key so it can write without a user JWT.
+  // A temp UUID is used for id so the row satisfies the primary key constraint;
+  // the Clerk webhook replaces it with the real Clerk user id on sign-up.
   if (SUPABASE_URL && SUPABASE_SERVICE_KEY) {
     const sb = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
-    await sb.from('profiles').upsert({
-      email,
-      first_name: first_name || null,
-      last_name:  last_name  || null,
-      role,
-      // id will be filled when the user actually signs up via Clerk webhook
-    }, { onConflict: 'email' })
+    // Check if a profile for this email already exists (don't overwrite real id)
+    const { data: existing } = await sb
+      .from('profiles')
+      .select('id')
+      .eq('email', email)
+      .maybeSingle()
+
+    if (!existing) {
+      await sb.from('profiles').insert({
+        id: crypto.randomUUID(),
+        email,
+        first_name: first_name || null,
+        last_name:  last_name  || null,
+        role,
+        pending_invite: true,
+      })
+    } else {
+      // Update name/role on re-invite without touching the id
+      await sb.from('profiles').update({
+        first_name: first_name || null,
+        last_name:  last_name  || null,
+        role,
+      }).eq('email', email)
+    }
   }
 
   return json({ ok: true, invitation_id: clerkData.id })
