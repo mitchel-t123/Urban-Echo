@@ -884,6 +884,39 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
     </div>
   </section>
 
+  <!-- QUICK LINKS, role-based, populated by JS -->
+  <section class="portal-section">
+    <div class="wrap">
+      <h2>Quick Links</h2>
+      <div class="portal-cards" id="quickLinksGrid">
+        <!-- Cards injected by renderQuickLinks() after auth -->
+      </div>
+    </div>
+  </section>
+
+  <!-- UPCOMING EVENTS -->
+  <section class="portal-section" id="eventsSection">
+    <div class="wrap">
+      <h2>Upcoming Events</h2>
+      <div class="roster-list" id="eventsList">
+        <div class="event-item">
+          <div class="roster-date">
+            <span>19</span>
+            DEC
+          </div>
+          <div class="roster-detail">
+            <h4>Urban Echo Christmas Party 🎄🎅✨</h4>
+            <p>Christmas BBQ at the Tinsleys, Oakford — 6 PM. Spouses, partners and kids welcome! Food, soft drinks, outdoor movie, pool table, ping pong, lawn games and the Ugly T-Shirt Swap 👕 (bring the ugliest op-shop tee you can find — winner takes a $50 gift card 🏆).</p>
+          </div>
+          <a href="https://www.facebook.com/events/1102600715902887/" target="_blank" rel="noopener" class="roster-badge confirmed event-fb-btn">
+            View on Facebook →
+          </a>
+        </div>
+      </div>
+      <p id="eventsEmpty" style="display:none;font-size:13px;color:rgba(22,21,39,0.4);padding:8px 0;">No upcoming events scheduled. Check back soon.</p>
+    </div>
+  </section>
+
   <!-- SOPs -->
   <section class="portal-section">
     <div class="wrap">
