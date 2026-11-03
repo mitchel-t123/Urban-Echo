@@ -1517,7 +1517,7 @@ Mitchel &amp; the Urban Echo team</pre>
         <div class="policy-panel">
           <p class="policy-panel-title">Policies &amp; Documents</p>
 
-          <button id="openConductModal" class="policy-link" style="width:100%;text-align:left;cursor:pointer;font-family:inherit;">
+          <button onclick="document.getElementById('conductModal').classList.add('open')" class="policy-link" style="width:100%;text-align:left;cursor:pointer;font-family:inherit;">
             <span class="policy-link-icon">🛡️</span>
             <span class="policy-link-meta">
               <span>Code of Conduct &amp; Child Safety Policy</span>
@@ -1533,7 +1533,7 @@ Mitchel &amp; the Urban Echo team</pre>
             </span>
           </a>
 
-          <button id="openWhsModal" class="policy-link" style="width:100%;text-align:left;cursor:pointer;font-family:inherit;">
+          <button onclick="document.getElementById('whsModal').classList.add('open')" class="policy-link" style="width:100%;text-align:left;cursor:pointer;font-family:inherit;">
             <span class="policy-link-icon">⚠️</span>
             <span class="policy-link-meta">
               <span>Work Health &amp; Safety</span>
@@ -2410,9 +2410,9 @@ Mitchel &amp; the Urban Echo team</pre>
 </div>
 
 <!-- ── WHS MODAL ── -->
-<div class="modal-overlay" id="whsModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+<div class="modal-overlay" id="whsModal" onclick="if(event.target===this)this.classList.remove('open')" style="padding:16px;align-items:flex-start;padding-top:40px;">
   <div class="modal-box" style="max-width:720px;">
-    <button class="modal-close" id="closeWhsModal">✕</button>
+    <button class="modal-close" onclick="document.getElementById('whsModal').classList.remove('open')">✕</button>
     <span class="modal-eyebrow">Urban Echo Pty Ltd · 2026</span>
     <h2>Work Health &amp; Safety Policy</h2>
 
@@ -2485,9 +2485,9 @@ Mitchel &amp; the Urban Echo team</pre>
 </div>
 
 <!-- ── CODE OF CONDUCT MODAL ── -->
-<div class="modal-overlay" id="conductModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+<div class="modal-overlay" id="conductModal" onclick="if(event.target===this)this.classList.remove('open')" style="padding:16px;align-items:flex-start;padding-top:40px;">
   <div class="modal-box" style="max-width:720px;">
-    <button class="modal-close" id="closeConductModal">✕</button>
+    <button class="modal-close" onclick="document.getElementById('conductModal').classList.remove('open')">✕</button>
     <span class="modal-eyebrow">Urban Echo Pty Ltd · July 2026</span>
     <h2>Code of Conduct &amp; Child Safety Policy</h2>
 
@@ -3062,10 +3062,7 @@ document.getElementById('closeRisk').addEventListener('click', function(){ close
 document.getElementById('closeIncident').addEventListener('click', function(){ closeModal('incidentModal'); });
 document.getElementById('closeContacts').addEventListener('click', function(){ closeModal('contactsModal'); });
 document.getElementById('closeRoster').addEventListener('click', function(){ closeModal('rosterModal'); });
-document.getElementById('openWhsModal').addEventListener('click', function(){ openModal('whsModal'); });
-document.getElementById('closeWhsModal').addEventListener('click', function(){ closeModal('whsModal'); });
-document.getElementById('openConductModal').addEventListener('click', function(){ openModal('conductModal'); });
-document.getElementById('closeConductModal').addEventListener('click', function(){ closeModal('conductModal'); });
+
 document.getElementById('openFeedback').addEventListener('click', function(){ openModal('feedbackModal'); });
 document.getElementById('closeFeedback').addEventListener('click', function(){ closeModal('feedbackModal'); });
 document.getElementById('openInductionBtn').addEventListener('click', function(){ openModal('inductionModal'); });
