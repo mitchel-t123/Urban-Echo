@@ -112,7 +112,7 @@ body{
   background:#e8eaf6; font-size:28px;
 }
 .sig-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
-.sig-divider{ width:3px; background:var(--navy); border-radius:2px; flex-shrink:0; margin:10px 18px 10px 0; }
+.sig-divider{ width:3px; background:var(--navy); border-radius:2px; flex-shrink:0; margin-right:18px; }
 .sig-info{ flex:1; display:flex; flex-direction:column; gap:3px; justify-content:center; align-items:flex-start; }
 .sig-name{ font-size:16px; font-weight:800; color:var(--ink); line-height:1.2; }
 .sig-role{ display:inline-block; width:auto; max-width:max-content; align-self:flex-start; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#fff; background:#2563EB; border-radius:100px; padding:4px 12px; margin-bottom:10px; }
@@ -289,10 +289,10 @@ function buildGmailHTML(){
     : '';
 
   var photoCell = photo
-    ? '        <td style="padding-right:20px;vertical-align:middle;">\n'
+    ? '        <td style="padding:18px 20px 18px 22px;vertical-align:middle;">\n'
       + '          <img src="'+photo+'" width="72" height="72" alt="" style="width:72px;height:72px;border-radius:50%;border:3px solid #1a237e;object-fit:cover;display:block;">\n'
       + '        </td>\n'
-    : '        <td style="padding-right:20px;vertical-align:middle;width:72px;">\n'
+    : '        <td style="padding:18px 20px 18px 22px;vertical-align:middle;width:72px;">\n'
       + '          <div style="width:72px;height:72px;border-radius:50%;border:3px solid #1a237e;background:#e8eaf6;display:inline-block;"></div>\n'
       + '        </td>\n';
 
@@ -306,7 +306,7 @@ function buildGmailHTML(){
     + '  <!-- Photo + info -->\n'
     + '  <tr>\n'
     + photoCell
-    + '        <td style="width:3px;padding:14px 0;vertical-align:top;"><div style="width:3px;background:#2563EB;border-radius:2px;min-height:60px;height:100%;"></div></td>\n'
+    + '        <td style="width:3px;background:#2563EB;border-radius:2px;padding:0;"></td>\n'
     + '        <td style="padding:18px 22px 16px 18px;vertical-align:middle;">\n'
     + '          <strong style="font-size:16px;font-weight:800;color:#161527;display:block;font-family:Arial,Helvetica,sans-serif;">'+esc(name)+'</strong>\n'
     + '          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#ffffff;background:#2563EB;border-radius:100px;padding:4px 12px;display:inline-block;margin:4px 0 10px;font-family:Arial,Helvetica,sans-serif;">'+esc(role)+'</span>\n'
