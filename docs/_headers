@@ -1,0 +1,15 @@
+# HTML pages — never cache, always fetch fresh
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+# Images and PDFs — cache for 7 days (they rarely change)
+/*.webp
+  Cache-Control: public, max-age=604800
+/*.jpg
+  Cache-Control: public, max-age=604800
+/*.png
+  Cache-Control: public, max-age=604800
+/*.pdf
+  Cache-Control: public, max-age=604800
