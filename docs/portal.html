@@ -930,7 +930,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Step-by-step sound diagnostic guide for on-the-day issues.</p>
           <span class="portal-card-tag">Open tool →</span>
         </a>
-        <button class="portal-card" id="openFeedback" style="background:var(--cream);border:2px solid var(--ink);border-radius:20px;cursor:pointer;text-align:left;padding:24px;display:flex;flex-direction:column;gap:10px;font-family:inherit;">
+        <button class="portal-card" id="openFeedback" onclick="document.getElementById('feedbackModal').classList.add('open')" style="background:var(--cream);border:2px solid var(--ink);border-radius:20px;cursor:pointer;text-align:left;padding:24px;display:flex;flex-direction:column;gap:10px;font-family:inherit;">
           <span class="portal-card-icon">💬</span>
           <h3>Team Feedback</h3>
           <p>Share ideas, suggestions, or anything that would make your job easier.</p>
@@ -1053,7 +1053,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <p>Download, sign and return the Code of Conduct &amp; Child Safety Policy declaration.</p>
           <span class="portal-card-tag">Download form →</span>
         </a>
-        <div class="portal-card" id="openInductionBtn">
+        <div class="portal-card" id="openInductionBtn" onclick="document.getElementById('inductionModal').classList.add('open')" style="cursor:pointer;">
           <span class="portal-card-icon">📋</span>
           <h3>Employee Induction</h3>
           <p>Complete your induction checklist before your first shift.</p>
@@ -2051,9 +2051,9 @@ Mitchel &amp; the Urban Echo team</pre>
 </div>
 
 <!-- ── ROSTER EVENT DETAIL MODAL ── -->
-<div class="modal-overlay" id="rosterModal">
+<div class="modal-overlay" id="rosterModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box" style="max-width:520px;">
-    <button class="modal-close" id="closeRoster">✕</button>
+    <button class="modal-close" id="closeRoster" onclick="document.getElementById('rosterModal').classList.remove('open')">✕</button>
     <span class="modal-eyebrow" id="rosterModalDate">Urban Echo</span>
     <h2 id="rosterModalTitle">Event Details</h2>
     <div id="rosterModalBody"></div>
@@ -2284,9 +2284,9 @@ Mitchel &amp; the Urban Echo team</pre>
 </div>
 
 <!-- ── EMPLOYEE INDUCTION MODAL ── -->
-<div class="modal-overlay" id="inductionModal">
+<div class="modal-overlay" id="inductionModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box">
-    <button class="modal-close" id="closeInduction">✕</button>
+    <button class="modal-close" id="closeInduction" onclick="document.getElementById('inductionModal').classList.remove('open')">✕</button>
     <span class="modal-eyebrow">Urban Echo</span>
     <h2>Employee Induction Checklist</h2>
     <form id="inductionForm">
@@ -2581,9 +2581,9 @@ Mitchel &amp; the Urban Echo team</pre>
 </div>
 
 <!-- ── TEAM FEEDBACK MODAL ── -->
-<div class="modal-overlay" id="feedbackModal">
+<div class="modal-overlay" id="feedbackModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box">
-    <button class="modal-close" id="closeFeedback">✕</button>
+    <button class="modal-close" id="closeFeedback" onclick="document.getElementById('feedbackModal').classList.remove('open')">✕</button>
     <span class="modal-eyebrow">Urban Echo</span>
     <h2>Team Feedback</h2>
     <form id="feedbackForm">
@@ -3067,17 +3067,16 @@ document.querySelectorAll('#riskLevel .risk-chip').forEach(function(chip){
 function openModal(id){ document.getElementById(id).classList.add('open'); }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
-document.getElementById('closeRoster').addEventListener('click', function(){ closeModal('rosterModal'); });
-
-document.getElementById('openFeedback').addEventListener('click', function(){ openModal('feedbackModal'); });
-document.getElementById('closeFeedback').addEventListener('click', function(){ closeModal('feedbackModal'); });
-document.getElementById('openInductionBtn').addEventListener('click', function(){ openModal('inductionModal'); });
-document.getElementById('closeInduction').addEventListener('click', function(){ closeModal('inductionModal'); });
+var _el;
+(_el=document.getElementById('closeRoster'))&&_el.addEventListener('click',function(){ closeModal('rosterModal'); });
+(_el=document.getElementById('openFeedback'))&&_el.addEventListener('click',function(){ openModal('feedbackModal'); });
+(_el=document.getElementById('closeFeedback'))&&_el.addEventListener('click',function(){ closeModal('feedbackModal'); });
+(_el=document.getElementById('openInductionBtn'))&&_el.addEventListener('click',function(){ openModal('inductionModal'); });
+(_el=document.getElementById('closeInduction'))&&_el.addEventListener('click',function(){ closeModal('inductionModal'); });
 
 ['riskModal','incidentModal','contactsModal','rosterModal','inductionModal'].forEach(function(id){
-  document.getElementById(id).addEventListener('click', function(e){
-    if(e.target === this) closeModal(id);
-  });
+  var m=document.getElementById(id);
+  if(m) m.addEventListener('click',function(e){ if(e.target===this) closeModal(id); });
 });
 
 // ── Roster event detail popup ─────────────────────────────────
