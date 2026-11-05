@@ -988,21 +988,21 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
           <span class="portal-card-tag">Open checklist →</span>
         </a>
 
-        <div class="portal-card" id="openRiskBtn">
+        <div class="portal-card" id="openRiskBtn" onclick="document.getElementById('riskModal').classList.add('open')">
           <span class="portal-card-icon">⚠️</span>
           <h3>Risk Assessment Form</h3>
           <p>Log and assess hazards before or during an event.</p>
           <span class="portal-card-tag">Fill out →</span>
         </div>
 
-        <div class="portal-card" id="openIncidentBtn">
+        <div class="portal-card" id="openIncidentBtn" onclick="document.getElementById('incidentModal').classList.add('open')">
           <span class="portal-card-icon">🚨</span>
           <h3>Incident Response Form</h3>
           <p>Report an incident or near-miss that occurred on the job.</p>
           <span class="portal-card-tag">Fill out →</span>
         </div>
 
-        <div class="portal-card" id="openContactsBtn">
+        <div class="portal-card" id="openContactsBtn" onclick="document.getElementById('contactsModal').classList.add('open')">
           <span class="portal-card-icon">📞</span>
           <h3>Key Contacts</h3>
           <p>School contacts, venue details, and emergency numbers.</p>
@@ -2005,9 +2005,9 @@ Mitchel &amp; the Urban Echo team</pre>
 </footer>
 
 <!-- ── KEY CONTACTS MODAL ── -->
-<div class="modal-overlay" id="contactsModal">
+<div class="modal-overlay" id="contactsModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box" style="max-width:560px;">
-    <button class="modal-close" id="closeContacts">✕</button>
+    <button class="modal-close" id="closeContacts" onclick="document.getElementById('contactsModal').classList.remove('open')">✕</button>
     <span class="modal-eyebrow">Urban Echo</span>
     <h2>Key Contacts</h2>
     <a href="tel:0429660186" style="display:flex;align-items:center;gap:14px;background:var(--ink);color:var(--paper);border-radius:14px;padding:16px 20px;text-decoration:none;font-weight:800;font-size:16px;margin-bottom:28px;">
@@ -2076,9 +2076,9 @@ Mitchel &amp; the Urban Echo team</pre>
 </div>
 
 <!-- ── RISK ASSESSMENT MODAL ── -->
-<div class="modal-overlay" id="riskModal">
+<div class="modal-overlay" id="riskModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box">
-    <button class="modal-close" id="closeRisk">✕</button>
+    <button class="modal-close" id="closeRisk" onclick="document.getElementById('riskModal').classList.remove('open')">✕</button>
     <span class="modal-eyebrow">Urban Echo</span>
     <h2>Risk Assessment</h2>
     <form id="riskForm">
@@ -2125,9 +2125,9 @@ Mitchel &amp; the Urban Echo team</pre>
 </div>
 
 <!-- ── INCIDENT RESPONSE MODAL ── -->
-<div class="modal-overlay" id="incidentModal">
+<div class="modal-overlay" id="incidentModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-box" style="max-width:640px;">
-    <button class="modal-close" id="closeIncident">✕</button>
+    <button class="modal-close" id="closeIncident" onclick="document.getElementById('incidentModal').classList.remove('open')">✕</button>
     <span class="modal-eyebrow">Urban Echo</span>
     <h2>Incident Report Form</h2>
     <form id="incidentForm">
@@ -3082,12 +3082,6 @@ document.querySelectorAll('#riskLevel .risk-chip').forEach(function(chip){
 function openModal(id){ document.getElementById(id).classList.add('open'); }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
-document.getElementById('openRiskBtn').addEventListener('click', function(){ openModal('riskModal'); });
-document.getElementById('openIncidentBtn').addEventListener('click', function(){ openModal('incidentModal'); });
-document.getElementById('openContactsBtn').addEventListener('click', function(){ openModal('contactsModal'); });
-document.getElementById('closeRisk').addEventListener('click', function(){ closeModal('riskModal'); });
-document.getElementById('closeIncident').addEventListener('click', function(){ closeModal('incidentModal'); });
-document.getElementById('closeContacts').addEventListener('click', function(){ closeModal('contactsModal'); });
 document.getElementById('closeRoster').addEventListener('click', function(){ closeModal('rosterModal'); });
 
 document.getElementById('openFeedback').addEventListener('click', function(){ openModal('feedbackModal'); });
