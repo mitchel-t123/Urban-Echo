@@ -14,7 +14,80 @@ permissions:
   id-token: write
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Playwright
+        run: npx playwright install chromium --with-deps
+
+      - name: JS syntax check
+        run: |
+          python3 -c "
+          import re
+          with open('docs/portal.html') as f: content = f.read()
+          scripts = re.findall(r'<script(?:(?!src=|application/ld)[^>])*>(.*?)</script>', content, re.DOTALL)
+          open('/tmp/check.js','w').write('\n'.join(scripts))
+          "
+          node --check /tmp/check.js
+          echo "JS syntax OK"
+
+      - name: Modal button smoke test
+        run: |
+          python3 -m http.server 9876 --directory docs &
+          sleep 2
+          node -e "
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ args: ['--no-sandbox'] });
+            const page = await browser.newPage();
+            const errors = [];
+            page.on('pageerror', err => errors.push(err.message));
+            await page.goto('http://localhost:9876/portal.html');
+            await page.evaluate(() => {
+              document.body.classList.remove('auth-pending');
+              const l = document.getElementById('authLoader');
+              if (l) { l.classList.remove('show'); l.style.display = 'none'; }
+            });
+            await page.waitForTimeout(400);
+
+            const modals = [
+              ['openRiskBtn',      'riskModal'],
+              ['openIncidentBtn',  'incidentModal'],
+              ['openContactsBtn',  'contactsModal'],
+              ['openInductionBtn', 'inductionModal'],
+            ];
+
+            let failed = false;
+            for (const [btnId, modalId] of modals) {
+              const result = await page.evaluate(([b, m]) => {
+                const btn = document.getElementById(b);
+                const modal = document.getElementById(m);
+                if (!btn)   return { ok: false, reason: 'button not found: ' + b };
+                if (!modal) return { ok: false, reason: 'modal not found: ' + m };
+                if (!btn.getAttribute('onclick')) return { ok: false, reason: 'no inline onclick on ' + b };
+                btn.click();
+                const open = modal.classList.contains('open');
+                modal.classList.remove('open');
+                return { ok: open, reason: open ? 'pass' : 'modal did not open' };
+              }, [btnId, modalId]);
+              console.log((result.ok ? 'PASS' : 'FAIL') + ' ' + btnId + ' → ' + result.reason);
+              if (!result.ok) failed = true;
+            }
+
+            await browser.close();
+            if (failed) process.exit(1);
+          })().catch(e => { console.error(e); process.exit(1); });
+          "
+
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
