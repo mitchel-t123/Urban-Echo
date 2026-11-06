@@ -96,6 +96,24 @@ body.auth-pending{ visibility:hidden; }
 
 footer{ background:var(--ink); color:rgba(255,252,245,0.5); padding:0; height:72px; display:flex; align-items:center; font-size:13px; font-family:var(--mono); border-top:1px solid rgba(255,252,245,0.12); }
 .footer-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+
+/* Onboarding Tracker */
+.ob-table{ width:100%; border-collapse:collapse; min-width:1050px; }
+.ob-table th{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(22,21,39,0.5); padding:10px 8px; text-align:center; border-bottom:2px solid var(--ink); white-space:nowrap; }
+.ob-table th:first-child{ text-align:left; padding-left:16px; }
+.ob-table td{ padding:8px; border-bottom:1px solid var(--line); vertical-align:middle; text-align:center; }
+.ob-table td:first-child{ text-align:left; padding-left:16px; }
+.ob-table tr:last-child td{ border-bottom:none; }
+.ob-table tr:hover td{ background:rgba(63,63,240,0.03); }
+.ob-btn{ background:none; border:none; cursor:pointer; font-size:16px; line-height:1; padding:4px 8px; border-radius:6px; transition:background 0.1s; color:rgba(22,21,39,0.2); }
+.ob-btn:hover{ background:rgba(22,21,39,0.06); }
+.ob-btn-on{ color:var(--forest); }
+.ob-auto-on{ font-size:16px; color:var(--forest); }
+.ob-auto-off{ font-size:16px; color:rgba(22,21,39,0.2); }
+.ob-progress{ font-family:var(--mono); font-size:11px; font-weight:700; white-space:nowrap; }
+.ob-prog-full{ color:var(--forest); }
+.ob-prog-part{ color:var(--orange); }
+.ob-prog-none{ color:rgba(22,21,39,0.4); }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -192,6 +210,41 @@ footer{ background:var(--ink); color:rgba(255,252,245,0.5); padding:0; height:72
           <span style="font-size:12px;color:rgba(22,21,39,0.62);line-height:1.5;">Database, authentication and storage for the crew portal.</span>
           <span style="margin-top:auto;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--orange);">Open app →</span>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONBOARDING STATUS TRACKER -->
+  <section class="section" style="padding-top:0;padding-bottom:24px;">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Onboarding Status</h2>
+        <div id="obStats" style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);text-align:right;line-height:1.9;"></div>
+      </div>
+      <div class="table-wrap" style="overflow-x:auto;">
+        <table id="obTable" class="ob-table">
+          <thead>
+            <tr>
+              <th style="text-align:left;">Name</th>
+              <th title="Contractor agreement signed and returned">Contract</th>
+              <th title="Working With Children Check on file">WWC</th>
+              <th title="Police check on file">Police</th>
+              <th title="Added and activated in Rentman">Rentman</th>
+              <th title="Portal login sent and working">Portal</th>
+              <th title="Set up in payroll system">Payroll</th>
+              <th title="Added to #urban-echo-team-chat">Slack</th>
+              <th title="Added to their relevant team channel">Team Ch.</th>
+              <th title="Code of Conduct signed and returned">CoC</th>
+              <th title="Coffee catch-up with Mitchel done">Coffee</th>
+              <th title="Site induction completed">Induction</th>
+              <th title="Shadow event done">Shadow</th>
+              <th title="Total tasks completed">Done</th>
+            </tr>
+          </thead>
+          <tbody id="obTableBody">
+            <tr><td colspan="14" class="empty-state">Loading…</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -440,6 +493,7 @@ var ADMIN_ID        = 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV';
 var clerkInstance  = null;
 var supabase       = null;
 var editingId      = null;
+var obData         = {};
 
 function doLogout(){
   if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('/login'); }); }
@@ -489,6 +543,7 @@ function doLogout(){
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
 
     loadTeam();
+    loadOnboarding();
   } catch(err){
     console.error(err);
     window.location.replace('/login');
@@ -664,6 +719,85 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', async func
   closeModal();
   loadTeam();
 });
+
+// ── Onboarding Tracker
+var OB_KEYS = ['contract','rentman','portal','payroll','slack_main','slack_team','conduct','coffee','induction','shadow'];
+var OB_TOTAL = OB_KEYS.length + 2; // +2 for WWC and Police derived from existing columns
+
+async function loadOnboarding(){
+  var tbody  = document.getElementById('obTableBody');
+  var statsEl = document.getElementById('obStats');
+  var { data, error } = await supabase.from('profiles').select('*').order('first_name');
+  if(error || !data || data.length === 0){
+    tbody.innerHTML = '<tr><td colspan="14" class="empty-state">No crew members yet.</td></tr>';
+    statsEl.innerHTML = '';
+    return;
+  }
+
+  var allDone = 0, partial = 0, notStarted = 0;
+  obData = {};
+
+  var rows = data.map(function(m){
+    obData[m.id] = m.onboarding_checklist || {};
+    var ob = obData[m.id];
+    var hasWwc = !!m.wwc_number;
+    var hasPol = !!m.police_ref;
+    var obDone = OB_KEYS.filter(function(k){ return !!ob[k]; }).length;
+    var done   = obDone + (hasWwc ? 1 : 0) + (hasPol ? 1 : 0);
+
+    if(done === OB_TOTAL) allDone++;
+    else if(done > 0) partial++;
+    else notStarted++;
+
+    var progClass = done === OB_TOTAL ? 'ob-prog-full' : done > 0 ? 'ob-prog-part' : 'ob-prog-none';
+
+    return '<tr>' +
+      '<td><strong style="font-size:14px;">' + esc(m.first_name) + ' ' + esc(m.last_name||'') + '</strong></td>' +
+      obCell(m.id, 'contract',   ob.contract)   +
+      '<td><span class="' + (hasWwc ? 'ob-auto-on' : 'ob-auto-off') + '" title="' + (hasWwc ? esc(m.wwc_number) : 'No WWC on file') + '">' + (hasWwc ? '✓' : '○') + '</span></td>' +
+      '<td><span class="' + (hasPol ? 'ob-auto-on' : 'ob-auto-off') + '" title="' + (hasPol ? esc(m.police_ref) : 'No police check on file') + '">' + (hasPol ? '✓' : '○') + '</span></td>' +
+      obCell(m.id, 'rentman',    ob.rentman)    +
+      obCell(m.id, 'portal',     ob.portal)     +
+      obCell(m.id, 'payroll',    ob.payroll)    +
+      obCell(m.id, 'slack_main', ob.slack_main) +
+      obCell(m.id, 'slack_team', ob.slack_team) +
+      obCell(m.id, 'conduct',    ob.conduct)    +
+      obCell(m.id, 'coffee',     ob.coffee)     +
+      obCell(m.id, 'induction',  ob.induction)  +
+      obCell(m.id, 'shadow',     ob.shadow)     +
+      '<td><span class="ob-progress ' + progClass + '">' + done + ' / ' + OB_TOTAL + '</span></td>' +
+    '</tr>';
+  });
+
+  tbody.innerHTML = rows.join('');
+
+  statsEl.innerHTML =
+    '<span style="color:var(--forest);font-weight:700;">' + allDone + ' complete</span>  ·  ' +
+    '<span style="color:var(--orange);">' + partial + ' in progress</span>  ·  ' +
+    '<span>' + notStarted + ' not started</span>';
+}
+
+function obCell(id, key, val){
+  var on = !!val;
+  return '<td><button class="ob-btn' + (on ? ' ob-btn-on' : '') + '" ' +
+    'onclick="toggleOb(\'' + id + '\',\'' + key + '\',' + on + ')" ' +
+    'title="' + (on ? 'Mark incomplete' : 'Mark complete') + '">' +
+    (on ? '✓' : '○') +
+    '</button></td>';
+}
+
+async function toggleOb(id, key, curVal){
+  var newVal = !curVal;
+  if(!obData[id]) obData[id] = {};
+  obData[id][key] = newVal;
+  var { error } = await supabase.from('profiles').update({ onboarding_checklist: obData[id] }).eq('id', id);
+  if(error){
+    obData[id][key] = curVal;
+    console.error('Onboarding save failed:', error.message);
+  } else {
+    loadOnboarding();
+  }
+}
 </script>
 
 <!-- WELCOME EMAIL MODAL -->
