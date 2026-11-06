@@ -823,8 +823,6 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 }
 
 /* Onboarding Tracker */
-#obTrackerSection{ display:none; margin-bottom:36px; }
-body.portal-super-admin #obTrackerSection{ display:block; }
 .ob-table-p{ width:100%; border-collapse:collapse; min-width:1050px; }
 .ob-table-p th{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(22,21,39,0.5); padding:10px 8px; text-align:center; border-bottom:2px solid var(--ink); white-space:nowrap; }
 .ob-table-p th:first-child{ text-align:left; padding-left:16px; }
@@ -1041,39 +1039,6 @@ body.portal-super-admin #obTrackerSection{ display:block; }
     <div class="wrap">
       <h2>Onboarding Resources and SOPs</h2>
 
-      <!-- Onboarding Status Tracker — super_admin only -->
-      <div id="obTrackerSection">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1.5px solid rgba(22,21,39,0.1);">
-          <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;">Crew Onboarding Status</span>
-          <div id="obStatsPortal" style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);text-align:right;line-height:1.9;"></div>
-        </div>
-        <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:16px;overflow-x:auto;box-shadow:5px 5px 0 var(--ink);">
-          <table class="ob-table-p">
-            <thead>
-              <tr>
-                <th style="text-align:left;">Name</th>
-                <th title="Contractor agreement signed and returned">Contract</th>
-                <th title="Working With Children Check on file">WWC</th>
-                <th title="Police check on file">Police</th>
-                <th title="Added and activated in Rentman">Rentman</th>
-                <th title="Portal login sent and working">Portal</th>
-                <th title="Set up in payroll system">Payroll</th>
-                <th title="Added to #urban-echo-team-chat">Slack</th>
-                <th title="Added to their relevant team channel">Team Ch.</th>
-                <th title="Code of Conduct signed and returned">CoC</th>
-                <th title="Coffee catch-up with Mitchel done">Coffee</th>
-                <th title="Site induction completed">Induction</th>
-                <th title="Shadow event done">Shadow</th>
-                <th title="Total tasks completed">Done</th>
-              </tr>
-            </thead>
-            <tbody id="obBodyPortal">
-              <tr><td colspan="14" style="padding:32px;text-align:center;color:rgba(22,21,39,0.4);font-family:var(--mono);font-size:13px;">Loading…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
       <div class="portal-cards" style="margin-bottom:0;">
         <div class="portal-card" id="openOnboardingGuide">
           <span class="portal-card-icon">🎛️</span>
@@ -1117,9 +1082,53 @@ body.portal-super-admin #obTrackerSection{ display:block; }
           <p>Complete your induction checklist before your first shift.</p>
           <span class="portal-card-tag">Start →</span>
         </button>
+        <div id="obTrackerCard" style="display:none;cursor:pointer;" class="portal-card" onclick="openObTracker()">
+          <span class="portal-card-icon">✅</span>
+          <h3>Crew Onboarding Status</h3>
+          <p>Track onboarding progress for all crew members across contract, compliance, tools and training.</p>
+          <span class="portal-card-tag">View tracker →</span>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- ONBOARDING TRACKER MODAL — super_admin only -->
+  <div id="obTrackerModal" style="display:none;position:fixed;inset:0;background:rgba(22,21,39,0.6);z-index:9999;overflow-y:auto;padding:40px 16px;" onclick="if(event.target===this)closeObTracker()">
+    <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:20px;max-width:1300px;margin:0 auto;padding:32px 28px;box-shadow:6px 6px 0 var(--ink);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div>
+          <h2 style="margin:0 0 4px;">Crew Onboarding Status</h2>
+          <div id="obStatsPortal" style="font-family:var(--mono);font-size:12px;color:rgba(22,21,39,0.5);"></div>
+        </div>
+        <button onclick="closeObTracker()" style="background:none;border:2px solid var(--ink);border-radius:10px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:0.08em;">✕ Close</button>
+      </div>
+      <div style="overflow-x:auto;border:2.5px solid var(--ink);border-radius:16px;">
+        <table class="ob-table-p">
+          <thead>
+            <tr>
+              <th style="text-align:left;">Name</th>
+              <th title="Contractor agreement signed and returned">Contract</th>
+              <th title="Working With Children Check on file">WWC</th>
+              <th title="Police check on file">Police</th>
+              <th title="Added and activated in Rentman">Rentman</th>
+              <th title="Portal login sent and working">Portal</th>
+              <th title="Set up in payroll system">Payroll</th>
+              <th title="Added to #urban-echo-team-chat">Slack</th>
+              <th title="Added to their relevant team channel">Team Ch.</th>
+              <th title="Code of Conduct signed and returned">CoC</th>
+              <th title="Coffee catch-up with Mitchel done">Coffee</th>
+              <th title="Site induction completed">Induction</th>
+              <th title="Shadow event done">Shadow</th>
+              <th title="Total tasks completed">Done</th>
+            </tr>
+          </thead>
+          <tbody id="obBodyPortal">
+            <tr><td colspan="14" style="padding:32px;text-align:center;color:rgba(22,21,39,0.4);font-family:var(--mono);font-size:13px;">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <!-- ADD CREW TO PORTAL — super_admin only -->
   <section class="portal-section" id="addCrewSection" style="display:none;">
@@ -2786,9 +2795,8 @@ function doLogout(){
       document.getElementById('emailSignatureCard').style.display = 'flex';
       document.getElementById('bigVisionSection').style.display = '';
       document.getElementById('addCrewSection').style.display = 'block';
-      document.getElementById('obTrackerSection').style.display = 'block';
+      document.getElementById('obTrackerCard').style.display = 'flex';
       loadCrewUsers();
-      loadOnboardingPortal();
     }
 
     loadRentmanRoster(userEmail);
@@ -2809,9 +2817,8 @@ function doLogout(){
       var addCrew = document.getElementById('addCrewSection');
       if(addCrew) addCrew.style.display = 'block';
       if(typeof loadCrewUsers === 'function') loadCrewUsers();
-      var obTracker = document.getElementById('obTrackerSection');
-      if(obTracker) obTracker.style.display = 'block';
-      loadOnboardingPortal();
+      var obCard = document.getElementById('obTrackerCard');
+      if(obCard) obCard.style.display = 'flex';
     }
 
     if(profile){
@@ -3694,6 +3701,16 @@ async function changeRole(sel){
 }
 
 // ── Onboarding Tracker
+function openObTracker(){
+  document.getElementById('obTrackerModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  loadOnboardingPortal();
+}
+function closeObTracker(){
+  document.getElementById('obTrackerModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
 var OB_KEYS_P = ['contract','rentman','portal','payroll','slack_main','slack_team','conduct','coffee','induction','shadow'];
 var OB_TOTAL_P = OB_KEYS_P.length + 2;
 var obDataPortal = {};
