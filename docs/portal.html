@@ -823,6 +823,8 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 }
 
 /* Onboarding Tracker */
+#obTrackerSection{ display:none; margin-bottom:36px; }
+body.portal-super-admin #obTrackerSection{ display:block; }
 .ob-table-p{ width:100%; border-collapse:collapse; min-width:1050px; }
 .ob-table-p th{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(22,21,39,0.5); padding:10px 8px; text-align:center; border-bottom:2px solid var(--ink); white-space:nowrap; }
 .ob-table-p th:first-child{ text-align:left; padding-left:16px; }
@@ -1040,7 +1042,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
       <h2>Onboarding Resources and SOPs</h2>
 
       <!-- Onboarding Status Tracker — super_admin only -->
-      <div id="obTrackerSection" style="display:none;margin-bottom:36px;">
+      <div id="obTrackerSection">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1.5px solid rgba(22,21,39,0.1);">
           <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;">Crew Onboarding Status</span>
           <div id="obStatsPortal" style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);text-align:right;line-height:1.9;"></div>
@@ -2758,6 +2760,7 @@ function doLogout(){
     // Determine role from profile, fallback to email check for mitchel
     var role = (profile && profile.role) ? profile.role : 'team';
     if(userEmail === 'mitchel@urbanecho.com.au') role = 'super_admin';
+    if(role === 'super_admin') document.body.classList.add('portal-super-admin');
 
     // Render role-based quick links
     renderQuickLinks(role);
