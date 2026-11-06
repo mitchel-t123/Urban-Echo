@@ -821,6 +821,24 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   display:flex; justify-content:space-between;
   align-items:center; flex-wrap:wrap; gap:12px;
 }
+
+/* Onboarding Tracker */
+.ob-table-p{ width:100%; border-collapse:collapse; min-width:1050px; }
+.ob-table-p th{ font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:rgba(22,21,39,0.5); padding:10px 8px; text-align:center; border-bottom:2px solid var(--ink); white-space:nowrap; }
+.ob-table-p th:first-child{ text-align:left; padding-left:16px; }
+.ob-table-p td{ padding:8px; border-bottom:1px solid rgba(22,21,39,0.1); vertical-align:middle; text-align:center; }
+.ob-table-p td:first-child{ text-align:left; padding-left:16px; }
+.ob-table-p tr:last-child td{ border-bottom:none; }
+.ob-table-p tr:hover td{ background:rgba(63,63,240,0.03); }
+.ob-btn-p{ background:none; border:none; cursor:pointer; font-size:16px; line-height:1; padding:4px 8px; border-radius:6px; transition:background 0.1s; color:rgba(22,21,39,0.2); }
+.ob-btn-p:hover{ background:rgba(22,21,39,0.06); }
+.ob-btn-p-on{ color:var(--forest); }
+.ob-auto-p-on{ font-size:16px; color:var(--forest); }
+.ob-auto-p-off{ font-size:16px; color:rgba(22,21,39,0.2); }
+.ob-prog-p{ font-family:var(--mono); font-size:11px; font-weight:700; white-space:nowrap; }
+.ob-prog-p-full{ color:var(--forest); }
+.ob-prog-p-part{ color:var(--orange); }
+.ob-prog-p-none{ color:rgba(22,21,39,0.4); }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1020,6 +1038,40 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   <section class="portal-section">
     <div class="wrap">
       <h2>Onboarding Resources and SOPs</h2>
+
+      <!-- Onboarding Status Tracker — super_admin only -->
+      <div id="obTrackerSection" style="display:none;margin-bottom:36px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1.5px solid rgba(22,21,39,0.1);">
+          <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;">Crew Onboarding Status</span>
+          <div id="obStatsPortal" style="font-family:var(--mono);font-size:11px;color:rgba(22,21,39,0.5);text-align:right;line-height:1.9;"></div>
+        </div>
+        <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:16px;overflow-x:auto;box-shadow:5px 5px 0 var(--ink);">
+          <table class="ob-table-p">
+            <thead>
+              <tr>
+                <th style="text-align:left;">Name</th>
+                <th title="Contractor agreement signed and returned">Contract</th>
+                <th title="Working With Children Check on file">WWC</th>
+                <th title="Police check on file">Police</th>
+                <th title="Added and activated in Rentman">Rentman</th>
+                <th title="Portal login sent and working">Portal</th>
+                <th title="Set up in payroll system">Payroll</th>
+                <th title="Added to #urban-echo-team-chat">Slack</th>
+                <th title="Added to their relevant team channel">Team Ch.</th>
+                <th title="Code of Conduct signed and returned">CoC</th>
+                <th title="Coffee catch-up with Mitchel done">Coffee</th>
+                <th title="Site induction completed">Induction</th>
+                <th title="Shadow event done">Shadow</th>
+                <th title="Total tasks completed">Done</th>
+              </tr>
+            </thead>
+            <tbody id="obBodyPortal">
+              <tr><td colspan="14" style="padding:32px;text-align:center;color:rgba(22,21,39,0.4);font-family:var(--mono);font-size:13px;">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="portal-cards" style="margin-bottom:0;">
         <div class="portal-card" id="openOnboardingGuide">
           <span class="portal-card-icon">🎛️</span>
@@ -2752,6 +2804,9 @@ function doLogout(){
       var addCrew = document.getElementById('addCrewSection');
       if(addCrew) addCrew.style.display = 'block';
       if(typeof loadCrewUsers === 'function') loadCrewUsers();
+      var obTracker = document.getElementById('obTrackerSection');
+      if(obTracker) obTracker.style.display = 'block';
+      loadOnboardingPortal();
     }
 
     if(profile){
@@ -3632,6 +3687,88 @@ async function changeRole(sel){
   sel.disabled = false;
   sel.style.opacity = '';
 }
+
+// ── Onboarding Tracker
+var OB_KEYS_P = ['contract','rentman','portal','payroll','slack_main','slack_team','conduct','coffee','induction','shadow'];
+var OB_TOTAL_P = OB_KEYS_P.length + 2;
+var obDataPortal = {};
+
+async function loadOnboardingPortal(){
+  var tbody   = document.getElementById('obBodyPortal');
+  var statsEl = document.getElementById('obStatsPortal');
+  var { data, error } = await supabaseClient.from('profiles').select('*').order('first_name');
+  if(error || !data || data.length === 0){
+    tbody.innerHTML = '<tr><td colspan="14" style="padding:32px;text-align:center;color:rgba(22,21,39,0.4);font-family:var(--mono);font-size:13px;">No crew members yet.</td></tr>';
+    statsEl.innerHTML = '';
+    return;
+  }
+
+  var allDone = 0, partial = 0, notStarted = 0;
+  obDataPortal = {};
+
+  var rows = data.map(function(m){
+    obDataPortal[m.id] = m.onboarding_checklist || {};
+    var ob = obDataPortal[m.id];
+    var hasWwc = !!m.wwc_number;
+    var hasPol = !!m.police_ref;
+    var obDone = OB_KEYS_P.filter(function(k){ return !!ob[k]; }).length;
+    var done   = obDone + (hasWwc ? 1 : 0) + (hasPol ? 1 : 0);
+
+    if(done === OB_TOTAL_P) allDone++;
+    else if(done > 0) partial++;
+    else notStarted++;
+
+    var progClass = done === OB_TOTAL_P ? 'ob-prog-p-full' : done > 0 ? 'ob-prog-p-part' : 'ob-prog-p-none';
+    var sid = escP(m.id);
+
+    return '<tr>' +
+      '<td><strong style="font-size:14px;">' + escP(m.first_name) + ' ' + escP(m.last_name||'') + '</strong></td>' +
+      obCellP(sid, 'contract',   ob.contract)   +
+      '<td><span class="' + (hasWwc ? 'ob-auto-p-on' : 'ob-auto-p-off') + '" title="' + (hasWwc ? escP(m.wwc_number) : 'No WWC on file') + '">' + (hasWwc ? '✓' : '○') + '</span></td>' +
+      '<td><span class="' + (hasPol ? 'ob-auto-p-on' : 'ob-auto-p-off') + '" title="' + (hasPol ? escP(m.police_ref) : 'No police check on file') + '">' + (hasPol ? '✓' : '○') + '</span></td>' +
+      obCellP(sid, 'rentman',    ob.rentman)    +
+      obCellP(sid, 'portal',     ob.portal)     +
+      obCellP(sid, 'payroll',    ob.payroll)    +
+      obCellP(sid, 'slack_main', ob.slack_main) +
+      obCellP(sid, 'slack_team', ob.slack_team) +
+      obCellP(sid, 'conduct',    ob.conduct)    +
+      obCellP(sid, 'coffee',     ob.coffee)     +
+      obCellP(sid, 'induction',  ob.induction)  +
+      obCellP(sid, 'shadow',     ob.shadow)     +
+      '<td><span class="ob-prog-p ' + progClass + '">' + done + ' / ' + OB_TOTAL_P + '</span></td>' +
+    '</tr>';
+  });
+
+  tbody.innerHTML = rows.join('');
+  statsEl.innerHTML =
+    '<span style="color:var(--forest);font-weight:700;">' + allDone + ' complete</span>  ·  ' +
+    '<span style="color:var(--orange);">' + partial + ' in progress</span>  ·  ' +
+    '<span>' + notStarted + ' not started</span>';
+}
+
+function obCellP(id, key, val){
+  var on = !!val;
+  return '<td><button class="ob-btn-p' + (on ? ' ob-btn-p-on' : '') + '" ' +
+    'onclick="toggleObP(\'' + id + '\',\'' + key + '\',' + on + ')" ' +
+    'title="' + (on ? 'Mark incomplete' : 'Mark complete') + '">' +
+    (on ? '✓' : '○') +
+    '</button></td>';
+}
+
+async function toggleObP(id, key, curVal){
+  var newVal = !curVal;
+  if(!obDataPortal[id]) obDataPortal[id] = {};
+  obDataPortal[id][key] = newVal;
+  var { error } = await supabaseClient.from('profiles').update({ onboarding_checklist: obDataPortal[id] }).eq('id', id);
+  if(error){
+    obDataPortal[id][key] = curVal;
+    console.error('Onboarding save failed:', error.message);
+  } else {
+    loadOnboardingPortal();
+  }
+}
+
+function escP(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 </script>
 </body>
