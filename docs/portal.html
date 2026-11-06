@@ -2783,7 +2783,9 @@ function doLogout(){
       document.getElementById('emailSignatureCard').style.display = 'flex';
       document.getElementById('bigVisionSection').style.display = '';
       document.getElementById('addCrewSection').style.display = 'block';
+      document.getElementById('obTrackerSection').style.display = 'block';
       loadCrewUsers();
+      loadOnboardingPortal();
     }
 
     loadRentmanRoster(userEmail);
