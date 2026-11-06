@@ -230,7 +230,7 @@ body{
         <div class="step"><div class="step-num">1</div><div class="step-text">Click <strong>Copy Signature</strong> above</div></div>
         <div class="step"><div class="step-num">2</div><div class="step-text">Open <strong>Gmail → Settings ⚙ → See all settings → General → Signature</strong></div></div>
         <div class="step"><div class="step-num">3</div><div class="step-text">Click <strong>Create new</strong>, give it a name, then click inside the editor box</div></div>
-        <div class="step"><div class="step-num">4</div><div class="step-text">Press <strong>Cmd+V</strong> (Mac) or <strong>Ctrl+V</strong> (Windows) to paste — it will appear styled</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Press <strong>Cmd+V</strong> (Mac) or <strong>Ctrl+V</strong> (Windows) to paste. It will appear styled</div></div>
         <div class="step"><div class="step-num">5</div><div class="step-text">Scroll down → click <strong>Save Changes</strong></div></div>
         <div class="step"><div class="step-num">6</div><div class="step-text">For consistency, update your <strong>Google profile photo</strong> to match — go to <a href="https://myaccount.google.com/personal-info" target="_blank" style="color:#2563EB;">myaccount.google.com/personal-info</a> and upload the same photo</div></div>
       </div>
@@ -369,7 +369,7 @@ function execCommandCopy(html, btn){
   s.removeAllRanges();
   document.body.removeChild(tmp);
   if(ok){ markCopied(btn); }
-  else { btn.textContent='⚠️ Copy failed — use the HTML code below'; }
+  else { btn.textContent='⚠️ Copy failed. Use the HTML code below'; }
 }
 function copyRendered(){
   var btn = document.getElementById('copy-rendered-btn');

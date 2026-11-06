@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Growth Calculator — Urban Echo</title>
+<title>Growth Calculator | Urban Echo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -514,7 +514,7 @@ footer{
 <!-- ── STEP 1: Overheads ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 1 — Business Overheads</h2>
+    <h2>Step 1: Business Overheads</h2>
     <div class="portal-card-base">
       <div class="oh-rows" id="oh-rows"></div>
       <div style="margin-top:16px;">
@@ -531,11 +531,11 @@ footer{
 <!-- ── STEP 2: Crew Tiers ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 2 — Crew Pricing Tiers</h2>
+    <h2>Step 2: Crew Pricing Tiers</h2>
     <div class="tier-grid">
       <!-- Tier 1 -->
       <div class="tier-card">
-        <div><span class="tier-badge"><span class="tier-dot" style="background:#4AAE74;"></span>Tier 1 — Basic</span></div>
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#4AAE74;"></span>Tier 1: Basic</span></div>
         <div class="field"><label>Tier Name</label><input type="text" id="t1-name" value="Junior Crew" oninput="recalc()"></div>
         <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t1-base" value="25" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Superannuation (%)</label><input type="number" id="t1-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
@@ -545,7 +545,7 @@ footer{
       </div>
       <!-- Tier 2 -->
       <div class="tier-card">
-        <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Tier 2 — Expert</span></div>
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#3F3FF0;"></span>Tier 2: Expert</span></div>
         <div class="field"><label>Tier Name</label><input type="text" id="t2-name" value="Senior Crew" oninput="recalc()"></div>
         <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t2-base" value="35" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Superannuation (%)</label><input type="number" id="t2-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
@@ -555,7 +555,7 @@ footer{
       </div>
       <!-- Tier 3 -->
       <div class="tier-card">
-        <div><span class="tier-badge"><span class="tier-dot" style="background:#F4612E;"></span>Tier 3 — Lead</span></div>
+        <div><span class="tier-badge"><span class="tier-dot" style="background:#F4612E;"></span>Tier 3: Lead</span></div>
         <div class="field"><label>Tier Name</label><input type="text" id="t3-name" value="Lead / Mitchel" oninput="recalc()"></div>
         <div class="field"><label>Base Pay ($/hr)</label><input type="number" id="t3-base" value="55" min="0" step="0.5" oninput="recalc()"></div>
         <div class="field"><label>Superannuation (%)</label><input type="number" id="t3-super" value="11.5" min="0" step="0.5" oninput="recalc()"></div>
@@ -570,7 +570,7 @@ footer{
 <!-- ── STEP 3: Admin & Support Costs ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 3 — Admin &amp; Support Costs</h2>
+    <h2>Step 3: Admin &amp; Support Costs</h2>
     <div class="portal-card-base">
       <!-- Admin hourly rate -->
       <div class="ar-rate-bar">
@@ -578,7 +578,7 @@ footer{
           <label>Admin Pay Rate ($/hr)</label>
           <input type="number" id="admin-rate" value="35" min="0" step="0.5" oninput="recalc()" class="input-rate">
         </div>
-        <p class="ar-rate-note">Set the hourly rate paid across all admin functions. Each role below uses hours per week — the calculator multiplies them automatically to find the total weekly admin cost.</p>
+        <p class="ar-rate-note">Set the hourly rate paid across all admin functions. Each role below uses hours per week. The calculator multiplies them automatically to find the total weekly admin cost.</p>
       </div>
       <!-- Role rows -->
       <div class="ar-rows" id="ar-rows"></div>
@@ -596,7 +596,7 @@ footer{
 <!-- ── STEP 4: Show Mix ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 4 — Show Mix &amp; Volume</h2>
+    <h2>Step 4: Show Mix &amp; Volume</h2>
     <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:20px;line-height:1.6;max-width:680px;">Set how many shows of each type you run per week and the typical hours per show. Revenue and labor costs are calculated from your tier charge-out and cost rates above.</p>
     <div class="show-grid">
 
@@ -664,7 +664,7 @@ footer{
 <!-- ── STEP 5: Breakdown ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 5 — Profit &amp; Margin Breakdown</h2>
+    <h2>Step 5: Profit &amp; Margin Breakdown</h2>
     <div class="bd-grid">
       <div>
         <div class="bd-heading">Per Show (avg)</div>
@@ -681,7 +681,7 @@ footer{
 <!-- ── STEP 6: Growth Targets ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 6 — Growth Targets</h2>
+    <h2>Step 6: Growth Targets</h2>
     <div class="insight-grid" id="ins-grid"></div>
   </div>
 </div>
@@ -689,7 +689,7 @@ footer{
 <!-- ── STEP 7: Annual Revenue Goals ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 7 — Annual Revenue Goals</h2>
+    <h2>Step 7: Annual Revenue Goals</h2>
     <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:24px;line-height:1.6;max-width:680px;">Based on your current show mix and pricing, here's what it takes to hit each revenue milestone. Figures assume your current show type proportions and account for all overheads and admin costs.</p>
     <div class="goals-grid" id="goals-grid"></div>
   </div>
@@ -698,7 +698,7 @@ footer{
 <!-- ── STEP 8: Monthly History ── -->
 <div class="portal-section">
   <div class="wrap">
-    <h2>Step 8 — Monthly Revenue History</h2>
+    <h2>Step 8: Monthly Revenue History</h2>
     <p style="font-size:13px;color:rgba(22,21,39,0.55);margin-bottom:28px;line-height:1.6;max-width:680px;">Log each month's gross revenue to track growth over time. Estimated net is calculated by subtracting your current monthly fixed costs (overheads + admin) from each entry.</p>
 
     <!-- Add month form -->
@@ -732,7 +732,7 @@ footer{
     <div id="mh-cards" style="display:none;">
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;" id="mh-card-grid"></div>
     </div>
-    <div id="mh-empty" style="color:rgba(22,21,39,0.35);font-size:13px;padding:8px 0;">No months logged yet — add your first entry above.</div>
+    <div id="mh-empty" style="color:rgba(22,21,39,0.35);font-size:13px;padding:8px 0;">No months logged yet. Add your first entry above.</div>
   </div>
 </div>
 
@@ -742,7 +742,7 @@ footer{
     <h2>Pricing Intelligence</h2>
     <div class="hz-card">
       <div class="hz-eye">Value-Based Pricing Framework</div>
-      <div class="hz-hed">Price on value delivered —<br>not time spent.</div>
+      <div class="hz-hed">Price on value delivered,<br>not time spent.</div>
       <div class="hz-principles" id="hz-list"></div>
     </div>
   </div>
@@ -818,7 +818,7 @@ function updateOh(i,field,val){
 function renderOverheads(){
   var el = document.getElementById('oh-rows');
   if(!overheads.length){
-    el.innerHTML = '<p style="font-size:13px;color:rgba(22,21,39,0.4);padding:4px 0;">No overheads yet — click Add Overhead to get started.</p>';
+    el.innerHTML = '<p style="font-size:13px;color:rgba(22,21,39,0.4);padding:4px 0;">No overheads yet. Click Add Overhead to get started.</p>';
     return;
   }
   el.innerHTML = overheads.map(function(o,i){
@@ -860,7 +860,7 @@ function updateAr(i,field,val){
 function renderAdminRoles(){
   var el = document.getElementById('ar-rows');
   if(!adminRoles.length){
-    el.innerHTML = '<p style="font-size:13px;color:rgba(22,21,39,0.4);padding:4px 0;">No admin functions yet — click Add Role to get started.</p>';
+    el.innerHTML = '<p style="font-size:13px;color:rgba(22,21,39,0.4);padding:4px 0;">No admin functions yet. Click Add Role to get started.</p>';
     document.getElementById('ar-total').textContent = '$0.00';
     return;
   }
@@ -1054,7 +1054,7 @@ function renderInsights(revWk, costWk, gpWk, ohWk, adminWk, netWk, mgn, tgt, tot
     },{
       eye:'Shows to Break Even (all fixed costs)',
       num: breakEvenShows!==null?breakEvenShows+(breakEvenShows===1?' show':' shows'):'∞',
-      desc:'Shows per week needed for gross profit to cover both overheads ($'+fK(ohWk)+'/wk) and admin ($'+fK(adminWk)+'/wk) — the point where net profit hits zero.',
+      desc:'Shows per week needed for gross profit to cover both overheads ($'+fK(ohWk)+'/wk) and admin ($'+fK(adminWk)+'/wk), the point where net profit hits zero.',
       col: breakEvenShows!==null&&totalShows>=breakEvenShows?'#4AAE74':'#D93636'
     }
   ];
@@ -1131,11 +1131,11 @@ function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, totalShows){
     {
       n:'1',
       eye:'Know Your Floor',
-      body:'Your avg labor cost is <strong>$'+f2(costJob)+'/show</strong>. Add overheads and admin and your survival floor is <strong>$'+f2(floorJob)+'/show</strong>. This is the absolute minimum — never discount past it, regardless of relationship or slow season.'
+      body:'Your avg labor cost is <strong>$'+f2(costJob)+'/show</strong>. Add overheads and admin and your survival floor is <strong>$'+f2(floorJob)+'/show</strong>. This is the absolute minimum. Never discount past it, regardless of relationship or slow season.'
     },{
       n:'2',
       eye:'Price on Outcome, Not Hours',
-      body:'Schools aren\'t buying hours of AV crew — they\'re buying a <strong>flawless school concert, a seamless presentation night, a memory that lasts</strong>. That outcome is worth thousands to a school and its community. Your <strong>$'+f2(revJob)+'/show</strong> average is a fraction of that delivered value.'
+      body:'Schools aren\'t buying hours of AV crew. They\'re buying a <strong>flawless school concert, a seamless presentation night, a memory that lasts</strong>. That outcome is worth thousands to a school and its community. Your <strong>$'+f2(revJob)+'/show</strong> average is a fraction of that delivered value.'
     },{
       n:'3',
       eye:'Stack the Offer Until the Price Feels Small',
@@ -1145,11 +1145,11 @@ function renderHormozi(revJob, costJob, mgn, tgt, ohWk, adminWk, totalShows){
       eye: gap>5?'Raise Prices Before Adding Volume':'Protect Your Margin as You Scale',
       body: gap>5
         ?'You\'re at <strong>'+mgn.toFixed(1)+'%</strong> against your <strong>'+tgt+'% target</strong>. Raising prices on existing volume is always faster and less risky than sourcing more shows at the same margin. A <strong>$'+f2(gap/100*revJob)+'/show price increase</strong> closes the gap immediately without a single extra booking.'
-        :'You\'re near or above your <strong>'+tgt+'% target</strong>. Now scale volume — each extra show at this margin adds directly to the bottom line. Guard your pricing; discounting to fill slow periods is a race to the bottom.'
+        :'You\'re near or above your <strong>'+tgt+'% target</strong>. Now scale volume. Each extra show at this margin adds directly to the bottom line. Guard your pricing; discounting to fill slow periods is a race to the bottom.'
     },{
       n:'5',
       eye:'Build Admin Cost Into Every Show',
-      body:'$'+fK(adminWk)+'/wk admin ÷ '+(totalShows||1)+' shows = <strong>$'+admPJ+'/show</strong>. Price it in as a non-negotiable line item, the same way your labor and equipment are. Overhead is a cost of business — it belongs in the price, not the profit column.'
+      body:'$'+fK(adminWk)+'/wk admin ÷ '+(totalShows||1)+' shows = <strong>$'+admPJ+'/show</strong>. Price it in as a non-negotiable line item, the same way your labor and equipment are. Overhead is a cost of business. It belongs in the price, not the profit column.'
     }
   ];
 
