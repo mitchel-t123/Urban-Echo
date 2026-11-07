@@ -51,47 +51,7 @@ jobs:
         run: |
           python3 -m http.server 9876 --directory docs &
           sleep 2
-          node -e "
-          const { chromium } = require('playwright');
-          (async () => {
-            const browser = await chromium.launch({ args: ['--no-sandbox'] });
-            const page = await browser.newPage();
-            await page.goto('http://localhost:9876/portal.html');
-            await page.evaluate(() => {
-              document.body.classList.remove('auth-pending');
-              const l = document.getElementById('authLoader');
-              if (l) { l.classList.remove('show'); l.style.display = 'none'; }
-            });
-            await page.waitForTimeout(400);
-
-            const modals = [
-              ['openRiskBtn',      'riskModal'],
-              ['openIncidentBtn',  'incidentModal'],
-              ['openContactsBtn',  'contactsModal'],
-              ['openInductionBtn', 'inductionModal'],
-            ];
-
-            let failed = false;
-            for (const [btnId, modalId] of modals) {
-              const result = await page.evaluate(([b, m]) => {
-                const btn = document.getElementById(b);
-                const modal = document.getElementById(m);
-                if (!btn)   return { ok: false, reason: 'button not found: ' + b };
-                if (!modal) return { ok: false, reason: 'modal not found: ' + m };
-                if (!btn.getAttribute('onclick')) return { ok: false, reason: 'no inline onclick on ' + b };
-                btn.click();
-                const open = modal.classList.contains('open');
-                modal.classList.remove('open');
-                return { ok: open, reason: open ? 'pass' : 'modal did not open' };
-              }, [btnId, modalId]);
-              console.log((result.ok ? 'PASS' : 'FAIL') + ' ' + btnId + ' => ' + result.reason);
-              if (!result.ok) failed = true;
-            }
-
-            await browser.close();
-            if (failed) process.exit(1);
-          })().catch(e => { console.error(e); process.exit(1); });
-          "
+          node scripts/portal-smoke.js
 
   deploy:
     needs: test
