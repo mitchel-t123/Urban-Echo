@@ -1,41 +1,17 @@
+// rentman-proxy: retired.
+//
+// This function used to forward any request to the Rentman API using the
+// account token, without checking who was asking. The portal no longer calls
+// it, so it now refuses every request and never reads or uses the token.
+//
+// Deploying this file replaces the old version. Deleting the function in the
+// Supabase dashboard (Edge Functions > rentman-proxy) is equally good.
+
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
-const RENTMAN_BASE = 'https://api.rentman.net'
-const RENTMAN_TOKEN = Deno.env.get('RENTMAN_TOKEN') ?? ''
-
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'authorization, content-type',
-}
-
-serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: CORS })
-  }
-
-  const url = new URL(req.url)
-  // Forward everything after /rentman-proxy as the Rentman path
-  const path = url.pathname.replace(/.*\/rentman-proxy/, '') || '/'
-  const query = url.search
-
-  try {
-    const upstream = await fetch(RENTMAN_BASE + path + query, {
-      headers: {
-        Authorization: `Bearer ${RENTMAN_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    })
-
-    const body = await upstream.text()
-    return new Response(body, {
-      status: upstream.status,
-      headers: { 'Content-Type': 'application/json', ...CORS },
-    })
-  } catch (e) {
-    return new Response(JSON.stringify({ error: e.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json', ...CORS },
-    })
-  }
-})
+serve(() =>
+  new Response(JSON.stringify({ error: 'This endpoint has been retired.' }), {
+    status: 410,
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+  })
+)

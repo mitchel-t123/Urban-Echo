@@ -3242,7 +3242,7 @@ async function sendInvite(){
     });
     var json = await res.json().catch(function(){ return {}; });
     if(res.ok){
-      showInviteMsg('Invite sent to ' + email + '!', true);
+      showInviteMsg(json.warning ? json.warning : 'Invite sent to ' + email + '!', !json.warning);
       document.getElementById('inviteEmail').value = '';
       document.getElementById('inviteFirst').value = '';
       document.getElementById('inviteLast').value  = '';

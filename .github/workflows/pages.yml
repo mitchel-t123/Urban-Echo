@@ -39,6 +39,9 @@ jobs:
       - name: JS syntax check (every page)
         run: python3 scripts/check-inline-js.py docs/*.html docs/*/index.html
 
+      - name: Edge function checks (type-check and tests)
+        run: bash scripts/test-edge-functions.sh
+
       - name: Smoke tests (portal buttons, onboarding flow, team admin)
         run: |
           python3 -m http.server 9876 --directory docs &

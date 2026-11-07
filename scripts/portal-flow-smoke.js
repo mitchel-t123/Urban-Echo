@@ -165,6 +165,41 @@ function check(name, ok, detail) {
   r = await page.evaluate(() => ({ open: document.getElementById('obAddCrewWrap').open, email: document.getElementById('inviteEmail').value }));
   check('Send portal invite opens the form prefilled', r.open && r.email === 'sam@example.com', r);
 
+  // sending an invite hands the server the sign-in token, and shows what happened
+  await page.evaluate(() => {
+    window.clerkInstance = { session: { getToken: async () => 'tok_test' } };
+    window.__invites = [];
+    window.__inviteReply = { status: 200, body: { ok: true, invitation_id: 'inv_1' } };
+    const realFetch = window.fetch;
+    window.fetch = (url, init) => {
+      if (String(url).indexOf('/functions/v1/invite-crew') === -1) return realFetch(url, init);
+      window.__invites.push({ url: String(url), body: JSON.parse(init.body) });
+      return Promise.resolve(new Response(JSON.stringify(window.__inviteReply.body), { status: window.__inviteReply.status }));
+    };
+  });
+  await page.locator('#inviteBtn').click();
+  await page.waitForFunction(() => /Invite sent to/.test(document.getElementById('inviteMsg').textContent));
+  r = await page.evaluate(() => ({ call: window.__invites[0], msg: document.getElementById('inviteMsg').textContent }));
+  check('sending an invite includes the sign-in token', r.call && r.call.body.clerk_token === 'tok_test' && r.call.body.email === 'sam@example.com' && /\/functions\/v1\/invite-crew$/.test(r.call.url), r);
+
+  await page.evaluate(() => {
+    window.__inviteReply = { status: 200, body: { ok: true, warning: 'Invite sent, but the crew list could not be updated.' } };
+    document.getElementById('inviteEmail').value = 'new@example.com';
+  });
+  await page.locator('#inviteBtn').click();
+  await page.waitForFunction(() => /could not be updated/.test(document.getElementById('inviteMsg').textContent));
+  r = await page.evaluate(() => ({ msg: document.getElementById('inviteMsg').textContent, color: document.getElementById('inviteMsg').style.color }));
+  check('a partial success shows the warning, not a plain "sent"', r.msg === 'Invite sent, but the crew list could not be updated.' && /orange/.test(r.color), r);
+
+  await page.evaluate(() => {
+    window.__inviteReply = { status: 403, body: { error: 'Only a super admin can send invites.' } };
+    document.getElementById('inviteEmail').value = 'again@example.com';
+  });
+  await page.locator('#inviteBtn').click();
+  await page.waitForFunction(() => /super admin/.test(document.getElementById('inviteMsg').textContent));
+  r = await page.evaluate(() => ({ msg: document.getElementById('inviteMsg').textContent, email: document.getElementById('inviteEmail').value }));
+  check('a refusal from the server is shown and the email is kept', r.msg === 'Only a super admin can send invites.' && r.email === 'again@example.com', r);
+
   // fully onboarded person: final email one click away
   await page.locator('.ob-person[data-id="p3"]').click();
   await page.waitForFunction(() => document.getElementById('obPName').textContent === 'Alex Done');

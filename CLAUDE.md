@@ -22,13 +22,24 @@ Never report a fix as complete until it is on `main`.
 
 ## JavaScript
 
-All interactive JS is inline at the bottom of `docs/index.html` in one `<script>` block. A syntax error or uncaught top-level exception in that block will silently prevent all event listeners from attaching. After any JS change, extract and syntax-check before committing:
+All interactive JS is inline in each page's `<script>` blocks. A syntax error or uncaught top-level exception in a block will silently prevent all event listeners from attaching. After any JS change, syntax-check every page:
 
 ```bash
-python3 -c "
-import re
-with open('docs/index.html') as f: content = f.read()
-scripts = re.findall(r'<script(?:(?!src=|application/ld)[^>])*>(.*?)</script>', content, re.DOTALL)
-open('/tmp/check.js','w').write('\n'.join(scripts))
-" && node --check /tmp/check.js && echo "JS OK"
+python3 scripts/check-inline-js.py docs/*.html docs/*/index.html
 ```
+
+Elements a script grabs at load time with `getElementById(...)` must sit **above** that `<script>` in the page, or the lookup returns null and the rest of the script never runs.
+
+## Checks (CI runs the same)
+
+```bash
+python3 -m http.server 9876 --directory docs &
+node scripts/portal-smoke.js        # portal buttons open their modals
+node scripts/portal-flow-smoke.js   # Onboarding Flow view
+node scripts/admin-smoke.js         # Team Admin page
+bash scripts/test-edge-functions.sh # type-checks and tests supabase/functions under Deno
+```
+
+## Supabase edge functions
+
+`supabase/functions/*` are **not** deployed by GitHub Pages. Pushing to `main` does not change what is live there; the owner deploys them from the Supabase dashboard. Keep each function a single self-contained file (so it can be pasted into the dashboard editor) with pinned import versions.

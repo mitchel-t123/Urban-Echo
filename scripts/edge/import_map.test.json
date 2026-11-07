@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "https://deno.land/std@0.168.0/http/server.ts": "./stubs/server.ts",
+    "https://esm.sh/@supabase/supabase-js@2.45.4": "./stubs/supabase.ts",
+    "https://esm.sh/jose@5.9.6": "npm:jose@5.9.6"
+  }
+}
