@@ -47,11 +47,12 @@ jobs:
           node --check /tmp/check.js
           echo "JS syntax OK"
 
-      - name: Modal button smoke test
+      - name: Portal smoke tests (buttons and onboarding flow)
         run: |
           python3 -m http.server 9876 --directory docs &
           sleep 2
           node scripts/portal-smoke.js
+          node scripts/portal-flow-smoke.js
 
   deploy:
     needs: test

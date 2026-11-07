@@ -839,6 +839,300 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 .ob-prog-p-full{ color:var(--forest); }
 .ob-prog-p-part{ color:var(--orange); }
 .ob-prog-p-none{ color:rgba(22,21,39,0.4); }
+/* ── ONBOARDING FLOW (super admin second view) ── */
+.portal-header-row{ display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.hdr-flow{ display:none; }
+body.view-onboarding .hdr-main{ display:none; }
+body.view-onboarding .hdr-flow{ display:block; }
+.ob-switch{
+  display:none; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:13px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.08em; text-decoration:none;
+  background:var(--orange); color:#fff;
+  border:2.5px solid var(--paper); border-radius:100px; padding:13px 22px;
+  box-shadow:4px 4px 0 rgba(255,252,245,0.25);
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.ob-switch:hover{ transform:translateY(-2px); box-shadow:5px 6px 0 rgba(255,252,245,0.25); }
+.ob-switch-back{ background:transparent; color:var(--paper); }
+body.portal-super-admin:not(.view-onboarding) #obFlowBtn{ display:inline-flex; }
+body.portal-super-admin.view-onboarding #obBackBtn{ display:inline-flex; }
+
+#onboardingView{ display:none; padding-bottom:72px; }
+body.view-onboarding #onboardingView{ display:block; }
+body.view-onboarding main > section:not(#onboardingView){ display:none !important; }
+#onboardingView [hidden]{ display:none !important; }
+#onboardingView .wrap .wrap{ padding:0; max-width:none; }
+#onboardingView #obTrackerCard{ display:none !important; }
+#onboardingView #addCrewSection{ padding-top:0; }
+#onboardingView #addCrewSection h2{ display:none; }
+#onboardingView #addCrewSection .wrap{ padding:0 18px 18px; }
+#onboardingView #sopsSection{ padding-top:44px; }
+#onboardingView #inviteBtn{
+  display:flex; align-items:center; justify-content:center; width:100%;
+  background:var(--ink); color:var(--paper); border:2px solid var(--ink); border-radius:100px;
+  font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.06em; padding:13px 20px; cursor:pointer;
+}
+#onboardingView #inviteBtn:hover:not(:disabled){ opacity:0.85; }
+#onboardingView #inviteBtn:disabled{ opacity:0.55; cursor:default; }
+
+.ob-sub{ margin:-6px 0 18px; font-family:var(--mono); font-size:12px; color:rgba(22,21,39,0.55); }
+.ob-loading, .ob-empty{
+  padding:22px 20px; border:2px dashed var(--line); border-radius:16px;
+  font-size:14px; color:rgba(22,21,39,0.55); background:var(--paper);
+}
+.ob-empty{ margin-bottom:28px; }
+.ob-error{ color:var(--red); border-color:var(--red); }
+.ob-group{ margin-bottom:20px; }
+.ob-group-label{
+  font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.14em; color:rgba(22,21,39,0.5); margin:0 0 10px;
+}
+.ob-people-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+.ob-person{
+  text-align:left; font:inherit; color:inherit; cursor:pointer;
+  background:var(--paper); border:2.5px solid var(--ink); border-radius:16px;
+  padding:14px 16px; box-shadow:4px 4px 0 var(--ink);
+  display:flex; flex-direction:column; gap:10px;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.ob-person:hover{ transform:translateY(-2px); box-shadow:4px 6px 0 var(--ink); }
+.ob-person.is-selected{ border-color:var(--indigo); box-shadow:4px 4px 0 var(--indigo); background:#fff; }
+.ob-person-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+.ob-person-name{ font-weight:800; font-size:15px; line-height:1.25; }
+.ob-person-mail{ font-size:11.5px; color:rgba(22,21,39,0.5); margin-top:2px; word-break:break-all; }
+.ob-chip{
+  font-family:var(--mono); font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.08em; padding:3px 9px; border-radius:100px;
+  border:1.5px solid currentColor; white-space:nowrap; flex-shrink:0;
+}
+.ob-chip.new{ color:rgba(22,21,39,0.45); }
+.ob-chip.progress{ color:var(--orange); }
+.ob-chip.done{ color:var(--forest-deep); }
+.ob-bar{ display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+.ob-seg{ display:block; height:8px; border-radius:4px; background:var(--line); overflow:hidden; }
+.ob-seg i{ display:block; height:100%; background:var(--orange); }
+.ob-seg.full i{ background:var(--forest); }
+.ob-caps{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-top:-4px;
+  font-family:var(--mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase;
+  color:rgba(22,21,39,0.45);
+}
+.ob-person-next{ font-size:12px; color:rgba(22,21,39,0.7); }
+
+.ob-grid-wrap{ margin-top:14px; border:2px solid var(--line); border-radius:14px; background:var(--paper); }
+.ob-grid-wrap > summary{ cursor:pointer; padding:12px 16px; font-weight:700; font-size:13.5px; }
+.ob-grid-scroll{ overflow-x:auto; padding:0 12px 12px; }
+table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
+.ob-grid th{
+  font-family:var(--mono); font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.06em; color:rgba(22,21,39,0.55); padding:8px 6px; text-align:center;
+  border-bottom:2px solid var(--ink); white-space:nowrap;
+}
+.ob-grid td{ padding:6px; text-align:center; border-bottom:1px solid var(--line); }
+.ob-grid th:first-child, .ob-grid td:first-child{ text-align:left; padding-left:8px; font-size:13.5px; font-weight:700; white-space:nowrap; }
+.ob-cell{
+  width:26px; height:26px; border-radius:7px; border:2px solid var(--ink);
+  background:var(--paper); cursor:pointer; font-size:13px; font-weight:800; color:transparent; line-height:1;
+}
+.ob-cell.on{ background:var(--forest); border-color:var(--forest-deep); color:#fff; }
+.ob-cell.auto{ cursor:default; border-style:dashed; }
+
+.ob-fold{
+  margin:8px 0 14px; border:2.5px solid var(--ink); border-radius:16px;
+  background:var(--paper); box-shadow:4px 4px 0 var(--ink);
+}
+.ob-fold > summary{
+  list-style:none; cursor:pointer; padding:14px 18px; font-weight:800; font-size:14px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.ob-fold > summary::-webkit-details-marker{ display:none; }
+.ob-fold > summary::after{ content:'+'; font-family:var(--display); font-size:20px; line-height:1; }
+.ob-fold[open] > summary::after{ content:'\2212'; }
+
+.ob-panel{ scroll-margin-top:16px; margin-top:14px; }
+#obDecline{ margin:0; border:0; background:none; }
+#obDeclineWrap .ob-email-body{ padding:0 18px 18px; }
+.ob-panel-head{
+  background:var(--paper); border:2.5px solid var(--ink); border-radius:20px;
+  padding:20px 24px; box-shadow:5px 5px 0 var(--ink);
+}
+.ob-eyebrow{
+  font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.14em; color:var(--orange); display:block; margin-bottom:6px;
+}
+.ob-panel-head h3{
+  font-family:var(--display); font-size:clamp(22px,3.4vw,30px); text-transform:uppercase;
+  letter-spacing:-0.01em; line-height:1.05;
+}
+.ob-panel-meta{ margin-top:6px; font-size:13px; color:rgba(22,21,39,0.6); }
+.ob-rail{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:18px; }
+.ob-rail-gap{ width:14px; height:3px; background:var(--line); border-radius:2px; margin:0 2px; }
+.ob-dot{
+  width:32px; height:32px; border-radius:50%; border:2px solid var(--ink);
+  background:var(--paper); color:var(--ink); cursor:pointer;
+  font-family:var(--display); font-size:13px; line-height:1;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition:transform 0.15s;
+}
+.ob-dot:hover{ transform:translateY(-2px); }
+.ob-dot.is-done{ background:var(--forest); border-color:var(--forest-deep); color:#fff; }
+.ob-dot.is-current{ background:var(--orange); color:#fff; box-shadow:0 0 0 4px rgba(244,97,46,0.22); }
+.ob-next{
+  margin:18px 0 6px; padding:14px 18px; border-radius:14px;
+  background:rgba(63,63,240,0.07); border:1.5px solid rgba(63,63,240,0.25);
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  font-size:14px;
+}
+.ob-next.complete{ background:rgba(74,174,116,0.12); border-color:rgba(74,174,116,0.5); }
+
+.ob-steps{ margin-top:24px; }
+.ob-phase{ display:flex; align-items:center; gap:10px; margin:30px 0 16px; }
+.ob-phase:first-child{ margin-top:0; }
+.ob-phase span{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.14em;
+  text-transform:uppercase; color:rgba(22,21,39,0.5); white-space:nowrap;
+}
+.ob-phase::after{ content:''; flex:1; height:1px; background:rgba(22,21,39,0.14); }
+.ob-step{ position:relative; padding-left:60px; margin-bottom:14px; scroll-margin-top:20px; }
+.ob-step::before{
+  content:''; position:absolute; left:19px; top:46px; bottom:-14px; width:3px;
+  background:var(--line); border-radius:2px;
+}
+.ob-step:last-child::before{ display:none; }
+.ob-step.is-done::before{ background:var(--forest); }
+.ob-num{
+  position:absolute; left:0; top:8px; width:40px; height:40px; border-radius:50%;
+  background:var(--paper); border:2.5px solid var(--ink); z-index:1;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-size:15px;
+}
+.ob-step.is-done .ob-num{ background:var(--forest); border-color:var(--forest-deep); color:#fff; font-size:0; }
+.ob-step.is-done .ob-num::after{ content:'\2713'; font-family:var(--body); font-size:18px; font-weight:800; }
+.ob-step.is-current .ob-num{ background:var(--orange); color:#fff; box-shadow:0 0 0 5px rgba(244,97,46,0.2); }
+.ob-card{ background:var(--paper); border:2px solid var(--line); border-radius:16px; }
+.ob-step.is-current .ob-card{ border:2.5px solid var(--ink); box-shadow:5px 5px 0 var(--ink); }
+.ob-step.is-done .ob-card{ border-color:rgba(74,174,116,0.45); }
+.ob-step-head{
+  width:100%; display:flex; align-items:center; gap:12px; text-align:left;
+  background:none; border:0; font:inherit; color:inherit; cursor:pointer; padding:16px 18px;
+}
+.ob-step-title{ font-weight:800; font-size:16px; flex:1; }
+.ob-step-state{
+  font-family:var(--mono); font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.08em; padding:3px 10px; border-radius:100px;
+  border:1.5px solid rgba(22,21,39,0.25); color:rgba(22,21,39,0.5); white-space:nowrap;
+}
+.ob-step-state.done{ color:var(--forest-deep); border-color:var(--forest-deep); }
+.ob-step-state.current{ color:var(--orange); border-color:var(--orange); }
+.ob-step-body{ padding:0 18px 18px; }
+.ob-step:not(.is-open) .ob-step-body{ display:none; }
+.ob-step-body p{ font-size:13.5px; line-height:1.6; color:rgba(22,21,39,0.72); max-width:68ch; margin-top:10px; }
+.ob-step-body p:first-child{ margin-top:0; }
+.ob-step-body a:not(.ob-btn){ color:var(--indigo); font-weight:600; }
+.ob-list{ margin:10px 0 0 18px; font-size:13.5px; line-height:1.7; color:rgba(22,21,39,0.72); }
+.ob-note{ font-size:12px !important; color:rgba(22,21,39,0.5) !important; }
+.ob-callout, .ob-warn{
+  border-radius:10px; padding:12px 16px; font-size:13px; line-height:1.5;
+  color:rgba(22,21,39,0.72); margin-bottom:12px;
+  background:rgba(63,63,240,0.07); border:1px solid rgba(63,63,240,0.18);
+}
+.ob-warn{ margin:16px 0 0; background:rgba(212,134,10,0.08); border-color:rgba(212,134,10,0.28); }
+.ob-callout strong, .ob-warn strong{ color:var(--ink); }
+.ob-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+.ob-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.06em; text-decoration:none; color:var(--ink);
+  background:var(--paper); border:2px solid var(--ink); border-radius:100px;
+  padding:9px 16px; cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.ob-btn:hover{ transform:translateY(-2px); box-shadow:3px 4px 0 var(--ink); }
+.ob-btn img{ width:16px; height:16px; }
+.ob-btn-primary{ background:var(--ink); color:var(--paper); }
+.ob-btn-quiet{ border-color:rgba(22,21,39,0.25); }
+
+.ob-checks{ margin-top:16px; display:flex; flex-direction:column; gap:8px; }
+.ob-check{
+  position:relative; display:flex; align-items:center; gap:12px;
+  background:var(--cream); border:2px solid var(--line); border-radius:12px;
+  padding:11px 14px; cursor:pointer; font-size:13.5px; font-weight:600;
+}
+.ob-check input{ position:absolute; opacity:0; width:1px; height:1px; }
+.ob-box{
+  width:24px; height:24px; border:2px solid var(--ink); border-radius:7px; background:var(--paper);
+  display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  font-size:15px; font-weight:800; color:#fff; line-height:1;
+}
+.ob-check input:checked + .ob-box{ background:var(--forest); border-color:var(--forest-deep); }
+.ob-check input:checked + .ob-box::after{ content:'\2713'; }
+.ob-check input:focus-visible + .ob-box{ outline:3px solid var(--indigo); outline-offset:2px; }
+.ob-check.is-done{ background:rgba(74,174,116,0.1); border-color:rgba(74,174,116,0.45); }
+.ob-check.is-auto{ cursor:default; }
+.ob-check.is-auto .ob-box{ border-style:dashed; }
+.ob-auto-tag{
+  margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:0.08em;
+  text-transform:uppercase; color:rgba(22,21,39,0.45); font-weight:700;
+}
+
+.ob-email{ margin-top:16px; border:2px solid var(--line); border-radius:14px; background:var(--cream); }
+.ob-email-toggle{
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  background:none; border:0; font:inherit; color:inherit; cursor:pointer;
+  padding:12px 14px; font-weight:700; font-size:13.5px; text-align:left;
+}
+.ob-hint{
+  font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:0.08em;
+  text-transform:uppercase; color:var(--indigo);
+}
+.ob-email-body{ padding:0 14px 14px; }
+.ob-email-subject{
+  font-size:12.5px; background:rgba(63,63,240,0.07); border:1px solid rgba(63,63,240,0.18);
+  border-radius:10px; padding:9px 12px; margin-bottom:10px; color:rgba(22,21,39,0.75);
+}
+.ob-email-subject strong{ color:var(--ink); }
+.ob-field{ display:flex; flex-direction:column; gap:6px; margin-bottom:10px; max-width:320px; }
+.ob-field span{
+  font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.1em; color:rgba(22,21,39,0.5);
+}
+.ob-field input{
+  font-family:var(--body); font-size:14px; color:var(--ink); background:#fff;
+  border:2px solid var(--line); border-radius:100px; padding:10px 16px; outline:none;
+}
+.ob-field input:focus{ border-color:var(--indigo); }
+.ob-email-edit{
+  background:#fff; border:2px solid var(--line); border-radius:12px; padding:14px;
+  max-height:440px; overflow:auto; outline:none;
+}
+.ob-email-edit:focus{ border-color:var(--indigo); }
+.ob-fill{ background:rgba(63,63,240,0.14); border-radius:4px; padding:0 3px; }
+.ob-email-edit.ob-clean .ob-fill{ background:none; padding:0; }
+.ob-email-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px; }
+.ob-email-note{ font-size:11.5px; color:rgba(22,21,39,0.5); }
+
+.ob-save{
+  position:fixed; left:20px; bottom:24px; z-index:300; display:none;
+  font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:0.04em;
+  padding:9px 16px; border-radius:100px; border:2px solid var(--ink);
+  background:var(--paper); box-shadow:3px 3px 0 var(--ink); max-width:calc(100vw - 100px);
+}
+.ob-save.show{ display:block; }
+.ob-save.ok{ border-color:var(--forest-deep); color:var(--forest-deep); box-shadow:3px 3px 0 var(--forest-deep); }
+.ob-save.err{ border-color:var(--red); color:var(--red); box-shadow:3px 3px 0 var(--red); }
+
+@media(max-width:700px){
+  .ob-panel-head{ padding:16px; }
+  .ob-step{ padding-left:48px; }
+  .ob-step::before{ left:15px; top:42px; }
+  .ob-num{ width:34px; height:34px; font-size:13px; top:10px; }
+  .ob-step-head{ padding:14px; }
+  .ob-step-body{ padding:0 14px 16px; }
+  .ob-people-grid{ grid-template-columns:1fr; }
+  #onboardingView #addCrewSection .wrap{ padding:0 12px 14px; }
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -866,14 +1160,286 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
 
 <!-- ── HEADER ── -->
 <div class="portal-header">
-  <div class="wrap">
-    <h1>Team Portal</h1>
-    <p>Welcome back. Everything you need for upcoming events and admin.</p>
+  <div class="wrap portal-header-row">
+    <div>
+      <h1 class="hdr-main">Team Portal</h1>
+      <p class="hdr-main">Welcome back. Everything you need for upcoming events and admin.</p>
+      <h1 class="hdr-flow">Onboarding Flow</h1>
+      <p class="hdr-flow">Step by step, from application to first event. Every change saves automatically.</p>
+    </div>
+    <a href="#onboarding" id="obFlowBtn" class="ob-switch">Onboarding Flow &rarr;</a>
+    <a href="#" id="obBackBtn" class="ob-switch ob-switch-back">&larr; Back to Portal</a>
   </div>
 </div>
 
 <!-- ── CONTENT ── -->
 <main>
+
+  <!-- ══ ONBOARDING FLOW: super_admin second view, shown at #onboarding ══ -->
+  <section class="portal-section" id="onboardingView" aria-label="Onboarding flow">
+    <div class="wrap">
+
+      <h2>Crew Onboarding Status</h2>
+      <div class="ob-sub" id="obSummary"></div>
+      <div id="obPeople"><div class="ob-loading">Loading crew...</div></div>
+      <details class="ob-grid-wrap">
+        <summary>Full checklist grid</summary>
+        <div class="ob-grid-scroll"><table class="ob-grid" id="obGrid"></table></div>
+      </details>
+
+      <details class="ob-fold" id="obAddCrewWrap" style="margin-top:22px;">
+        <summary>Invite a new crew member or manage portal access</summary>
+        <div id="obAddCrewSlot"></div>
+      </details>
+
+      <details class="ob-fold" id="obDeclineWrap">
+        <summary>Declining an applicant? Send the "not right now" email</summary>
+        <div class="ob-email" id="obDecline" data-tpl="decline">
+          <div class="ob-email-body">
+            <label class="ob-field"><span>Their first name</span><input type="text" id="obDeclineName" placeholder="Alex" autocomplete="off"></label>
+            <div class="ob-email-subject"><strong>Subject:</strong> Your Urban Echo application</div>
+            <div class="ob-email-edit" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Decline email, editable"></div>
+            <div class="ob-email-actions">
+              <button type="button" class="ob-btn ob-btn-primary" data-act="copy">Copy email</button>
+              <button type="button" class="ob-btn ob-btn-quiet" data-act="reset">Reset to template</button>
+              <a class="ob-btn ob-btn-quiet" data-ql="email"></a>
+            </div>
+            <p class="ob-note">Send it from Gmail, then move the ClickUp task to Declined. The email tells them we will keep their application on file.</p>
+          </div>
+        </div>
+      </details>
+
+      <div id="obEmpty" class="ob-empty">Pick someone above to see their onboarding steps.</div>
+
+      <div id="obPanel" class="ob-panel" hidden>
+        <div class="ob-panel-head">
+          <span class="ob-eyebrow">Onboarding</span>
+          <h3 id="obPName"></h3>
+          <div class="ob-panel-meta" id="obPMeta"></div>
+          <div class="ob-rail" id="obRail" aria-label="Steps"></div>
+        </div>
+        <div class="ob-next" id="obNext"></div>
+
+        <div class="ob-steps">
+
+          <div class="ob-phase"><span>Phase 1, Review the application</span></div>
+
+          <section class="ob-step" id="obStep1" data-step="1">
+            <span class="ob-num" aria-hidden="true">1</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep1Body">
+                <span class="ob-step-title">Open the ClickUp task</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep1Body">
+                <div class="ob-callout"><strong>Automated:</strong> When someone submits an application, ClickUp auto-creates a task with their details, a pre-filled welcome email comment, and a 10-step onboarding checklist.</div>
+                <p>Go to the <strong>Applications</strong> list in ClickUp. The new task is named "Application, [Full Name]". Check roles, experience, availability, WWC/police status, and suburb.</p>
+                <div class="ob-actions"><a class="ob-btn" data-ql="task_mgmt"></a></div>
+                <p class="ob-note">Everyone on this list has already been approved, so steps 1 and 2 show as done.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ob-step" id="obStep2" data-step="2">
+            <span class="ob-num" aria-hidden="true">2</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep2Body">
+                <span class="ob-step-title">Decide: Approve or decline</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep2Body">
+                <p>Make the call and move the task to <strong>Approved</strong> or <strong>Declined</strong> in ClickUp. If declining, add a brief note in comments for your records.</p>
+                <div class="ob-actions"><a class="ob-btn" data-ql="task_mgmt"></a></div>
+                <div class="ob-actions" style="margin-top:10px;"><button type="button" class="ob-btn" data-act="open-decline">Open the decline email</button></div>
+              </div>
+            </div>
+          </section>
+
+          <div class="ob-phase"><span>Phase 2, Welcome and admin</span></div>
+
+          <section class="ob-step" id="obStep3" data-step="3">
+            <span class="ob-num" aria-hidden="true">3</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep3Body">
+                <span class="ob-step-title">Send welcome email + contractor agreement</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep3Body">
+                <p>Copy the welcome email below (their first name is filled in and you can edit it), paste it into Gmail, and <strong>attach the contractor agreement</strong> before sending. ClickUp also has a pre-drafted version in the task comments.</p>
+                <div class="ob-actions">
+                  <a class="ob-btn" data-ql="email"></a>
+                  <a class="ob-btn" href="contractor-agreement-2026.pdf" target="_blank" rel="noopener">Contractor agreement (PDF)</a>
+                </div>
+                <div class="ob-email" data-tpl="welcome1">
+                  <button type="button" class="ob-email-toggle" aria-expanded="false"><span>Welcome email: Approved</span><span class="ob-hint">Show and edit</span></button>
+                  <div class="ob-email-body" hidden>
+                    <div class="ob-email-subject"><strong>Subject:</strong> Welcome to Urban Echo, You're In! 🎉 &nbsp;·&nbsp; <strong>Attach:</strong> Contractor Agreement (Sole Trader)</div>
+                    <div class="ob-email-edit" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Welcome email, editable"></div>
+                    <div class="ob-email-actions">
+                      <button type="button" class="ob-btn ob-btn-primary" data-act="copy">Copy email</button>
+                      <button type="button" class="ob-btn ob-btn-quiet" data-act="reset">Reset to template</button>
+                      <span class="ob-email-note">First name is filled in. Your edits are kept on this device.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="ob-checks">
+                  <label class="ob-check"><input type="checkbox" data-key="contract"><span class="ob-box"></span><span>Contract signed and returned</span></label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="ob-step" id="obStep4" data-step="4">
+            <span class="ob-num" aria-hidden="true">4</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep4Body">
+                <span class="ob-step-title">Confirm compliance checks</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep4Body">
+                <p>Both <strong>WWC</strong> and <strong>National Police Certificate</strong> must be on file before any event.</p>
+                <p>If not yet obtained:</p>
+                <ul class="ob-list">
+                  <li><strong>WWC:</strong> <a href="https://www.workingwithchildren.wa.gov.au" target="_blank" rel="noopener">workingwithchildren.wa.gov.au</a>, free for volunteers, ~$11 for paid workers</li>
+                  <li><strong>Police Check:</strong> <a href="https://www.police.wa.gov.au/Police-Direct/National-Police-Certificate" target="_blank" rel="noopener">police.wa.gov.au</a> (~$42)</li>
+                </ul>
+                <div class="ob-actions">
+                  <a class="ob-btn" href="admin.html" target="_blank" rel="noopener">Enter WWC and police details (Team Admin)</a>
+                  <a class="ob-btn" href="Employee_Code_of_Conduct_Child_Safety_Policy_July_2026.docx" target="_blank" rel="noopener">Code of Conduct form</a>
+                </div>
+                <div class="ob-checks">
+                  <label class="ob-check is-auto"><input type="checkbox" data-key="wwc" disabled><span class="ob-box"></span><span>Working With Children Check on file</span><span class="ob-auto-tag">Automatic</span></label>
+                  <label class="ob-check is-auto"><input type="checkbox" data-key="police" disabled><span class="ob-box"></span><span>Police check on file</span><span class="ob-auto-tag">Automatic</span></label>
+                  <label class="ob-check"><input type="checkbox" data-key="conduct"><span class="ob-box"></span><span>Code of Conduct signed and returned</span></label>
+                </div>
+                <p class="ob-note">WWC and police tick themselves once the numbers are saved in Team Admin.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ob-step" id="obStep5" data-step="5">
+            <span class="ob-num" aria-hidden="true">5</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep5Body">
+                <span class="ob-step-title">Check they're in Slack</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep5Body">
+                <p>Confirm they've joined via the invite link in the welcome email and can see messages in <strong>#urban-echo-team-chat</strong>. Also add them to their relevant team channel (e.g., <strong>#sound-team</strong> for sound/AV crew). Say hello and introduce them to both channels.</p>
+                <div class="ob-actions">
+                  <a class="ob-btn" data-ql="team_chat"></a>
+                  <button type="button" class="ob-btn" data-act="copy-slack">Copy team welcome message</button>
+                </div>
+                <div class="ob-checks">
+                  <label class="ob-check"><input type="checkbox" data-key="slack_main"><span class="ob-box"></span><span>Added to #urban-echo-team-chat</span></label>
+                  <label class="ob-check"><input type="checkbox" data-key="slack_team"><span class="ob-box"></span><span>Added to their team channel</span></label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="ob-step" id="obStep6" data-step="6">
+            <span class="ob-num" aria-hidden="true">6</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep6Body">
+                <span class="ob-step-title">Arrange a coffee catch-up</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep6Body">
+                <p>Book a quick coffee with Mitchel before their first event, 20 to 30 mins. Great chance to get to know them, answer questions, and make them feel genuinely welcomed.</p>
+                <div class="ob-checks">
+                  <label class="ob-check"><input type="checkbox" data-key="coffee"><span class="ob-box"></span><span>Coffee catch-up done</span></label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="ob-phase"><span>Phase 3, Their first event</span></div>
+
+          <section class="ob-step" id="obStep7" data-step="7">
+            <span class="ob-num" aria-hidden="true">7</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep7Body">
+                <span class="ob-step-title">Complete a site induction</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep7Body">
+                <p>Mitchel walks them through gear, setup, and a typical event. About an hour, book before their first job.</p>
+                <div class="ob-checks">
+                  <label class="ob-check"><input type="checkbox" data-key="induction"><span class="ob-box"></span><span>Site induction completed</span></label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="ob-step" id="obStep8" data-step="8">
+            <span class="ob-num" aria-hidden="true">8</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep8Body">
+                <span class="ob-step-title">Shadow their first event</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep8Body">
+                <p>First job is always a shadow, they observe the full show with no pressure. Confirm date, time and venue via Slack, and brief them on all-black attire and arrival time.</p>
+                <div class="ob-actions">
+                  <a class="ob-btn" data-ql="team_chat"></a>
+                  <a class="ob-btn" data-ql="view_shifts"></a>
+                </div>
+                <div class="ob-checks">
+                  <label class="ob-check"><input type="checkbox" data-key="shadow"><span class="ob-box"></span><span>Shadow event done</span></label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="ob-step" id="obStep9" data-step="9">
+            <span class="ob-num" aria-hidden="true">9</span>
+            <div class="ob-card">
+              <button type="button" class="ob-step-head" aria-expanded="true" aria-controls="obStep9Body">
+                <span class="ob-step-title">Add to the crew pool</span>
+                <span class="ob-step-state" data-state></span>
+              </button>
+              <div class="ob-step-body" id="obStep9Body">
+                <p>Tick off everything below, then mark all ClickUp checklist items complete and move the task to <strong>Complete</strong>.</p>
+                <ul class="ob-list">
+                  <li>Add to the crew roster and collect bank details and ABN</li>
+                  <li>Post a welcome in <strong>#urban-echo-team-chat</strong> (the team welcome message is in step 5)</li>
+                </ul>
+                <div class="ob-actions">
+                  <a class="ob-btn" data-ql="view_shifts"></a>
+                  <a class="ob-btn" data-ql="finances"></a>
+                  <button type="button" class="ob-btn" data-act="invite">Send portal invite</button>
+                  <a class="ob-btn" data-ql="task_mgmt"></a>
+                </div>
+                <div class="ob-checks">
+                  <label class="ob-check"><input type="checkbox" data-key="rentman"><span class="ob-box"></span><span>Added and activated in Rentman</span></label>
+                  <label class="ob-check"><input type="checkbox" data-key="portal"><span class="ob-box"></span><span>Portal login sent and working</span></label>
+                  <label class="ob-check"><input type="checkbox" data-key="payroll"><span class="ob-box"></span><span>Set up in payroll system</span></label>
+                </div>
+                <div class="ob-email" data-tpl="welcome2">
+                  <button type="button" class="ob-email-toggle" aria-expanded="false"><span>Welcome email: Onboarding complete</span><span class="ob-hint">Show and edit</span></button>
+                  <div class="ob-email-body" hidden>
+                    <div class="ob-email-subject"><strong>Subject:</strong> Welcome to the Urban Echo Crew! 🎉 &nbsp;·&nbsp; <strong>Send:</strong> After compliance &amp; HR complete</div>
+                    <div class="ob-email-edit" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Onboarding complete email, editable"></div>
+                    <div class="ob-email-actions">
+                      <button type="button" class="ob-btn ob-btn-primary" data-act="copy">Copy email</button>
+                      <button type="button" class="ob-btn ob-btn-quiet" data-act="reset">Reset to template</button>
+                      <span class="ob-email-note">First name is filled in. Your edits are kept on this device.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="ob-warn"><strong>Never send someone to an event solo</strong> until they have completed the site induction, a shadow event, and both compliance checks are confirmed on file.</div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <div id="obResourcesSlot"></div>
+      <div class="ob-save" id="obSave" role="status" aria-live="polite"></div>
+    </div>
+  </section>
 
   <!-- UPCOMING ROSTER, hidden until Rentman integration is ready -->
   <section class="portal-section" style="display:none;">
@@ -1035,7 +1601,7 @@ html, body{ overflow-x:hidden; overflow-y: auto; }
   </section>
 
   <!-- SOPs -->
-  <section class="portal-section">
+  <section class="portal-section" id="sopsSection">
     <div class="wrap">
       <h2>Onboarding Resources and SOPs</h2>
 
@@ -2482,6 +3048,7 @@ function doLogout(){
     var role = (profile && profile.role) ? profile.role : 'team';
     if(userEmail === 'mitchel@urbanecho.com.au') role = 'super_admin';
     if(role === 'super_admin') document.body.classList.add('portal-super-admin');
+    try { if(typeof obMountFlow === 'function') obMountFlow(); } catch(e){ console.error('Onboarding flow failed to start', e); }
 
     // Render role-based quick links
     renderQuickLinks(role);
@@ -2734,6 +3301,7 @@ async function sendInvite(){
       document.getElementById('inviteFirst').value = '';
       document.getElementById('inviteLast').value  = '';
       loadCrewUsers();
+      try { if(typeof obFlowReload === 'function') obFlowReload(); } catch(e){}
     } else {
       showInviteMsg(json.error || 'Failed to send invite. Check Supabase edge function is deployed.', false);
     }
@@ -3504,6 +4072,477 @@ async function toggleObP(id, key, curVal){
 
 function escP(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+</script>
+<script>
+// ── Onboarding Flow (super admin second view, #onboarding) ──────────
+// Kept in its own script block so an error here cannot stop the main portal script.
+(function(){
+  'use strict';
+
+  var ITEMS = [
+    { key:'contract',   step:3, short:'Contract',  label:'Contract signed and returned' },
+    { key:'wwc',        step:4, short:'WWC',       label:'Working With Children Check on file', auto:true },
+    { key:'police',     step:4, short:'Police',    label:'Police check on file', auto:true },
+    { key:'conduct',    step:4, short:'CoC',       label:'Code of Conduct signed and returned' },
+    { key:'slack_main', step:5, short:'Slack',     label:'Added to #urban-echo-team-chat' },
+    { key:'slack_team', step:5, short:'Team ch.',  label:'Added to their team channel' },
+    { key:'coffee',     step:6, short:'Coffee',    label:'Coffee catch-up done' },
+    { key:'induction',  step:7, short:'Induction', label:'Site induction completed' },
+    { key:'shadow',     step:8, short:'Shadow',    label:'Shadow event done' },
+    { key:'rentman',    step:9, short:'Rentman',   label:'Added and activated in Rentman' },
+    { key:'portal',     step:9, short:'Portal',    label:'Portal login sent and working' },
+    { key:'payroll',    step:9, short:'Payroll',   label:'Set up in payroll system' }
+  ];
+  var STEPS = [
+    { n:1, phase:1, title:'Open the ClickUp task',                      next:'Review' },
+    { n:2, phase:1, title:'Decide: Approve or decline',                 next:'Decision' },
+    { n:3, phase:2, title:'Send welcome email + contractor agreement',  next:'Welcome email' },
+    { n:4, phase:2, title:'Confirm compliance checks',                  next:'Compliance' },
+    { n:5, phase:2, title:"Check they're in Slack",                     next:'Slack' },
+    { n:6, phase:2, title:'Arrange a coffee catch-up',                  next:'Coffee catch-up' },
+    { n:7, phase:3, title:'Complete a site induction',                  next:'Site induction' },
+    { n:8, phase:3, title:'Shadow their first event',                   next:'Shadow event' },
+    { n:9, phase:3, title:'Add to the crew pool',                       next:'Crew pool' }
+  ];
+  var PHASE_NAMES = { 1:'Approved', 2:'Admin', 3:'First event' };
+  var GROUPS = [
+    { id:'progress', label:'In progress' },
+    { id:'new',      label:'Not started' },
+    { id:'done',     label:'Onboarded' }
+  ];
+
+  var DECLINE_HTML =
+    '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#161527;">' +
+    '<p style="margin:0 0 14px;">Hey <span class="ob-fill">[First Name]</span>,</p>' +
+    '<p style="margin:0 0 14px;">Thanks for applying to join the Urban Echo crew, and for the time you put into your application.</p>' +
+    '<p style="margin:0 0 14px;">We are not able to offer you work right now. We would like to keep your application on file, and if something comes up that suits your skills and availability, we will be in touch.</p>' +
+    '<p style="margin:0 0 14px;">If anything changes on your side, such as new experience, new availability or a WWC or police check, just reply and we will update your details.</p>' +
+    '<p style="margin:0 0 14px;">Thanks again for your interest in Urban Echo.</p>' +
+    '<p style="margin:0;"><strong>Mitchel Tinsley</strong><br>Founder &amp; Director, Urban Echo</p>' +
+    '</div>';
+
+  var state = { people:[], byId:{}, selected:null, loading:false, loaded:false, error:null };
+  var TPL = {};
+  var mounted = false, pending = 0, queues = {}, saveTimer = null, draftTimer = null;
+
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function cap(s){ s = String(s || '').trim(); return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+  function fullName(p){ var n = [p.first_name, p.last_name].filter(Boolean).join(' '); return n || String(p.email || '').split('@')[0] || 'Unnamed'; }
+  function byName(a, b){ return fullName(a).toLowerCase() < fullName(b).toLowerCase() ? -1 : 1; }
+  function lsGet(k){ try { return window.localStorage.getItem(k); } catch(e){ return null; } }
+  function lsSet(k, v){ try { window.localStorage.setItem(k, v); } catch(e){} }
+  function lsDel(k){ try { window.localStorage.removeItem(k); } catch(e){} }
+
+  function sanitize(html){
+    var t = document.createElement('template');
+    t.innerHTML = html;
+    [].forEach.call(t.content.querySelectorAll('script,iframe,object,embed,link,meta,style'), function(n){ n.remove(); });
+    [].forEach.call(t.content.querySelectorAll('*'), function(n){
+      [].slice.call(n.attributes).forEach(function(a){
+        if(/^on/i.test(a.name) || (/^(href|src)$/i.test(a.name) && /^\s*javascript:/i.test(a.value))) n.removeAttribute(a.name);
+      });
+    });
+    return t.innerHTML;
+  }
+  function fill(html, p){
+    var name = p ? cap(p.first_name) : '';
+    return String(html || '').replace(/\[First Name\]/g, '<span class="ob-fill">' + esc(name || '[First Name]') + '</span>');
+  }
+
+  // ── progress maths ──
+  function isDone(p, it){
+    if(it.key === 'wwc') return !!p.wwc_number;
+    if(it.key === 'police') return !!p.police_ref;
+    return !!(p.onboarding_checklist && p.onboarding_checklist[it.key]);
+  }
+  function itemsForStep(n){ return ITEMS.filter(function(i){ return i.step === n; }); }
+  function stepDone(p, n){
+    var its = itemsForStep(n);
+    return its.length === 0 || its.every(function(i){ return isDone(p, i); });
+  }
+  function calc(p){
+    var phases = { 1:{ done:1, total:1 }, 2:{ done:0, total:0 }, 3:{ done:0, total:0 } }, count = 0, next = null, n;
+    ITEMS.forEach(function(it){
+      var ph = STEPS[it.step - 1].phase;
+      phases[ph].total++;
+      if(isDone(p, it)){ phases[ph].done++; count++; }
+    });
+    for(n = 3; n <= 9; n++){ if(!stepDone(p, n)){ next = n; break; } }
+    return { count:count, total:ITEMS.length, phases:phases, next:next,
+      status: count === ITEMS.length ? 'done' : (count === 0 ? 'new' : 'progress') };
+  }
+
+  // ── data ──
+  async function load(){
+    if(state.loading) return;
+    if(typeof supabaseClient === 'undefined' || !supabaseClient){
+      state.error = 'Not connected yet. Refresh the page and try again.';
+      renderAll(true);
+      return;
+    }
+    state.loading = true; state.error = null; renderSummary();
+    try {
+      var res = await supabaseClient.from('profiles').select('*').order('first_name');
+      if(res.error) throw res.error;
+      state.people = (res.data || []).map(function(p){ p.onboarding_checklist = p.onboarding_checklist || {}; return p; });
+      state.byId = {};
+      state.people.forEach(function(p){ state.byId[p.id] = p; });
+      if(!state.selected || !state.byId[state.selected]){
+        var saved = lsGet('ob-selected');
+        state.selected = (saved && state.byId[saved]) ? saved : null;
+      }
+      state.loaded = true;
+    } catch(e){
+      state.error = 'Could not load the crew list.' + (e && e.message ? ' ' + e.message : '');
+    }
+    state.loading = false;
+    renderAll(true);
+    var ae = document.activeElement;
+    if(!(ae && ae.classList && ae.classList.contains('ob-email-edit'))) renderEmails();
+  }
+
+  async function persist(id, key, val){
+    // Read, merge, write: a tick never overwrites a change made elsewhere.
+    var cur = await supabaseClient.from('profiles').select('onboarding_checklist').eq('id', id).single();
+    if(cur.error) throw cur.error;
+    var next = Object.assign({}, (cur.data && cur.data.onboarding_checklist) || {});
+    next[key] = val;
+    var up = await supabaseClient.from('profiles').update({ onboarding_checklist: next }).eq('id', id);
+    if(up.error) throw up.error;
+  }
+
+  function status(kind, text){
+    var el = $('obSave'); if(!el) return;
+    clearTimeout(saveTimer);
+    el.className = 'ob-save show ' + kind;
+    el.textContent = text;
+    if(kind === 'ok') saveTimer = setTimeout(function(){ el.className = 'ob-save'; }, 2400);
+  }
+
+  function toggle(id, key, val){
+    var p = state.byId[id]; if(!p) return;
+    var cl = p.onboarding_checklist || (p.onboarding_checklist = {});
+    var prev = !!cl[key];
+    if(prev === val) return;
+    cl[key] = val;
+    renderAll(false);
+    pending++; status('saving', 'Saving...');
+    queues[id] = (queues[id] || Promise.resolve())
+      .then(function(){ return persist(id, key, val); })
+      .then(function(){ pending--; if(!pending) status('ok', 'Saved'); },
+            function(err){
+              pending--; cl[key] = prev; renderAll(false);
+              status('err', 'Not saved. Check your connection and tick it again.');
+              if(window.console) console.error('Onboarding save failed:', err && err.message ? err.message : err);
+            });
+  }
+
+  // ── rendering ──
+  function renderAll(resetOpen){ renderSummary(); renderPeople(); renderGrid(); renderPanel(resetOpen); }
+
+  function renderSummary(){
+    var el = $('obSummary'); if(!el) return;
+    if(state.loading && !state.loaded){ el.textContent = 'Loading...'; return; }
+    if(state.error){ el.textContent = ''; return; }
+    var c = { done:0, progress:0, 'new':0 };
+    state.people.forEach(function(p){ c[calc(p).status]++; });
+    el.textContent = state.people.length + ' crew  ·  ' + c.done + ' onboarded  ·  ' + c.progress + ' in progress  ·  ' + c['new'] + ' not started';
+  }
+
+  function personCard(p){
+    var c = calc(p), sel = p.id === state.selected;
+    var segs = [1,2,3].map(function(ph){
+      var s = c.phases[ph], pct = s.total ? Math.round(100 * s.done / s.total) : 0;
+      return '<span class="ob-seg' + (pct === 100 ? ' full' : '') + '" title="' + esc(PHASE_NAMES[ph] + ': ' + s.done + ' of ' + s.total) + '"><i style="width:' + pct + '%"></i></span>';
+    }).join('');
+    var caps = [1,2,3].map(function(ph){ return '<span>' + esc(PHASE_NAMES[ph]) + '</span>'; }).join('');
+    var chip = c.status === 'done' ? 'Onboarded' : (c.status === 'new' ? 'Not started' : 'In progress');
+    var nxt = c.next ? 'Next: Step ' + c.next + ', ' + STEPS[c.next - 1].next : 'All steps complete';
+    return '<button type="button" class="ob-person' + (sel ? ' is-selected' : '') + '" data-id="' + esc(p.id) + '" aria-pressed="' + sel + '">' +
+      '<span class="ob-person-top"><span><span class="ob-person-name">' + esc(fullName(p)) + '</span>' +
+      (p.email ? '<span class="ob-person-mail" style="display:block;">' + esc(p.email) + '</span>' : '') + '</span>' +
+      '<span class="ob-chip ' + c.status + '">' + chip + '</span></span>' +
+      '<span class="ob-bar">' + segs + '</span><span class="ob-caps">' + caps + '</span>' +
+      '<span class="ob-person-next"><strong>' + c.count + ' of ' + c.total + '</strong>  ·  ' + esc(nxt) + '</span>' +
+    '</button>';
+  }
+
+  function renderPeople(){
+    var el = $('obPeople'); if(!el) return;
+    if(state.error){
+      el.innerHTML = '<div class="ob-loading ob-error">' + esc(state.error) + ' <button type="button" class="ob-btn ob-btn-quiet" data-act="retry" style="margin-left:8px;">Try again</button></div>';
+      return;
+    }
+    if(!state.loaded){ el.innerHTML = '<div class="ob-loading">Loading crew...</div>'; return; }
+    if(!state.people.length){ el.innerHTML = '<div class="ob-loading">No crew members yet. Use the invite panel below to add the first one.</div>'; return; }
+    var buckets = { progress:[], 'new':[], done:[] };
+    state.people.forEach(function(p){ buckets[calc(p).status].push(p); });
+    el.innerHTML = GROUPS.filter(function(g){ return buckets[g.id].length; }).map(function(g){
+      return '<div class="ob-group"><div class="ob-group-label">' + g.label + ' (' + buckets[g.id].length + ')</div>' +
+        '<div class="ob-people-grid">' + buckets[g.id].sort(byName).map(personCard).join('') + '</div></div>';
+    }).join('');
+  }
+
+  function renderGrid(){
+    var t = $('obGrid'); if(!t) return;
+    var head = '<thead><tr><th>Name</th>' + ITEMS.map(function(i){ return '<th title="' + esc(i.label) + '">' + esc(i.short) + '</th>'; }).join('') + '</tr></thead>';
+    var rows = state.people.slice().sort(byName).map(function(p){
+      return '<tr><td>' + esc(fullName(p)) + '</td>' + ITEMS.map(function(i){
+        var on = isDone(p, i);
+        return '<td><button type="button" class="ob-cell' + (on ? ' on' : '') + (i.auto ? ' auto' : '') + '" data-id="' + esc(p.id) + '" data-key="' + i.key + '"' +
+          (i.auto ? ' disabled' : '') + ' aria-label="' + esc(fullName(p) + ': ' + i.label + (on ? ', done' : ', not done')) + '">' + (on ? '&#10003;' : '') + '</button></td>';
+      }).join('') + '</tr>';
+    }).join('');
+    t.innerHTML = head + '<tbody>' + (rows || '<tr><td colspan="' + (ITEMS.length + 1) + '">No crew yet.</td></tr>') + '</tbody>';
+  }
+
+  function setOpen(el, open){
+    el.classList.toggle('is-open', open);
+    var h = el.querySelector('.ob-step-head'); if(h) h.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function renderRail(p, c){
+    var out = [], last = 0;
+    STEPS.forEach(function(s){
+      if(last && s.phase !== last) out.push('<span class="ob-rail-gap"></span>');
+      last = s.phase;
+      var d = stepDone(p, s.n);
+      out.push('<button type="button" class="ob-dot' + (d ? ' is-done' : (c.next === s.n ? ' is-current' : '')) + '" data-goto="' + s.n + '" ' +
+        'aria-label="Step ' + s.n + ': ' + esc(s.title) + (d ? ', done' : '') + '" title="' + esc(s.n + '. ' + s.title) + '">' + (d ? '&#10003;' : s.n) + '</button>');
+    });
+    $('obRail').innerHTML = out.join('');
+  }
+
+  function renderPanel(resetOpen){
+    var p = state.byId[state.selected];
+    var panel = $('obPanel'), empty = $('obEmpty');
+    if(!panel || !empty) return;
+    panel.hidden = !p;
+    empty.hidden = !!p || !state.loaded || !state.people.length;
+    if(!p) return;
+    var c = calc(p);
+    $('obPName').textContent = fullName(p);
+    $('obPMeta').textContent = [p.email, c.count + ' of ' + c.total + ' done'].filter(Boolean).join('  ·  ');
+    renderRail(p, c);
+    var nx = $('obNext');
+    if(c.next){
+      nx.className = 'ob-next';
+      nx.innerHTML = '<div><strong>Next step:</strong> ' + c.next + '. ' + esc(STEPS[c.next - 1].title) + '</div>' +
+        '<button type="button" class="ob-btn ob-btn-primary" data-goto="' + c.next + '">Go to step</button>';
+    } else {
+      nx.className = 'ob-next complete';
+      nx.innerHTML = '<div><strong>All steps complete.</strong> ' + esc(cap(p.first_name) || fullName(p)) + ' is fully onboarded.</div>' +
+        '<button type="button" class="ob-btn ob-btn-primary" data-act="final-email">Open the final welcome email</button>';
+    }
+    STEPS.forEach(function(s){
+      var el = $('obStep' + s.n); if(!el) return;
+      var its = itemsForStep(s.n), d = stepDone(p, s.n), cur = c.next === s.n;
+      var got = its.filter(function(i){ return isDone(p, i); }).length;
+      el.classList.toggle('is-done', d);
+      el.classList.toggle('is-current', cur);
+      var st = el.querySelector('[data-state]');
+      st.textContent = d ? 'Done' : (cur ? 'Next' : (got ? got + ' of ' + its.length : 'To do'));
+      st.className = 'ob-step-state' + (d ? ' done' : (cur ? ' current' : ''));
+      its.forEach(function(it){
+        var inp = el.querySelector('input[data-key="' + it.key + '"]'); if(!inp) return;
+        var on = isDone(p, it);
+        inp.checked = on;
+        inp.closest('.ob-check').classList.toggle('is-done', on);
+      });
+      if(resetOpen) setOpen(el, !d);
+    });
+  }
+
+  function renderEmail(box){
+    var tpl = box.getAttribute('data-tpl');
+    if(tpl === 'decline') return;
+    var ed = box.querySelector('.ob-email-edit'), p = state.byId[state.selected];
+    var draft = p ? lsGet('ob-draft:' + p.id + ':' + tpl) : null;
+    ed.innerHTML = draft ? sanitize(draft) : fill(TPL[tpl], p);
+    box.classList.toggle('has-draft', !!draft);
+  }
+  function renderEmails(){
+    [].forEach.call(document.querySelectorAll('#onboardingView .ob-email[data-tpl]'), renderEmail);
+  }
+  function resetDecline(){
+    var box = $('obDecline'); if(!box) return;
+    box.querySelector('.ob-email-edit').innerHTML = DECLINE_HTML;
+    var nm = cap(($('obDeclineName') || {}).value) || '[First Name]';
+    [].forEach.call(box.querySelectorAll('.ob-fill'), function(s){ s.textContent = nm; });
+  }
+
+  // ── actions ──
+  function select(id){
+    if(!state.byId[id]) return;
+    state.selected = id; lsSet('ob-selected', id);
+    renderPeople(); renderPanel(true); renderEmails();
+    var panel = $('obPanel');
+    if(panel && panel.scrollIntoView) panel.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  function setEmailOpen(box, open){
+    box.querySelector('.ob-email-body').hidden = !open;
+    var tg = box.querySelector('.ob-email-toggle');
+    tg.setAttribute('aria-expanded', open ? 'true' : 'false');
+    tg.querySelector('.ob-hint').textContent = open ? 'Hide' : 'Show and edit';
+  }
+  function goTo(n){
+    var el = $('obStep' + n); if(!el) return;
+    setOpen(el, true);
+    el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+  function flash(btn, msg){
+    if(!btn.getAttribute('data-label')) btn.setAttribute('data-label', btn.textContent);
+    btn.textContent = msg;
+    setTimeout(function(){ btn.textContent = btn.getAttribute('data-label'); }, 2000);
+  }
+  function copyRich(box, btn){
+    var ed = box.querySelector('.ob-email-edit');
+    var clone = ed.cloneNode(true);
+    [].forEach.call(clone.querySelectorAll('.ob-fill'), function(s){ s.replaceWith(document.createTextNode(s.textContent)); });
+    var html = clone.innerHTML, text = ed.innerText;
+    function fallback(){
+      ed.classList.add('ob-clean');
+      var sel = window.getSelection(), r = document.createRange(), ok = false;
+      r.selectNodeContents(ed); sel.removeAllRanges(); sel.addRange(r);
+      try { ok = document.execCommand('copy'); } catch(e){}
+      sel.removeAllRanges(); ed.classList.remove('ob-clean');
+      flash(btn, ok ? 'Copied' : 'Press Ctrl+C to copy');
+    }
+    if(navigator.clipboard && window.ClipboardItem){
+      navigator.clipboard.write([ new ClipboardItem({ 'text/html':new Blob([html], { type:'text/html' }), 'text/plain':new Blob([text], { type:'text/plain' }) }) ])
+        .then(function(){ flash(btn, 'Copied'); }, fallback);
+    } else { fallback(); }
+  }
+  function copyText(text, btn){
+    function fallback(){
+      var ta = document.createElement('textarea'); ta.value = text;
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta);
+      flash(btn, ok ? 'Copied' : 'Press Ctrl+C to copy');
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ flash(btn, 'Copied'); }, fallback);
+    } else { fallback(); }
+  }
+  function prefillInvite(){
+    var p = state.byId[state.selected]; if(!p) return;
+    var wrap = $('obAddCrewWrap'); wrap.open = true;
+    function set(id, v){ var el = $(id); if(el) el.value = v || ''; }
+    set('inviteEmail', p.email); set('inviteFirst', p.first_name); set('inviteLast', p.last_name);
+    var r = $('inviteRole'); if(r && p.role) r.value = p.role;
+    wrap.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
+  function onClick(e){
+    var t = e.target;
+    if(!t || !t.closest) return;
+    var card = t.closest('.ob-person');
+    if(card){ select(card.getAttribute('data-id')); return; }
+    var cell = t.closest('.ob-cell');
+    if(cell){
+      if(cell.disabled) return;
+      var cp = state.byId[cell.getAttribute('data-id')];
+      if(cp) toggle(cp.id, cell.getAttribute('data-key'), !cp.onboarding_checklist[cell.getAttribute('data-key')]);
+      return;
+    }
+    var go = t.closest('[data-goto]');
+    if(go){ goTo(+go.getAttribute('data-goto')); return; }
+    var head = t.closest('.ob-step-head');
+    if(head){ var st = head.closest('.ob-step'); setOpen(st, !st.classList.contains('is-open')); return; }
+    var tog = t.closest('.ob-email-toggle');
+    if(tog){ var eb = tog.parentNode; setEmailOpen(eb, eb.querySelector('.ob-email-body').hidden); return; }
+    var act = t.closest('[data-act]');
+    if(!act) return;
+    var a = act.getAttribute('data-act'), box = act.closest('.ob-email');
+    if(a === 'copy' && box) copyRich(box, act);
+    else if(a === 'reset' && box){
+      if(box.getAttribute('data-tpl') === 'decline') resetDecline();
+      else { var p = state.byId[state.selected]; if(p) lsDel('ob-draft:' + p.id + ':' + box.getAttribute('data-tpl')); renderEmail(box); }
+    }
+    else if(a === 'copy-slack'){ var s = $('slackWelcomePortalText'); copyText(s ? s.innerText : '', act); }
+    else if(a === 'invite') prefillInvite();
+    else if(a === 'open-decline'){ var dw = $('obDeclineWrap'); dw.open = true; dw.scrollIntoView({ behavior:'smooth', block:'center' }); }
+    else if(a === 'final-email'){
+      setOpen($('obStep9'), true);
+      var fe = $('obStep9').querySelector('.ob-email');
+      setEmailOpen(fe, true);
+      fe.scrollIntoView({ behavior:'smooth', block:'center' });
+    }
+    else if(a === 'retry') load();
+  }
+  function onChange(e){
+    var t = e.target;
+    if(!t || !t.matches || !t.matches('input[type=checkbox][data-key]') || t.disabled) return;
+    toggle(state.selected, t.getAttribute('data-key'), t.checked);
+  }
+  function onInput(e){
+    var t = e.target;
+    if(!t) return;
+    if(t.id === 'obDeclineName'){
+      var nm = cap(t.value) || '[First Name]';
+      [].forEach.call($('obDecline').querySelectorAll('.ob-fill'), function(s){ s.textContent = nm; });
+      return;
+    }
+    if(t.classList && t.classList.contains('ob-email-edit')){
+      var box = t.closest('.ob-email'), tpl = box && box.getAttribute('data-tpl'), p = state.byId[state.selected];
+      if(!p || !tpl || tpl === 'decline') return;
+      clearTimeout(draftTimer);
+      draftTimer = setTimeout(function(){
+        var key = 'ob-draft:' + p.id + ':' + tpl, edited = t.innerHTML !== fill(TPL[tpl], p);
+        if(edited) lsSet(key, t.innerHTML); else lsDel(key);
+        box.classList.toggle('has-draft', edited);
+      }, 500);
+    }
+  }
+
+  // ── view switching: #onboarding shows this view, anything else shows the portal ──
+  function isAdmin(){ return document.body.classList.contains('portal-super-admin'); }
+  function syncView(){
+    var want = isAdmin() && window.location.hash === '#onboarding';
+    var was = document.body.classList.contains('view-onboarding');
+    document.body.classList.toggle('view-onboarding', want);
+    if(want !== was) window.scrollTo(0, 0);
+    if(want && !was) load();
+  }
+  function relocate(id, slotId){
+    var el = $(id), slot = $(slotId);
+    if(el && slot && el.parentNode !== slot) slot.appendChild(el);
+  }
+  function wireLinks(){
+    [].forEach.call(document.querySelectorAll('#onboardingView [data-ql]'), function(a){
+      var l = (typeof QUICK_LINKS !== 'undefined') ? QUICK_LINKS[a.getAttribute('data-ql')] : null;
+      if(!l) return;
+      a.href = l.href; a.target = '_blank'; a.rel = 'noopener';
+      a.innerHTML = '<img src="' + esc(l.favicon) + '" alt="" width="16" height="16" onerror="this.remove()"><span>Open ' + esc(l.app) + '</span>';
+    });
+  }
+  function mount(){
+    if(!mounted){
+      mounted = true;
+      var w1 = $('welcomeEmailPortalHTML'), w2 = $('welcomeEmail2PortalHTML');
+      TPL.welcome1 = w1 ? w1.innerHTML : '';
+      TPL.welcome2 = w2 ? w2.innerHTML : '';
+      wireLinks();
+      resetDecline();
+      relocate('sopsSection', 'obResourcesSlot');
+      relocate('addCrewSection', 'obAddCrewSlot');
+    }
+    syncView();
+  }
+
+  var view = $('onboardingView');
+  if(view){
+    view.addEventListener('click', onClick);
+    view.addEventListener('change', onChange);
+    view.addEventListener('input', onInput);
+  }
+  window.addEventListener('hashchange', syncView);
+  window.obMountFlow = mount;
+  window.obSyncView = syncView;
+  window.obFlowReload = load;
+})();
 </script>
 </body>
 </html>
