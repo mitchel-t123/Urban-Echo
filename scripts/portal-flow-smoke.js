@@ -204,6 +204,21 @@ function check(name, ok, detail) {
   r = await gmail('#obDecline [data-compose=decline]');
   check('decline opens Gmail addressed to the typed email', r && r.to === 'alex@example.com', r);
 
+  // the crew list shows hostile names and emails as plain text and runs nothing
+  await page.evaluate(() => {
+    window.__xss = 0;
+    window.__people.push({ id: 'p9', first_name: '<img src=x onerror="window.__xss=1">', last_name: '"><b>x</b>', email: 'e"><i>@example.com', role: 'team', wwc_number: null, police_ref: null, onboarding_checklist: {} });
+  });
+  await page.evaluate(async () => { await loadCrewUsers(); });
+  await page.waitForFunction(() => document.querySelectorAll('#crewUserList .crew-user-row').length >= 4);
+  r = await page.evaluate(() => ({
+    ran: window.__xss === 1,
+    injected: document.querySelectorAll('#crewUserList img, #crewUserList b, #crewUserList i').length,
+    shownAsText: document.getElementById('crewUserList').innerText.indexOf('<img src=x') !== -1,
+    uids: [...document.querySelectorAll('#crewUserList select')].map(s => s.dataset.uid).sort().join(','),
+  }));
+  check('crew list renders hostile names as plain text and runs nothing', !r.ran && r.injected === 0 && r.shownAsText && r.uids === 'p1,p2,p3,p9', r);
+
   // structure stays sound after mounting
   r = await page.evaluate(() => {
     const out = [];

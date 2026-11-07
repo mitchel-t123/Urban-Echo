@@ -9,7 +9,7 @@
 <title>Team Portal & Login | Urban Echo</title>
 <meta name="description" content="Urban Echo team portal. Log in to access crew resources, onboarding guides, SOPs, rosters and more.">
 <meta name="keywords" content="Urban Echo team portal, Urban Echo login, Urban Echo employee login, Urban Echo crew portal, Urban Echo staff login, Urban Echo team login">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://www.urbanecho.com.au/portal.html">
 <!-- Open Graph -->
 <meta property="og:title" content="Team Portal | Urban Echo">
@@ -2976,6 +2976,7 @@ var clerkInstance    = null;
 var supabaseClient   = null;
 
 function doLogout(){
+  try { Object.keys(window.localStorage).forEach(function(k){ if(k.indexOf('ob-') === 0) window.localStorage.removeItem(k); }); } catch(e){}
   if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('/login'); }); }
   else { window.location.replace('/login'); }
 }
@@ -3049,8 +3050,6 @@ function doLogout(){
     document.body.classList.remove('auth-pending');
     document.getElementById('logoutBtn').addEventListener('click', doLogout);
 
-    // ── Load Rentman roster for this user ──
-
     // Determine role from profile, fallback to email check for mitchel
     var role = (profile && profile.role) ? profile.role : 'team';
     if(userEmail === 'mitchel@urbanecho.com.au') role = 'super_admin';
@@ -3084,8 +3083,6 @@ function doLogout(){
       document.getElementById('obTrackerCard').style.display = 'flex';
       loadCrewUsers();
     }
-
-    loadRentmanRoster(userEmail);
 
     // ── Role-based card visibility ──
     var role = profile ? profile.role : null;
@@ -3223,66 +3220,6 @@ function updateCountdown(type, expiryStr, label){
 
 
 
-// ── Add Crew ─────────────────────────────────────────────────
-async function loadCrewUsers(){
-  var list = document.getElementById('crewUserList');
-  try {
-    var { data: profiles, error } = await supabaseClient
-      .from('profiles')
-      .select('id, first_name, last_name, role, email')
-      .order('first_name', { ascending: true });
-    if(error || !profiles || profiles.length === 0){
-      list.innerHTML = '<div style="font-size:13px;color:rgba(22,21,39,0.4);">No profiles found.</div>';
-      return;
-    }
-    var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
-    var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
-    var ROLE_CYCLE  = ['team', 'team_manager', 'super_admin'];
-    list.innerHTML = profiles.map(function(p){
-      var name = [p.first_name, p.last_name].filter(Boolean).join(' ') || '—';
-      var isFixed = p.email === 'mitchel@urbanecho.com.au';
-      var effectiveRole = isFixed ? 'super_admin' : (p.role || 'team');
-      var roleLabel = ROLE_LABELS[effectiveRole] || 'Team / General Crew';
-      var roleColor = ROLE_COLORS[effectiveRole] || 'var(--forest)';
-      var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
-      var roleControl = isFixed
-        ? '<span class="crew-role-badge" style="color:'+roleColor+'">'+roleLabel+'</span>'
-        : '<select class="role-select" style="color:'+roleColor+'" data-uid="'+p.id+'" data-role="'+effectiveRole+'" onchange="changeRole(this)">'+
-            '<option value="team"'+(effectiveRole==='team'?' selected':'')+'>Team / General Crew</option>'+
-            '<option value="team_manager"'+(effectiveRole==='team_manager'?' selected':'')+'>Team Manager</option>'+
-            '<option value="super_admin"'+(effectiveRole==='super_admin'?' selected':'')+'>Super Admin</option>'+
-          '</select>';
-      return '<div class="crew-user-row">'+
-        '<div><div class="crew-user-name">'+name+'</div>'+emailStr+'</div>'+
-        roleControl+
-      '</div>';
-    }).join('');
-  } catch(e){
-    list.innerHTML = '<div style="font-size:13px;color:rgba(22,21,39,0.4);">Could not load users.</div>';
-  }
-}
-
-async function changeRole(sel){
-  var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
-  var uid  = sel.dataset.uid;
-  var prev = sel.dataset.role;
-  var next = sel.value;
-  sel.disabled = true;
-  sel.style.opacity = '0.5';
-  var { error } = await supabaseClient
-    .from('profiles')
-    .update({ role: next })
-    .eq('id', uid);
-  if(error){
-    sel.value = prev;
-  } else {
-    sel.dataset.role = next;
-    sel.style.color = ROLE_COLORS[next];
-  }
-  sel.disabled = false;
-  sel.style.opacity = '';
-}
-
 async function sendInvite(){
   var email = (document.getElementById('inviteEmail').value || '').trim();
   var first = (document.getElementById('inviteFirst').value || '').trim();
@@ -3293,13 +3230,15 @@ async function sendInvite(){
   if(!email){ showInviteMsg('Please enter an email address.', false); return; }
   btn.disabled = true; btn.textContent = 'Sending…';
   try {
+    var clerkToken = '';
+    try { clerkToken = await clerkInstance.session.getToken(); } catch(e){}
     var res = await fetch(SUPABASE_URL + '/functions/v1/invite-crew', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + SUPABASE_ANON
       },
-      body: JSON.stringify({ email: email, first_name: first, last_name: last, role: role })
+      body: JSON.stringify({ email: email, first_name: first, last_name: last, role: role, clerk_token: clerkToken })
     });
     var json = await res.json().catch(function(){ return {}; });
     if(res.ok){
@@ -3325,88 +3264,6 @@ function showInviteMsg(text, ok){
   el.style.color = ok ? 'var(--forest)' : 'var(--orange)';
   el.style.border = '1.5px solid ' + (ok ? 'var(--forest)' : 'var(--orange)');
   el.textContent = text;
-}
-
-// ── Rentman roster ───────────────────────────────────────────
-var PROXY = SUPABASE_URL + '/functions/v1/rentman-proxy';
-
-async function rentmanGet(path){
-  var r = await fetch(PROXY + path, {
-    headers: { Authorization: 'Bearer ' + SUPABASE_ANON }
-  });
-  if(!r.ok) throw new Error('Rentman ' + path + ' ' + r.status);
-  return r.json();
-}
-
-async function loadRentmanRoster(userEmail){
-  var list = document.querySelector('.roster-list');
-  var source = document.querySelector('.roster-source');
-  try {
-    // 1. Find crew member whose email matches the logged-in user
-    var crewData = await rentmanGet('/crew?limit=100');
-    var members = crewData.data || [];
-    var me = members.find(function(m){
-      return (m.email || '').toLowerCase() === userEmail.toLowerCase();
-    });
-
-    if(!me){
-      if(source) source.textContent = 'No Rentman crew profile found for ' + userEmail;
-      return;
-    }
-
-    // 2. Fetch planning items assigned to this crew member (upcoming)
-    var today = new Date().toISOString().split('T')[0];
-    var planData = await rentmanGet('/planningitems?crew=' + encodeURIComponent(me.id) + '&usageperiod_from=' + today + '&limit=50&sort=usageperiod_from');
-    var items = planData.data || [];
-
-    if(items.length === 0){
-      list.innerHTML = '<p style="font-family:var(--mono);font-size:13px;color:rgba(22,21,39,0.55);padding:16px 0;">No upcoming jobs found.</p>';
-      if(source) source.textContent = 'Live data from Rentman';
-      return;
-    }
-
-    // 3. Fetch project details for each unique project
-    var projectIds = [...new Set(items.map(function(i){ return i.project_id; }).filter(Boolean))];
-    var projects = {};
-    await Promise.all(projectIds.map(async function(pid){
-      try {
-        var pData = await rentmanGet('/projects/' + pid);
-        if(pData.data) projects[pid] = pData.data;
-      } catch(e){}
-    }));
-
-    // 4. Render
-    list.innerHTML = items.map(function(item){
-      var proj = projects[item.project_id] || {};
-      var from = item.usageperiod_from ? new Date(item.usageperiod_from) : null;
-      var to   = item.usageperiod_to   ? new Date(item.usageperiod_to)   : null;
-      var day  = from ? from.getDate() : '?';
-      var mon  = from ? from.toLocaleDateString('en-AU', { month:'short', year:'numeric' }) : '';
-      var time = '';
-      if(from && to){
-        time = from.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false}) +
-               '–' + to.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false});
-      }
-      var name    = proj.name || item.remark || 'Unnamed Job';
-      var location = proj.location || proj.usageperiod_location || '';
-      var status   = (proj.status || '').toLowerCase();
-      var badge = status === 'confirmed' || status === 'in_progress'
-        ? '<span class="roster-badge confirmed">Confirmed</span>'
-        : '<span class="roster-badge pending">Pending</span>';
-      var sub = [location, time, item.function || ''].filter(Boolean).join(' · ');
-      return '<div class="roster-item">' +
-        '<div class="roster-date"><span>' + day + '</span>' + mon + '</div>' +
-        '<div class="roster-detail"><h4>' + escHtml(name) + '</h4>' +
-        (sub ? '<p>' + escHtml(sub) + '</p>' : '') + '</div>' +
-        badge + '</div>';
-    }).join('');
-
-    if(source) source.textContent = 'Live data from Rentman · Updated just now';
-
-  } catch(err){
-    console.warn('Rentman roster error:', err);
-    if(source) source.textContent = 'Could not load Rentman data, showing saved roster';
-  }
 }
 
 function escHtml(s){
@@ -3943,21 +3800,20 @@ async function loadCrewUsers(){
     var ROLE_LABELS = { super_admin:'Super Admin', team_manager:'Team Manager', team:'Team / General Crew' };
     var ROLE_COLORS = { super_admin:'var(--orange)', team_manager:'var(--indigo)', team:'var(--forest)' };
     list.innerHTML = profiles.map(function(p){
-      var name = [p.first_name, p.last_name].filter(Boolean).join(' ') || '—';
+      var name = [p.first_name, p.last_name].filter(Boolean).join(' ') || 'No name';
       var isFixed = p.email === 'mitchel@urbanecho.com.au';
-      var effectiveRole = isFixed ? 'super_admin' : (p.role || 'team');
-      var roleLabel = ROLE_LABELS[effectiveRole] || 'Team / General Crew';
-      var roleColor = ROLE_COLORS[effectiveRole] || 'var(--forest)';
-      var emailStr  = p.email ? '<div class="crew-user-email">'+p.email+'</div>' : '';
+      var effectiveRole = isFixed ? 'super_admin' : (ROLE_LABELS[p.role] ? p.role : 'team');
+      var roleColor = ROLE_COLORS[effectiveRole];
+      var emailStr  = p.email ? '<div class="crew-user-email">'+escP(p.email)+'</div>' : '';
       var roleControl = isFixed
-        ? '<span class="crew-role-badge" style="color:'+roleColor+'">'+roleLabel+'</span>'
-        : '<select class="role-select" style="color:'+roleColor+'" data-uid="'+p.id+'" data-role="'+effectiveRole+'" onchange="changeRole(this)">'+
+        ? '<span class="crew-role-badge" style="color:'+roleColor+'">'+ROLE_LABELS[effectiveRole]+'</span>'
+        : '<select class="role-select" style="color:'+roleColor+'" data-uid="'+escP(p.id)+'" data-role="'+effectiveRole+'" onchange="changeRole(this)">'+
             '<option value="team"'+(effectiveRole==='team'?' selected':'')+'>Team / General Crew</option>'+
             '<option value="team_manager"'+(effectiveRole==='team_manager'?' selected':'')+'>Team Manager</option>'+
             '<option value="super_admin"'+(effectiveRole==='super_admin'?' selected':'')+'>Super Admin</option>'+
           '</select>';
       return '<div class="crew-user-row">'+
-        '<div><div class="crew-user-name">'+name+'</div>'+emailStr+'</div>'+
+        '<div><div class="crew-user-name">'+escP(name)+'</div>'+emailStr+'</div>'+
         roleControl+
       '</div>';
     }).join('');
@@ -4077,7 +3933,7 @@ async function toggleObP(id, key, curVal){
   }
 }
 
-function escP(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escP(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 </script>
 <script>

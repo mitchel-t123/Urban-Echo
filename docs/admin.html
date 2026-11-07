@@ -484,6 +484,82 @@ footer{ background:var(--ink); color:rgba(255,252,245,0.5); padding:0; height:72
   </div>
 </footer>
 
+<!-- WELCOME EMAIL MODAL -->
+<div class="modal-overlay" id="welcomeEmailModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
+  <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;">
+    <!-- Header -->
+    <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+      <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Welcome Email Template</span>
+      <button id="copyWelcomeEmail" style="background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Copy Email</button>
+      <button id="welcomeEmailClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
+    </div>
+    <!-- Subject line hint -->
+    <div style="padding:16px 24px 0;flex-shrink:0;">
+      <div style="background:rgba(63,63,240,0.07);border:1px solid rgba(63,63,240,0.18);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(22,21,39,0.7);line-height:1.5;">
+        <strong style="color:var(--ink);">Subject:</strong> Welcome to Urban Echo, You're In! 🎉 &nbsp;·&nbsp; <strong style="color:var(--ink);">Attach:</strong> Contractor Agreement (Sole Trader)
+      </div>
+    </div>
+    <!-- Email preview -->
+    <div style="padding:24px;" id="welcomeEmailHTML">
+      <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;background:#FFFCF5;border:2px solid #161527;border-radius:16px;overflow:hidden;">
+        <!-- Header bar -->
+        <div style="background:#161527;padding:28px 36px 24px;">
+          <div style="font-family:Arial,sans-serif;font-weight:900;font-size:22px;color:#FBF5E7;letter-spacing:-0.02em;">URBAN ECHO</div>
+          <div style="font-size:12px;color:rgba(251,245,231,0.55);margin-top:4px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">Production &amp; Events</div>
+        </div>
+        <!-- Body -->
+        <div style="padding:36px;">
+          <h1 style="font-family:Arial,sans-serif;font-weight:900;font-size:28px;color:#161527;margin:0 0 8px;letter-spacing:-0.02em;">You're in! 🎉</h1>
+          <p style="font-size:16px;color:rgba(22,21,39,0.7);margin:0 0 24px;line-height:1.6;">Hey [First Name],</p>
+          <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 24px;">We've reviewed your application and we're stoked to welcome you to the <strong>Urban Echo crew</strong>. You're now officially part of the team, let's get you set up.</p>
+
+          <!-- Step 1 -->
+          <div style="background:#F4F0FF;border-left:4px solid #3F3FF0;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:16px;">
+            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#3F3FF0;margin-bottom:8px;">Step 1, Join our Slack</div>
+            <p style="font-size:14px;color:#161527;margin:0 0 14px;line-height:1.6;">All crew comms happen on Slack, shift updates, event briefs, and team chat. Click below to join the workspace:</p>
+            <a href="https://join.slack.com/t/urbanechoworkspace/shared_invite/zt-4ek7pbyr7-yDUq4rOCeRZcYVztb952cA" style="display:inline-block;background:#4A154B;color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:12px 24px;border-radius:8px;">Join Urban Echo on Slack →</a>
+          </div>
+
+          <!-- Step 2 -->
+          <div style="background:#FFF8F0;border-left:4px solid #F4612E;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:16px;">
+            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#F4612E;margin-bottom:8px;">Step 2, Sign the contractor agreement</div>
+            <p style="font-size:14px;color:#161527;margin:0;line-height:1.6;">We've attached a contractor agreement to this email. Please read through and sign it, takes about 2 minutes. You can sign digitally on our website or scan and return it.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div style="background:#F0FFF6;border-left:4px solid #4AAE74;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:24px;">
+            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#4AAE74;margin-bottom:8px;">Step 3, Compliance checks</div>
+            <p style="font-size:14px;color:#161527;margin:0;line-height:1.6;">Before your first event we'll need your <strong>Working With Children Check</strong> and <strong>National Police Certificate</strong> on file. If you don't have these yet, no stress, just get them sorted before your first gig and send us a copy.</p>
+          </div>
+
+          <!-- What to expect -->
+          <h2 style="font-family:Arial,sans-serif;font-weight:900;font-size:17px;color:#161527;margin:0 0 12px;letter-spacing:-0.01em;">What to expect next</h2>
+          <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 8px;">We'll be in touch via Slack to arrange a quick coffee catch-up with Mitchel before your first event. From there, your first shift will be a shadow, you come along, watch the show, and get a feel for how we run things. No pressure, just vibes.</p>
+          <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 24px;">After that you'll be added to the crew pool and we'll start rostering you in for events that suit your availability.</p>
+
+          <!-- Good to know -->
+          <div style="background:#F7F7FF;border:1.5px solid rgba(63,63,240,0.15);border-radius:12px;padding:20px 22px;margin-bottom:28px;">
+            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#3F3FF0;margin-bottom:12px;">Good to know</div>
+            <ul style="margin:0;padding:0 0 0 18px;font-size:14px;color:#161527;line-height:1.9;">
+              <li>Events are posted in Slack, keep an eye on <strong>#urban-echo-team-chat</strong></li>
+              <li>Dress code is always <strong>all black</strong> unless told otherwise</li>
+              <li>Arrive <strong>15–30 mins before</strong> the crew call time</li>
+              <li>Any questions? Just message us in Slack, we're always around</li>
+            </ul>
+          </div>
+
+          <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 6px;">Pumped to have you on board 🙌</p>
+          <p style="font-size:15px;color:#161527;margin:0;font-weight:700;">Mitchel &amp; the Urban Echo team</p>
+        </div>
+        <!-- Footer -->
+        <div style="background:#161527;padding:20px 36px;text-align:center;">
+          <p style="font-size:11px;color:rgba(251,245,231,0.45);margin:0;line-height:1.6;">Urban Echo · Perth, WA · <a href="https://urbanecho.com.au" style="color:rgba(251,245,231,0.45);">urbanecho.com.au</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 var PUBLISHABLE_KEY = 'pk_live_Y2xlcmsudXJiYW5lY2hvLmNvbS5hdSQ';
 var SUPABASE_URL    = 'https://wqmtdccrclhhtiwfgcgl.supabase.co';
@@ -491,9 +567,10 @@ var SUPABASE_ANON   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 var ADMIN_ID        = 'user_3GWcEQB1aIQ9VX3mF4ZOd3gF9IV';
 
 var clerkInstance  = null;
-var supabase       = null;
+var supabaseClient = null;
 var editingId      = null;
 var obData         = {};
+var teamById       = {};
 
 function doLogout(){
   if(clerkInstance){ clerkInstance.signOut().then(function(){ window.location.replace('/login'); }); }
@@ -507,7 +584,7 @@ function doLogout(){
       var s = document.createElement('script');
       s.setAttribute('data-clerk-publishable-key', PUBLISHABLE_KEY);
       s.crossOrigin = 'anonymous';
-      s.src = 'https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+      s.src = 'https://clerk.urbanecho.com.au/npm/@clerk/clerk-js@6.42.1/dist/clerk.browser.js';
       s.onload = resolve; s.onerror = reject;
       document.head.appendChild(s);
     });
@@ -534,7 +611,7 @@ function doLogout(){
     if(user.id !== ADMIN_ID){ window.location.replace('portal.html'); return; }
 
     var token = await clerkInstance.session.getToken({ template: 'supabase' });
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
       global: { headers: { Authorization: 'Bearer ' + token } }
     });
 
@@ -552,11 +629,13 @@ function doLogout(){
 
 async function loadTeam(){
   var tbody = document.getElementById('teamTableBody');
-  var { data, error } = await supabase.from('profiles').select('*').order('first_name');
+  var { data, error } = await supabaseClient.from('profiles').select('*').order('first_name');
   if(error || !data || data.length === 0){
     tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No team members yet.</td></tr>';
     return;
   }
+  teamById = {};
+  data.forEach(function(m){ teamById[m.id] = m; });
   tbody.innerHTML = data.map(function(m){
     var wwcExpiry  = m.wwc_expiry  ? new Date(m.wwc_expiry)  : null;
     var polExpiry  = m.police_expiry ? new Date(m.police_expiry) : null;
@@ -569,7 +648,7 @@ async function loadTeam(){
       '<td style="font-family:var(--mono);font-size:12px">' + esc(m.wwc_number||'—') + '</td>' +
       '<td>' + wwcBadge + '</td>' +
       '<td>' + polBadge + '</td>' +
-      '<td><button class="btn btn-ghost btn-sm" onclick="openEdit(' + JSON.stringify(m) + ')">Edit</button></td>' +
+      '<td><button type="button" class="btn btn-ghost btn-sm" data-edit="' + esc(m.id) + '">Edit</button></td>' +
     '</tr>';
   }).join('');
 }
@@ -585,7 +664,7 @@ function formatDate(d){
   return new Date(d).toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'});
 }
 
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 // ── Add member
 document.getElementById('addMemberBtn').addEventListener('click', function(){
@@ -597,6 +676,11 @@ document.getElementById('addMemberBtn').addEventListener('click', function(){
   document.getElementById('deleteConfirm').style.display = 'none';
   document.getElementById('modalError').style.display = 'none';
   openModal();
+});
+
+document.getElementById('teamTableBody').addEventListener('click', function(e){
+  var b = e.target.closest('[data-edit]');
+  if(b && teamById[b.getAttribute('data-edit')]) openEdit(teamById[b.getAttribute('data-edit')]);
 });
 
 function openEdit(m){
@@ -688,9 +772,9 @@ document.getElementById('memberForm').addEventListener('submit', async function(
 
   var result;
   if(editingId){
-    result = await supabase.from('profiles').update(payload).eq('id', editingId);
+    result = await supabaseClient.from('profiles').update(payload).eq('id', editingId);
   } else {
-    result = await supabase.from('profiles').insert(payload);
+    result = await supabaseClient.from('profiles').insert(payload);
   }
 
   btn.disabled = false; btn.textContent = 'Save Member';
@@ -715,7 +799,7 @@ document.getElementById('cancelDeleteBtn').addEventListener('click', function(){
 });
 document.getElementById('confirmDeleteBtn').addEventListener('click', async function(){
   if(!editingId) return;
-  await supabase.from('profiles').delete().eq('id', editingId);
+  await supabaseClient.from('profiles').delete().eq('id', editingId);
   closeModal();
   loadTeam();
 });
@@ -727,7 +811,7 @@ var OB_TOTAL = OB_KEYS.length + 2; // +2 for WWC and Police derived from existin
 async function loadOnboarding(){
   var tbody  = document.getElementById('obTableBody');
   var statsEl = document.getElementById('obStats');
-  var { data, error } = await supabase.from('profiles').select('*').order('first_name');
+  var { data, error } = await supabaseClient.from('profiles').select('*').order('first_name');
   if(error || !data || data.length === 0){
     tbody.innerHTML = '<tr><td colspan="14" class="empty-state">No crew members yet.</td></tr>';
     statsEl.innerHTML = '';
@@ -779,18 +863,23 @@ async function loadOnboarding(){
 
 function obCell(id, key, val){
   var on = !!val;
-  return '<td><button class="ob-btn' + (on ? ' ob-btn-on' : '') + '" ' +
-    'onclick="toggleOb(\'' + id + '\',\'' + key + '\',' + on + ')" ' +
+  return '<td><button type="button" class="ob-btn' + (on ? ' ob-btn-on' : '') + '" ' +
+    'data-ob-id="' + esc(id) + '" data-ob-key="' + esc(key) + '" data-ob-on="' + (on ? '1' : '0') + '" ' +
     'title="' + (on ? 'Mark incomplete' : 'Mark complete') + '">' +
     (on ? '✓' : '○') +
     '</button></td>';
 }
 
+document.getElementById('obTableBody').addEventListener('click', function(e){
+  var b = e.target.closest('[data-ob-id]');
+  if(b) toggleOb(b.getAttribute('data-ob-id'), b.getAttribute('data-ob-key'), b.getAttribute('data-ob-on') === '1');
+});
+
 async function toggleOb(id, key, curVal){
   var newVal = !curVal;
   if(!obData[id]) obData[id] = {};
   obData[id][key] = newVal;
-  var { error } = await supabase.from('profiles').update({ onboarding_checklist: obData[id] }).eq('id', id);
+  var { error } = await supabaseClient.from('profiles').update({ onboarding_checklist: obData[id] }).eq('id', id);
   if(error){
     obData[id][key] = curVal;
     console.error('Onboarding save failed:', error.message);
@@ -800,80 +889,5 @@ async function toggleOb(id, key, curVal){
 }
 </script>
 
-<!-- WELCOME EMAIL MODAL -->
-<div class="modal-overlay" id="welcomeEmailModal" style="padding:16px;align-items:flex-start;padding-top:40px;">
-  <div style="background:var(--paper);border:2.5px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;">
-    <!-- Header -->
-    <div style="position:sticky;top:0;z-index:10;background:var(--cream);border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;padding:14px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
-      <span style="font-family:var(--display);font-size:15px;text-transform:uppercase;letter-spacing:-0.01em;flex:1;">Welcome Email Template</span>
-      <button id="copyWelcomeEmail" style="background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Copy Email</button>
-      <button id="welcomeEmailClose" style="background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;">Close</button>
-    </div>
-    <!-- Subject line hint -->
-    <div style="padding:16px 24px 0;flex-shrink:0;">
-      <div style="background:rgba(63,63,240,0.07);border:1px solid rgba(63,63,240,0.18);border-radius:10px;padding:10px 14px;font-size:13px;color:rgba(22,21,39,0.7);line-height:1.5;">
-        <strong style="color:var(--ink);">Subject:</strong> Welcome to Urban Echo, You're In! 🎉 &nbsp;·&nbsp; <strong style="color:var(--ink);">Attach:</strong> Contractor Agreement (Sole Trader)
-      </div>
-    </div>
-    <!-- Email preview -->
-    <div style="padding:24px;" id="welcomeEmailHTML">
-      <div style="font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;background:#FFFCF5;border:2px solid #161527;border-radius:16px;overflow:hidden;">
-        <!-- Header bar -->
-        <div style="background:#161527;padding:28px 36px 24px;">
-          <div style="font-family:Arial,sans-serif;font-weight:900;font-size:22px;color:#FBF5E7;letter-spacing:-0.02em;">URBAN ECHO</div>
-          <div style="font-size:12px;color:rgba(251,245,231,0.55);margin-top:4px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">Production &amp; Events</div>
-        </div>
-        <!-- Body -->
-        <div style="padding:36px;">
-          <h1 style="font-family:Arial,sans-serif;font-weight:900;font-size:28px;color:#161527;margin:0 0 8px;letter-spacing:-0.02em;">You're in! 🎉</h1>
-          <p style="font-size:16px;color:rgba(22,21,39,0.7);margin:0 0 24px;line-height:1.6;">Hey [First Name],</p>
-          <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 24px;">We've reviewed your application and we're stoked to welcome you to the <strong>Urban Echo crew</strong>. You're now officially part of the team, let's get you set up.</p>
-
-          <!-- Step 1 -->
-          <div style="background:#F4F0FF;border-left:4px solid #3F3FF0;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:16px;">
-            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#3F3FF0;margin-bottom:8px;">Step 1, Join our Slack</div>
-            <p style="font-size:14px;color:#161527;margin:0 0 14px;line-height:1.6;">All crew comms happen on Slack, shift updates, event briefs, and team chat. Click below to join the workspace:</p>
-            <a href="https://join.slack.com/t/urbanechoworkspace/shared_invite/zt-4ek7pbyr7-yDUq4rOCeRZcYVztb952cA" style="display:inline-block;background:#4A154B;color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:12px 24px;border-radius:8px;">Join Urban Echo on Slack →</a>
-          </div>
-
-          <!-- Step 2 -->
-          <div style="background:#FFF8F0;border-left:4px solid #F4612E;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:16px;">
-            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#F4612E;margin-bottom:8px;">Step 2, Sign the contractor agreement</div>
-            <p style="font-size:14px;color:#161527;margin:0;line-height:1.6;">We've attached a contractor agreement to this email. Please read through and sign it, takes about 2 minutes. You can sign digitally on our website or scan and return it.</p>
-          </div>
-
-          <!-- Step 3 -->
-          <div style="background:#F0FFF6;border-left:4px solid #4AAE74;border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:24px;">
-            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#4AAE74;margin-bottom:8px;">Step 3, Compliance checks</div>
-            <p style="font-size:14px;color:#161527;margin:0;line-height:1.6;">Before your first event we'll need your <strong>Working With Children Check</strong> and <strong>National Police Certificate</strong> on file. If you don't have these yet, no stress, just get them sorted before your first gig and send us a copy.</p>
-          </div>
-
-          <!-- What to expect -->
-          <h2 style="font-family:Arial,sans-serif;font-weight:900;font-size:17px;color:#161527;margin:0 0 12px;letter-spacing:-0.01em;">What to expect next</h2>
-          <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 8px;">We'll be in touch via Slack to arrange a quick coffee catch-up with Mitchel before your first event. From there, your first shift will be a shadow, you come along, watch the show, and get a feel for how we run things. No pressure, just vibes.</p>
-          <p style="font-size:14px;color:#161527;line-height:1.7;margin:0 0 24px;">After that you'll be added to the crew pool and we'll start rostering you in for events that suit your availability.</p>
-
-          <!-- Good to know -->
-          <div style="background:#F7F7FF;border:1.5px solid rgba(63,63,240,0.15);border-radius:12px;padding:20px 22px;margin-bottom:28px;">
-            <div style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#3F3FF0;margin-bottom:12px;">Good to know</div>
-            <ul style="margin:0;padding:0 0 0 18px;font-size:14px;color:#161527;line-height:1.9;">
-              <li>Events are posted in Slack, keep an eye on <strong>#urban-echo-team-chat</strong></li>
-              <li>Dress code is always <strong>all black</strong> unless told otherwise</li>
-              <li>Arrive <strong>15–30 mins before</strong> the crew call time</li>
-              <li>Any questions? Just message us in Slack, we're always around</li>
-            </ul>
-          </div>
-
-          <p style="font-size:15px;color:#161527;line-height:1.7;margin:0 0 6px;">Pumped to have you on board 🙌</p>
-          <p style="font-size:15px;color:#161527;margin:0;font-weight:700;">Mitchel &amp; the Urban Echo team</p>
-        </div>
-        <!-- Footer -->
-        <div style="background:#161527;padding:20px 36px;text-align:center;">
-          <p style="font-size:11px;color:rgba(251,245,231,0.45);margin:0;line-height:1.6;">Urban Echo · Perth, WA · <a href="https://urbanecho.com.au" style="color:rgba(251,245,231,0.45);">urbanecho.com.au</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 </body>
 </html>

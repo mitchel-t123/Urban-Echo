@@ -36,23 +36,16 @@ jobs:
             npx playwright install-deps chromium
           fi
 
-      - name: JS syntax check
-        run: |
-          python3 -c "
-          import re
-          with open('docs/portal.html') as f: content = f.read()
-          scripts = re.findall(r'<script(?:(?!src=|application/ld)[^>])*>(.*?)</script>', content, re.DOTALL)
-          open('/tmp/check.js','w').write('\n'.join(scripts))
-          "
-          node --check /tmp/check.js
-          echo "JS syntax OK"
+      - name: JS syntax check (every page)
+        run: python3 scripts/check-inline-js.py docs/*.html docs/*/index.html
 
-      - name: Portal smoke tests (buttons and onboarding flow)
+      - name: Smoke tests (portal buttons, onboarding flow, team admin)
         run: |
           python3 -m http.server 9876 --directory docs &
           sleep 2
           node scripts/portal-smoke.js
           node scripts/portal-flow-smoke.js
+          node scripts/admin-smoke.js
 
   deploy:
     needs: test
