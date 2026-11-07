@@ -1103,6 +1103,9 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
   border:2px solid var(--line); border-radius:100px; padding:10px 16px; outline:none;
 }
 .ob-field input:focus{ border-color:var(--indigo); }
+.ob-email-body .ob-note{ margin-top:10px; }
+.ob-fields{ display:flex; gap:12px; flex-wrap:wrap; }
+.ob-fields .ob-field{ flex:1 1 220px; }
 .ob-email-edit{
   background:#fff; border:2px solid var(--line); border-radius:12px; padding:14px;
   max-height:440px; overflow:auto; outline:none;
@@ -1196,13 +1199,16 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
         <summary>Declining an applicant? Send the "not right now" email</summary>
         <div class="ob-email" id="obDecline" data-tpl="decline">
           <div class="ob-email-body">
-            <label class="ob-field"><span>Their first name</span><input type="text" id="obDeclineName" placeholder="Alex" autocomplete="off"></label>
+            <div class="ob-fields">
+              <label class="ob-field"><span>Their first name</span><input type="text" id="obDeclineName" placeholder="Alex" autocomplete="off"></label>
+              <label class="ob-field"><span>Their email (optional)</span><input type="email" id="obDeclineEmail" placeholder="alex@example.com" autocomplete="off"></label>
+            </div>
             <div class="ob-email-subject"><strong>Subject:</strong> Your Urban Echo application</div>
             <div class="ob-email-edit" contenteditable="true" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Decline email, editable"></div>
             <div class="ob-email-actions">
               <button type="button" class="ob-btn ob-btn-primary" data-act="copy">Copy email</button>
               <button type="button" class="ob-btn ob-btn-quiet" data-act="reset">Reset to template</button>
-              <a class="ob-btn ob-btn-quiet" data-ql="email"></a>
+              <a class="ob-btn ob-btn-quiet" data-ql="email" data-compose="decline" title="Opens a new Gmail message with the subject filled in, addressed to them if you added their email"></a>
             </div>
             <p class="ob-note">Send it from Gmail, then move the ClickUp task to Declined. The email tells them we will keep their application on file.</p>
           </div>
@@ -1265,9 +1271,8 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
                 <span class="ob-step-state" data-state></span>
               </button>
               <div class="ob-step-body" id="obStep3Body">
-                <p>Copy the welcome email below (their first name is filled in and you can edit it), paste it into Gmail, and <strong>attach the contractor agreement</strong> before sending. ClickUp also has a pre-drafted version in the task comments.</p>
+                <p>Copy the welcome email below (their first name is filled in and you can edit it), then use Open Gmail to start a message to them with the subject filled in. Paste it in and <strong>attach the contractor agreement</strong> before sending. ClickUp also has a pre-drafted version in the task comments.</p>
                 <div class="ob-actions">
-                  <a class="ob-btn" data-ql="email"></a>
                   <a class="ob-btn" href="contractor-agreement-2026.pdf" target="_blank" rel="noopener">Contractor agreement (PDF)</a>
                 </div>
                 <div class="ob-email" data-tpl="welcome1">
@@ -1278,6 +1283,7 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
                     <div class="ob-email-actions">
                       <button type="button" class="ob-btn ob-btn-primary" data-act="copy">Copy email</button>
                       <button type="button" class="ob-btn ob-btn-quiet" data-act="reset">Reset to template</button>
+                      <a class="ob-btn ob-btn-quiet" data-ql="email" data-compose="welcome1" title="Opens a new Gmail message to them with the subject filled in"></a>
                       <span class="ob-email-note">First name is filled in. Your edits are kept on this device.</span>
                     </div>
                   </div>
@@ -1424,6 +1430,7 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
                     <div class="ob-email-actions">
                       <button type="button" class="ob-btn ob-btn-primary" data-act="copy">Copy email</button>
                       <button type="button" class="ob-btn ob-btn-quiet" data-act="reset">Reset to template</button>
+                      <a class="ob-btn ob-btn-quiet" data-ql="email" data-compose="welcome2" title="Opens a new Gmail message to them with the subject filled in"></a>
                       <span class="ob-email-note">First name is filled in. Your edits are kept on this device.</span>
                     </div>
                   </div>
@@ -4212,12 +4219,13 @@ function escP(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'
     if(up.error) throw up.error;
   }
 
-  function status(kind, text){
+  function status(kind, text, ttl){
     var el = $('obSave'); if(!el) return;
     clearTimeout(saveTimer);
     el.className = 'ob-save show ' + kind;
     el.textContent = text;
-    if(kind === 'ok') saveTimer = setTimeout(function(){ el.className = 'ob-save'; }, 2400);
+    if(!ttl && kind === 'ok') ttl = 2400;
+    if(ttl) saveTimer = setTimeout(function(){ el.className = 'ob-save'; }, ttl);
   }
 
   function toggle(id, key, val){
@@ -4435,6 +4443,30 @@ function escP(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'
     wrap.scrollIntoView({ behavior:'smooth', block:'center' });
   }
 
+  var SUBJECTS = {
+    welcome1: "Welcome to Urban Echo, You're In! \u{1F389}",
+    welcome2: 'Welcome to the Urban Echo Crew! \u{1F389}',
+    decline:  'Your Urban Echo application'
+  };
+  function senderEmail(){
+    try { return clerkInstance.user.emailAddresses[0].emailAddress || ''; } catch(e){ return ''; }
+  }
+  function gmailUrl(tpl){
+    var to = '';
+    if(tpl === 'decline'){ var de = $('obDeclineEmail'); to = de ? de.value.trim() : ''; }
+    else { var p = state.byId[state.selected]; to = (p && p.email) || ''; }
+    var q = ['view=cm', 'fs=1'], me = senderEmail();
+    if(/@urbanecho\.com\.au$/i.test(me)) q.unshift('authuser=' + encodeURIComponent(me));
+    if(to) q.push('to=' + encodeURIComponent(to));
+    q.push('su=' + encodeURIComponent(SUBJECTS[tpl] || ''));
+    return 'https://mail.google.com/mail/?' + q.join('&');
+  }
+  function openGmail(tpl){
+    var w = window.open(gmailUrl(tpl), '_blank');
+    if(w){ try { w.opener = null; } catch(e){} }
+    else status('err', 'Your browser blocked the Gmail window. Allow pop-ups for this site and try again.', 6000);
+  }
+
   function onClick(e){
     var t = e.target;
     if(!t || !t.closest) return;
@@ -4453,6 +4485,8 @@ function escP(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'
     if(head){ var st = head.closest('.ob-step'); setOpen(st, !st.classList.contains('is-open')); return; }
     var tog = t.closest('.ob-email-toggle');
     if(tog){ var eb = tog.parentNode; setEmailOpen(eb, eb.querySelector('.ob-email-body').hidden); return; }
+    var cmp = t.closest('[data-compose]');
+    if(cmp){ e.preventDefault(); openGmail(cmp.getAttribute('data-compose')); return; }
     var act = t.closest('[data-act]');
     if(!act) return;
     var a = act.getAttribute('data-act'), box = act.closest('.ob-email');

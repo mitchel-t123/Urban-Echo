@@ -172,6 +172,38 @@ function check(name, ok, detail) {
   r = await page.evaluate(() => ({ vis: !!document.querySelector('#obStep9 .ob-email-edit').offsetParent, hey: /Hey Alex!/.test(document.querySelector('#obStep9 .ob-email-edit').innerText) }));
   check('final welcome email opens with the name filled', r.vis && r.hey, r);
 
+  // Gmail buttons open a message addressed to the person with the subject filled in
+  await page.evaluate(() => { window.__opened = []; window.open = u => { window.__opened.push(u); return {}; }; });
+  const gmail = async (sel) => {
+    await page.evaluate(() => { window.__opened.length = 0; });
+    await page.locator(sel).click();
+    const u = await page.evaluate(() => window.__opened[0] || '');
+    if (!u) return null;
+    const x = new URL(u);
+    return { host: x.host, view: x.searchParams.get('view'), to: x.searchParams.get('to'), su: x.searchParams.get('su'), authuser: x.searchParams.get('authuser') };
+  };
+  r = await gmail('#obStep9 [data-compose=welcome2]');
+  check('final email opens Gmail to Alex with the right subject', r && r.host === 'mail.google.com' && r.view === 'cm' && r.to === 'alex@example.com' && r.su === 'Welcome to the Urban Echo Crew! \u{1F389}' && !r.authuser, r);
+  await page.locator('.ob-person[data-id="p1"]').click();
+  await page.waitForFunction(() => document.getElementById('obPName').textContent === 'sam Lee');
+  if (!(await page.evaluate(() => document.getElementById('obStep3').classList.contains('is-open')))) await page.locator('#obStep3 .ob-step-head').click();
+  if (await page.evaluate(() => document.querySelector('#obStep3 .ob-email-body').hidden)) await page.locator('#obStep3 .ob-email-toggle').click();
+  r = await gmail('#obStep3 [data-compose=welcome1]');
+  check('welcome email opens Gmail to Sam with the right subject', r && r.to === 'sam@example.com' && r.su === "Welcome to Urban Echo, You're In! \u{1F389}", r);
+  await page.evaluate(() => { window.clerkInstance = { user: { emailAddresses: [{ emailAddress: 'mitchel@urbanecho.com.au' }] } }; });
+  r = await gmail('#obStep3 [data-compose=welcome1]');
+  check('opens from the urbanecho.com.au account when signed in with it', r && r.authuser === 'mitchel@urbanecho.com.au', r);
+  await page.evaluate(() => { window.clerkInstance = { user: { emailAddresses: [{ emailAddress: 'someone@gmail.com' }] } }; });
+  r = await gmail('#obStep3 [data-compose=welcome1]');
+  check('does not force an account for other addresses', r && !r.authuser, r);
+  await page.evaluate(() => { window.clerkInstance = null; });
+  await page.locator('#obDeclineWrap').evaluate(el => { el.open = true; });
+  r = await gmail('#obDecline [data-compose=decline]');
+  check('decline opens Gmail with the subject and no recipient yet', r && r.to === null && r.su === 'Your Urban Echo application', r);
+  await page.locator('#obDeclineEmail').fill('alex@example.com');
+  r = await gmail('#obDecline [data-compose=decline]');
+  check('decline opens Gmail addressed to the typed email', r && r.to === 'alex@example.com', r);
+
   // structure stays sound after mounting
   r = await page.evaluate(() => {
     const out = [];
