@@ -234,6 +234,11 @@ a{ color:inherit; }
 .field select{ background:var(--cream) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center; padding-right:36px; }
 .field input:focus,.field select:focus,.field textarea:focus{ border-color:var(--indigo); }
 .field textarea{ resize:vertical; min-height:100px; font-family:var(--body); }
+.field input[aria-invalid="true"], .field select[aria-invalid="true"], .field textarea[aria-invalid="true"]{ border-color:var(--orange); }
+.form-error, .contact .form-error{ max-width:none; margin:4px 0 16px; padding:10px 14px; border-radius:10px; font-size:14px; line-height:1.5; font-weight:600; color:#8a2a0d; background:#fff1ea; border:1.5px solid var(--orange); }
+.form-error[hidden]{ display:none; }
+.form-error a{ color:inherit; text-decoration:underline; }
+.hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 .contact-method-row{ display:flex; gap:12px; flex-wrap:wrap; padding:6px 0; }
 .contact-method-opt{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:15px; cursor:pointer; border:2px solid var(--ink); border-radius:12px; padding:8px 16px; background:var(--cream); transition:background 0.15s; user-select:none; }
 .contact-method-opt input[type="radio"]{ display:none; }
@@ -676,20 +681,20 @@ a{ color:inherit; }
           <div class="form-row">
             <div class="field">
               <label for="eq-name">Your Name</label>
-              <input type="text" id="eq-name" name="name" placeholder="Jane Smith" required>
+              <input type="text" id="eq-name" name="name" placeholder="Jane Smith" required maxlength="80" autocomplete="name">
             </div>
             <div class="field">
               <label for="eq-phone">Phone</label>
-              <input type="tel" id="eq-phone" name="phone" placeholder="04xx xxx xxx">
+              <input type="tel" id="eq-phone" name="phone" placeholder="04xx xxx xxx" maxlength="30" autocomplete="tel">
             </div>
           </div>
           <div class="field">
             <label for="eq-email">Email</label>
-            <input type="email" id="eq-email" name="email" placeholder="jane@example.com" required>
+            <input type="email" id="eq-email" name="email" placeholder="jane@example.com" required maxlength="254" autocomplete="email">
           </div>
           <div class="field">
             <label for="eq-org">Organisation / Venue <span style="font-weight:400;opacity:0.55;">(if applicable)</span></label>
-            <input type="text" id="eq-org" name="organisation" placeholder="e.g. The Rechabite, Smith Family">
+            <input type="text" id="eq-org" name="organisation" placeholder="e.g. The Rechabite, Smith Family" maxlength="120" autocomplete="organization">
           </div>
           <div class="field">
             <label for="eq-service">What do you need?</label>
@@ -726,8 +731,10 @@ a{ color:inherit; }
           </div>
           <div class="field">
             <label for="eq-notes">Tell us more</label>
-            <textarea id="eq-notes" name="notes" placeholder="If you know your dates and times, pop them in here. Any details about the venue, expected attendance, or equipment you already have all help us get you the most accurate quote possible."></textarea>
+            <textarea id="eq-notes" name="notes" maxlength="2000" placeholder="If you know your dates and times, pop them in here. Any details about the venue, expected attendance, or equipment you already have all help us get you the most accurate quote possible."></textarea>
           </div>
+          <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+          <p class="form-error" id="eqError" role="alert" hidden></p>
           <button type="submit" class="btn btn-blue" style="width:100%;justify-content:center;padding:16px;font-size:16px;">Send Enquiry →</button>
         </form>
         <div id="eqSuccess">
@@ -780,19 +787,85 @@ var callOpt = document.querySelector('.contact-method-opt');
 if(callOpt){ callOpt.classList.add('selected'); callOpt.querySelector('input').checked = true; }
 
 // Form submit
-document.getElementById('eqForm').addEventListener('submit', async function(e){
+var SUPPORT_EMAIL = 'mitchel@urbanecho.com.au';
+var eqForm = document.getElementById('eqForm');
+var eqError = document.getElementById('eqError');
+function cleanText(value, max){
+  return String(value == null ? '' : value).replace(/\r\n?/g, '\n').trim().slice(0, max);
+}
+function isEmail(value){
+  return value.length <= 254 && /^[^\s@<>"`,;:()\[\]\\]+@[^\s@<>"`,;:()\[\]\\]+\.[^\s@<>"`,;:()\[\]\\]{2,}$/.test(value);
+}
+function clearEqError(){
+  eqError.hidden = true;
+  eqError.textContent = '';
+  eqForm.querySelectorAll('[aria-invalid]').forEach(function(el){
+    el.removeAttribute('aria-invalid');
+    el.removeAttribute('aria-describedby');
+  });
+}
+function showEqError(message, field, withEmailLink){
+  eqError.textContent = message;
+  if(withEmailLink){
+    eqError.appendChild(document.createTextNode(' '));
+    var a = document.createElement('a');
+    a.href = 'mailto:' + SUPPORT_EMAIL;
+    a.textContent = SUPPORT_EMAIL;
+    eqError.appendChild(a);
+    eqError.appendChild(document.createTextNode('.'));
+  }
+  eqError.hidden = false;
+  if(field){
+    field.setAttribute('aria-invalid', 'true');
+    field.setAttribute('aria-describedby', 'eqError');
+    field.focus();
+  }
+}
+function failureMessage(res){
+  if(res && res.status === 422) return 'That did not go through. Please check your email address and try again, or email';
+  if(res && res.status === 429) return 'Too many attempts. Please wait a minute and try again, or email';
+  if(!res && navigator.onLine === false) return 'It looks like you are offline. Please check your connection and try again, or email';
+  return 'Sorry, that did not send. Please try again, or email';
+}
+function showEnquirySuccess(){
+  eqForm.style.display = 'none';
+  document.getElementById('eqSuccess').style.display = 'block';
+}
+
+eqForm.addEventListener('submit', async function(e){
   e.preventDefault();
+  clearEqError();
   var btn = this.querySelector('button[type="submit"]');
+
+  // Tidy every text box first (trim, cut to its limit), so what is checked is what is sent
+  this.querySelectorAll('input[type=text], input[type=tel], input[type=email], textarea').forEach(function(el){
+    el.value = cleanText(el.value, el.maxLength > 0 ? el.maxLength : 2000);
+  });
+  var nameEl = document.getElementById('eq-name'), emailEl = document.getElementById('eq-email'), serviceEl = document.getElementById('eq-service');
+  if(!nameEl.value){ showEqError('Please enter your name.', nameEl); return; }
+  if(!isEmail(emailEl.value)){ showEqError('Please enter a valid email address, like jane@example.com.', emailEl); return; }
+  if(!serviceEl.value){ showEqError('Please choose what you need.', serviceEl); return; }
+
+  // A bot filled the hidden field: look successful, send nothing
+  if(this.querySelector('[name=_gotcha]').value){ showEnquirySuccess(); return; }
+
   btn.textContent = 'Sending…';
   btn.disabled = true;
   var data = {};
-  new FormData(this).forEach(function(v,k){ data[k]=v; });
+  new FormData(this).forEach(function(v,k){ if(k !== '_gotcha') data[k]=v; });
+  var res = null;
+  var ctrl = new AbortController();
+  var timer = setTimeout(function(){ ctrl.abort(); }, 20000);
   try{
-    var res = await fetch('https://formspree.io/f/xvkolvoa', {
+    res = await fetch('https://formspree.io/f/xvkolvoa', {
       method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      signal: ctrl.signal
     });
-    if(res.ok){
+  } catch(err){ res = null; }
+  clearTimeout(timer);
+  {
+    if(res && res.ok){
       fetch('https://wispy-wave-9605.cass-tinsley1.workers.dev/', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -809,15 +882,12 @@ document.getElementById('eqForm').addEventListener('submit', async function(e){
           contact_method: data.contact_method
         })
       }).catch(function(){});
-      document.getElementById('eqForm').style.display='none';
-      document.getElementById('eqSuccess').style.display='block';
+      showEnquirySuccess();
     } else {
-      btn.textContent = 'Try again →';
+      btn.textContent = 'Send Enquiry →';
       btn.disabled = false;
+      showEqError(failureMessage(res), null, true);
     }
-  } catch(err){
-    btn.textContent = 'Try again →';
-    btn.disabled = false;
   }
 });
 

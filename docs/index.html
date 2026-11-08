@@ -1860,6 +1860,13 @@ section[id], div[id].packages {
 }
 .field input:focus, .field select:focus, .field textarea:focus{ border-color: var(--indigo); }
 .field textarea{ resize:vertical; min-height:96px; font-family:var(--body); }
+.field input[aria-invalid="true"], .field textarea[aria-invalid="true"],
+.meet-card .field input[aria-invalid="true"], .meet-card .field textarea[aria-invalid="true"]{ border-color: var(--orange); }
+.form-error, .contact .form-error{ max-width:none; margin:4px 0 16px; padding:10px 14px; border-radius:10px; font-size:14px; line-height:1.5; font-weight:600; color:#8a2a0d; background:#fff1ea; border:1.5px solid var(--orange); }
+.form-error[hidden]{ display:none; }
+.form-error a{ color:inherit; text-decoration:underline; }
+.char-count{ font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:rgba(22,21,39,0.55); text-align:right; min-height:14px; }
+.hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 .form-card .btn{ width:100%; justify-content:center; padding:16px; margin-top:6px; margin-bottom:0; }
 .form-card{ padding-bottom:36px; }
 .contact-method-row{ display:flex; gap:12px; padding:10px 0; flex-wrap:wrap; }
@@ -3313,7 +3320,7 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <div id="meetCustomLocation" style="display:none;margin-top:14px;">
             <div class="field" style="margin-bottom:0;">
               <label for="meetAddress">Search for a café or address</label>
-              <input type="text" id="meetAddress" name="location" placeholder="e.g. Sayers Sister, Northbridge" autocomplete="off">
+              <input type="text" id="meetAddress" name="location" maxlength="200" placeholder="e.g. Sayers Sister, Northbridge" autocomplete="off">
               <input type="hidden" id="meetAddressPlace" name="location_place_id">
             </div>
           </div>
@@ -3336,17 +3343,17 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <div class="meet-block meet-row">
           <div class="field">
             <label for="meetName">Your Name</label>
-            <input type="text" id="meetName" name="name" required placeholder="Jane Smith">
+            <input type="text" id="meetName" name="name" required maxlength="80" autocomplete="name" placeholder="Jane Smith">
           </div>
           <div class="field">
             <label for="meetRole">Your Role</label>
-            <input type="text" id="meetRole" name="role" placeholder="e.g. Business Manager">
+            <input type="text" id="meetRole" name="role" maxlength="80" autocomplete="organization-title" placeholder="e.g. Business Manager">
           </div>
         </div>
         <div class="meet-block meet-row">
           <div class="field">
             <label for="meetSchool">School</label>
-            <input type="text" id="meetSchool" name="school" placeholder="e.g. Wesley College">
+            <input type="text" id="meetSchool" name="school" maxlength="120" autocomplete="organization" placeholder="e.g. Wesley College">
           </div>
           <div class="field" id="plusOnesField" style="display:none;">
             <label for="meetPlusOnes">How many plus 1s joining?</label>
@@ -3365,11 +3372,11 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <div class="meet-block meet-row">
           <div class="field">
             <label for="meetEmail">Email</label>
-            <input type="email" id="meetEmail" name="email" required placeholder="jane@school.wa.edu.au">
+            <input type="email" id="meetEmail" name="email" required maxlength="254" autocomplete="email" placeholder="jane@school.wa.edu.au">
           </div>
           <div class="field">
             <label for="meetPhone">Phone</label>
-            <input type="tel" id="meetPhone" name="phone" placeholder="04xx xxx xxx">
+            <input type="tel" id="meetPhone" name="phone" maxlength="30" autocomplete="tel" placeholder="04xx xxx xxx">
           </div>
         </div>
 
@@ -3383,14 +3390,17 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
         <div class="meet-block">
           <div class="field">
             <label for="meetNotes">Anything else? <span style="font-weight:400;opacity:0.55;">Optional</span></label>
-            <textarea id="meetNotes" name="notes" placeholder="Topics you'd like to cover, your school's current AV setup, any questions…"></textarea>
+            <textarea id="meetNotes" name="notes" maxlength="2000" placeholder="Topics you'd like to cover, your school's current AV setup, any questions…"></textarea>
+            <div class="char-count" id="meetNotesCount" aria-live="polite"></div>
           </div>
         </div>
 
         <input type="hidden" name="_subject" value="☕ Meeting Request Urban Echo">
         <input type="hidden" name="_replyto" id="meetReplyTo">
+        <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
         <input type="hidden" name="_autoresponse" value="Hi! Thanks for booking a catch-up with Urban Echo. We've received your meeting request and Mitchel will confirm a time within one business day. See you soon! Urban Echo">
 
+        <p class="form-error" id="meetError" role="alert" hidden></p>
         <button type="submit" class="btn btn-blue" id="meetSubmitBtn">Request a Catch-Up →</button>
 
         </div></div><!-- /meet-form-expand-inner /meetFormExpand -->
@@ -3488,21 +3498,21 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           <div class="form-row">
             <div class="field">
               <label for="name">Your Name</label>
-              <input type="text" id="name" name="name" required placeholder="Jane Smith">
+              <input type="text" id="name" name="name" required maxlength="80" autocomplete="name" placeholder="Jane Smith">
             </div>
             <div class="field">
               <label for="school">School Name</label>
-              <input type="text" id="school" name="school" required placeholder="e.g. Wesley College">
+              <input type="text" id="school" name="school" required maxlength="120" autocomplete="organization" placeholder="e.g. Wesley College">
             </div>
           </div>
           <div class="form-row">
             <div class="field">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" required placeholder="jane@school.wa.edu.au">
+              <input type="email" id="email" name="email" required maxlength="254" autocomplete="email" placeholder="jane@school.wa.edu.au">
             </div>
             <div class="field">
               <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" placeholder="04xx xxx xxx">
+              <input type="tel" id="phone" name="phone" maxlength="30" autocomplete="tel" placeholder="04xx xxx xxx">
             </div>
           </div>
           <div class="field">
@@ -3534,7 +3544,8 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
           </div>
           <div class="field">
             <label for="message">Tell us about your event</label>
-            <textarea id="message" name="message" placeholder="Event date, type, and anything we should know..."></textarea>
+            <textarea id="message" name="message" maxlength="2000" placeholder="Event date, type, and anything we should know..."></textarea>
+            <div class="char-count" id="messageCount" aria-live="polite"></div>
           </div>
           <div class="field">
             <label>Preferred contact method</label>
@@ -3554,7 +3565,9 @@ window.addEventListener('load', function(){ window.scrollTo(0, 0); });
             </div>
           </div>
           <input type="hidden" name="_replyto" id="formReplyTo">
+          <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
           <input type="hidden" name="_autoresponse" value="Hi there, thanks for reaching out to Urban Echo! We've received your enquiry and Mitchel will be in touch within one business day. In the meantime, feel free to call or text us on 0429 660 186. Urban Echo Team">
+          <p class="form-error" id="formError" role="alert" hidden></p>
           <button type="submit" class="btn btn-blue">Send Enquiry</button>
         </form>
 
@@ -3684,55 +3697,133 @@ async function sendToClickUp(data){
   });
 }
 
+const formError = document.getElementById('formError');
+const messageBox = form.querySelector('#message');
+
+// ---- Helpers shared by the enquiry and catch-up forms ----
+const SUPPORT_EMAIL = 'mitchel@urbanecho.com.au';
+function cleanText(value, max){
+  return String(value == null ? '' : value).replace(/\r\n?/g, '\n').trim().slice(0, max);
+}
+function isEmail(value){
+  return value.length <= 254 && /^[^\s@<>"`,;:()\[\]\\]+@[^\s@<>"`,;:()\[\]\\]+\.[^\s@<>"`,;:()\[\]\\]{2,}$/.test(value);
+}
+function showFormError(box, message, field, withEmailLink){
+  box.textContent = message;
+  if(withEmailLink){
+    box.appendChild(document.createTextNode(' '));
+    const a = document.createElement('a');
+    a.href = 'mailto:' + SUPPORT_EMAIL;
+    a.textContent = SUPPORT_EMAIL;
+    box.appendChild(a);
+    box.appendChild(document.createTextNode('.'));
+  }
+  box.hidden = false;
+  if(field){
+    field.setAttribute('aria-invalid', 'true');
+    field.setAttribute('aria-describedby', box.id);
+    field.focus();
+  }
+}
+function clearFormError(box, formEl){
+  box.hidden = true;
+  box.textContent = '';
+  formEl.querySelectorAll('[aria-invalid]').forEach(function(el){
+    el.removeAttribute('aria-invalid');
+    el.removeAttribute('aria-describedby');
+  });
+}
+async function postToFormspree(url, init){
+  const ctrl = new AbortController();
+  const timer = setTimeout(function(){ ctrl.abort(); }, 20000);
+  try { return await fetch(url, Object.assign({}, init, { signal: ctrl.signal })); }
+  finally { clearTimeout(timer); }
+}
+function sendFailureMessage(res){
+  if(res && res.status === 422) return 'That did not go through. Please check your email address and try again, or email';
+  if(res && res.status === 429) return 'Too many attempts. Please wait a minute and try again, or email';
+  if(!res && navigator.onLine === false) return 'It looks like you are offline. Please check your connection and try again, or email';
+  return 'Sorry, that did not send. Please try again, or email';
+}
+function wireCounter(box, counter, max){
+  if(!box || !counter) return;
+  function update(){ const n = box.value.length; counter.textContent = n >= max * 0.8 ? n + ' / ' + max : ''; }
+  box.addEventListener('input', update);
+  update();
+}
+wireCounter(messageBox, document.getElementById('messageCount'), 2000);
+
+function showEnquirySuccess(nameVal, emailVal){
+  const firstName = nameVal.split(' ')[0];
+  document.getElementById('successName').textContent = firstName || '';
+  document.getElementById('successEmail').textContent = emailVal;
+  form.style.display = 'none';
+  success.style.display = 'block';
+}
+
 form.addEventListener('submit', async function(e){
   e.preventDefault();
+  clearFormError(formError, form);
+
+  const nameEl   = form.querySelector('#name');
+  const schoolEl = form.querySelector('#school');
+  const emailEl  = form.querySelector('#email');
+  const phoneEl  = form.querySelector('#phone');
+  const nameVal    = cleanText(nameEl.value, 80);
+  const schoolVal  = cleanText(schoolEl.value, 120);
+  const emailVal   = cleanText(emailEl.value, 254);
+  const phoneVal   = cleanText(phoneEl.value, 30);
+  const messageVal = cleanText(messageBox.value, 2000);
+
+  if(!nameVal){ showFormError(formError, 'Please enter your name.', nameEl); return; }
+  if(!schoolVal){ showFormError(formError, 'Please enter your school name.', schoolEl); return; }
+  if(!isEmail(emailVal)){ showFormError(formError, 'Please enter a valid email address, like jane@school.wa.edu.au.', emailEl); return; }
+
+  // Show the tidied values so what is sent matches what was checked
+  nameEl.value = nameVal; schoolEl.value = schoolVal; emailEl.value = emailVal;
+  phoneEl.value = phoneVal; messageBox.value = messageVal;
+  document.getElementById('formReplyTo').value = emailVal;
+
+  // A bot filled the hidden field: look successful, send nothing
+  if(form.querySelector('[name=_gotcha]').value){ showEnquirySuccess(nameVal, emailVal); return; }
+
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sending…';
-  // Mirror email into _replyto for auto-reply
-  const emailVal = form.querySelector('#email').value.trim();
-  const nameVal  = form.querySelector('#name').value.trim();
-  document.getElementById('formReplyTo').value = emailVal;
   const formData = new FormData(form);
   const fields = {
     name: nameVal,
-    school: formData.get('school') || '',
+    school: schoolVal,
     email: emailVal,
-    phone: formData.get('phone') || '',
+    phone: phoneVal,
     package: formData.get('package') || '',
     contact_method: formData.get('contact_method') || '',
     hear_about_us: formData.get('hear_about_us') || '',
-    message: formData.get('message') || ''
+    message: messageVal
   };
+  let res = null;
   try {
-    const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+    res = await postToFormspree('https://formspree.io/f/' + FORMSPREE_ID, {
       method: 'POST',
       body: formData,
       headers: { 'Accept': 'application/json' }
     });
-    if(res.ok){
-      // Fire ClickUp in background, don't block success on it
-      sendToClickUp(fields).catch(function(){});
-      // Personalise success state
-      const firstName = nameVal.split(' ')[0];
-      document.getElementById('successName').textContent = firstName || '';
-      document.getElementById('successEmail').textContent = emailVal;
-      form.style.display = 'none';
-      success.style.display = 'block';
-      gtag('event', 'contact_form_submit', { event_category: 'engagement' });
-    } else {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Enquiry';
-      alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
-    }
-  } catch(err){
+  } catch(err){ res = null; }
+  if(res && res.ok){
+    // Fire ClickUp in background, don't block success on it
+    sendToClickUp(fields).catch(function(){});
+    showEnquirySuccess(nameVal, emailVal);
+    gtag('event', 'contact_form_submit', { event_category: 'engagement' });
+  } else {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Send Enquiry';
-    alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
+    showFormError(formError, sendFailureMessage(res), null, true);
   }
 });
 
 document.getElementById('formSuccessBack').addEventListener('click', function(){
   form.reset();
+  clearFormError(formError, form);
+  wireCounter(messageBox, document.getElementById('messageCount'), 2000);
   form.style.display = '';
   success.style.display = 'none';
   submitBtn.disabled = false;
@@ -3821,8 +3912,8 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
 
     var nameRoleHtml = idx === 1 ? '' :
       '<div class="meet-row" style="gap:10px;margin-bottom:12px;">' +
-        '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'name" placeholder="' + namePlaceholder + '" style="margin-bottom:0;" data-name-input></div>' +
-        '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'role" placeholder="Role (e.g. Business Manager)" style="margin-bottom:0;"></div>' +
+        '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'name" maxlength="80" placeholder="' + namePlaceholder + '" style="margin-bottom:0;" data-name-input></div>' +
+        '<div class="field" style="margin-bottom:0;"><input type="text" name="' + p + 'role" maxlength="80" placeholder="Role (e.g. Business Manager)" style="margin-bottom:0;"></div>' +
       '</div>';
 
     var headerRowHtml = idx === 1 ? '' :
@@ -4039,47 +4130,58 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
   }
 
   // Form submit
+  var meetError = document.getElementById('meetError');
+  wireCounter(document.getElementById('meetNotes'), document.getElementById('meetNotesCount'), 2000);
+
+  function showMeetSuccess(name, email, track){
+    meetForm.style.display = 'none';
+    var firstName = name.split(' ')[0];
+    document.getElementById('meetSuccessName').textContent = firstName + ' ';
+    document.getElementById('meetSuccessEmail').textContent = email;
+    meetSuccess.style.display = 'block';
+    if(track) gtag('event', 'coffee_meeting_request', { event_category: 'engagement' });
+    // Scroll meet card into view so they see the confirmation
+    var meetCard = document.querySelector('.meet-card');
+    if(meetCard) meetCard.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+
   meetForm.addEventListener('submit', async function(e){
     e.preventDefault();
-    var name  = document.getElementById('meetName').value.trim();
-    var email = document.getElementById('meetEmail').value.trim();
-    if(!name){ alert('Please enter your name.'); return; }
-    if(!email){ alert('Please enter your email.'); return; }
+    clearFormError(meetError, meetForm);
+    var nameEl  = document.getElementById('meetName');
+    var emailEl = document.getElementById('meetEmail');
+    var name  = cleanText(nameEl.value, 80);
+    var email = cleanText(emailEl.value, 254);
+    if(!name){ showFormError(meetError, 'Please enter your name.', nameEl); return; }
+    if(!isEmail(email)){ showFormError(meetError, 'Please enter a valid email address, like jane@school.wa.edu.au.', emailEl); return; }
+    nameEl.value = name; emailEl.value = email;
     document.getElementById('meetReplyTo').value = email;
+    // A bot filled the hidden field: look successful, send nothing
+    if(meetForm.querySelector('[name=_gotcha]').value){ showMeetSuccess(name, email, false); return; }
     meetSubmit.disabled = true;
     meetSubmit.textContent = 'Sending…';
 
     // Build clean summary and submit as JSON
     var summary = buildMeetSummary();
+    var greetName = name.split(' ')[0].replace(/[^\p{L}\p{M}'\u2019-]/gu, '').slice(0, 30) || 'there';
     var payload = { name: name, email: email, _replyto: email, message: summary,
       _subject: '☕ Coffee Meeting Request ' + name,
-      _autoresponse: 'Hi ' + name.split(' ')[0] + '! Thanks for booking a catch-up with Urban Echo ☕ We\'ve received your meeting request and Mitchel will confirm a time within one business day. See you soon! Mitchel & the Urban Echo Team' };
+      _autoresponse: 'Hi ' + greetName + '! Thanks for booking a catch-up with Urban Echo ☕ We\'ve received your meeting request and Mitchel will confirm a time within one business day. See you soon! Mitchel & the Urban Echo Team' };
 
+    var res = null;
     try {
-      var res = await fetch('https://formspree.io/f/xwvdrdly', {
+      res = await postToFormspree('https://formspree.io/f/xwvdrdly', {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
       });
-      if(res.ok){
-        meetForm.style.display = 'none';
-        var firstName = name.split(' ')[0];
-        document.getElementById('meetSuccessName').textContent = firstName + ' ';
-        document.getElementById('meetSuccessEmail').textContent = email;
-        meetSuccess.style.display = 'block';
-        gtag('event', 'coffee_meeting_request', { event_category: 'engagement' });
-        // Scroll meet card into view so they see the confirmation
-        var meetCard = document.querySelector('.meet-card');
-        if(meetCard) meetCard.scrollIntoView({ behavior:'smooth', block:'center' });
-      } else {
-        meetSubmit.disabled = false;
-        meetSubmit.textContent = 'Request a Catch-Up →';
-        alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
-      }
-    } catch(err){
+    } catch(err){ res = null; }
+    if(res && res.ok){
+      showMeetSuccess(name, email, true);
+    } else {
       meetSubmit.disabled = false;
       meetSubmit.textContent = 'Request a Catch-Up →';
-      alert('Something went wrong. Please email mitchel@urbanecho.com.au directly.');
+      showFormError(meetError, sendFailureMessage(res), null, true);
     }
   });
 })();
@@ -4415,7 +4517,7 @@ document.getElementById('formSuccessBack').addEventListener('click', function(){
     });
   }
   function fadeAndShow(newOffset){
-    var visible = cards.filter(function(c){ return !c.classList.contains('hidden'); });
+    var visible = Array.prototype.filter.call(cards, function(c){ return !c.classList.contains('hidden'); });
     visible.forEach(function(c){ c.style.transition='opacity 0.5s ease'; c.style.opacity='0'; });
     setTimeout(function(){
       offset = newOffset;

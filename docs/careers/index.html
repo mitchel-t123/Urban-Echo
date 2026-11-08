@@ -164,6 +164,14 @@ a{ color:inherit; }
 .field select{ background:var(--cream) url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23161527%22 stroke-width=%222%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>') no-repeat right 14px center; padding-right:36px; }
 .field input:focus,.field select:focus,.field textarea:focus{ border-color:var(--indigo); }
 .field textarea{ resize:vertical; min-height:100px; font-family:var(--body); }
+.field input[aria-invalid="true"], .field select[aria-invalid="true"], .field textarea[aria-invalid="true"]{ border-color:var(--orange); }
+.form-error{ max-width:none; margin:20px 0 0; padding:12px 16px; border-radius:10px; font-size:14px; line-height:1.5; font-weight:600; color:#8a2a0d; background:#fff1ea; border:1.5px solid var(--orange); }
+.form-error[hidden]{ display:none; }
+.form-error a{ color:inherit; text-decoration:underline; }
+.app-fallback{ margin-top:12px; font-size:14px; line-height:1.6; color:rgba(22,21,39,0.7); }
+.app-fallback[hidden]{ display:none; }
+.app-fallback a{ color:var(--indigo); font-weight:700; }
+.hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 .frow{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 @media(max-width:560px){ .frow{ grid-template-columns:1fr; } }
 @media(max-width:700px){ .about-grid{ grid-template-columns:1fr !important; } }
@@ -396,31 +404,31 @@ a{ color:inherit; }
         <div class="frow">
           <div class="field">
             <label for="app-first">First Name</label>
-            <input type="text" id="app-first" name="first_name" placeholder="Jane" required>
+            <input type="text" id="app-first" name="first_name" placeholder="Jane" required maxlength="60" autocomplete="given-name">
           </div>
           <div class="field">
             <label for="app-last">Last Name</label>
-            <input type="text" id="app-last" name="last_name" placeholder="Smith" required>
+            <input type="text" id="app-last" name="last_name" placeholder="Smith" required maxlength="60" autocomplete="family-name">
           </div>
         </div>
         <div class="frow">
           <div class="field">
             <label for="app-email">Email</label>
-            <input type="email" id="app-email" name="email" placeholder="jane@example.com" required>
+            <input type="email" id="app-email" name="email" placeholder="jane@example.com" required maxlength="254" autocomplete="email">
           </div>
           <div class="field">
             <label for="app-phone">Phone</label>
-            <input type="tel" id="app-phone" name="phone" placeholder="04xx xxx xxx" required>
+            <input type="tel" id="app-phone" name="phone" placeholder="04xx xxx xxx" required maxlength="30" autocomplete="tel">
           </div>
         </div>
         <div class="frow">
           <div class="field">
             <label for="app-suburb">Suburb <span class="opt">(so we know you're Perth based)</span></label>
-            <input type="text" id="app-suburb" name="suburb" placeholder="e.g. Mount Lawley">
+            <input type="text" id="app-suburb" name="suburb" placeholder="e.g. Mount Lawley" maxlength="80" autocomplete="address-level2">
           </div>
           <div class="field">
             <label for="app-dob">Date of Birth</label>
-            <input type="date" id="app-dob" name="dob">
+            <input type="date" id="app-dob" name="dob" min="1920-01-01" autocomplete="bday">
           </div>
         </div>
         <div class="frow">
@@ -470,7 +478,7 @@ a{ color:inherit; }
           </div>
           <div class="upload-field" id="role-other-field" style="margin-top:12px;">
             <p>What else can you do?</p>
-            <input type="text" name="role_other_detail" placeholder="e.g. Stage management, pyrotechnics, rigging…" style="font-family:var(--body);font-size:15px;padding:10px 12px;border-radius:8px;border:2px solid rgba(22,21,39,0.2);background:var(--paper);color:var(--ink);width:100%;outline:none;">
+            <input type="text" name="role_other_detail" maxlength="120" placeholder="e.g. Stage management, pyrotechnics, rigging…" style="font-family:var(--body);font-size:15px;padding:10px 12px;border-radius:8px;border:2px solid rgba(22,21,39,0.2);background:var(--paper);color:var(--ink);width:100%;outline:none;">
           </div>
         </div>
 
@@ -487,7 +495,7 @@ a{ color:inherit; }
         </div>
         <div class="field">
           <label for="app-exp-detail">Tell us about your experience</label>
-          <textarea id="app-exp-detail" name="experience_detail" placeholder="What have you worked on? What gear are you comfortable with? Be as specific as you like, venues, events, consoles, anything relevant." style="min-height:120px;"></textarea>
+          <textarea id="app-exp-detail" name="experience_detail" maxlength="2000" placeholder="What have you worked on? What gear are you comfortable with? Be as specific as you like, venues, events, consoles, anything relevant." style="min-height:120px;"></textarea>
         </div>
         <div class="field">
           <label>Have you worked with schools or children before?</label>
@@ -554,16 +562,16 @@ a{ color:inherit; }
           <div class="frow">
             <div class="field">
               <label for="ref1-name">Full Name</label>
-              <input type="text" id="ref1-name" name="ref1_name" placeholder="John Smith">
+              <input type="text" id="ref1-name" name="ref1_name" maxlength="80" placeholder="John Smith">
             </div>
             <div class="field">
               <label for="ref1-phone">Phone</label>
-              <input type="tel" id="ref1-phone" name="ref1_phone" placeholder="04xx xxx xxx">
+              <input type="tel" id="ref1-phone" name="ref1_phone" maxlength="30" placeholder="04xx xxx xxx">
             </div>
           </div>
           <div class="field" style="margin-bottom:0;">
             <label for="ref1-rel">Relationship <span class="opt">e.g. Manager, Teacher, Supervisor</span></label>
-            <input type="text" id="ref1-rel" name="ref1_relationship" placeholder="e.g. Manager at XYZ Company">
+            <input type="text" id="ref1-rel" name="ref1_relationship" maxlength="120" placeholder="e.g. Manager at XYZ Company">
           </div>
         </div>
         <div class="ref-block">
@@ -571,23 +579,23 @@ a{ color:inherit; }
           <div class="frow">
             <div class="field">
               <label for="ref2-name">Full Name</label>
-              <input type="text" id="ref2-name" name="ref2_name" placeholder="Jane Doe">
+              <input type="text" id="ref2-name" name="ref2_name" maxlength="80" placeholder="Jane Doe">
             </div>
             <div class="field">
               <label for="ref2-phone">Phone</label>
-              <input type="tel" id="ref2-phone" name="ref2_phone" placeholder="04xx xxx xxx">
+              <input type="tel" id="ref2-phone" name="ref2_phone" maxlength="30" placeholder="04xx xxx xxx">
             </div>
           </div>
           <div class="field" style="margin-bottom:0;">
             <label for="ref2-rel">Relationship <span class="opt">e.g. Teacher, Coach, Previous employer</span></label>
-            <input type="text" id="ref2-rel" name="ref2_relationship" placeholder="e.g. Drama Teacher, Churchlands SHS">
+            <input type="text" id="ref2-rel" name="ref2_relationship" maxlength="120" placeholder="e.g. Drama Teacher, Churchlands SHS">
           </div>
         </div>
 
         <span class="form-section-label">✨ Anything else</span>
         <div class="field">
           <label for="app-notes">Anything else you want us to know? <span class="opt">Optional</span></label>
-          <textarea id="app-notes" name="notes" placeholder="Links to work, social media, questions for us, anything at all."></textarea>
+          <textarea id="app-notes" name="notes" maxlength="2000" placeholder="Links to work, social media, questions for us, anything at all."></textarea>
         </div>
         <div class="field">
           <label for="app-how">How did you hear about us?</label>
@@ -613,9 +621,13 @@ a{ color:inherit; }
 
         <p style="font-size:13.5px;color:rgba(22,21,39,0.55);line-height:1.6;margin-top:20px;padding:14px 16px;background:var(--cream);border-radius:10px;border:1.5px solid var(--line);">⏳ Once you click submit, please don't refresh or close the browser, we have a lot happening on the backend so it can take up to 1 minute to go through.</p>
 
+        <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+        <p class="form-error" id="appError" role="alert" hidden></p>
         <button type="submit" class="submit-btn" id="appSubmit">
           <span id="appBtnLabel">Submit Application →</span>
         </button>
+
+        <p class="app-fallback" id="appFallback" hidden>Prefer email? <a id="appMailtoLink" href="mailto:mitchel@urbanecho.com.au">Open an email with my answers filled in</a>, then attach your files and send it.</p>
 
       </form>
 
@@ -715,80 +727,80 @@ document.querySelectorAll('input[name="police"]').forEach(function(r){
   });
 });
 
-document.getElementById('appForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-  var btn   = document.getElementById('appSubmit');
-  var label = document.getElementById('appBtnLabel');
-  btn.disabled = true;
-  label.textContent = 'Sending…';
+var SUPPORT_EMAIL = 'mitchel@urbanecho.com.au';
+var MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // all files together
+var appForm = document.getElementById('appForm');
+var appError = document.getElementById('appError');
+var appFallback = document.getElementById('appFallback');
 
-  var fd = new FormData(this);
+// Date of birth cannot be in the future
+(function(){
+  var dob = document.getElementById('app-dob');
+  if(dob){ var d = new Date(); dob.max = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+})();
 
-  var roles = [];
-  ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','admin','social','other'].forEach(function(r){
-    var cb = document.querySelector('input[name="role_' + r + '"]');
-    if(cb && cb.checked) roles.push(cb.value);
+function cleanText(value, max){
+  return String(value == null ? '' : value).replace(/\r\n?/g, '\n').trim().slice(0, max);
+}
+function isEmail(value){
+  return value.length <= 254 && /^[^\s@<>"`,;:()\[\]\\]+@[^\s@<>"`,;:()\[\]\\]+\.[^\s@<>"`,;:()\[\]\\]{2,}$/.test(value);
+}
+function clearAppError(){
+  appError.hidden = true;
+  appError.textContent = '';
+  appFallback.hidden = true;
+  appForm.querySelectorAll('[aria-invalid]').forEach(function(el){
+    el.removeAttribute('aria-invalid');
+    el.removeAttribute('aria-describedby');
   });
-  fd.set('roles', roles.join(', ') || 'None selected');
-
-  var availability = [];
-  ['weekday_day','weekday_eve','weekend','school_term'].forEach(function(a){
-    var cb = document.querySelector('input[name="avail_' + a + '"]');
-    if(cb && cb.checked) availability.push(cb.value);
-  });
-  fd.set('availability', availability.join(', ') || 'None selected');
-  fd.set('_subject', 'New Job Application for Urban Echo');
-
-  // Build plain data object for ClickUp (strings only, no files)
-  var data = {};
-  fd.forEach(function(v, k){ if(typeof v === 'string') data[k] = v; });
-
-  if(FORMSPREE_ID && FORMSPREE_ID !== 'xxxxxxxxxxx'){
-    try {
-      var res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: fd
-      });
-      if(res.ok){
-        fetch('https://small-waterfall-7b7f.cass-tinsley1.workers.dev', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            first_name: data.first_name || '',
-            last_name: data.last_name || '',
-            email: data.email || '',
-            phone: data.phone || '',
-            suburb: data.suburb || '',
-            dob: data.dob || '',
-            gender: data.gender || '',
-            tshirt_size: data.tshirt_size || '',
-            roles: data.roles || '',
-            experience_level: data.experience_level || '',
-            experience_detail: data.experience_detail || '',
-            school_experience: data.school_experience || '',
-            availability: data.availability || '',
-            wwc: data.wwc || '',
-            police: data.police || '',
-            employment_status: data.employment_status || '',
-            ref1_name: data.ref1_name || '',
-            ref1_phone: data.ref1_phone || '',
-            ref1_relationship: data.ref1_relationship || '',
-            ref2_name: data.ref2_name || '',
-            ref2_phone: data.ref2_phone || '',
-            ref2_relationship: data.ref2_relationship || '',
-            notes: data.notes || '',
-            how_heard: data.how_heard || ''
-          })
-        }).then(function(r){ return r.json(); }).then(function(d){ console.log('[ClickUp careers]', d); }).catch(function(err){ console.error('[ClickUp careers error]', err); });
-        document.getElementById('appForm').style.display = 'none';
-        document.getElementById('appSuccess').style.display = 'block';
-        return;
-      }
-    } catch(err){}
+}
+function showAppError(message, field, withEmailLink){
+  appError.textContent = message;
+  if(withEmailLink){
+    appError.appendChild(document.createTextNode(' '));
+    var a = document.createElement('a');
+    a.href = 'mailto:' + SUPPORT_EMAIL;
+    a.textContent = SUPPORT_EMAIL;
+    appError.appendChild(a);
+    appError.appendChild(document.createTextNode('.'));
   }
-
-  // Mailto fallback
+  appError.hidden = false;
+  if(field){
+    field.setAttribute('aria-invalid', 'true');
+    field.setAttribute('aria-describedby', 'appError');
+    field.focus();
+  } else {
+    appError.scrollIntoView({ block: 'center' });
+  }
+}
+function failureMessage(res){
+  if(res && res.status === 413) return 'Your files are too large to send. Please remove them or choose smaller ones and try again, or email';
+  if(res && res.status === 422) return 'Something in the form was not accepted. Please check your email address and any attached files, then try again, or email';
+  if(res && res.status === 429) return 'Too many attempts. Please wait a minute and try again, or email';
+  if(!res && navigator.onLine === false) return 'It looks like you are offline. Please check your connection and try again, or email';
+  return 'Sorry, your application did not send. Please try again, or email';
+}
+function fileProblem(){
+  var total = 0, problem = '';
+  var rules = [
+    { id: 'wwc-card', ok: /\.(pdf|jpe?g|png|gif|webp|heic|heif)$/i, what: 'your WWC card', visible: 'wwc-upload-field' },
+    { id: 'police-card', ok: /\.(pdf|jpe?g|png|gif|webp|heic|heif)$/i, what: 'your police clearance', visible: 'police-upload-field' },
+    { id: 'app-resume', ok: /\.(pdf|docx?)$/i, what: 'your resume', visible: null }
+  ];
+  rules.forEach(function(r){
+    var input = document.getElementById(r.id);
+    var f = input && input.files && input.files[0];
+    var shown = !r.visible || document.getElementById(r.visible).classList.contains('visible');
+    if(!f || !shown || problem) return;
+    total += f.size;
+    if(!r.ok.test(f.name)) problem = { field: input, text: 'The file for ' + r.what + ' needs to be ' + (r.id === 'app-resume' ? 'a PDF or Word document' : 'a photo or a PDF') + '.' };
+  });
+  if(!problem && total > MAX_UPLOAD_BYTES){
+    problem = { field: null, text: 'Your files add up to ' + (total / 1048576).toFixed(1) + ' MB, and the limit is 10 MB in total. Please choose smaller files, or leave them off and email them to us afterwards.' };
+  }
+  return problem;
+}
+function mailtoFor(data){
   var lines = [
     'Name: ' + (data.first_name || '') + ' ' + (data.last_name || ''),
     'Email: ' + (data.email || ''),
@@ -814,12 +826,122 @@ document.getElementById('appForm').addEventListener('submit', async function(e){
     'Notes: ' + (data.notes || ''),
     'How heard: ' + (data.how_heard || '')
   ];
-  var mailto = 'mailto:mitchel@urbanecho.com.au'
+  return 'mailto:' + SUPPORT_EMAIL
     + '?subject=' + encodeURIComponent('New Job Application for Urban Echo')
     + '&body=' + encodeURIComponent(lines.join('\n'));
-  window.location.href = mailto;
-  document.getElementById('appForm').style.display = 'none';
+}
+function showApplicationSuccess(){
+  appForm.style.display = 'none';
   document.getElementById('appSuccess').style.display = 'block';
+}
+
+appForm.addEventListener('submit', async function(e){
+  e.preventDefault();
+  clearAppError();
+  var btn   = document.getElementById('appSubmit');
+  var label = document.getElementById('appBtnLabel');
+
+  // Tidy every text box first (trim, cut to its limit), so what is checked is what is sent
+  appForm.querySelectorAll('input[type=text], input[type=tel], input[type=email], textarea').forEach(function(el){
+    el.value = cleanText(el.value, el.maxLength > 0 ? el.maxLength : 2000);
+  });
+
+  var first = document.getElementById('app-first'), last = document.getElementById('app-last');
+  var email = document.getElementById('app-email'), phone = document.getElementById('app-phone');
+  var dob = document.getElementById('app-dob'), level = document.getElementById('app-exp-level');
+  if(!first.value){ showAppError('Please enter your first name.', first); return; }
+  if(!last.value){ showAppError('Please enter your last name.', last); return; }
+  if(!isEmail(email.value)){ showAppError('Please enter a valid email address, like jane@example.com.', email); return; }
+  if(phone.value.replace(/\D/g, '').length < 8){ showAppError('Please enter a phone number we can reach you on.', phone); return; }
+  if(dob.value && (dob.value > dob.max || dob.value < dob.min)){ showAppError('Please check your date of birth.', dob); return; }
+  if(!level.value){ showAppError('Please choose your experience level.', level); return; }
+  var problem = fileProblem();
+  if(problem){ showAppError(problem.text, problem.field); return; }
+
+  // A bot filled the hidden field: look successful, send nothing
+  if(appForm.querySelector('[name=_gotcha]').value){ showApplicationSuccess(); return; }
+
+  btn.disabled = true;
+  label.textContent = 'Sending…';
+
+  var fd = new FormData(this);
+  // Do not send a document the person then said does not apply
+  if(!document.getElementById('wwc-upload-field').classList.contains('visible')) fd.delete('wwc_card');
+  if(!document.getElementById('police-upload-field').classList.contains('visible')) fd.delete('police_card');
+
+  var roles = [];
+  ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','admin','social','other'].forEach(function(r){
+    var cb = document.querySelector('input[name="role_' + r + '"]');
+    if(cb && cb.checked) roles.push(cb.value);
+  });
+  fd.set('roles', roles.join(', ') || 'None selected');
+
+  var availability = [];
+  ['weekday_day','weekday_eve','weekend','school_term'].forEach(function(a){
+    var cb = document.querySelector('input[name="avail_' + a + '"]');
+    if(cb && cb.checked) availability.push(cb.value);
+  });
+  fd.set('availability', availability.join(', ') || 'None selected');
+  fd.set('_subject', 'New Job Application for Urban Echo');
+
+  // Build plain data object for ClickUp (strings only, no files)
+  var data = {};
+  fd.forEach(function(v, k){ if(typeof v === 'string') data[k] = v; });
+
+  var res = null;
+  var ctrl = new AbortController();
+  var timer = setTimeout(function(){ ctrl.abort(); }, 60000);
+  try {
+    res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: fd,
+      signal: ctrl.signal
+    });
+  } catch(err){ res = null; }
+  clearTimeout(timer);
+
+  if(res && res.ok){
+    fetch('https://small-waterfall-7b7f.cass-tinsley1.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        first_name: data.first_name || '',
+        last_name: data.last_name || '',
+        email: data.email || '',
+        phone: data.phone || '',
+        suburb: data.suburb || '',
+        dob: data.dob || '',
+        gender: data.gender || '',
+        tshirt_size: data.tshirt_size || '',
+        roles: data.roles || '',
+        experience_level: data.experience_level || '',
+        experience_detail: data.experience_detail || '',
+        school_experience: data.school_experience || '',
+        availability: data.availability || '',
+        wwc: data.wwc || '',
+        police: data.police || '',
+        employment_status: data.employment_status || '',
+        ref1_name: data.ref1_name || '',
+        ref1_phone: data.ref1_phone || '',
+        ref1_relationship: data.ref1_relationship || '',
+        ref2_name: data.ref2_name || '',
+        ref2_phone: data.ref2_phone || '',
+        ref2_relationship: data.ref2_relationship || '',
+        notes: data.notes || '',
+        how_heard: data.how_heard || ''
+      })
+    }).then(function(r){ return r.json(); }).then(function(d){ console.log('[ClickUp careers]', d); }).catch(function(err){ console.error('[ClickUp careers error]', err); });
+    showApplicationSuccess();
+    return;
+  }
+
+  // It did not send. Say so, keep everything typed, and let them choose to email it instead.
+  btn.disabled = false;
+  label.textContent = 'Submit Application →';
+  document.getElementById('appMailtoLink').href = mailtoFor(data);
+  appFallback.hidden = false;
+  showAppError(failureMessage(res), null, true);
 });
 </script>
 <script>

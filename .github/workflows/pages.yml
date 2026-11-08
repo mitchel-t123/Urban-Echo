@@ -42,13 +42,16 @@ jobs:
       - name: Edge function checks (type-check and tests)
         run: bash scripts/test-edge-functions.sh
 
-      - name: Smoke tests (portal buttons, onboarding flow, team admin)
+      - name: Smoke tests (portal, onboarding flow, team admin, public forms)
         run: |
           python3 -m http.server 9876 --directory docs &
           sleep 2
           node scripts/portal-smoke.js
           node scripts/portal-flow-smoke.js
           node scripts/admin-smoke.js
+          node scripts/forms-smoke.js
+          node scripts/careers-smoke.js
+          node scripts/other-forms-smoke.js
 
   deploy:
     needs: test

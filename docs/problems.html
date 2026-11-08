@@ -499,6 +499,11 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
   .skill-btn{ padding:14px 12px; }
   .section-masthead h2{ font-size:26px; }
 }
+.form-error{ max-width:none; margin:0 0 16px; padding:10px 14px; border-radius:10px; font-size:14px; line-height:1.5; font-weight:600; color:#8a2a0d; background:#fff1ea; border:1.5px solid var(--orange); }
+.form-error[hidden]{ display:none; }
+.form-error a{ color:inherit; text-decoration:underline; }
+input[aria-invalid="true"], textarea[aria-invalid="true"]{ border-color:var(--orange) !important; }
+.hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 </style>
 </head>
 <body>
@@ -743,7 +748,8 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
       <span style="font-size:28px;display:block;margin-bottom:12px;">🚩</span>
       <h3 style="font-family:var(--display);font-size:22px;margin-bottom:10px;line-height:1.15;">Thanks for flagging this step</h3>
       <p style="font-size:14px;color:rgba(22,21,39,0.65);margin-bottom:22px;line-height:1.6;">We're currently working on this feature and we appreciate you helping us. Want to add an extra comment to let us know what you've noticed?</p>
-      <textarea id="flagComment" rows="3" placeholder="Optional, tell us what seemed off…" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;margin-bottom:18px;transition:border-color 0.15s;"></textarea>
+      <textarea id="flagComment" rows="3" maxlength="1000" aria-label="Optional comment about this step" placeholder="Optional, tell us what seemed off…" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;margin-bottom:18px;transition:border-color 0.15s;"></textarea>
+      <p class="form-error" id="flagError" role="alert" hidden></p>
       <div style="display:flex;gap:10px;">
         <button id="flagModalSubmit" style="flex:1;padding:13px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:15px;font-weight:700;cursor:pointer;">Send feedback</button>
         <button id="flagModalSkip" style="padding:13px 18px;background:transparent;color:rgba(22,21,39,0.5);border:2px solid rgba(22,21,39,0.18);border-radius:12px;font-family:var(--body);font-size:14px;cursor:pointer;">Skip</button>
@@ -766,17 +772,19 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
     <p style="font-size:14px;color:rgba(22,21,39,0.6);margin-bottom:24px;line-height:1.5;">Tell us what problem you're running into and we'll add a fix to the tool.</p>
     <form id="suggestModalForm" novalidate>
       <div style="margin-bottom:16px;">
-        <label style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Your name</label>
-        <input type="text" name="name" placeholder="e.g. Sarah" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
+        <label for="smName" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Your name</label>
+        <input type="text" id="smName" name="name" maxlength="80" autocomplete="name" placeholder="e.g. Sarah" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
       </div>
       <div style="margin-bottom:16px;">
-        <label style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Email</label>
-        <input type="email" name="email" placeholder="you@school.edu.au" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
+        <label for="smEmail" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Email</label>
+        <input type="email" id="smEmail" name="email" maxlength="254" autocomplete="email" placeholder="you@school.edu.au" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
       </div>
       <div style="margin-bottom:24px;">
-        <label style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Describe the issue</label>
-        <textarea name="description" rows="4" placeholder="What problem are you trying to solve? The more detail, the better." style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;transition:border-color 0.15s;" required></textarea>
+        <label for="smDesc" style="font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Describe the issue</label>
+        <textarea id="smDesc" name="description" maxlength="2000" rows="4" placeholder="What problem are you trying to solve? The more detail, the better." style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;transition:border-color 0.15s;" required></textarea>
       </div>
+      <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-error" role="alert" hidden></p>
       <button type="submit" id="suggestModalSubmit" style="width:100%;padding:14px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:15px;font-weight:700;cursor:pointer;">
         Suggest this issue →
       </button>
@@ -827,17 +835,19 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 
     <form id="suggestForm" novalidate>
       <div class="field" style="margin-bottom:18px;">
-        <label style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Your name</label>
-        <input type="text" name="name" placeholder="e.g. Sarah" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
+        <label for="sfName" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Your name</label>
+        <input type="text" id="sfName" name="name" maxlength="80" autocomplete="name" placeholder="e.g. Sarah" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
       </div>
       <div class="field" style="margin-bottom:18px;">
-        <label style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Email</label>
-        <input type="email" name="email" placeholder="you@school.edu.au" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
+        <label for="sfEmail" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Email</label>
+        <input type="email" id="sfEmail" name="email" maxlength="254" autocomplete="email" placeholder="you@school.edu.au" style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;transition:border-color 0.15s;" required>
       </div>
       <div class="field" style="margin-bottom:26px;">
-        <label style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Describe the issue</label>
-        <textarea name="description" rows="4" placeholder="What problem are you trying to solve? The more detail, the better." style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;transition:border-color 0.15s;" required></textarea>
+        <label for="sfDesc" style="font-family:var(--mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:7px;">Describe the issue</label>
+        <textarea id="sfDesc" name="description" maxlength="2000" rows="4" placeholder="What problem are you trying to solve? The more detail, the better." style="width:100%;padding:11px 14px;border:2px solid rgba(22,21,39,0.18);border-radius:10px;font-size:15px;font-family:var(--body);background:#fff;color:var(--ink);outline:none;box-sizing:border-box;resize:vertical;transition:border-color 0.15s;" required></textarea>
       </div>
+      <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-error" role="alert" hidden></p>
       <button type="submit" id="suggestSubmit" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:12px;font-family:var(--body);font-size:15px;font-weight:700;cursor:pointer;transition:background 0.15s,transform 0.15s;">
         Suggest this issue →
       </button>
@@ -1067,31 +1077,40 @@ var flagSkip     = document.getElementById('flagModalSkip');
 var flagComment  = document.getElementById('flagComment');
 var closeFlagModal = document.getElementById('closeFlagModal');
 
-function openFlagModal(){ flagModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+function openFlagModal(){ document.getElementById('flagError').hidden = true; flagModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
 function closeFlagModalFn(){ flagModal.style.display = 'none'; document.body.style.overflow = ''; }
 
 function submitFlag(comment){
   var prob = currentKey ? PROBLEMS[currentKey] : null;
   var filtered = prob ? filterStepsForLevel(prob.steps) : [];
   var step = filtered[currentIndex];
-  diagFlagBtn.classList.add('flagged');
-  fetch('https://formspree.io/f/mjgqaqyn', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      _subject: '🚩 Step flagged: ' + (prob ? (prob.label || currentKey) : 'Unknown'),
-      type: 'Step Flag Report',
-      problem: prob ? (prob.label || currentKey) : 'Unknown',
-      step_number: 'Step ' + (currentIndex + 1) + ' of ' + filtered.length,
-      step_title: step ? step.title : 'Unknown',
-      skill_level: skillLevel,
-      comment: comment || '(no comment)',
-      url: window.location.href
-    })
+  var flagError = document.getElementById('flagError');
+  flagError.hidden = true;
+  flagError.textContent = '';
+  flagSubmit.disabled = true;
+  flagSkip.disabled = true;
+  sendJson('https://formspree.io/f/mjgqaqyn', {
+    _subject: '🚩 Step flagged: ' + (prob ? (prob.label || currentKey) : 'Unknown'),
+    type: 'Step Flag Report',
+    problem: prob ? (prob.label || currentKey) : 'Unknown',
+    step_number: 'Step ' + (currentIndex + 1) + ' of ' + filtered.length,
+    step_title: step ? step.title : 'Unknown',
+    skill_level: skillLevel,
+    comment: cleanText(comment, 1000) || '(no comment)',
+    url: window.location.href
+  }).then(function(r){
+    if(!r.ok) throw new Error('flag not sent');
+    diagFlagBtn.classList.add('flagged');
+    flagModalForm.style.display = 'none';
+    flagSuccess.style.display = 'block';
+    setTimeout(closeFlagModalFn, 2200);
+  }).catch(function(){
+    flagError.textContent = 'Sorry, that did not send. Please try again.';
+    flagError.hidden = false;
+  }).then(function(){
+    flagSubmit.disabled = false;
+    flagSkip.disabled = false;
   });
-  flagModalForm.style.display = 'none';
-  flagSuccess.style.display = 'block';
-  setTimeout(closeFlagModalFn, 2200);
 }
 
 diagFlagBtn.addEventListener('click', function(){
@@ -1102,7 +1121,7 @@ diagFlagBtn.addEventListener('click', function(){
   openFlagModal();
 });
 
-flagSubmit.addEventListener('click', function(){ submitFlag(flagComment.value.trim()); });
+flagSubmit.addEventListener('click', function(){ submitFlag(flagComment.value); });
 flagSkip.addEventListener('click', function(){ submitFlag(''); });
 closeFlagModal.addEventListener('click', closeFlagModalFn);
 flagModal.addEventListener('click', function(e){ if(e.target === flagModal) closeFlagModalFn(); });
@@ -1710,6 +1729,95 @@ function renderSteps(){
   }
 }
 
+// ── Shared helpers for the forms on this page ─────────────────────────────
+var SUPPORT_EMAIL = 'mitchel@urbanecho.com.au';
+function cleanText(value, max){
+  return String(value == null ? '' : value).replace(/\r\n?/g, '\n').trim().slice(0, max);
+}
+function isEmail(value){
+  return value.length <= 254 && /^[^\s@<>"`,;:()\[\]\\]+@[^\s@<>"`,;:()\[\]\\]+\.[^\s@<>"`,;:()\[\]\\]{2,}$/.test(value);
+}
+function sendJson(url, payload){
+  var ctrl = new AbortController();
+  var timer = setTimeout(function(){ ctrl.abort(); }, 15000);
+  return fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload),
+    signal: ctrl.signal
+  }).then(function(r){ clearTimeout(timer); return r; }, function(err){ clearTimeout(timer); throw err; });
+}
+function showFieldError(box, message, field, withEmailLink){
+  box.textContent = message;
+  if(withEmailLink){
+    box.appendChild(document.createTextNode(' '));
+    var a = document.createElement('a');
+    a.href = 'mailto:' + SUPPORT_EMAIL;
+    a.textContent = SUPPORT_EMAIL;
+    box.appendChild(a);
+    box.appendChild(document.createTextNode('.'));
+  }
+  box.hidden = false;
+  if(field){
+    field.setAttribute('aria-invalid', 'true');
+    field.focus();
+  }
+}
+function clearFieldErrors(box, formEl){
+  box.hidden = true;
+  box.textContent = '';
+  formEl.querySelectorAll('[aria-invalid]').forEach(function(el){ el.removeAttribute('aria-invalid'); });
+}
+function sendFailureMessage(res){
+  if(res && res.status === 422) return 'That did not go through. Please check your email address and try again, or email';
+  if(res && res.status === 429) return 'Too many attempts. Please wait a minute and try again, or email';
+  if(!res && navigator.onLine === false) return 'It looks like you are offline. Please check your connection and try again, or email';
+  return 'Sorry, that did not send. Please try again, or email';
+}
+
+// One handler for both suggestion forms (the pop-up and the one at the page bottom)
+function setupSuggestForm(form, btn, success){
+  var box = form.querySelector('.form-error');
+  var idleLabel = btn.textContent.trim();
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    clearFieldErrors(box, form);
+    var nameEl  = form.querySelector('[name="name"]');
+    var emailEl = form.querySelector('[name="email"]');
+    var descEl  = form.querySelector('[name="description"]');
+    var name  = cleanText(nameEl.value, 80);
+    var email = cleanText(emailEl.value, 254);
+    var desc  = cleanText(descEl.value, 2000);
+    if(!name){ showFieldError(box, 'Please enter your name.', nameEl); return; }
+    if(!isEmail(email)){ showFieldError(box, 'Please enter a valid email address, like you@school.edu.au.', emailEl); return; }
+    if(!desc){ showFieldError(box, 'Please describe the issue so we know what to add.', descEl); return; }
+    nameEl.value = name; emailEl.value = email; descEl.value = desc;
+    // A bot filled the hidden field: look successful, send nothing
+    if(form.querySelector('[name="_gotcha"]').value){ form.style.display = 'none'; success.style.display = 'block'; return; }
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    function failed(res){
+      btn.disabled = false;
+      btn.textContent = idleLabel;
+      showFieldError(box, sendFailureMessage(res), null, true);
+    }
+    sendJson('https://formspree.io/f/mjgqaqyn', {
+      _subject: 'Troubleshooting Tool Suggestion from ' + name,
+      name: name,
+      email: email,
+      suggestion: desc,
+      source: 'Troubleshooting Tool, Suggest an Issue'
+    }).then(function(r){
+      if(r.ok){
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        failed(r);
+      }
+    }).catch(function(){ failed(null); });
+  });
+}
+
 // ── Suggest modal ─────────────────────────────────────────────────────────
 (function(){
   var modal   = document.getElementById('suggestModal');
@@ -1728,37 +1836,7 @@ function renderSteps(){
   if(closeBtn) closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
 
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var name  = form.querySelector('[name="name"]').value.trim();
-    var email = form.querySelector('[name="email"]').value.trim();
-    var desc  = form.querySelector('[name="description"]').value.trim();
-    if(!name || !email || !desc) return;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-    fetch('https://formspree.io/f/mjgqaqyn', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: 'Troubleshooting Tool Suggestion from ' + name,
-        name: name,
-        email: email,
-        suggestion: desc,
-        source: 'Troubleshooting Tool, Suggest an Issue'
-      })
-    }).then(function(r){
-      if(r.ok){
-        form.style.display = 'none';
-        success.style.display = 'block';
-      } else {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Suggest this issue →';
-      }
-    }).catch(function(){
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Suggest this issue →';
-    });
-  });
+  setupSuggestForm(form, submitBtn, success);
 })();
 
 // ── Suggest an issue form (page bottom) ───────────────────────────────────
@@ -1767,39 +1845,7 @@ function renderSteps(){
   var success = document.getElementById('suggestSuccess');
   var btn     = document.getElementById('suggestSubmit');
   if(!form) return;
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var name  = form.querySelector('[name="name"]').value.trim();
-    var email = form.querySelector('[name="email"]').value.trim();
-    var desc  = form.querySelector('[name="description"]').value.trim();
-    if(!name || !email || !desc) return;
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-    fetch('https://formspree.io/f/mjgqaqyn', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: 'Troubleshooting Tool Suggestion from ' + name,
-        name: name,
-        email: email,
-        suggestion: desc,
-        source: 'Troubleshooting Tool, Suggest an Issue'
-      })
-    }).then(function(r){
-      if(r.ok){
-        form.style.display = 'none';
-        success.style.display = 'block';
-      } else {
-        btn.disabled = false;
-        btn.textContent = 'Suggest this issue →';
-        alert('Something went wrong, please try again.');
-      }
-    }).catch(function(){
-      btn.disabled = false;
-      btn.textContent = 'Suggest this issue →';
-      alert('Something went wrong, please try again.');
-    });
-  });
+  setupSuggestForm(form, btn, success);
 })();
 </script>
 
