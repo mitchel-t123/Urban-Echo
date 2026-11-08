@@ -40,6 +40,7 @@ node scripts/admin-smoke.js         # Team Admin page
 node scripts/forms-smoke.js         # home page enquiry and catch-up forms
 node scripts/careers-smoke.js       # careers application form
 node scripts/other-forms-smoke.js   # SoundHire enquiry and problems page forms
+node scripts/a11y-smoke.js          # accessibility (axe-core) and SEO basics; needs AXE_PATH, see the script header
 bash scripts/test-edge-functions.sh # type-checks and tests supabase/functions under Deno
 ```
 

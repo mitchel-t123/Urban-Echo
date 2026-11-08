@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>External Hires</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -438,7 +444,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 .roi-card { background:var(--paper); border:2.5px solid var(--ink); border-radius:12px; padding:24px; box-shadow:4px 4px 0 var(--ink); transition:transform 0.18s,box-shadow 0.18s; }
 .roi-card:hover { transform:translateY(-3px); box-shadow:7px 7px 0 var(--ink); }
 .roi-icon { width:40px; height:40px; border-radius:8px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
-.roi-card h4 { font-size:1rem; font-weight:800; margin-bottom:6px; letter-spacing:-0.01em; }
+.roi-card h3 { font-size:1rem; font-weight:800; margin-bottom:6px; letter-spacing:-0.01em; }
 .roi-card p  { font-size:0.85rem; color:rgba(22,21,39,0.55); line-height:1.55; }
 .cycle-heading {
   font-family:var(--display); font-size:1.3rem; letter-spacing:-0.01em;
@@ -614,9 +620,19 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   color:#fff; margin-top:3px;
 }
 .hires-answer .result-term { font-size:0.88rem; font-weight:700; color:rgba(255,255,255,0.75); display:block; margin-top:4px; letter-spacing:0.02em; }
+.skip-link{ position:absolute; left:-9999px; top:0; z-index:100000; background:#161527; color:#fff; padding:10px 16px; font:700 14px/1.2 var(--body, Arial, sans-serif); border-radius:0 0 10px 0; text-decoration:none; }
+.skip-link:focus{ left:0; }
+@media(max-width:600px){
+  .nav-inner{ padding:12px 16px; }
+  .nav-logo{ height:26px; }
+  .nav-inner .btn-outline{ font-size:13px !important; padding:7px 12px !important; }
+}
 </style>
 
 <!-- ═══ NAV ═══ -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
 <nav class="nav" style="position:relative;">
   <div class="nav-inner">
     <a href="/"><img src="logo.png" alt="Urban Echo" class="nav-logo" width="2272" height="376"></a>
@@ -670,6 +686,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 </div>
 
 <!-- ═══ HERO ═══ -->
+<main id="main" tabindex="-1">
 <section class="hero">
   <div class="wrap">
     <div class="hero-inner">
@@ -742,7 +759,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <div class="eq-name">New projector</div>
         <div class="eq-price-wrap">
           <span class="eq-price-sym">$</span>
-          <input class="eq-price-input" id="eq0_price" type="number" value="3500" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+          <input class="eq-price-input" id="eq0_price" aria-label="Price of new projector, in dollars" type="number" value="3500" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
       </div>
       <div class="eq-card" id="eq1" onclick="toggleEquipment('eq1')">
@@ -753,7 +770,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <div class="eq-name">Sound desk upgrade</div>
         <div class="eq-price-wrap">
           <span class="eq-price-sym">$</span>
-          <input class="eq-price-input" id="eq1_price" type="number" value="2500" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+          <input class="eq-price-input" id="eq1_price" aria-label="Price of sound desk upgrade, in dollars" type="number" value="2500" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
       </div>
       <div class="eq-card" id="eq2" onclick="toggleEquipment('eq2')">
@@ -764,7 +781,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <div class="eq-name">New lighting desk</div>
         <div class="eq-price-wrap">
           <span class="eq-price-sym">$</span>
-          <input class="eq-price-input" id="eq2_price" type="number" value="1800" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+          <input class="eq-price-input" id="eq2_price" aria-label="Price of new lighting desk, in dollars" type="number" value="1800" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
       </div>
       <div class="eq-card" id="eq3" onclick="toggleEquipment('eq3')">
@@ -775,7 +792,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <div class="eq-name">Camera setup upgrade</div>
         <div class="eq-price-wrap">
           <span class="eq-price-sym">$</span>
-          <input class="eq-price-input" id="eq3_price" type="number" value="2000" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+          <input class="eq-price-input" id="eq3_price" aria-label="Price of camera setup upgrade, in dollars" type="number" value="2000" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
       </div>
       <div class="eq-card" id="eq4" onclick="toggleEquipment('eq4')">
@@ -786,7 +803,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <div class="eq-name">New carpets</div>
         <div class="eq-price-wrap">
           <span class="eq-price-sym">$</span>
-          <input class="eq-price-input" id="eq4_price" type="number" value="4000" min="100" max="50000" step="100" onclick="event.stopPropagation()">
+          <input class="eq-price-input" id="eq4_price" aria-label="Price of new carpets, in dollars" type="number" value="4000" min="100" max="50000" step="100" onclick="event.stopPropagation()">
         </div>
       </div>
       <!-- Custom "Add other" card -->
@@ -849,7 +866,7 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
           <div class="svc-label" style="margin-bottom:8px;">Average hire fee per booking</div>
           <div class="fee-wrap">
             <span class="fee-sym">$</span>
-            <input type="number" class="fee-input" id="hireFeeInput" value="2000" min="100" max="20000" step="50">
+            <input type="number" class="fee-input" id="hireFeeInput" aria-label="Average hire fee per booking, in dollars" value="2000" min="100" max="20000" step="50">
           </div>
         </div>
       </div>
@@ -933,28 +950,28 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         <div class="roi-icon" style="background:#e6eef9;">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#2B65B8" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="6" r="3.5"/><path d="M2 16c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg>
         </div>
-        <h4>Parents notice</h4>
+        <h3>Parents notice</h3>
         <p>Parents remember the night they could actually hear. Speech nights and performances that look and sound polished become part of your school's reputation.</p>
       </div>
       <div class="roi-card">
         <div class="roi-icon" style="background:#fef0ea;">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#D8491B" stroke-width="1.6" stroke-linecap="round"><path d="M9 2l2 5h5l-4 3 1.5 5L9 12l-4.5 3L6 10 2 7h5z"/></svg>
         </div>
-        <h4>Brand reputation</h4>
+        <h3>Brand reputation</h3>
         <p>Consistent, polished events signal investment and care. The right support makes your school look like you spent twice the budget.</p>
       </div>
       <div class="roi-card">
         <div class="roi-icon" style="background:#e6f7ee;">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#1E9256" stroke-width="1.6" stroke-linecap="round"><path d="M2 14h14M5 14V8m4 6V4m4 10V10"/></svg>
         </div>
-        <h4>Reinvest in your venue</h4>
+        <h3>Reinvest in your venue</h3>
         <p>Every dollar your hires cover is a dollar freed up, for new carpets, upgraded AV infrastructure, refreshed furniture, or better seating.</p>
       </div>
       <div class="roi-card">
         <div class="roi-icon" style="background:#fffbe6;">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#c49a00" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="9" r="7"/><path d="M9 6v3l2 2"/></svg>
         </div>
-        <h4>A self-funding cycle</h4>
+        <h3>A self-funding cycle</h3>
         <p>A well-run venue gets booked again. Hirers leave good reviews. Your calendar fills. The revenue grows without touching your budget.</p>
       </div>
     </div>
@@ -1034,16 +1051,16 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
         </div>
         <div class="meet-block meet-row">
           <div class="field"><label for="meetEmail">Email</label><input type="email" id="meetEmail" name="email" required placeholder="jane@school.wa.edu.au"></div>
-          <div class="field"><label>Topic</label><input type="text" name="reason" value="External Hires, Venue Revenue" readonly></div>
+          <div class="field"><label>Topic</label><input type="text" name="reason" aria-label="Enquiry topic" value="External Hires, Venue Revenue" readonly></div>
         </div>
 
         <!-- Dates -->
         <div class="meet-block">
           <span class="meet-block-label">Suggest a few dates <span style="font-weight:400;opacity:0.55;">(we'll confirm one, the meeting will be 45 mins)</span></span>
           <div class="date-grid">
-            <div class="date-option"><span class="date-option-num">Option 1</span><div class="field"><label>Date</label><input type="date" name="date_1"></div><div class="field"><label>I'm available from</label><input type="time" name="time_1_start"></div><div class="field"><label>Until</label><input type="time" name="time_1_end"></div></div>
-            <div class="date-option"><span class="date-option-num">Option 2</span><div class="field"><label>Date</label><input type="date" name="date_2"></div><div class="field"><label>I'm available from</label><input type="time" name="time_2_start"></div><div class="field"><label>Until</label><input type="time" name="time_2_end"></div></div>
-            <div class="date-option"><span class="date-option-num">Option 3</span><div class="field"><label>Date</label><input type="date" name="date_3"></div><div class="field"><label>I'm available from</label><input type="time" name="time_3_start"></div><div class="field"><label>Until</label><input type="time" name="time_3_end"></div></div>
+            <div class="date-option"><span class="date-option-num">Option 1</span><div class="field"><label>Date</label><input type="date" name="date_1" aria-label="Option 1 date"></div><div class="field"><label>I'm available from</label><input type="time" name="time_1_start" aria-label="Option 1 start time"></div><div class="field"><label>Until</label><input type="time" name="time_1_end" aria-label="Option 1 end time"></div></div>
+            <div class="date-option"><span class="date-option-num">Option 2</span><div class="field"><label>Date</label><input type="date" name="date_2" aria-label="Option 2 date"></div><div class="field"><label>I'm available from</label><input type="time" name="time_2_start" aria-label="Option 2 start time"></div><div class="field"><label>Until</label><input type="time" name="time_2_end" aria-label="Option 2 end time"></div></div>
+            <div class="date-option"><span class="date-option-num">Option 3</span><div class="field"><label>Date</label><input type="date" name="date_3" aria-label="Option 3 date"></div><div class="field"><label>I'm available from</label><input type="time" name="time_3_start" aria-label="Option 3 start time"></div><div class="field"><label>Until</label><input type="time" name="time_3_end" aria-label="Option 3 end time"></div></div>
           </div>
         </div>
 
@@ -1101,6 +1118,8 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
 </section>
 
 <!-- ═══ FOOTER ═══ -->
+</main>
+
 <footer class="footer">
   <div class="wrap footer-inner">
     <span>© 2026 Urban Echo. All rights reserved.</span>
@@ -1469,3 +1488,5 @@ h2,h3 { font-family:var(--body); font-weight:800; line-height:1.1; letter-spacin
   });
 })();
 </script>
+</body>
+</html>

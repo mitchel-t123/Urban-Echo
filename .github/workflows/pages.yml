@@ -42,8 +42,10 @@ jobs:
       - name: Edge function checks (type-check and tests)
         run: bash scripts/test-edge-functions.sh
 
-      - name: Smoke tests (portal, onboarding flow, team admin, public forms)
+      - name: Smoke tests (portal, onboarding flow, team admin, public forms, accessibility)
         run: |
+          npm install --prefix "$RUNNER_TEMP/axe" --no-audit --no-fund axe-core@4.10.2
+          export AXE_PATH="$RUNNER_TEMP/axe/node_modules/axe-core/axe.min.js"
           python3 -m http.server 9876 --directory docs &
           sleep 2
           node scripts/portal-smoke.js
@@ -52,6 +54,7 @@ jobs:
           node scripts/forms-smoke.js
           node scripts/careers-smoke.js
           node scripts/other-forms-smoke.js
+          node scripts/a11y-smoke.js
 
   deploy:
     needs: test

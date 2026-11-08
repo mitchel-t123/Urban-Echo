@@ -11,7 +11,7 @@
   gtag('js', new Date());
   gtag('config', 'G-77DYLMT4GJ');
 </script>
-<title>Sound Troubleshooting Tool for Perth Schools, Urban Echo</title>
+<title>Sound Troubleshooting Tool for Perth Schools | Urban Echo</title>
 <link rel="canonical" href="https://urbanecho.com.au/problems">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
@@ -26,7 +26,7 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://urbanecho.com.au/problems">
-<meta property="og:title" content="Sound Troubleshooting Tool for Perth Schools, Urban Echo">
+<meta property="og:title" content="Sound Troubleshooting Tool for Perth Schools | Urban Echo">
 <meta property="og:description" content="Step-by-step sound and AV troubleshooting for Perth schools. Diagnose microphone feedback, audio dropouts, projector issues and more, fast.">
 <meta property="og:image" content="https://urbanecho.com.au/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -36,7 +36,7 @@
 
 <!-- Twitter / X Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Sound Troubleshooting Tool for Perth Schools, Urban Echo">
+<meta name="twitter:title" content="Sound Troubleshooting Tool for Perth Schools | Urban Echo">
 <meta name="twitter:description" content="Step-by-step sound and AV troubleshooting for Perth schools. Diagnose microphone feedback, audio dropouts, projector issues and more, fast.">
 <meta name="twitter:image" content="https://urbanecho.com.au/og-image.png">
 
@@ -504,9 +504,13 @@ h1,h2,h3{ font-family: var(--display); font-weight:700; line-height:1.05; letter
 .form-error a{ color:inherit; text-decoration:underline; }
 input[aria-invalid="true"], textarea[aria-invalid="true"]{ border-color:var(--orange) !important; }
 .hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.skip-link{ position:absolute; left:-9999px; top:0; z-index:100000; background:#161527; color:#fff; padding:10px 16px; font:700 14px/1.2 var(--body, Arial, sans-serif); border-radius:0 0 10px 0; text-decoration:none; }
+.skip-link:focus{ left:0; }
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
 
 <!-- NAV -->
 <nav class="nav">
@@ -543,12 +547,14 @@ input[aria-invalid="true"], textarea[aria-invalid="true"]{ border-color:var(--or
   </div>
 </div>
 
+<main id="main" tabindex="-1">
 <!-- PROBLEM PICKER SECTION -->
 <section class="problem-section" id="problemSection">
   <div class="wrap">
 
     <!-- Top masthead (replaces hero) -->
     <div class="section-masthead">
+      <h1 class="sr-only">Sound Troubleshooting Tool for Perth Schools</h1>
       <span class="eyebrow"><span style="display:inline-block;font-size:10px;font-weight:800;letter-spacing:0.1em;font-family:var(--mono);background:var(--orange);color:#fff;border-radius:4px;padding:2px 7px;margin-right:8px;vertical-align:middle;text-transform:uppercase;border:2px solid rgba(0,0,0,0.12);">BETA</span>Sound Troubleshooting Tool</span>
       <h2 id="mastheadH2">Let us know your<br>experience level</h2>
       <p class="sub" id="mastheadSub">We'll tailor the steps to suit what you know.</p>
@@ -582,7 +588,7 @@ input[aria-invalid="true"], textarea[aria-invalid="true"]{ border-color:var(--or
     <div id="searchBarWrap" style="display:none;">
       <div class="problem-search-wrap">
         <span class="search-icon-wrap">🔍</span>
-        <input type="search" id="problemSearch" class="problem-search"
+        <input type="search" id="problemSearch" class="problem-search" aria-label="Search for a problem"
                placeholder="Search: 'feedback', 'no sound', 'crackling', 'dropout'...">
         <button class="search-clear" id="searchClear" style="display:none;">✕</button>
       </div>
@@ -594,9 +600,9 @@ input[aria-invalid="true"], textarea[aria-invalid="true"]{ border-color:var(--or
         <span class="skill-bar-badge" id="catSkillBadge"></span>
         <button class="skill-bar-change" id="catSkillChange">Change level ▾</button>
         <div class="skill-dropdown" id="catSkillDropdown" style="display:none;">
-          <button class="skill-dropdown-opt" data-level="beginner" data-bar="cat">🙋 Beginner <span class="skill-dropdown-hint">, Walk me through everything</span></button>
-          <button class="skill-dropdown-opt" data-level="moderate" data-bar="cat">🎚️ Moderate <span class="skill-dropdown-hint">, I know some things</span></button>
-          <button class="skill-dropdown-opt" data-level="expert" data-bar="cat">⚡ Expert <span class="skill-dropdown-hint">, Skip the obvious steps</span></button>
+          <button class="skill-dropdown-opt" data-level="beginner" data-bar="cat">🙋 Beginner<span class="skill-dropdown-hint">, Walk me through everything</span></button>
+          <button class="skill-dropdown-opt" data-level="moderate" data-bar="cat">🎚️ Moderate<span class="skill-dropdown-hint">, I know some things</span></button>
+          <button class="skill-dropdown-opt" data-level="expert" data-bar="cat">⚡ Expert<span class="skill-dropdown-hint">, Skip the obvious steps</span></button>
         </div>
       </div>
 
@@ -638,9 +644,9 @@ input[aria-invalid="true"], textarea[aria-invalid="true"]{ border-color:var(--or
         <span class="skill-bar-badge" id="probSkillBadge"></span>
         <button class="skill-bar-change" id="probSkillChange">Change level ▾</button>
         <div class="skill-dropdown" id="probSkillDropdown" style="display:none;">
-          <button class="skill-dropdown-opt" data-level="beginner" data-bar="prob">🙋 Beginner <span class="skill-dropdown-hint">, Walk me through everything</span></button>
-          <button class="skill-dropdown-opt" data-level="moderate" data-bar="prob">🎚️ Moderate <span class="skill-dropdown-hint">, I know some things</span></button>
-          <button class="skill-dropdown-opt" data-level="expert" data-bar="prob">⚡ Expert <span class="skill-dropdown-hint">, Skip the obvious steps</span></button>
+          <button class="skill-dropdown-opt" data-level="beginner" data-bar="prob">🙋 Beginner<span class="skill-dropdown-hint">, Walk me through everything</span></button>
+          <button class="skill-dropdown-opt" data-level="moderate" data-bar="prob">🎚️ Moderate<span class="skill-dropdown-hint">, I know some things</span></button>
+          <button class="skill-dropdown-opt" data-level="expert" data-bar="prob">⚡ Expert<span class="skill-dropdown-hint">, Skip the obvious steps</span></button>
         </div>
       </div>
       <div class="picker-header">
@@ -807,9 +813,9 @@ input[aria-invalid="true"], textarea[aria-invalid="true"]{ border-color:var(--or
         <span class="skill-bar-badge" id="diagSkillBadge"></span>
         <button class="skill-bar-change" id="diagSkillChange">Change level ▾</button>
         <div class="skill-dropdown" id="diagSkillDropdown" style="display:none;">
-          <button class="skill-dropdown-opt" data-level="beginner" data-bar="diag">🙋 Beginner <span class="skill-dropdown-hint">, Walk me through everything</span></button>
-          <button class="skill-dropdown-opt" data-level="moderate" data-bar="diag">🎚️ Moderate <span class="skill-dropdown-hint">, I know some things</span></button>
-          <button class="skill-dropdown-opt" data-level="expert" data-bar="diag">⚡ Expert <span class="skill-dropdown-hint">, Skip the obvious steps</span></button>
+          <button class="skill-dropdown-opt" data-level="beginner" data-bar="diag">🙋 Beginner<span class="skill-dropdown-hint">, Walk me through everything</span></button>
+          <button class="skill-dropdown-opt" data-level="moderate" data-bar="diag">🎚️ Moderate<span class="skill-dropdown-hint">, I know some things</span></button>
+          <button class="skill-dropdown-opt" data-level="expert" data-bar="diag">⚡ Expert<span class="skill-dropdown-hint">, Skip the obvious steps</span></button>
         </div>
       </div>
       <span class="diag-eyebrow" id="diagEyebrow">Diagnosing...</span>
@@ -868,6 +874,8 @@ input[aria-invalid="true"], textarea[aria-invalid="true"]{ border-color:var(--or
   </div>
   <a href="/careers" style="display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);border-radius:100px;padding:10px 22px;text-decoration:none;font-family:var(--body);font-size:14px;font-weight:700;border:2px solid var(--ink);white-space:nowrap;">Apply for a job →</a>
 </div>
+
+</main>
 
 <footer style="background:var(--ink);color:rgba(255,252,245,0.5);padding:0;height:72px;display:flex;align-items:center;border-top:1px solid rgba(255,252,245,0.12);font-size:13.5px;">
   <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-family:var(--mono);">

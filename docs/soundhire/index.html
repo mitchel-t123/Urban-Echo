@@ -16,7 +16,7 @@
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<meta name="description" content="Professional sound and AV operators for hire across Perth. Corporate events, community functions, performing arts, private parties and more. On-demand crew, no lock-in contracts.">
+<meta name="description" content="Professional sound and AV operators for hire across Perth. Corporate events, community functions, performing arts, private parties. On-demand, no lock-in.">
 <meta name="keywords" content="sound hire Perth, AV operator Perth, event sound technician Perth, corporate AV Perth, event audio visual Perth, PA hire Perth, Urban Echo">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Urban Echo">
@@ -267,7 +267,7 @@ a{ color:inherit; }
 
 /* FOOTER */
 .eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:28px 20px; font-family:var(--mono); font-size:12px; border-top:3px solid var(--ink); }
-.eq-footer a{ color:var(--sunshine); text-decoration:none; }
+.eq-footer a{ color:var(--sunshine); text-decoration:underline; text-underline-offset:3px; }
 
 /* NAV LOGIN BTN - black, no shadow */
 .nav-login-btn{ display:flex; align-items:center; justify-content:center; height:38px; width:38px; border-radius:50%; background:var(--ink); border:2.5px solid var(--ink); text-decoration:none; transition:opacity 0.15s; flex-shrink:0; }
@@ -298,9 +298,12 @@ a{ color:inherit; }
 .dd-cta{ display:block; text-align:center; text-decoration:none; font-weight:800; font-size:15px; padding:11px 16px; border-radius:10px; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); color:var(--ink); transition:box-shadow 0.1s, transform 0.1s, background 0.12s; margin-bottom:10px; }
 .dd-cta:hover{ box-shadow:5px 5px 0 var(--ink); transform:translateY(-1px); }
 .dd-cta:last-child{ margin-bottom:0; }
+.skip-link{ position:absolute; left:-9999px; top:0; z-index:100000; background:#161527; color:#fff; padding:10px 16px; font:700 14px/1.2 var(--body, Arial, sans-serif); border-radius:0 0 10px 0; text-decoration:none; }
+.skip-link:focus{ left:0; }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
 
 <!-- ============ NAV ============ -->
 <nav class="nav" style="position:relative;">
@@ -390,6 +393,7 @@ a{ color:inherit; }
 </div>
 
 <!-- HERO -->
+<main id="main" tabindex="-1">
 <section class="eq-hero">
   <div class="wrap">
     <div class="eq-hero-inner">
@@ -755,6 +759,8 @@ a{ color:inherit; }
   </div>
   <a href="/careers" style="display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);border-radius:100px;padding:10px 22px;text-decoration:none;font-family:var(--body);font-size:14px;font-weight:700;border:2px solid var(--ink);white-space:nowrap;">Apply for a job →</a>
 </div>
+
+</main>
 
 <footer class="eq-footer">
   <span>© 2026 Urban Echo. All rights reserved.</span>

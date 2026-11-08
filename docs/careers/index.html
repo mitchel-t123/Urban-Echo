@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<meta name="description" content="Work with Urban Echo in Perth. Casual and ongoing roles for sound operators, AV technicians, lighting crew and riggers. Flexible hours, great events, supportive team.">
+<meta name="description" content="Work with Urban Echo in Perth. Casual and ongoing roles for sound operators, AV technicians, lighting crew and riggers. Flexible hours, supportive team.">
 <meta name="keywords" content="AV technician jobs Perth, sound operator jobs Perth, audio visual jobs Perth, event crew jobs Perth, casual AV work Perth, Urban Echo careers">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Urban Echo">
@@ -241,9 +241,12 @@ a{ color:inherit; }
 /* FOOTER */
 .eq-footer{ background:var(--ink); color:var(--paper); text-align:center; padding:28px 20px; font-family:var(--mono); font-size:12px; }
 .eq-footer a{ color:var(--sunshine); text-decoration:none; }
+.skip-link{ position:absolute; left:-9999px; top:0; z-index:100000; background:#161527; color:#fff; padding:10px 16px; font:700 14px/1.2 var(--body, Arial, sans-serif); border-radius:0 0 10px 0; text-decoration:none; }
+.skip-link:focus{ left:0; }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
 
 <!-- NAV -->
 <nav class="nav">
@@ -277,13 +280,14 @@ a{ color:inherit; }
   </div>
 </div>
 
+<main id="main" tabindex="-1">
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
     <span class="hero-eyebrow">We're Hiring</span>
     <h1>Come work with us.</h1>
     <p class="sub">Urban Echo is a small, tight-knit AV crew operating across Perth schools and events. If you're reliable and want to work with the best team in Perth, we want to hear from you.</p>
-    <h3 style="font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);color:rgba(22,21,39,0.6);margin-bottom:12px;">Areas we're hiring</h3>
+    <p class="roles-label" style="line-height:1.1;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);color:rgba(22,21,39,0.6);margin-bottom:12px;">Areas we're hiring</p>
     <div class="hero-roles">
       <span class="role-chip">🎚️ Sound Operators</span>
       <span class="role-chip">💡 Lighting Technicians</span>
@@ -478,7 +482,7 @@ a{ color:inherit; }
           </div>
           <div class="upload-field" id="role-other-field" style="margin-top:12px;">
             <p>What else can you do?</p>
-            <input type="text" name="role_other_detail" maxlength="120" placeholder="e.g. Stage management, pyrotechnics, rigging…" style="font-family:var(--body);font-size:15px;padding:10px 12px;border-radius:8px;border:2px solid rgba(22,21,39,0.2);background:var(--paper);color:var(--ink);width:100%;outline:none;">
+            <input type="text" name="role_other_detail" maxlength="120" aria-label="What else can you do?" placeholder="e.g. Stage management, pyrotechnics, rigging…" style="font-family:var(--body);font-size:15px;padding:10px 12px;border-radius:8px;border:2px solid rgba(22,21,39,0.2);background:var(--paper);color:var(--ink);width:100%;outline:none;">
           </div>
         </div>
 
@@ -525,7 +529,7 @@ a{ color:inherit; }
           </div>
           <div class="upload-field" id="wwc-upload-field">
             <p>Upload a photo of your WWC card</p>
-            <input type="file" id="wwc-card" name="wwc_card" accept="image/*,.pdf">
+            <input type="file" id="wwc-card" name="wwc_card" aria-label="Photo of your WWC card" accept="image/*,.pdf">
           </div>
         </div>
         <div class="field">
@@ -537,7 +541,7 @@ a{ color:inherit; }
           </div>
           <div class="upload-field" id="police-upload-field">
             <p>Upload a copy of your Police Clearance</p>
-            <input type="file" id="police-card" name="police_card" accept="image/*,.pdf">
+            <input type="file" id="police-card" name="police_card" aria-label="Copy of your Police Clearance" accept="image/*,.pdf">
           </div>
         </div>
         <span class="form-section-label">💼 Current situation</span>
@@ -696,6 +700,8 @@ a{ color:inherit; }
     </div>
   </div>
 </section>
+
+</main>
 
 <footer class="eq-footer">
   <span>© 2026 Urban Echo. All rights reserved.</span>
