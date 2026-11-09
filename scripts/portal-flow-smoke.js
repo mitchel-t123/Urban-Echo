@@ -254,6 +254,25 @@ function check(name, ok, detail) {
   }));
   check('crew list renders hostile names as plain text and runs nothing', !r.ran && r.injected === 0 && r.shownAsText && r.uids === 'p1,p2,p3,p9', r);
 
+  // hostile names inside the Onboarding Flow itself: people cards, the panel and the emails
+  await page.evaluate(async () => { window.__xss = 0; await obFlowReload(); });
+  await page.waitForSelector('.ob-person[data-id="p9"]');
+  await page.locator('.ob-person[data-id="p9"]').click();
+  await page.waitForFunction(() => document.getElementById('obPName').textContent.indexOf('<img src=x') !== -1);
+  if (!(await page.evaluate(() => document.getElementById('obStep3').classList.contains('is-open')))) await page.locator('#obStep3 .ob-step-head').click();
+  if (await page.evaluate(() => document.querySelector('#obStep3 .ob-email-body').hidden)) await page.locator('#obStep3 .ob-email-toggle').click();
+  await page.locator('#obDeclineWrap').evaluate(el => { el.open = true; });
+  await page.locator('#obDeclineName').fill('<img src=x onerror="window.__xss=1">');
+  await page.waitForTimeout(600);
+  r = await page.evaluate(() => ({
+    ran: window.__xss === 1,
+    injected: document.querySelectorAll('#onboardingView [onerror], #onboardingView img[src="x"]').length,
+    cardAsText: document.querySelector('.ob-person[data-id="p9"]').textContent.indexOf('<img src=x') !== -1,
+    emailAsText: document.querySelector('#obStep3 .ob-email-edit').innerText.indexOf('<img src=x') !== -1,
+    declineAsText: document.querySelector('#obDecline .ob-email-edit').innerText.indexOf('<img src=x') !== -1,
+  }));
+  check('hostile names in the flow cards, panel and emails are shown as text and run nothing', !r.ran && r.injected === 0 && r.cardAsText && r.emailAsText && r.declineAsText, r);
+
   // structure stays sound after mounting
   r = await page.evaluate(() => {
     const out = [];
