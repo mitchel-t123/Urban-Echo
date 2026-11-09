@@ -86,6 +86,11 @@ function check(name, ok, detail) {
   }));
   check('click opens the Onboarding Flow view and hides the main portal', r.hash === '#onboarding' && r.cls && r.title === 'Onboarding Flow' && !r.mainVisible, r);
 
+  // every ClickUp button in the flow goes straight to the Applications list, in a new tab
+  r = await page.evaluate(() => [...document.querySelectorAll('#onboardingView a[data-ql="task_mgmt"]')].map(a => ({ href: a.href, text: a.textContent.trim(), target: a.target, rel: a.rel })));
+  check('every "Open ClickUp" button in the flow opens the Applications list in a new tab',
+    r.length > 0 && r.every(a => a.href === 'https://app.clickup.com/9016776291/v/l/li/901617712363' && a.text === 'Open ClickUp' && a.target === '_blank' && /noopener/.test(a.rel)), r);
+
   // people listed inline
   r = await page.evaluate(() => ({
     summary: document.getElementById('obSummary').textContent,
