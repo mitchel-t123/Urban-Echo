@@ -17,7 +17,17 @@ function check(name, ok, detail) {
 // public pages get the full SEO checks; the private-ish page only needs to be sound
 const PAGES = [
   { url: '/index.html', name: 'home', seo: true },
-  { url: '/careers/index.html', name: 'careers', seo: true },
+  // the careers form hides the WWC number box and the police upload until "Yes, current" is chosen, so open both
+  // (set without clicking, so keyboard focus stays where a new visitor's would be)
+  { url: '/careers/index.html', name: 'careers', seo: true, before: async page => {
+    await page.evaluate(() => {
+      for (const name of ['wwc', 'police']) {
+        const r = document.querySelector('input[name="' + name + '"][value="Yes, current"]');
+        r.checked = true;
+        r.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+  } },
   { url: '/soundhire/index.html', name: 'soundhire', seo: true },
   { url: '/problems.html', name: 'problems', seo: true },
   { url: '/externalhires.html', name: 'externalhires', seo: false },
@@ -32,6 +42,7 @@ const PAGES = [
     await page.waitForTimeout(400);
     // a visitor dismisses the first-visit popup, so test what is behind it too
     await page.evaluate(() => { const el = document.getElementById('schoolPopup'); if (el) el.remove(); });
+    if (p.before) await p.before(page);
     await page.addScriptTag({ path: AXE_PATH });
 
     const violations = await page.evaluate(async () => {

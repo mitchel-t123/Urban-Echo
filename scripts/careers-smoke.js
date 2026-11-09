@@ -112,7 +112,7 @@ function check(name, ok, detail) {
   check('files over 10 MB in total are refused with a clear message', r.errVisible && /add up to 11\.0 MB, and the limit is 10 MB/.test(r.err) && r.sent === 0 && !r.success, r);
   await page.locator('#app-resume').setInputFiles([]);
   // a big file left in a section that does not apply must not count or be sent
-  await page.locator('#wwc-card').setInputFiles({ name: 'wwc.pdf', mimeType: 'application/pdf', buffer: Buffer.alloc(11 * 1024 * 1024) });
+  await page.locator('#police-card').setInputFiles({ name: 'police.pdf', mimeType: 'application/pdf', buffer: Buffer.alloc(11 * 1024 * 1024) });
 
   // failures keep the form and everything typed, never show success
   await page.locator('#app-exp-detail').fill('Ran FOH for a school musical. <script>alert(1)</script> \u{1F3A4}');
@@ -153,7 +153,7 @@ function check(name, ok, detail) {
   check('success: shows the thank-you, hides the form, sends once', r.success && !r.formShown && r.sent === 1, r);
   check('what is sent is tidy: names kept as typed, long text cut to 2000, notes trimmed',
     fs && fs.body.first_name === 'Zoë' && fs.body.last_name === "O'Brien" && fs.body.experience_detail.length === 2000 && fs.body.notes === 'line one\nline two' && fs.hasSignal, fs && { ...fs, body: { ...fs.body, experience_detail: fs.body.experience_detail.length } });
-  check('a file left in a section that does not apply is not sent', fs && !('wwc_card' in fs.body), fs && Object.keys(fs.body));
+  check('a file left in a section that does not apply is not sent', fs && !('police_card' in fs.body), fs && Object.keys(fs.body));
   check('the team record (ClickUp) gets the same values', cu && cu.body.first_name === 'Zoë' && cu.body.email === "zoe.o'brien@example.com" && cu.body.experience_detail.length === 2000, cu);
 
   // reload for the remaining cases
@@ -191,6 +191,73 @@ function check(name, ok, detail) {
   await page.waitForFunction(() => !document.getElementById('appError').hidden);
   r = await state();
   check('after 60 seconds it gives up with a clear message and a working button', /^Sorry, your application did not send/.test(r.err) && !r.btnDisabled && r.btn === 'Submit Application →' && r.formShown && !r.success, r);
+
+  // WWC card number: asked instead of a photo of the card
+  const fresh = async () => {
+    await page.goto(BASE + '/careers/index.html', { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('#appForm');
+    await fillValid();
+  };
+  const pick = (name, value) => page.locator('input[name="' + name + '"][value="' + value + '"]').check();
+  const numberBoxShown = () => page.evaluate(() => getComputedStyle(document.getElementById('wwc-number-field')).display !== 'none');
+  const sendOk = async () => {
+    await page.evaluate(() => { window.__mode = 'ok'; window.__sent.length = 0; });
+    await submit();
+    await page.waitForFunction(() => getComputedStyle(document.getElementById('appSuccess')).display !== 'none');
+    const all = await page.evaluate(() => window.__sent);
+    return { fs: all.find(s => /formspree/.test(s.url)), cu: all.find(s => /workers\.dev/.test(s.url)) };
+  };
+
+  await fresh();
+  const gone = await page.evaluate(() => ({ file: !!document.querySelector('[name=wwc_card], #wwc-card'), type: (document.getElementById('app-wwc-number') || {}).type }));
+  check('the WWC question asks for a number, not a file', !gone.file && gone.type === 'text', gone);
+  if (gone.type !== 'text') { await browser.close(); process.exit(1); } // nothing below can work without the number box
+  check('the number box starts hidden', !(await numberBoxShown()));
+  await pick('wwc', 'Yes, current');
+  check('"Yes, current" shows the number box, and it has a label', (await numberBoxShown()) && (await page.getByLabel('WWC card number').count()) === 1);
+  await pick('wwc', 'No, willing to get one');
+  check('any other answer hides it again', !(await numberBoxShown()));
+  await pick('wwc', 'Yes, current');
+  const wwcMessage = 'Please check your WWC card number. It should only use letters and numbers. If you do not have it handy, leave it blank.';
+  for (const bad of ['!!!', '12', 'ABCDEFGH', '<script>alert(1)</script>', "1234'; DROP TABLE x;--"]) {
+    await page.locator('#app-wwc-number').fill(bad);
+    await submit();
+    r = await state();
+    check('rejects the WWC number "' + bad + '", sends nothing', ok(r, wwcMessage, 'app-wwc-number'), r);
+  }
+  await page.locator('#app-wwc-number').fill('  wwc 0123456e  ');
+  let out = await sendOk();
+  check('a valid number is tidied (spaces, capitals) and sent with the application',
+    out.fs && out.fs.body.wwc === 'Yes, current' && out.fs.body.wwc_number === 'WWC 0123456E' && !('wwc_card' in out.fs.body), out.fs && out.fs.body);
+  check('the team record (ClickUp) gets the number too', out.cu && out.cu.body.wwc_number === 'WWC 0123456E' && out.cu.body.wwc === 'Yes, current', out.cu);
+
+  await fresh();
+  await pick('wwc', 'Yes, current');
+  await page.locator('#app-wwc-number').fill('!!!');
+  await pick('wwc', 'No, willing to get one');
+  out = await sendOk();
+  check('a number typed and then not needed is neither checked nor sent',
+    out.fs && !('wwc_number' in out.fs.body) && out.cu && out.cu.body.wwc_number === '' && out.cu.body.wwc === 'No, willing to get one', out);
+
+  await fresh();
+  await pick('wwc', 'Yes, current');
+  out = await sendOk();
+  check('a blank number is allowed, because it is optional', out.fs && out.fs.body.wwc === 'Yes, current' && out.fs.body.wwc_number === '', out.fs && out.fs.body);
+
+  await fresh();
+  await pick('wwc', 'Yes, current');
+  await page.locator('#app-wwc-number').fill('9'.repeat(100));
+  out = await sendOk();
+  check('a very long number is cut to 30 characters', out.fs && (out.fs.body.wwc_number || '').length === 30, out.fs && out.fs.body.wwc_number);
+
+  await fresh();
+  await pick('wwc', 'Yes, current');
+  await page.locator('#app-wwc-number').fill('WWC 0123456E');
+  await page.evaluate(() => { window.__mode = '500'; });
+  await submit();
+  await page.waitForFunction(() => !document.getElementById('appError').hidden && !document.getElementById('appSubmit').disabled);
+  r = await state();
+  check('if sending fails, the email fallback carries the number too', decodeURIComponent(r.fallback).includes('WWC card number: WWC 0123456E'), r.fallback);
 
   check('no uncaught page errors', pageErrors.length === 0, pageErrors);
   check('no pop-up dialogs at any point', dialogs.length === 0, dialogs);

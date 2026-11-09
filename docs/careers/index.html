@@ -229,6 +229,8 @@ a{ color:inherit; }
 .upload-field.visible{ display:block; }
 .upload-field p{ font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink); margin-bottom:8px; }
 .upload-field input[type="file"]{ font-family:var(--body); font-size:14px; color:var(--ink); width:100%; }
+#wwc-number-field label{ display:block; margin-bottom:8px; }
+#wwc-number-field input{ width:100%; background:var(--paper); }
 
 .ref-block{ border:2px solid var(--line); border-radius:14px; padding:20px; margin-bottom:16px; background:var(--paper); }
 .ref-block-label{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(22,21,39,0.45); font-family:var(--mono); display:block; margin-bottom:14px; }
@@ -527,9 +529,9 @@ a{ color:inherit; }
             <label class="radio-opt"><input type="radio" name="wwc" value="No, willing to get one"> No, willing to get one</label>
             <label class="radio-opt"><input type="radio" name="wwc" value="No, not willing"> No</label>
           </div>
-          <div class="upload-field" id="wwc-upload-field">
-            <p>Upload a photo of your WWC card</p>
-            <input type="file" id="wwc-card" name="wwc_card" aria-label="Photo of your WWC card" accept="image/*,.pdf">
+          <div class="upload-field" id="wwc-number-field">
+            <label for="app-wwc-number">WWC card number <span class="opt">Printed on your card. Leave it blank if you don't have it handy.</span></label>
+            <input type="text" id="app-wwc-number" name="wwc_number" maxlength="30" autocomplete="off" autocapitalize="characters" spellcheck="false">
           </div>
         </div>
         <div class="field">
@@ -719,18 +721,21 @@ if(roleOtherCb){
   });
 }
 
-// Show/hide compliance upload fields
-document.querySelectorAll('input[name="wwc"]').forEach(function(r){
-  r.addEventListener('change', function(){
-    var f = document.getElementById('wwc-upload-field');
-    if(f) f.classList.toggle('visible', this.value === 'Yes, current');
+// The WWC number box and the police clearance upload only show while "Yes, current" is chosen
+// (also checked on load, in case the browser kept an earlier answer)
+function holdsCurrent(name){
+  var chosen = document.querySelector('input[name="' + name + '"]:checked');
+  return !!chosen && chosen.value === 'Yes, current';
+}
+function syncCompliance(name, fieldId){
+  var f = document.getElementById(fieldId);
+  if(f) f.classList.toggle('visible', holdsCurrent(name));
+}
+[['wwc', 'wwc-number-field'], ['police', 'police-upload-field']].forEach(function(pair){
+  document.querySelectorAll('input[name="' + pair[0] + '"]').forEach(function(r){
+    r.addEventListener('change', function(){ syncCompliance(pair[0], pair[1]); });
   });
-});
-document.querySelectorAll('input[name="police"]').forEach(function(r){
-  r.addEventListener('change', function(){
-    var f = document.getElementById('police-upload-field');
-    if(f) f.classList.toggle('visible', this.value === 'Yes, current');
-  });
+  syncCompliance(pair[0], pair[1]);
 });
 
 var SUPPORT_EMAIL = 'mitchel@urbanecho.com.au';
@@ -786,10 +791,13 @@ function failureMessage(res){
   if(!res && navigator.onLine === false) return 'It looks like you are offline. Please check your connection and try again, or email';
   return 'Sorry, your application did not send. Please try again, or email';
 }
+function isWwcNumber(value){
+  // We do not guess the exact card pattern: 4 to 30 letters, numbers, spaces or hyphens, with at least one number
+  return value.length >= 4 && value.length <= 30 && /^[A-Za-z0-9][A-Za-z0-9 -]*$/.test(value) && /\d/.test(value);
+}
 function fileProblem(){
   var total = 0, problem = '';
   var rules = [
-    { id: 'wwc-card', ok: /\.(pdf|jpe?g|png|gif|webp|heic|heif)$/i, what: 'your WWC card', visible: 'wwc-upload-field' },
     { id: 'police-card', ok: /\.(pdf|jpe?g|png|gif|webp|heic|heif)$/i, what: 'your police clearance', visible: 'police-upload-field' },
     { id: 'app-resume', ok: /\.(pdf|docx?)$/i, what: 'your resume', visible: null }
   ];
@@ -823,6 +831,7 @@ function mailtoFor(data){
     '',
     'Availability: ' + (data.availability || ''),
     'WWC Check: ' + (data.wwc || ''),
+    'WWC card number: ' + (data.wwc_number || ''),
     'Police Clearance: ' + (data.police || ''),
     'Employment status: ' + (data.employment_status || ''),
     '',
@@ -861,6 +870,15 @@ appForm.addEventListener('submit', async function(e){
   if(phone.value.replace(/\D/g, '').length < 8){ showAppError('Please enter a phone number we can reach you on.', phone); return; }
   if(dob.value && (dob.value > dob.max || dob.value < dob.min)){ showAppError('Please check your date of birth.', dob); return; }
   if(!level.value){ showAppError('Please choose your experience level.', level); return; }
+  // The WWC card number is only asked of people who hold a current card, and may be left blank
+  var wwcNumber = document.getElementById('app-wwc-number');
+  if(holdsCurrent('wwc')){
+    wwcNumber.value = wwcNumber.value.replace(/\s+/g, ' ').toUpperCase();
+    if(wwcNumber.value && !isWwcNumber(wwcNumber.value)){
+      showAppError('Please check your WWC card number. It should only use letters and numbers. If you do not have it handy, leave it blank.', wwcNumber);
+      return;
+    }
+  }
   var problem = fileProblem();
   if(problem){ showAppError(problem.text, problem.field); return; }
 
@@ -871,9 +889,9 @@ appForm.addEventListener('submit', async function(e){
   label.textContent = 'Sending…';
 
   var fd = new FormData(this);
-  // Do not send a document the person then said does not apply
-  if(!document.getElementById('wwc-upload-field').classList.contains('visible')) fd.delete('wwc_card');
-  if(!document.getElementById('police-upload-field').classList.contains('visible')) fd.delete('police_card');
+  // Do not send a number or document the person then said does not apply
+  if(!holdsCurrent('wwc')) fd.delete('wwc_number');
+  if(!holdsCurrent('police')) fd.delete('police_card');
 
   var roles = [];
   ['sound','lighting','setup','dj','musician','slides','venue','security','photo','video','maintenance','admin','social','other'].forEach(function(r){
@@ -926,6 +944,7 @@ appForm.addEventListener('submit', async function(e){
         school_experience: data.school_experience || '',
         availability: data.availability || '',
         wwc: data.wwc || '',
+        wwc_number: data.wwc_number || '',
         police: data.police || '',
         employment_status: data.employment_status || '',
         ref1_name: data.ref1_name || '',
