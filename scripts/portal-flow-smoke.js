@@ -24,6 +24,11 @@ function check(name, ok, detail) {
   });
   await page.waitForFunction(() => typeof obMountFlow === 'function');
 
+  // open a step the way a person would, by clicking its heading, if it is closed
+  const ensureOpen = async n => {
+    if (!(await page.evaluate(n => document.getElementById('obStep' + n).classList.contains('is-open'), n))) await page.locator('#obStep' + n + ' .ob-step-head').click();
+  };
+
   // a normal crew member must never see the view or its button
   await page.evaluate(() => { location.hash = '#onboarding'; });
   await page.waitForFunction(() => location.hash === '#onboarding');
@@ -99,10 +104,19 @@ function check(name, ok, detail) {
   }));
   check('everyone is listed inline with a summary', r.names === 'Alex Done|Jane Smith|sam Lee' && /3 crew/.test(r.summary), r);
   check('decline card is visible with nobody selected', r.decline, r);
+  r = await page.evaluate(() => { const h = document.getElementById('obToolsHome'); return { decline: document.getElementById('obDeclineWrap').parentElement.id, invite: document.getElementById('obAddCrewWrap').parentElement.id, homeShown: !!h && !h.hidden }; });
+  check('with nobody picked, the invite and decline cards wait above the list', r.decline === 'obToolsHome' && r.invite === 'obToolsHome' && r.homeShown, r);
 
   // select Sam: steps reflect saved data
   await page.locator('.ob-person[data-id="p1"]').click();
   await page.waitForSelector('#obPanel:not([hidden])');
+  r = await page.evaluate(() => ({
+    decline: !!document.getElementById('obDeclineWrap').closest('#obStep2Body'),
+    invite: !!document.getElementById('obAddCrewWrap').closest('#obStep9Body'),
+    form: !!document.getElementById('inviteEmail').closest('#obStep9Body'),
+    homeEmpty: (() => { const h = document.getElementById('obToolsHome'); return !!h && h.children.length === 0 && h.hidden; })(),
+  }));
+  check('with someone picked, the decline card is in step 2 and the invite card is in step 9, and nothing is left above', r.decline && r.invite && r.form && r.homeEmpty, r);
   r = await page.evaluate(() => ({
     name: document.getElementById('obPName').textContent,
     next: document.getElementById('obNext').textContent.replace(/\s+/g, ' '),
@@ -152,8 +166,8 @@ function check(name, ok, detail) {
   check('reset to template clears the draft', r.gone && r.stored === null, r);
 
   // decline email fills the typed name
-  await page.locator('#obStep2 .ob-step-head').click();
-  await page.locator('#obStep2 [data-act=open-decline]').click();
+  await ensureOpen(2);
+  await page.locator('#obDeclineWrap > summary').click();
   await page.locator('#obDeclineName').fill('alex');
   r = await page.evaluate(() => ({ fills: [...document.querySelectorAll('#obDecline .ob-fill')].map(s => s.textContent).join(), text: document.querySelector('#obDecline .ob-email-edit').innerText }));
   check('decline email fills the typed name and keeps the application on file', r.fills === 'Alex' && /keep your application on file/.test(r.text), r);
@@ -166,9 +180,10 @@ function check(name, ok, detail) {
   check('a grid tick saves and updates the card (1 of 12)', /1 of 12/.test(r), r);
 
   // invite prefill
+  await ensureOpen(9);
   await page.locator('#obStep9 [data-act=invite]').click();
-  r = await page.evaluate(() => ({ open: document.getElementById('obAddCrewWrap').open, email: document.getElementById('inviteEmail').value }));
-  check('Send portal invite opens the form prefilled', r.open && r.email === 'sam@example.com', r);
+  r = await page.evaluate(() => ({ open: document.getElementById('obAddCrewWrap').open, email: document.getElementById('inviteEmail').value, visible: !!document.getElementById('inviteEmail').offsetParent }));
+  check('Send portal invite opens the form, in step 9, prefilled', r.open && r.visible && r.email === 'sam@example.com', r);
 
   // sending an invite hands the server the sign-in token, and shows what happened
   await page.evaluate(() => {
@@ -237,6 +252,7 @@ function check(name, ok, detail) {
   r = await gmail('#obStep3 [data-compose=welcome1]');
   check('does not force an account for other addresses', r && !r.authuser, r);
   await page.evaluate(() => { window.clerkInstance = null; });
+  await ensureOpen(2);
   await page.locator('#obDeclineWrap').evaluate(el => { el.open = true; });
   r = await gmail('#obDecline [data-compose=decline]');
   check('decline opens Gmail with the subject and no recipient yet', r && r.to === null && r.su === 'Your Urban Echo application', r);
@@ -266,6 +282,7 @@ function check(name, ok, detail) {
   await page.waitForFunction(() => document.getElementById('obPName').textContent.indexOf('<img src=x') !== -1);
   if (!(await page.evaluate(() => document.getElementById('obStep3').classList.contains('is-open')))) await page.locator('#obStep3 .ob-step-head').click();
   if (await page.evaluate(() => document.querySelector('#obStep3 .ob-email-body').hidden)) await page.locator('#obStep3 .ob-email-toggle').click();
+  await ensureOpen(2);
   await page.locator('#obDeclineWrap').evaluate(el => { el.open = true; });
   await page.locator('#obDeclineName').fill('<img src=x onerror="window.__xss=1">');
   await page.waitForTimeout(600);

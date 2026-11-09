@@ -950,6 +950,8 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
 .ob-fold > summary::-webkit-details-marker{ display:none; }
 .ob-fold > summary::after{ content:'+'; font-family:var(--display); font-size:20px; line-height:1; }
 .ob-fold[open] > summary::after{ content:'\2212'; }
+#obToolsHome{ margin-top:22px; }
+.ob-step-body .ob-fold{ margin:16px 0 4px; box-shadow:3px 3px 0 var(--ink); }
 
 .ob-panel{ scroll-margin-top:16px; margin-top:14px; }
 #obDecline{ margin:0; border:0; background:none; }
@@ -1093,7 +1095,7 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
   border-radius:10px; padding:9px 12px; margin-bottom:10px; color:rgba(22,21,39,0.75);
 }
 .ob-email-subject strong{ color:var(--ink); }
-.ob-field{ display:flex; flex-direction:column; gap:6px; margin-bottom:10px; max-width:320px; }
+.ob-field{ display:flex; flex-direction:column; gap:6px; margin-bottom:10px; max-width:320px; min-width:0; }
 .ob-field span{
   font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
   letter-spacing:0.1em; color:rgba(22,21,39,0.5);
@@ -1101,6 +1103,7 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
 .ob-field input{
   font-family:var(--body); font-size:14px; color:var(--ink); background:#fff;
   border:2px solid var(--line); border-radius:100px; padding:10px 16px; outline:none;
+  width:100%; min-width:0; box-sizing:border-box;
 }
 .ob-field input:focus{ border-color:var(--indigo); }
 .ob-email-body .ob-note{ margin-top:10px; }
@@ -1135,6 +1138,9 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
   .ob-step-body{ padding:0 14px 16px; }
   .ob-people-grid{ grid-template-columns:1fr; }
   #onboardingView #addCrewSection .wrap{ padding:0 12px 14px; }
+  /* the invite card now sits inside a step, which is narrower: give the form back some width */
+  #onboardingView .ob-step-body #addCrewSection .wrap{ padding:0 8px 12px; }
+  #onboardingView .ob-step-body #addCrewSection .portal-card-base{ padding:20px 14px !important; }
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -1190,7 +1196,10 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
         <div class="ob-grid-scroll"><table class="ob-grid" id="obGrid"></table></div>
       </details>
 
-      <details class="ob-fold" id="obAddCrewWrap" style="margin-top:22px;">
+      <!-- The invite and decline cards wait here while nobody is picked. Once someone is picked they move into
+           step 9 and step 2, where they are used (see placeTools). -->
+      <div id="obToolsHome">
+      <details class="ob-fold" id="obAddCrewWrap">
         <summary>Invite a new crew member or manage portal access</summary>
         <div id="obAddCrewSlot"></div>
       </details>
@@ -1214,6 +1223,7 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
           </div>
         </div>
       </details>
+      </div>
 
       <div id="obEmpty" class="ob-empty">Pick someone above to see their onboarding steps.</div>
 
@@ -1256,7 +1266,7 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
               <div class="ob-step-body" id="obStep2Body">
                 <p>Make the call and move the task to <strong>Approved</strong> or <strong>Declined</strong> in ClickUp. If declining, add a brief note in comments for your records.</p>
                 <div class="ob-actions"><a class="ob-btn" data-ql="task_mgmt"></a></div>
-                <div class="ob-actions" style="margin-top:10px;"><button type="button" class="ob-btn" data-act="open-decline">Open the decline email</button></div>
+                <div id="obStep2Tool"></div>
               </div>
             </div>
           </section>
@@ -1417,6 +1427,7 @@ table.ob-grid{ border-collapse:collapse; min-width:860px; width:100%; }
                   <button type="button" class="ob-btn" data-act="invite">Send portal invite</button>
                   <a class="ob-btn" data-ql="task_mgmt"></a>
                 </div>
+                <div id="obStep9Tool"></div>
                 <div class="ob-checks">
                   <label class="ob-check"><input type="checkbox" data-key="rentman"><span class="ob-box"></span><span>Added and activated in Rentman</span></label>
                   <label class="ob-check"><input type="checkbox" data-key="portal"><span class="ob-box"></span><span>Portal login sent and working</span></label>
@@ -4178,12 +4189,24 @@ function escP(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replac
     $('obRail').innerHTML = out.join('');
   }
 
+  // The invite card and the decline card sit inside the steps where they are used (step 9 and step 2) while a
+  // person's steps are showing. With nobody picked there are no steps, so they wait above the list instead.
+  function placeTools(inSteps){
+    var home = $('obToolsHome');
+    if(!home) return;
+    [['obAddCrewWrap', 'obStep9Tool'], ['obDeclineWrap', 'obStep2Tool']].forEach(function(pair){
+      var card = $(pair[0]), target = inSteps ? $(pair[1]) : home;
+      if(card && target && card.parentNode !== target) target.appendChild(card);
+    });
+    home.hidden = !home.children.length;
+  }
   function renderPanel(resetOpen){
     var p = state.byId[state.selected];
     var panel = $('obPanel'), empty = $('obEmpty');
     if(!panel || !empty) return;
     panel.hidden = !p;
     empty.hidden = !!p || !state.loaded || !state.people.length;
+    placeTools(!!p);
     if(!p) return;
     var c = calc(p);
     $('obPName').textContent = fullName(p);
@@ -4353,7 +4376,6 @@ function escP(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replac
     }
     else if(a === 'copy-slack'){ var s = $('slackWelcomePortalText'); copyText(s ? s.innerText : '', act); }
     else if(a === 'invite') prefillInvite();
-    else if(a === 'open-decline'){ var dw = $('obDeclineWrap'); dw.open = true; dw.scrollIntoView({ behavior:'smooth', block:'center' }); }
     else if(a === 'final-email'){
       setOpen($('obStep9'), true);
       var fe = $('obStep9').querySelector('.ob-email');
