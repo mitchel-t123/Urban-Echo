@@ -168,6 +168,7 @@ a{ color:inherit; }
 .form-error{ max-width:none; margin:20px 0 0; padding:12px 16px; border-radius:10px; font-size:14px; line-height:1.5; font-weight:600; color:#8a2a0d; background:#fff1ea; border:1.5px solid var(--orange); }
 .form-error[hidden]{ display:none; }
 .form-error a{ color:inherit; text-decoration:underline; }
+.form-error.inline{ margin:0; }
 .app-fallback{ margin-top:12px; font-size:14px; line-height:1.6; color:rgba(22,21,39,0.7); }
 .app-fallback[hidden]{ display:none; }
 .app-fallback a{ color:var(--indigo); font-weight:700; }
@@ -743,6 +744,7 @@ var MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // all files together
 var appForm = document.getElementById('appForm');
 var appError = document.getElementById('appError');
 var appFallback = document.getElementById('appFallback');
+var appSubmit = document.getElementById('appSubmit');
 
 // Date of birth cannot be in the future
 (function(){
@@ -756,9 +758,22 @@ function cleanText(value, max){
 function isEmail(value){
   return value.length <= 254 && /^[^\s@<>"`,;:()\[\]\\]+@[^\s@<>"`,;:()\[\]\\]+\.[^\s@<>"`,;:()\[\]\\]{2,}$/.test(value);
 }
+// Where the message goes: directly under the box being fixed, so it is on screen with that box
+// (this is a long form). A problem with the whole form, such as the server being down, stays above the button.
+function placeAppError(field){
+  var box = field && field.closest('.field');
+  if(box){
+    box.appendChild(appError);
+    appError.classList.add('inline');
+  } else {
+    appSubmit.insertAdjacentElement('beforebegin', appError);
+    appError.classList.remove('inline');
+  }
+}
 function clearAppError(){
   appError.hidden = true;
   appError.textContent = '';
+  placeAppError(null);
   appFallback.hidden = true;
   appForm.querySelectorAll('[aria-invalid]').forEach(function(el){
     el.removeAttribute('aria-invalid');
@@ -775,14 +790,15 @@ function showAppError(message, field, withEmailLink){
     appError.appendChild(a);
     appError.appendChild(document.createTextNode('.'));
   }
+  placeAppError(field);
   appError.hidden = false;
   if(field){
     field.setAttribute('aria-invalid', 'true');
     field.setAttribute('aria-describedby', 'appError');
-    field.focus();
-  } else {
-    appError.scrollIntoView({ block: 'center' });
+    field.focus({ preventScroll: true });
   }
+  // Middle of the screen: for a box in the form the message is right underneath it, so both are in view
+  appError.scrollIntoView({ block: 'center' });
 }
 function failureMessage(res){
   if(res && res.status === 413) return 'Your files are too large to send. Please remove them or choose smaller ones and try again, or email';

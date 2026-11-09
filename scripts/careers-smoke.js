@@ -58,16 +58,33 @@ function check(name, ok, detail) {
     btn: document.getElementById('appBtnLabel').textContent,
     btnDisabled: document.getElementById('appSubmit').disabled,
     fallback: document.getElementById('appFallback').hidden ? '' : document.getElementById('appMailtoLink').getAttribute('href'),
+    // is the message on screen (clear of the sticky nav bar), and is the flagged box on screen with it?
+    errInView: (() => { const r = document.getElementById('appError').getBoundingClientRect(), nav = document.querySelector('.nav').getBoundingClientRect().bottom; return r.height > 0 && r.top >= nav && r.bottom <= innerHeight; })(),
+    fieldInView: (() => { const f = document.activeElement.getBoundingClientRect(), nav = document.querySelector('.nav').getBoundingClientRect().bottom; return f.height > 0 && f.top >= nav && f.bottom <= innerHeight; })(),
+    // the message sits directly under the flagged box (or above the button when the whole form is the problem)
+    errUnderField: (() => { const e = document.getElementById('appError'), p = e.parentElement, a = document.activeElement; return p.classList.contains('field') && a !== document.body && p.contains(a) && e.getBoundingClientRect().top >= a.getBoundingClientRect().bottom - 1; })(),
+    errAboveSubmit: (() => { const n = document.getElementById('appError').nextElementSibling; return !!n && n.id === 'appSubmit'; })(),
   }));
   const submit = () => page.locator('#appSubmit').click();
-  const ok = (r, text, id) => r.errVisible && r.err === text && r.focus === id && r.invalid === id && r.sent === 0 && !r.success && dialogs.length === 0;
+  const ok = (r, text, id) => r.errVisible && r.err === text && r.focus === id && r.invalid === id && r.sent === 0 && !r.success && dialogs.length === 0 && r.errInView && r.fieldInView && r.errUnderField;
+  // the message does not touch or cover anything: a gap under the flagged box, and no other label, box or button overlaps it
+  const gaps = () => page.evaluate(() => {
+    const e = document.getElementById('appError'), er = e.getBoundingClientRect(), f = document.activeElement.getBoundingClientRect();
+    const overlaps = [...document.querySelectorAll('#appForm input, #appForm select, #appForm textarea, #appForm label, #appForm button')]
+      .filter(x => x !== document.activeElement && !e.contains(x))
+      .filter(x => { const r = x.getBoundingClientRect(); return r.width > 2 && r.height > 2 && r.left < er.right && r.right > er.left && r.top < er.bottom && r.bottom > er.top; })
+      .map(x => x.id || x.name || x.tagName);
+    return { above: Math.round(er.top - f.bottom), overlaps, narrower: Math.round(e.parentElement.getBoundingClientRect().width - er.width) };
+  });
 
   // required fields, in order, each with its own message
   await submit();
   let r = await state();
   check('blank application: asks for the first name, sends nothing', ok(r, 'Please enter your first name.', 'app-first'), r);
   r = await page.evaluate((sel) => { const b = document.querySelector(sel); return { color: getComputedStyle(b).color, wide: b.getBoundingClientRect().width >= b.parentElement.getBoundingClientRect().width - 1 }; }, '#appError');
-  check('careers form: error text is dark and as wide as the form', r.color === 'rgb(138, 42, 13)' && r.wide, r);
+  check('careers form: error text is dark and fills the width it is given', r.color === 'rgb(138, 42, 13)' && r.wide, r);
+  r = await gaps();
+  check('the message sits under the flagged box and covers nothing', r.above >= 4 && r.overlaps.length === 0 && r.narrower <= 1, r);
   await page.locator('#app-first').fill('   ');
   await submit();
   r = await state();
@@ -130,7 +147,7 @@ function check(name, ok, detail) {
     r = await state();
     const kept = await page.locator('#app-first').inputValue();
     check('server says ' + mode + ': clear message, no false success, form and typing kept, email option offered',
-      re.test(r.err) && r.formShown && !r.success && r.btn === 'Submit Application →' && !r.btnDisabled && kept === 'Zoë' &&
+      re.test(r.err) && r.errInView && r.errAboveSubmit && r.formShown && !r.success && r.btn === 'Submit Application →' && !r.btnDisabled && kept === 'Zoë' &&
       /^mailto:mitchel@urbanecho\.com\.au\?subject=/.test(r.fallback) && decodeURIComponent(r.fallback).includes('Name: Zoë O\'Brien') && r.clickup === 0 && dialogs.length === 0, { r, kept });
   }
   await context.setOffline(true);
@@ -151,6 +168,7 @@ function check(name, ok, detail) {
   const fs = sent.find(s => /formspree/.test(s.url));
   const cu = sent.find(s => /workers\.dev/.test(s.url));
   check('success: shows the thank-you, hides the form, sends once', r.success && !r.formShown && r.sent === 1, r);
+  check('success: the message box is back above the button and empty', r.errAboveSubmit && !r.errVisible && r.err === '', r);
   check('what is sent is tidy: names kept as typed, long text cut to 2000, notes trimmed',
     fs && fs.body.first_name === 'Zoë' && fs.body.last_name === "O'Brien" && fs.body.experience_detail.length === 2000 && fs.body.notes === 'line one\nline two' && fs.hasSignal, fs && { ...fs, body: { ...fs.body, experience_detail: fs.body.experience_detail.length } });
   check('a file left in a section that does not apply is not sent', fs && !('police_card' in fs.body), fs && Object.keys(fs.body));
@@ -225,6 +243,8 @@ function check(name, ok, detail) {
     r = await state();
     check('rejects the WWC number "' + bad + '", sends nothing', ok(r, wwcMessage, 'app-wwc-number'), r);
   }
+  r = await gaps();
+  check('the WWC message sits under the number box and covers nothing', r.above >= 4 && r.overlaps.length === 0 && r.narrower <= 1, r);
   await page.locator('#app-wwc-number').fill('  wwc 0123456e  ');
   let out = await sendOk();
   check('a valid number is tidied (spaces, capitals) and sent with the application',
