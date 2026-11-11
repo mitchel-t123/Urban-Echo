@@ -127,7 +127,9 @@ function check(name, ok, detail) {
     police: document.querySelector('input[data-key=police]').checked,
   }));
   check('panel shows the person, the next step, and saved ticks', r.name === 'sam Lee' && /Next step: 4\. Confirm compliance checks/.test(r.next) && r.contract && r.wwc && !r.police, r);
-  check('done steps collapse, the current step is open', /is-done/.test(r.s3) && !/is-open/.test(r.s3) && /is-current/.test(r.s4) && /is-open/.test(r.s4), r);
+  const lines = await page.evaluate(() => [1, 2, 3, 4, 5].map(n => getComputedStyle(document.getElementById('obStep' + n), '::before').display));
+  check('a finished step shows just the green tick with no line below it, and steps still to do keep their line', lines.join() === 'none,none,none,block,block', lines);
+  check('done steps collapse, the current step is open',/is-done/.test(r.s3) && !/is-open/.test(r.s3) && /is-current/.test(r.s4) && /is-open/.test(r.s4), r);
 
   // ticking saves instantly and merges with existing data
   await page.locator('#obStep6 label.ob-check').click();
